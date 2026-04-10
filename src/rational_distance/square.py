@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from fractions import Fraction
+from math import lcm
 from typing import Optional
 
 from rational_distance.math_utils import rational_sqrt
@@ -16,6 +17,35 @@ VERTICES: list[tuple[Fraction, Fraction]] = [
     (Fraction(0), Fraction(1)),  # D
 ]
 VERTEX_NAMES = ["A(0,0)", "B(1,0)", "C(1,1)", "D(0,1)"]
+
+_ONE = Fraction(1)
+
+
+def d4_images(x: Fraction, y: Fraction) -> list[tuple[Fraction, Fraction]]:
+    """Return the (up to) 8 images of (x,y) under the D4 symmetry group of
+    the unit square.  Some images coincide when the point lies on a symmetry
+    axis, so the returned list may have fewer than 8 distinct elements.
+
+    The 8 transformations (center = (1/2, 1/2)):
+        identity, flip-x, flip-y, 180°,
+        flip-diagonal, flip-antidiagonal, 90°-CW, 90°-CCW
+    """
+    return list({
+        (x,        y      ),
+        (_ONE - x, y      ),
+        (x,        _ONE-y ),
+        (_ONE - x, _ONE-y ),
+        (y,        x      ),
+        (_ONE - y, _ONE-x ),
+        (y,        _ONE-x ),
+        (_ONE - y, x      ),
+    })
+
+
+def canonical_xy(x: Fraction, y: Fraction) -> tuple[Fraction, Fraction]:
+    """Return the lexicographically smallest D4 image — the canonical
+    representative of the orbit.  Used to deduplicate symmetric solutions."""
+    return min(d4_images(x, y))
 
 
 @dataclass(frozen=True)
@@ -33,6 +63,11 @@ class RationalPoint:
     def rational_count(self) -> int:
         return sum(1 for d in self.distances if d is not None)
 
+    @property
+    def denominator(self) -> int:
+        """LCM of x and y denominators — a measure of solution complexity."""
+        return lcm(self.x.denominator, self.y.denominator)
+
     def __str__(self) -> str:
         dstr = ", ".join(
             str(d) if d is not None else "?" for d in self.distances
@@ -48,6 +83,7 @@ class RationalPoint:
             "dC": str(self.distances[2]) if self.distances[2] else None,
             "dD": str(self.distances[3]) if self.distances[3] else None,
             "rational_count": self.rational_count,
+            "denominator": self.denominator,
         }
 
 

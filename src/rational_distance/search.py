@@ -321,7 +321,7 @@ def parametric_search_fast(
         if key not in best or pt.rational_count > best[key].rational_count:
             best[key] = pt
 
-    return sorted(best.values(), key=lambda p: (-p.rational_count, p.x, p.y))
+    return sorted(best.values(), key=lambda p: (-p.rational_count, p.denominator, p.x, p.y))
 
 
 # ── Original generator (kept for backward compatibility) ─────────────────────
@@ -408,4 +408,32 @@ def merge_results(
             key = (pt.x, pt.y)
             if key not in best or pt.rational_count > best[key].rational_count:
                 best[key] = pt
-    yield from sorted(best.values(), key=lambda p: (-p.rational_count, p.x, p.y))
+    yield from sorted(best.values(), key=lambda p: (-p.rational_count, p.denominator, p.x, p.y))
+
+
+# ── Symmetry deduplication ────────────────────────────────────────────────────
+
+def dedup_by_symmetry(points: list[RationalPoint]) -> list[RationalPoint]:
+    """Reduce a list of points to one representative per D4 symmetry orbit.
+
+    The unit square's D4 symmetry group has 8 elements (rotations + reflections).
+    Symmetric points share the same set of rational distances (just permuted),
+    so they are mathematically equivalent solutions.
+
+    For each orbit the representative kept is the one with the most rational
+    distances; ties are broken by smallest denominator, then lexicographic (x,y).
+    """
+    from rational_distance.square import canonical_xy
+
+    best: dict[tuple[Fraction, Fraction], RationalPoint] = {}
+    for pt in points:
+        key = canonical_xy(pt.x, pt.y)
+        prev = best.get(key)
+        if prev is None:
+            best[key] = pt
+        elif pt.rational_count > prev.rational_count:
+            best[key] = pt
+        elif pt.rational_count == prev.rational_count and pt.denominator < prev.denominator:
+            best[key] = pt
+
+    return sorted(best.values(), key=lambda p: (-p.rational_count, p.denominator, p.x, p.y))

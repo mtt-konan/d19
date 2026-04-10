@@ -19,14 +19,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from rational_distance.search import brute_force_search, merge_results, parametric_search_fast
+from rational_distance.search import brute_force_search, dedup_by_symmetry, merge_results, parametric_search_fast
 from rational_distance.square import RationalPoint
 
 
 # ── Formatting helpers ────────────────────────────────────────────────────────
 
 def _header() -> str:
-    return f"{'cnt':>3}  {'x':>14}  {'y':>14}  {'d(A)':>10}  {'d(B)':>10}  {'d(C)':>10}  {'d(D)':>10}"
+    return f"{'cnt':>3}  {'den':>7}  {'x':>14}  {'y':>14}  {'d(A)':>10}  {'d(B)':>10}  {'d(C)':>10}  {'d(D)':>10}"
 
 
 def _row(pt: RationalPoint) -> str:
@@ -34,7 +34,7 @@ def _row(pt: RationalPoint) -> str:
         return f"{str(d):>10}" if d is not None else f"{'?':>10}"
     dA, dB, dC, dD = pt.distances
     return (
-        f"{pt.rational_count:>3}  {str(pt.x):>14}  {str(pt.y):>14}  "
+        f"{pt.rational_count:>3}  {pt.denominator:>7}  {str(pt.x):>14}  {str(pt.y):>14}  "
         f"{fmt(dA)}  {fmt(dB)}  {fmt(dC)}  {fmt(dD)}"
     )
 
@@ -83,12 +83,16 @@ def main() -> None:
                         help="Write JSON results to this file")
     parser.add_argument("--top",         type=int, default=50,
                         help="Max rows to print (0=all, default 50)")
+    parser.add_argument("--no-dedup-symmetry", action="store_true",
+                        help="Show all symmetric copies; default deduplicates to one per D4 orbit")
     args = parser.parse_args()
 
     if args.scale is not None:
         args.max_m     = args.scale
         args.max_k_den = 4 * args.scale
         args.max_k_num = 8 * args.scale
+
+    dedup_sym = not args.no_dedup_symmetry
 
     print("=" * 72)
     print("Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1)")
@@ -115,6 +119,10 @@ def main() -> None:
         bf = list(brute_force_search(max_den=args.brute_den, min_rational=args.min_rational))
         results = list(merge_results(iter(results), iter(bf)))
 
+    raw_count = len(results)
+    if dedup_sym:
+        results = dedup_by_symmetry(results)
+
     elapsed = time.perf_counter() - t0
 
     # ── Summary ───────────────────────────────────────────────────────────
@@ -123,7 +131,11 @@ def main() -> None:
         count_by_n[pt.rational_count] = count_by_n.get(pt.rational_count, 0) + 1
 
     print(f"\n{'─'*72}")
-    print(f"Found {len(results)} unique points in {elapsed:.2f}s")
+    if dedup_sym:
+        print(f"Found {raw_count} points → {len(results)} orbits after D4 dedup  ({elapsed:.2f}s)")
+    else:
+        print(f"Found {len(results)} unique points in {elapsed:.2f}s")
+    print(f"Sorted by: rational_count DESC, denominator ASC")
     for n in sorted(count_by_n, reverse=True):
         marker = " ◄ 4-VERTEX SOLUTION!" if n == 4 else ""
         print(f"  {count_by_n[n]:6d}  points with {n}/4 rational distances{marker}")
