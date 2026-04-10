@@ -105,7 +105,21 @@ def _search_triple_numpy(
 
     Computes all (a,b) combinations simultaneously using array operations,
     then extracts hits with a Python loop (hits are rare, so this is fast).
+
+    When min_rational >= 4: points on extended sides (x=1 or y=1) are excluded
+    by theorem (proven via elliptic curves; x=0 and y=0 are impossible here).
     """
+    # Theorem: no 4-vertex solution lies on the lines x=0,1 or y=0,1.
+    # x=a*p/(b*r), so x=1 iff a*p==b*r; y=1 iff a*q==b*r.
+    # (x=0 and y=0 are impossible since all parameters are positive.)
+    if min_rational >= 4:
+        off_side = ~((a_arr * p == b_arr * r) | (a_arr * q == b_arr * r))
+        if not off_side.all():
+            a_arr = a_arr[off_side]
+            b_arr = b_arr[off_side]
+        if len(a_arr) == 0:
+            return []
+
     ar = a_arr * r
     bp = b_arr * p
     bq = b_arr * q
@@ -166,6 +180,9 @@ def _search_triple_int(
     seen: set[tuple[int, int, int, int]] = set()
 
     for a, b in pairs:
+        # Theorem: no 4-vertex solution lies on extended sides (x=1 or y=1)
+        if min_rational >= 4 and (a * p == b * r or a * q == b * r):
+            continue
         ar = a * r
         bp = b * p
         bq = b * q
@@ -357,16 +374,22 @@ def brute_force_search(
     min_rational: int = 3,
 ) -> Generator[RationalPoint, None, None]:
     """Enumerate all reduced (x,y) with denominator ≤ max_den."""
+    _SIDES = {Fraction(0), Fraction(1)}
     seen: set[tuple[Fraction, Fraction]] = set()
     for den in range(1, max_den + 1):
         for nx in range(x_range[0] * den, x_range[1] * den + 1):
             if nx != 0 and gcd(abs(nx), den) != 1:
                 continue
             x = Fraction(nx, den)
+            # Theorem: no 4-vertex solution on extended sides
+            if min_rational >= 4 and x in _SIDES:
+                continue
             for ny in range(y_range[0] * den, y_range[1] * den + 1):
                 if ny != 0 and gcd(abs(ny), den) != 1:
                     continue
                 y = Fraction(ny, den)
+                if min_rational >= 4 and y in _SIDES:
+                    continue
                 key = (x, y)
                 if key in seen:
                     continue
