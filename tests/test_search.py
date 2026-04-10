@@ -38,10 +38,10 @@ def test_parametric_yields_3vertex():
         assert pt.rational_count >= 3
 
 
-def test_brute_force_yields_known():
-    """Brute-force with small denominator finds trivial vertex solutions."""
-    results = list(brute_force_search(max_den=5, min_rational=2))
-    xs = {(pt.x, pt.y) for pt in results}
-    # Vertices themselves should appear (distance 0 is rational)
-    assert (Fraction(0), Fraction(0)) in xs
-    assert (Fraction(1), Fraction(0)) in xs
+def test_brute_force_excludes_sides():
+    """Brute-force always excludes points on extended sides (x=0,1 or y=0,1)."""
+    results = list(brute_force_search(max_den=10, min_rational=2))
+    sides = {Fraction(0), Fraction(1)}
+    for pt in results:
+        assert pt.x not in sides, f"x={pt.x} is on an extended side"
+        assert pt.y not in sides, f"y={pt.y} is on an extended side"
