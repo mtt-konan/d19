@@ -65,6 +65,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
+    parser.add_argument("--scale",       type=int, default=None,
+                        help="Set max_m=N, max_k_den=4N, max_k_num=8N at once")
     parser.add_argument("--max-m",       type=int, default=60,
                         help="Max m for Pythagorean triple generation (default 60)")
     parser.add_argument("--max-k-num",   type=int, default=300,
@@ -82,6 +84,11 @@ def main() -> None:
     parser.add_argument("--top",         type=int, default=50,
                         help="Max rows to print (0=all, default 50)")
     args = parser.parse_args()
+
+    if args.scale is not None:
+        args.max_m     = args.scale
+        args.max_k_den = 4 * args.scale
+        args.max_k_num = 8 * args.scale
 
     print("=" * 72)
     print("Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1)")

@@ -37,6 +37,8 @@ from fractions import Fraction
 from math import gcd, isqrt
 from typing import Generator, Iterator, List, Optional
 
+import numpy as np
+
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance.square import RationalPoint, make_point
 
@@ -44,26 +46,109 @@ from rational_distance.square import RationalPoint, make_point
 # ── Worker state (set once per process by _init_worker) ──────────────────────
 
 _WORKER_PAIRS: list[tuple[int, int]] = []
+_WORKER_A: "np.ndarray | None" = None  # int64 array of a values
+_WORKER_B: "np.ndarray | None" = None  # int64 array of b values
 
 
 def _init_worker(max_k_num: int, max_k_den: int) -> None:
-    """Pre-build the coprime (a,b) list for this worker process."""
-    global _WORKER_PAIRS
-    _WORKER_PAIRS = [
+    """Pre-build the coprime (a,b) list and numpy arrays for this worker process."""
+    global _WORKER_PAIRS, _WORKER_A, _WORKER_B
+    pairs = [
         (a, b)
         for b in range(1, max_k_den + 1)
         for a in range(1, max_k_num + 1)
         if gcd(a, b) == 1
     ]
+    _WORKER_PAIRS = pairs
+    _WORKER_A = np.array([a for a, b in pairs], dtype=np.int64)
+    _WORKER_B = np.array([b for a, b in pairs], dtype=np.int64)
 
 
 def _worker(args: tuple) -> list[dict]:
     """Top-level worker function (must be module-level to be picklable)."""
     p, q, r, min_rational = args
+    if _WORKER_A is not None:
+        return _search_triple_numpy(p, q, r, _WORKER_A, _WORKER_B, min_rational)
     return _search_triple_int(p, q, r, _WORKER_PAIRS, min_rational)
 
 
-# ── Core integer-arithmetic search ───────────────────────────────────────────
+# ── Numpy-vectorized search (primary path) ───────────────────────────────────
+
+def _isqrt_vec(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Vectorized integer square root check.
+
+    Returns (ok, s) where ok[i] is True iff t[i] is a perfect square and
+    s[i] = isqrt(t[i]).  Handles float64 rounding by also checking s+1.
+
+    Safe for t values up to ~4×10^18 (int64 range, float64 sqrt precision
+    sufficient for sqrt values up to ~10^7; larger values use the +1 fallback).
+    """
+    s = np.floor(np.sqrt(t.astype(np.float64))).astype(np.int64)
+    ok = s * s == t
+    # float64 sqrt may round down by 1 for large perfect squares; check s+1
+    s1 = s + 1
+    fix = ~ok & (s1 * s1 == t)
+    ok |= fix
+    s[fix] = s1[fix]
+    return ok, s
+
+
+def _search_triple_numpy(
+    p: int,
+    q: int,
+    r: int,
+    a_arr: np.ndarray,
+    b_arr: np.ndarray,
+    min_rational: int,
+) -> list[dict]:
+    """Numpy-vectorized search for one Pythagorean triple.
+
+    Computes all (a,b) combinations simultaneously using array operations,
+    then extracts hits with a Python loop (hits are rare, so this is fast).
+    """
+    ar = a_arr * r
+    bp = b_arr * p
+    bq = b_arr * q
+    br = b_arr * r
+
+    okB, sB = _isqrt_vec((ar - bp) ** 2 + bq ** 2)
+    okD, sD = _isqrt_vec((ar - bq) ** 2 + bp ** 2)
+    okC, sC = _isqrt_vec((ar - b_arr * (p + q)) ** 2 + (b_arr * (p - q)) ** 2)
+
+    rational_count = 1 + okB + okD + okC  # bool arrays treated as 0/1
+    mask = rational_count >= min_rational
+
+    if not mask.any():
+        return []
+
+    results: list[dict] = []
+    seen: set[tuple[int, int, int, int]] = set()
+
+    for i in mask.nonzero()[0]:
+        a_i, b_i, br_i = int(a_arr[i]), int(b_arr[i]), int(br[i])
+
+        xn, xd = a_i * p, br_i
+        g = gcd(xn, xd); xn //= g; xd //= g
+        yn, yd = a_i * q, br_i
+        g = gcd(yn, yd); yn //= g; yd //= g
+        key = (xn, xd, yn, yd)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        results.append({
+            "x":  (a_i * p, br_i),
+            "y":  (a_i * q, br_i),
+            "dA": (a_i, b_i),
+            "dB": (int(sB[i]), br_i) if okB[i] else None,
+            "dC": (int(sC[i]), br_i) if okC[i] else None,
+            "dD": (int(sD[i]), br_i) if okD[i] else None,
+        })
+
+    return results
+
+
+# ── Core integer-arithmetic search (fallback) ────────────────────────────────
 
 def _search_triple_int(
     p: int,
