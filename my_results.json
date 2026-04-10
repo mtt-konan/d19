@@ -1,9 +1,9 @@
 {
   "search_params": {
-    "scale": 100,
-    "max_m": 100,
-    "max_k_num": 800,
-    "max_k_den": 400,
+    "scale": 150,
+    "max_m": 150,
+    "max_k_num": 1200,
+    "max_k_den": 600,
     "min_rational": 3,
     "brute_den": 0,
     "workers": 0,
@@ -11,322 +11,12 @@
     "top": 50,
     "no_dedup_symmetry": false
   },
-  "elapsed_seconds": 8.608,
-  "total_found": 243,
+  "elapsed_seconds": 68.43,
+  "total_found": 67,
   "count_by_rational": {
-    "3": 243
+    "3": 67
   },
   "points": [
-    {
-      "x": "1",
-      "y": "4/3",
-      "dA": "5/3",
-      "dB": "4/3",
-      "dC": "1/3",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 3
-    },
-    {
-      "x": "3/4",
-      "y": "1",
-      "dA": "5/4",
-      "dB": null,
-      "dC": "1/4",
-      "dD": "3/4",
-      "rational_count": 3,
-      "denominator": 4
-    },
-    {
-      "x": "1",
-      "y": "12/5",
-      "dA": "13/5",
-      "dB": "12/5",
-      "dC": "7/5",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 5
-    },
-    {
-      "x": "1",
-      "y": "24/7",
-      "dA": "25/7",
-      "dB": "24/7",
-      "dC": "17/7",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 7
-    },
-    {
-      "x": "1",
-      "y": "15/8",
-      "dA": "17/8",
-      "dB": "15/8",
-      "dC": "7/8",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 8
-    },
-    {
-      "x": "1",
-      "y": "40/9",
-      "dA": "41/9",
-      "dB": "40/9",
-      "dC": "31/9",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 9
-    },
-    {
-      "x": "1",
-      "y": "60/11",
-      "dA": "61/11",
-      "dB": "60/11",
-      "dC": "49/11",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 11
-    },
-    {
-      "x": "5/12",
-      "y": "1",
-      "dA": "13/12",
-      "dB": null,
-      "dC": "7/12",
-      "dD": "5/12",
-      "rational_count": 3,
-      "denominator": 12
-    },
-    {
-      "x": "1",
-      "y": "35/12",
-      "dA": "37/12",
-      "dB": "35/12",
-      "dC": "23/12",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 12
-    },
-    {
-      "x": "1",
-      "y": "84/13",
-      "dA": "85/13",
-      "dB": "84/13",
-      "dC": "71/13",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 13
-    },
-    {
-      "x": "8/15",
-      "y": "1",
-      "dA": "17/15",
-      "dB": null,
-      "dC": "7/15",
-      "dD": "8/15",
-      "rational_count": 3,
-      "denominator": 15
-    },
-    {
-      "x": "1",
-      "y": "112/15",
-      "dA": "113/15",
-      "dB": "112/15",
-      "dC": "97/15",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 15
-    },
-    {
-      "x": "1",
-      "y": "63/16",
-      "dA": "65/16",
-      "dB": "63/16",
-      "dC": "47/16",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 16
-    },
-    {
-      "x": "1",
-      "y": "144/17",
-      "dA": "145/17",
-      "dB": "144/17",
-      "dC": "127/17",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 17
-    },
-    {
-      "x": "1",
-      "y": "180/19",
-      "dA": "181/19",
-      "dB": "180/19",
-      "dC": "161/19",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 19
-    },
-    {
-      "x": "1",
-      "y": "21/20",
-      "dA": "29/20",
-      "dB": "21/20",
-      "dC": "1/20",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 20
-    },
-    {
-      "x": "1",
-      "y": "99/20",
-      "dA": "101/20",
-      "dB": "99/20",
-      "dC": "79/20",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 20
-    },
-    {
-      "x": "20/21",
-      "y": "1",
-      "dA": "29/21",
-      "dB": null,
-      "dC": "1/21",
-      "dD": "20/21",
-      "rational_count": 3,
-      "denominator": 21
-    },
-    {
-      "x": "1",
-      "y": "220/21",
-      "dA": "221/21",
-      "dB": "220/21",
-      "dC": "199/21",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 21
-    },
-    {
-      "x": "1",
-      "y": "264/23",
-      "dA": "265/23",
-      "dB": "264/23",
-      "dC": "241/23",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 23
-    },
-    {
-      "x": "7/24",
-      "y": "1",
-      "dA": "25/24",
-      "dB": null,
-      "dC": "17/24",
-      "dD": "7/24",
-      "rational_count": 3,
-      "denominator": 24
-    },
-    {
-      "x": "1",
-      "y": "143/24",
-      "dA": "145/24",
-      "dB": "143/24",
-      "dC": "119/24",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 24
-    },
-    {
-      "x": "1",
-      "y": "312/25",
-      "dA": "313/25",
-      "dB": "312/25",
-      "dC": "287/25",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 25
-    },
-    {
-      "x": "1",
-      "y": "364/27",
-      "dA": "365/27",
-      "dB": "364/27",
-      "dC": "337/27",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 27
-    },
-    {
-      "x": "1",
-      "y": "45/28",
-      "dA": "53/28",
-      "dB": "45/28",
-      "dC": "17/28",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 28
-    },
-    {
-      "x": "1",
-      "y": "195/28",
-      "dA": "197/28",
-      "dB": "195/28",
-      "dC": "167/28",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 28
-    },
-    {
-      "x": "1",
-      "y": "420/29",
-      "dA": "421/29",
-      "dB": "420/29",
-      "dC": "391/29",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 29
-    },
-    {
-      "x": "1",
-      "y": "480/31",
-      "dA": "481/31",
-      "dB": "480/31",
-      "dC": "449/31",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 31
-    },
-    {
-      "x": "1",
-      "y": "255/32",
-      "dA": "257/32",
-      "dB": "255/32",
-      "dC": "223/32",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 32
-    },
-    {
-      "x": "1",
-      "y": "56/33",
-      "dA": "65/33",
-      "dB": "56/33",
-      "dC": "23/33",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 33
-    },
-    {
-      "x": "1",
-      "y": "544/33",
-      "dA": "545/33",
-      "dB": "544/33",
-      "dC": "511/33",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 33
-    },
     {
       "x": "32/11",
       "y": "280/33",
@@ -336,116 +26,6 @@
       "dD": "265/33",
       "rational_count": 3,
       "denominator": 33
-    },
-    {
-      "x": "12/35",
-      "y": "1",
-      "dA": "37/35",
-      "dB": null,
-      "dC": "23/35",
-      "dD": "12/35",
-      "rational_count": 3,
-      "denominator": 35
-    },
-    {
-      "x": "1",
-      "y": "612/35",
-      "dA": "613/35",
-      "dB": "612/35",
-      "dC": "577/35",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 35
-    },
-    {
-      "x": "1",
-      "y": "77/36",
-      "dA": "85/36",
-      "dB": "77/36",
-      "dC": "41/36",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 36
-    },
-    {
-      "x": "1",
-      "y": "323/36",
-      "dA": "325/36",
-      "dB": "323/36",
-      "dC": "287/36",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 36
-    },
-    {
-      "x": "1",
-      "y": "684/37",
-      "dA": "685/37",
-      "dB": "684/37",
-      "dC": "647/37",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 37
-    },
-    {
-      "x": "1",
-      "y": "80/39",
-      "dA": "89/39",
-      "dB": "80/39",
-      "dC": "41/39",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 39
-    },
-    {
-      "x": "1",
-      "y": "760/39",
-      "dA": "761/39",
-      "dB": "760/39",
-      "dC": "721/39",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 39
-    },
-    {
-      "x": "9/40",
-      "y": "1",
-      "dA": "41/40",
-      "dB": null,
-      "dC": "31/40",
-      "dD": "9/40",
-      "rational_count": 3,
-      "denominator": 40
-    },
-    {
-      "x": "1",
-      "y": "399/40",
-      "dA": "401/40",
-      "dB": "399/40",
-      "dC": "359/40",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 40
-    },
-    {
-      "x": "1",
-      "y": "117/44",
-      "dA": "125/44",
-      "dB": "117/44",
-      "dC": "73/44",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 44
-    },
-    {
-      "x": "1",
-      "y": "483/44",
-      "dA": "485/44",
-      "dB": "483/44",
-      "dC": "439/44",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 44
     },
     {
       "x": "65/44",
@@ -458,16 +38,6 @@
       "denominator": 44
     },
     {
-      "x": "28/45",
-      "y": "1",
-      "dA": "53/45",
-      "dB": null,
-      "dC": "17/45",
-      "dD": "28/45",
-      "rational_count": 3,
-      "denominator": 45
-    },
-    {
       "x": "16/9",
       "y": "28/15",
       "dA": "116/45",
@@ -478,42 +48,12 @@
       "denominator": 45
     },
     {
-      "x": "1",
-      "y": "55/48",
-      "dA": "73/48",
-      "dB": "55/48",
-      "dC": "7/48",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 48
-    },
-    {
-      "x": "1",
-      "y": "575/48",
-      "dA": "577/48",
-      "dB": "575/48",
-      "dC": "527/48",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 48
-    },
-    {
       "x": "16/51",
       "y": "21/17",
       "dA": "65/51",
       "dB": null,
       "dC": "37/51",
       "dD": "20/51",
-      "rational_count": 3,
-      "denominator": 51
-    },
-    {
-      "x": "1",
-      "y": "140/51",
-      "dA": "149/51",
-      "dB": "140/51",
-      "dC": "89/51",
-      "dD": null,
       "rational_count": 3,
       "denominator": 51
     },
@@ -528,176 +68,6 @@
       "denominator": 52
     },
     {
-      "x": "1",
-      "y": "165/52",
-      "dA": "173/52",
-      "dB": "165/52",
-      "dC": "113/52",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 52
-    },
-    {
-      "x": "1",
-      "y": "675/52",
-      "dA": "677/52",
-      "dB": "675/52",
-      "dC": "623/52",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 52
-    },
-    {
-      "x": "48/55",
-      "y": "1",
-      "dA": "73/55",
-      "dB": null,
-      "dC": "7/55",
-      "dD": "48/55",
-      "rational_count": 3,
-      "denominator": 55
-    },
-    {
-      "x": "33/56",
-      "y": "1",
-      "dA": "65/56",
-      "dB": null,
-      "dC": "23/56",
-      "dD": "33/56",
-      "rational_count": 3,
-      "denominator": 56
-    },
-    {
-      "x": "1",
-      "y": "783/56",
-      "dA": "785/56",
-      "dB": "783/56",
-      "dC": "727/56",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 56
-    },
-    {
-      "x": "1",
-      "y": "176/57",
-      "dA": "185/57",
-      "dB": "176/57",
-      "dC": "119/57",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 57
-    },
-    {
-      "x": "11/60",
-      "y": "1",
-      "dA": "61/60",
-      "dB": null,
-      "dC": "49/60",
-      "dD": "11/60",
-      "rational_count": 3,
-      "denominator": 60
-    },
-    {
-      "x": "1",
-      "y": "91/60",
-      "dA": "109/60",
-      "dB": "91/60",
-      "dC": "31/60",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 60
-    },
-    {
-      "x": "1",
-      "y": "221/60",
-      "dA": "229/60",
-      "dB": "221/60",
-      "dC": "161/60",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 60
-    },
-    {
-      "x": "16/63",
-      "y": "1",
-      "dA": "65/63",
-      "dB": null,
-      "dC": "47/63",
-      "dD": "16/63",
-      "rational_count": 3,
-      "denominator": 63
-    },
-    {
-      "x": "1",
-      "y": "72/65",
-      "dA": "97/65",
-      "dB": "72/65",
-      "dC": "7/65",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 65
-    },
-    {
-      "x": "1",
-      "y": "285/68",
-      "dA": "293/68",
-      "dB": "285/68",
-      "dC": "217/68",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 68
-    },
-    {
-      "x": "1",
-      "y": "260/69",
-      "dA": "269/69",
-      "dB": "260/69",
-      "dC": "191/69",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 69
-    },
-    {
-      "x": "65/72",
-      "y": "1",
-      "dA": "97/72",
-      "dB": null,
-      "dC": "7/72",
-      "dD": "65/72",
-      "rational_count": 3,
-      "denominator": 72
-    },
-    {
-      "x": "1",
-      "y": "308/75",
-      "dA": "317/75",
-      "dB": "308/75",
-      "dC": "233/75",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 75
-    },
-    {
-      "x": "1",
-      "y": "357/76",
-      "dA": "365/76",
-      "dB": "357/76",
-      "dC": "281/76",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 76
-    },
-    {
-      "x": "36/77",
-      "y": "1",
-      "dA": "85/77",
-      "dB": null,
-      "dC": "41/77",
-      "dD": "36/77",
-      "rational_count": 3,
-      "denominator": 77
-    },
-    {
       "x": "60/77",
       "y": "221/77",
       "dA": "229/77",
@@ -706,126 +76,6 @@
       "dD": "156/77",
       "rational_count": 3,
       "denominator": 77
-    },
-    {
-      "x": "39/80",
-      "y": "1",
-      "dA": "89/80",
-      "dB": null,
-      "dC": "41/80",
-      "dD": "39/80",
-      "rational_count": 3,
-      "denominator": 80
-    },
-    {
-      "x": "13/84",
-      "y": "1",
-      "dA": "85/84",
-      "dB": null,
-      "dC": "71/84",
-      "dD": "13/84",
-      "rational_count": 3,
-      "denominator": 84
-    },
-    {
-      "x": "1",
-      "y": "187/84",
-      "dA": "205/84",
-      "dB": "187/84",
-      "dC": "103/84",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 84
-    },
-    {
-      "x": "1",
-      "y": "437/84",
-      "dA": "445/84",
-      "dB": "437/84",
-      "dC": "353/84",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 84
-    },
-    {
-      "x": "1",
-      "y": "132/85",
-      "dA": "157/85",
-      "dB": "132/85",
-      "dC": "47/85",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 85
-    },
-    {
-      "x": "1",
-      "y": "416/87",
-      "dA": "425/87",
-      "dB": "416/87",
-      "dC": "329/87",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 87
-    },
-    {
-      "x": "1",
-      "y": "105/88",
-      "dA": "137/88",
-      "dB": "105/88",
-      "dC": "17/88",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 88
-    },
-    {
-      "x": "60/91",
-      "y": "1",
-      "dA": "109/91",
-      "dB": null,
-      "dC": "31/91",
-      "dD": "60/91",
-      "rational_count": 3,
-      "denominator": 91
-    },
-    {
-      "x": "1",
-      "y": "525/92",
-      "dA": "533/92",
-      "dB": "525/92",
-      "dC": "433/92",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 92
-    },
-    {
-      "x": "1",
-      "y": "476/93",
-      "dA": "485/93",
-      "dB": "476/93",
-      "dC": "383/93",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 93
-    },
-    {
-      "x": "1",
-      "y": "168/95",
-      "dA": "193/95",
-      "dB": "168/95",
-      "dC": "73/95",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 95
-    },
-    {
-      "x": "1",
-      "y": "247/96",
-      "dA": "265/96",
-      "dB": "247/96",
-      "dC": "151/96",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 96
     },
     {
       "x": "5/33",
@@ -838,26 +88,6 @@
       "denominator": 99
     },
     {
-      "x": "20/99",
-      "y": "1",
-      "dA": "101/99",
-      "dB": null,
-      "dC": "79/99",
-      "dD": "20/99",
-      "rational_count": 3,
-      "denominator": 99
-    },
-    {
-      "x": "1",
-      "y": "621/100",
-      "dA": "629/100",
-      "dB": "621/100",
-      "dC": "521/100",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 100
-    },
-    {
       "x": "51/25",
       "y": "253/100",
       "dA": "13/4",
@@ -866,236 +96,6 @@
       "dD": "51/20",
       "rational_count": 3,
       "denominator": 100
-    },
-    {
-      "x": "1",
-      "y": "153/104",
-      "dA": "185/104",
-      "dB": "153/104",
-      "dC": "49/104",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 104
-    },
-    {
-      "x": "88/105",
-      "y": "1",
-      "dA": "137/105",
-      "dB": null,
-      "dC": "17/105",
-      "dD": "88/105",
-      "rational_count": 3,
-      "denominator": 105
-    },
-    {
-      "x": "1",
-      "y": "208/105",
-      "dA": "233/105",
-      "dB": "208/105",
-      "dC": "103/105",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 105
-    },
-    {
-      "x": "1",
-      "y": "608/105",
-      "dA": "617/105",
-      "dB": "608/105",
-      "dC": "503/105",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 105
-    },
-    {
-      "x": "1",
-      "y": "725/108",
-      "dA": "733/108",
-      "dB": "725/108",
-      "dC": "617/108",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 108
-    },
-    {
-      "x": "1",
-      "y": "680/111",
-      "dA": "689/111",
-      "dB": "680/111",
-      "dC": "569/111",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 111
-    },
-    {
-      "x": "15/112",
-      "y": "1",
-      "dA": "113/112",
-      "dB": null,
-      "dC": "97/112",
-      "dD": "15/112",
-      "rational_count": 3,
-      "denominator": 112
-    },
-    {
-      "x": "1",
-      "y": "252/115",
-      "dA": "277/115",
-      "dB": "252/115",
-      "dC": "137/115",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 115
-    },
-    {
-      "x": "44/117",
-      "y": "1",
-      "dA": "125/117",
-      "dB": null,
-      "dC": "73/117",
-      "dD": "44/117",
-      "rational_count": 3,
-      "denominator": 117
-    },
-    {
-      "x": "1",
-      "y": "120/119",
-      "dA": "169/119",
-      "dB": "120/119",
-      "dC": "1/119",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 119
-    },
-    {
-      "x": "119/120",
-      "y": "1",
-      "dA": "169/120",
-      "dB": null,
-      "dC": "1/120",
-      "dD": "119/120",
-      "rational_count": 3,
-      "denominator": 120
-    },
-    {
-      "x": "1",
-      "y": "209/120",
-      "dA": "241/120",
-      "dB": "209/120",
-      "dC": "89/120",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 120
-    },
-    {
-      "x": "1",
-      "y": "391/120",
-      "dA": "409/120",
-      "dB": "391/120",
-      "dC": "271/120",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 120
-    },
-    {
-      "x": "85/132",
-      "y": "1",
-      "dA": "157/132",
-      "dB": null,
-      "dC": "47/132",
-      "dD": "85/132",
-      "rational_count": 3,
-      "denominator": 132
-    },
-    {
-      "x": "1",
-      "y": "475/132",
-      "dA": "493/132",
-      "dB": "475/132",
-      "dC": "343/132",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 132
-    },
-    {
-      "x": "1",
-      "y": "156/133",
-      "dA": "205/133",
-      "dB": "156/133",
-      "dC": "23/133",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 133
-    },
-    {
-      "x": "1",
-      "y": "352/135",
-      "dA": "377/135",
-      "dB": "352/135",
-      "dC": "217/135",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 135
-    },
-    {
-      "x": "1",
-      "y": "273/136",
-      "dA": "305/136",
-      "dB": "273/136",
-      "dC": "137/136",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 136
-    },
-    {
-      "x": "51/140",
-      "y": "1",
-      "dA": "149/140",
-      "dB": null,
-      "dC": "89/140",
-      "dD": "51/140",
-      "rational_count": 3,
-      "denominator": 140
-    },
-    {
-      "x": "1",
-      "y": "171/140",
-      "dA": "221/140",
-      "dB": "171/140",
-      "dC": "31/140",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 140
-    },
-    {
-      "x": "24/143",
-      "y": "1",
-      "dA": "145/143",
-      "dB": null,
-      "dC": "119/143",
-      "dD": "24/143",
-      "rational_count": 3,
-      "denominator": 143
-    },
-    {
-      "x": "17/144",
-      "y": "1",
-      "dA": "145/144",
-      "dB": null,
-      "dC": "127/144",
-      "dD": "17/144",
-      "rational_count": 3,
-      "denominator": 144
-    },
-    {
-      "x": "1",
-      "y": "408/145",
-      "dA": "433/145",
-      "dB": "408/145",
-      "dC": "263/145",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 145
     },
     {
       "x": "49/148",
@@ -1108,226 +108,6 @@
       "denominator": 148
     },
     {
-      "x": "1",
-      "y": "345/152",
-      "dA": "377/152",
-      "dB": "345/152",
-      "dC": "193/152",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 152
-    },
-    {
-      "x": "104/153",
-      "y": "1",
-      "dA": "185/153",
-      "dB": null,
-      "dC": "49/153",
-      "dD": "104/153",
-      "rational_count": 3,
-      "denominator": 153
-    },
-    {
-      "x": "1",
-      "y": "468/155",
-      "dA": "493/155",
-      "dB": "468/155",
-      "dC": "313/155",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 155
-    },
-    {
-      "x": "133/156",
-      "y": "1",
-      "dA": "205/156",
-      "dB": null,
-      "dC": "23/156",
-      "dD": "133/156",
-      "rational_count": 3,
-      "denominator": 156
-    },
-    {
-      "x": "1",
-      "y": "667/156",
-      "dA": "685/156",
-      "dB": "667/156",
-      "dC": "511/156",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 156
-    },
-    {
-      "x": "1",
-      "y": "231/160",
-      "dA": "281/160",
-      "dB": "231/160",
-      "dC": "71/160",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 160
-    },
-    {
-      "x": "1",
-      "y": "240/161",
-      "dA": "289/161",
-      "dB": "240/161",
-      "dC": "79/161",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 161
-    },
-    {
-      "x": "52/165",
-      "y": "1",
-      "dA": "173/165",
-      "dB": null,
-      "dC": "113/165",
-      "dD": "52/165",
-      "rational_count": 3,
-      "denominator": 165
-    },
-    {
-      "x": "1",
-      "y": "532/165",
-      "dA": "557/165",
-      "dB": "532/165",
-      "dC": "367/165",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 165
-    },
-    {
-      "x": "95/168",
-      "y": "1",
-      "dA": "193/168",
-      "dB": null,
-      "dC": "73/168",
-      "dD": "95/168",
-      "rational_count": 3,
-      "denominator": 168
-    },
-    {
-      "x": "1",
-      "y": "425/168",
-      "dA": "457/168",
-      "dB": "425/168",
-      "dC": "257/168",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 168
-    },
-    {
-      "x": "1",
-      "y": "775/168",
-      "dA": "793/168",
-      "dB": "775/168",
-      "dC": "607/168",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 168
-    },
-    {
-      "x": "140/171",
-      "y": "1",
-      "dA": "221/171",
-      "dB": null,
-      "dC": "31/171",
-      "dD": "140/171",
-      "rational_count": 3,
-      "denominator": 171
-    },
-    {
-      "x": "1",
-      "y": "288/175",
-      "dA": "337/175",
-      "dB": "288/175",
-      "dC": "113/175",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 175
-    },
-    {
-      "x": "57/176",
-      "y": "1",
-      "dA": "185/176",
-      "dB": null,
-      "dC": "119/176",
-      "dD": "57/176",
-      "rational_count": 3,
-      "denominator": 176
-    },
-    {
-      "x": "19/180",
-      "y": "1",
-      "dA": "181/180",
-      "dB": null,
-      "dC": "161/180",
-      "dD": "19/180",
-      "rational_count": 3,
-      "denominator": 180
-    },
-    {
-      "x": "1",
-      "y": "299/180",
-      "dA": "349/180",
-      "dB": "299/180",
-      "dC": "119/180",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 180
-    },
-    {
-      "x": "1",
-      "y": "513/184",
-      "dA": "545/184",
-      "dB": "513/184",
-      "dC": "329/184",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 184
-    },
-    {
-      "x": "1",
-      "y": "672/185",
-      "dA": "697/185",
-      "dB": "672/185",
-      "dC": "487/185",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 185
-    },
-    {
-      "x": "84/187",
-      "y": "1",
-      "dA": "205/187",
-      "dB": null,
-      "dC": "103/187",
-      "dD": "84/187",
-      "rational_count": 3,
-      "denominator": 187
-    },
-    {
-      "x": "1",
-      "y": "340/189",
-      "dA": "389/189",
-      "dB": "340/189",
-      "dC": "151/189",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 189
-    },
-    {
-      "x": "28/195",
-      "y": "1",
-      "dA": "197/195",
-      "dB": null,
-      "dC": "167/195",
-      "dD": "28/195",
-      "rational_count": 3,
-      "denominator": 195
-    },
-    {
       "x": "16/65",
       "y": "11/39",
       "dA": "73/195",
@@ -1336,146 +116,6 @@
       "dD": "148/195",
       "rational_count": 3,
       "denominator": 195
-    },
-    {
-      "x": "1",
-      "y": "748/195",
-      "dA": "773/195",
-      "dB": "748/195",
-      "dC": "553/195",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 195
-    },
-    {
-      "x": "1",
-      "y": "609/200",
-      "dA": "641/200",
-      "dB": "609/200",
-      "dC": "409/200",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 200
-    },
-    {
-      "x": "1",
-      "y": "396/203",
-      "dA": "445/203",
-      "dB": "396/203",
-      "dC": "193/203",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 203
-    },
-    {
-      "x": "1",
-      "y": "253/204",
-      "dA": "325/204",
-      "dB": "253/204",
-      "dC": "49/204",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 204
-    },
-    {
-      "x": "1",
-      "y": "224/207",
-      "dA": "305/207",
-      "dB": "224/207",
-      "dC": "17/207",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 207
-    },
-    {
-      "x": "105/208",
-      "y": "1",
-      "dA": "233/208",
-      "dB": null,
-      "dC": "103/208",
-      "dD": "105/208",
-      "rational_count": 3,
-      "denominator": 208
-    },
-    {
-      "x": "120/209",
-      "y": "1",
-      "dA": "241/209",
-      "dB": null,
-      "dC": "89/209",
-      "dD": "120/209",
-      "rational_count": 3,
-      "denominator": 209
-    },
-    {
-      "x": "1",
-      "y": "713/216",
-      "dA": "745/216",
-      "dB": "713/216",
-      "dC": "497/216",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 216
-    },
-    {
-      "x": "1",
-      "y": "456/217",
-      "dA": "505/217",
-      "dB": "456/217",
-      "dC": "239/217",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 217
-    },
-    {
-      "x": "21/220",
-      "y": "1",
-      "dA": "221/220",
-      "dB": null,
-      "dC": "199/220",
-      "dD": "21/220",
-      "rational_count": 3,
-      "denominator": 220
-    },
-    {
-      "x": "1",
-      "y": "459/220",
-      "dA": "509/220",
-      "dB": "459/220",
-      "dC": "239/220",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 220
-    },
-    {
-      "x": "60/221",
-      "y": "1",
-      "dA": "229/221",
-      "dB": null,
-      "dC": "161/221",
-      "dD": "60/221",
-      "rational_count": 3,
-      "denominator": 221
-    },
-    {
-      "x": "207/224",
-      "y": "1",
-      "dA": "305/224",
-      "dB": null,
-      "dC": "17/224",
-      "dD": "207/224",
-      "rational_count": 3,
-      "denominator": 224
-    },
-    {
-      "x": "1",
-      "y": "272/225",
-      "dA": "353/225",
-      "dB": "272/225",
-      "dC": "47/225",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 225
     },
     {
       "x": "21/76",
@@ -1488,196 +128,6 @@
       "denominator": 228
     },
     {
-      "x": "1",
-      "y": "325/228",
-      "dA": "397/228",
-      "dB": "325/228",
-      "dC": "97/228",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 228
-    },
-    {
-      "x": "160/231",
-      "y": "1",
-      "dA": "281/231",
-      "dB": null,
-      "dC": "71/231",
-      "dD": "160/231",
-      "rational_count": 3,
-      "denominator": 231
-    },
-    {
-      "x": "1",
-      "y": "520/231",
-      "dA": "569/231",
-      "dB": "520/231",
-      "dC": "289/231",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 231
-    },
-    {
-      "x": "161/240",
-      "y": "1",
-      "dA": "289/240",
-      "dB": null,
-      "dC": "79/240",
-      "dD": "161/240",
-      "rational_count": 3,
-      "denominator": 240
-    },
-    {
-      "x": "1",
-      "y": "551/240",
-      "dA": "601/240",
-      "dB": "551/240",
-      "dC": "311/240",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 240
-    },
-    {
-      "x": "96/247",
-      "y": "1",
-      "dA": "265/247",
-      "dB": null,
-      "dC": "151/247",
-      "dD": "96/247",
-      "rational_count": 3,
-      "denominator": 247
-    },
-    {
-      "x": "115/252",
-      "y": "1",
-      "dA": "277/252",
-      "dB": null,
-      "dC": "137/252",
-      "dD": "115/252",
-      "rational_count": 3,
-      "denominator": 252
-    },
-    {
-      "x": "1",
-      "y": "275/252",
-      "dA": "373/252",
-      "dB": "275/252",
-      "dC": "23/252",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 252
-    },
-    {
-      "x": "204/253",
-      "y": "1",
-      "dA": "325/253",
-      "dB": null,
-      "dC": "49/253",
-      "dD": "204/253",
-      "rational_count": 3,
-      "denominator": 253
-    },
-    {
-      "x": "32/255",
-      "y": "1",
-      "dA": "257/255",
-      "dB": null,
-      "dC": "223/255",
-      "dD": "32/255",
-      "rational_count": 3,
-      "denominator": 255
-    },
-    {
-      "x": "1",
-      "y": "660/259",
-      "dA": "709/259",
-      "dB": "660/259",
-      "dC": "401/259",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 259
-    },
-    {
-      "x": "69/260",
-      "y": "1",
-      "dA": "269/260",
-      "dB": null,
-      "dC": "191/260",
-      "dD": "69/260",
-      "rational_count": 3,
-      "denominator": 260
-    },
-    {
-      "x": "1",
-      "y": "651/260",
-      "dA": "701/260",
-      "dB": "651/260",
-      "dC": "391/260",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 260
-    },
-    {
-      "x": "1",
-      "y": "380/261",
-      "dA": "461/261",
-      "dB": "380/261",
-      "dC": "119/261",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 261
-    },
-    {
-      "x": "23/264",
-      "y": "1",
-      "dA": "265/264",
-      "dB": null,
-      "dC": "241/264",
-      "dD": "23/264",
-      "rational_count": 3,
-      "denominator": 264
-    },
-    {
-      "x": "225/272",
-      "y": "1",
-      "dA": "353/272",
-      "dB": null,
-      "dC": "47/272",
-      "dD": "225/272",
-      "rational_count": 3,
-      "denominator": 272
-    },
-    {
-      "x": "136/273",
-      "y": "1",
-      "dA": "305/273",
-      "dB": null,
-      "dC": "137/273",
-      "dD": "136/273",
-      "rational_count": 3,
-      "denominator": 273
-    },
-    {
-      "x": "1",
-      "y": "736/273",
-      "dA": "785/273",
-      "dB": "736/273",
-      "dC": "463/273",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 273
-    },
-    {
-      "x": "252/275",
-      "y": "1",
-      "dA": "373/275",
-      "dB": null,
-      "dC": "23/275",
-      "dD": "252/275",
-      "rational_count": 3,
-      "denominator": 275
-    },
-    {
       "x": "20/69",
       "y": "105/92",
       "dA": "325/276",
@@ -1686,46 +136,6 @@
       "dD": "89/276",
       "rational_count": 3,
       "denominator": 276
-    },
-    {
-      "x": "1",
-      "y": "493/276",
-      "dA": "565/276",
-      "dB": "493/276",
-      "dC": "217/276",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 276
-    },
-    {
-      "x": "1",
-      "y": "440/279",
-      "dA": "521/279",
-      "dB": "440/279",
-      "dC": "161/279",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 279
-    },
-    {
-      "x": "1",
-      "y": "351/280",
-      "dA": "449/280",
-      "dB": "351/280",
-      "dC": "71/280",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 280
-    },
-    {
-      "x": "68/285",
-      "y": "1",
-      "dA": "293/285",
-      "dB": null,
-      "dC": "217/285",
-      "dD": "68/285",
-      "rational_count": 3,
-      "denominator": 285
     },
     {
       "x": "28/19",
@@ -1738,16 +148,6 @@
       "denominator": 285
     },
     {
-      "x": "175/288",
-      "y": "1",
-      "dA": "337/288",
-      "dB": null,
-      "dC": "113/288",
-      "dD": "175/288",
-      "rational_count": 3,
-      "denominator": 288
-    },
-    {
       "x": "308/291",
       "y": "145/97",
       "dA": "533/291",
@@ -1758,274 +158,14 @@
       "denominator": 291
     },
     {
-      "x": "1",
-      "y": "304/297",
-      "dA": "425/297",
-      "dB": "304/297",
-      "dC": "7/297",
+      "x": "451/339",
+      "y": "260/113",
+      "dA": "901/339",
+      "dB": "788/339",
+      "dC": "455/339",
       "dD": null,
       "rational_count": 3,
-      "denominator": 297
-    },
-    {
-      "x": "180/299",
-      "y": "1",
-      "dA": "349/299",
-      "dB": null,
-      "dC": "119/299",
-      "dD": "180/299",
-      "rational_count": 3,
-      "denominator": 299
-    },
-    {
-      "x": "1",
-      "y": "589/300",
-      "dA": "661/300",
-      "dB": "589/300",
-      "dC": "289/300",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 300
-    },
-    {
-      "x": "297/304",
-      "y": "1",
-      "dA": "425/304",
-      "dB": null,
-      "dC": "7/304",
-      "dD": "297/304",
-      "rational_count": 3,
-      "denominator": 304
-    },
-    {
-      "x": "75/308",
-      "y": "1",
-      "dA": "317/308",
-      "dB": null,
-      "dC": "233/308",
-      "dD": "75/308",
-      "rational_count": 3,
-      "denominator": 308
-    },
-    {
-      "x": "1",
-      "y": "435/308",
-      "dA": "533/308",
-      "dB": "435/308",
-      "dC": "127/308",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 308
-    },
-    {
-      "x": "25/312",
-      "y": "1",
-      "dA": "313/312",
-      "dB": null,
-      "dC": "287/312",
-      "dD": "25/312",
-      "rational_count": 3,
-      "denominator": 312
-    },
-    {
-      "x": "1",
-      "y": "572/315",
-      "dA": "653/315",
-      "dB": "572/315",
-      "dC": "257/315",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 315
-    },
-    {
-      "x": "1",
-      "y": "360/319",
-      "dA": "481/319",
-      "dB": "360/319",
-      "dC": "41/319",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 319
-    },
-    {
-      "x": "36/323",
-      "y": "1",
-      "dA": "325/323",
-      "dB": null,
-      "dC": "287/323",
-      "dD": "36/323",
-      "rational_count": 3,
-      "denominator": 323
-    },
-    {
-      "x": "228/325",
-      "y": "1",
-      "dA": "397/325",
-      "dB": null,
-      "dC": "97/325",
-      "dD": "228/325",
-      "rational_count": 3,
-      "denominator": 325
-    },
-    {
-      "x": "1",
-      "y": "644/333",
-      "dA": "725/333",
-      "dB": "644/333",
-      "dC": "311/333",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 333
-    },
-    {
-      "x": "1",
-      "y": "377/336",
-      "dA": "505/336",
-      "dB": "377/336",
-      "dC": "41/336",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 336
-    },
-    {
-      "x": "1",
-      "y": "527/336",
-      "dA": "625/336",
-      "dB": "527/336",
-      "dC": "191/336",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 336
-    },
-    {
-      "x": "189/340",
-      "y": "1",
-      "dA": "389/340",
-      "dB": null,
-      "dC": "151/340",
-      "dD": "189/340",
-      "rational_count": 3,
-      "denominator": 340
-    },
-    {
-      "x": "1",
-      "y": "420/341",
-      "dA": "541/341",
-      "dB": "420/341",
-      "dC": "79/341",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 341
-    },
-    {
-      "x": "152/345",
-      "y": "1",
-      "dA": "377/345",
-      "dB": null,
-      "dC": "193/345",
-      "dD": "152/345",
-      "rational_count": 3,
-      "denominator": 345
-    },
-    {
-      "x": "280/351",
-      "y": "1",
-      "dA": "449/351",
-      "dB": null,
-      "dC": "71/351",
-      "dD": "280/351",
-      "rational_count": 3,
-      "denominator": 351
-    },
-    {
-      "x": "135/352",
-      "y": "1",
-      "dA": "377/352",
-      "dB": null,
-      "dC": "217/352",
-      "dD": "135/352",
-      "rational_count": 3,
-      "denominator": 352
-    },
-    {
-      "x": "76/357",
-      "y": "1",
-      "dA": "365/357",
-      "dB": null,
-      "dC": "281/357",
-      "dD": "76/357",
-      "rational_count": 3,
-      "denominator": 357
-    },
-    {
-      "x": "319/360",
-      "y": "1",
-      "dA": "481/360",
-      "dB": null,
-      "dC": "41/360",
-      "dD": "319/360",
-      "rational_count": 3,
-      "denominator": 360
-    },
-    {
-      "x": "27/364",
-      "y": "1",
-      "dA": "365/364",
-      "dB": null,
-      "dC": "337/364",
-      "dD": "27/364",
-      "rational_count": 3,
-      "denominator": 364
-    },
-    {
-      "x": "1",
-      "y": "627/364",
-      "dA": "725/364",
-      "dB": "627/364",
-      "dC": "263/364",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 364
-    },
-    {
-      "x": "1",
-      "y": "465/368",
-      "dA": "593/368",
-      "dB": "465/368",
-      "dC": "97/368",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 368
-    },
-    {
-      "x": "336/377",
-      "y": "1",
-      "dA": "505/377",
-      "dB": null,
-      "dC": "41/377",
-      "dD": "336/377",
-      "rational_count": 3,
-      "denominator": 377
-    },
-    {
-      "x": "261/380",
-      "y": "1",
-      "dA": "461/380",
-      "dB": null,
-      "dC": "119/380",
-      "dD": "261/380",
-      "rational_count": 3,
-      "denominator": 380
-    },
-    {
-      "x": "1",
-      "y": "552/385",
-      "dA": "673/385",
-      "dB": "552/385",
-      "dC": "167/385",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 385
+      "denominator": 339
     },
     {
       "x": "112/129",
@@ -2038,54 +178,24 @@
       "denominator": 387
     },
     {
-      "x": "120/391",
-      "y": "1",
-      "dA": "409/391",
+      "x": "105/424",
+      "y": "98/53",
+      "dA": "791/424",
       "dB": null,
-      "dC": "271/391",
-      "dD": "120/391",
+      "dC": "481/424",
+      "dD": "375/424",
       "rational_count": 3,
-      "denominator": 391
+      "denominator": 424
     },
     {
-      "x": "203/396",
-      "y": "1",
-      "dA": "445/396",
-      "dB": null,
-      "dC": "193/396",
-      "dD": "203/396",
-      "rational_count": 3,
-      "denominator": 396
-    },
-    {
-      "x": "1",
-      "y": "403/396",
-      "dA": "565/396",
-      "dB": "403/396",
-      "dC": "7/396",
+      "x": "119/579",
+      "y": "336/193",
+      "dA": "1015/579",
+      "dB": "1108/579",
+      "dC": "629/579",
       "dD": null,
       "rational_count": 3,
-      "denominator": 396
-    },
-    {
-      "x": "40/399",
-      "y": "1",
-      "dA": "401/399",
-      "dB": null,
-      "dC": "359/399",
-      "dD": "40/399",
-      "rational_count": 3,
-      "denominator": 399
-    },
-    {
-      "x": "1",
-      "y": "561/400",
-      "dA": "689/400",
-      "dB": "561/400",
-      "dC": "161/400",
-      "dD": null,
-      "rational_count": 3,
-      "denominator": 400
+      "denominator": 579
     },
     {
       "x": "161/200",
@@ -2158,6 +268,26 @@
       "denominator": 2028
     },
     {
+      "x": "589/750",
+      "y": "1161/1000",
+      "dA": "841/600",
+      "dB": null,
+      "dC": "161/600",
+      "dD": "481/600",
+      "rational_count": 3,
+      "denominator": 3000
+    },
+    {
+      "x": "217/250",
+      "y": "3403/3000",
+      "dA": "857/600",
+      "dB": null,
+      "dC": "113/600",
+      "dD": "527/600",
+      "rational_count": 3,
+      "denominator": 3000
+    },
+    {
       "x": "225/841",
       "y": "945/3364",
       "dA": "45/116",
@@ -2228,6 +358,16 @@
       "denominator": 7800
     },
     {
+      "x": "9405/8092",
+      "y": "3277/2023",
+      "dA": "949/476",
+      "dB": null,
+      "dC": "305/476",
+      "dD": "627/476",
+      "rational_count": 3,
+      "denominator": 8092
+    },
+    {
       "x": "1309/2050",
       "y": "13923/8200",
       "dA": "595/328",
@@ -2246,6 +386,16 @@
       "dD": "337/1680",
       "rational_count": 3,
       "denominator": 8400
+    },
+    {
+      "x": "10080/8959",
+      "y": "10519/8959",
+      "dA": "857/527",
+      "dB": null,
+      "dC": "113/527",
+      "dD": "600/527",
+      "rational_count": 3,
+      "denominator": 8959
     },
     {
       "x": "493/3125",
@@ -2328,6 +478,16 @@
       "denominator": 12675
     },
     {
+      "x": "2881/4400",
+      "y": "4819/3300",
+      "dA": "845/528",
+      "dB": null,
+      "dC": "1519/2640",
+      "dD": "2113/2640",
+      "rational_count": 3,
+      "denominator": 13200
+    },
+    {
       "x": "12240/18491",
       "y": "25823/18491",
       "dA": "17/11",
@@ -2378,6 +538,16 @@
       "denominator": 21853
     },
     {
+      "x": "7667/22472",
+      "y": "3315/5618",
+      "dA": "289/424",
+      "dB": "375/424",
+      "dC": "329/424",
+      "dD": null,
+      "rational_count": 3,
+      "denominator": 22472
+    },
+    {
       "x": "5100/7921",
       "y": "41123/23763",
       "dA": "493/267",
@@ -2418,6 +588,26 @@
       "denominator": 38307
     },
     {
+      "x": "2667/4225",
+      "y": "287147/50700",
+      "dA": "889/156",
+      "dB": "4427/780",
+      "dC": "3649/780",
+      "dD": null,
+      "rational_count": 3,
+      "denominator": 50700
+    },
+    {
+      "x": "29925/75076",
+      "y": "25039/18769",
+      "dA": "763/548",
+      "dB": null,
+      "dC": "377/548",
+      "dD": "285/548",
+      "rational_count": 3,
+      "denominator": 75076
+    },
+    {
       "x": "23184/31939",
       "y": "244559/159695",
       "dA": "161/95",
@@ -2438,6 +628,16 @@
       "denominator": 174824
     },
     {
+      "x": "69768/239575",
+      "y": "192151/239575",
+      "dA": "221/259",
+      "dB": null,
+      "dC": "953/1295",
+      "dD": "456/1295",
+      "rational_count": 3,
+      "denominator": 239575
+    },
+    {
       "x": "3471/93092",
       "y": "152279/69819",
       "dA": "445/204",
@@ -2446,6 +646,46 @@
       "dD": null,
       "rational_count": 3,
       "denominator": 279276
+    },
+    {
+      "x": "11880/12769",
+      "y": "1219581/357532",
+      "dA": "99/28",
+      "dB": "10795/3164",
+      "dC": null,
+      "dD": "8177/3164",
+      "rational_count": 3,
+      "denominator": 357532
+    },
+    {
+      "x": "157920/370301",
+      "y": "578993/370301",
+      "dA": "47/29",
+      "dB": null,
+      "dC": "2635/3277",
+      "dD": "2316/3277",
+      "rational_count": 3,
+      "denominator": 370301
+    },
+    {
+      "x": "25760/140459",
+      "y": "283337/421377",
+      "dA": "23/33",
+      "dB": null,
+      "dC": "3281/3729",
+      "dD": "1400/3729",
+      "rational_count": 3,
+      "denominator": 421377
+    },
+    {
+      "x": "31360/421377",
+      "y": "344932/1264131",
+      "dA": "28/99",
+      "dB": "10795/11187",
+      "dC": null,
+      "dD": "8177/11187",
+      "rational_count": 3,
+      "denominator": 1264131
     }
   ]
 }
