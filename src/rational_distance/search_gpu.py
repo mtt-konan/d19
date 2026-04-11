@@ -208,6 +208,7 @@ def _search_triple_gpu(
     p: int, q: int, r: int,
     a_dev, b_dev,
     min_rational: int,
+    inside_only: bool = False,
 ) -> list[dict]:
     """Process one Pythagorean triple entirely on the GPU/array backend.
 
@@ -216,6 +217,9 @@ def _search_triple_gpu(
     """
     # Exclude x=1 (a*p == b*r) and y=1 (a*q == b*r) — theorem-required filter
     off = ~((a_dev * p == b_dev * r) | (a_dev * q == b_dev * r))
+    if inside_only:
+        # x<1 iff a*p < b*r;  y<1 iff a*q < b*r
+        off = off & (a_dev * p < b_dev * r) & (a_dev * q < b_dev * r)
     a = a_dev[off]
     b = b_dev[off]
     if len(a) == 0:
@@ -302,6 +306,7 @@ def parametric_search_gpu(
     min_rational: int = 3,
     progress: bool = True,
     xp=None,
+    inside_only: bool = False,
 ) -> tuple[list[RationalPoint], str]:
     """GPU-accelerated parametric search (single process).
 
@@ -364,7 +369,7 @@ def parametric_search_gpu(
     seen_xy: set[tuple] = set()
 
     for p, q, r in it:
-        hits = _search_triple_gpu(xp, p, q, r, a_dev, b_dev, min_rational)
+        hits = _search_triple_gpu(xp, p, q, r, a_dev, b_dev, min_rational, inside_only)
         for h in hits:
             key = (h["x"], h["y"])
             if key not in seen_xy:

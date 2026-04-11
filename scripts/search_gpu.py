@@ -1,50 +1,35 @@
-"""GPU-accelerated rational distance search — AMD Ryzen AI Max / RTX 4090 / CPU.
+"""Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1).
 
-Requires CuPy (preferred) or PyTorch with ROCm/CUDA backend.
-Falls back to NumPy (CPU) automatically if no GPU is found.
+Finds points whose distances to 3 (or all 4) vertices of the unit square
+are simultaneously rational.  Supports GPU acceleration via CuPy or PyTorch.
 
-Install for AMD Ryzen AI Max+ 392 — Linux (ROCm)
-──────────────────────────────────────────────────
-  # PyTorch ROCm (recommended — pre-built wheels available):
+Backend selection (--backend):
+  auto   — try CuPy → PyTorch → NumPy (default)
+  cupy   — force CuPy (NVIDIA/AMD GPU, Linux)
+  torch  — force PyTorch ROCm/CUDA (recommended for Windows AMD)
+  numpy  — force CPU-only (uses multiprocessing, safe for any scale)
+
+GPU setup — AMD Ryzen AI Max+ 392 Windows (ROCm)
+─────────────────────────────────────────────────
+  uv python install 3.12 && uv python pin 3.12 && uv sync
+  uv pip install torch --index-url https://repo.amd.com/rocm/whl/gfx1151/
+  python -c "import torch; print(torch.cuda.is_available())"
+  uv run python scripts/search_gpu.py --scale 200 --backend torch
+
+GPU setup — AMD Ryzen AI Max+ 392 Linux (ROCm)
+───────────────────────────────────────────────
   pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
 
-  # CuPy ROCm (optional, if you need the cupy backend):
-  sudo apt install rocm-dev hipcc
-  HIP_PATH=/opt/rocm pip install cupy --no-build-isolation
+GPU setup — NVIDIA RTX 4090 (CUDA)
+────────────────────────────────────
+  pip install cupy-cuda12x   # or: pip install torch
 
-Install for AMD Ryzen AI Max+ 392 — Windows (ROCm)
-────────────────────────────────────────────────────
-  AMD officially supports Windows ROCm 7.x for the Strix Halo (gfx1151) architecture.
-
-  1. Install the latest AMD Adrenalin driver (>= 26.2.2) from https://www.amd.com/en/support
-
-  2. Pin to Python 3.12 (PyTorch ROCm wheels require cp311/cp312/cp313, not 3.14):
-       uv python install 3.12
-       uv python pin 3.12
-       uv sync
-
-  3. Install PyTorch with the AMD ROCm gfx1151 wheels:
-       uv pip install torch --index-url https://repo.amd.com/rocm/whl/gfx1151/
-
-  4. Verify GPU is detected:
-       python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
-
-  5. Run the search:
-       uv run python scripts/search_gpu.py --scale 200 --backend torch
-
-  Note: CuPy for AMD ROCm on Windows has no pre-built wheels.
-        Use --backend torch for all AMD GPU work on Windows.
-
-Install for NVIDIA RTX 4090 (CUDA, Linux or Windows)
-──────────────────────────────────────────────────────
-  pip install cupy-cuda12x
-  # or, for PyTorch CUDA:
-  pip install torch  # default PyTorch wheel includes CUDA
-
-Usage
-─────
+Usage examples
+──────────────
   uv run python scripts/search_gpu.py --scale 200
-  uv run python scripts/search_gpu.py --scale 80 --backend numpy  # CPU test
+  uv run python scripts/search_gpu.py --scale 200 --backend torch
+  uv run python scripts/search_gpu.py --scale 80  --backend numpy  # CPU, multiprocess
+  uv run python scripts/search_gpu.py --scale 400 --inside         # unit square only
   uv run python scripts/search_gpu.py --help
 """
 
@@ -58,12 +43,17 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from rational_distance.search import dedup_by_symmetry
+from rational_distance.search import (
+    brute_force_search,
+    dedup_by_symmetry,
+    merge_results,
+    parametric_search_fast,
+)
 from rational_distance.search_gpu import detect_backend, parametric_search_gpu
 from rational_distance.square import RationalPoint
 
 
-# ── Formatting (same as search_3vertex.py) ───────────────────────────────────
+# ── Formatting ────────────────────────────────────────────────────────────────
 
 def _header() -> str:
     return f"{'cnt':>3}  {'den':>7}  {'x':>14}  {'y':>14}  {'d(A)':>10}  {'d(B)':>10}  {'d(C)':>10}  {'d(D)':>10}"
@@ -106,14 +96,24 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("--scale",        type=int,  default=None,
-                        help="Set max_m=N, max_k_den=4N, max_k_num=8N at once")
-    parser.add_argument("--max-m",        type=int,  default=80)
-    parser.add_argument("--max-k-num",    type=int,  default=640)
-    parser.add_argument("--max-k-den",    type=int,  default=320)
-    parser.add_argument("--min-rational", type=int,  default=3, choices=[2, 3, 4])
+                        help="Shorthand: sets max_m=N, max_k_den=4N, max_k_num=8N")
+    parser.add_argument("--max-m",        type=int,  default=80,
+                        help="Max m for Pythagorean triple generation (default 80)")
+    parser.add_argument("--max-k-num",    type=int,  default=640,
+                        help="Max numerator of scale k (default 640)")
+    parser.add_argument("--max-k-den",    type=int,  default=320,
+                        help="Max denominator of scale k (default 320)")
+    parser.add_argument("--min-rational", type=int,  default=3, choices=[2, 3, 4],
+                        help="Minimum rational distances to report (default 3)")
     parser.add_argument("--backend",      type=str,  default="auto",
                         choices=["auto", "cupy", "torch", "numpy"],
-                        help="Force a specific compute backend (default: auto)")
+                        help="Compute backend: auto|cupy|torch|numpy (default: auto)")
+    parser.add_argument("--workers",      type=int,  default=0,
+                        help="CPU worker processes — numpy backend only (0=auto)")
+    parser.add_argument("--inside",       action="store_true",
+                        help="Only return points strictly inside the unit square (0<x<1, 0<y<1)")
+    parser.add_argument("--brute-den",    type=int,  default=0,
+                        help="Also run brute-force search up to this denominator (0=skip)")
     parser.add_argument("--no-dedup-symmetry", action="store_true",
                         help="Show all symmetric copies (default: one per D4 orbit)")
     parser.add_argument("--out",          type=str,  default=None,
@@ -127,58 +127,75 @@ def main() -> None:
         args.max_k_den = 4 * args.scale
         args.max_k_num = 8 * args.scale
 
-    # ── Select backend ────────────────────────────────────────────────────
+    # ── Resolve backend ───────────────────────────────────────────────────
+    use_cpu_path = (args.backend == "numpy")
     xp = None
-    if args.backend == "numpy":
-        import numpy as np
-        xp = np
-        forced_name = "NumPy (CPU, forced)"
+    backend_name = ""
+
+    if use_cpu_path:
+        backend_name = "numpy (CPU, multiprocessing)"
     elif args.backend == "cupy":
         import cupy as cp
         xp = cp
-        forced_name = None
+        backend_name = "forced:cupy"
     elif args.backend == "torch":
         from rational_distance.search_gpu import _try_torch
         xp = _try_torch()
         if xp is None:
             print("ERROR: PyTorch ROCm/CUDA not available.", file=sys.stderr)
             sys.exit(1)
-        forced_name = None
+        backend_name = "forced:torch"
+    else:  # auto
+        xp, backend_name, _ = detect_backend()
 
     # ── Banner ────────────────────────────────────────────────────────────
     print("=" * 72)
-    print("GPU rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1)")
-
-    if xp is None:
-        _, backend_name, is_gpu = detect_backend()
-        print(f"  backend  : {backend_name}")
-        if not is_gpu:
-            print("  [!] No GPU found — running on CPU.  Install CuPy or PyTorch+ROCm.")
-    else:
-        if args.backend == "numpy":
-            backend_name = forced_name
-        else:
-            backend_name = f"forced:{args.backend}"
-        print(f"  backend  : {backend_name}")
-
+    print("Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1)")
+    print(f"  backend  : {backend_name}")
     print(f"  max_m={args.max_m}, max_k={args.max_k_num}/{args.max_k_den},",
           f"min_rational={args.min_rational}")
     est = _size_estimate(args.max_m, args.max_k_num, args.max_k_den)
     print(f"  search space ≈ {est} (triple × k combinations)")
+    if args.inside:
+        print("  Filter: inside unit square (0<x<1 and 0<y<1)")
+    if args.brute_den:
+        print(f"  + brute-force denominator ≤ {args.brute_den}")
     print("=" * 72)
 
     dedup_sym = not args.no_dedup_symmetry
 
     t0 = time.perf_counter()
 
-    results, backend_used = parametric_search_gpu(
-        max_m=args.max_m,
-        max_k_num=args.max_k_num,
-        max_k_den=args.max_k_den,
-        min_rational=args.min_rational,
-        progress=True,
-        xp=xp,
-    )
+    # ── Search ────────────────────────────────────────────────────────────
+    if use_cpu_path:
+        # numpy backend: use multiprocessing path (int64-safe, supports --workers)
+        results = parametric_search_fast(
+            max_m=args.max_m,
+            max_k_num=args.max_k_num,
+            max_k_den=args.max_k_den,
+            min_rational=args.min_rational,
+            workers=args.workers,
+            progress=True,
+            inside_only=args.inside,
+        )
+        if args.brute_den:
+            bf = list(brute_force_search(max_den=args.brute_den, min_rational=args.min_rational))
+            results = list(merge_results(iter(results), iter(bf)))
+        backend_used = backend_name
+    else:
+        # GPU path: CuPy / PyTorch / auto-detected numpy
+        results, backend_used = parametric_search_gpu(
+            max_m=args.max_m,
+            max_k_num=args.max_k_num,
+            max_k_den=args.max_k_den,
+            min_rational=args.min_rational,
+            progress=True,
+            xp=xp,
+            inside_only=args.inside,
+        )
+        if args.brute_den:
+            bf = list(brute_force_search(max_den=args.brute_den, min_rational=args.min_rational))
+            results = list(merge_results(iter(results), iter(bf)))
 
     raw_count = len(results)
     if dedup_sym:
