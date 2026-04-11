@@ -17,8 +17,7 @@ src/rational_distance/
 └── search_ec.py         — 椭圆曲线引导搜索（弦切法轨道展开）
 
 scripts/
-├── search_gpu.py        — GPU/CPU 搜索 CLI 入口（支持 --backend numpy/cupy/torch/auto）
-├── search_ec.py         — 椭圆曲线搜索 CLI 入口
+├── search.py            — 统一 CLI 入口（子命令 parametric / ec）
 └── visualize.py         — 可视化工具：从 JSON 生成 Plotly HTML 报告
 
 tests/

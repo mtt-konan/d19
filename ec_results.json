@@ -1,0 +1,207 @@
+{
+  "search_params": {
+    "max_m": 30,
+    "max_k_num": 400,
+    "max_k_den": 800,
+    "max_steps": 20,
+    "min_rational": 3,
+    "inside": false
+  },
+  "elapsed_seconds": 17.896,
+  "total_found": 19,
+  "count_by_rational": {
+    "3": 19
+  },
+  "points": [
+    {
+      "x": "280/33",
+      "y": "32/11",
+      "dA": "296/33",
+      "dB": "265/33",
+      "dC": null,
+      "dD": "287/33",
+      "rational_count": 3,
+      "denominator": 33
+    },
+    {
+      "x": "28/15",
+      "y": "16/9",
+      "dA": "116/45",
+      "dB": "89/45",
+      "dC": null,
+      "dD": "91/45",
+      "rational_count": 3,
+      "denominator": 45
+    },
+    {
+      "x": "45/52",
+      "y": "6/13",
+      "dA": "51/52",
+      "dB": "25/52",
+      "dC": null,
+      "dD": "53/52",
+      "rational_count": 3,
+      "denominator": 52
+    },
+    {
+      "x": "28/33",
+      "y": "112/99",
+      "dA": "140/99",
+      "dB": "113/99",
+      "dC": null,
+      "dD": "85/99",
+      "rational_count": 3,
+      "denominator": 99
+    },
+    {
+      "x": "99/148",
+      "y": "42/37",
+      "dA": "195/148",
+      "dB": "175/148",
+      "dC": null,
+      "dD": "101/148",
+      "rational_count": 3,
+      "denominator": 148
+    },
+    {
+      "x": "28/39",
+      "y": "16/65",
+      "dA": "148/195",
+      "dB": "73/195",
+      "dC": null,
+      "dD": "203/195",
+      "rational_count": 3,
+      "denominator": 195
+    },
+    {
+      "x": "55/76",
+      "y": "70/57",
+      "dA": "325/228",
+      "dB": "287/228",
+      "dC": null,
+      "dD": "173/228",
+      "rational_count": 3,
+      "denominator": 228
+    },
+    {
+      "x": "105/92",
+      "y": "20/69",
+      "dA": "325/276",
+      "dB": "89/276",
+      "dC": null,
+      "dD": "371/276",
+      "rational_count": 3,
+      "denominator": 276
+    },
+    {
+      "x": "297/700",
+      "y": "99/175",
+      "dA": "99/140",
+      "dB": "113/140",
+      "dC": null,
+      "dD": "17/28",
+      "rational_count": 3,
+      "denominator": 700
+    },
+    {
+      "x": "63/148",
+      "y": "42/185",
+      "dA": "357/740",
+      "dB": "457/740",
+      "dC": null,
+      "dD": "653/740",
+      "rational_count": 3,
+      "denominator": 740
+    },
+    {
+      "x": "260/289",
+      "y": "416/867",
+      "dA": "52/51",
+      "dB": "25/51",
+      "dC": null,
+      "dD": "53/51",
+      "rational_count": 3,
+      "denominator": 867
+    },
+    {
+      "x": "945/3364",
+      "y": "225/841",
+      "dA": "45/116",
+      "dB": "89/116",
+      "dC": null,
+      "dD": "91/116",
+      "rational_count": 3,
+      "denominator": 3364
+    },
+    {
+      "x": "6580/4947",
+      "y": "752/1649",
+      "dA": "6956/4947",
+      "dB": "2785/4947",
+      "dC": null,
+      "dD": "7109/4947",
+      "rational_count": 3,
+      "denominator": 4947
+    },
+    {
+      "x": "6825/5476",
+      "y": "585/1369",
+      "dA": "195/148",
+      "dB": "73/148",
+      "dC": null,
+      "dD": "203/148",
+      "rational_count": 3,
+      "denominator": 5476
+    },
+    {
+      "x": "1155/10952",
+      "y": "99/2738",
+      "dA": "33/296",
+      "dB": "265/296",
+      "dC": null,
+      "dD": "287/296",
+      "rational_count": 3,
+      "denominator": 10952
+    },
+    {
+      "x": "1628/4225",
+      "y": "8288/12675",
+      "dA": "148/195",
+      "dB": "35/39",
+      "dC": null,
+      "dD": "101/195",
+      "rational_count": 3,
+      "denominator": 12675
+    },
+    {
+      "x": "7524/21125",
+      "y": "12768/21125",
+      "dA": "228/325",
+      "dB": "287/325",
+      "dC": null,
+      "dD": "173/325",
+      "rational_count": 3,
+      "denominator": 21125
+    },
+    {
+      "x": "17388/21125",
+      "y": "4416/21125",
+      "dA": "276/325",
+      "dB": "89/325",
+      "dC": null,
+      "dD": "371/325",
+      "rational_count": 3,
+      "denominator": 21125
+    },
+    {
+      "x": "11220/21853",
+      "y": "5040/21853",
+      "dA": "300/533",
+      "dB": "7/13",
+      "dC": null,
+      "dD": "493/533",
+      "rational_count": 3,
+      "denominator": 21853
+    }
+  ]
+}
