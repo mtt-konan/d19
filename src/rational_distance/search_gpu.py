@@ -45,6 +45,17 @@ import numpy as np
 from rational_distance.math_utils import primitive_pythagorean_triples
 from rational_distance.square import RationalPoint
 
+
+def _xp_cast(t, dtype):
+    """Cast array *t* to *dtype*, compatible with both NumPy (.astype) and
+    PyTorch tensors (.to).  CuPy arrays also support .astype."""
+    if isinstance(t, np.ndarray):
+        return t.astype(dtype)
+    # PyTorch tensor (or CuPy array that also has .to):
+    if hasattr(t, "to") and not hasattr(t, "astype"):
+        return t.to(dtype)
+    return t.astype(dtype)  # CuPy
+
 # ── Backend detection ─────────────────────────────────────────────────────────
 
 def _try_cupy():
@@ -187,7 +198,7 @@ def detect_backend() -> tuple:
 
 def _isqrt_gpu(xp, t):
     """Vectorized perfect-square check.  Returns (ok_mask, s_array)."""
-    s = xp.floor(xp.sqrt(t.astype(xp.float64))).astype(xp.int64)
+    s = _xp_cast(xp.floor(xp.sqrt(_xp_cast(t, xp.float64))), xp.int64)
     ok = (s * s == t) | ((s + 1) * (s + 1) == t)
     return ok, s
 
@@ -224,9 +235,9 @@ def _search_triple_gpu(
     okC, sC = _isqrt_gpu(xp, tC)
 
     cnt = (1
-           + okB.astype(xp.int64)
-           + okD.astype(xp.int64)
-           + okC.astype(xp.int64))
+           + _xp_cast(okB, xp.int64)
+           + _xp_cast(okD, xp.int64)
+           + _xp_cast(okC, xp.int64))
     mask = cnt >= min_rational
 
     if not xp.any(mask):
@@ -237,7 +248,11 @@ def _search_triple_gpu(
     # ── Transfer hits back to CPU (hits are rare → cheap) ─────────────────
     def _to_cpu(arr):
         sliced = arr[idx]
-        return sliced.get() if hasattr(sliced, "get") else np.asarray(sliced)
+        if hasattr(sliced, "get"):          # CuPy
+            return sliced.get()
+        if hasattr(sliced, "cpu"):          # PyTorch tensor
+            return sliced.cpu().numpy()
+        return np.asarray(sliced)           # NumPy
 
     a_hit   = _to_cpu(a)
     b_hit   = _to_cpu(b)
