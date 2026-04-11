@@ -85,6 +85,8 @@ def main() -> None:
                         help="Max rows to print (0=all, default 50)")
     parser.add_argument("--no-dedup-symmetry", action="store_true",
                         help="Show all symmetric copies; default deduplicates to one per D4 orbit")
+    parser.add_argument("--inside", action="store_true",
+                        help="Only return points strictly inside the unit square (0<x<1 and 0<y<1)")
     args = parser.parse_args()
 
     if args.scale is not None:
@@ -102,6 +104,8 @@ def main() -> None:
     print(f"  search space ≈ {est} (triple × k combinations)")
     if args.brute_den:
         print(f"  + brute-force denominator ≤ {args.brute_den}")
+    if args.inside:
+        print("  Filter: inside unit square (0<x<1 and 0<y<1)")
     print("=" * 72)
 
     t0 = time.perf_counter()
@@ -113,6 +117,7 @@ def main() -> None:
         min_rational=args.min_rational,
         workers=args.workers,
         progress=True,
+        inside_only=args.inside,
     )
 
     if args.brute_den:

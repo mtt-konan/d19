@@ -85,10 +85,10 @@ def _worker(args: tuple) -> list[dict]:
     Uses the fast numpy int64 path for small r, and falls back to Python's
     arbitrary-precision integers for large r to avoid int64 overflow.
     """
-    p, q, r, min_rational = args
+    p, q, r, min_rational, inside_only = args
     if _WORKER_A is not None and r <= _WORKER_SAFE_R_MAX:
-        return _search_triple_numpy(p, q, r, _WORKER_A, _WORKER_B, min_rational)
-    return _search_triple_int(p, q, r, _WORKER_PAIRS, min_rational)
+        return _search_triple_numpy(p, q, r, _WORKER_A, _WORKER_B, min_rational, inside_only)
+    return _search_triple_int(p, q, r, _WORKER_PAIRS, min_rational, inside_only)
 
 
 # ── Numpy-vectorized search (primary path) ───────────────────────────────────
@@ -119,6 +119,7 @@ def _search_triple_numpy(
     a_arr: np.ndarray,
     b_arr: np.ndarray,
     min_rational: int,
+    inside_only: bool = False,
 ) -> list[dict]:
     """Numpy-vectorized search for one Pythagorean triple.
 
@@ -127,11 +128,15 @@ def _search_triple_numpy(
 
     Points on extended sides (x=1 or y=1) are always excluded by theorem
     (proven via elliptic curves; x=0 and y=0 are impossible here).
+    If inside_only is True, only points with 0<x<1 and 0<y<1 are returned.
     """
     # Theorem: no rational-distance solution to any vertex lies on x=0,1 or y=0,1.
     # x=a*p/(b*r), so x=1 iff a*p==b*r; y=1 iff a*q==b*r.
     # (x=0 and y=0 are impossible since all parameters are positive.)
     off_side = ~((a_arr * p == b_arr * r) | (a_arr * q == b_arr * r))
+    if inside_only:
+        # x<1 iff a*p < b*r;  y<1 iff a*q < b*r  (x>0 and y>0 are always true)
+        off_side &= (a_arr * p < b_arr * r) & (a_arr * q < b_arr * r)
     if not off_side.all():
         a_arr = a_arr[off_side]
         b_arr = b_arr[off_side]
@@ -188,6 +193,7 @@ def _search_triple_int(
     r: int,
     pairs: list[tuple[int, int]],
     min_rational: int,
+    inside_only: bool = False,
 ) -> list[dict]:
     """Search one Pythagorean triple (p,q,r) using only integer arithmetic.
 
@@ -200,6 +206,8 @@ def _search_triple_int(
     for a, b in pairs:
         # Theorem: no rational-distance solution lies on extended sides (x=1 or y=1)
         if a * p == b * r or a * q == b * r:
+            continue
+        if inside_only and (a * p > b * r or a * q > b * r):
             continue
         ar = a * r
         bp = b * p
@@ -272,6 +280,7 @@ def parametric_search_fast(
     min_rational: int = 3,
     workers: int = 0,
     progress: bool = True,
+    inside_only: bool = False,
 ) -> list[RationalPoint]:
     """Fast search using integer arithmetic and multiprocessing.
 
@@ -283,6 +292,9 @@ def parametric_search_fast(
     min_rational: minimum rational distances required (3 or 4)
     workers     : number of worker processes; 0 = auto (cpu_count)
     progress    : show tqdm progress bar if available
+    inside_only : if True, only return points strictly inside the unit square
+                  (0 < x < 1 and 0 < y < 1); this is a strict mathematical
+                  constraint (no theorems guarantee all solutions are inside)
 
     Returns a deduplicated list sorted by (-rational_count, x, y).
     """
@@ -293,7 +305,7 @@ def parametric_search_fast(
 
     n_workers = workers if workers > 0 else multiprocessing.cpu_count()
     triples   = primitive_pythagorean_triples(max_m)
-    args_list = [(p, q, r, min_rational) for p, q, r in triples]
+    args_list = [(p, q, r, min_rational, inside_only) for p, q, r in triples]
 
     # Report search volume
     n_pairs = sum(
