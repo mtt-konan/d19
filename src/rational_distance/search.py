@@ -48,11 +48,17 @@ from rational_distance.square import RationalPoint, make_point
 _WORKER_PAIRS: list[tuple[int, int]] = []
 _WORKER_A: "np.ndarray | None" = None  # int64 array of a values
 _WORKER_B: "np.ndarray | None" = None  # int64 array of b values
+_WORKER_SAFE_R_MAX: int = 0            # max r for which int64 arithmetic is overflow-free
+
+# Largest integer X such that X^2 fits in int64 and (X+1)^2 also fits (for the s+1 check).
+# Each squared term in tB/tD/tC must stay below INT64_MAX/2 so their sum fits too.
+# isqrt(INT64_MAX // 2) = isqrt(4611686018427387903) = 2147483647 = 2^31 - 1.
+_INT64_SAFE_HALF: int = (1 << 31) - 1  # 2 147 483 647
 
 
 def _init_worker(max_k_num: int, max_k_den: int) -> None:
     """Pre-build the coprime (a,b) list and numpy arrays for this worker process."""
-    global _WORKER_PAIRS, _WORKER_A, _WORKER_B
+    global _WORKER_PAIRS, _WORKER_A, _WORKER_B, _WORKER_SAFE_R_MAX
     pairs = [
         (a, b)
         for b in range(1, max_k_den + 1)
@@ -63,11 +69,24 @@ def _init_worker(max_k_num: int, max_k_den: int) -> None:
     _WORKER_A = np.array([a for a, b in pairs], dtype=np.int64)
     _WORKER_B = np.array([b for a, b in pairs], dtype=np.int64)
 
+    # Determine the largest r for which all int64 squared terms stay safe.
+    #
+    # The tightest bound comes from tC = (ar − b(p+q))² + (b(p−q))².
+    # Worst-case magnitude of (ar − b(p+q)) ≤ (max_a + 2·max_b)·r  (using p+q ≤ 2r).
+    # We require each squared term < INT64_MAX/2 so the sum fits in int64.
+    # Condition: (max_a + 2·max_b)·r ≤ _INT64_SAFE_HALF  →  r ≤ threshold.
+    coeff = max_k_num + 2 * max_k_den
+    _WORKER_SAFE_R_MAX = _INT64_SAFE_HALF // coeff if coeff > 0 else 10**18
+
 
 def _worker(args: tuple) -> list[dict]:
-    """Top-level worker function (must be module-level to be picklable)."""
+    """Top-level worker function (must be module-level to be picklable).
+
+    Uses the fast numpy int64 path for small r, and falls back to Python's
+    arbitrary-precision integers for large r to avoid int64 overflow.
+    """
     p, q, r, min_rational = args
-    if _WORKER_A is not None:
+    if _WORKER_A is not None and r <= _WORKER_SAFE_R_MAX:
         return _search_triple_numpy(p, q, r, _WORKER_A, _WORKER_B, min_rational)
     return _search_triple_int(p, q, r, _WORKER_PAIRS, min_rational)
 
@@ -283,6 +302,17 @@ def parametric_search_fast(
         if gcd(a, b) == 1
     )
     print(f"  triples={len(triples)}, k-pairs per triple={n_pairs:,}, workers={n_workers}")
+
+    # Warn if large-r triples will use the slower Python int fallback path.
+    safe_r = _INT64_SAFE_HALF // (max_k_num + 2 * max_k_den)
+    r_max_possible = max_m * max_m  # rough upper bound for r = m^2 + n^2
+    if r_max_possible > safe_r:
+        n_slow = sum(1 for _, _, r in triples if r > safe_r)
+        pct = 100 * n_slow // max(len(triples), 1)
+        print(
+            f"  Note: {n_slow}/{len(triples)} triples ({pct}%) use the Python-int fallback "
+            f"(r > {safe_r:,}) to avoid int64 overflow — results are still exact."
+        )
 
     all_raw: list[dict] = []
 

@@ -3,21 +3,43 @@
 Requires CuPy (preferred) or PyTorch with ROCm/CUDA backend.
 Falls back to NumPy (CPU) automatically if no GPU is found.
 
-Install for AMD Ryzen AI Max+ 392 (ROCm)
-─────────────────────────────────────────
-  # Check your ROCm version first:  rocminfo | grep -i version
-  pip install cupy-rocm-6-0       # ROCm 6.x pre-built wheel
+Install for AMD Ryzen AI Max+ 392 — Linux (ROCm)
+──────────────────────────────────────────────────
+  # PyTorch ROCm (recommended — pre-built wheels available):
+  pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
 
-  # If ROCm 7.0 (no pre-built CuPy wheel yet — build from source):
+  # CuPy ROCm (optional, if you need the cupy backend):
   sudo apt install rocm-dev hipcc
   HIP_PATH=/opt/rocm pip install cupy --no-build-isolation
 
-  # PyTorch ROCm fallback (usually simpler to install):
-  pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
+Install for AMD Ryzen AI Max+ 392 — Windows (ROCm)
+────────────────────────────────────────────────────
+  AMD officially supports Windows ROCm 7.x for the Strix Halo (gfx1151) architecture.
 
-Install for NVIDIA RTX 4090 (CUDA)
-───────────────────────────────────
+  1. Install the latest AMD Adrenalin driver (>= 26.2.2) from https://www.amd.com/en/support
+
+  2. Pin to Python 3.12 (PyTorch ROCm wheels require cp311/cp312/cp313, not 3.14):
+       uv python install 3.12
+       uv python pin 3.12
+       uv sync
+
+  3. Install PyTorch with the AMD ROCm gfx1151 wheels:
+       uv pip install torch --index-url https://repo.amd.com/rocm/whl/gfx1151/
+
+  4. Verify GPU is detected:
+       python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+
+  5. Run the search:
+       uv run python scripts/search_gpu.py --scale 200 --backend torch
+
+  Note: CuPy for AMD ROCm on Windows has no pre-built wheels.
+        Use --backend torch for all AMD GPU work on Windows.
+
+Install for NVIDIA RTX 4090 (CUDA, Linux or Windows)
+──────────────────────────────────────────────────────
   pip install cupy-cuda12x
+  # or, for PyTorch CUDA:
+  pip install torch  # default PyTorch wheel includes CUDA
 
 Usage
 ─────
