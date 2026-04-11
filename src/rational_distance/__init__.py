@@ -7,4 +7,5 @@ Modules:
   backend       – GPU/array-backend detection (CuPy, PyTorch, NumPy)
   search        – CPU search strategies (parametric fast, brute-force, dedup)
   search_gpu    – GPU-accelerated search (single process, vectorised)
+  search_ec     – elliptic-curve guided search (chord-tangent orbit expansion)
 """

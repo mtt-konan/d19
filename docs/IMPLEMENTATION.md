@@ -13,14 +13,16 @@ src/rational_distance/
 ├── square.py            — 数据结构：RationalPoint、D4 对称、距离计算
 ├── backend.py           — 后端检测：CuPy / PyTorch / NumPy 自动切换
 ├── search.py            — 搜索引擎：三种模式 + 向量化 + 多进程
-└── search_gpu.py        — GPU 加速路径（依赖 backend.py）
+├── search_gpu.py        — GPU 加速路径（依赖 backend.py）
+└── search_ec.py         — 椭圆曲线引导搜索（弦切法轨道展开）
 
 scripts/
-├── search_gpu.py        — 唯一 CLI 入口（支持 --backend numpy/cupy/torch/auto）
+├── search_gpu.py        — GPU/CPU 搜索 CLI 入口（支持 --backend numpy/cupy/torch/auto）
+├── search_ec.py         — 椭圆曲线搜索 CLI 入口
 └── visualize.py         — 可视化工具：从 JSON 生成 Plotly HTML 报告
 
 tests/
-└── test_all.py          — 统一测试套件（27 个用例）
+└── test_all.py          — 统一测试套件（44 个用例）
 ```
 
 ### 各模块依赖关系
@@ -239,3 +241,45 @@ GPU 路径目前未实现 int64 溢出自动回退（GPU 不支持 Python 任意
 | 3 | (x, y) | 升序 | 同等复杂度下字典序，结果可复现 |
 
 `denominator` = lcm(x.denominator, y.denominator)，反映点坐标的"复杂度"，与解的数论性质相关。
+
+---
+
+## 十、椭圆曲线引导搜索（search_ec.py）
+
+### 10.1 基本思路
+
+暴力搜索只能覆盖有限的参数范围。对每个本原勾股数 (p,q,r)，固定 P=(kp/r, kq/r) 后，dA=k 自然有理；dB 和 dD 有理的充要条件等价于某个亏格 1 超椭圆曲线上的有理点：
+
+```
+E² = F(t)
+F(t) = r²t⁴ + 4qrt³ + (2r²+4pq)t² + 4r(2p-q)t + (4p²-4pq+r²)
+```
+
+其中 t 是将 dB 有理化的坡度参数，E = r·dD·(1-t²)。
+
+### 10.2 算法流程
+
+1. **种子搜索**（`find_seeds_for_triple`）：暴力搜索 k=a/b（有界范围），找同时使 dB、dD 有理的 k 值，得到曲线上的有理种子点 (t, E)。
+
+2. **轨道展开**（`QuarticEC.expand_orbit`）：从种子点出发，用弦切法（切线 + 割线）在曲线上生成新的有理点。每个新有理点给出一个新的 k 值，即一个新的候选点 P。
+
+3. **四顶点检验**：由平行四边形恒等式 dA²+dC²=dB²+dD²，若 dB、dD、dA 均有理，则 dC 有理当且仅当 dB²+dD²-dA² 是完全有理平方。此检验通过一次 `rational_sqrt` 调用完成。
+
+### 10.3 QuarticEC 类接口
+
+| 方法 | 说明 |
+|------|------|
+| `F(t)` | 计算四次多项式 |
+| `on_curve(t, E)` | 验证点在曲线上 |
+| `k_from_t(t)` | 由坡度参数还原 k |
+| `t_from_k_dB(k, dB)` | 由 (k,dB) 恢复 t（最多两个解） |
+| `E_from_t_dD(t, dD)` | 计算对应的 E = r·dD·(1-t²) |
+| `tangent_points(t0, E0)` | 切线步：从一个点生成新点 |
+| `secant_points(t1,E1,t2,E2)` | 割线步：从两个点生成新点 |
+| `expand_orbit(seeds, max_steps)` | 完整轨道展开，返回有理 k 列表 |
+
+### 10.4 与暴力搜索的关系
+
+椭圆曲线搜索是暴力搜索的**第二层**：它以暴力搜索找到的种子为起点，通过代数方法（纯 Fraction 运算，无需 GPU）生成超出暴力搜索范围的解。两层搜索互补，不重叠：
+- 第一层（`search.py` / `search_gpu.py`）：覆盖有限参数范围内的所有三顶点解
+- 第二层（`search_ec.py`）：从种子出发沿轨道探索无界解空间
