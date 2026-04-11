@@ -11,16 +11,16 @@ src/rational_distance/
 ├── __init__.py          — 包入口，导出主要公共 API
 ├── math_utils.py        — 数学工具：有理平方根、本原勾股数生成
 ├── square.py            — 数据结构：RationalPoint、D4 对称、距离计算
+├── backend.py           — 后端检测：CuPy / PyTorch / NumPy 自动切换
 ├── search.py            — 搜索引擎：三种模式 + 向量化 + 多进程
-└── search_gpu.py        — GPU 加速路径：CuPy / PyTorch / NumPy 自动切换
+└── search_gpu.py        — GPU 加速路径（依赖 backend.py）
 
 scripts/
-├── search_3vertex.py    — 主入口 CLI（三/四顶点搜索）
-└── search_gpu.py        — GPU 搜索 CLI（同参数 + --backend 选项）
+├── search_gpu.py        — 唯一 CLI 入口（支持 --backend numpy/cupy/torch/auto）
+└── visualize.py         — 可视化工具：从 JSON 生成 Plotly HTML 报告
 
 tests/
-├── test_math_utils.py   — 数学工具单元测试
-└── test_search.py       — 搜索逻辑集成测试
+└── test_all.py          — 统一测试套件（27 个用例）
 ```
 
 ### 各模块依赖关系
@@ -207,6 +207,8 @@ for pt in sorted_points:
 
 ### 8.1 Backend 优先级
 
+Backend 检测逻辑已拆分到独立模块 `backend.py`，`search_gpu.py` 从中导入：
+
 ```
 detect_backend():
     1. 尝试 CuPy（import cupy）→ 最快，原生 numpy-like API
@@ -216,7 +218,7 @@ detect_backend():
 
 ### 8.2 `_TorchXP` 封装
 
-由于 PyTorch 的数组 API 与 numpy/cupy 不完全兼容，`_TorchXP` 是一个薄包装器，实现了 `_search_triple_gpu` 所需的接口（`zeros_like`、`floor`、`sqrt`、`.astype()`、`.get()` 等）。
+由于 PyTorch 的数组 API 与 numpy/cupy 不完全兼容，`backend.py` 中的 `_TorchXP` 是一个薄包装器，实现了 `_search_triple_gpu` 所需的接口（`zeros_like`、`floor`、`sqrt` 等）。dtype 转换统一使用 `_xp_cast(arr, dtype)` 辅助函数（numpy 用 `.astype()`，torch 用 `.to(dtype)`）。
 
 ### 8.3 GPU 路径的 int64 限制
 

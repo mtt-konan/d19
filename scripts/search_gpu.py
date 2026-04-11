@@ -43,13 +43,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
+from rational_distance.backend import _try_torch, detect_backend
 from rational_distance.search import (
     brute_force_search,
     dedup_by_symmetry,
     merge_results,
     parametric_search_fast,
 )
-from rational_distance.search_gpu import detect_backend, parametric_search_gpu
+from rational_distance.search_gpu import parametric_search_gpu
 from rational_distance.square import RationalPoint
 
 
@@ -139,7 +140,6 @@ def main() -> None:
         xp = cp
         backend_name = "forced:cupy"
     elif args.backend == "torch":
-        from rational_distance.search_gpu import _try_torch
         xp = _try_torch()
         if xp is None:
             print("ERROR: PyTorch ROCm/CUDA not available.", file=sys.stderr)

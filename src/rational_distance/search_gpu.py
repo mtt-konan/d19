@@ -1,24 +1,7 @@
 """GPU-accelerated rational-distance search using CuPy or PyTorch.
 
-Backend priority (auto-detected at import time):
-  1. CuPy  — nearly identical API to numpy; works with CUDA and ROCm
-  2. PyTorch CUDA/ROCm — fallback when CuPy is unavailable
-  3. NumPy  — final CPU fallback; still benefits from vectorisation
+Search logic only.  Backend detection lives in `backend.py`.
 
-For AMD Ryzen AI Max+ 392 (ROCm):
-  # Ubuntu / Arch, match your ROCm version
-  pip install cupy-rocm-6-0        # ROCm 6.x wheels
-  # or build from source for ROCm 7.0:
-  #   HIP_PATH=/opt/rocm pip install cupy --no-build-isolation
-
-  # PyTorch ROCm fallback (always works):
-  pip install torch --index-url https://download.pytorch.org/whl/rocm6.2
-
-For NVIDIA RTX 4090 (CUDA):
-  pip install cupy-cuda12x
-
-Design
-──────
 Unlike parametric_search_fast (multiprocessing), this runs in a *single
 process*.  The GPU replaces multi-core CPU parallelism: each triple's
 entire (a,b) array is dispatched as one GPU kernel that operates on up to
@@ -35,163 +18,14 @@ printed and the caller should switch to the CPU integer path.
 from __future__ import annotations
 
 import sys
-import time
 from fractions import Fraction
 from math import gcd
-from typing import Callable
 
 import numpy as np
 
+from rational_distance.backend import _xp_cast, detect_backend
 from rational_distance.math_utils import primitive_pythagorean_triples
 from rational_distance.square import RationalPoint
-
-
-def _xp_cast(t, dtype):
-    """Cast array *t* to *dtype*, compatible with both NumPy (.astype) and
-    PyTorch tensors (.to).  CuPy arrays also support .astype."""
-    if isinstance(t, np.ndarray):
-        return t.astype(dtype)
-    # PyTorch tensor (or CuPy array that also has .to):
-    if hasattr(t, "to") and not hasattr(t, "astype"):
-        return t.to(dtype)
-    return t.astype(dtype)  # CuPy
-
-# ── Backend detection ─────────────────────────────────────────────────────────
-
-def _try_cupy():
-    """Return CuPy module if a GPU device is accessible, else None."""
-    try:
-        import cupy as cp
-        cp.array([1], dtype=cp.int64)  # triggers device init
-        return cp
-    except Exception:
-        return None
-
-
-def _try_torch():
-    """Return a torch-wrapping namespace if ROCm/CUDA is available, else None."""
-    try:
-        import torch
-        if not torch.cuda.is_available():
-            return None
-
-        class _TorchXP:
-            """Minimal numpy-compatible wrapper around torch CUDA tensors."""
-
-            def __init__(self, device):
-                self._dev = device
-                self.int64 = torch.int64
-                self.float64 = torch.float64
-
-            # ── Array creation ────────────────────────────────────────────
-            def array(self, x, dtype=None):
-                if isinstance(x, np.ndarray):
-                    t = torch.from_numpy(x)
-                else:
-                    t = torch.tensor(x)
-                t = t.to(self._dev)
-                if dtype is not None:
-                    t = t.to(dtype)
-                return t
-
-            def zeros(self, shape, dtype=None):
-                kw = {"dtype": dtype or torch.int64, "device": self._dev}
-                return torch.zeros(shape, **kw)
-
-            # ── Math ops ──────────────────────────────────────────────────
-            def floor(self, t):
-                return torch.floor(t)
-
-            def sqrt(self, t):
-                return torch.sqrt(t)
-
-            def any(self, t):
-                return bool(t.any())
-
-            def where(self, cond):
-                return torch.where(cond)
-
-            # ── .get() helper so caller can call .get() on results ────────
-            @staticmethod
-            def _wrap(t):
-                return _TorchArrayWrapper(t)
-
-        class _TorchArrayWrapper:
-            """Wrap a torch tensor so .get() returns a numpy array."""
-            def __init__(self, t):
-                self._t = t
-
-            def __getitem__(self, idx):
-                return _TorchArrayWrapper(self._t[idx])
-
-            def __len__(self):
-                return len(self._t)
-
-            def get(self):
-                return self._t.cpu().numpy()
-
-            # forward arithmetic operators to underlying tensor
-            def __add__(self, o):
-                return _TorchArrayWrapper(self._t + (o._t if isinstance(o, _TorchArrayWrapper) else o))
-            def __sub__(self, o):
-                return _TorchArrayWrapper(self._t - (o._t if isinstance(o, _TorchArrayWrapper) else o))
-            def __mul__(self, o):
-                return _TorchArrayWrapper(self._t * (o._t if isinstance(o, _TorchArrayWrapper) else o))
-            def __eq__(self, o):
-                return _TorchArrayWrapper(self._t == (o._t if isinstance(o, _TorchArrayWrapper) else o))
-            def __or__(self, o):
-                return _TorchArrayWrapper(self._t | (o._t if isinstance(o, _TorchArrayWrapper) else o))
-            def __invert__(self):
-                return _TorchArrayWrapper(~self._t)
-            def __pow__(self, n):
-                return _TorchArrayWrapper(self._t ** n)
-            def __radd__(self, o):
-                return _TorchArrayWrapper(o + self._t)
-            def __rsub__(self, o):
-                return _TorchArrayWrapper(o - self._t)
-            def __rmul__(self, o):
-                return _TorchArrayWrapper(o * self._t)
-            def astype(self, dtype):
-                return _TorchArrayWrapper(self._t.to(dtype))
-            def all(self):
-                return bool(self._t.all())
-            def __bool__(self):
-                return bool(self._t)
-
-        dev = torch.device("cuda")
-        torch.tensor([1], dtype=torch.int64, device=dev)  # test
-        xp = _TorchXP(dev)
-        xp._torch = torch
-        xp._dev = dev
-        return xp
-    except Exception:
-        return None
-
-
-def detect_backend() -> tuple:
-    """Return (xp, backend_name, is_gpu).
-
-    xp is the array module to use (cupy / torch-wrapper / numpy).
-    """
-    cp = _try_cupy()
-    if cp is not None:
-        # Distinguish CUDA vs ROCm via driver info
-        try:
-            name = cp.cuda.runtime.getDeviceProperties(0)["name"].decode()
-        except Exception:
-            name = "GPU"
-        return cp, f"CuPy — {name}", True
-
-    txp = _try_torch()
-    if txp is not None:
-        try:
-            import torch
-            name = torch.cuda.get_device_name(0)
-        except Exception:
-            name = "GPU"
-        return txp, f"PyTorch ROCm/CUDA — {name}", True
-
-    return np, "NumPy (CPU fallback — no GPU found)", False
 
 
 # ── Core per-triple GPU search ────────────────────────────────────────────────

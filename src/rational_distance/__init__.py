@@ -2,8 +2,9 @@
 Rational distance to unit square vertices.
 
 Modules:
-  math_utils    – rational arithmetic helpers (is_rational_sqrt, etc.)
-  pythagorean   – primitive Pythagorean triple generation & parametrization
-  square        – unit-square distance checker & Point type
-  search        – search strategies (parametric, brute-force)
+  math_utils    – rational arithmetic helpers (rational_sqrt, primitive triples)
+  square        – unit-square distance checker & RationalPoint type
+  backend       – GPU/array-backend detection (CuPy, PyTorch, NumPy)
+  search        – CPU search strategies (parametric fast, brute-force, dedup)
+  search_gpu    – GPU-accelerated search (single process, vectorised)
 """
