@@ -39,8 +39,153 @@ from fractions import Fraction
 from math import gcd, isqrt
 from typing import Optional
 
+import numpy as np
+
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance.square import RationalPoint, canonical_xy, make_point
+
+
+# ---------------------------------------------------------------------------
+# Vectorized seed-finding helpers
+# ---------------------------------------------------------------------------
+
+def _build_coprime_arrays(max_k_num: int, max_k_den: int) -> tuple[np.ndarray, np.ndarray]:
+    """Return int64 arrays (a_arr, b_arr) of all coprime pairs a≤max_k_num, b≤max_k_den."""
+    pairs = [
+        (a, b)
+        for b in range(1, max_k_den + 1)
+        for a in range(1, max_k_num + 1)
+        if gcd(a, b) == 1
+    ]
+    if not pairs:
+        return np.empty(0, dtype=np.int64), np.empty(0, dtype=np.int64)
+    a_arr = np.array([a for a, b in pairs], dtype=np.int64)
+    b_arr = np.array([b for a, b in pairs], dtype=np.int64)
+    return a_arr, b_arr
+
+
+def _isqrt_arr(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Vectorized perfect-square check.  Returns (ok, s) where s = isqrt(t)."""
+    s = np.floor(np.sqrt(t.astype(np.float64))).astype(np.int64)
+    ok = s * s == t
+    s1 = s + 1
+    fix = ~ok & (s1 * s1 == t)
+    ok |= fix
+    s[fix] = s1[fix]
+    return ok, s
+
+
+def _find_seeds_numpy(
+    p: int, q: int, r: int,
+    a_arr: np.ndarray,
+    b_arr: np.ndarray,
+    inside_only: bool = False,
+) -> list[tuple[int, int, int, int]]:
+    """Vectorized seed finder (numpy).
+
+    Returns list of (a, b, sB, sD) integer tuples where
+    k = a/b,  dB = sB / (b*r),  dD = sD / (b*r).
+    """
+    # Side-exclusion: skip x=1 (a*p == b*r) and y=1 (a*q == b*r)
+    mask = ~((a_arr * p == b_arr * r) | (a_arr * q == b_arr * r))
+    if inside_only:
+        mask &= (a_arr * p < b_arr * r) & (a_arr * q < b_arr * r)
+    a = a_arr[mask]
+    b = b_arr[mask]
+    if len(a) == 0:
+        return []
+
+    ar = a * r
+    bp = b * p
+    bq = b * q
+
+    # dB check: tB = (ar-bp)² + (bq)² must be a perfect square
+    tB = (ar - bp) ** 2 + bq ** 2
+    okB, sB = _isqrt_arr(tB)
+    if not okB.any():
+        return []
+
+    # Early exit: only check dD for rows that passed dB
+    a2, b2, sB2 = a[okB], b[okB], sB[okB]
+    tD = (a2 * r - b2 * q) ** 2 + (b2 * p) ** 2
+    okD, sD = _isqrt_arr(tD)
+
+    results: list[tuple[int, int, int, int]] = []
+    for i in okD.nonzero()[0]:
+        results.append((int(a2[i]), int(b2[i]), int(sB2[i]), int(sD[i])))
+    return results
+
+
+def _find_seeds_gpu(
+    xp,
+    p: int, q: int, r: int,
+    a_dev, b_dev,
+    inside_only: bool = False,
+) -> list[tuple[int, int, int, int]]:
+    """Vectorized seed finder for GPU (cupy / torch wrapper).
+
+    Computes tB and tD simultaneously on GPU, transfers only the (rare) hits
+    back to CPU for exact isqrt verification.  Returns list of (a, b, sB, sD).
+    """
+    from rational_distance.backend import _xp_cast
+
+    mask = ~((a_dev * p == b_dev * r) | (a_dev * q == b_dev * r))
+    if inside_only:
+        mask = mask & (a_dev * p < b_dev * r) & (a_dev * q < b_dev * r)
+    a = a_dev[mask]
+    b = b_dev[mask]
+    if len(a) == 0:
+        return []
+
+    ar = a * r
+    bp = b * p
+    bq = b * q
+
+    tB = (ar - bp) ** 2 + bq ** 2
+    tD = (ar - bq) ** 2 + bp ** 2
+
+    # GPU isqrt: approximate via float64 sqrt; hits are verified precisely on CPU
+    sB_f = _xp_cast(xp.floor(xp.sqrt(_xp_cast(tB, xp.float64))), xp.int64)
+    sD_f = _xp_cast(xp.floor(xp.sqrt(_xp_cast(tD, xp.float64))), xp.int64)
+    okB = (sB_f * sB_f == tB) | ((sB_f + 1) * (sB_f + 1) == tB)
+    okD = (sD_f * sD_f == tD) | ((sD_f + 1) * (sD_f + 1) == tD)
+
+    mask2 = okB & okD
+    if not xp.any(mask2):
+        return []
+
+    idx = xp.where(mask2)[0]
+
+    def _to_cpu(arr):
+        sliced = arr[idx]
+        if hasattr(sliced, "get"):        # CuPy
+            return sliced.get()
+        if hasattr(sliced, "cpu"):        # PyTorch tensor
+            return sliced.cpu().numpy()
+        return np.asarray(sliced)         # NumPy passthrough
+
+    a_hit = _to_cpu(a)
+    b_hit = _to_cpu(b)
+
+    # Recompute tB/tD on CPU using Python int arithmetic (exact, no overflow).
+    # This avoids trusting potentially-overflowed device values for correctness.
+    results: list[tuple[int, int, int, int]] = []
+    for i in range(len(a_hit)):
+        a_i, b_i = int(a_hit[i]), int(b_hit[i])
+        tB_i = (a_i * r - b_i * p) ** 2 + (b_i * q) ** 2
+        sB_i = isqrt(tB_i)
+        if sB_i * sB_i != tB_i:
+            sB_i += 1
+            if sB_i * sB_i != tB_i:
+                continue
+        tD_i = (a_i * r - b_i * q) ** 2 + (b_i * p) ** 2
+        sD_i = isqrt(tD_i)
+        if sD_i * sD_i != tD_i:
+            sD_i += 1
+            if sD_i * sD_i != tD_i:
+                continue
+        results.append((a_i, b_i, sB_i, sD_i))
+    return results
 
 
 # ---------------------------------------------------------------------------
@@ -276,6 +421,23 @@ class QuarticEC:
 # Seed finder: brute-force search for (k, dB, dD) all rational
 # ---------------------------------------------------------------------------
 
+# Largest X such that X² fits in int64 and (X+1)² also fits.
+# Ensures each squared term in tB/tD stays within int64 range.
+# isqrt((INT64_MAX - 1) // 2) = 2^31 - 1 = 2 147 483 647.
+_INT64_SAFE_HALF: int = (1 << 31) - 1
+
+
+def _seeds_raw_to_fractions(
+    raw: list[tuple[int, int, int, int]], r: int
+) -> list[tuple[Fraction, Fraction, Fraction]]:
+    """Convert (a, b, sB, sD) integer tuples to (k, dB, dD) Fraction triples."""
+    seeds = []
+    for a, b, sB, sD in raw:
+        br = b * r
+        seeds.append((Fraction(a, b), Fraction(sB, br), Fraction(sD, br)))
+    return seeds
+
+
 def find_seeds_for_triple(
     p: int,
     q: int,
@@ -283,33 +445,43 @@ def find_seeds_for_triple(
     max_k_num: int,
     max_k_den: int,
     inside_only: bool = False,
+    _a_arr: "np.ndarray | None" = None,
+    _b_arr: "np.ndarray | None" = None,
 ) -> list[tuple[Fraction, Fraction, Fraction]]:
-    """Find all rational k = a/b ∈ (0, max_k_num/max_k_den] such that
-    dB = |P-B| and dD = |P-D| are both rational, where P=(kp/r, kq/r).
+    """Find all rational k = a/b such that dB and dD are both rational.
 
     These are seeds for the quartic elliptic curve associated with (p,q,r).
-
     Returns a list of (k, dB, dD) Fraction triples.  Points on extended
-    sides (x=1 or y=1) are excluded by the side-exclusion theorem.
-    """
-    seeds: list[tuple[Fraction, Fraction, Fraction]] = []
+    sides (x=1 or y=1) are excluded.
 
+    Uses numpy vectorisation when int64 arithmetic is safe for the given r;
+    falls back to exact Python-int arithmetic for very large r.
+    Pre-built coprime arrays may be passed as _a_arr/_b_arr to avoid
+    rebuilding them when calling this function many times in a loop.
+    """
+    # Int64 safety: tB/tD dominant term ≤ 2*((max_k_num+max_k_den)*r)².
+    # Require (max_k_num+max_k_den)*r ≤ _INT64_SAFE_HALF.
+    coeff = max_k_num + max_k_den
+    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10 ** 18
+
+    if r <= safe_r_max:
+        # Fast numpy path
+        if _a_arr is None:
+            _a_arr, _b_arr = _build_coprime_arrays(max_k_num, max_k_den)
+        raw = _find_seeds_numpy(p, q, r, _a_arr, _b_arr, inside_only)
+        return _seeds_raw_to_fractions(raw, r)
+
+    # Fallback: exact Python-int arithmetic (no overflow possible)
+    seeds: list[tuple[Fraction, Fraction, Fraction]] = []
     for b in range(1, max_k_den + 1):
         for a in range(1, max_k_num + 1):
             if gcd(a, b) != 1:
                 continue
-
-            # Side exclusion: x = ap/br = 1 iff a*p = b*r; similarly y=1 iff a*q = b*r
             if a * p == b * r or a * q == b * r:
                 continue
-
-            # inside_only: require 0 < x < 1 and 0 < y < 1
             if inside_only and (a * p > b * r or a * q > b * r):
                 continue
-
             ar, bp, bq, br = a * r, b * p, b * q, b * r
-
-            # dB² = ((ar-bp)² + bq²) / br² — check numerator is a perfect square
             tB = (ar - bp) ** 2 + bq * bq
             sB = isqrt(tB)
             if sB * sB != tB:
@@ -317,8 +489,6 @@ def find_seeds_for_triple(
                 if s1 * s1 != tB:
                     continue
                 sB = s1
-
-            # dD² = ((ar-bq)² + bp²) / br² — check numerator is a perfect square
             tD = (ar - bq) ** 2 + bp * bp
             sD = isqrt(tD)
             if sD * sD != tD:
@@ -326,12 +496,7 @@ def find_seeds_for_triple(
                 if s1 * s1 != tD:
                     continue
                 sD = s1
-
-            k = Fraction(a, b)
-            dB = Fraction(sB, br)
-            dD = Fraction(sD, br)
-            seeds.append((k, dB, dD))
-
+            seeds.append((Fraction(a, b), Fraction(sB, br), Fraction(sD, br)))
     return seeds
 
 
@@ -372,6 +537,7 @@ def ec_search(
     min_rational: int = 3,
     inside_only: bool = False,
     progress: bool = True,
+    xp=None,
 ) -> list[RationalPoint]:
     """Search for rational-distance points using the elliptic-curve method.
 
@@ -385,6 +551,12 @@ def ec_search(
        rational distances (including dC via the parallelogram law).
     6. Deduplicate by D4 symmetry.
 
+    Parameters
+    ----------
+    xp : array backend for GPU acceleration.  Pass the cupy module or a
+         PyTorch wrapper (as returned by detect_backend) to use the GPU for
+         the seed-finding step.  None (default) uses numpy on CPU.
+
     Returns a list of RationalPoints sorted by denominator.
     """
     try:
@@ -396,12 +568,34 @@ def ec_search(
 
     triples = primitive_pythagorean_triples(max_m)
 
+    # Build coprime arrays once; upload to device if a real GPU backend given.
+    _use_gpu = xp is not None and xp is not np
+    a_cpu, b_cpu = _build_coprime_arrays(max_k_num, max_k_den)
+    if _use_gpu:
+        a_dev = xp.array(a_cpu.tolist(), dtype=xp.int64)
+        b_dev = xp.array(b_cpu.tolist(), dtype=xp.int64)
+    else:
+        a_dev = b_dev = None  # not used
+
+    # Int64 safety bound — same logic as in find_seeds_for_triple
+    coeff = max_k_num + max_k_den
+    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10 ** 18
+
     seen_canonical: set[tuple[Fraction, Fraction]] = set()
     results: list[RationalPoint] = []
 
     it = _tqdm(triples, desc="EC search", unit="triple", disable=not progress)
     for p, q, r in it:
-        seeds_raw = find_seeds_for_triple(p, q, r, max_k_num, max_k_den, inside_only)
+        # Seed finding — GPU, numpy, or Python fallback based on safety
+        if _use_gpu and r <= safe_r_max:
+            raw = _find_seeds_gpu(xp, p, q, r, a_dev, b_dev, inside_only)
+            seeds_raw = _seeds_raw_to_fractions(raw, r)
+        else:
+            seeds_raw = find_seeds_for_triple(
+                p, q, r, max_k_num, max_k_den, inside_only,
+                _a_arr=a_cpu, _b_arr=b_cpu,
+            )
+
         if not seeds_raw:
             continue
 

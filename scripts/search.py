@@ -271,10 +271,33 @@ def _run_parametric(args: argparse.Namespace) -> None:
 # ── Subcommand: ec ────────────────────────────────────────────────────────────
 
 def _run_ec(args: argparse.Namespace) -> None:
+    from rational_distance.backend import _try_torch, detect_backend
     from rational_distance.search_ec import ec_search
+
+    # Resolve backend for the seed-finding step
+    xp = None
+    backend_name = "numpy (CPU)"
+    if args.backend == "numpy":
+        pass  # xp stays None → numpy path
+    elif args.backend == "cupy":
+        import cupy as cp
+        xp = cp
+        backend_name = "forced:cupy"
+    elif args.backend == "torch":
+        xp = _try_torch()
+        if xp is None:
+            print("ERROR: PyTorch ROCm/CUDA not available.", file=sys.stderr)
+            sys.exit(1)
+        backend_name = "forced:torch"
+    elif args.backend == "auto":
+        xp_auto, backend_name, _ = detect_backend()
+        import numpy as _np
+        xp = None if xp_auto is _np else xp_auto
+        backend_name = backend_name if xp is not None else "numpy (CPU)"
 
     print("=" * 72)
     print("Rational distance search [ec] — A(0,0) B(1,0) C(1,1) D(0,1)")
+    print(f"  backend  : {backend_name}")
     print(f"  max_m={args.max_m}, seed range k_num≤{args.max_k_num}, "
           f"k_den≤{args.max_k_den}")
     print(f"  max_steps={args.max_steps}, min_rational={args.min_rational}, "
@@ -290,6 +313,7 @@ def _run_ec(args: argparse.Namespace) -> None:
         min_rational=args.min_rational,
         inside_only=args.inside,
         progress=not args.no_progress,
+        xp=xp,
     )
     elapsed = time.perf_counter() - t0
 
@@ -362,6 +386,9 @@ def build_parser() -> argparse.ArgumentParser:
                    help="Max denominator for seed search k=a/b (default: 800)")
     e.add_argument("--max-steps", type=int, default=20,
                    help="Max chord-tangent expansion steps per orbit (default: 20)")
+    e.add_argument("--backend", type=str, default="auto",
+                   choices=["auto", "cupy", "torch", "numpy"],
+                   help="Backend for seed finding: auto|cupy|torch|numpy (default: auto)")
     _add_common_args(e)
 
     return parser
