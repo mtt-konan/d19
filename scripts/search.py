@@ -628,19 +628,20 @@ def build_parser() -> argparse.ArgumentParser:
         description=(
             "Find integer 4-tuples (a,b,c,d) where a²+b², b²+c², c²+d², d²+a²\n"
             "are all perfect squares (each consecutive pair is a Pythagorean triple).\n"
-            "When a+c == b+d == k, point (a/k, b/k) has rational distances to all\n"
-            "four corners of the unit square A(0,0) B(1,0) C(1,1) D(0,1).\n\n"
+            "Without --require-square these are generalised rectangle solutions;\n"
+            "with --require-square (a+c == b+d) only unit-square candidates are shown.\n\n"
             "Examples:\n"
-            "  uv run python scripts/search.py chain --max-val 200\n"
-            "  uv run python scripts/search.py chain --max-val 500 --require-square\n"
-            "  uv run python scripts/search.py chain --max-val 1000 --out chain.json"
+            "  uv run python scripts/search.py chain\n"
+            "  uv run python scripts/search.py chain --max-val 1000\n"
+            "  uv run python scripts/search.py chain --max-val 2000 --out chain.json\n"
+            "  uv run python scripts/search.py chain --max-val 5000 --require-square"
         ),
     )
     c.add_argument(
         "--max-val",
         type=int,
-        default=200,
-        help="Upper bound for all four integers a,b,c,d (default: 200)",
+        default=500,
+        help="Upper bound for all four integers a,b,c,d (default: 500)",
     )
     c.add_argument(
         "--require-square",
