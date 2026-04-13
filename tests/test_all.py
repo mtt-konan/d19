@@ -928,3 +928,70 @@ class TestChainSearch:
         assert "x3:" in s
         assert "x4:" in s
         assert "→" in s
+
+
+class TestChainFast:
+    """Tests for the O(n²) primitive-triple-pair chain search."""
+
+    def test_returns_list(self):
+        """find_chains_fast should return an empty list (no Harborth solution known)."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        results = find_chains_fast(max_hyp=200, progress=False)
+        assert isinstance(results, list)
+
+    def test_all_results_square_ok(self):
+        """All results must satisfy a+c == b+d by construction."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        for r in find_chains_fast(max_hyp=500, progress=False):
+            assert r.square_ok, f"square_ok should be True: {r}"
+            assert r.a + r.c == r.b + r.d, f"a+c != b+d: {r}"
+
+    def test_pythagorean_conditions(self):
+        """All four hypotenuses must be correct integer square roots."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        for r in find_chains_fast(max_hyp=500, progress=False):
+            assert r.x1 ** 2 == r.a ** 2 + r.b ** 2, f"x1 wrong: {r}"
+            assert r.x2 ** 2 == r.b ** 2 + r.c ** 2, f"x2 wrong: {r}"
+            assert r.x3 ** 2 == r.c ** 2 + r.d ** 2, f"x3 wrong: {r}"
+            assert r.x4 ** 2 == r.d ** 2 + r.a ** 2, f"x4 wrong: {r}"
+
+    def test_no_cross_product_family(self):
+        """No result should belong to the cross-product family (ac == bd)."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        for r in find_chains_fast(max_hyp=500, progress=False):
+            assert r.a * r.c != r.b * r.d, f"Cross-product family found: {r}"
+
+    def test_all_distinct(self):
+        """All four values a,b,c,d must be distinct."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        for r in find_chains_fast(max_hyp=500, progress=False):
+            assert len({r.a, r.b, r.c, r.d}) == 4, f"Non-distinct: {r}"
+
+    def test_no_duplicates(self):
+        """No two results should be equivalent under the dihedral symmetry group."""
+        from rational_distance.search_chain import _symmetry_group
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        results = find_chains_fast(max_hyp=500, progress=False)
+        keys: set[tuple[int, int, int, int]] = set()
+        for r in results:
+            syms = _symmetry_group(r.a, r.b, r.c, r.d)
+            key = min(syms)
+            assert key not in keys, f"Duplicate via symmetry: {(r.a,r.b,r.c,r.d)}"
+            keys.add(key)
+
+    def test_consistent_with_chain_no_solution(self):
+        """Both search methods should agree: no unit-square solution in small range."""
+        from rational_distance.search_chain import find_chains
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        fast = find_chains_fast(max_hyp=200, progress=False)
+        slow = find_chains(max_val=200, require_square=True, progress=False)
+        assert fast == [] and slow == [], (
+            f"Unexpected results: fast={fast}, slow={slow}"
+        )

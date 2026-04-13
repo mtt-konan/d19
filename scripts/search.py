@@ -5,6 +5,7 @@ Single entry point supporting three complementary search methods:
   parametric   Parametric brute-force search (GPU / CPU multiprocessing)
   ec           Elliptic-curve guided search (chord-tangent orbit expansion)
   chain        Pythagorean 4-cycle search (generalised rectangle problem)
+  chain-fast   O(n²) primitive-triple-pair 4-cycle search (unit-square only)
 
 ──────────────────────────────────────────────────────────────────────────
 PARAMETRIC METHOD
@@ -48,6 +49,17 @@ This is the generalised rectangle problem.  When a+c == b+d == k the point
   uv run python scripts/search.py chain --max-val 200
   uv run python scripts/search.py chain --max-val 500 --require-square
   uv run python scripts/search.py chain --max-val 1000 --out chain.json
+
+──────────────────────────────────────────────────────────────────────────
+CHAIN-FAST METHOD
+──────────────────────────────────────────────────────────────────────────
+O(n²) search over primitive-triple pairs.  For each ordered pair (T1, T2)
+of primitive triples with hypotenuse ≤ max_hyp, derives the unique 4-cycle
+candidate satisfying a+c=b+d and verifies two perfect-square conditions.
+All results satisfy the unit-square constraint by construction.
+
+  uv run python scripts/search.py chain-fast --max-hyp 200
+  uv run python scripts/search.py chain-fast --max-hyp 1000 --out fast.json
 
 ──────────────────────────────────────────────────────────────────────────
 GPU SETUP — AMD Ryzen AI Max+ 392 (Windows, ROCm)
@@ -457,6 +469,41 @@ def _run_chain(args: argparse.Namespace) -> None:
         print(f"\nResults saved to {args.out}")
 
 
+def _run_chain_fast(args: argparse.Namespace) -> None:
+    from rational_distance.search_chain import results_to_json
+    from rational_distance.search_chain_fast import find_chains_fast
+
+    print("=" * 72)
+    print("Pythagorean 4-cycle fast search — O(n²) primitive-triple-pair method")
+    print(f"  max_hyp={args.max_hyp}  (solution values can reach O(max_hyp²))")
+    print("=" * 72)
+
+    t0 = time.perf_counter()
+    results = find_chains_fast(
+        max_hyp=args.max_hyp,
+        progress=not args.no_progress,
+    )
+    elapsed = time.perf_counter() - t0
+
+    print(f"\nFound {len(results)} unit-square 4-cycle solution(s) in {elapsed:.1f}s")
+    print("  All results satisfy a+c == b+d by construction.")
+
+    top = args.top if args.top > 0 else len(results)
+    if results:
+        print()
+        for r in results[:top]:
+            print(str(r))
+            print()
+        if len(results) > top:
+            print(f"  ... {len(results) - top} more rows suppressed (use --top 0 to show all)")
+
+    if args.out:
+        data = results_to_json(results, args.max_hyp, require_square=True, elapsed=elapsed)
+        with open(args.out, "w") as f:
+            json.dump(data, f, indent=2)
+        print(f"\nResults saved to {args.out}")
+
+
 # ── Argument parser ───────────────────────────────────────────────────────────
 
 
@@ -604,6 +651,32 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
     c.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
 
+    # ── chain-fast ───────────────────────────────────────────────────────────
+    cf = sub.add_parser(
+        "chain-fast",
+        help="O(n²) primitive-triple-pair 4-cycle search (unit-square only)",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(
+            "O(n²) search over all ordered pairs of primitive Pythagorean triples\n"
+            "(T1, T2) with hypotenuse ≤ max_hyp.  For each pair, derives the unique\n"
+            "4-cycle candidate satisfying a+c=b+d and checks two perfect-square\n"
+            "conditions.  All results satisfy the unit-square constraint by construction.\n\n"
+            "Solution values (a,b,c,d) can be as large as O(max_hyp²).\n\n"
+            "Examples:\n"
+            "  uv run python scripts/search.py chain-fast --max-hyp 200\n"
+            "  uv run python scripts/search.py chain-fast --max-hyp 1000 --out fast.json"
+        ),
+    )
+    cf.add_argument(
+        "--max-hyp",
+        type=int,
+        default=500,
+        help="Max hypotenuse of primitive triples T1, T2 (default: 500)",
+    )
+    cf.add_argument("--out", type=str, default=None, help="Write JSON results to this file")
+    cf.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
+    cf.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+
     return parser
 
 
@@ -616,6 +689,8 @@ def main() -> None:
         _run_ec(args)
     elif args.method == "chain":
         _run_chain(args)
+    elif args.method == "chain-fast":
+        _run_chain_fast(args)
 
 
 if __name__ == "__main__":
