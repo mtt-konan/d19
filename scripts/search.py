@@ -63,35 +63,44 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # ── Shared formatting ─────────────────────────────────────────────────────────
 
+
 def _header() -> str:
-    return (f"{'cnt':>3}  {'den':>7}  {'x':>14}  {'y':>14}  "
-            f"{'d(A)':>10}  {'d(B)':>10}  {'d(C)':>10}  {'d(D)':>10}")
+    return (
+        f"{'cnt':>3}  {'den':>7}  {'x':>14}  {'y':>14}  "
+        f"{'d(A)':>10}  {'d(B)':>10}  {'d(C)':>10}  {'d(D)':>10}"
+    )
 
 
 def _row(pt) -> str:
     def fmt(d):
-        return f"{str(d):>10}" if d is not None else f"{'?':>10}"
+        return f"{d!s:>10}" if d is not None else f"{'?':>10}"
+
     dA, dB, dC, dD = pt.distances
-    return (f"{pt.rational_count:>3}  {pt.denominator:>7}  "
-            f"{str(pt.x):>14}  {str(pt.y):>14}  "
-            f"{fmt(dA)}  {fmt(dB)}  {fmt(dC)}  {fmt(dD)}")
+    return (
+        f"{pt.rational_count:>3}  {pt.denominator:>7}  "
+        f"{pt.x!s:>14}  {pt.y!s:>14}  "
+        f"{fmt(dA)}  {fmt(dB)}  {fmt(dC)}  {fmt(dD)}"
+    )
 
 
 def _size_estimate(max_m: int, max_k_num: int, max_k_den: int) -> str:
-    n_triples = sum(
-        1 for m in range(2, max_m + 1) for n in range(1, m)
-        if (m - n) % 2 == 1 and gcd(m, n) == 1
-    ) * 2
+    n_triples = (
+        sum(
+            1
+            for m in range(2, max_m + 1)
+            for n in range(1, m)
+            if (m - n) % 2 == 1 and gcd(m, n) == 1
+        )
+        * 2
+    )
     n_pairs = sum(
-        1 for b in range(1, max_k_den + 1)
-        for a in range(1, max_k_num + 1)
-        if gcd(a, b) == 1
+        1 for b in range(1, max_k_den + 1) for a in range(1, max_k_num + 1) if gcd(a, b) == 1
     )
     total = n_triples * n_pairs
     if total >= 1_000_000_000:
-        return f"{total/1e9:.1f}B"
+        return f"{total / 1e9:.1f}B"
     if total >= 1_000_000:
-        return f"{total/1e6:.1f}M"
+        return f"{total / 1e6:.1f}M"
     return f"{total:,}"
 
 
@@ -100,15 +109,17 @@ def _print_summary(results, elapsed, deduped_from=None):
     for pt in results:
         count_by_n[pt.rational_count] = count_by_n.get(pt.rational_count, 0) + 1
 
-    print(f"\n{'─'*72}")
+    print(f"\n{'─' * 72}")
     if deduped_from is not None and deduped_from != len(results):
-        print(f"Found {deduped_from} points → {len(results)} orbits after D4 dedup  ({elapsed:.2f}s)")
+        print(
+            f"Found {deduped_from} points → {len(results)} orbits after D4 dedup  ({elapsed:.2f}s)"
+        )
     else:
         print(f"Found {len(results)} unique points in {elapsed:.2f}s")
     for n in sorted(count_by_n, reverse=True):
         marker = " ◄ 4-VERTEX SOLUTION!" if n == 4 else ""
         print(f"  {count_by_n[n]:6d}  points with {n}/4 rational distances{marker}")
-    print(f"{'─'*72}\n")
+    print(f"{'─' * 72}\n")
     return count_by_n
 
 
@@ -125,17 +136,24 @@ def _print_table(results, top):
 def _print_four_vertex(results):
     four = [pt for pt in results if pt.rational_count == 4]
     if four:
-        print(f"\n{'!'*72}")
+        print(f"\n{'!' * 72}")
         print(f"  {len(four)} POINT(S) WITH ALL FOUR RATIONAL DISTANCES:")
         for pt in four:
             print(f"  {pt}")
-        print(f"{'!'*72}")
+        print(f"{'!' * 72}")
     else:
         print("\n(No 4-vertex solutions found in this search range.)")
 
 
-def _save_json(path: str, method: str, params: dict, elapsed: float,
-               results, count_by_n: dict, backend: str = "") -> None:
+def _save_json(
+    path: str,
+    method: str,
+    params: dict,
+    elapsed: float,
+    results,
+    count_by_n: dict,
+    backend: str = "",
+) -> None:
     payload = {
         "method": method,
         "backend": backend,
@@ -151,18 +169,50 @@ def _save_json(path: str, method: str, params: dict, elapsed: float,
 
 # ── Subcommand: parametric ────────────────────────────────────────────────────
 
+
 def _add_common_args(p: argparse.ArgumentParser) -> None:
     """Add arguments shared by both subcommands."""
-    p.add_argument("--min-rational", type=int, default=3, choices=[3, 4],
-                   help="Minimum rational distances to report (default: 3)")
-    p.add_argument("--inside", action="store_true",
-                   help="Only return points strictly inside the unit square (0<x<1, 0<y<1)")
-    p.add_argument("--out", type=str, default=None,
-                   help="Write JSON results to this file")
-    p.add_argument("--top", type=int, default=50,
-                   help="Max rows to print (0=all, default: 50)")
-    p.add_argument("--no-progress", action="store_true",
-                   help="Suppress the progress bar")
+    p.add_argument(
+        "--min-rational",
+        type=int,
+        default=3,
+        choices=[3, 4],
+        help="Minimum rational distances to report (default: 3)",
+    )
+    p.add_argument(
+        "--inside",
+        action="store_true",
+        help="Only return points strictly inside the unit square (0<x<1, 0<y<1)",
+    )
+    p.add_argument("--out", type=str, default=None, help="Write JSON results to this file")
+    p.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
+    p.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+
+
+def _resolve_parametric_limits(args: argparse.Namespace) -> None:
+    """Resolve the effective parametric limits for the CLI.
+
+    `--scale` is a shorthand default. Explicit `--max-*` flags keep
+    priority so callers can override one field without restating all of them.
+    """
+    default_max_m = 80
+    default_max_k_num = 640
+    default_max_k_den = 320
+
+    if args.scale is not None:
+        if args.max_m is None:
+            args.max_m = args.scale
+        if args.max_k_den is None:
+            args.max_k_den = 4 * args.scale
+        if args.max_k_num is None:
+            args.max_k_num = 8 * args.scale
+
+    if args.max_m is None:
+        args.max_m = default_max_m
+    if args.max_k_num is None:
+        args.max_k_num = default_max_k_num
+    if args.max_k_den is None:
+        args.max_k_den = default_max_k_den
 
 
 def _run_parametric(args: argparse.Namespace) -> None:
@@ -175,13 +225,10 @@ def _run_parametric(args: argparse.Namespace) -> None:
     )
     from rational_distance.search_gpu import parametric_search_gpu
 
-    if args.scale is not None:
-        args.max_m     = args.scale
-        args.max_k_den = 4 * args.scale
-        args.max_k_num = 8 * args.scale
+    _resolve_parametric_limits(args)
 
     # Resolve backend
-    use_cpu = (args.backend == "numpy")
+    use_cpu = args.backend == "numpy"
     xp = None
     backend_name = ""
 
@@ -189,6 +236,7 @@ def _run_parametric(args: argparse.Namespace) -> None:
         backend_name = "numpy (CPU, multiprocessing)"
     elif args.backend == "cupy":
         import cupy as cp
+
         xp = cp
         backend_name = "forced:cupy"
     elif args.backend == "torch":
@@ -204,9 +252,11 @@ def _run_parametric(args: argparse.Namespace) -> None:
     print("=" * 72)
     print("Rational distance search [parametric] — A(0,0) B(1,0) C(1,1) D(0,1)")
     print(f"  backend  : {backend_name}")
-    print(f"  max_m={args.max_m}, max_k={args.max_k_num}/{args.max_k_den}, "
-          f"min_rational={args.min_rational}")
-    print(f"  search space ≈ {est} (triple × k combinations)")
+    print(
+        f"  max_m={args.max_m}, max_k={args.max_k_num}/{args.max_k_den}, "
+        f"min_rational={args.min_rational}"
+    )
+    print(f"  search space ≈ {est} (triple x k combinations)")
     if args.inside:
         print("  Filter: inside unit square only (0<x<1, 0<y<1)")
     if args.brute_den:
@@ -227,8 +277,7 @@ def _run_parametric(args: argparse.Namespace) -> None:
             inside_only=args.inside,
         )
         if args.brute_den:
-            bf = list(brute_force_search(max_den=args.brute_den,
-                                         min_rational=args.min_rational))
+            bf = list(brute_force_search(max_den=args.brute_den, min_rational=args.min_rational))
             results = list(merge_results(iter(results), iter(bf)))
         backend_used = backend_name
     else:
@@ -242,8 +291,7 @@ def _run_parametric(args: argparse.Namespace) -> None:
             inside_only=args.inside,
         )
         if args.brute_den:
-            bf = list(brute_force_search(max_den=args.brute_den,
-                                         min_rational=args.min_rational))
+            bf = list(brute_force_search(max_den=args.brute_den, min_rational=args.min_rational))
             results = list(merge_results(iter(results), iter(bf)))
 
     raw_count = len(results)
@@ -251,24 +299,29 @@ def _run_parametric(args: argparse.Namespace) -> None:
         results = dedup_by_symmetry(results)
 
     elapsed = time.perf_counter() - t0
-    count_by_n = _print_summary(results, elapsed,
-                                deduped_from=raw_count if dedup_sym else None)
+    count_by_n = _print_summary(results, elapsed, deduped_from=raw_count if dedup_sym else None)
     _print_table(results, args.top)
     _print_four_vertex(results)
 
     if args.out:
         params = {
-            "max_m": args.max_m, "max_k_num": args.max_k_num,
-            "max_k_den": args.max_k_den, "min_rational": args.min_rational,
-            "backend": args.backend, "workers": args.workers,
-            "inside": args.inside, "brute_den": args.brute_den,
+            "max_m": args.max_m,
+            "max_k_num": args.max_k_num,
+            "max_k_den": args.max_k_den,
+            "min_rational": args.min_rational,
+            "backend": args.backend,
+            "workers": args.workers,
+            "inside": args.inside,
+            "brute_den": args.brute_den,
             "no_dedup_symmetry": args.no_dedup_symmetry,
         }
-        _save_json(args.out, "parametric", params, elapsed,
-                   results, count_by_n, backend=backend_used)
+        _save_json(
+            args.out, "parametric", params, elapsed, results, count_by_n, backend=backend_used
+        )
 
 
 # ── Subcommand: ec ────────────────────────────────────────────────────────────
+
 
 def _run_ec(args: argparse.Namespace) -> None:
     from rational_distance.backend import _try_torch, detect_backend
@@ -281,6 +334,7 @@ def _run_ec(args: argparse.Namespace) -> None:
         pass  # xp stays None → numpy path
     elif args.backend == "cupy":
         import cupy as cp
+
         xp = cp
         backend_name = "forced:cupy"
     elif args.backend == "torch":
@@ -292,16 +346,15 @@ def _run_ec(args: argparse.Namespace) -> None:
     elif args.backend == "auto":
         xp_auto, backend_name, _ = detect_backend()
         import numpy as _np
+
         xp = None if xp_auto is _np else xp_auto
         backend_name = backend_name if xp is not None else "numpy (CPU)"
 
     print("=" * 72)
     print("Rational distance search [ec] — A(0,0) B(1,0) C(1,1) D(0,1)")
     print(f"  backend  : {backend_name}")
-    print(f"  max_m={args.max_m}, seed range k_num≤{args.max_k_num}, "
-          f"k_den≤{args.max_k_den}")
-    print(f"  max_steps={args.max_steps}, min_rational={args.min_rational}, "
-          f"inside={args.inside}")
+    print(f"  max_m={args.max_m}, seed range k_num≤{args.max_k_num}, k_den≤{args.max_k_den}")
+    print(f"  max_steps={args.max_steps}, min_rational={args.min_rational}, inside={args.inside}")
     print("=" * 72)
 
     t0 = time.perf_counter()
@@ -323,14 +376,18 @@ def _run_ec(args: argparse.Namespace) -> None:
 
     if args.out:
         params = {
-            "max_m": args.max_m, "max_k_num": args.max_k_num,
-            "max_k_den": args.max_k_den, "max_steps": args.max_steps,
-            "min_rational": args.min_rational, "inside": args.inside,
+            "max_m": args.max_m,
+            "max_k_num": args.max_k_num,
+            "max_k_den": args.max_k_den,
+            "max_steps": args.max_steps,
+            "min_rational": args.min_rational,
+            "inside": args.inside,
         }
         _save_json(args.out, "ec", params, elapsed, results, count_by_n)
 
 
 # ── Argument parser ───────────────────────────────────────────────────────────
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -348,23 +405,51 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="Parametric brute-force search over Pythagorean triples and scale factors.",
     )
-    p.add_argument("--scale", type=int, default=None,
-                   help="Shorthand: sets max_m=N, max_k_den=4N, max_k_num=8N")
-    p.add_argument("--max-m",     type=int, default=80,
-                   help="Max m for Pythagorean triple generation (default: 80)")
-    p.add_argument("--max-k-num", type=int, default=640,
-                   help="Max numerator of scale k=a/b (default: 640)")
-    p.add_argument("--max-k-den", type=int, default=320,
-                   help="Max denominator of scale k=a/b (default: 320)")
-    p.add_argument("--backend", type=str, default="auto",
-                   choices=["auto", "cupy", "torch", "numpy"],
-                   help="Compute backend: auto|cupy|torch|numpy (default: auto)")
-    p.add_argument("--workers", type=int, default=0,
-                   help="CPU worker processes for numpy backend (0=auto)")
-    p.add_argument("--brute-den", type=int, default=0,
-                   help="Also run brute-force search up to this denominator (0=skip)")
-    p.add_argument("--no-dedup-symmetry", action="store_true",
-                   help="Show all D4 symmetric copies (default: one per orbit)")
+    p.add_argument(
+        "--scale",
+        type=int,
+        default=None,
+        help="Shorthand default: max_m=N, max_k_den=4N, max_k_num=8N",
+    )
+    p.add_argument(
+        "--max-m",
+        type=int,
+        default=None,
+        help="Max m for Pythagorean triple generation (default: 80; overrides --scale)",
+    )
+    p.add_argument(
+        "--max-k-num",
+        type=int,
+        default=None,
+        help="Max numerator of scale k=a/b (default: 640; overrides --scale)",
+    )
+    p.add_argument(
+        "--max-k-den",
+        type=int,
+        default=None,
+        help="Max denominator of scale k=a/b (default: 320; overrides --scale)",
+    )
+    p.add_argument(
+        "--backend",
+        type=str,
+        default="auto",
+        choices=["auto", "cupy", "torch", "numpy"],
+        help="Compute backend: auto|cupy|torch|numpy (default: auto)",
+    )
+    p.add_argument(
+        "--workers", type=int, default=0, help="CPU worker processes for numpy backend (0=auto)"
+    )
+    p.add_argument(
+        "--brute-den",
+        type=int,
+        default=0,
+        help="Also run brute-force search up to this denominator (0=skip)",
+    )
+    p.add_argument(
+        "--no-dedup-symmetry",
+        action="store_true",
+        help="Show all D4 symmetric copies (default: one per orbit)",
+    )
     _add_common_args(p)
 
     # ── ec ──────────────────────────────────────────────────────────────────
@@ -378,17 +463,37 @@ def build_parser() -> argparse.ArgumentParser:
             "outside the brute-force range."
         ),
     )
-    e.add_argument("--max-m",     type=int, default=30,
-                   help="Max m for Pythagorean triple generation (default: 30)")
-    e.add_argument("--max-k-num", type=int, default=400,
-                   help="Max numerator for seed search k=a/b (default: 400)")
-    e.add_argument("--max-k-den", type=int, default=800,
-                   help="Max denominator for seed search k=a/b (default: 800)")
-    e.add_argument("--max-steps", type=int, default=20,
-                   help="Max chord-tangent expansion steps per orbit (default: 20)")
-    e.add_argument("--backend", type=str, default="auto",
-                   choices=["auto", "cupy", "torch", "numpy"],
-                   help="Backend for seed finding: auto|cupy|torch|numpy (default: auto)")
+    e.add_argument(
+        "--max-m",
+        type=int,
+        default=30,
+        help="Max m for Pythagorean triple generation (default: 30)",
+    )
+    e.add_argument(
+        "--max-k-num",
+        type=int,
+        default=400,
+        help="Max numerator for seed search k=a/b (default: 400)",
+    )
+    e.add_argument(
+        "--max-k-den",
+        type=int,
+        default=800,
+        help="Max denominator for seed search k=a/b (default: 800)",
+    )
+    e.add_argument(
+        "--max-steps",
+        type=int,
+        default=20,
+        help="Max chord-tangent expansion steps per orbit (default: 20)",
+    )
+    e.add_argument(
+        "--backend",
+        type=str,
+        default="auto",
+        choices=["auto", "cupy", "torch", "numpy"],
+        help="Backend for seed finding: auto|cupy|torch|numpy (default: auto)",
+    )
     _add_common_args(e)
 
     return parser

@@ -17,6 +17,7 @@ uv sync
 uv run python scripts/search.py parametric --scale 80
 uv run python scripts/search.py parametric --scale 200 --backend torch  # AMD/NVIDIA GPU
 uv run python scripts/search.py parametric --scale 80  --backend numpy  # CPU 多进程
+uv run python scripts/search.py parametric --scale 80 --max-k-den 500   # 只覆盖一个参数，其余仍沿用 scale
 
 # 椭圆曲线引导搜索
 uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800
@@ -24,6 +25,14 @@ uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800
 # 查看所有参数
 uv run python scripts/search.py parametric --help
 uv run python scripts/search.py ec --help
+
+# 对照 CPU 和加速后端是否一致
+uv run python scripts/compare_parametric.py --scale 20 --backend torch
+uv run python scripts/compare_parametric.py --scale 20 --backend numpy  # 本机 CPU 验证
+
+# 代码质量检查
+uv run ruff check .
+uv run ruff format .
 ```
 
 **当前结果**（`parametric --scale 400 --inside`）：37 个 D4 等价类，0 个四顶点解。

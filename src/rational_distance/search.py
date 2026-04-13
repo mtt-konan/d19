@@ -32,51 +32,30 @@ Integer distance formula (derivation):
 from __future__ import annotations
 
 import multiprocessing
+from collections.abc import Generator, Iterator
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from fractions import Fraction
-from math import gcd, isqrt
-from typing import Generator, Iterator, List, Optional
+from math import gcd
 
 import numpy as np
 
+from rational_distance import parametric_core as core
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance.square import RationalPoint, make_point
-
 
 # ── Worker state (set once per process by _init_worker) ──────────────────────
 
 _WORKER_PAIRS: list[tuple[int, int]] = []
-_WORKER_A: "np.ndarray | None" = None  # int64 array of a values
-_WORKER_B: "np.ndarray | None" = None  # int64 array of b values
-_WORKER_SAFE_R_MAX: int = 0            # max r for which int64 arithmetic is overflow-free
-
-# Largest integer X such that X^2 fits in int64 and (X+1)^2 also fits (for the s+1 check).
-# Each squared term in tB/tD/tC must stay below INT64_MAX/2 so their sum fits too.
-# isqrt(INT64_MAX // 2) = isqrt(4611686018427387903) = 2147483647 = 2^31 - 1.
-_INT64_SAFE_HALF: int = (1 << 31) - 1  # 2 147 483 647
+_WORKER_A: np.ndarray | None = None  # int64 array of a values
+_WORKER_B: np.ndarray | None = None  # int64 array of b values
+_WORKER_SAFE_R_MAX: int = 0  # max r for which int64 arithmetic is overflow-free
 
 
 def _init_worker(max_k_num: int, max_k_den: int) -> None:
     """Pre-build the coprime (a,b) list and numpy arrays for this worker process."""
     global _WORKER_PAIRS, _WORKER_A, _WORKER_B, _WORKER_SAFE_R_MAX
-    pairs = [
-        (a, b)
-        for b in range(1, max_k_den + 1)
-        for a in range(1, max_k_num + 1)
-        if gcd(a, b) == 1
-    ]
-    _WORKER_PAIRS = pairs
-    _WORKER_A = np.array([a for a, b in pairs], dtype=np.int64)
-    _WORKER_B = np.array([b for a, b in pairs], dtype=np.int64)
-
-    # Determine the largest r for which all int64 squared terms stay safe.
-    #
-    # The tightest bound comes from tC = (ar − b(p+q))² + (b(p−q))².
-    # Worst-case magnitude of (ar − b(p+q)) ≤ (max_a + 2·max_b)·r  (using p+q ≤ 2r).
-    # We require each squared term < INT64_MAX/2 so the sum fits in int64.
-    # Condition: (max_a + 2·max_b)·r ≤ _INT64_SAFE_HALF  →  r ≤ threshold.
-    coeff = max_k_num + 2 * max_k_den
-    _WORKER_SAFE_R_MAX = _INT64_SAFE_HALF // coeff if coeff > 0 else 10**18
+    _WORKER_PAIRS, _WORKER_A, _WORKER_B = core.build_coprime_data(max_k_num, max_k_den)
+    _WORKER_SAFE_R_MAX = core.safe_r_max(max_k_num, max_k_den)
 
 
 def _worker(args: tuple) -> list[dict]:
@@ -87,191 +66,75 @@ def _worker(args: tuple) -> list[dict]:
     """
     p, q, r, min_rational, inside_only = args
     if _WORKER_A is not None and r <= _WORKER_SAFE_R_MAX:
-        return _search_triple_numpy(p, q, r, _WORKER_A, _WORKER_B, min_rational, inside_only)
-    return _search_triple_int(p, q, r, _WORKER_PAIRS, min_rational, inside_only)
+        return core.search_triple_vectorized(
+            np, p, q, r, _WORKER_A, _WORKER_B, min_rational, inside_only
+        )
+    return core.search_triple_exact(p, q, r, _WORKER_PAIRS, min_rational, inside_only)
 
 
-# ── Numpy-vectorized search (primary path) ───────────────────────────────────
-
-def _isqrt_vec(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Vectorized integer square root check.
-
-    Returns (ok, s) where ok[i] is True iff t[i] is a perfect square and
-    s[i] = isqrt(t[i]).  Handles float64 rounding by also checking s+1.
-
-    Safe for t values up to ~4×10^18 (int64 range, float64 sqrt precision
-    sufficient for sqrt values up to ~10^7; larger values use the +1 fallback).
-    """
-    s = np.floor(np.sqrt(t.astype(np.float64))).astype(np.int64)
-    ok = s * s == t
-    # float64 sqrt may round down by 1 for large perfect squares; check s+1
-    s1 = s + 1
-    fix = ~ok & (s1 * s1 == t)
-    ok |= fix
-    s[fix] = s1[fix]
-    return ok, s
-
-
-def _search_triple_numpy(
-    p: int,
-    q: int,
-    r: int,
-    a_arr: np.ndarray,
-    b_arr: np.ndarray,
-    min_rational: int,
+def _parametric_search_fast_run(
+    max_m: int = 80,
+    max_k_num: int = 500,
+    max_k_den: int = 200,
+    min_rational: int = 3,
+    workers: int = 0,
+    progress: bool = True,
     inside_only: bool = False,
-) -> list[dict]:
-    """Numpy-vectorized search for one Pythagorean triple.
+) -> tuple[list[RationalPoint], core.ParametricRunStats]:
+    """Run the fast CPU search and return both results and shared stats."""
+    try:
+        from tqdm import tqdm as _tqdm
+    except ImportError:
+        _tqdm = None
 
-    Computes all (a,b) combinations simultaneously using array operations,
-    then extracts hits with a Python loop (hits are rare, so this is fast).
+    n_workers = workers if workers > 0 else multiprocessing.cpu_count()
+    triples = primitive_pythagorean_triples(max_m)
+    args_list = [(p, q, r, min_rational, inside_only) for p, q, r in triples]
+    stats = core.make_run_stats(triples, max_k_num, max_k_den)
 
-    Points on extended sides (x=1 or y=1) are always excluded by theorem
-    (proven via elliptic curves; x=0 and y=0 are impossible here).
-    If inside_only is True, only points with 0<x<1 and 0<y<1 are returned.
-    """
-    # Theorem: no rational-distance solution to any vertex lies on x=0,1 or y=0,1.
-    # x=a*p/(b*r), so x=1 iff a*p==b*r; y=1 iff a*q==b*r.
-    # (x=0 and y=0 are impossible since all parameters are positive.)
-    off_side = ~((a_arr * p == b_arr * r) | (a_arr * q == b_arr * r))
-    if inside_only:
-        # x<1 iff a*p < b*r;  y<1 iff a*q < b*r  (x>0 and y>0 are always true)
-        off_side &= (a_arr * p < b_arr * r) & (a_arr * q < b_arr * r)
-    if not off_side.all():
-        a_arr = a_arr[off_side]
-        b_arr = b_arr[off_side]
-    if len(a_arr) == 0:
-        return []
-
-    ar = a_arr * r
-    bp = b_arr * p
-    bq = b_arr * q
-    br = b_arr * r
-
-    okB, sB = _isqrt_vec((ar - bp) ** 2 + bq ** 2)
-    okD, sD = _isqrt_vec((ar - bq) ** 2 + bp ** 2)
-    okC, sC = _isqrt_vec((ar - b_arr * (p + q)) ** 2 + (b_arr * (p - q)) ** 2)
-
-    rational_count = 1 + okB + okD + okC  # bool arrays treated as 0/1
-    mask = rational_count >= min_rational
-
-    if not mask.any():
-        return []
-
-    results: list[dict] = []
-    seen: set[tuple[int, int, int, int]] = set()
-
-    for i in mask.nonzero()[0]:
-        a_i, b_i, br_i = int(a_arr[i]), int(b_arr[i]), int(br[i])
-
-        xn, xd = a_i * p, br_i
-        g = gcd(xn, xd); xn //= g; xd //= g
-        yn, yd = a_i * q, br_i
-        g = gcd(yn, yd); yn //= g; yd //= g
-        key = (xn, xd, yn, yd)
-        if key in seen:
-            continue
-        seen.add(key)
-
-        results.append({
-            "x":  (a_i * p, br_i),
-            "y":  (a_i * q, br_i),
-            "dA": (a_i, b_i),
-            "dB": (int(sB[i]), br_i) if okB[i] else None,
-            "dC": (int(sC[i]), br_i) if okC[i] else None,
-            "dD": (int(sD[i]), br_i) if okD[i] else None,
-        })
-
-    return results
-
-
-# ── Core integer-arithmetic search (fallback) ────────────────────────────────
-
-def _search_triple_int(
-    p: int,
-    q: int,
-    r: int,
-    pairs: list[tuple[int, int]],
-    min_rational: int,
-    inside_only: bool = False,
-) -> list[dict]:
-    """Search one Pythagorean triple (p,q,r) using only integer arithmetic.
-
-    Returns a list of raw dicts with integer numerator/denominator pairs.
-    Fraction conversion is deferred to the caller so the hot loop stays fast.
-    """
-    results: list[dict] = []
-    seen: set[tuple[int, int, int, int]] = set()
-
-    for a, b in pairs:
-        # Theorem: no rational-distance solution lies on extended sides (x=1 or y=1)
-        if a * p == b * r or a * q == b * r:
-            continue
-        if inside_only and (a * p > b * r or a * q > b * r):
-            continue
-        ar = a * r
-        bp = b * p
-        bq = b * q
-        br = b * r
-
-        # ── d(B) ─────────────────────────────────────────────────────────
-        uB = ar - bp
-        tB = uB * uB + bq * bq
-        sB = isqrt(tB)
-        okB = sB * sB == tB
-
-        # ── d(D) ─────────────────────────────────────────────────────────
-        uD = ar - bq
-        tD = uD * uD + bp * bp
-        sD = isqrt(tD)
-        okD = sD * sD == tD
-
-        # ── d(C) ─────────────────────────────────────────────────────────
-        uC = ar - b * (p + q)
-        vC = b * (p - q)          # sign irrelevant (squared)
-        tC = uC * uC + vC * vC
-        sC = isqrt(tC)
-        okC = sC * sC == tC
-
-        if 1 + okB + okD + okC < min_rational:
-            continue
-
-        # Deduplicate by reduced (x, y) key
-        xn, xd = a * p, br
-        g = gcd(xn, xd); xn //= g; xd //= g
-        yn, yd = a * q, br
-        g = gcd(yn, yd); yn //= g; yd //= g
-        key = (xn, xd, yn, yd)
-        if key in seen:
-            continue
-        seen.add(key)
-
-        results.append({
-            "x":  (a * p, br),
-            "y":  (a * q, br),
-            "dA": (a, b),
-            "dB": (sB, br) if okB else None,
-            "dC": (sC, br) if okC else None,
-            "dD": (sD, br) if okD else None,
-        })
-
-    return results
-
-
-def _raw_to_point(raw: dict) -> RationalPoint:
-    return RationalPoint(
-        x=Fraction(*raw["x"]),
-        y=Fraction(*raw["y"]),
-        distances=(
-            Fraction(*raw["dA"]),
-            Fraction(*raw["dB"]) if raw["dB"] else None,
-            Fraction(*raw["dC"]) if raw["dC"] else None,
-            Fraction(*raw["dD"]) if raw["dD"] else None,
-        ),
+    print(
+        f"  triples={stats.total_triples}, "
+        f"k-pairs per triple={stats.candidate_pairs:,}, workers={n_workers}"
     )
+    if stats.exact_fallback_triples:
+        pct = 100 * stats.exact_fallback_triples // max(stats.total_triples, 1)
+        print(
+            f"  Note: {stats.exact_fallback_triples}/{stats.total_triples} triples ({pct}%) "
+            f"use the Python-int fallback (r > {stats.safe_r_max:,}) to avoid int64 overflow "
+            f"— results are still exact."
+        )
+
+    all_raw: list[dict] = []
+    if n_workers == 1:
+        _init_worker(max_k_num, max_k_den)
+        it: Iterator = iter(args_list)
+        if progress and _tqdm:
+            it = _tqdm(it, total=len(args_list), desc="Searching", unit="triple")
+        for arg in it:
+            all_raw.extend(_worker(arg))
+    else:
+        with ProcessPoolExecutor(
+            max_workers=n_workers,
+            initializer=_init_worker,
+            initargs=(max_k_num, max_k_den),
+        ) as executor:
+            futs = {executor.submit(_worker, a): a for a in args_list}
+            completed = as_completed(futs)
+            if progress and _tqdm:
+                completed = _tqdm(
+                    completed,
+                    total=len(args_list),
+                    desc="Searching",
+                    unit="triple",
+                )
+            for fut in completed:
+                all_raw.extend(fut.result())
+
+    return core.best_points_from_raw(all_raw), stats
 
 
 # ── Public fast search ────────────────────────────────────────────────────────
+
 
 def parametric_search_fast(
     max_m: int = 80,
@@ -298,74 +161,20 @@ def parametric_search_fast(
 
     Returns a deduplicated list sorted by (-rational_count, x, y).
     """
-    try:
-        from tqdm import tqdm as _tqdm
-    except ImportError:
-        _tqdm = None
-
-    n_workers = workers if workers > 0 else multiprocessing.cpu_count()
-    triples   = primitive_pythagorean_triples(max_m)
-    args_list = [(p, q, r, min_rational, inside_only) for p, q, r in triples]
-
-    # Report search volume
-    n_pairs = sum(
-        1 for b in range(1, max_k_den + 1)
-        for a in range(1, max_k_num + 1)
-        if gcd(a, b) == 1
+    points, _ = _parametric_search_fast_run(
+        max_m=max_m,
+        max_k_num=max_k_num,
+        max_k_den=max_k_den,
+        min_rational=min_rational,
+        workers=workers,
+        progress=progress,
+        inside_only=inside_only,
     )
-    print(f"  triples={len(triples)}, k-pairs per triple={n_pairs:,}, workers={n_workers}")
-
-    # Warn if large-r triples will use the slower Python int fallback path.
-    safe_r = _INT64_SAFE_HALF // (max_k_num + 2 * max_k_den)
-    r_max_possible = max_m * max_m  # rough upper bound for r = m^2 + n^2
-    if r_max_possible > safe_r:
-        n_slow = sum(1 for _, _, r in triples if r > safe_r)
-        pct = 100 * n_slow // max(len(triples), 1)
-        print(
-            f"  Note: {n_slow}/{len(triples)} triples ({pct}%) use the Python-int fallback "
-            f"(r > {safe_r:,}) to avoid int64 overflow — results are still exact."
-        )
-
-    all_raw: list[dict] = []
-
-    if n_workers == 1:
-        # Single-process: simpler, good for debugging
-        _init_worker(max_k_num, max_k_den)
-        it: Iterator = iter(args_list)
-        if progress and _tqdm:
-            it = _tqdm(it, total=len(args_list), desc="Searching", unit="triple")
-        for arg in it:
-            all_raw.extend(_worker(arg))
-    else:
-        with ProcessPoolExecutor(
-            max_workers=n_workers,
-            initializer=_init_worker,
-            initargs=(max_k_num, max_k_den),
-        ) as executor:
-            futs = {executor.submit(_worker, a): a for a in args_list}
-            completed = as_completed(futs)
-            if progress and _tqdm:
-                completed = _tqdm(
-                    completed,
-                    total=len(args_list),
-                    desc="Searching",
-                    unit="triple",
-                )
-            for fut in completed:
-                all_raw.extend(fut.result())
-
-    # Global deduplication across triples
-    best: dict[tuple[Fraction, Fraction], RationalPoint] = {}
-    for raw in all_raw:
-        pt  = _raw_to_point(raw)
-        key = (pt.x, pt.y)
-        if key not in best or pt.rational_count > best[key].rational_count:
-            best[key] = pt
-
-    return sorted(best.values(), key=lambda p: (-p.rational_count, p.denominator, p.x, p.y))
+    return points
 
 
 # ── Original generator (kept for backward compatibility) ─────────────────────
+
 
 def _rational_k_values(max_num: int, max_den: int) -> Iterator[Fraction]:
     for den in range(1, max_den + 1):
@@ -385,21 +194,21 @@ def parametric_search(
     seen: set[tuple[Fraction, Fraction]] = set()
 
     for p, q, r in triples:
-        pr  = Fraction(p, r)
-        qr  = Fraction(q, r)
+        pr = Fraction(p, r)
+        qr = Fraction(q, r)
         pqr = Fraction(p + q, r)
 
         for k in _rational_k_values(max_k_num, max_k_den):
-            k2  = k * k
-            dB  = rational_sqrt(k2 - 2 * k * pr  + 1)
-            dD  = rational_sqrt(k2 - 2 * k * qr  + 1)
-            dC  = rational_sqrt(k2 - 2 * k * pqr + 2)
+            k2 = k * k
+            dB = rational_sqrt(k2 - 2 * k * pr + 1)
+            dD = rational_sqrt(k2 - 2 * k * qr + 1)
+            dC = rational_sqrt(k2 - 2 * k * pqr + 2)
 
             if 1 + (dB is not None) + (dD is not None) + (dC is not None) < min_rational:
                 continue
 
             x, y = k * pr, k * qr
-            key  = (x, y)
+            key = (x, y)
             if key in seen:
                 continue
             seen.add(key)
@@ -407,6 +216,7 @@ def parametric_search(
 
 
 # ── Brute-force exhaustive search ────────────────────────────────────────────
+
 
 def brute_force_search(
     max_den: int = 30,
@@ -454,6 +264,7 @@ def merge_results(
 
 # ── Symmetry deduplication ────────────────────────────────────────────────────
 
+
 def dedup_by_symmetry(points: list[RationalPoint]) -> list[RationalPoint]:
     """Reduce a list of points to one representative per D4 symmetry orbit.
 
@@ -470,11 +281,11 @@ def dedup_by_symmetry(points: list[RationalPoint]) -> list[RationalPoint]:
     for pt in points:
         key = canonical_xy(pt.x, pt.y)
         prev = best.get(key)
-        if prev is None:
-            best[key] = pt
-        elif pt.rational_count > prev.rational_count:
-            best[key] = pt
-        elif pt.rational_count == prev.rational_count and pt.denominator < prev.denominator:
+        if (
+            prev is None
+            or pt.rational_count > prev.rational_count
+            or (pt.rational_count == prev.rational_count and pt.denominator < prev.denominator)
+        ):
             best[key] = pt
 
     return sorted(best.values(), key=lambda p: (-p.rational_count, p.denominator, p.x, p.y))

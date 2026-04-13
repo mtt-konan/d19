@@ -36,10 +36,12 @@ def _xp_cast(t, dtype):
 
 # ── Backend probes ────────────────────────────────────────────────────────────
 
+
 def _try_cupy():
     """Return the CuPy module if a GPU device is accessible, else None."""
     try:
         import cupy as cp
+
         cp.array([1], dtype=cp.int64)  # triggers device init; fails if no GPU
         return cp
     except Exception:
@@ -56,6 +58,7 @@ def _try_torch():
     """
     try:
         import torch
+
         if not torch.cuda.is_available():
             return None
 
@@ -77,10 +80,17 @@ def _try_torch():
                 return torch.zeros(shape, dtype=dtype or torch.int64, device=self._dev)
 
             # ── Math ops ──────────────────────────────────────────────────
-            def floor(self, t):  return torch.floor(t)
-            def sqrt(self, t):   return torch.sqrt(t)
-            def any(self, t):    return bool(t.any())
-            def where(self, cond): return torch.where(cond)
+            def floor(self, t):
+                return torch.floor(t)
+
+            def sqrt(self, t):
+                return torch.sqrt(t)
+
+            def any(self, t):
+                return bool(t.any())
+
+            def where(self, cond):
+                return torch.where(cond)
 
         dev = torch.device("cuda")
         torch.tensor([1], dtype=torch.int64, device=dev)  # verify device works
@@ -93,6 +103,7 @@ def _try_torch():
 
 
 # ── Public entry point ────────────────────────────────────────────────────────
+
 
 def detect_backend() -> tuple:
     """Auto-detect the best available array backend.
@@ -116,6 +127,7 @@ def detect_backend() -> tuple:
     if txp is not None:
         try:
             import torch
+
             name = torch.cuda.get_device_name(0)
         except Exception:
             name = "GPU"

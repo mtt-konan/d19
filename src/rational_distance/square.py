@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from fractions import Fraction
 from math import lcm
-from typing import Optional
 
 from rational_distance.math_utils import rational_sqrt
 
@@ -30,16 +29,18 @@ def d4_images(x: Fraction, y: Fraction) -> list[tuple[Fraction, Fraction]]:
         identity, flip-x, flip-y, 180°,
         flip-diagonal, flip-antidiagonal, 90°-CW, 90°-CCW
     """
-    return list({
-        (x,        y      ),
-        (_ONE - x, y      ),
-        (x,        _ONE-y ),
-        (_ONE - x, _ONE-y ),
-        (y,        x      ),
-        (_ONE - y, _ONE-x ),
-        (y,        _ONE-x ),
-        (_ONE - y, x      ),
-    })
+    return list(
+        {
+            (x, y),
+            (_ONE - x, y),
+            (x, _ONE - y),
+            (_ONE - x, _ONE - y),
+            (y, x),
+            (_ONE - y, _ONE - x),
+            (y, _ONE - x),
+            (_ONE - y, x),
+        }
+    )
 
 
 def canonical_xy(x: Fraction, y: Fraction) -> tuple[Fraction, Fraction]:
@@ -57,7 +58,7 @@ class RationalPoint:
 
     x: Fraction
     y: Fraction
-    distances: tuple[Optional[Fraction], ...]  # length 4
+    distances: tuple[Fraction | None, ...]  # length 4
 
     @property
     def rational_count(self) -> int:
@@ -69,32 +70,28 @@ class RationalPoint:
         return lcm(self.x.denominator, self.y.denominator)
 
     def __str__(self) -> str:
-        dstr = ", ".join(
-            str(d) if d is not None else "?" for d in self.distances
-        )
+        dstr = ", ".join(str(d) if d is not None else "?" for d in self.distances)
         return f"P=({self.x}, {self.y})  d=[{dstr}]  ({self.rational_count}/4 rational)"
 
     def as_dict(self) -> dict:
         return {
             "x": str(self.x),
             "y": str(self.y),
-            "dA": str(self.distances[0]) if self.distances[0] else None,
-            "dB": str(self.distances[1]) if self.distances[1] else None,
-            "dC": str(self.distances[2]) if self.distances[2] else None,
-            "dD": str(self.distances[3]) if self.distances[3] else None,
+            "dA": str(self.distances[0]) if self.distances[0] is not None else None,
+            "dB": str(self.distances[1]) if self.distances[1] is not None else None,
+            "dC": str(self.distances[2]) if self.distances[2] is not None else None,
+            "dD": str(self.distances[3]) if self.distances[3] is not None else None,
             "rational_count": self.rational_count,
             "denominator": self.denominator,
         }
 
 
-def compute_distances(
-    x: Fraction, y: Fraction
-) -> tuple[Optional[Fraction], ...]:
+def compute_distances(x: Fraction, y: Fraction) -> tuple[Fraction | None, ...]:
     """Compute rational distances from P=(x,y) to all four square vertices.
 
     Returns a 4-tuple; entry is None where the distance is irrational.
     """
-    result: list[Optional[Fraction]] = []
+    result: list[Fraction | None] = []
     for vx, vy in VERTICES:
         d2 = (x - vx) ** 2 + (y - vy) ** 2
         result.append(rational_sqrt(d2))

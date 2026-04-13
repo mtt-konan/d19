@@ -4,10 +4,9 @@ from __future__ import annotations
 
 from fractions import Fraction
 from math import gcd, isqrt
-from typing import Optional
 
 
-def rational_sqrt(f: Fraction) -> Optional[Fraction]:
+def rational_sqrt(f: Fraction) -> Fraction | None:
     """Return √f as a Fraction if f is a perfect rational square, else None.
 
     Strategy: write f = p/q in lowest terms.
@@ -51,8 +50,6 @@ def primitive_pythagorean_triples(max_m: int) -> list[tuple[int, int, int]]:
     return triples
 
 
-def scale_triple(
-    a: int, b: int, c: int, k: Fraction
-) -> tuple[Fraction, Fraction, Fraction]:
+def scale_triple(a: int, b: int, c: int, k: Fraction) -> tuple[Fraction, Fraction, Fraction]:
     """Scale a primitive triple by rational k: (ka, kb, kc)."""
     return Fraction(k * a), Fraction(k * b), Fraction(k * c)

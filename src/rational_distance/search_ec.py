@@ -37,25 +37,21 @@ from __future__ import annotations
 
 from fractions import Fraction
 from math import gcd, isqrt
-from typing import Optional
 
 import numpy as np
 
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance.square import RationalPoint, canonical_xy, make_point
 
-
 # ---------------------------------------------------------------------------
 # Vectorized seed-finding helpers
 # ---------------------------------------------------------------------------
 
+
 def _build_coprime_arrays(max_k_num: int, max_k_den: int) -> tuple[np.ndarray, np.ndarray]:
     """Return int64 arrays (a_arr, b_arr) of all coprime pairs a≤max_k_num, b≤max_k_den."""
     pairs = [
-        (a, b)
-        for b in range(1, max_k_den + 1)
-        for a in range(1, max_k_num + 1)
-        if gcd(a, b) == 1
+        (a, b) for b in range(1, max_k_den + 1) for a in range(1, max_k_num + 1) if gcd(a, b) == 1
     ]
     if not pairs:
         return np.empty(0, dtype=np.int64), np.empty(0, dtype=np.int64)
@@ -76,7 +72,9 @@ def _isqrt_arr(t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 
 
 def _find_seeds_numpy(
-    p: int, q: int, r: int,
+    p: int,
+    q: int,
+    r: int,
     a_arr: np.ndarray,
     b_arr: np.ndarray,
     inside_only: bool = False,
@@ -100,7 +98,7 @@ def _find_seeds_numpy(
     bq = b * q
 
     # dB check: tB = (ar-bp)² + (bq)² must be a perfect square
-    tB = (ar - bp) ** 2 + bq ** 2
+    tB = (ar - bp) ** 2 + bq**2
     okB, sB = _isqrt_arr(tB)
     if not okB.any():
         return []
@@ -118,8 +116,11 @@ def _find_seeds_numpy(
 
 def _find_seeds_gpu(
     xp,
-    p: int, q: int, r: int,
-    a_dev, b_dev,
+    p: int,
+    q: int,
+    r: int,
+    a_dev,
+    b_dev,
     inside_only: bool = False,
 ) -> list[tuple[int, int, int, int]]:
     """Vectorized seed finder for GPU (cupy / torch wrapper).
@@ -141,8 +142,8 @@ def _find_seeds_gpu(
     bp = b * p
     bq = b * q
 
-    tB = (ar - bp) ** 2 + bq ** 2
-    tD = (ar - bq) ** 2 + bp ** 2
+    tB = (ar - bp) ** 2 + bq**2
+    tD = (ar - bq) ** 2 + bp**2
 
     # GPU isqrt: approximate via float64 sqrt; hits are verified precisely on CPU
     sB_f = _xp_cast(xp.floor(xp.sqrt(_xp_cast(tB, xp.float64))), xp.int64)
@@ -158,11 +159,11 @@ def _find_seeds_gpu(
 
     def _to_cpu(arr):
         sliced = arr[idx]
-        if hasattr(sliced, "get"):        # CuPy
+        if hasattr(sliced, "get"):  # CuPy
             return sliced.get()
-        if hasattr(sliced, "cpu"):        # PyTorch tensor
+        if hasattr(sliced, "cpu"):  # PyTorch tensor
             return sliced.cpu().numpy()
-        return np.asarray(sliced)         # NumPy passthrough
+        return np.asarray(sliced)  # NumPy passthrough
 
     a_hit = _to_cpu(a)
     b_hit = _to_cpu(b)
@@ -192,6 +193,7 @@ def _find_seeds_gpu(
 # Quartic elliptic curve for one Pythagorean triple
 # ---------------------------------------------------------------------------
 
+
 class QuarticEC:
     """Quartic elliptic curve  E² = F(t)  associated with triple (p, q, r).
 
@@ -215,14 +217,13 @@ class QuarticEC:
 
     def F(self, t: Fraction) -> Fraction:
         """Evaluate the quartic polynomial F(t)."""
-        return (self.c4 * t**4 + self.c3 * t**3
-                + self.c2 * t**2 + self.c1 * t + self.c0)
+        return self.c4 * t**4 + self.c3 * t**3 + self.c2 * t**2 + self.c1 * t + self.c0
 
     def on_curve(self, t: Fraction, E: Fraction) -> bool:
         """Return True iff (t, E) satisfies E² = F(t)."""
-        return E * E == self.F(t)
+        return self.F(t) == E * E
 
-    def k_from_t(self, t: Fraction) -> Optional[Fraction]:
+    def k_from_t(self, t: Fraction) -> Fraction | None:
         """Convert slope parameter t to scale factor k.
 
         k(t) = 2(t + p/r) / (1 - t²)
@@ -256,9 +257,7 @@ class QuarticEC:
     # Chord-tangent arithmetic
     # ------------------------------------------------------------------
 
-    def _tangent_quadratic(
-        self, t0: Fraction, E0: Fraction
-    ) -> tuple[Fraction, Fraction, Fraction]:
+    def _tangent_quadratic(self, t0: Fraction, E0: Fraction) -> tuple[Fraction, Fraction, Fraction]:
         """Return (A, B, C) of residual quadratic h after removing double root t0.
 
         The tangent line Y = λ(t-t0)+E0 meets the quartic in (t0,E0) twice
@@ -269,8 +268,7 @@ class QuarticEC:
             B = c3 + 2·c4·t0
             C = c2 - λ² + 2·c3·t0 + 3·c4·t0²
         """
-        Fp = (4 * self.c4 * t0**3 + 3 * self.c3 * t0**2
-              + 2 * self.c2 * t0 + self.c1)
+        Fp = 4 * self.c4 * t0**3 + 3 * self.c3 * t0**2 + 2 * self.c2 * t0 + self.c1
         slope = Fp / (2 * E0)
         A = Fraction(self.c4)
         B = Fraction(self.c3) + 2 * A * t0
@@ -279,8 +277,10 @@ class QuarticEC:
 
     def _secant_quadratic(
         self,
-        t1: Fraction, E1: Fraction,
-        t2: Fraction, E2: Fraction,
+        t1: Fraction,
+        E1: Fraction,
+        t2: Fraction,
+        E2: Fraction,
     ) -> tuple[Fraction, Fraction, Fraction]:
         """Return (A, B, C) of residual quadratic h after removing roots t1, t2.
 
@@ -300,8 +300,11 @@ class QuarticEC:
 
     def _new_t_from_line(
         self,
-        A: Fraction, B: Fraction, C: Fraction,
-        slope: Fraction, intercept: Fraction,
+        A: Fraction,
+        B: Fraction,
+        C: Fraction,
+        slope: Fraction,
+        intercept: Fraction,
     ) -> list[tuple[Fraction, Fraction]]:
         """Find rational roots of h(t)=At²+Bt+C and return (t_new, E_new) pairs.
 
@@ -319,16 +322,13 @@ class QuarticEC:
             results.append((t_new, E_new))
         return results
 
-    def tangent_points(
-        self, t0: Fraction, E0: Fraction
-    ) -> list[tuple[Fraction, Fraction]]:
+    def tangent_points(self, t0: Fraction, E0: Fraction) -> list[tuple[Fraction, Fraction]]:
         """Apply the tangent step at (t0, E0).
 
         Returns new (t, E) pairs on the quartic distinct from (t0, E0).
         """
         A, B, C = self._tangent_quadratic(t0, E0)
-        Fp = (4 * self.c4 * t0**3 + 3 * self.c3 * t0**2
-              + 2 * self.c2 * t0 + self.c1)
+        Fp = 4 * self.c4 * t0**3 + 3 * self.c3 * t0**2 + 2 * self.c2 * t0 + self.c1
         slope = Fp / (2 * E0)
         intercept = E0 - slope * t0
         pts = self._new_t_from_line(A, B, C, slope, intercept)
@@ -336,8 +336,10 @@ class QuarticEC:
 
     def secant_points(
         self,
-        t1: Fraction, E1: Fraction,
-        t2: Fraction, E2: Fraction,
+        t1: Fraction,
+        E1: Fraction,
+        t2: Fraction,
+        E2: Fraction,
     ) -> list[tuple[Fraction, Fraction]]:
         """Apply the secant step through (t1, E1) and (t2, E2).
 
@@ -445,8 +447,8 @@ def find_seeds_for_triple(
     max_k_num: int,
     max_k_den: int,
     inside_only: bool = False,
-    _a_arr: "np.ndarray | None" = None,
-    _b_arr: "np.ndarray | None" = None,
+    _a_arr: np.ndarray | None = None,
+    _b_arr: np.ndarray | None = None,
 ) -> list[tuple[Fraction, Fraction, Fraction]]:
     """Find all rational k = a/b such that dB and dD are both rational.
 
@@ -462,7 +464,7 @@ def find_seeds_for_triple(
     # Int64 safety: tB/tD dominant term ≤ 2*((max_k_num+max_k_den)*r)².
     # Require (max_k_num+max_k_den)*r ≤ _INT64_SAFE_HALF.
     coeff = max_k_num + max_k_den
-    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10 ** 18
+    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10**18
 
     if r <= safe_r_max:
         # Fast numpy path
@@ -504,9 +506,8 @@ def find_seeds_for_triple(
 # Point construction from k value
 # ---------------------------------------------------------------------------
 
-def _make_ec_point(
-    p: int, q: int, r: int, k: Fraction, inside_only: bool
-) -> Optional[RationalPoint]:
+
+def _make_ec_point(p: int, q: int, r: int, k: Fraction, inside_only: bool) -> RationalPoint | None:
     """Construct a RationalPoint from triple (p,q,r) and scale k.
 
     Applies side-exclusion and optional inside filter.
@@ -528,6 +529,7 @@ def _make_ec_point(
 # ---------------------------------------------------------------------------
 # Main EC search
 # ---------------------------------------------------------------------------
+
 
 def ec_search(
     max_m: int = 30,
@@ -561,8 +563,10 @@ def ec_search(
     """
     try:
         from tqdm import tqdm
+
         _tqdm = tqdm
     except ImportError:
+
         def _tqdm(it, **kw):
             return it
 
@@ -579,7 +583,7 @@ def ec_search(
 
     # Int64 safety bound — same logic as in find_seeds_for_triple
     coeff = max_k_num + max_k_den
-    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10 ** 18
+    safe_r_max = _INT64_SAFE_HALF // coeff if coeff > 0 else 10**18
 
     seen_canonical: set[tuple[Fraction, Fraction]] = set()
     results: list[RationalPoint] = []
@@ -592,8 +596,14 @@ def ec_search(
             seeds_raw = _seeds_raw_to_fractions(raw, r)
         else:
             seeds_raw = find_seeds_for_triple(
-                p, q, r, max_k_num, max_k_den, inside_only,
-                _a_arr=a_cpu, _b_arr=b_cpu,
+                p,
+                q,
+                r,
+                max_k_num,
+                max_k_den,
+                inside_only,
+                _a_arr=a_cpu,
+                _b_arr=b_cpu,
             )
 
         if not seeds_raw:
@@ -620,7 +630,7 @@ def ec_search(
 
         # Also add the seed k values themselves
         seed_k_values = [k for k, _, _ in seeds_raw]
-        all_k_values = list({k: None for k in seed_k_values + k_values_from_orbit})
+        all_k_values = list(dict.fromkeys(seed_k_values + k_values_from_orbit))
 
         for k in all_k_values:
             pt = _make_ec_point(p, q, r, k, inside_only)

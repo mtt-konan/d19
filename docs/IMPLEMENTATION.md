@@ -1,284 +1,233 @@
 # 实现参考文档
 
-本文档覆盖代码架构、搜索策略、关键优化细节和已知限制。数学推导见 [MATH.md](MATH.md)。
+本文档描述当前代码结构、`parametric` 主线的执行方式，以及 CPU 开发机和 AMD APU 主力机如何共用同一套判定逻辑。数学推导见 [MATH.md](MATH.md)。
 
 ---
 
 ## 一、模块结构
 
-```
+```text
 src/rational_distance/
-├── __init__.py          — 包入口，导出主要公共 API
-├── math_utils.py        — 数学工具：有理平方根、本原勾股数生成
-├── square.py            — 数据结构：RationalPoint、D4 对称、距离计算
-├── backend.py           — 后端检测：CuPy / PyTorch / NumPy 自动切换
-├── search.py            — 搜索引擎：三种模式 + 向量化 + 多进程
-├── search_gpu.py        — GPU 加速路径（依赖 backend.py）
-└── search_ec.py         — 椭圆曲线引导搜索（弦切法轨道展开）
+├── __init__.py           — 包入口
+├── math_utils.py         — 有理平方根、本原勾股数生成
+├── square.py             — RationalPoint、D4 对称、距离计算
+├── backend.py            — numpy / torch / cupy 后端检测与薄封装
+├── parametric_core.py    — parametric 共享判定核心（唯一真理源）
+├── search.py             — CPU 编排层：多进程、汇总、兼容旧接口
+├── search_gpu.py         — APU/GPU 编排层：设备数组执行 + 自动精确回退
+└── search_ec.py          — 椭圆曲线引导搜索（本轮未重构）
 
 scripts/
-├── search.py            — 统一 CLI 入口（子命令 parametric / ec）
-└── visualize.py         — 可视化工具：从 JSON 生成 Plotly HTML 报告
+├── search.py             — 统一 CLI 入口
+├── compare_parametric.py — CPU vs 加速后端对照工具
+└── visualize.py          — Plotly HTML 可视化
 
 tests/
-└── test_all.py          — 统一测试套件（44 个用例）
-```
-
-### 各模块依赖关系
-
-```
-search.py / search_gpu.py
-    └── square.py (RationalPoint, d4_images, canonical_xy)
-    └── math_utils.py (primitive_pythagorean_triples)
+└── test_all.py           — 统一测试套件（当前 51 个用例）
 ```
 
 ---
 
-## 二、搜索参数比例
+## 二、参数与命令习惯
 
-`--scale N` 按以下比例设置三个参数：
+### 2.1 `--scale` 仍然是主入口
+
+主搜索命令仍推荐用：
+
+```bash
+uv run python scripts/search.py parametric --scale 200
 ```
-max_m     = N          # 本原勾股数生成参数上限
-max_k_den = 4 * N      # 比例因子 k=a/b 的分母上限
-max_k_num = 8 * N      # 比例因子 k=a/b 的分子上限
+
+含义仍然是：
+
+```text
+max_m     = N
+max_k_den = 4 * N
+max_k_num = 8 * N
 ```
 
-**比例来源**：经验上，k 的最优分母大致与 max_m 同阶（4×），分子约为分母的 2 倍（因为解通常出现在 k>1 的范围）。三个参数可在 `--scale` 后面单独覆盖做非均匀搜索。
+如果同时传了显式参数，则显式参数优先，没写的部分继续沿用 `--scale` 推导出的默认值。
 
-**搜索空间大小**：triple 数约 O(max_m²)，k-pair 数约 O(max_k_num × max_k_den / ln)，总组合数约 O(max_m² × max_k_num × max_k_den)，即 O(N⁴)。scale 翻倍则搜索量增加 16 倍。
+### 2.2 CPU 和 APU 共用一套命令心智
+
+- 开发机 CPU：默认 `auto` 会回落到 `numpy`
+- 主力机 AMD APU：默认 `auto` 会优先尝试 `torch`
+
+也就是说，大多数情况下你可以先记这一条：
+
+```bash
+uv run python scripts/search.py parametric --scale 200
+```
+
+只有在你想强制指定后端时，才补：
+
+```bash
+--backend numpy   # 强制 CPU
+--backend torch   # 强制 AMD APU / ROCm
+```
+
+### 2.3 对照工具也支持 `--scale`
+
+为了避免再记一套参数，`compare_parametric.py` 也支持：
+
+```bash
+uv run python scripts/compare_parametric.py --scale 20 --backend torch
+```
+
+它默认会：
+
+1. 用 CPU 基线跑一遍
+2. 用指定加速后端再跑一遍
+3. 对比点集、D4 去重数量、耗时和 exact fallback 统计
 
 ---
 
-## 三、三种搜索模式
+## 三、`parametric` 主线现在怎么工作
 
-| 模式 | 函数 | 特点 | 适用场景 |
-|------|------|------|---------|
-| 快速整数法 | `parametric_search_fast` | numpy 向量化 + 多进程 + 自动溢出回退 | 正式搜索（推荐） |
-| Fraction 生成器 | `parametric_search` | 逐点生成，无多进程 | 小范围调试、兼容性 |
-| 暴力枚举 | `brute_force_search` | 枚举所有分母 ≤ max_den 的有理点 | 小范围验证结果正确性 |
+### 3.1 只维护一套判定逻辑
 
-### 3.1 快速整数法数据流
+本轮重构后，`parametric_core.py` 是唯一真理源，里面统一定义了：
 
-```
-primitive_pythagorean_triples(max_m)
-    → triples list [(p, q, r), ...]
-    → ProcessPoolExecutor (N workers)
-        → _init_worker: 预建 (a,b) 互素对、numpy 数组
-        → _worker(p, q, r):
-            if r <= safe_r_max:
-                _search_triple_numpy(...)   ← 主路径
-            else:
-                _search_triple_int(...)     ← 回退路径
-    → 汇总 all_raw → 去重 → 排序 → RationalPoint 列表
-```
+- 候选过滤：side-exclusion、`inside_only`
+- 三个判定式：`tB` / `tC` / `tD`
+- 完全平方预筛：统一保留 `s+1` 修正
+- `int64` 安全边界：`safe_r_max(...)`
+- Python 大整数精确判定：作为所有后端的最终参考答案
+- 命中结果的归一化、去重键、排序规则
+
+这意味着以后再加剪枝或改判定规则，不需要同时维护 CPU 一份、APU 一份。
+
+### 3.2 CPU 路径只负责编排
+
+`search.py` 现在主要负责：
+
+- 生成本原勾股数
+- 预建 `(a, b)` 互素对
+- 通过 `ProcessPoolExecutor` 把 triple 分发到多个 CPU worker
+- 收集原始命中并统一去重
+
+真正的数学判断已经下沉到 `parametric_core.py`。
+
+### 3.3 APU/GPU 路径只负责加速执行
+
+`search_gpu.py` 现在主要负责：
+
+- 把 `(a, b)` 数组搬到 `torch` / `cupy` / `numpy`
+- 在安全范围内调用共享向量化判定
+- 超过 `safe_r_max` 时自动切回共享的 Python 精确判定
+
+这点和旧实现最大的区别是：
+
+- 以前：高规模时可能“报警但继续算”
+- 现在：高规模时会自动精确回退，结果优先保证正确
+
+### 3.4 共享运行统计
+
+`ParametricRunStats` 会同时记录：
+
+- triple 总数
+- 每个 triple 的候选 `(a, b)` 对数量
+- `safe_r_max`
+- 触发 exact fallback 的 triple 数量
+
+CPU 基线、APU 加速、对照脚本都复用这套统计结构。
 
 ---
 
-## 四、Numpy 向量化
+## 四、为什么这样更适合开发
 
-### 4.1 向量化结构
+这个项目的难点不在“代码很多”，而在“公式和筛选条件很严谨，一旦分叉就容易漏改”。
 
-`_search_triple_numpy` 将一个三元组 (p,q,r) 对应的所有 (a,b) 对**一次性**处理：
+现在的开发流程推荐是：
+
+1. 先在开发机 CPU 上改逻辑
+2. 跑 `pytest`
+3. 跑 `compare_parametric.py`
+4. 再去主力机上用 `--backend torch` 跑更大范围
+
+这样 CPU 负责“确认没改错”，APU 负责“用同一套规则跑得更快”。
+
+---
+
+## 五、exact fallback 规则
+
+### 5.1 安全边界
+
+共享安全边界使用：
 
 ```python
-# 输入：a_arr, b_arr 均为 shape (N,) 的 int64 数组（预建，含全部互素对）
-ar = a_arr * r         # shape (N,)
-bp = b_arr * p
-bq = b_arr * q
-
-tB = (ar - bp)**2 + bq**2
-okB, sB = _isqrt_vec(tB)   # 向量化完全平方判断
-
-rational_count = 1 + okB + okD + okC   # d(A) 恒为 1
-mask = rational_count >= min_rational
-# 仅对命中点进行 Python 循环（极少数），提取结果
+safe_r_max = (2**31 - 1) // (max_k_num + 2 * max_k_den)
 ```
 
-收益来源：SIMD 指令（AVX2/AVX-512）同时处理 8~16 个元素，大幅减少 Python 循环开销。
+这个界限是按 `tC = (ar - b(p+q))² + (b(p-q))²` 的最坏情况推出来的，用来保证 `int64` 路径不会静默溢出。
 
-### 4.2 `_isqrt_vec` 精度处理
+### 5.2 回退策略
 
-```python
-def _isqrt_vec(t):
-    s  = np.floor(np.sqrt(t.astype(np.float64))).astype(np.int64)
-    ok = s * s == t
-    # float64 对大整数的 sqrt 可能向下舍入 1，加 s+1 修正
-    s1 = s + 1
-    fix = ~ok & (s1 * s1 == t)
-    ok |= fix
-    s[fix] = s1[fix]
-    return ok, s
-```
+对于每个 triple：
 
-**精度边界**：float64 的有效位数为 53 bits（约 9×10¹⁵）。对 t > 9×10¹⁵，float64 的 sqrt 结果可能有 ±1 误差，但 `s+1` 修正足以覆盖这一误差范围。对更大的 t 值，int64 本身会先溢出（见下节）。
+- 如果 `r <= safe_r_max`：走向量化快路径
+- 如果 `r > safe_r_max`：走 Python 任意精度整数精确路径
+
+CPU 和 APU 都遵守这个规则，只是前者在 CPU 上做快路径，后者在设备数组上做快路径。
 
 ---
 
-## 五、int64 溢出检测与自动回退
+## 六、测试与验算
 
-### 5.1 溢出位置分析
+当前测试除了原有功能覆盖，还新增了三类护栏：
 
-溢出发生在**计算 tC 的中间步骤**：
-```
-tC = (ar - b(p+q))² + (b(p-q))²
-```
+### 6.1 共享核心测试
 
-最坏情况下 `ar - b(p+q)` 的绝对值 ≤ (max_a + 2·max_b)·r。
+- `safe_r_max(...)` 是否符合统一公式
+- 完全平方预筛在边界值附近是否与精确 `isqrt` 一致
 
-若此值超过 `√(INT64_MAX/2) = 2¹⁵ - 1 = 2147483647`（约 2.1×10⁹），则平方后相加可能超过 INT64_MAX，导致 numpy int64 静默溢出返回错误结果。
+### 6.2 CPU / 加速后端一致性测试
 
-### 5.2 安全阈值推导
+- `parametric_search_gpu(xp=np)` 与 CPU 基线点集一致
+- 强制 exact fallback 时，CPU 和加速包装层仍然一致
 
-```
-_INT64_SAFE_HALF = (1 << 31) - 1 = 2147483647
+### 6.3 对照脚本 smoke test
 
-# 由此得到每个 triple 的安全 r 上限：
-# 要求 (max_k_num + 2*max_k_den) * r ≤ _INT64_SAFE_HALF
-_WORKER_SAFE_R_MAX = _INT64_SAFE_HALF // (max_k_num + 2 * max_k_den)
-```
-
-**与 scale 的关系**：
-
-| scale | safe_r_max | r_max (≈ 2·scale²) | numpy 覆盖率 |
-|-------|-----------|---------------------|-------------|
-| 100   | 1,342,177 | 20,000              | 100% |
-| 200   | 671,088   | 80,000              | 100% |
-| 400   | 335,544   | 320,000             | ~100%（勉强覆盖）|
-| 600   | 223,696   | 720,000             | ~31%（大 r 走回退）|
-| 1000  | 134,217   | 2,000,000           | ~7%（大多数走回退）|
-
-### 5.3 回退路径
-
-`_search_triple_int` 使用 Python 的**任意精度整数**（无溢出上限），代价是丧失向量化加速（约慢 5-10 倍）。对于 scale ≤ 400，几乎不触发回退。
+- `compare_parametric.py` 能运行
+- 小范围下对称差应为 0
 
 ---
 
-## 六、多进程模式
+## 七、Ruff 工具链
 
-### 6.1 Initializer 模式
+当前代码质量工具统一使用 `ruff`：
 
-```python
-ProcessPoolExecutor(
-    max_workers=n_workers,
-    initializer=_init_worker,    # 每个子进程启动时执行一次
-    initargs=(max_k_num, max_k_den),
-)
+```bash
+uv run ruff check .
+uv run ruff format .
 ```
 
-`_init_worker` 在子进程中预建 `_WORKER_PAIRS`（Python list）、`_WORKER_A`/`_WORKER_B`（numpy 数组）和 `_WORKER_SAFE_R_MAX`，后续每次任务（一个 triple）都复用这些数据，无需重复计算或传输。
+默认启用的规则族：
 
-### 6.2 macOS spawn 限制
+- `E`, `F`, `W`, `I`, `UP`, `B`, `SIM`, `C4`, `PIE`, `RET`, `RUF`
 
-macOS 默认使用 `spawn` 模式启动子进程（而非 Linux 的 `fork`）。这要求 `_worker` 必须是**模块级函数**（可被 pickle），不能使用 lambda 或嵌套函数。
+为了避免数学符号文案带来过多噪音，当前忽略：
 
-### 6.3 任务粒度
+- `RUF001`
+- `RUF002`
 
-每个 triple 作为一个任务单元。triple 数约为 O(max_m²)，worker 数为 CPU 核数。任务粒度不均（大 r 的 triple 更慢），但总体上 triple 数远大于 worker 数，负载均衡自然。
+另外对少数文件做了局部豁免：
+
+- `scripts/visualize.py`：忽略 `E501`
+- `tests/test_all.py`：忽略 `E402`
+
+这套配置的目标不是“把所有风格都卡死”，而是让重构和后续优化时，能尽早发现真实代码问题。
 
 ---
 
-## 七、D4 去重算法
+## 八、`EC` 路径当前状态
 
-### 7.1 canonical_xy
+这轮只重构了 `parametric` 主线。
 
-```python
-def canonical_xy(x: Fraction, y: Fraction) -> tuple[Fraction, Fraction]:
-    return min(d4_images(x, y))   # min 按元组字典序比较
-```
+`search_ec.py` 仍然保持现有结构，包括：
 
-对同一 D4 轨道中的任意点，`canonical_xy` 返回相同的代表元，用作去重键。
+- seed-finding 的 numpy / GPU 分支
+- `QuarticEC` 的弦切法轨道展开
+- Fraction 精确运算的四顶点检验
 
-### 7.2 dedup_by_symmetry
-
-```python
-for pt in sorted_points:
-    key = canonical_xy(pt.x, pt.y)
-    if key not in best or pt.rational_count > best[key].rational_count:
-        best[key] = pt
-    elif pt.rational_count == best[key].rational_count:
-        if pt.denominator < best[key].denominator:
-            best[key] = pt
-```
-
-保留每个轨道中：① `rational_count` 最高的；② 相等时取 `denominator` 最小的（最简单的代表）。
-
----
-
-## 八、GPU 路径
-
-### 8.1 Backend 优先级
-
-Backend 检测逻辑已拆分到独立模块 `backend.py`，`search_gpu.py` 从中导入：
-
-```
-detect_backend():
-    1. 尝试 CuPy（import cupy）→ 最快，原生 numpy-like API
-    2. 尝试 PyTorch CUDA/ROCm（torch.cuda.is_available()）→ 稍慢，API 需适配
-    3. 回退 NumPy（CPU）→ 与 CPU 搜索相同，用于验证
-```
-
-### 8.2 `_TorchXP` 封装
-
-由于 PyTorch 的数组 API 与 numpy/cupy 不完全兼容，`backend.py` 中的 `_TorchXP` 是一个薄包装器，实现了 `_search_triple_gpu` 所需的接口（`zeros_like`、`floor`、`sqrt` 等）。dtype 转换统一使用 `_xp_cast(arr, dtype)` 辅助函数（numpy 用 `.astype()`，torch 用 `.to(dtype)`）。
-
-### 8.3 GPU 路径的 int64 限制
-
-GPU 路径目前未实现 int64 溢出自动回退（GPU 不支持 Python 任意精度整数）。大 scale 时（> ~400）会打印警告但继续运行，溢出 triple 的结果可能不正确。
-
-修复方向：在 GPU 路径中，对溢出 triple 降级到 CPU 的 `_search_triple_int`。
-
----
-
-## 九、结果排序
-
-默认排序键：`(-rational_count, denominator, x, y)`
-
-| 优先级 | 字段 | 方向 | 含义 |
-|--------|------|------|------|
-| 1 | rational_count | 降序 | 四顶点解排最前（如有） |
-| 2 | denominator | 升序 | lcm(x.den, y.den)，小的排前（"最简单"的解） |
-| 3 | (x, y) | 升序 | 同等复杂度下字典序，结果可复现 |
-
-`denominator` = lcm(x.denominator, y.denominator)，反映点坐标的"复杂度"，与解的数论性质相关。
-
----
-
-## 十、椭圆曲线引导搜索（search_ec.py）
-
-### 10.1 基本思路
-
-暴力搜索只能覆盖有限的参数范围。对每个本原勾股数 (p,q,r)，固定 P=(kp/r, kq/r) 后，dA=k 自然有理；dB 和 dD 有理的充要条件等价于某个亏格 1 超椭圆曲线上的有理点：
-
-```
-E² = F(t)
-F(t) = r²t⁴ + 4qrt³ + (2r²+4pq)t² + 4r(2p-q)t + (4p²-4pq+r²)
-```
-
-其中 t 是将 dB 有理化的坡度参数，E = r·dD·(1-t²)。
-
-### 10.2 算法流程
-
-1. **种子搜索**（`find_seeds_for_triple`）：暴力搜索 k=a/b（有界范围），找同时使 dB、dD 有理的 k 值，得到曲线上的有理种子点 (t, E)。
-
-2. **轨道展开**（`QuarticEC.expand_orbit`）：从种子点出发，用弦切法（切线 + 割线）在曲线上生成新的有理点。每个新有理点给出一个新的 k 值，即一个新的候选点 P。
-
-3. **四顶点检验**：由平行四边形恒等式 dA²+dC²=dB²+dD²，若 dB、dD、dA 均有理，则 dC 有理当且仅当 dB²+dD²-dA² 是完全有理平方。此检验通过一次 `rational_sqrt` 调用完成。
-
-### 10.3 QuarticEC 类接口
-
-| 方法 | 说明 |
-|------|------|
-| `F(t)` | 计算四次多项式 |
-| `on_curve(t, E)` | 验证点在曲线上 |
-| `k_from_t(t)` | 由坡度参数还原 k |
-| `t_from_k_dB(k, dB)` | 由 (k,dB) 恢复 t（最多两个解） |
-| `E_from_t_dD(t, dD)` | 计算对应的 E = r·dD·(1-t²) |
-| `tangent_points(t0, E0)` | 切线步：从一个点生成新点 |
-| `secant_points(t1,E1,t2,E2)` | 割线步：从两个点生成新点 |
-| `expand_orbit(seeds, max_steps)` | 完整轨道展开，返回有理 k 列表 |
-
-### 10.4 与暴力搜索的关系
-
-椭圆曲线搜索是暴力搜索的**第二层**：它以暴力搜索找到的种子为起点，通过代数方法（纯 Fraction 运算，无需 GPU）生成超出暴力搜索范围的解。两层搜索互补，不重叠：
-- 第一层（`search.py` / `search_gpu.py`）：覆盖有限参数范围内的所有三顶点解
-- 第二层（`search_ec.py`）：从种子出发沿轨道探索无界解空间
+也就是说，`EC` 目前还没有像 `parametric` 那样完全收成“单一逻辑源 + 多后端执行壳”。如果以后要继续做结构统一，建议优先复用 `parametric_core.py` 中那些低风险公共小工具，而不是一次性重写整个 `EC` 层。

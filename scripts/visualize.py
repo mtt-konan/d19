@@ -13,16 +13,15 @@ Opens the HTML file in the default browser when done.
 
 import argparse
 import json
-import math
 import webbrowser
 from collections import Counter, defaultdict
 from fractions import Fraction
 from pathlib import Path
 
-
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
+
 
 def load_results(path: str) -> dict:
     with open(path) as f:
@@ -40,27 +39,37 @@ def load_results(path: str) -> dict:
         den = p.get("denominator") or max(
             Fraction(p["x"]).denominator, Fraction(p["y"]).denominator
         )
-        points.append({
-            "x": x, "y": y,
-            "x_str": p["x"], "y_str": p["y"],
-            "dA": dists["A"], "dB": dists["B"],
-            "dC": dists["C"], "dD": dists["D"],
-            "dA_str": p.get("dA") or "?",
-            "dB_str": p.get("dB") or "?",
-            "dC_str": p.get("dC") or "?",
-            "dD_str": p.get("dD") or "?",
-            "missing": missing[0] if missing else "none",
-            "rational_count": p.get("rational_count", 3),
-            "denominator": den,
-            "inside": 0 < x < 1 and 0 < y < 1,
-        })
-    return {"params": raw.get("search_params", {}), "elapsed": raw.get("elapsed_seconds", 0),
-            "points": points}
+        points.append(
+            {
+                "x": x,
+                "y": y,
+                "x_str": p["x"],
+                "y_str": p["y"],
+                "dA": dists["A"],
+                "dB": dists["B"],
+                "dC": dists["C"],
+                "dD": dists["D"],
+                "dA_str": p.get("dA") or "?",
+                "dB_str": p.get("dB") or "?",
+                "dC_str": p.get("dC") or "?",
+                "dD_str": p.get("dD") or "?",
+                "missing": missing[0] if missing else "none",
+                "rational_count": p.get("rational_count", 3),
+                "denominator": den,
+                "inside": 0 < x < 1 and 0 < y < 1,
+            }
+        )
+    return {
+        "params": raw.get("search_params", {}),
+        "elapsed": raw.get("elapsed_seconds", 0),
+        "points": points,
+    }
 
 
 # ---------------------------------------------------------------------------
 # Analytics
 # ---------------------------------------------------------------------------
+
 
 def compute_stats(points: list[dict]) -> dict:
     total = len(points)
@@ -114,6 +123,7 @@ def compute_stats(points: list[dict]) -> dict:
 # HTML generation with Plotly
 # ---------------------------------------------------------------------------
 
+
 def build_html(data: dict, title: str, inside_only: bool = False) -> str:
     points = data["points"]
     if inside_only:
@@ -124,8 +134,13 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
 
     # Color map for missing vertex
     color_map = {"A": "#e74c3c", "B": "#3498db", "C": "#2ecc71", "D": "#f39c12", "none": "#9b59b6"}
-    label_map = {"A": "dA irrational", "B": "dB irrational", "C": "dC irrational",
-                 "D": "dD irrational", "none": "all rational (4 vertices!)"}
+    label_map = {
+        "A": "dA irrational",
+        "B": "dB irrational",
+        "C": "dC irrational",
+        "D": "dD irrational",
+        "none": "all rational (4 vertices!)",
+    }
 
     # Build scatter data grouped by missing vertex
     scatter_traces = []
@@ -133,23 +148,29 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
         group = [p for p in points if p["missing"] == mv]
         if not group:
             continue
-        scatter_traces.append({
-            "type": "scatter",
-            "mode": "markers",
-            "name": label_map[mv],
-            "x": [p["x"] for p in group],
-            "y": [p["y"] for p in group],
-            "marker": {"color": color_map[mv], "size": 7, "opacity": 0.8,
-                       "line": {"width": 1, "color": "white"}},
-            "text": [
-                f"({p['x_str']}, {p['y_str']})<br>"
-                f"dA={p['dA_str']} dB={p['dB_str']}<br>"
-                f"dC={p['dC_str']} dD={p['dD_str']}<br>"
-                f"den={p['denominator']}"
-                for p in group
-            ],
-            "hovertemplate": "%{text}<extra>" + label_map[mv] + "</extra>",
-        })
+        scatter_traces.append(
+            {
+                "type": "scatter",
+                "mode": "markers",
+                "name": label_map[mv],
+                "x": [p["x"] for p in group],
+                "y": [p["y"] for p in group],
+                "marker": {
+                    "color": color_map[mv],
+                    "size": 7,
+                    "opacity": 0.8,
+                    "line": {"width": 1, "color": "white"},
+                },
+                "text": [
+                    f"({p['x_str']}, {p['y_str']})<br>"
+                    f"dA={p['dA_str']} dB={p['dB_str']}<br>"
+                    f"dC={p['dC_str']} dD={p['dD_str']}<br>"
+                    f"den={p['denominator']}"
+                    for p in group
+                ],
+                "hovertemplate": "%{text}<extra>" + label_map[mv] + "</extra>",
+            }
+        )
 
     # Unit square corners for annotation
     square_trace = {
@@ -177,23 +198,41 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
 
     # Denominator histogram
     dens = [p["denominator"] for p in points]
-    den_hist = {"type": "histogram", "x": dens, "nbinsx": 40,
-                "marker": {"color": "#3498db", "opacity": 0.75},
-                "name": "Denominator"}
+    den_hist = {
+        "type": "histogram",
+        "x": dens,
+        "nbinsx": 40,
+        "marker": {"color": "#3498db", "opacity": 0.75},
+        "name": "Denominator",
+    }
 
     # Missing vertex bar chart
-    mv_labels = [label_map[k] for k in ["A", "B", "C", "D", "none"] if stats["missing_counts"].get(k, 0) > 0]
-    mv_values = [stats["missing_counts"].get(k, 0) for k in ["A", "B", "C", "D", "none"] if stats["missing_counts"].get(k, 0) > 0]
-    mv_colors = [color_map[k] for k in ["A", "B", "C", "D", "none"] if stats["missing_counts"].get(k, 0) > 0]
-    mv_bar = {"type": "bar", "x": mv_labels, "y": mv_values,
-              "marker": {"color": mv_colors},
-              "text": mv_values, "textposition": "auto",
-              "name": "Count by missing vertex"}
+    mv_labels = [
+        label_map[k] for k in ["A", "B", "C", "D", "none"] if stats["missing_counts"].get(k, 0) > 0
+    ]
+    mv_values = [
+        stats["missing_counts"].get(k, 0)
+        for k in ["A", "B", "C", "D", "none"]
+        if stats["missing_counts"].get(k, 0) > 0
+    ]
+    mv_colors = [
+        color_map[k] for k in ["A", "B", "C", "D", "none"] if stats["missing_counts"].get(k, 0) > 0
+    ]
+    mv_bar = {
+        "type": "bar",
+        "x": mv_labels,
+        "y": mv_values,
+        "marker": {"color": mv_colors},
+        "text": mv_values,
+        "textposition": "auto",
+        "name": "Count by missing vertex",
+    }
 
     # Distance scatter: dA vs dB (for points where both are rational)
     ab_pts = [p for p in points if p["dA"] is not None and p["dB"] is not None]
     dA_dB = {
-        "type": "scatter", "mode": "markers",
+        "type": "scatter",
+        "mode": "markers",
         "x": [p["dA"] for p in ab_pts],
         "y": [p["dB"] for p in ab_pts],
         "marker": {"color": [color_map[p["missing"]] for p in ab_pts], "size": 6, "opacity": 0.7},
@@ -205,7 +244,8 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
     # dC vs dD
     cd_pts = [p for p in points if p["dC"] is not None and p["dD"] is not None]
     dC_dD = {
-        "type": "scatter", "mode": "markers",
+        "type": "scatter",
+        "mode": "markers",
         "x": [p["dC"] for p in cd_pts],
         "y": [p["dD"] for p in cd_pts],
         "marker": {"color": [color_map[p["missing"]] for p in cd_pts], "size": 6, "opacity": 0.7},
@@ -216,13 +256,15 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
 
     # x vs y scatter with den as color
     xy_den = {
-        "type": "scatter", "mode": "markers",
+        "type": "scatter",
+        "mode": "markers",
         "x": [p["x"] for p in points],
         "y": [p["y"] for p in points],
         "marker": {
             "color": [p["denominator"] for p in points],
             "colorscale": "Viridis",
-            "size": 7, "opacity": 0.8,
+            "size": 7,
+            "opacity": 0.8,
             "colorbar": {"title": "Denominator"},
         },
         "text": [f"({p['x_str']},{p['y_str']}) den={p['denominator']}" for p in points],
@@ -238,21 +280,36 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
     a_count = mc.get("A", 0)
     c_count = mc.get("C", 0)
     if a_count == 0:
-        insights.append("✓ <b>A(0,0) is NEVER irrational</b> — expected: A is the parametric anchor (dA always rational by construction).")
+        insights.append(
+            "✓ <b>A(0,0) is NEVER irrational</b> — expected: A is the parametric anchor (dA always rational by construction)."
+        )
     if abs(b_count - d_count) <= max(1, (b_count + d_count) // 20):
-        insights.append(f"✓ <b>B and D appear equally often</b> ({b_count} vs {d_count}) — reflects D4 symmetry (reflection about y=x swaps B↔D).")
+        insights.append(
+            f"✓ <b>B and D appear equally often</b> ({b_count} vs {d_count}) — reflects D4 symmetry (reflection about y=x swaps B↔D)."
+        )
     if c_count < b_count:
-        insights.append(f"✓ <b>C(1,1) is hardest to make irrational</b> ({c_count} vs B={b_count}) — the diagonal vertex C is 'easier' to reach with rational distances.")
+        insights.append(
+            f"✓ <b>C(1,1) is hardest to make irrational</b> ({c_count} vs B={b_count}) — the diagonal vertex C is 'easier' to reach with rational distances."
+        )
     inside_pct = 100 * stats["inside"] / stats["total"] if stats["total"] else 0
-    insights.append(f"✓ Only <b>{stats['inside']}/{stats['total']} ({inside_pct:.0f}%) points are strictly inside</b> the unit square — most solutions lie outside.")
+    insights.append(
+        f"✓ Only <b>{stats['inside']}/{stats['total']} ({inside_pct:.0f}%) points are strictly inside</b> the unit square — most solutions lie outside."
+    )
     if stats["rat4"]:
-        insights.append(f"🌟 <b>{stats['rat4']} point(s) with ALL FOUR rational distances found!</b>")
+        insights.append(
+            f"🌟 <b>{stats['rat4']} point(s) with ALL FOUR rational distances found!</b>"
+        )
 
     # Build stats table rows
     stat_rows = ""
-    for k, v in [("Total points", stats["total"]), ("With 3 rational", stats["rat3"]),
-                 ("With 4 rational", stats["rat4"]), ("Inside unit square", stats["inside"]),
-                 ("Min denominator", stats["den_min"]), ("Max denominator", stats["den_max"])]:
+    for k, v in [
+        ("Total points", stats["total"]),
+        ("With 3 rational", stats["rat3"]),
+        ("With 4 rational", stats["rat4"]),
+        ("Inside unit square", stats["inside"]),
+        ("Min denominator", stats["den_min"]),
+        ("Max denominator", stats["den_max"]),
+    ]:
         stat_rows += f"<tr><td>{k}</td><td><b>{v}</b></td></tr>\n"
 
     insights_html = "".join(f"<li>{i}</li>" for i in insights)
@@ -264,7 +321,7 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
     def _js(obj):
         return _json.dumps(obj)
 
-    html = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -368,7 +425,7 @@ var layout_scatter = {{
   }}],
 }};
 
-var scatter_data = {_js(scatter_traces + [square_border, square_trace])};
+var scatter_data = {_js([*scatter_traces, square_border, square_trace])};
 Plotly.newPlot("scatter_main", scatter_data, layout_scatter, {{responsive: true}});
 
 Plotly.newPlot("mv_bar", [{_js(mv_bar)}],
@@ -401,19 +458,20 @@ Plotly.newPlot("xy_den", [{_js(xy_den)}], layout_den, {{responsive: true}});
 </body>
 </html>
 """
-    return html
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Visualize rational distance results")
     parser.add_argument("input", help="JSON results file (e.g. results.json)")
     parser.add_argument("--out", help="Output HTML file (default: <input>.html)")
-    parser.add_argument("--inside", action="store_true",
-                        help="Only show points strictly inside the unit square")
+    parser.add_argument(
+        "--inside", action="store_true", help="Only show points strictly inside the unit square"
+    )
     parser.add_argument("--no-open", action="store_true", help="Don't open browser automatically")
     args = parser.parse_args()
 
