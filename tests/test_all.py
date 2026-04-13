@@ -3,12 +3,13 @@
 All tests run via:   uv run pytest
 
 Coverage:
-  math_utils  — rational_sqrt, primitive_pythagorean_triples
-  square      — RationalPoint, compute_distances, D4 helpers
-  search      — parametric_search, brute_force_search, parametric_search_fast,
-                dedup_by_symmetry, inside_only filter, side-exclusion theorem
-  search_gpu  — parametric_search_gpu with numpy backend (no GPU required)
-  backend     — detect_backend (numpy fallback always available)
+  math_utils   — rational_sqrt, primitive_pythagorean_triples
+  square       — RationalPoint, compute_distances, D4 helpers
+  search       — parametric_search, brute_force_search, parametric_search_fast,
+                 dedup_by_symmetry, inside_only filter, side-exclusion theorem
+  search_gpu   — parametric_search_gpu with numpy backend (no GPU required)
+  backend      — detect_backend (numpy fallback always available)
+  search_chain — Pythagorean 4-cycle search (find_chains, ChainResult)
 """
 
 from __future__ import annotations
@@ -616,3 +617,67 @@ class TestEcSearch:
         pts = ec_search(max_m=20, max_k_num=400, max_k_den=800, min_rational=3, progress=False)
         keys = [canonical_xy(pt.x, pt.y) for pt in pts]
         assert len(keys) == len(set(keys)), "Duplicate canonical forms found"
+
+
+# ── TestChainSearch ───────────────────────────────────────────────────────────
+
+
+class TestChainSearch:
+    """Tests for the Pythagorean 4-cycle search module."""
+
+    def test_known_cycle_3_4_3_4(self):
+        """(3,4,3,4) is the smallest Pythagorean 4-cycle (canonical form)."""
+        from rational_distance.search_chain import find_chains
+
+        results = find_chains(max_val=10, progress=False)
+        tuples = {(r.a, r.b, r.c, r.d) for r in results}
+        assert (3, 4, 3, 4) in tuples, f"(3,4,3,4) not found; got {sorted(tuples)}"
+
+    def test_hypotenuses_correct(self):
+        """Hypotenuses must equal isqrt of the respective sum of squares."""
+        from math import isqrt
+        from rational_distance.search_chain import find_chains
+
+        for r in find_chains(max_val=50, progress=False):
+            assert r.x1 ** 2 == r.a ** 2 + r.b ** 2, f"x1 wrong for {r}"
+            assert r.x2 ** 2 == r.b ** 2 + r.c ** 2, f"x2 wrong for {r}"
+            assert r.x3 ** 2 == r.c ** 2 + r.d ** 2, f"x3 wrong for {r}"
+            assert r.x4 ** 2 == r.d ** 2 + r.a ** 2, f"x4 wrong for {r}"
+
+    def test_canonical_no_duplicates(self):
+        """Canonical mode must return no two tuples related by dihedral symmetry."""
+        from rational_distance.search_chain import find_chains, _symmetry_group
+
+        results = find_chains(max_val=100, canonical=True, progress=False)
+        keys: set[tuple[int, int, int, int]] = set()
+        for r in results:
+            syms = _symmetry_group(r.a, r.b, r.c, r.d)
+            for sym in syms:
+                assert sym not in keys or sym == min(syms), (
+                    f"Duplicate via symmetry: {(r.a,r.b,r.c,r.d)} and {sym}"
+                )
+            keys.add(min(syms))
+
+    def test_no_square_solutions_small(self):
+        """No Pythagorean 4-cycle with a+c == b+d exists up to max_val=500.
+        This is consistent with the Harborth conjecture."""
+        from rational_distance.search_chain import find_chains
+
+        results = find_chains(max_val=500, require_square=True, progress=False)
+        assert results == [], f"Unexpected square solution found: {results[0]}"
+
+    def test_square_ok_flag(self):
+        """square_ok must correctly reflect a+c == b+d."""
+        from rational_distance.search_chain import find_chains
+
+        for r in find_chains(max_val=100, progress=False):
+            assert r.square_ok == (r.a + r.c == r.b + r.d)
+
+    def test_chain_result_str(self):
+        """ChainResult.__str__ must not raise and must mention hyp."""
+        from rational_distance.search_chain import find_chains
+
+        results = find_chains(max_val=20, progress=False)
+        assert results, "No results to test"
+        s = str(results[0])
+        assert "hyp=" in s

@@ -1,9 +1,10 @@
 """Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1).
 
-Single entry point supporting two complementary search methods:
+Single entry point supporting three complementary search methods:
 
   parametric   Parametric brute-force search (GPU / CPU multiprocessing)
   ec           Elliptic-curve guided search (chord-tangent orbit expansion)
+  chain        Pythagorean 4-cycle search (generalised rectangle problem)
 
 ──────────────────────────────────────────────────────────────────────────
 PARAMETRIC METHOD
@@ -35,6 +36,18 @@ curve using chord-tangent arithmetic (exact Fraction arithmetic, no GPU).
   uv run python scripts/search.py ec --max-m 30
   uv run python scripts/search.py ec --max-m 50 --max-k-num 400 --max-k-den 800
   uv run python scripts/search.py ec --min-rational 4 --inside
+
+──────────────────────────────────────────────────────────────────────────
+CHAIN METHOD
+──────────────────────────────────────────────────────────────────────────
+Searches for integer 4-tuples (a,b,c,d) where each consecutive pair forms
+a Pythagorean triple (a²+b², b²+c², c²+d², d²+a² are all perfect squares).
+This is the generalised rectangle problem.  When a+c == b+d == k the point
+(a/k, b/k) has rational distances to all four corners of the unit square.
+
+  uv run python scripts/search.py chain --max-val 200
+  uv run python scripts/search.py chain --max-val 500 --require-square
+  uv run python scripts/search.py chain --max-val 1000 --out chain.json
 
 ──────────────────────────────────────────────────────────────────────────
 GPU SETUP — AMD Ryzen AI Max+ 392 (Windows, ROCm)
@@ -386,6 +399,56 @@ def _run_ec(args: argparse.Namespace) -> None:
         _save_json(args.out, "ec", params, elapsed, results, count_by_n)
 
 
+# ── Chain runner ──────────────────────────────────────────────────────────────
+
+
+def _run_chain(args: argparse.Namespace) -> None:
+    from rational_distance.search_chain import find_chains, results_to_json
+
+    print("=" * 72)
+    print("Pythagorean 4-cycle search — rectangle / unit-square problem")
+    print(f"  max_val={args.max_val}, require_square={args.require_square}")
+    print("=" * 72)
+
+    t0 = time.perf_counter()
+    results = find_chains(
+        max_val=args.max_val,
+        require_square=args.require_square,
+        canonical=True,
+        progress=not args.no_progress,
+    )
+    elapsed = time.perf_counter() - t0
+
+    n_sq = sum(1 for r in results if r.square_ok)
+    print(f"\nFound {len(results)} canonical 4-cycles in {elapsed:.1f}s")
+    print(f"  {n_sq} satisfy unit-square constraint (a+c == b+d)")
+    print(f"  {len(results) - n_sq} are rectangle-only solutions")
+
+    top = args.top if args.top > 0 else len(results)
+    if results:
+        print(f"\n{'a':>6} {'b':>6} {'c':>6} {'d':>6}  "
+              f"{'x1':>6} {'x2':>6} {'x3':>6} {'x4':>6}  "
+              f"{'rect':>10}  sq   point")
+        print("-" * 72)
+        for r in results[:top]:
+            w, h = r.rectangle
+            sq = "✓" if r.square_ok else ""
+            pt = f"({r.px_num}/{r.px_den}, {r.py_num}/{r.py_den})" if r.square_ok else ""
+            print(
+                f"{r.a:>6} {r.b:>6} {r.c:>6} {r.d:>6}  "
+                f"{r.x1:>6} {r.x2:>6} {r.x3:>6} {r.x4:>6}  "
+                f"{w:>5}×{h:<5}  {sq:<3}  {pt}"
+            )
+        if len(results) > top:
+            print(f"  ... {len(results) - top} more rows suppressed (use --top 0 to show all)")
+
+    if args.out:
+        data = results_to_json(results, args.max_val, args.require_square, elapsed)
+        with open(args.out, "w") as f:
+            json.dump(data, f, indent=2)
+        print(f"\nResults saved to {args.out}")
+
+
 # ── Argument parser ───────────────────────────────────────────────────────────
 
 
@@ -496,6 +559,37 @@ def build_parser() -> argparse.ArgumentParser:
     )
     _add_common_args(e)
 
+    # ── chain ────────────────────────────────────────────────────────────────
+    c = sub.add_parser(
+        "chain",
+        help="Pythagorean 4-cycle search (generalised rectangle / unit-square problem)",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(
+            "Find integer 4-tuples (a,b,c,d) where a²+b², b²+c², c²+d², d²+a²\n"
+            "are all perfect squares (each consecutive pair is a Pythagorean triple).\n"
+            "When a+c == b+d == k, point (a/k, b/k) has rational distances to all\n"
+            "four corners of the unit square A(0,0) B(1,0) C(1,1) D(0,1).\n\n"
+            "Examples:\n"
+            "  uv run python scripts/search.py chain --max-val 200\n"
+            "  uv run python scripts/search.py chain --max-val 500 --require-square\n"
+            "  uv run python scripts/search.py chain --max-val 1000 --out chain.json"
+        ),
+    )
+    c.add_argument(
+        "--max-val",
+        type=int,
+        default=200,
+        help="Upper bound for all four integers a,b,c,d (default: 200)",
+    )
+    c.add_argument(
+        "--require-square",
+        action="store_true",
+        help="Only report solutions where a+c == b+d (unit-square constraint)",
+    )
+    c.add_argument("--out", type=str, default=None, help="Write JSON results to this file")
+    c.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
+    c.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+
     return parser
 
 
@@ -506,6 +600,8 @@ def main() -> None:
         _run_parametric(args)
     elif args.method == "ec":
         _run_ec(args)
+    elif args.method == "chain":
+        _run_chain(args)
 
 
 if __name__ == "__main__":
