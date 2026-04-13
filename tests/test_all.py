@@ -22,6 +22,7 @@ from importlib import import_module
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
@@ -1170,3 +1171,171 @@ class TestChainFastAdditional:
         assert fast == [] and slow == [], (
             f"Unexpected results: fast={fast}, slow={slow}"
         )
+
+
+# ── chain-fast numpy backend ──────────────────────────────────────────────────
+
+
+class TestChainFastNumpy:
+    """Tests for the numpy-vectorised backend of find_chains_fast."""
+
+    def test_numpy_matches_python(self):
+        """numpy and python backends must return identical results."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        py = find_chains_fast(max_hyp=300, progress=False, backend="python")
+        np_ = find_chains_fast(max_hyp=300, progress=False, backend="numpy")
+        assert py == np_
+
+    def test_auto_selects_numpy(self):
+        """backend='auto' should choose numpy when it is available."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        # Should not raise; confirms numpy path runs without error.
+        find_chains_fast(max_hyp=200, progress=False, backend="auto")
+
+    def test_numpy_backend_forced(self):
+        """backend='numpy' should not raise for safe max_hyp values."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        find_chains_fast(max_hyp=500, progress=False, backend="numpy")
+
+    def test_numpy_overflow_guard(self):
+        """backend='numpy' with max_hyp > _NUMPY_MAX_HYP must raise ValueError."""
+        from rational_distance.search_chain_fast import (
+            _HAS_NUMPY,
+            _NUMPY_MAX_HYP,
+            find_chains_fast,
+        )
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        with pytest.raises(ValueError, match="int64-safe threshold"):
+            find_chains_fast(max_hyp=_NUMPY_MAX_HYP + 1, progress=False, backend="numpy")
+
+    def test_near_miss_callback_fires_same_count(self):
+        """near_miss_callback should fire the same number of times for both backends."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        py_hits: list = []
+        np_hits: list = []
+        find_chains_fast(max_hyp=500, progress=False, backend="python",
+                         near_miss_callback=lambda *a: py_hits.append(a))
+        find_chains_fast(max_hyp=500, progress=False, backend="numpy",
+                         near_miss_callback=lambda *a: np_hits.append(a))
+        assert len(py_hits) == len(np_hits), (
+            f"near_miss count differs: python={len(py_hits)}, numpy={len(np_hits)}"
+        )
+
+    def test_start_t1_resumes_subset(self):
+        """start_t1=k should return a subset of the full run's results."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        full = find_chains_fast(max_hyp=300, progress=False, backend="python")
+        partial = find_chains_fast(max_hyp=300, progress=False, backend="python",
+                                   start_t1=5)
+        # partial is a strict subset (same or fewer results)
+        for r in partial:
+            assert r in full, f"partial result not in full: {r}"
+
+
+# ── chain_db persistence ──────────────────────────────────────────────────────
+
+
+class TestChainDB:
+    """Tests for the chain_db SQLite persistence layer."""
+
+    def _make_conn(self, tmp_path):
+        from rational_distance.chain_db import connect_db, init_schema
+
+        conn = connect_db(tmp_path / "test.db")
+        init_schema(conn)
+        return conn
+
+    def test_init_schema_creates_tables(self, tmp_path):
+        """init_schema should create all three expected tables."""
+        conn = self._make_conn(tmp_path)
+        rows = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+        ).fetchall()
+        names = {r[0] for r in rows}
+        assert "chain_near_misses" in names
+        assert "chain_runs" in names
+        assert "chain_solutions" in names
+
+    def test_start_and_finish_run(self, tmp_path):
+        """start_run and finish_run should insert and update a run row."""
+        from rational_distance.chain_db import (
+            connect_db,
+            finish_run,
+            get_run,
+            init_schema,
+            start_run,
+        )
+
+        conn = self._make_conn(tmp_path)
+        run_id = start_run(conn, max_hyp=500, backend="numpy", n_triples=160)
+        assert isinstance(run_id, int)
+        finish_run(conn, run_id, found_count=0, elapsed=1.23)
+        run = get_run(conn, run_id)
+        assert run["status"] == "done"
+        assert run["found_count"] == 0
+        assert abs(run["elapsed_s"] - 1.23) < 0.01
+
+    def test_record_solution_dedup(self, tmp_path):
+        """record_solution should silently ignore duplicate (a,b,c,d)."""
+        from rational_distance.chain_db import connect_db, init_schema, record_solution, start_run
+        from rational_distance.search_chain import ChainResult
+
+        conn = self._make_conn(tmp_path)
+        run_id = start_run(conn, max_hyp=500, backend="python", n_triples=160)
+        r = ChainResult(a=3, b=4, c=5, d=4, x1=5, x2=5, x3=5, x4=5, square_ok=True)
+        record_solution(conn, run_id, r)
+        record_solution(conn, run_id, r)  # duplicate — must not raise
+        count = conn.execute("SELECT COUNT(*) FROM chain_solutions").fetchone()[0]
+        assert count == 1
+
+    def test_checkpoint_and_resume(self, tmp_path):
+        """resume_run should return the last checkpointed t1_index."""
+        from rational_distance.chain_db import (
+            checkpoint_t1,
+            connect_db,
+            init_schema,
+            resume_run,
+            start_run,
+        )
+
+        conn = self._make_conn(tmp_path)
+        run_id = start_run(conn, max_hyp=500, backend="numpy", n_triples=160)
+        checkpoint_t1(conn, run_id, t1_index=42, near_miss_count=7)
+        result = resume_run(conn, max_hyp=500)
+        assert result is not None
+        rid, last = result
+        assert rid == run_id
+        assert last == 42
+
+    def test_record_near_miss(self, tmp_path):
+        """record_near_miss should insert a row with computed deficits."""
+        from rational_distance.chain_db import (
+            connect_db,
+            get_near_misses,
+            init_schema,
+            record_near_miss,
+            start_run,
+        )
+
+        conn = self._make_conn(tmp_path)
+        run_id = start_run(conn, max_hyp=500, backend="python", n_triples=160)
+        # sq4 = 25, h4 = 4 → sq4_deficit = 25 - 16 = 9
+        record_near_miss(conn, run_id, a=3, b_val=4, c=5, d=6,
+                         c3_ok=True, c4_ok=False,
+                         sq3=61, sq4=25, h3=7, h4=4)
+        rows = get_near_misses(conn, run_id)
+        assert len(rows) == 1
+        assert rows[0]["sq4_deficit"] == 9

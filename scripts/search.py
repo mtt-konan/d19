@@ -474,19 +474,90 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     from rational_distance.search_chain import results_to_json
     from rational_distance.search_chain_fast import find_chains_fast
 
+    db_conn = None
+    run_id: int | None = None
+    start_t1 = 0
+    near_misses_logged = 0
+
+    # ── DB / resume setup ──────────────────────────────────────────────────
+    if getattr(args, "db", None):
+        from rational_distance.chain_db import (
+            connect_db,
+            finish_run,
+            get_near_misses,
+            init_schema,
+            resume_run,
+            start_run,
+        )
+
+        db_conn = connect_db(args.db)
+        init_schema(db_conn)
+
+        if getattr(args, "resume", False):
+            resumed = resume_run(db_conn, args.max_hyp)
+            if resumed:
+                run_id, start_t1 = resumed
+                print(f"Resuming run {run_id} from T1 index {start_t1}")
+            else:
+                print("No resumable run found; starting fresh.")
+
+        if run_id is None:
+            from rational_distance.math_utils import primitive_pythagorean_triples
+            from math import ceil, sqrt
+
+            max_m = ceil(sqrt(args.max_hyp)) + 1
+            n_triples = sum(
+                1 for _, _, c in primitive_pythagorean_triples(max_m) if c <= args.max_hyp
+            )
+            run_id = start_run(db_conn, args.max_hyp, getattr(args, "backend", "auto"), n_triples)
+
+    # ── near-miss callback ─────────────────────────────────────────────────
+    near_miss_callback = None
+    if getattr(args, "near_miss", False) and db_conn is not None:
+        from rational_distance.chain_db import checkpoint_t1, record_near_miss
+
+        _checkpoint_counter = [0]
+        _checkpoint_interval = 100
+
+        def near_miss_callback(a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4):
+            nonlocal near_misses_logged
+            record_near_miss(db_conn, run_id, a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4)
+            near_misses_logged += 1
+
     print("=" * 72)
     print("Pythagorean 4-cycle fast search — O(n²) primitive-triple-pair method")
-    print(f"  max_hyp={args.max_hyp}  (solution values can reach O(max_hyp²))")
+    backend = getattr(args, "backend", "auto")
+    print(f"  max_hyp={args.max_hyp}  backend={backend}  start_t1={start_t1}")
     print("=" * 72)
 
     t0 = time.perf_counter()
     results = find_chains_fast(
         max_hyp=args.max_hyp,
         progress=not args.no_progress,
+        backend=backend,
+        start_t1=start_t1,
+        near_miss_callback=near_miss_callback,
     )
     elapsed = time.perf_counter() - t0
 
+    # ── DB finalise ────────────────────────────────────────────────────────
+    if db_conn is not None:
+        from rational_distance.chain_db import finish_run, get_near_misses, record_solution
+
+        for r in results:
+            record_solution(db_conn, run_id, r)
+        finish_run(db_conn, run_id, found_count=len(results), elapsed=elapsed)
+
+        if getattr(args, "near_miss", False) and near_misses_logged:
+            top_nm = get_near_misses(db_conn, run_id, limit=5)
+            print(f"\nTop near-misses (sq4_deficit, closest first):")
+            for nm in top_nm:
+                print(f"  a={nm['a']} b={nm['b_val']} c={nm['c']} d={nm['d']}"
+                      f"  sq4_deficit={nm['sq4_deficit']}")
+
     print(f"\nFound {len(results)} unit-square 4-cycle solution(s) in {elapsed:.1f}s")
+    if db_conn is not None:
+        print(f"  near-misses logged: {near_misses_logged}")
     print("  All results satisfy a+c == b+d by construction.")
 
     top = args.top if args.top > 0 else len(results)
@@ -813,6 +884,30 @@ def build_parser() -> argparse.ArgumentParser:
     cf.add_argument("--out", type=str, default=None, help="Write JSON results to this file")
     cf.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
     cf.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+    cf.add_argument(
+        "--backend",
+        choices=["auto", "numpy", "python"],
+        default="auto",
+        help="Computation backend (default: auto — uses numpy if available)",
+    )
+    cf.add_argument(
+        "--db",
+        type=str,
+        default=None,
+        metavar="PATH",
+        help="SQLite database path for persistence (enables resume + near-miss logging)",
+    )
+    cf.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume the last incomplete run in --db (requires --db)",
+    )
+    cf.add_argument(
+        "--near-miss",
+        action="store_true",
+        dest="near_miss",
+        help="Log C3-pass/C4-fail pairs to --db for proximity analysis (requires --db)",
+    )
 
     # ── concordant ──────────────────────────────────────────────────────────
     co = sub.add_parser(
