@@ -916,10 +916,15 @@ class TestChainSearch:
             assert r.square_ok == (r.a + r.c == r.b + r.d)
 
     def test_chain_result_str(self):
-        """ChainResult.__str__ must not raise and must mention hyp."""
+        """ChainResult.__str__ must include edge decomposition lines."""
         from rational_distance.search_chain import find_chains
 
         results = find_chains(max_val=313, progress=False)
         assert results, "No results to test"
         s = str(results[0])
-        assert "hyp=" in s
+        # Must have four edge lines with x1..x4 labels and →
+        assert "x1:" in s
+        assert "x2:" in s
+        assert "x3:" in s
+        assert "x4:" in s
+        assert "→" in s

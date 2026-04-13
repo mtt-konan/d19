@@ -443,21 +443,10 @@ def _run_chain(args: argparse.Namespace) -> None:
 
     top = args.top if args.top > 0 else len(results)
     if results:
-        print(
-            f"\n{'a':>6} {'b':>6} {'c':>6} {'d':>6}  "
-            f"{'x1':>6} {'x2':>6} {'x3':>6} {'x4':>6}  "
-            f"{'rect':>10}  sq   point"
-        )
-        print("-" * 72)
+        print()
         for r in results[:top]:
-            w, h = r.rectangle
-            sq = "✓" if r.square_ok else ""
-            pt = f"({r.px_num}/{r.px_den}, {r.py_num}/{r.py_den})" if r.square_ok else ""
-            print(
-                f"{r.a:>6} {r.b:>6} {r.c:>6} {r.d:>6}  "
-                f"{r.x1:>6} {r.x2:>6} {r.x3:>6} {r.x4:>6}  "
-                f"{w:>5}×{h:<5}  {sq:<3}  {pt}"
-            )
+            print(str(r))
+            print()
         if len(results) > top:
             print(f"  ... {len(results) - top} more rows suppressed (use --top 0 to show all)")
 

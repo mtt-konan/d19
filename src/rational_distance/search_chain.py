@@ -52,6 +52,28 @@ from math import gcd
 import numpy as np
 from tqdm import tqdm
 
+# ── Primitive decomposition helper ───────────────────────────────────────────
+
+
+def _primitive_decomp(a: int, b: int, h: int) -> tuple[int, int, int, int]:
+    """Decompose a Pythagorean pair (a, b, h) into scale × primitive triple.
+
+    Returns (k, P, Q, H) where k = gcd(a,b), P = a//k, Q = b//k, H = h//k,
+    and (P, Q, H) is a primitive Pythagorean triple (gcd(P,Q) = 1).
+    """
+    k = gcd(a, b)
+    return k, a // k, b // k, h // k
+
+
+def _edge_str(a: int, b: int, h: int) -> str:
+    """Human-readable description of a Pythagorean edge a²+b²=h²."""
+    k, P, Q, H = _primitive_decomp(a, b, h)
+    triple = f"({P},{Q},{H})"
+    if k == 1:
+        return f"{a}²+{b}²={h}²  →  {triple}"
+    return f"{a}²+{b}²={h}²  →  {k}×{triple}"
+
+
 # ── Data class ────────────────────────────────────────────────────────────────
 
 
@@ -90,17 +112,34 @@ class ChainResult:
         """Width and height of the bounding rectangle (a+c) × (b+d)."""
         return (self.a + self.c, self.b + self.d)
 
+    def edges(self) -> list[str]:
+        """Return four human-readable edge descriptions with primitive decomposition.
+
+        Each string has the form:
+          "a²+b²=h²  →  (P,Q,H)"          if gcd(a,b)=1  (primitive)
+          "a²+b²=h²  →  k×(P,Q,H)"        otherwise
+        """
+        return [
+            _edge_str(self.a, self.b, self.x1),
+            _edge_str(self.b, self.c, self.x2),
+            _edge_str(self.c, self.d, self.x3),
+            _edge_str(self.d, self.a, self.x4),
+        ]
+
     def __str__(self) -> str:
         sq = "✓" if self.square_ok else "✗"
         w, h = self.rectangle
-        s = (
+        header = (
             f"({self.a},{self.b},{self.c},{self.d})  "
-            f"hyp=({self.x1},{self.x2},{self.x3},{self.x4})  "
             f"rect={w}×{h}  sq={sq}"
         )
         if self.square_ok:
-            s += f"  point=({self.px_num}/{self.px_den}, {self.py_num}/{self.py_den})"
-        return s
+            header += f"  point=({self.px_num}/{self.px_den}, {self.py_num}/{self.py_den})"
+        labels = ["x1", "x2", "x3", "x4"]
+        edge_lines = "\n".join(
+            f"  {lbl}: {e}" for lbl, e in zip(labels, self.edges())
+        )
+        return f"{header}\n{edge_lines}"
 
 
 # ── Core helpers ──────────────────────────────────────────────────────────────
@@ -246,6 +285,21 @@ def results_to_json(
     elapsed: float,
 ) -> dict:
     """Serialise results to a JSON-compatible dict."""
+
+    def _edge_dict(a: int, b: int, h: int) -> dict:
+        k, P, Q, H = _primitive_decomp(a, b, h)
+        return {"leg1": a, "leg2": b, "hyp": h, "scale": k, "primitive": [P, Q, H]}
+
+    def _result_dict(r: ChainResult) -> dict:
+        d = asdict(r)
+        d["edges"] = [
+            _edge_dict(r.a, r.b, r.x1),
+            _edge_dict(r.b, r.c, r.x2),
+            _edge_dict(r.c, r.d, r.x3),
+            _edge_dict(r.d, r.a, r.x4),
+        ]
+        return d
+
     return {
         "params": {
             "max_val": max_val,
@@ -254,5 +308,5 @@ def results_to_json(
         "elapsed_s": round(elapsed, 3),
         "count": len(results),
         "count_square": sum(1 for r in results if r.square_ok),
-        "results": [asdict(r) for r in results],
+        "results": [_result_dict(r) for r in results],
     }
