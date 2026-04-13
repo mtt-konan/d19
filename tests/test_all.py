@@ -625,13 +625,21 @@ class TestEcSearch:
 class TestChainSearch:
     """Tests for the Pythagorean 4-cycle search module."""
 
-    def test_known_cycle_3_4_3_4(self):
-        """(3,4,3,4) is the smallest Pythagorean 4-cycle (canonical form)."""
+    def test_known_cycle_distinct(self):
+        """(15,20,48,36) is the smallest all-distinct Pythagorean 4-cycle."""
         from rational_distance.search_chain import find_chains
 
-        results = find_chains(max_val=10, progress=False)
+        results = find_chains(max_val=50, progress=False)
         tuples = {(r.a, r.b, r.c, r.d) for r in results}
-        assert (3, 4, 3, 4) in tuples, f"(3,4,3,4) not found; got {sorted(tuples)}"
+        assert (15, 20, 48, 36) in tuples, f"(15,20,48,36) not found; got {sorted(tuples)}"
+
+    def test_symmetric_cycles_excluded(self):
+        """Cycles like (3,4,3,4) with repeated values must be excluded."""
+        from rational_distance.search_chain import find_chains
+
+        results = find_chains(max_val=100, progress=False)
+        for r in results:
+            assert len({r.a, r.b, r.c, r.d}) == 4, f"Non-distinct cycle returned: {r}"
 
     def test_hypotenuses_correct(self):
         """Hypotenuses must equal isqrt of the respective sum of squares."""
@@ -677,7 +685,7 @@ class TestChainSearch:
         """ChainResult.__str__ must not raise and must mention hyp."""
         from rational_distance.search_chain import find_chains
 
-        results = find_chains(max_val=20, progress=False)
+        results = find_chains(max_val=50, progress=False)
         assert results, "No results to test"
         s = str(results[0])
         assert "hyp=" in s

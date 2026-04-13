@@ -142,6 +142,10 @@ def find_chains(
 ) -> list[ChainResult]:
     """Find all Pythagorean 4-cycles (a, b, c, d) with values in [1, max_val].
 
+    Only returns solutions where all four values a, b, c, d are distinct.
+    Symmetric solutions like (3,4,3,4) — which are just scaled rectangle centres
+    — are excluded as they carry no structural information.
+
     Args:
         max_val:        Upper bound for all four integers.
         require_square: If True, only return solutions with a+c == b+d.
@@ -169,6 +173,10 @@ def find_chains(
                 # d must close the cycle: d in adj[c] (c²+d² sq.) ∩ adj[a] (d²+a² sq.)
                 d_set = adj_sets.get(c, set()) & adj_sets.get(a, set())
                 for d in sorted(d_set):
+                    # All four values must be distinct
+                    if len({a, b, c, d}) < 4:
+                        continue
+
                     square_ok = (a + c == b + d)
                     if require_square and not square_ok:
                         continue
