@@ -27,6 +27,11 @@ Integer distance formula (derivation):
   d(D)² = ((ar−bq)² + (bp)²) / (br)²   → rational iff (ar−bq)²+(bp)² is □
   d(C)² = ((ar−b(p+q))²+(b(p−q))²)/(br)² → rational iff numerator is □
   (Proof: expand d(B)²=(k−p/r)²+(kq/r)² with k=a/b, use p²+q²=r².)
+
+Architecture guard:
+  Parametric filtering, distance formulas, square checks, and exact fallback
+  rules must stay in `parametric_core.py`. This module should only handle CPU
+  orchestration and compatibility wrappers.
 """
 
 from __future__ import annotations

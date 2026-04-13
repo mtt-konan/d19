@@ -132,6 +132,16 @@ uv run python scripts/compare_parametric.py --scale 20 --backend torch
 
 CPU 基线、APU 加速、对照脚本都复用这套统计结构。
 
+### 3.5 架构护栏：避免再次分叉实现
+
+`parametric` 这一层现在有一个明确约束：
+
+- 任何新的筛选条件、判定式、overflow 规则、exact fallback 规则，只能改 `parametric_core.py`
+- `search.py` 只管 CPU 编排
+- `search_gpu.py` 只管后端执行
+
+如果以后在 `search.py` 或 `search_gpu.py` 里重新长出一套 `tB / tC / tD` 判定逻辑，等于把这轮重构推翻了。后续开发应把这种改动视为架构回退，而不是普通重构。
+
 ---
 
 ## 四、为什么这样更适合开发

@@ -14,6 +14,11 @@ int64 safety: tB_max ≈ (scale*r_max)^2 ≈ 4e18 for scale ≈ 600.
 Unsafe triples now fall back to the shared exact CPU path automatically,
 so accelerated runs stay correct even when the int64 vectorized path is
 no longer safe.
+
+Architecture guard:
+  Parametric formulas and overflow rules belong in `parametric_core.py`.
+  This module should only manage backend execution and hand off correctness
+  decisions to the shared core.
 """
 
 from __future__ import annotations
