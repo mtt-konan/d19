@@ -1,11 +1,12 @@
 """Rational distance search — unit square A(0,0) B(1,0) C(1,1) D(0,1).
 
-Single entry point supporting three complementary search methods:
+Single entry point supporting five complementary search methods:
 
   parametric   Parametric brute-force search (GPU / CPU multiprocessing)
   ec           Elliptic-curve guided search (chord-tangent orbit expansion)
   chain        Pythagorean 4-cycle search (generalised rectangle problem)
   chain-fast   O(n²) primitive-triple-pair 4-cycle search (unit-square only)
+  concordant   EC concordant-form analysis of chain (A,B) pairs
 
 ──────────────────────────────────────────────────────────────────────────
 PARAMETRIC METHOD
@@ -504,6 +505,141 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
         print(f"\nResults saved to {args.out}")
 
 
+def _run_concordant(args: argparse.Namespace) -> None:
+    from rational_distance.concordant_ec import (
+        analyze_pair,
+        enumerate_multiples,
+    )
+    from rational_distance.pair_generator import generate_ab_pairs
+
+    print("=" * 72)
+    print("Elliptic curve concordant-form analysis")
+
+    if args.pair:
+        # Single-pair mode
+        parts = args.pair.split(",")
+        if len(parts) != 2:
+            print("Error: --pair must be A,B (e.g. --pair 264,420)")
+            return
+        A, B = int(parts[0].strip()), int(parts[1].strip())
+        print(f"  pair=({A}, {B})  ec_bound={args.ec_bound}  deep={args.deep}")
+        print("=" * 72)
+
+        t0 = time.perf_counter()
+        result = analyze_pair(A, B, ec_bound=args.ec_bound)
+        print(f"\n{result.summary()}")
+
+        if args.deep > 0:
+            print(f"\nDeep search (depth={args.deep})...")
+            deep_n = enumerate_multiples(A, B, max_depth=args.deep)
+            if deep_n:
+                new = [n for n in deep_n if n not in result.concordant_n]
+                if new:
+                    print(f"  New concordant N from deep search: {new}")
+                    from rational_distance.concordant_ec import check_chain_compatibility
+
+                    for N in new:
+                        ok = check_chain_compatibility(A, B, N)
+                        b = A + B - N
+                        print(f"    N={N}, b={b}, chain_ok={ok}")
+                        if ok:
+                            print("    *** HARBORTH SOLUTION FOUND! ***")
+                else:
+                    print("  No new concordant N beyond ellratpoints results.")
+            else:
+                print("  No concordant N from generator multiples.")
+
+        elapsed = time.perf_counter() - t0
+        print(f"\nCompleted in {elapsed:.1f}s")
+
+    else:
+        # Batch mode
+        print(f"  max_hyp={args.max_hyp}  ec_bound={args.ec_bound}")
+        print("=" * 72)
+
+        t0 = time.perf_counter()
+        pairs = generate_ab_pairs(args.max_hyp)
+        print(f"Generated {len(pairs)} primitive (A,B) pairs")
+
+        results = []
+        rank_counts: dict[int, int] = {}
+        n_with_concordant = 0
+        n_with_chain = 0
+
+        it = enumerate(pairs)
+        if not args.no_progress:
+            from tqdm import tqdm
+
+            it = tqdm(list(it), desc="EC analysis", leave=False)
+
+        import cypari2
+
+        pari = cypari2.Pari()
+        pari.allocatemem(64 * 1024 * 1024)
+
+        for idx, (A, B) in it:
+            try:
+                result = analyze_pair(A, B, ec_bound=args.ec_bound, pari=pari)
+                results.append(result)
+
+                r = result.rank
+                rank_counts[r] = rank_counts.get(r, 0) + 1
+                if result.has_concordant:
+                    n_with_concordant += 1
+                if result.has_chain_solution:
+                    n_with_chain += 1
+                    print(f"\n*** CHAIN SOLUTION: {result.summary()} ***")
+            except Exception as exc:
+                print(f"\n  Error on ({A},{B}): {exc}")
+
+        elapsed = time.perf_counter() - t0
+
+        print(f"\n{'─' * 72}")
+        print(f"Analysed {len(results)} pairs in {elapsed:.1f}s")
+        print(f"\nRank distribution:")
+        for r in sorted(rank_counts):
+            print(f"  rank={r}: {rank_counts[r]} pairs")
+        print(f"\nPairs with concordant N: {n_with_concordant}/{len(results)}")
+        print(f"Pairs with chain-compatible N: {n_with_chain}/{len(results)}")
+
+        if n_with_chain > 0:
+            print("\n*** HARBORTH SOLUTIONS EXIST! ***")
+
+        top = args.top if args.top > 0 else len(results)
+        conc_results = [r for r in results if r.has_concordant]
+        if conc_results:
+            print(f"\nPairs with concordant N (showing up to {top}):")
+            for r in conc_results[:top]:
+                print(f"  {r.summary()}")
+                print()
+
+        if args.out:
+            report = {
+                "max_hyp": args.max_hyp,
+                "ec_bound": args.ec_bound,
+                "n_pairs": len(results),
+                "elapsed_s": round(elapsed, 2),
+                "rank_distribution": rank_counts,
+                "n_with_concordant": n_with_concordant,
+                "n_with_chain_compatible": n_with_chain,
+                "pairs": [
+                    {
+                        "A": r.A,
+                        "B": r.B,
+                        "rank": r.rank,
+                        "rank_bounds": list(r.rank_bounds),
+                        "concordant_n": r.concordant_n,
+                        "chain_compatible": r.chain_compatible,
+                        "raw_square_x": r.raw_square_x,
+                    }
+                    for r in results
+                ],
+            }
+            with open(args.out, "w") as f:
+                json.dump(report, f, indent=2)
+            print(f"\nReport saved to {args.out}")
+
+
 # ── Argument parser ───────────────────────────────────────────────────────────
 
 
@@ -678,6 +814,51 @@ def build_parser() -> argparse.ArgumentParser:
     cf.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
     cf.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
 
+    # ── concordant ──────────────────────────────────────────────────────────
+    co = sub.add_parser(
+        "concordant",
+        help="Elliptic curve concordant-form analysis of chain (A,B) pairs",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(
+            "Analyse (A,B) pairs from the chain parameterisation using elliptic\n"
+            "curves.  For each pair, computes the rank of E: Y²=X(X+A²)(X+B²)\n"
+            "and searches for concordant integers N where N²+A²=□ and N²+B²=□.\n"
+            "Each concordant N is tested for chain compatibility.\n\n"
+            "Examples:\n"
+            "  uv run python scripts/search.py concordant --max-hyp 100\n"
+            "  uv run python scripts/search.py concordant --max-hyp 500 --ec-bound 500000\n"
+            "  uv run python scripts/search.py concordant --pair 264,420\n"
+            "  uv run python scripts/search.py concordant --pair 264,420 --deep 10"
+        ),
+    )
+    co.add_argument(
+        "--max-hyp",
+        type=int,
+        default=100,
+        help="Max hypotenuse for triple-pair generation (default: 100)",
+    )
+    co.add_argument(
+        "--ec-bound",
+        type=int,
+        default=100000,
+        help="Bound for ellratpoints search (default: 100000)",
+    )
+    co.add_argument(
+        "--pair",
+        type=str,
+        default=None,
+        help="Analyse a single A,B pair (e.g. --pair 264,420)",
+    )
+    co.add_argument(
+        "--deep",
+        type=int,
+        default=0,
+        help="Generator multiple depth for deep search (0=off, default: 0)",
+    )
+    co.add_argument("--out", type=str, default=None, help="Write JSON report to this file")
+    co.add_argument("--top", type=int, default=20, help="Max rows to print (0=all, default: 20)")
+    co.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+
     return parser
 
 
@@ -692,6 +873,8 @@ def main() -> None:
         _run_chain(args)
     elif args.method == "chain-fast":
         _run_chain_fast(args)
+    elif args.method == "concordant":
+        _run_concordant(args)
 
 
 if __name__ == "__main__":

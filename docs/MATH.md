@@ -328,3 +328,79 @@ $$h_3^2 - h_4^2 = A^2 - B^2 = (q_1q_2-p_1p_2)(q_1q_2+p_1p_2)$$
 | 化简后搜索 | 本源三元组对 $(T_1, T_2)$ | $O(M^2)$ |
 
 本源三元组在 $h \leq M$ 内约有 $O(M)$ 个，化简后复杂度降低约四个数量级。
+
+---
+
+## 八、椭圆曲线 concordant 分析
+
+### 8.1 Concordant 问题
+
+给定正整数 $A, B$（$A \neq B$），**concordant 问题**求整数 $N$ 使得：
+
+$$N^2 + A^2 = S^2, \quad N^2 + B^2 = T^2$$
+
+即 $N$ 同时与 $A$ 和 $B$ 组成勾股数。
+
+### 8.2 Weierstrass 模型
+
+令 $X = N^2$，$Y = N \cdot S \cdot T$，则：
+
+$$Y^2 = N^2 \cdot (N^2 + A^2)(N^2 + B^2) = X(X + A^2)(X + B^2)$$
+
+展开得 **Weierstrass 标准形式**：
+
+$$E: \quad Y^2 = X^3 + (A^2 + B^2)X^2 + A^2 B^2 X$$
+
+### 8.3 挠群结构
+
+$E$ 的挠子群为 $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/4\mathbb{Z}$：
+
+- **2-挠点**：$(0, 0)$，$(-A^2, 0)$，$(-B^2, 0)$
+- **4-挠点**：$(AB, \pm AB(A+B))$，$(-AB, \pm AB(A-B))$
+
+验证：$2 \cdot (AB, AB(A+B)) = (0, 0)$，因此 $(AB, AB(A+B))$ 是 4 阶点。
+
+### 8.4 Cubic 与 concordant 的关系（关键注意）
+
+曲线上 $X = N^2$（正完全平方数）的有理点**不保证** $N$ 是 concordant 的！
+
+曲线方程仅保证 $(N^2 + A^2)(N^2 + B^2)$ 是完全平方数，
+但不保证 $N^2 + A^2$ 和 $N^2 + B^2$ **各自**是完全平方数。
+
+反例：$A = 1, B = 4, N = 2$：
+
+$$(4 + 1)(4 + 16) = 5 \cdot 20 = 100 = 10^2 \quad \checkmark$$
+$$4 + 1 = 5 \quad \text{(不是平方数)} \quad \times$$
+
+因此找到 $X = N^2$ 后，必须额外验证 `isqrt` 检查。
+
+### 8.5 关键实验发现
+
+**Rank 过滤器无效**：对 chain-fast 的 $\max\_hyp = 500$ 产生的所有 2800 个
+原始 $(A, B)$ 对，每个的秩均 $\geq 1$。过滤率为 **0%**。
+
+这意味着 concordant $N$ 值对于所有 chain 产生的 $(A, B)$ 对都存在，
+瓶颈不在 concordant 解的存在性，而在 chain 约束（$C_1 + C_2$）的兼容性。
+
+**示例**：$(A, B) = (264, 420)$，秩 $= 2$：
+
+| $N$ | $S = \sqrt{N^2 + 264^2}$ | $T = \sqrt{N^2 + 420^2}$ | $b = A+B-N$ | $C_1: B^2+b^2=\square$ | $C_2: b^2+A^2=\square$ |
+|-----|--------------------------|--------------------------|-------------|------------------------|------------------------|
+| 77  | 275 | 427 | 607 | ✗ | ✗ |
+| 315 | 411 | 525 | 369 | ✗ | ✗ |
+| 352 | 440 | 548 | 332 | ✗ | ✗ |
+
+所有 concordant $N$ 值均无法同时满足 chain 约束。
+
+### 8.6 gcd 归约
+
+$E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），
+因此**秩**不变。但 concordant $N$ 值依赖于具体的 $(A, B)$：
+$(kA, kB)$ 的 concordant $N$ 不是 $k$ 的倍数时，在归约后的曲线上不可见。
+
+### 8.7 实现
+
+- `concordant_ec.py`：`ConcordantCurve` 分析器，通过 `cypari2` (PARI/GP) 计算秩、
+  生成元、`ellratpoints` 搜索 concordant $N$
+- `pair_generator.py`：从 chain-fast 的三元组对构造提取去重原始 $(A, B)$ 对
+- CLI：`scripts/search.py concordant --pair 264,420 --ec-bound 400000`
