@@ -15,15 +15,21 @@ src/rational_distance/
 ├── parametric_core.py    — parametric 共享判定核心（唯一真理源）
 ├── search.py             — CPU 编排层：多进程、汇总、兼容旧接口
 ├── search_gpu.py         — APU/GPU 编排层：设备数组执行 + 自动精确回退
-└── search_ec.py          — 椭圆曲线引导搜索（本轮未重构）
+├── search_ec.py          — 椭圆曲线引导搜索（三顶点弦切法轨道展开）
+├── search_chain.py       — Pythagorean 四元组搜索（O(M⁴)，通用矩形）
+├── search_chain_fast.py  — O(n²) 三元组对搜索（unit-square 专用，主力）
+├── ec_db.py              — EC 搜索 SQLite 持久层（断点续算）
+├── ec_analysis.py        — EC 结果分析与 HTML/JSON 报告生成
+├── concordant_ec.py      — EC concordant-form 分析（cypari2/PARI）
+└── pair_generator.py     — 从 chain 三元组对提取去重 (A,B) 对
 
 scripts/
-├── search.py             — 统一 CLI 入口
+├── search.py             — 统一 CLI 入口（5 个子命令）
 ├── compare_parametric.py — CPU vs 加速后端对照工具
 └── visualize.py          — Plotly HTML 可视化
 
 tests/
-└── test_all.py           — 统一测试套件（当前 51 个用例）
+└── test_all.py           — 统一测试套件（当前 90 个用例）
 ```
 
 ---
@@ -241,3 +247,104 @@ uv run ruff format .
 - Fraction 精确运算的四顶点检验
 
 也就是说，`EC` 目前还没有像 `parametric` 那样完全收成“单一逻辑源 + 多后端执行壳”。如果以后要继续做结构统一，建议优先复用 `parametric_core.py` 中那些低风险公共小工具，而不是一次性重写整个 `EC` 层。
+
+---
+
+## 九、Chain 路径（主力搜索方法）
+
+### 9.1 为什么 chain-fast 是最强搜索方法
+
+`parametric` 搜索的是"分母 N 以内的有理格点"——解的坐标分母超出范围就会遗漏。
+
+`chain-fast` 搜索的是"hyp H 以内的所有整数 family"——Harborth 等价条件
+(a+c=b+d) 是 scale-invariant 的，每个 family 只需检查 primitive representative，
+覆盖保证更强。
+
+### 9.2 搜索算法
+
+文件：`search_chain_fast.py`
+
+算法步骤：
+1. 枚举所有 primitive triple (s,t,h)，h <= max_hyp
+2. 对每对 (T1, T2)，通过 gcd 耦合推导候选 (a,b,c,d) — O(1) per pair
+3. 两次 isqrt 检验 C3 C4（C1 C2 由构造自动满足）
+4. 奇偶+mod4 预筛去掉约 71% 对，避免无效 isqrt
+
+复杂度 O(H^2)，已搜到 max_hyp=20000，0 解。
+
+### 9.3 参数意义
+
+| max_hyp | 近似对数 | 耗时 |
+|---------|---------|------|
+| 500 | ~2800 | ~100ms |
+| 2000 | ~36000 | ~10s |
+| 20000 | ~3.6M | ~20min |
+
+### 9.4 数据库扩展方向
+
+`ec_db.py` 已实现完整持久层，目前仅用于 EC 搜索，可迁移到 chain：
+
+- `runs` 表记录 max_hyp，支持跨会话断点续算
+- near_miss 扩展：存储 C3 pass 但 C4 fail 的对（近失分析）
+- 多进程结果合并写入同一 SQLite
+
+迁移只需新增 `chain_db.py`，参考 `ec_db.py` 的 schema 即可。
+
+---
+
+## 十、搜索方法对比
+
+| 方法 | 覆盖保证 | GPU | 当前最大范围 | 推荐度 |
+|------|---------|-----|------------|-------|
+| chain-fast | hyp H 以内无遗漏 | 可加 | max_hyp=20000 | 首选 |
+| parametric GPU | 分母 N 以内无遗漏 | 已有 | scale=200 级别 | 补充 |
+| ec 轨道展开 | 三顶点 orbit | 已有 | max_m=50 | 三顶点分析 |
+| concordant | concordant N 分析 | N/A | max_hyp=500 | 研究工具 |
+
+后续加速优先级：
+1. chain-fast 内循环 GPU 化（每对 triple 完全独立，天然并行）
+2. 提高 max_hyp 上限（直接堆算力）
+3. 增加 mod-p 预筛（目前仅 parity + mod4，可加 mod3、mod5）
+
+---
+
+## 十一、EC 数据库（ec_db.py / ec_analysis.py）
+
+`ec_db.py`（478 行）实现 EC 搜索的完整 SQLite 持久层：
+
+- runs: 搜索参数、后端、耗时
+- ec_triples: 每个 triple 处理状态（pending/done）
+- ec_seeds: seed 点（dA dB dD 同时有理）
+- ec_curve_nodes: 弦切法轨道节点
+- ec_curve_edges: 节点父子关系
+- ec_points: 所有有理距离点
+- ec_point_candidates: 候选点（rational_count=3）
+
+`ec_analysis.py`（300 行）读取 SQLite 生成 HTML/JSON 报告。
+
+断点续算示例：
+
+    uv run python scripts/search.py ec --max-m 50 --db run.db --resume
+
+---
+
+## 十二、concordant_ec 分析工具
+
+文件：`concordant_ec.py`、`pair_generator.py`
+
+示例：
+
+    from rational_distance.concordant_ec import analyze_pair
+    result = analyze_pair(264, 420, ec_bound=400000)
+    # rank=2, concordant N=[77, 315, 352], chain_compatible=[]
+
+关键发现：chain-fast 产生的所有 (A,B) 对，rank 全部 >= 1（测试 2800 对）。
+Rank 过滤率 0%，concordant N 丰富但从未满足 chain 约束（C1+C2）。
+
+CLI 用法：
+
+    # 分析单对
+    uv run python scripts/search.py concordant --pair 264,420 --ec-bound 400000
+
+    # 批量 + 深度点搜索
+    uv run python scripts/search.py concordant --max-hyp 100 --deep 5
