@@ -852,19 +852,27 @@ class TestEcDatabase:
 class TestChainSearch:
     """Tests for the Pythagorean 4-cycle search module."""
 
-    def test_known_cycle_distinct(self):
-        """(15,20,48,36) is the smallest all-distinct Pythagorean 4-cycle."""
+    def test_known_general_family_cycle(self):
+        """(25,60,91,312) is the smallest general-family (ac≠bd) 4-cycle."""
         from rational_distance.search_chain import find_chains
 
-        results = find_chains(max_val=50, progress=False)
+        results = find_chains(max_val=313, progress=False)
         tuples = {(r.a, r.b, r.c, r.d) for r in results}
-        assert (15, 20, 48, 36) in tuples, f"(15,20,48,36) not found; got {sorted(tuples)}"
+        assert (25, 60, 91, 312) in tuples, f"(25,60,91,312) not found; got {sorted(tuples)}"
+
+    def test_cross_product_family_excluded(self):
+        """Cross-product family (ac=bd) must be excluded from all results."""
+        from rational_distance.search_chain import find_chains
+
+        results = find_chains(max_val=500, progress=False)
+        for r in results:
+            assert r.a * r.c != r.b * r.d, f"Cross-product solution returned: {r}"
 
     def test_symmetric_cycles_excluded(self):
         """Cycles like (3,4,3,4) with repeated values must be excluded."""
         from rational_distance.search_chain import find_chains
 
-        results = find_chains(max_val=100, progress=False)
+        results = find_chains(max_val=500, progress=False)
         for r in results:
             assert len({r.a, r.b, r.c, r.d}) == 4, f"Non-distinct cycle returned: {r}"
 
@@ -872,7 +880,7 @@ class TestChainSearch:
         """Hypotenuses must equal isqrt of the respective sum of squares."""
         from rational_distance.search_chain import find_chains
 
-        for r in find_chains(max_val=50, progress=False):
+        for r in find_chains(max_val=500, progress=False):
             assert r.x1**2 == r.a**2 + r.b**2, f"x1 wrong for {r}"
             assert r.x2**2 == r.b**2 + r.c**2, f"x2 wrong for {r}"
             assert r.x3**2 == r.c**2 + r.d**2, f"x3 wrong for {r}"
@@ -882,7 +890,7 @@ class TestChainSearch:
         """Canonical mode must return no two tuples related by dihedral symmetry."""
         from rational_distance.search_chain import _symmetry_group, find_chains
 
-        results = find_chains(max_val=100, canonical=True, progress=False)
+        results = find_chains(max_val=500, canonical=True, progress=False)
         keys: set[tuple[int, int, int, int]] = set()
         for r in results:
             syms = _symmetry_group(r.a, r.b, r.c, r.d)
@@ -893,7 +901,7 @@ class TestChainSearch:
             keys.add(min(syms))
 
     def test_no_square_solutions_small(self):
-        """No Pythagorean 4-cycle with a+c == b+d exists up to max_val=500.
+        """No general-family 4-cycle with a+c == b+d exists up to max_val=500.
         This is consistent with the Harborth conjecture."""
         from rational_distance.search_chain import find_chains
 
@@ -904,14 +912,14 @@ class TestChainSearch:
         """square_ok must correctly reflect a+c == b+d."""
         from rational_distance.search_chain import find_chains
 
-        for r in find_chains(max_val=100, progress=False):
+        for r in find_chains(max_val=500, progress=False):
             assert r.square_ok == (r.a + r.c == r.b + r.d)
 
     def test_chain_result_str(self):
         """ChainResult.__str__ must not raise and must mention hyp."""
         from rational_distance.search_chain import find_chains
 
-        results = find_chains(max_val=50, progress=False)
+        results = find_chains(max_val=313, progress=False)
         assert results, "No results to test"
         s = str(results[0])
         assert "hyp=" in s

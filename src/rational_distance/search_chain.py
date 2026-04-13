@@ -18,6 +18,26 @@ A(0,0), B(1,0), C(1,1), D(0,1) of the unit square:
   dist(P, A) = x₁/k,  dist(P, B) = x₂/k,
   dist(P, C) = x₃/k,  dist(P, D) = x₄/k
 
+─────────────────────────────────────────────────────────────────────
+CROSS-PRODUCT FAMILY (provably excluded)
+─────────────────────────────────────────────────────────────────────
+Any two Pythagorean pairs (p,q) and (m,n) generate a 4-cycle:
+
+  (a,b,c,d) = (pm, qm, qn, pn)
+
+This "cross-product family" satisfies ac = bd (equivalently, a/b = d/c).
+For such tuples:
+
+  a+c - (b+d) = pm+qn - qm-pn = (p-q)(m-n)
+
+Since p≠q and m≠n for any Pythagorean pair, the unit-square constraint
+is provably never satisfied by any member of this family.
+
+All results returned by this module exclude the cross-product family
+(i.e., only solutions with ac ≠ bd are reported).  These are the
+"general family" — the only candidates that could possibly satisfy the
+unit-square constraint and resolve the Harborth conjecture.
+
 This module is intentionally independent of the parametric / EC search
 infrastructure so its logic can be audited and extended without risk of
 cross-contamination.
@@ -25,14 +45,12 @@ cross-contamination.
 
 from __future__ import annotations
 
-import json
+from collections.abc import Iterator
 from dataclasses import asdict, dataclass, field
-from math import gcd, isqrt
-from typing import Iterator
+from math import gcd
 
 import numpy as np
 from tqdm import tqdm
-
 
 # ── Data class ────────────────────────────────────────────────────────────────
 
@@ -52,11 +70,11 @@ class ChainResult:
     square_ok: bool  # a+c == b+d
 
     # Unit-square point (populated when square_ok is True)
-    k: int = field(default=0)            # a+c = b+d
-    px_num: int = field(default=0)       # reduced numerator of a/k
-    px_den: int = field(default=0)       # reduced denominator of a/k
-    py_num: int = field(default=0)       # reduced numerator of b/k
-    py_den: int = field(default=0)       # reduced denominator of b/k
+    k: int = field(default=0)  # a+c = b+d
+    px_num: int = field(default=0)  # reduced numerator of a/k
+    px_den: int = field(default=0)  # reduced denominator of a/k
+    py_num: int = field(default=0)  # reduced numerator of b/k
+    py_den: int = field(default=0)  # reduced denominator of b/k
 
     def __post_init__(self) -> None:
         if self.square_ok:
@@ -108,17 +126,17 @@ def _build_adjacency(
 
     for a in it:
         sq_a = np.int64(a) ** 2
-        sums = sq_a + vals ** 2
+        sums = sq_a + vals**2
         roots = np.floor(np.sqrt(sums.astype(np.float64))).astype(np.int64)
         # Correct float-sqrt rounding errors (±1)
         over = (roots + 1) ** 2 == sums
         roots[over] += 1
-        hits = roots ** 2 == sums
+        hits = roots**2 == sums
 
         b_arr = vals[hits]
         r_arr = roots[hits]
         adj[a] = b_arr.tolist()
-        hyp[a] = {int(b): int(r) for b, r in zip(b_arr, r_arr)}
+        hyp[a] = {int(b): int(r) for b, r in zip(b_arr, r_arr, strict=True)}
 
     return adj, hyp
 
@@ -126,8 +144,14 @@ def _build_adjacency(
 def _symmetry_group(a: int, b: int, c: int, d: int) -> list[tuple[int, int, int, int]]:
     """Return all 8 dihedral images of a 4-cycle (4 rotations × 2 reflections)."""
     return [
-        (a, b, c, d), (b, c, d, a), (c, d, a, b), (d, a, b, c),  # rotations
-        (a, d, c, b), (d, c, b, a), (c, b, a, d), (b, a, d, c),  # reflections
+        (a, b, c, d),
+        (b, c, d, a),
+        (c, d, a, b),
+        (d, a, b, c),  # rotations
+        (a, d, c, b),
+        (d, c, b, a),
+        (c, b, a, d),
+        (b, a, d, c),  # reflections
     ]
 
 
@@ -142,9 +166,12 @@ def find_chains(
 ) -> list[ChainResult]:
     """Find all Pythagorean 4-cycles (a, b, c, d) with values in [1, max_val].
 
-    Only returns solutions where all four values a, b, c, d are distinct.
-    Symmetric solutions like (3,4,3,4) — which are just scaled rectangle centres
-    — are excluded as they carry no structural information.
+    Only returns solutions where:
+    - all four values are distinct (symmetric solutions excluded), and
+    - ac ≠ bd (cross-product family excluded — provably can't satisfy a+c=b+d).
+
+    The remaining "general family" solutions are the only candidates relevant
+    to the Harborth conjecture (unit-square rational distance problem).
 
     Args:
         max_val:        Upper bound for all four integers.
@@ -177,7 +204,15 @@ def find_chains(
                     if len({a, b, c, d}) < 4:
                         continue
 
-                    square_ok = (a + c == b + d)
+                    # Exclude cross-product family: (pm,qm,qn,pn) always has ac=bd.
+                    # For such tuples a+c-(b+d) = (p-q)(m-n) ≠ 0 for any Pythagorean
+                    # pair (since p≠q and m≠n), so this family provably cannot satisfy
+                    # the unit-square constraint.  Only the general family (ac≠bd)
+                    # is of interest for the Harborth conjecture.
+                    if a * c == b * d:
+                        continue
+
+                    square_ok = a + c == b + d
                     if require_square and not square_ok:
                         continue
 
@@ -189,7 +224,10 @@ def find_chains(
 
                     results.append(
                         ChainResult(
-                            a=a, b=b, c=c, d=d,
+                            a=a,
+                            b=b,
+                            c=c,
+                            d=d,
                             x1=hyp[a][b],
                             x2=hyp[b][c],
                             x3=hyp[c][d],
