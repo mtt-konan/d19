@@ -21,6 +21,12 @@ uv run python scripts/search.py parametric --scale 80 --max-k-den 500   # 只覆
 
 # 椭圆曲线引导搜索
 uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800
+uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800 --db .cache/rational_distance.sqlite3
+uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800 --db .cache/rational_distance.sqlite3 --resume
+
+# 分析已持久化的 EC 结果
+uv run python scripts/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest
+uv run python scripts/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest --triple 8,15,17 --html triple_8_15_17.html
 
 # 查看所有参数
 uv run python scripts/search.py parametric --help
@@ -36,6 +42,8 @@ uv run ruff format .
 ```
 
 **当前结果**（`parametric --scale 400 --inside`）：37 个 D4 等价类，0 个四顶点解。
+
+`EC` 数据库模式只在显式传入 `--db` 时启用。默认搜索行为不变；数据库主要用于断点续跑、保存 `三元组 -> 种子 -> 曲线节点 -> 最终点` 的来源链，以及后续分析。
 
 ---
 

@@ -18,3 +18,5 @@ wheels/
 /results*.json
 /*_results.json
 /tmp.txt
+.cache/
+*.sqlite3

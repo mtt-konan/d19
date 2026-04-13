@@ -292,9 +292,20 @@ def build_html(data: dict, title: str, inside_only: bool = False) -> str:
             f"✓ <b>C(1,1) is hardest to make irrational</b> ({c_count} vs B={b_count}) — the diagonal vertex C is 'easier' to reach with rational distances."
         )
     inside_pct = 100 * stats["inside"] / stats["total"] if stats["total"] else 0
-    insights.append(
-        f"✓ Only <b>{stats['inside']}/{stats['total']} ({inside_pct:.0f}%) points are strictly inside</b> the unit square — most solutions lie outside."
-    )
+    if inside_only:
+        insights.append(
+            f"✓ <b>Filtered view:</b> showing only the {stats['inside']} point(s) strictly inside the unit square."
+        )
+    elif stats["total"] == 0:
+        insights.append("✓ No points to summarise in this report.")
+    elif stats["inside"] == stats["total"]:
+        insights.append(
+            f"✓ <b>All {stats['total']} point(s) shown are strictly inside</b> the unit square."
+        )
+    else:
+        insights.append(
+            f"✓ Only <b>{stats['inside']}/{stats['total']} ({inside_pct:.0f}%) points are strictly inside</b> the unit square — outside points still dominate this view."
+        )
     if stats["rat4"]:
         insights.append(
             f"🌟 <b>{stats['rat4']} point(s) with ALL FOUR rational distances found!</b>"

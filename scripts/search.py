@@ -338,6 +338,7 @@ def _run_parametric(args: argparse.Namespace) -> None:
 
 def _run_ec(args: argparse.Namespace) -> None:
     from rational_distance.backend import _try_torch, detect_backend
+    from rational_distance.ec_db import ECSearchStore
     from rational_distance.search_ec import ec_search
 
     # Resolve backend for the seed-finding step
@@ -363,39 +364,55 @@ def _run_ec(args: argparse.Namespace) -> None:
         xp = None if xp_auto is _np else xp_auto
         backend_name = backend_name if xp is not None else "numpy (CPU)"
 
+    if args.resume and not args.db:
+        print("ERROR: --resume requires --db PATH.", file=sys.stderr)
+        sys.exit(2)
+
+    params = {
+        "max_m": args.max_m,
+        "max_k_num": args.max_k_num,
+        "max_k_den": args.max_k_den,
+        "max_steps": args.max_steps,
+        "min_rational": args.min_rational,
+        "inside": args.inside,
+    }
+    store = ECSearchStore(args.db, params, backend_name, resume=args.resume) if args.db else None
+
     print("=" * 72)
     print("Rational distance search [ec] — A(0,0) B(1,0) C(1,1) D(0,1)")
     print(f"  backend  : {backend_name}")
     print(f"  max_m={args.max_m}, seed range k_num≤{args.max_k_num}, k_den≤{args.max_k_den}")
     print(f"  max_steps={args.max_steps}, min_rational={args.min_rational}, inside={args.inside}")
+    if store is not None:
+        mode = "resume" if args.resume else "record"
+        print(f"  db       : {args.db}  (run_id={store.run_id}, mode={mode})")
     print("=" * 72)
 
     t0 = time.perf_counter()
-    results = ec_search(
-        max_m=args.max_m,
-        max_k_num=args.max_k_num,
-        max_k_den=args.max_k_den,
-        max_steps=args.max_steps,
-        min_rational=args.min_rational,
-        inside_only=args.inside,
-        progress=not args.no_progress,
-        xp=xp,
-    )
-    elapsed = time.perf_counter() - t0
+    try:
+        results = ec_search(
+            max_m=args.max_m,
+            max_k_num=args.max_k_num,
+            max_k_den=args.max_k_den,
+            max_steps=args.max_steps,
+            min_rational=args.min_rational,
+            inside_only=args.inside,
+            progress=not args.no_progress,
+            xp=xp,
+            store=store,
+        )
+        elapsed = time.perf_counter() - t0
+        if store is not None:
+            store.finish(elapsed)
+    finally:
+        if store is not None:
+            store.close()
 
     count_by_n = _print_summary(results, elapsed)
     _print_table(results, args.top)
     _print_four_vertex(results)
 
     if args.out:
-        params = {
-            "max_m": args.max_m,
-            "max_k_num": args.max_k_num,
-            "max_k_den": args.max_k_den,
-            "max_steps": args.max_steps,
-            "min_rational": args.min_rational,
-            "inside": args.inside,
-        }
         _save_json(args.out, "ec", params, elapsed, results, count_by_n)
 
 
@@ -426,9 +443,11 @@ def _run_chain(args: argparse.Namespace) -> None:
 
     top = args.top if args.top > 0 else len(results)
     if results:
-        print(f"\n{'a':>6} {'b':>6} {'c':>6} {'d':>6}  "
-              f"{'x1':>6} {'x2':>6} {'x3':>6} {'x4':>6}  "
-              f"{'rect':>10}  sq   point")
+        print(
+            f"\n{'a':>6} {'b':>6} {'c':>6} {'d':>6}  "
+            f"{'x1':>6} {'x2':>6} {'x3':>6} {'x4':>6}  "
+            f"{'rect':>10}  sq   point"
+        )
         print("-" * 72)
         for r in results[:top]:
             w, h = r.rectangle
@@ -556,6 +575,12 @@ def build_parser() -> argparse.ArgumentParser:
         default="auto",
         choices=["auto", "cupy", "torch", "numpy"],
         help="Backend for seed finding: auto|cupy|torch|numpy (default: auto)",
+    )
+    e.add_argument("--db", type=str, default=None, help="Persist this EC run to a SQLite database")
+    e.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume the latest EC database run with the same search parameters",
     )
     _add_common_args(e)
 

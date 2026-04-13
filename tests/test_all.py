@@ -14,6 +14,7 @@ Coverage:
 
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from fractions import Fraction
@@ -28,6 +29,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance import parametric_core as core
 from rational_distance.backend import detect_backend
+from rational_distance.ec_analysis import build_analysis_report
+from rational_distance.ec_db import ECSearchStore, connect_db
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance.search import (
     _parametric_search_fast_run,
@@ -619,6 +622,230 @@ class TestEcSearch:
         assert len(keys) == len(set(keys)), "Duplicate canonical forms found"
 
 
+class TestEcDatabase:
+    @staticmethod
+    def _params() -> dict:
+        return {
+            "max_m": 20,
+            "max_k_num": 400,
+            "max_k_den": 800,
+            "max_steps": 5,
+            "min_rational": 3,
+            "inside": False,
+        }
+
+    def test_database_run_matches_plain_search(self, tmp_path):
+        params = self._params()
+        db_path = tmp_path / "ec.sqlite3"
+
+        plain = ec_search(
+            max_m=params["max_m"],
+            max_k_num=params["max_k_num"],
+            max_k_den=params["max_k_den"],
+            max_steps=params["max_steps"],
+            min_rational=params["min_rational"],
+            progress=False,
+        )
+
+        store = ECSearchStore(db_path, params, backend="numpy-test", resume=False)
+        try:
+            persisted = ec_search(
+                max_m=params["max_m"],
+                max_k_num=params["max_k_num"],
+                max_k_den=params["max_k_den"],
+                max_steps=params["max_steps"],
+                min_rational=params["min_rational"],
+                progress=False,
+                store=store,
+            )
+            store.finish(0.0)
+        finally:
+            store.close()
+
+        assert {canonical_xy(pt.x, pt.y) for pt in plain} == {
+            canonical_xy(pt.x, pt.y) for pt in persisted
+        }
+
+    def test_resume_reuses_same_run_id(self, tmp_path):
+        params = self._params()
+        db_path = tmp_path / "ec.sqlite3"
+
+        store1 = ECSearchStore(db_path, params, backend="numpy-test", resume=False)
+        try:
+            first = ec_search(
+                max_m=params["max_m"],
+                max_k_num=params["max_k_num"],
+                max_k_den=params["max_k_den"],
+                max_steps=params["max_steps"],
+                min_rational=params["min_rational"],
+                progress=False,
+                store=store1,
+            )
+            store1.finish(0.0)
+            run_id = store1.run_id
+        finally:
+            store1.close()
+
+        store2 = ECSearchStore(db_path, params, backend="torch-test", resume=True)
+        try:
+            second = ec_search(
+                max_m=params["max_m"],
+                max_k_num=params["max_k_num"],
+                max_k_den=params["max_k_den"],
+                max_steps=params["max_steps"],
+                min_rational=params["min_rational"],
+                progress=False,
+                store=store2,
+            )
+            store2.finish(0.0)
+            assert store2.run_id == run_id
+        finally:
+            store2.close()
+
+        assert {canonical_xy(pt.x, pt.y) for pt in first} == {
+            canonical_xy(pt.x, pt.y) for pt in second
+        }
+
+        conn = connect_db(db_path)
+        try:
+            row = conn.execute("SELECT backend FROM runs WHERE id = ?", (run_id,)).fetchone()
+            assert row["backend"] == "torch-test"
+        finally:
+            conn.close()
+
+    def test_known_seed_and_provenance_written(self, tmp_path):
+        params = self._params()
+        db_path = tmp_path / "ec.sqlite3"
+
+        store = ECSearchStore(db_path, params, backend="numpy-test", resume=False)
+        try:
+            ec_search(
+                max_m=params["max_m"],
+                max_k_num=params["max_k_num"],
+                max_k_den=params["max_k_den"],
+                max_steps=params["max_steps"],
+                min_rational=params["min_rational"],
+                progress=False,
+                store=store,
+            )
+            store.finish(0.0)
+        finally:
+            store.close()
+
+        conn = connect_db(db_path)
+        try:
+            seed_row = conn.execute(
+                """
+                SELECT s.id
+                FROM ec_seeds s
+                JOIN ec_triples t ON t.id = s.triple_id
+                WHERE t.p = 8 AND t.q = 15 AND t.r = 17 AND s.k = '357/740'
+                """
+            ).fetchone()
+            assert seed_row is not None
+
+            node_count = conn.execute(
+                "SELECT COUNT(*) AS n FROM ec_curve_nodes WHERE seed_id = ?",
+                (seed_row["id"],),
+            ).fetchone()["n"]
+            assert node_count >= 1
+
+            tangent_child = conn.execute(
+                "SELECT child_node_id FROM ec_curve_edges WHERE relation = 'tangent' LIMIT 1"
+            ).fetchone()
+            if tangent_child is not None:
+                parent_count = conn.execute(
+                    """
+                    SELECT COUNT(*) AS n
+                    FROM ec_curve_edges
+                    WHERE child_node_id = ? AND relation = 'tangent'
+                    """,
+                    (tangent_child["child_node_id"],),
+                ).fetchone()["n"]
+                assert parent_count == 1
+
+            secant_child = conn.execute(
+                """
+                SELECT child_node_id
+                FROM ec_curve_edges
+                WHERE relation IN ('secant', 'secant_neg_branch')
+                LIMIT 1
+                """
+            ).fetchone()
+            if secant_child is not None:
+                parent_count = conn.execute(
+                    """
+                    SELECT COUNT(*) AS n
+                    FROM ec_curve_edges
+                    WHERE child_node_id = ?
+                      AND relation IN ('secant', 'secant_neg_branch')
+                    """,
+                    (secant_child["child_node_id"],),
+                ).fetchone()["n"]
+                assert parent_count == 2
+
+            point_row = conn.execute(
+                "SELECT triple_id, source_node_id FROM ec_points WHERE run_id = 1 LIMIT 1"
+            ).fetchone()
+            assert point_row is not None
+            assert point_row["triple_id"] is not None
+            assert point_row["source_node_id"] is not None
+        finally:
+            conn.close()
+
+    def test_analysis_script_outputs_json_and_html(self, tmp_path):
+        params = self._params()
+        db_path = tmp_path / "ec.sqlite3"
+
+        store = ECSearchStore(db_path, params, backend="numpy-test", resume=False)
+        try:
+            ec_search(
+                max_m=params["max_m"],
+                max_k_num=params["max_k_num"],
+                max_k_den=params["max_k_den"],
+                max_steps=params["max_steps"],
+                min_rational=params["min_rational"],
+                progress=False,
+                store=store,
+            )
+            store.finish(0.0)
+        finally:
+            store.close()
+
+        report_all = build_analysis_report(db_path, run_selector="latest", region="all")
+        report_inside = build_analysis_report(db_path, run_selector="latest", region="inside")
+        report_outside = build_analysis_report(db_path, run_selector="latest", region="outside")
+        assert (
+            report_inside["summary"]["point_count"] + report_outside["summary"]["point_count"]
+            == report_all["summary"]["point_count"]
+        )
+
+        out_json = tmp_path / "analysis.json"
+        out_html = tmp_path / "analysis.html"
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "analyze_ec_db.py"),
+                "--db",
+                str(db_path),
+                "--run",
+                "latest",
+                "--out-json",
+                str(out_json),
+                "--html",
+                str(out_html),
+            ],
+            check=True,
+            cwd=ROOT,
+        )
+
+        saved = json.loads(out_json.read_text())
+        assert saved["summary"]["point_count"] == report_all["summary"]["point_count"]
+        html = out_html.read_text(encoding="utf-8")
+        assert "Plotly.newPlot" in html
+        assert "Pattern Insights" in html
+
+
 # ── TestChainSearch ───────────────────────────────────────────────────────────
 
 
@@ -643,18 +870,17 @@ class TestChainSearch:
 
     def test_hypotenuses_correct(self):
         """Hypotenuses must equal isqrt of the respective sum of squares."""
-        from math import isqrt
         from rational_distance.search_chain import find_chains
 
         for r in find_chains(max_val=50, progress=False):
-            assert r.x1 ** 2 == r.a ** 2 + r.b ** 2, f"x1 wrong for {r}"
-            assert r.x2 ** 2 == r.b ** 2 + r.c ** 2, f"x2 wrong for {r}"
-            assert r.x3 ** 2 == r.c ** 2 + r.d ** 2, f"x3 wrong for {r}"
-            assert r.x4 ** 2 == r.d ** 2 + r.a ** 2, f"x4 wrong for {r}"
+            assert r.x1**2 == r.a**2 + r.b**2, f"x1 wrong for {r}"
+            assert r.x2**2 == r.b**2 + r.c**2, f"x2 wrong for {r}"
+            assert r.x3**2 == r.c**2 + r.d**2, f"x3 wrong for {r}"
+            assert r.x4**2 == r.d**2 + r.a**2, f"x4 wrong for {r}"
 
     def test_canonical_no_duplicates(self):
         """Canonical mode must return no two tuples related by dihedral symmetry."""
-        from rational_distance.search_chain import find_chains, _symmetry_group
+        from rational_distance.search_chain import _symmetry_group, find_chains
 
         results = find_chains(max_val=100, canonical=True, progress=False)
         keys: set[tuple[int, int, int, int]] = set()
@@ -662,7 +888,7 @@ class TestChainSearch:
             syms = _symmetry_group(r.a, r.b, r.c, r.d)
             for sym in syms:
                 assert sym not in keys or sym == min(syms), (
-                    f"Duplicate via symmetry: {(r.a,r.b,r.c,r.d)} and {sym}"
+                    f"Duplicate via symmetry: {(r.a, r.b, r.c, r.d)} and {sym}"
                 )
             keys.add(min(syms))
 
