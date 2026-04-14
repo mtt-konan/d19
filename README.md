@@ -51,6 +51,9 @@ uv run ruff format .
 
 | 文档 | 内容 |
 |------|------|
+| [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 项目当前做到哪了，哪些路线已经试过，现阶段卡点是什么 |
+| [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | `parametric` / `ec` / `chain` / `chain-fast` / `concordant` 的用途速览 |
+| [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论 |
 | [docs/MATH.md](docs/MATH.md) | 数学：参数化推导、距离公式、侧边定理、D4对称群 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 实现：模块结构、搜索策略、向量化、溢出处理、GPU、EC搜索 |
 | [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |
