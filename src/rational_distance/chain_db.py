@@ -26,7 +26,7 @@ from pathlib import Path
 from rational_distance.search_chain import ChainResult
 from rational_distance.search_chain_fast import ChainFastProfile
 
-CHAIN_DB_SCHEMA_VERSION = 3
+CHAIN_DB_SCHEMA_VERSION = 4
 
 
 def _utc_now() -> str:
@@ -37,7 +37,9 @@ def params_key_for_run(params: dict) -> str:
     """Return a stable JSON key for one chain-fast run configuration."""
     normalized = {
         "backend": str(params["backend"]),
+        "bucket_stats": bool(params.get("bucket_stats", False)),
         "max_hyp": int(params["max_hyp"]),
+        "mod_sieve": bool(params.get("mod_sieve", False)),
         "near_miss": bool(params["near_miss"]),
         "near_miss_limit": int(params.get("near_miss_limit", 100000)),
         "profile": bool(params.get("profile", False)),
@@ -87,6 +89,7 @@ def _require_supported_schema(conn: sqlite3.Connection) -> None:
         "chain_runs",
         "chain_solutions",
         "chain_near_misses",
+        "chain_bucket_stats",
         "chain_triples",
         "chain_run_triples",
     }
@@ -115,6 +118,7 @@ def init_schema(conn: sqlite3.Connection) -> None:
             backend                      TEXT    NOT NULL,
             near_miss                    INTEGER NOT NULL DEFAULT 0,
             near_miss_limit              INTEGER NOT NULL DEFAULT 100000,
+            bucket_stats                 INTEGER NOT NULL DEFAULT 0,
             profile                      INTEGER NOT NULL DEFAULT 0,
             triples_source               TEXT    NOT NULL DEFAULT '',
             status                       TEXT    NOT NULL DEFAULT 'running',
@@ -202,6 +206,28 @@ def init_schema(conn: sqlite3.Connection) -> None:
             PRIMARY KEY(run_id, seq),
             UNIQUE(run_id, s, t, h)
         );
+
+        CREATE TABLE IF NOT EXISTS chain_bucket_stats (
+            run_id               INTEGER NOT NULL REFERENCES chain_runs(id) ON DELETE CASCADE,
+            bucket_type          TEXT    NOT NULL,
+            bucket_key_json      TEXT    NOT NULL,
+            n_total              INTEGER NOT NULL DEFAULT 0,
+            n_after_basic        INTEGER NOT NULL DEFAULT 0,
+            n_c3_pass            INTEGER NOT NULL DEFAULT 0,
+            n_c4_pass            INTEGER NOT NULL DEFAULT 0,
+            n_near_miss          INTEGER NOT NULL DEFAULT 0,
+            best_sq4_deficit     INTEGER,
+            best_sq3_deficit     INTEGER,
+            sample_a             INTEGER,
+            sample_b             INTEGER,
+            sample_c             INTEGER,
+            sample_d             INTEGER,
+            sample_sq3_deficit   INTEGER,
+            sample_sq4_deficit   INTEGER,
+            PRIMARY KEY(run_id, bucket_type, bucket_key_json)
+        );
+        CREATE INDEX IF NOT EXISTS idx_chain_bucket_stats_type
+            ON chain_bucket_stats(run_id, bucket_type);
         """
     )
     conn.execute(
@@ -279,13 +305,14 @@ def start_run(
             backend,
             near_miss,
             near_miss_limit,
+            bucket_stats,
             profile,
             triples_source,
             status,
             started_at,
             n_triples
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'running', ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', ?, ?)
         """,
         (
             params_key,
@@ -294,6 +321,7 @@ def start_run(
             str(params["backend"]),
             int(bool(params["near_miss"])),
             int(params.get("near_miss_limit", 100000)),
+            int(bool(params.get("bucket_stats", False))),
             int(bool(params.get("profile", False))),
             triples_source,
             _utc_now(),
@@ -542,6 +570,58 @@ def update_run_db_size(conn: sqlite3.Connection, run_id: int, db_bytes_after_run
     conn.commit()
 
 
+def record_bucket_stats(conn: sqlite3.Connection, run_id: int, rows: list[dict]) -> int:
+    """Bulk insert aggregated bucket-stat rows for one run."""
+    if not rows:
+        return 0
+    conn.executemany(
+        """
+        INSERT OR REPLACE INTO chain_bucket_stats (
+            run_id,
+            bucket_type,
+            bucket_key_json,
+            n_total,
+            n_after_basic,
+            n_c3_pass,
+            n_c4_pass,
+            n_near_miss,
+            best_sq4_deficit,
+            best_sq3_deficit,
+            sample_a,
+            sample_b,
+            sample_c,
+            sample_d,
+            sample_sq3_deficit,
+            sample_sq4_deficit
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (
+                run_id,
+                str(row["bucket_type"]),
+                str(row["bucket_key_json"]),
+                int(row["n_total"]),
+                int(row["n_after_basic"]),
+                int(row["n_c3_pass"]),
+                int(row["n_c4_pass"]),
+                int(row["n_near_miss"]),
+                row["best_sq4_deficit"],
+                row["best_sq3_deficit"],
+                row["sample_a"],
+                row["sample_b"],
+                row["sample_c"],
+                row["sample_d"],
+                row["sample_sq3_deficit"],
+                row["sample_sq4_deficit"],
+            )
+            for row in rows
+        ],
+    )
+    conn.commit()
+    return len(rows)
+
+
 def get_near_misses(
     conn: sqlite3.Connection,
     run_id: int,
@@ -565,3 +645,32 @@ def get_run(conn: sqlite3.Connection, run_id: int) -> dict | None:
     """Fetch a single run row as a dict, or None if not found."""
     row = conn.execute("SELECT * FROM chain_runs WHERE id = ?", (run_id,)).fetchone()
     return dict(row) if row else None
+
+
+def get_bucket_stats(
+    conn: sqlite3.Connection,
+    run_id: int,
+    bucket_type: str | None = None,
+) -> list[dict]:
+    """Fetch persisted bucket stats for one run."""
+    if bucket_type is None:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM chain_bucket_stats
+            WHERE run_id = ?
+            ORDER BY bucket_type ASC, bucket_key_json ASC
+            """,
+            (run_id,),
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM chain_bucket_stats
+            WHERE run_id = ? AND bucket_type = ?
+            ORDER BY bucket_key_json ASC
+            """,
+            (run_id, bucket_type),
+        ).fetchall()
+    return [dict(row) for row in rows]

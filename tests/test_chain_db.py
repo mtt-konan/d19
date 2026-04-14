@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -26,7 +27,9 @@ class TestChainDB:
     def _params(**overrides):
         params = {
             "backend": "python",
+            "bucket_stats": False,
             "max_hyp": 500,
+            "mod_sieve": False,
             "near_miss": False,
             "near_miss_limit": 100000,
             "profile": False,
@@ -43,11 +46,16 @@ class TestChainDB:
         ).fetchall()
         names = {r[0] for r in rows}
         assert "chain_meta" in names
+        assert "chain_bucket_stats" in names
         assert "chain_near_misses" in names
         assert "chain_runs" in names
         assert "chain_run_triples" in names
         assert "chain_solutions" in names
         assert "chain_triples" in names
+        bucket_stats_col = conn.execute(
+            "SELECT bucket_stats FROM chain_runs LIMIT 0"
+        ).description[0][0]
+        assert bucket_stats_col == "bucket_stats"
 
     def test_start_and_finish_run(self, tmp_path):
         """start_run and finish_run should store profile fields."""
@@ -144,6 +152,7 @@ class TestChainDB:
         assert last == 42
         assert resume_run(conn, self._params(backend="python")) is None
         assert resume_run(conn, self._params(backend="numpy", near_miss=True)) is None
+        assert resume_run(conn, self._params(backend="numpy", bucket_stats=True)) is None
 
     def test_record_near_miss(self, tmp_path):
         """record_near_miss should dedup within one run and count only real inserts."""
@@ -277,6 +286,25 @@ class TestChainDB:
         with pytest.raises(ValueError, match="rebuild the chain DB"):
             init_schema(conn)
 
+    def test_init_schema_rejects_old_versioned_chain_db(self, tmp_path):
+        """Older schema versions with chain_meta should also be rejected."""
+        import sqlite3
+
+        from rational_distance.chain_db import connect_db, init_schema
+
+        db_path = tmp_path / "old_version.db"
+        legacy = sqlite3.connect(db_path)
+        legacy.execute("CREATE TABLE chain_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+        legacy.execute(
+            "INSERT INTO chain_meta (key, value) VALUES ('schema_version', '3')"
+        )
+        legacy.commit()
+        legacy.close()
+
+        conn = connect_db(db_path)
+        with pytest.raises(ValueError, match="schema version 3"):
+            init_schema(conn)
+
     def test_cache_and_record_run_triples(self, tmp_path):
         """Triple cache and per-run triple recording should persist ordered triples."""
         from rational_distance.chain_db import (
@@ -303,6 +331,41 @@ class TestChainDB:
             (run_id,),
         ).fetchone()[0]
         assert count == len(triples)
+
+    def test_record_bucket_stats(self, tmp_path):
+        """Aggregated bucket stats should persist and be queryable per run."""
+        from rational_distance.chain_db import get_bucket_stats, record_bucket_stats, start_run
+
+        conn = self._make_conn(tmp_path)
+        run_id = start_run(conn, self._params(bucket_stats=True), n_triples=2)
+        inserted = record_bucket_stats(
+            conn,
+            run_id,
+            [
+                {
+                    "bucket_type": "g_bucket",
+                    "bucket_key_json": "{\"g_bucket\":1}",
+                    "n_total": 10,
+                    "n_after_basic": 5,
+                    "n_c3_pass": 2,
+                    "n_c4_pass": 1,
+                    "n_near_miss": 1,
+                    "best_sq4_deficit": 9,
+                    "best_sq3_deficit": 0,
+                    "sample_a": 3,
+                    "sample_b": 4,
+                    "sample_c": 5,
+                    "sample_d": 6,
+                    "sample_sq3_deficit": 0,
+                    "sample_sq4_deficit": 9,
+                }
+            ],
+        )
+        assert inserted == 1
+        rows = get_bucket_stats(conn, run_id)
+        assert len(rows) == 1
+        assert rows[0]["bucket_type"] == "g_bucket"
+        assert rows[0]["n_near_miss"] == 1
 
     def test_chain_fast_cli_profile_and_cache(self, tmp_path):
         """CLI run should persist profile fields and reuse cached triples on the second run."""
@@ -395,6 +458,89 @@ class TestChainDB:
             )
             assert rows == ordered
         conn.close()
+
+    def test_chain_fast_cli_bucket_stats_and_analysis(self, tmp_path):
+        """CLI bucket stats should persist and the analysis script should read them."""
+        db_path = tmp_path / "bucket_stats.db"
+        out_json = tmp_path / "analysis.json"
+        cmd = [
+            sys.executable,
+            str(ROOT / "scripts" / "search.py"),
+            "chain-fast",
+            "--max-hyp",
+            "120",
+            "--backend",
+            "python",
+            "--db",
+            str(db_path),
+            "--bucket-stats",
+            "--near-miss",
+            "--no-progress",
+        ]
+        subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=True)
+
+        from rational_distance.chain_db import connect_db as chain_connect_db
+        from rational_distance.chain_db import get_bucket_stats as chain_get_bucket_stats
+        from rational_distance.chain_db import get_run
+        from rational_distance.chain_db import init_schema as chain_init_schema
+
+        conn = chain_connect_db(db_path)
+        chain_init_schema(conn)
+        run_id = conn.execute("SELECT MAX(id) FROM chain_runs").fetchone()[0]
+        run = get_run(conn, run_id)
+        assert run is not None
+        assert run["bucket_stats"] == 1
+        bucket_rows = chain_get_bucket_stats(conn, run_id)
+        assert bucket_rows
+        conn.close()
+
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "analyze_chain_db.py"),
+                "--db",
+                str(db_path),
+                "--run",
+                "latest",
+                "--bucket-type",
+                "g_bucket",
+                "--top",
+                "3",
+                "--min-after-basic",
+                "1",
+                "--out-json",
+                str(out_json),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert "Chain database analysis" in proc.stdout
+        assert out_json.exists()
+        payload = json.loads(out_json.read_text(encoding="utf-8"))
+        assert payload["run"]["id"] == run_id
+        assert "g_bucket" in payload["rankings"]
+
+    def test_chain_fast_cli_bucket_stats_requires_db(self, tmp_path):
+        """bucket stats should fail fast when no DB path is provided."""
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "chain-fast",
+                "--max-hyp",
+                "60",
+                "--bucket-stats",
+                "--no-progress",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        assert proc.returncode != 0
+        combined = f"{proc.stdout}\n{proc.stderr}"
+        assert "--bucket-stats requires --db" in combined
 
     def test_cli_fails_on_legacy_chain_db(self, tmp_path):
         """The chain-fast CLI should fail clearly on an old schema DB."""

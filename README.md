@@ -55,6 +55,9 @@ uv run ruff format .
 | [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | `parametric` / `ec` / `chain` / `chain-fast` / `concordant` 的用途速览 |
 | [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论 |
 | [docs/CHAIN_FAST_PERFORMANCE.md](docs/CHAIN_FAST_PERFORMANCE.md) | `chain-fast` 的 profile、并行实测和当前瓶颈判断 |
+| [docs/CHAIN_FAST_MOD_SIEVE.md](docs/CHAIN_FAST_MOD_SIEVE.md) | `chain-fast` 的 `mod` 预筛实验：筛掉了多少、为什么目前还没更快 |
+| [docs/CHAIN_FAST_BUCKET_STATS.md](docs/CHAIN_FAST_BUCKET_STATS.md) | `chain-fast` 的结构桶统计：为什么先采证据、SQLite 里到底多了什么 |
+| [docs/CHAIN_FAST_OPTIMIZATION.md](docs/CHAIN_FAST_OPTIMIZATION.md) | `chain-fast` 当前到底慢在哪、数据库解决什么、后续更该优先做什么 |
 | [docs/MATH.md](docs/MATH.md) | 数学：参数化推导、距离公式、侧边定理、D4对称群 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 实现：模块结构、搜索策略、向量化、溢出处理、GPU、EC搜索 |
 | [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |

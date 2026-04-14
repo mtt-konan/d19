@@ -8,6 +8,9 @@ from math import gcd, isqrt
 
 from rational_distance.search_chain import ChainResult
 
+from .bucket_stats import BucketStatsCollector, build_bucket_identities
+from .mod_sieve import DEFAULT_C3_MOD_SIEVE
+
 try:
     import numpy as np
 except ImportError:  # pragma: no cover - exercised only when numpy is missing
@@ -20,22 +23,26 @@ NearMissRecord = tuple[int, int, int, int, bool, bool, int, int, int, int]
 class ScanProfile:
     n_pairs_total: int = 0
     n_pairs_after_basic_filters: int = 0
+    n_pairs_after_c3_mod_sieve: int = 0
     n_c3_pass: int = 0
     n_c4_pass: int = 0
     n_solutions_before_dedup: int = 0
     n_near_miss: int = 0
     time_filter_s: float = 0.0
+    time_mod_sieve_c3_s: float = 0.0
     time_c3_s: float = 0.0
     time_c4_s: float = 0.0
 
     def merge(self, other: ScanProfile) -> None:
         self.n_pairs_total += other.n_pairs_total
         self.n_pairs_after_basic_filters += other.n_pairs_after_basic_filters
+        self.n_pairs_after_c3_mod_sieve += other.n_pairs_after_c3_mod_sieve
         self.n_c3_pass += other.n_c3_pass
         self.n_c4_pass += other.n_c4_pass
         self.n_solutions_before_dedup += other.n_solutions_before_dedup
         self.n_near_miss += other.n_near_miss
         self.time_filter_s += other.time_filter_s
+        self.time_mod_sieve_c3_s += other.time_mod_sieve_c3_s
         self.time_c3_s += other.time_c3_s
         self.time_c4_s += other.time_c4_s
 
@@ -62,7 +69,9 @@ def _numpy_scan_t1(
     s_arr,
     t_arr,
     collect_profile: bool = False,
-) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile]:
+    mod_sieve_enabled: bool = False,
+    collect_bucket_stats: bool = False,
+) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile, BucketStatsCollector | None]:
     """Vectorised inner T2 loop for one outer T1 iteration."""
     if np is None:  # pragma: no cover - guarded by backend selection
         raise RuntimeError("numpy backend requested but numpy is not installed")
@@ -71,6 +80,7 @@ def _numpy_scan_t1(
     solutions: list[ChainResult] = []
     near_misses: list[NearMissRecord] = []
     scan_profile = ScanProfile(n_pairs_total=len(triples))
+    bucket_stats = BucketStatsCollector() if collect_bucket_stats else None
 
     filter_started = time.perf_counter() if collect_profile else 0.0
     cg = np.gcd(np.int64(t1), s_arr)
@@ -92,13 +102,39 @@ def _numpy_scan_t1(
         scan_profile.time_filter_s = time.perf_counter() - filter_started
 
     if not np.any(mask):
-        return solutions, near_misses, scan_profile
+        if bucket_stats is not None:
+            for j, (s2, t2, _) in enumerate(triples):
+                bucket_ids = build_bucket_identities(s1, t1, s2, t2, int(cg[j]))
+                bucket_stats.note_total(bucket_ids)
+        return solutions, near_misses, scan_profile, bucket_stats
 
     j_idx = np.where(mask)[0]
     A_m = A[mask]
     B_m = B[mask]
     N_m = N[mask]
     b_m = b_all[mask]
+
+    if mod_sieve_enabled:
+        mod_started = time.perf_counter() if collect_profile else 0.0
+        mod_mask = DEFAULT_C3_MOD_SIEVE.filter_numpy(A_m, N_m)
+        scan_profile.n_pairs_after_c3_mod_sieve = int(np.count_nonzero(mod_mask))
+        if collect_profile:
+            scan_profile.time_mod_sieve_c3_s = time.perf_counter() - mod_started
+        if not np.any(mod_mask):
+            if bucket_stats is not None:
+                for j, (s2, t2, _) in enumerate(triples):
+                    bucket_ids = build_bucket_identities(s1, t1, s2, t2, int(cg[j]))
+                    bucket_stats.note_total(bucket_ids)
+                    if bool(mask[j]):
+                        bucket_stats.note_after_basic(bucket_ids)
+            return solutions, near_misses, scan_profile, bucket_stats
+        j_idx = j_idx[mod_mask]
+        A_m = A_m[mod_mask]
+        B_m = B_m[mod_mask]
+        N_m = N_m[mod_mask]
+        b_m = b_m[mod_mask]
+    else:
+        scan_profile.n_pairs_after_c3_mod_sieve = len(A_m)
 
     c3_started = time.perf_counter() if collect_profile else 0.0
     sq3 = A_m * A_m + N_m * N_m
@@ -113,7 +149,13 @@ def _numpy_scan_t1(
         scan_profile.time_c3_s = time.perf_counter() - c3_started
 
     if not np.any(c3):
-        return solutions, near_misses, scan_profile
+        if bucket_stats is not None:
+            for j, (s2, t2, _) in enumerate(triples):
+                bucket_ids = build_bucket_identities(s1, t1, s2, t2, int(cg[j]))
+                bucket_stats.note_total(bucket_ids)
+                if bool(mask[j]):
+                    bucket_stats.note_after_basic(bucket_ids)
+        return solutions, near_misses, scan_profile, bucket_stats
 
     j_c3 = j_idx[c3]
     A3 = A_m[c3]
@@ -155,7 +197,45 @@ def _numpy_scan_t1(
         scan_profile.time_c4_s = time.perf_counter() - c4_started
 
     if not np.any(c4):
-        return solutions, near_misses, scan_profile
+        if bucket_stats is not None:
+            c3_pass_full = np.zeros(len(triples), dtype=bool)
+            c3_pass_full[j_c3] = True
+            near_miss_payloads = {
+                int(j_c3[idx]): (
+                    int(B3[idx]),
+                    int(b3[idx]),
+                    int(A3[idx]),
+                    int(N3[idx]),
+                    int(sq3_c[idx]),
+                    int(sq4[idx]),
+                    int(h3v[idx]),
+                    int(h4c[idx]),
+                )
+                for idx in np.where(nm_mask)[0]
+            }
+            for j, (s2, t2, _) in enumerate(triples):
+                bucket_ids = build_bucket_identities(s1, t1, s2, t2, int(cg[j]))
+                bucket_stats.note_total(bucket_ids)
+                if not bool(mask[j]):
+                    continue
+                bucket_stats.note_after_basic(bucket_ids)
+                if not bool(c3_pass_full[j]):
+                    continue
+                bucket_stats.note_c3_pass(bucket_ids)
+                payload = near_miss_payloads.get(j)
+                if payload is not None:
+                    bucket_stats.note_near_miss(
+                        bucket_ids,
+                        a=payload[0],
+                        b=payload[1],
+                        c=payload[2],
+                        d=payload[3],
+                        sq3=payload[4],
+                        sq4=payload[5],
+                        h3=payload[6],
+                        h4=payload[7],
+                    )
+        return solutions, near_misses, scan_profile, bucket_stats
 
     j_c34 = j_c3[c4]
     A_hit = A3[c4]
@@ -186,23 +266,73 @@ def _numpy_scan_t1(
         _append_solution_if_valid(solutions, a_v, b_v, c_v, d_v, x1, x2, h3_e, h4_e)
 
     scan_profile.n_solutions_before_dedup = len(solutions)
-    return solutions, near_misses, scan_profile
+    if bucket_stats is not None:
+        c3_pass_full = np.zeros(len(triples), dtype=bool)
+        c4_pass_full = np.zeros(len(triples), dtype=bool)
+        c3_pass_full[j_c3] = True
+        c4_pass_full[j_c34] = True
+        near_miss_payloads = {
+            int(j_c3[idx]): (
+                int(B3[idx]),
+                int(b3[idx]),
+                int(A3[idx]),
+                int(N3[idx]),
+                int(sq3_c[idx]),
+                int(sq4[idx]),
+                int(h3v[idx]),
+                int(h4c[idx]),
+            )
+            for idx in np.where(nm_mask)[0]
+        }
+        for j, (s2, t2, _) in enumerate(triples):
+            bucket_ids = build_bucket_identities(s1, t1, s2, t2, int(cg[j]))
+            bucket_stats.note_total(bucket_ids)
+            if not bool(mask[j]):
+                continue
+            bucket_stats.note_after_basic(bucket_ids)
+            if not bool(c3_pass_full[j]):
+                continue
+            bucket_stats.note_c3_pass(bucket_ids)
+            if bool(c4_pass_full[j]):
+                bucket_stats.note_c4_pass(bucket_ids)
+                continue
+            payload = near_miss_payloads.get(j)
+            if payload is not None:
+                bucket_stats.note_near_miss(
+                    bucket_ids,
+                    a=payload[0],
+                    b=payload[1],
+                    c=payload[2],
+                    d=payload[3],
+                    sq3=payload[4],
+                    sq4=payload[5],
+                    h3=payload[6],
+                    h4=payload[7],
+                )
+    return solutions, near_misses, scan_profile, bucket_stats
 
 
 def _python_scan_t1(
     i: int,
     triples: list[tuple[int, int, int]],
     collect_profile: bool = False,
-) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile]:
+    mod_sieve_enabled: bool = False,
+    collect_bucket_stats: bool = False,
+) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile, BucketStatsCollector | None]:
     """Pure-Python inner T2 loop for one outer T1 iteration."""
     solutions: list[ChainResult] = []
     near_misses: list[NearMissRecord] = []
     scan_profile = ScanProfile(n_pairs_total=len(triples))
     s1, t1, h1 = triples[i]
     n = len(triples)
+    bucket_stats = BucketStatsCollector() if collect_bucket_stats else None
 
     for j in range(n):
         s2, t2, h2 = triples[j]
+        bucket_ids = None
+        if bucket_stats is not None:
+            bucket_ids = build_bucket_identities(s1, t1, s2, t2)
+            bucket_stats.note_total(bucket_ids)
 
         filter_started = time.perf_counter() if collect_profile else 0.0
         cg = gcd(t1, s2)
@@ -238,8 +368,22 @@ def _python_scan_t1(
                 scan_profile.time_filter_s += time.perf_counter() - filter_started
             continue
         scan_profile.n_pairs_after_basic_filters += 1
+        if bucket_ids is not None:
+            bucket_stats.note_after_basic(bucket_ids)
         if collect_profile:
             scan_profile.time_filter_s += time.perf_counter() - filter_started
+
+        if mod_sieve_enabled:
+            mod_started = time.perf_counter() if collect_profile else 0.0
+            if not DEFAULT_C3_MOD_SIEVE.allow_pair(A, N):
+                if collect_profile:
+                    scan_profile.time_mod_sieve_c3_s += time.perf_counter() - mod_started
+                continue
+            scan_profile.n_pairs_after_c3_mod_sieve += 1
+            if collect_profile:
+                scan_profile.time_mod_sieve_c3_s += time.perf_counter() - mod_started
+        else:
+            scan_profile.n_pairs_after_c3_mod_sieve += 1
 
         c3_started = time.perf_counter() if collect_profile else 0.0
         sq3 = A * A + N * N
@@ -249,6 +393,8 @@ def _python_scan_t1(
         if h3 * h3 != sq3:
             continue
         scan_profile.n_c3_pass += 1
+        if bucket_ids is not None:
+            bucket_stats.note_c3_pass(bucket_ids)
 
         c4_started = time.perf_counter() if collect_profile else 0.0
         sq4 = N * N + B * B
@@ -257,8 +403,22 @@ def _python_scan_t1(
             scan_profile.time_c4_s += time.perf_counter() - c4_started
         if h4 * h4 != sq4:
             near_misses.append((a, b, c, d, True, False, sq3, sq4, h3, h4))
+            if bucket_ids is not None:
+                bucket_stats.note_near_miss(
+                    bucket_ids,
+                    a=a,
+                    b=b,
+                    c=c,
+                    d=d,
+                    sq3=sq3,
+                    sq4=sq4,
+                    h3=h3,
+                    h4=h4,
+                )
             continue
         scan_profile.n_c4_pass += 1
+        if bucket_ids is not None:
+            bucket_stats.note_c4_pass(bucket_ids)
 
         x1 = s2r * h1
         x2 = t1r * h2
@@ -266,4 +426,4 @@ def _python_scan_t1(
 
     scan_profile.n_solutions_before_dedup = len(solutions)
     scan_profile.n_near_miss = len(near_misses)
-    return solutions, near_misses, scan_profile
+    return solutions, near_misses, scan_profile, bucket_stats

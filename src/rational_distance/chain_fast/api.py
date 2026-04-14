@@ -13,6 +13,8 @@ from tqdm import tqdm
 from rational_distance.math_utils import primitive_pythagorean_triples
 from rational_distance.search_chain import ChainResult
 
+from .bucket_stats import BucketStatRow, BucketStatsCollector
+from .mod_sieve import DEFAULT_MODULI
 from .workflow import (
     _iter_t1_chunks,
     _merge_chunk,
@@ -43,10 +45,13 @@ class ChainFastProfile:
     backend: str
     workers: int
     profile_enabled: bool
+    mod_sieve_enabled: bool = False
+    mod_sieve_moduli: tuple[int, ...] = DEFAULT_MODULI
     triples_source: str = "generated"
     n_triples: int = 0
     n_pairs_total: int = 0
     n_pairs_after_basic_filters: int = 0
+    n_pairs_after_c3_mod_sieve: int = 0
     n_c3_pass: int = 0
     n_c4_pass: int = 0
     n_solutions_before_dedup: int = 0
@@ -58,6 +63,7 @@ class ChainFastProfile:
     time_generate_triples_s: float = 0.0
     time_outer_loop_s: float = 0.0
     time_filter_s: float = 0.0
+    time_mod_sieve_c3_s: float = 0.0
     time_c3_s: float = 0.0
     time_c4_s: float = 0.0
     time_dedup_s: float = 0.0
@@ -67,11 +73,13 @@ class ChainFastProfile:
     def absorb_scan(self, scan: ScanProfile) -> None:
         self.n_pairs_total += scan.n_pairs_total
         self.n_pairs_after_basic_filters += scan.n_pairs_after_basic_filters
+        self.n_pairs_after_c3_mod_sieve += scan.n_pairs_after_c3_mod_sieve
         self.n_c3_pass += scan.n_c3_pass
         self.n_c4_pass += scan.n_c4_pass
         self.n_solutions_before_dedup += scan.n_solutions_before_dedup
         self.n_near_miss += scan.n_near_miss
         self.time_filter_s += scan.time_filter_s
+        self.time_mod_sieve_c3_s += scan.time_mod_sieve_c3_s
         self.time_c3_s += scan.time_c3_s
         self.time_c4_s += scan.time_c4_s
 
@@ -81,10 +89,13 @@ class ChainFastProfile:
             "backend": self.backend,
             "workers": self.workers,
             "profile_enabled": self.profile_enabled,
+            "mod_sieve_enabled": self.mod_sieve_enabled,
+            "mod_sieve_moduli": list(self.mod_sieve_moduli),
             "triples_source": self.triples_source,
             "n_triples": self.n_triples,
             "n_pairs_total": self.n_pairs_total,
             "n_pairs_after_basic_filters": self.n_pairs_after_basic_filters,
+            "n_pairs_after_c3_mod_sieve": self.n_pairs_after_c3_mod_sieve,
             "n_c3_pass": self.n_c3_pass,
             "n_c4_pass": self.n_c4_pass,
             "n_solutions_before_dedup": self.n_solutions_before_dedup,
@@ -96,6 +107,7 @@ class ChainFastProfile:
             "time_generate_triples_s": round(self.time_generate_triples_s, 6),
             "time_outer_loop_s": round(self.time_outer_loop_s, 6),
             "time_filter_s": round(self.time_filter_s, 6),
+            "time_mod_sieve_c3_s": round(self.time_mod_sieve_c3_s, 6),
             "time_c3_s": round(self.time_c3_s, 6),
             "time_c4_s": round(self.time_c4_s, 6),
             "time_dedup_s": round(self.time_dedup_s, 6),
@@ -109,6 +121,7 @@ class ChainFastExecution:
     results: list[ChainResult]
     profile: ChainFastProfile
     triples: list[tuple[int, int, int]]
+    bucket_stats: list[BucketStatRow]
 
 
 def build_chain_fast_triples(max_hyp: int) -> list[tuple[int, int, int]]:
@@ -154,6 +167,8 @@ def run_chain_fast(
     triples: list[tuple[int, int, int]] | None = None,
     profile: bool = False,
     triples_source: str = "generated",
+    mod_sieve: bool = False,
+    bucket_stats: bool = False,
 ) -> ChainFastExecution:
     """Run chain-fast and return both results and execution profile."""
     profile_data = ChainFastProfile(
@@ -161,6 +176,7 @@ def run_chain_fast(
         backend=resolve_backend_choice(max_hyp, backend),
         workers=workers,
         profile_enabled=profile,
+        mod_sieve_enabled=mod_sieve,
         triples_source=triples_source,
     )
 
@@ -180,11 +196,17 @@ def run_chain_fast(
         raise ValueError("start_t1 must be >= 0")
     if start_t1 >= n:
         profile_data.n_solutions_after_dedup = 0
-        return ChainFastExecution(results=[], profile=profile_data, triples=triples)
+        return ChainFastExecution(
+            results=[],
+            profile=profile_data,
+            triples=triples,
+            bucket_stats=[],
+        )
 
     chunks = _iter_t1_chunks(start_t1, n)
     results: list[ChainResult] = []
     seen: set[tuple[int, int, int, int]] = set()
+    bucket_stats_data = BucketStatsCollector() if bucket_stats else None
     resolved_workers = _resolve_worker_count(workers, n - start_t1)
     profile_data.workers = resolved_workers
 
@@ -214,9 +236,13 @@ def run_chain_fast(
                     s_arr,
                     t_arr,
                     profile,
+                    mod_sieve,
+                    bucket_stats,
                 )
                 if profile:
                     profile_data.absorb_scan(chunk.scan_profile)
+                if bucket_stats_data is not None:
+                    bucket_stats_data.merge(chunk.bucket_stats)
                 dedup_started = time.perf_counter() if profile else 0.0
                 _merge_chunk(chunk, results, seen, near_miss_callback)
                 if profile:
@@ -232,10 +258,14 @@ def run_chain_fast(
                 backend_label,
                 profile,
                 resolved_workers,
+                mod_sieve,
+                bucket_stats,
             )
             for (start_idx, end_idx), chunk in zip(chunks, chunk_iter, strict=True):
                 if profile:
                     profile_data.absorb_scan(chunk.scan_profile)
+                if bucket_stats_data is not None:
+                    bucket_stats_data.merge(chunk.bucket_stats)
                 dedup_started = time.perf_counter() if profile else 0.0
                 _merge_chunk(chunk, results, seen, near_miss_callback)
                 if profile:
@@ -252,7 +282,12 @@ def run_chain_fast(
     sorted_results = sorted(results, key=lambda result: (result.a, result.b, result.c, result.d))
     profile_data.n_solutions_after_dedup = len(sorted_results)
     profile_data.near_miss_seen = profile_data.n_near_miss
-    return ChainFastExecution(results=sorted_results, profile=profile_data, triples=triples)
+    return ChainFastExecution(
+        results=sorted_results,
+        profile=profile_data,
+        triples=triples,
+        bucket_stats=[] if bucket_stats_data is None else bucket_stats_data.rows(),
+    )
 
 
 def find_chains_fast(
@@ -263,6 +298,7 @@ def find_chains_fast(
     start_t1: int = 0,
     near_miss_callback: Callable | None = None,
     chunk_complete_callback: Callable[[int], None] | None = None,
+    mod_sieve: bool = False,
 ) -> list[ChainResult]:
     """Compatibility wrapper returning only the deduplicated result list."""
     return run_chain_fast(
@@ -273,4 +309,5 @@ def find_chains_fast(
         start_t1=start_t1,
         near_miss_callback=near_miss_callback,
         chunk_complete_callback=chunk_complete_callback,
+        mod_sieve=mod_sieve,
     ).results

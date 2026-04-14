@@ -309,6 +309,16 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Collect and print chain-fast timing/count profile; also persist it when --db is set",
     )
+    cf.add_argument(
+        "--bucket-stats",
+        action="store_true",
+        help="Collect aggregated structural bucket stats and persist them to --db",
+    )
+    cf.add_argument(
+        "--mod-sieve",
+        action="store_true",
+        help="Experimental C3 pre-sieve using fixed small moduli (16,3,5,7)",
+    )
 
     co = sub.add_parser(
         "concordant",

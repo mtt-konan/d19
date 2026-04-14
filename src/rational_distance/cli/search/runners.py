@@ -280,10 +280,15 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     backend_requested = getattr(args, "backend", "auto")
     backend = resolve_backend_choice(args.max_hyp, backend_requested)
     near_miss_limit = int(getattr(args, "near_miss_limit", 100000))
+    bucket_stats_enabled = bool(getattr(args, "bucket_stats", False))
+    if bucket_stats_enabled and not getattr(args, "db", None):
+        raise SystemExit("--bucket-stats requires --db so the aggregated rows can be persisted.")
     run_params = {
         "backend": backend,
         "backend_requested": backend_requested,
+        "bucket_stats": bucket_stats_enabled,
         "max_hyp": args.max_hyp,
+        "mod_sieve": bool(getattr(args, "mod_sieve", False)),
         "near_miss": bool(getattr(args, "near_miss", False)),
         "near_miss_limit": near_miss_limit,
         "profile": bool(getattr(args, "profile", False)),
@@ -360,7 +365,9 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     print("Pythagorean 4-cycle fast search — O(n²) primitive-triple-pair method")
     print(
         f"  max_hyp={args.max_hyp}  backend={backend}"
-        f"  workers={args.workers}  start_t1={start_t1}  triples_source={triples_source}"
+        f"  workers={args.workers}  mod_sieve={bool(getattr(args, 'mod_sieve', False))}"
+        f"  bucket_stats={bucket_stats_enabled}"
+        f"  start_t1={start_t1}  triples_source={triples_source}"
     )
     print("=" * 72)
 
@@ -376,6 +383,8 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
         triples=triples,
         profile=bool(getattr(args, "profile", False)),
         triples_source=triples_source,
+        mod_sieve=bool(getattr(args, "mod_sieve", False)),
+        bucket_stats=bucket_stats_enabled,
     )
     elapsed = time.perf_counter() - t0
     results = execution.results
@@ -390,8 +399,10 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     if db_conn is not None:
         from rational_distance.chain_db import (
             finish_run,
+            get_bucket_stats,
             get_near_misses,
             get_run,
+            record_bucket_stats,
             record_near_misses,
             record_solution,
             update_run_db_size,
@@ -402,6 +413,12 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
             record_solution(db_conn, run_id, result)
         if getattr(args, "near_miss", False) and near_miss_store.saved:
             record_near_misses(db_conn, run_id, near_miss_store.rows())
+        if bucket_stats_enabled and execution.bucket_stats:
+            record_bucket_stats(
+                db_conn,
+                run_id,
+                [row.as_dict() for row in execution.bucket_stats],
+            )
         execution.profile.time_db_write_s += time.perf_counter() - db_started
 
         finish_run(db_conn, run_id, elapsed=elapsed, profile=execution.profile)
@@ -419,6 +436,9 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
                     f"c={near_miss['c']} d={near_miss['d']}"
                     f"  sq4_deficit={near_miss['sq4_deficit']}"
                 )
+        if bucket_stats_enabled:
+            bucket_row_count = len(get_bucket_stats(db_conn, run_id))
+            print(f"  persisted bucket rows: {bucket_row_count}")
 
     print(f"\nFound {len(results)} unit-square 4-cycle solution(s) in {elapsed:.1f}s")
     print(

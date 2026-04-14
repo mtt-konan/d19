@@ -9,6 +9,7 @@ from multiprocessing import cpu_count
 
 from rational_distance.search_chain import ChainResult, _symmetry_group
 
+from .bucket_stats import BucketStatsCollector
 from .kernel import NearMissRecord, ScanProfile, _numpy_scan_t1, _python_scan_t1
 
 try:
@@ -23,6 +24,8 @@ _WORKER_BACKEND: str = "python"
 _WORKER_S_ARR = None
 _WORKER_T_ARR = None
 _WORKER_COLLECT_PROFILE = False
+_WORKER_MOD_SIEVE_ENABLED = False
+_WORKER_BUCKET_STATS_ENABLED = False
 
 
 @dataclass(frozen=True)
@@ -32,6 +35,7 @@ class ChunkScanResult:
     solutions: list[ChainResult]
     near_misses: list[NearMissRecord]
     scan_profile: ScanProfile
+    bucket_stats: BucketStatsCollector | None = None
 
     @property
     def last_t1_index(self) -> int:
@@ -57,10 +61,13 @@ def _scan_t1_range(
     s_arr=None,
     t_arr=None,
     collect_profile: bool = False,
+    mod_sieve_enabled: bool = False,
+    collect_bucket_stats: bool = False,
 ) -> ChunkScanResult:
     solutions: list[ChainResult] = []
     near_misses: list[NearMissRecord] = []
     scan_profile = ScanProfile()
+    bucket_stats = BucketStatsCollector() if collect_bucket_stats else None
 
     if backend_label == "numpy" and s_arr is None and np is not None:
         s_arr = np.array([triple[0] for triple in triples], dtype=np.int64)
@@ -68,23 +75,29 @@ def _scan_t1_range(
 
     for i in range(start_t1, end_t1):
         if backend_label == "numpy":
-            chunk_solutions, chunk_near_misses, t1_profile = _numpy_scan_t1(
+            chunk_solutions, chunk_near_misses, t1_profile, t1_bucket_stats = _numpy_scan_t1(
                 i,
                 triples,
                 s_arr,
                 t_arr,
                 collect_profile=collect_profile,
+                mod_sieve_enabled=mod_sieve_enabled,
+                collect_bucket_stats=collect_bucket_stats,
             )
         else:
-            chunk_solutions, chunk_near_misses, t1_profile = _python_scan_t1(
+            chunk_solutions, chunk_near_misses, t1_profile, t1_bucket_stats = _python_scan_t1(
                 i,
                 triples,
                 collect_profile=collect_profile,
+                mod_sieve_enabled=mod_sieve_enabled,
+                collect_bucket_stats=collect_bucket_stats,
             )
         solutions.extend(chunk_solutions)
         near_misses.extend(chunk_near_misses)
         if collect_profile:
             scan_profile.merge(t1_profile)
+        if bucket_stats is not None:
+            bucket_stats.merge(t1_bucket_stats)
 
     return ChunkScanResult(
         start_t1=start_t1,
@@ -92,6 +105,7 @@ def _scan_t1_range(
         solutions=solutions,
         near_misses=near_misses,
         scan_profile=scan_profile,
+        bucket_stats=bucket_stats,
     )
 
 
@@ -99,12 +113,17 @@ def _init_parallel_worker(
     triples: list[tuple[int, int, int]],
     backend_label: str,
     collect_profile: bool,
+    mod_sieve_enabled: bool,
+    collect_bucket_stats: bool,
 ) -> None:
-    global _WORKER_BACKEND, _WORKER_COLLECT_PROFILE, _WORKER_S_ARR, _WORKER_T_ARR, _WORKER_TRIPLES
+    global _WORKER_BACKEND, _WORKER_BUCKET_STATS_ENABLED, _WORKER_COLLECT_PROFILE
+    global _WORKER_MOD_SIEVE_ENABLED, _WORKER_S_ARR, _WORKER_T_ARR, _WORKER_TRIPLES
 
     _WORKER_TRIPLES = triples
     _WORKER_BACKEND = backend_label
     _WORKER_COLLECT_PROFILE = collect_profile
+    _WORKER_MOD_SIEVE_ENABLED = mod_sieve_enabled
+    _WORKER_BUCKET_STATS_ENABLED = collect_bucket_stats
     if backend_label == "numpy" and np is not None:
         _WORKER_S_ARR = np.array([triple[0] for triple in triples], dtype=np.int64)
         _WORKER_T_ARR = np.array([triple[1] for triple in triples], dtype=np.int64)
@@ -123,6 +142,8 @@ def _worker_process_chunk(bounds: tuple[int, int]) -> ChunkScanResult:
         _WORKER_S_ARR,
         _WORKER_T_ARR,
         _WORKER_COLLECT_PROFILE,
+        _WORKER_MOD_SIEVE_ENABLED,
+        _WORKER_BUCKET_STATS_ENABLED,
     )
 
 
@@ -158,10 +179,18 @@ def map_chunks_in_parallel(
     backend_label: str,
     collect_profile: bool,
     workers: int,
+    mod_sieve_enabled: bool,
+    collect_bucket_stats: bool,
 ) -> Iterator[ChunkScanResult]:
     with ProcessPoolExecutor(
         max_workers=workers,
         initializer=_init_parallel_worker,
-        initargs=(triples, backend_label, collect_profile),
+        initargs=(
+            triples,
+            backend_label,
+            collect_profile,
+            mod_sieve_enabled,
+            collect_bucket_stats,
+        ),
     ) as executor:
         yield from executor.map(_worker_process_chunk, chunks)

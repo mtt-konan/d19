@@ -11,6 +11,34 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
+
+def _bucket_row_map(rows) -> dict[tuple[str, str], dict]:
+    return {
+        (row.bucket_type, row.bucket_key_json): row.as_dict()
+        for row in rows
+    }
+
+
+def _bucket_totals_by_type(rows) -> dict[str, dict[str, int]]:
+    totals: dict[str, dict[str, int]] = {}
+    for row in rows:
+        current = totals.setdefault(
+            row.bucket_type,
+            {
+                "n_total": 0,
+                "n_after_basic": 0,
+                "n_c3_pass": 0,
+                "n_c4_pass": 0,
+                "n_near_miss": 0,
+            },
+        )
+        current["n_total"] += row.n_total
+        current["n_after_basic"] += row.n_after_basic
+        current["n_c3_pass"] += row.n_c3_pass
+        current["n_c4_pass"] += row.n_c4_pass
+        current["n_near_miss"] += row.n_near_miss
+    return totals
+
 class TestChainFast:
     """Tests for the O(n²) primitive-triple-pair chain search."""
 
@@ -145,6 +173,16 @@ class TestChainFastNumpy:
             f"near_miss count differs: python={len(py_hits)}, numpy={len(np_hits)}"
         )
 
+    def test_mod_sieve_numpy_matches_python(self):
+        """The experimental mod sieve must preserve results across both backends."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        py = find_chains_fast(max_hyp=300, progress=False, backend="python", mod_sieve=True)
+        np_ = find_chains_fast(max_hyp=300, progress=False, backend="numpy", mod_sieve=True)
+        assert py == np_
+
     def test_start_t1_resumes_subset(self):
         """start_t1=k should return a subset of the full run's results."""
         from rational_distance.search_chain_fast import find_chains_fast
@@ -205,6 +243,7 @@ class TestChainFastProfile:
             "n_triples",
             "n_pairs_total",
             "n_pairs_after_basic_filters",
+            "n_pairs_after_c3_mod_sieve",
             "n_c3_pass",
             "n_c4_pass",
             "n_solutions_before_dedup",
@@ -214,6 +253,7 @@ class TestChainFastProfile:
             "near_miss_dropped",
             "time_generate_triples_s",
             "time_filter_s",
+            "time_mod_sieve_c3_s",
             "time_c3_s",
             "time_c4_s",
             "time_dedup_s",
@@ -223,10 +263,13 @@ class TestChainFastProfile:
         assert (
             profile["n_pairs_total"]
             >= profile["n_pairs_after_basic_filters"]
+            >= profile["n_pairs_after_c3_mod_sieve"]
             >= profile["n_c3_pass"]
             >= profile["n_c4_pass"]
         )
         assert profile["n_solutions_before_dedup"] >= profile["n_solutions_after_dedup"]
+        assert profile["n_pairs_after_c3_mod_sieve"] == profile["n_pairs_after_basic_filters"]
+        assert profile["time_mod_sieve_c3_s"] == pytest.approx(0.0)
 
     def test_run_chain_fast_profile_keys_match_numpy(self):
         """python and numpy profiled runs should expose the same profile keys."""
@@ -248,6 +291,28 @@ class TestChainFastProfile:
         ).profile.as_dict()
         assert set(py_profile) == set(np_profile)
 
+    def test_run_chain_fast_profile_mod_sieve_fields(self):
+        """Enabling mod sieve should populate its counters and preserve monotonic counts."""
+        from rational_distance.search_chain_fast import run_chain_fast
+
+        profile = run_chain_fast(
+            max_hyp=200,
+            progress=False,
+            backend="python",
+            profile=True,
+            mod_sieve=True,
+        ).profile.as_dict()
+        assert profile["mod_sieve_enabled"] is True
+        assert profile["mod_sieve_moduli"] == [16, 3, 5, 7]
+        assert (
+            profile["n_pairs_total"]
+            >= profile["n_pairs_after_basic_filters"]
+            >= profile["n_pairs_after_c3_mod_sieve"]
+            >= profile["n_c3_pass"]
+            >= profile["n_c4_pass"]
+        )
+        assert profile["time_mod_sieve_c3_s"] >= 0.0
+
     def test_run_chain_fast_with_cached_triples_keeps_results(self):
         """Passing prebuilt triples should not change the result set."""
         from rational_distance.search_chain_fast import (
@@ -267,3 +332,142 @@ class TestChainFastProfile:
             profile=True,
         ).results
         assert cached == base
+
+    def test_run_chain_fast_bucket_stats_rows_are_monotone(self):
+        """bucket_stats=True should emit stable per-bucket monotone counters."""
+        from rational_distance.search_chain_fast import run_chain_fast
+
+        execution = run_chain_fast(
+            max_hyp=120,
+            progress=False,
+            backend="python",
+            bucket_stats=True,
+        )
+        rows = execution.bucket_stats
+        assert {row.bucket_type for row in rows} == {
+            "g_bucket",
+            "delta_bucket",
+            "residue_bucket",
+        }
+        for row in rows:
+            assert row.n_total >= row.n_after_basic >= row.n_c3_pass >= row.n_c4_pass
+            assert row.n_c3_pass >= row.n_near_miss
+            assert row.n_c3_pass == row.n_c4_pass + row.n_near_miss
+            if row.n_near_miss > 0:
+                assert row.best_sq4_deficit is not None
+                assert row.best_sq3_deficit is not None
+                assert row.sample_a is not None
+                assert row.sample_b is not None
+                assert row.sample_c is not None
+                assert row.sample_d is not None
+            else:
+                assert row.best_sq4_deficit is None
+                assert row.sample_a is None
+
+    def test_run_chain_fast_bucket_stats_match_parallel_python(self):
+        """bucket stats should be identical across python worker counts."""
+        from rational_distance.search_chain_fast import run_chain_fast
+
+        single = run_chain_fast(
+            max_hyp=120,
+            progress=False,
+            backend="python",
+            workers=1,
+            bucket_stats=True,
+        )
+        parallel = run_chain_fast(
+            max_hyp=120,
+            progress=False,
+            backend="python",
+            workers=2,
+            bucket_stats=True,
+        )
+        assert _bucket_row_map(single.bucket_stats) == _bucket_row_map(parallel.bucket_stats)
+
+    def test_run_chain_fast_bucket_stats_match_numpy_totals(self):
+        """When numpy is available, bucket totals should match the python backend."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        py = run_chain_fast(
+            max_hyp=120,
+            progress=False,
+            backend="python",
+            bucket_stats=True,
+        )
+        np_run = run_chain_fast(
+            max_hyp=120,
+            progress=False,
+            backend="numpy",
+            bucket_stats=True,
+        )
+        assert _bucket_totals_by_type(py.bucket_stats) == _bucket_totals_by_type(
+            np_run.bucket_stats
+        )
+
+    def test_bucket_stats_do_not_change_results_or_near_misses(self):
+        """bucket stats collection must not change the solution or near-miss sets."""
+        from rational_distance.search_chain_fast import run_chain_fast
+
+        baseline_near_misses: list[tuple] = []
+        bucket_near_misses: list[tuple] = []
+        baseline = run_chain_fast(
+            max_hyp=300,
+            progress=False,
+            backend="python",
+            near_miss_callback=lambda *row: baseline_near_misses.append(row),
+        )
+        bucketed = run_chain_fast(
+            max_hyp=300,
+            progress=False,
+            backend="python",
+            near_miss_callback=lambda *row: bucket_near_misses.append(row),
+            bucket_stats=True,
+        )
+        assert bucketed.results == baseline.results
+        assert bucket_near_misses == baseline_near_misses
+
+
+class TestChainFastModSieve:
+    """Tests for the experimental C3 modulus sieve."""
+
+    def test_square_sum_lookup_matches_bruteforce(self):
+        """Each per-modulus lookup must agree with direct residue checks."""
+        from rational_distance.chain_fast.mod_sieve import (
+            DEFAULT_C3_MOD_SIEVE,
+            build_square_sum_lookup,
+            square_residues,
+        )
+
+        for modulus in DEFAULT_C3_MOD_SIEVE.moduli:
+            residues = square_residues(modulus)
+            lookup = build_square_sum_lookup(modulus)
+            for a_residue in range(modulus):
+                for n_residue in range(modulus):
+                    expected = (
+                        ((a_residue * a_residue) + (n_residue * n_residue)) % modulus
+                    ) in residues
+                    assert lookup[a_residue][n_residue] is expected
+
+    def test_mod_sieve_keeps_python_results_and_near_misses(self):
+        """The sieve must not change solutions or near-miss callbacks on python."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        baseline_near_misses: list[tuple] = []
+        sieve_near_misses: list[tuple] = []
+        baseline = find_chains_fast(
+            max_hyp=500,
+            progress=False,
+            backend="python",
+            near_miss_callback=lambda *row: baseline_near_misses.append(row),
+        )
+        filtered = find_chains_fast(
+            max_hyp=500,
+            progress=False,
+            backend="python",
+            mod_sieve=True,
+            near_miss_callback=lambda *row: sieve_near_misses.append(row),
+        )
+        assert filtered == baseline
+        assert sieve_near_misses == baseline_near_misses

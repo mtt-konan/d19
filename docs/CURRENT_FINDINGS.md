@@ -26,6 +26,20 @@ uv run python scripts/search.py ...
 - 覆盖比参数化搜索更完整
 - 已经具备 `numpy` 加速和 SQLite 持久化
 
+### 2.1 当前最该优化的是“少算”，不是“晚一点再筛”
+
+最近一轮 `mod` 预筛实验说明：
+
+- 它能明显减少进入 `C3` 精确判定的候选数
+- 但总 wall time 仍然没有更快
+
+这说明当前最值钱的方向还是：
+
+- 更早的结构剪枝
+- 更早的分桶 / 分组
+
+而不是继续往后面叠更重的筛。
+
 ### 3. `numpy` 快路径有安全上限
 
 `chain-fast` 的 `numpy` 路径受 `int64` 限制，大约只能安全跑到：
@@ -96,3 +110,8 @@ Y² = X(X + A²)(X + B²), 其中 X = N²
 - `chain-fast` 的搜索结论目前最值得信任，因为它最贴近主问题
 - concordant form 能解释很多半解，但还不能直接打通全问题
 - 未来如果有突破，更可能来自新的数学剪枝，而不是单纯再堆算力
+
+如果想看这条线更详细的工程判断，可以直接看：
+
+- [docs/CHAIN_FAST_BUCKET_STATS.md](./CHAIN_FAST_BUCKET_STATS.md)
+- [docs/CHAIN_FAST_OPTIMIZATION.md](./CHAIN_FAST_OPTIMIZATION.md)
