@@ -137,7 +137,7 @@ class ChainResult:
             header += f"  point=({self.px_num}/{self.px_den}, {self.py_num}/{self.py_den})"
         labels = ["x1", "x2", "x3", "x4"]
         edge_lines = "\n".join(
-            f"  {lbl}: {e}" for lbl, e in zip(labels, self.edges())
+            f"  {lbl}: {e}" for lbl, e in zip(labels, self.edges(), strict=True)
         )
         return f"{header}\n{edge_lines}"
 

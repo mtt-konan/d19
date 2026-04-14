@@ -308,7 +308,7 @@ def enumerate_multiples(
 
     # Generate points: nP_i for each generator, and sums
     points_to_check = []
-    for g_idx, G in enumerate(gens):
+    for _g_idx, G in enumerate(gens):
         for n in range(1, max_depth + 1):
             try:
                 nP = pari.ellmul(E, G, n)

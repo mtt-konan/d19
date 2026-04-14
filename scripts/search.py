@@ -78,6 +78,7 @@ GPU SETUP — NVIDIA RTX 4090 (CUDA)
 from __future__ import annotations
 
 import argparse
+import heapq
 import json
 import sys
 import time
@@ -191,6 +192,140 @@ def _save_json(
     }
     Path(path).write_text(json.dumps(payload, indent=2))
     print(f"\nResults written to {path}")
+
+
+class _NearMissTopK:
+    """Keep the best near-misses by smallest sq4_deficit then sq3_deficit."""
+
+    def __init__(self, limit: int) -> None:
+        self.limit = max(0, limit)
+        self.seen = 0
+        self._heap: list[tuple[tuple[int, ...], tuple[int, int, int, int]]] = []
+        self._selected: dict[tuple[int, int, int, int], dict] = {}
+
+    @staticmethod
+    def _order(row: dict) -> tuple[int, int, int, int, int, int]:
+        return (
+            int(row["sq4_deficit"]),
+            int(row["sq3_deficit"]),
+            int(row["a"]),
+            int(row["b_val"]),
+            int(row["c"]),
+            int(row["d"]),
+        )
+
+    @classmethod
+    def _reverse_order(cls, row: dict) -> tuple[int, ...]:
+        return tuple(-part for part in cls._order(row))
+
+    def _current_worst(
+        self,
+    ) -> tuple[tuple[int, int, int, int, int, int], tuple[int, int, int, int]] | None:
+        while self._heap:
+            reverse_order, identity = self._heap[0]
+            row = self._selected.get(identity)
+            if row is None or reverse_order != self._reverse_order(row):
+                heapq.heappop(self._heap)
+                continue
+            return (self._order(row), identity)
+        return None
+
+    def consider(
+        self,
+        a: int,
+        b_val: int,
+        c: int,
+        d: int,
+        c3_ok: bool,
+        c4_ok: bool,
+        sq3: int,
+        sq4: int,
+        h3: int,
+        h4: int,
+    ) -> None:
+        self.seen += 1
+        if self.limit <= 0:
+            return
+
+        row = {
+            "a": int(a),
+            "b_val": int(b_val),
+            "c": int(c),
+            "d": int(d),
+            "c3_ok": bool(c3_ok),
+            "c4_ok": bool(c4_ok),
+            "sq3": int(sq3),
+            "sq4": int(sq4),
+            "h3": int(h3),
+            "h4": int(h4),
+            "sq3_deficit": int(sq3 - h3 * h3),
+            "sq4_deficit": int(sq4 - h4 * h4),
+        }
+        identity = (row["a"], row["b_val"], row["c"], row["d"])
+        existing = self._selected.get(identity)
+        if existing is not None and self._order(existing) <= self._order(row):
+            return
+        if existing is not None:
+            self._selected[identity] = row
+            heapq.heappush(self._heap, (self._reverse_order(row), identity))
+            return
+
+        if len(self._selected) < self.limit:
+            self._selected[identity] = row
+            heapq.heappush(self._heap, (self._reverse_order(row), identity))
+            return
+
+        current_worst = self._current_worst()
+        if current_worst is None:
+            self._selected[identity] = row
+            heapq.heappush(self._heap, (self._reverse_order(row), identity))
+            return
+
+        worst_order, worst_identity = current_worst
+        if self._order(row) < worst_order:
+            del self._selected[worst_identity]
+            heapq.heappop(self._heap)
+            self._selected[identity] = row
+            heapq.heappush(self._heap, (self._reverse_order(row), identity))
+
+    def rows(self) -> list[dict]:
+        return sorted(self._selected.values(), key=self._order)
+
+    @property
+    def saved(self) -> int:
+        return len(self._selected)
+
+    @property
+    def dropped(self) -> int:
+        return self.seen - self.saved
+
+
+def _print_chain_fast_profile(profile: dict) -> None:
+    print("\nProfile:")
+    print(
+        f"  triples={profile['n_triples']}  pairs={profile['n_pairs_total']}  "
+        f"after_filters={profile['n_pairs_after_basic_filters']}"
+    )
+    print(
+        f"  c3_pass={profile['n_c3_pass']}  c4_pass={profile['n_c4_pass']}  "
+        "solutions(before/after dedup)="
+        f"{profile['n_solutions_before_dedup']}/{profile['n_solutions_after_dedup']}"
+    )
+    print(
+        f"  near_miss seen/saved/dropped="
+        f"{profile['near_miss_seen']}/{profile['near_miss_saved']}/{profile['near_miss_dropped']}"
+    )
+    print(
+        f"  time_s: triples={profile['time_generate_triples_s']:.3f}  "
+        f"outer={profile['time_outer_loop_s']:.3f}  filter={profile['time_filter_s']:.3f}  "
+        f"c3={profile['time_c3_s']:.3f}  c4={profile['time_c4_s']:.3f}  "
+        f"dedup={profile['time_dedup_s']:.3f}  db={profile['time_db_write_s']:.3f}"
+    )
+    if profile.get("db_bytes_after_run", 0):
+        print(
+            f"  db_bytes_after_run={profile['db_bytes_after_run']}  "
+            f"triples_source={profile['triples_source']}"
+        )
 
 
 # ── Subcommand: parametric ────────────────────────────────────────────────────
@@ -472,93 +607,170 @@ def _run_chain(args: argparse.Namespace) -> None:
 
 def _run_chain_fast(args: argparse.Namespace) -> None:
     from rational_distance.search_chain import results_to_json
-    from rational_distance.search_chain_fast import find_chains_fast
+    from rational_distance.search_chain_fast import (
+        build_chain_fast_triples,
+        resolve_backend_choice,
+        run_chain_fast,
+    )
 
     db_conn = None
     run_id: int | None = None
     start_t1 = 0
-    near_misses_logged = 0
+    backend_requested = getattr(args, "backend", "auto")
+    backend = resolve_backend_choice(args.max_hyp, backend_requested)
+    near_miss_limit = int(getattr(args, "near_miss_limit", 100000))
+    run_params = {
+        "backend": backend,
+        "backend_requested": backend_requested,
+        "max_hyp": args.max_hyp,
+        "near_miss": bool(getattr(args, "near_miss", False)),
+        "near_miss_limit": near_miss_limit,
+        "profile": bool(getattr(args, "profile", False)),
+        "workers": args.workers,
+    }
+    near_miss_store = _NearMissTopK(near_miss_limit)
+    triples: list[tuple[int, int, int]] | None = None
+    time_generate_triples_s = 0.0
+    triples_source = "generated"
+    db_write_s = 0.0
 
     # ── DB / resume setup ──────────────────────────────────────────────────
     if getattr(args, "db", None):
         from rational_distance.chain_db import (
+            cache_triples,
             connect_db,
-            finish_run,
-            get_near_misses,
             init_schema,
+            load_cached_triples,
+            record_run_triples,
             resume_run,
             start_run,
         )
 
         db_conn = connect_db(args.db)
-        init_schema(db_conn)
+        try:
+            init_schema(db_conn)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
 
         if getattr(args, "resume", False):
-            resumed = resume_run(db_conn, args.max_hyp)
+            resumed = resume_run(db_conn, run_params)
             if resumed:
-                run_id, start_t1 = resumed
+                run_id, last_t1 = resumed
+                start_t1 = last_t1 + 1
                 print(f"Resuming run {run_id} from T1 index {start_t1}")
             else:
                 print("No resumable run found; starting fresh.")
 
-        if run_id is None:
-            from rational_distance.math_utils import primitive_pythagorean_triples
-            from math import ceil, sqrt
+        cached_triples = load_cached_triples(db_conn, args.max_hyp)
+        if cached_triples:
+            triples = cached_triples
+            triples_source = "db-cache"
+        else:
+            triples_started = time.perf_counter()
+            triples = build_chain_fast_triples(args.max_hyp)
+            time_generate_triples_s = time.perf_counter() - triples_started
+            db_started = time.perf_counter()
+            cache_triples(db_conn, args.max_hyp, triples)
+            db_write_s += time.perf_counter() - db_started
 
-            max_m = ceil(sqrt(args.max_hyp)) + 1
-            n_triples = sum(
-                1 for _, _, c in primitive_pythagorean_triples(max_m) if c <= args.max_hyp
-            )
-            run_id = start_run(db_conn, args.max_hyp, getattr(args, "backend", "auto"), n_triples)
+        if run_id is None:
+            db_started = time.perf_counter()
+            run_id = start_run(db_conn, run_params, len(triples), triples_source=triples_source)
+            record_run_triples(db_conn, run_id, triples)
+            db_write_s += time.perf_counter() - db_started
+    if triples is None:
+        triples_started = time.perf_counter()
+        triples = build_chain_fast_triples(args.max_hyp)
+        time_generate_triples_s = time.perf_counter() - triples_started
 
     # ── near-miss callback ─────────────────────────────────────────────────
     near_miss_callback = None
-    if getattr(args, "near_miss", False) and db_conn is not None:
-        from rational_distance.chain_db import checkpoint_t1, record_near_miss
-
-        _checkpoint_counter = [0]
-        _checkpoint_interval = 100
+    chunk_complete_callback = None
+    if getattr(args, "near_miss", False):
 
         def near_miss_callback(a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4):
-            nonlocal near_misses_logged
-            record_near_miss(db_conn, run_id, a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4)
-            near_misses_logged += 1
+            near_miss_store.consider(a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4)
+
+    if db_conn is not None:
+        from rational_distance.chain_db import checkpoint_t1
+
+        def chunk_complete_callback(last_t1_index: int) -> None:
+            checkpoint_t1(db_conn, run_id, last_t1_index)
 
     print("=" * 72)
     print("Pythagorean 4-cycle fast search — O(n²) primitive-triple-pair method")
-    backend = getattr(args, "backend", "auto")
-    print(f"  max_hyp={args.max_hyp}  backend={backend}  start_t1={start_t1}")
+    print(
+        f"  max_hyp={args.max_hyp}  backend={backend}"
+        f"  workers={args.workers}  start_t1={start_t1}  triples_source={triples_source}"
+    )
     print("=" * 72)
 
     t0 = time.perf_counter()
-    results = find_chains_fast(
+    execution = run_chain_fast(
         max_hyp=args.max_hyp,
         progress=not args.no_progress,
         backend=backend,
+        workers=args.workers,
         start_t1=start_t1,
         near_miss_callback=near_miss_callback,
+        chunk_complete_callback=chunk_complete_callback,
+        triples=triples,
+        profile=bool(getattr(args, "profile", False)),
+        triples_source=triples_source,
     )
     elapsed = time.perf_counter() - t0
+    results = execution.results
+    execution.profile.time_db_write_s += db_write_s
+    execution.profile.time_generate_triples_s = time_generate_triples_s
+    execution.profile.triples_source = triples_source
+    execution.profile.near_miss_seen = near_miss_store.seen
+    execution.profile.near_miss_saved = near_miss_store.saved
+    execution.profile.near_miss_dropped = near_miss_store.dropped
 
     # ── DB finalise ────────────────────────────────────────────────────────
+    run_row = None
     if db_conn is not None:
-        from rational_distance.chain_db import finish_run, get_near_misses, record_solution
+        from rational_distance.chain_db import (
+            finish_run,
+            get_near_misses,
+            get_run,
+            record_near_misses,
+            record_solution,
+            update_run_db_size,
+        )
 
+        db_started = time.perf_counter()
         for r in results:
             record_solution(db_conn, run_id, r)
-        finish_run(db_conn, run_id, found_count=len(results), elapsed=elapsed)
+        if getattr(args, "near_miss", False) and near_miss_store.saved:
+            record_near_misses(db_conn, run_id, near_miss_store.rows())
+        execution.profile.time_db_write_s += time.perf_counter() - db_started
 
-        if getattr(args, "near_miss", False) and near_misses_logged:
+        finish_run(db_conn, run_id, elapsed=elapsed, profile=execution.profile)
+        db_size = Path(args.db).stat().st_size
+        update_run_db_size(db_conn, run_id, db_size)
+        execution.profile.db_bytes_after_run = db_size
+        run_row = get_run(db_conn, run_id)
+
+        if getattr(args, "near_miss", False) and near_miss_store.saved:
             top_nm = get_near_misses(db_conn, run_id, limit=5)
-            print(f"\nTop near-misses (sq4_deficit, closest first):")
+            print("\nTop near-misses (sq4_deficit, closest first):")
             for nm in top_nm:
-                print(f"  a={nm['a']} b={nm['b_val']} c={nm['c']} d={nm['d']}"
-                      f"  sq4_deficit={nm['sq4_deficit']}")
+                print(
+                    f"  a={nm['a']} b={nm['b_val']} c={nm['c']} d={nm['d']}"
+                    f"  sq4_deficit={nm['sq4_deficit']}"
+                )
 
     print(f"\nFound {len(results)} unit-square 4-cycle solution(s) in {elapsed:.1f}s")
-    if db_conn is not None:
-        print(f"  near-misses logged: {near_misses_logged}")
+    print(
+        "  near-misses seen/saved/dropped: "
+        f"{execution.profile.near_miss_seen}/{execution.profile.near_miss_saved}/{execution.profile.near_miss_dropped}"
+    )
+    if db_conn is not None and run_row is not None:
+        print(f"  DB run id: {run_id}  last_t1_index={run_row['last_t1_index']}")
     print("  All results satisfy a+c == b+d by construction.")
+    if getattr(args, "profile", False):
+        _print_chain_fast_profile(execution.profile.as_dict())
 
     top = args.top if args.top > 0 else len(results)
     if results:
@@ -571,6 +783,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 
     if args.out:
         data = results_to_json(results, args.max_hyp, require_square=True, elapsed=elapsed)
+        data["profile"] = execution.profile.as_dict()
         with open(args.out, "w") as f:
             json.dump(data, f, indent=2)
         print(f"\nResults saved to {args.out}")
@@ -648,7 +861,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
         pari = cypari2.Pari()
         pari.allocatemem(64 * 1024 * 1024)
 
-        for idx, (A, B) in it:
+        for _idx, (A, B) in it:
             try:
                 result = analyze_pair(A, B, ec_bound=args.ec_bound, pari=pari)
                 results.append(result)
@@ -667,7 +880,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
         print(f"\n{'─' * 72}")
         print(f"Analysed {len(results)} pairs in {elapsed:.1f}s")
-        print(f"\nRank distribution:")
+        print("\nRank distribution:")
         for r in sorted(rank_counts):
             print(f"  rank={r}: {rank_counts[r]} pairs")
         print(f"\nPairs with concordant N: {n_with_concordant}/{len(results)}")
@@ -872,6 +1085,7 @@ def build_parser() -> argparse.ArgumentParser:
             "Solution values (a,b,c,d) can be as large as O(max_hyp²).\n\n"
             "Examples:\n"
             "  uv run python scripts/search.py chain-fast --max-hyp 200\n"
+            "  uv run python scripts/search.py chain-fast --max-hyp 1000 --profile\n"
             "  uv run python scripts/search.py chain-fast --max-hyp 1000 --out fast.json"
         ),
     )
@@ -891,6 +1105,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Computation backend (default: auto — uses numpy if available)",
     )
     cf.add_argument(
+        "--workers",
+        type=int,
+        default=0,
+        help="Worker processes for chain-fast (0=auto, default: 0)",
+    )
+    cf.add_argument(
         "--db",
         type=str,
         default=None,
@@ -907,6 +1127,17 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         dest="near_miss",
         help="Log C3-pass/C4-fail pairs to --db for proximity analysis (requires --db)",
+    )
+    cf.add_argument(
+        "--near-miss-limit",
+        type=int,
+        default=100000,
+        help="Max near-miss rows kept per run when --near-miss is enabled (default: 100000)",
+    )
+    cf.add_argument(
+        "--profile",
+        action="store_true",
+        help="Collect and print chain-fast timing/count profile; also persist it when --db is set",
     )
 
     # ── concordant ──────────────────────────────────────────────────────────
