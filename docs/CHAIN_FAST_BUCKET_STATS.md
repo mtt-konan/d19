@@ -78,6 +78,15 @@ uv run python scripts/search.py chain-fast --max-hyp 5000 --db results/chain.db 
 
 这样后面还能继续跑大范围，不会因为“想分析”先把 IO 弄炸。
 
+不过要先说明一个后来的实测结果：
+
+- 这套第一版聚合逻辑在 `max_hyp=100000` 上已经明显偏重
+- 它更适合“定点采证据”，还不适合默认挂在所有长跑任务上
+
+如果想直接看首轮实测读出了什么，可以看：
+
+- [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](./CHAIN_FAST_STRUCTURE_FINDINGS.md)
+
 ## 三类固定桶
 
 第一版固定只记三类，不开放自定义。
@@ -175,3 +184,8 @@ uv run python scripts/analyze_chain_db.py --db results/chain.db --out-json chain
 - 把“感觉上这类 pair 没戏”变成能查、能比、能复现的统计结果
 
 如果后面真要做更强的结构剪枝，这一步基本绕不过去。
+
+但同样要记住：
+
+- 这一步是分析底座，不是免费加速
+- 真正长期长跑时，未必应该一直把 `--bucket-stats` 打开
