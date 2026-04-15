@@ -480,7 +480,6 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 
 def _run_concordant(args: argparse.Namespace) -> None:
     from rational_distance.concordant import (
-        analyze_pair,
         diagnose_pair,
         generate_ab_pairs,
     )
@@ -523,6 +522,29 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 else None
             ),
             "candidates": [_candidate_payload(candidate) for candidate in diagnostics.candidates],
+        }
+
+    def _batch_pair_summary(diagnostics) -> dict[str, object]:
+        result = diagnostics.result
+        best_candidate = diagnostics.best_candidate
+        return {
+            "A": result.A,
+            "B": result.B,
+            "rank": result.rank,
+            "rank_bounds": list(result.rank_bounds),
+            "concordant_n": result.concordant_n,
+            "all_concordant_n": diagnostics.all_concordant_n,
+            "chain_compatible": diagnostics.chain_compatible,
+            "raw_square_x": result.raw_square_x,
+            "mirror_hit_n": diagnostics.mirror_hit_n,
+            "mirror_hit_count": len(diagnostics.mirror_hit_n),
+            "best_candidate": (
+                _candidate_payload(best_candidate) if best_candidate is not None else None
+            ),
+            "min_combined_delta": (
+                best_candidate.combined_delta if best_candidate is not None else None
+            ),
+            "best_b": best_candidate.b if best_candidate is not None else None,
         }
 
     print("=" * 72)
@@ -589,6 +611,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
         rank_counts: dict[int, int] = {}
         n_with_concordant = 0
         n_with_chain = 0
+        n_with_mirror_hit = 0
 
         iterator = enumerate(pairs)
         if not args.no_progress:
@@ -603,9 +626,10 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
         for _idx, (A, B) in iterator:
             try:
-                result = analyze_pair(A, B, ec_bound=args.ec_bound, pari=pari)
-                results.append(result)
+                diagnostics = diagnose_pair(A, B, ec_bound=args.ec_bound, pari=pari)
+                results.append(diagnostics)
 
+                result = diagnostics.result
                 rank = result.rank
                 rank_counts[rank] = rank_counts.get(rank, 0) + 1
                 if result.has_concordant:
@@ -613,6 +637,8 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 if result.has_chain_solution:
                     n_with_chain += 1
                     print(f"\n*** CHAIN SOLUTION: {result.summary()} ***")
+                if diagnostics.mirror_hit_n:
+                    n_with_mirror_hit += 1
             except Exception as exc:
                 print(f"\n  Error on ({A},{B}): {exc}")
 
@@ -625,16 +651,35 @@ def _run_concordant(args: argparse.Namespace) -> None:
             print(f"  rank={rank}: {rank_counts[rank]} pairs")
         print(f"\nPairs with concordant N: {n_with_concordant}/{len(results)}")
         print(f"Pairs with chain-compatible N: {n_with_chain}/{len(results)}")
+        print(f"Pairs with mirror hits: {n_with_mirror_hit}/{len(results)}")
 
         if n_with_chain > 0:
             print("\n*** HARBORTH SOLUTIONS EXIST! ***")
 
         top = args.top if args.top > 0 else len(results)
-        conc_results = [result for result in results if result.has_concordant]
+        conc_results = [diagnostics for diagnostics in results if diagnostics.result.has_concordant]
         if conc_results:
             print(f"\nPairs with concordant N (showing up to {top}):")
-            for result in conc_results[:top]:
-                print(f"  {result.summary()}")
+            conc_results.sort(
+                key=lambda diagnostics: (
+                    0 if diagnostics.result.has_chain_solution else 1,
+                    diagnostics.best_candidate.combined_delta
+                    if diagnostics.best_candidate is not None
+                    else float("inf"),
+                    diagnostics.result.A,
+                    diagnostics.result.B,
+                )
+            )
+            for diagnostics in conc_results[:top]:
+                result = diagnostics.result
+                best = diagnostics.best_candidate
+                print(
+                    f"  (A={result.A}, B={result.B}): rank={result.rank} "
+                    f"concordant_n={result.concordant_n} "
+                    f"mirror_hit_n={diagnostics.mirror_hit_n or 'none'} "
+                    f"best_b={best.b if best is not None else 'none'} "
+                    f"min_combined_delta={best.combined_delta if best is not None else 'none'}"
+                )
                 print()
 
         if args.out:
@@ -646,17 +691,10 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 "rank_distribution": rank_counts,
                 "n_with_concordant": n_with_concordant,
                 "n_with_chain_compatible": n_with_chain,
+                "n_with_mirror_hit": n_with_mirror_hit,
                 "pairs": [
-                    {
-                        "A": result.A,
-                        "B": result.B,
-                        "rank": result.rank,
-                        "rank_bounds": list(result.rank_bounds),
-                        "concordant_n": result.concordant_n,
-                        "chain_compatible": result.chain_compatible,
-                        "raw_square_x": result.raw_square_x,
-                    }
-                    for result in results
+                    _batch_pair_summary(diagnostics)
+                    for diagnostics in results
                 ],
             }
             with open(args.out, "w") as handle:

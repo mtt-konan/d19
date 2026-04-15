@@ -297,3 +297,37 @@ class TestConcordantCli:
         default_payload = json.loads(default_out.read_text(encoding="utf-8"))
         deep_payload = json.loads(deep_out.read_text(encoding="utf-8"))
         assert default_payload == deep_payload
+
+    def test_batch_cli_out_includes_diagnostic_summary(self, tmp_path):
+        out_path = tmp_path / "batch.json"
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "concordant",
+                "--max-hyp",
+                "40",
+                "--ec-bound",
+                "100000",
+                "--no-progress",
+                "--top",
+                "3",
+                "--out",
+                str(out_path),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert proc.returncode == 0, proc.stderr or proc.stdout
+        assert "Pairs with concordant N" in proc.stdout
+        assert "Pairs with mirror hits" in proc.stdout
+        payload = json.loads(out_path.read_text(encoding="utf-8"))
+        assert payload["n_pairs"] > 0
+        assert "n_with_mirror_hit" in payload
+        assert payload["pairs"]
+        first = payload["pairs"][0]
+        assert "mirror_hit_count" in first
+        assert "min_combined_delta" in first
+        assert "best_candidate" in first
