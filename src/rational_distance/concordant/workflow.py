@@ -115,13 +115,22 @@ def diagnose_pair(
     deep: int = 0,
     normalize: bool = False,
     profile: ConcordantProfile | None = None,
+    include_rank: bool = True,
 ) -> ConcordantPairDiagnostics:
     """Diagnose why a fixed (A, B) pair fails or nearly fits the chain constraint."""
     pair_started = time.perf_counter() if profile is not None else 0.0
     if pari is None:
         pari = _ensure_pari()
 
-    result = analyze_pair(A, B, ec_bound=ec_bound, pari=pari, normalize=normalize, profile=profile)
+    result = analyze_pair(
+        A,
+        B,
+        ec_bound=ec_bound,
+        pari=pari,
+        normalize=normalize,
+        profile=profile,
+        include_rank=include_rank,
+    )
     deep_extra_n: list[int] = []
     if deep > 0:
         deep_started = time.perf_counter() if profile is not None else 0.0

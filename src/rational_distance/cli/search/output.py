@@ -257,6 +257,7 @@ def _print_chain_fast_profile(profile: dict) -> None:
 
 def _print_concordant_profile(profile: dict) -> None:
     print("\nConcordant profile")
+    print(f"  rank_enabled={profile['rank_enabled']}  deep={profile['deep']}")
     print(
         f"  pairs total/completed/failed="
         f"{profile['n_pairs_total']}/{profile['n_pairs_completed']}/{profile['n_pairs_failed']}"

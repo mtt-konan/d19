@@ -331,9 +331,8 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=(
             "Analyse (A,B) pairs from the chain parameterisation using elliptic\n"
-            "curves.  For each pair, computes the rank of E: Y²=X(X+A²)(X+B²)\n"
-            "and searches for concordant integers N where N²+A²=□ and N²+B²=□.\n"
-            "Each concordant N is tested for chain compatibility.\n\n"
+            "curves.  For each pair, searches for concordant integers N where\n"
+            "N²+A²=□ and N²+B²=□, then checks chain compatibility.\n\n"
             "Examples:\n"
             "  uv run python scripts/search.py concordant --max-hyp 100\n"
             "  uv run python scripts/search.py concordant --max-hyp 500 --ec-bound 500000\n"

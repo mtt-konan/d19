@@ -329,6 +329,8 @@ class TestConcordantCli:
         profile = payload["profile"]
         assert profile["n_pairs_total"] == 1
         assert profile["n_pairs_completed"] == 1
+        assert profile["rank_enabled"] is False
+        assert profile["time_rank_s"] == 0
         assert "time_rank_s" in profile
         assert "time_find_concordant_s" in profile
         assert "time_candidate_diagnostics_s" in profile
@@ -370,6 +372,8 @@ class TestConcordantCli:
         assert "n_with_side_hit" in payload
         assert "profile" in payload
         assert payload["profile"]["n_pairs_total"] == payload["n_pairs"]
+        assert payload["profile"]["rank_enabled"] is False
+        assert payload["profile"]["time_rank_s"] == 0
         assert "time_pari_init_s" in payload["profile"]
         assert "time_pair_generation_s" in payload["profile"]
         assert payload["pairs"]

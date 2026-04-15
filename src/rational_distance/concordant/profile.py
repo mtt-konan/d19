@@ -11,6 +11,7 @@ class ConcordantProfile:
 
     enabled: bool = False
     deep: int = 0
+    rank_enabled: bool = True
     n_pairs_total: int = 0
     n_pairs_completed: int = 0
     n_pairs_failed: int = 0

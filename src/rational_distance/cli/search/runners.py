@@ -486,6 +486,8 @@ def _run_concordant(args: argparse.Namespace) -> None:
         generate_ab_pairs,
     )
 
+    include_rank = False
+
     def _candidate_payload(candidate) -> dict[str, object]:
         return {
             "n": candidate.n,
@@ -512,7 +514,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
             "ec_bound": result.ec_bound,
             "deep": deep,
             "rank": result.rank,
-            "rank_bounds": list(result.rank_bounds),
+            "rank_bounds": list(result.rank_bounds) if result.rank_bounds is not None else None,
             "generators": [list(generator) for generator in result.generators],
             "raw_square_x": result.raw_square_x,
             "concordant_n": result.concordant_n,
@@ -538,7 +540,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
             "A": result.A,
             "B": result.B,
             "rank": result.rank,
-            "rank_bounds": list(result.rank_bounds),
+            "rank_bounds": list(result.rank_bounds) if result.rank_bounds is not None else None,
             "concordant_n": result.concordant_n,
             "all_concordant_n": diagnostics.all_concordant_n,
             "chain_compatible": diagnostics.chain_compatible,
@@ -580,7 +582,11 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
     print("=" * 72)
     print("Elliptic curve concordant-form analysis")
-    profile = ConcordantProfile(enabled=bool(getattr(args, "profile", False)), deep=args.deep)
+    profile = ConcordantProfile(
+        enabled=bool(getattr(args, "profile", False)),
+        deep=args.deep,
+        rank_enabled=include_rank,
+    )
     active_profile = profile if profile.enabled else None
 
     if args.pair:
@@ -606,6 +612,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
             pari=pari,
             deep=args.deep,
             profile=active_profile,
+            include_rank=include_rank,
         )
         profile.n_pairs_completed = 1
         if diagnostics.result.has_concordant:
@@ -710,13 +717,14 @@ def _run_concordant(args: argparse.Namespace) -> None:
                     ec_bound=args.ec_bound,
                     pari=pari,
                     profile=active_profile,
+                    include_rank=include_rank,
                 )
                 results.append(diagnostics)
                 profile.n_pairs_completed += 1
 
                 result = diagnostics.result
-                rank = result.rank
-                rank_counts[rank] = rank_counts.get(rank, 0) + 1
+                if result.rank is not None:
+                    rank_counts[result.rank] = rank_counts.get(result.rank, 0) + 1
                 if result.has_concordant:
                     n_with_concordant += 1
                 if result.has_chain_solution:
@@ -738,9 +746,12 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
         print(f"\n{'─' * 72}")
         print(f"Analysed {len(results)} pairs in {elapsed:.1f}s")
-        print("\nRank distribution:")
-        for rank in sorted(rank_counts):
-            print(f"  rank={rank}: {rank_counts[rank]} pairs")
+        if include_rank:
+            print("\nRank distribution:")
+            for rank in sorted(rank_counts):
+                print(f"  rank={rank}: {rank_counts[rank]} pairs")
+        else:
+            print("\nRank distribution: skipped")
         print(f"\nPairs with concordant N: {n_with_concordant}/{len(results)}")
         print(f"Pairs with chain-compatible N: {n_with_chain}/{len(results)}")
         print(f"Pairs with mirror hits: {n_with_mirror_hit}/{len(results)}")
@@ -766,8 +777,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
             for diagnostics in conc_results[:top]:
                 result = diagnostics.result
                 best = diagnostics.best_candidate
+                rank_label = result.rank if result.rank is not None else "skipped"
                 print(
-                    f"  (A={result.A}, B={result.B}): rank={result.rank} "
+                    f"  (A={result.A}, B={result.B}): rank={rank_label} "
                     f"concordant_n={result.concordant_n} "
                     f"mirror_hit_n={diagnostics.mirror_hit_n or 'none'} "
                     f"side_hit_n={diagnostics.side_hit_n or 'none'} "

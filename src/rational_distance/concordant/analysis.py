@@ -41,8 +41,8 @@ class ConcordantResult:
 
     A: int
     B: int
-    rank: int
-    rank_bounds: tuple[int, int]
+    rank: int | None
+    rank_bounds: tuple[int, int] | None
     generators: list[tuple[int, int]]
     concordant_n: list[int]
     chain_compatible: list[int]
@@ -58,10 +58,13 @@ class ConcordantResult:
         return len(self.chain_compatible) > 0
 
     def summary(self) -> str:
-        lines = [
-            f"(A={self.A}, B={self.B}): rank={self.rank} "
-            f"[{self.rank_bounds[0]},{self.rank_bounds[1]}]",
-        ]
+        if self.rank_bounds is None:
+            lines = [f"(A={self.A}, B={self.B}): rank=skipped"]
+        else:
+            lines = [
+                f"(A={self.A}, B={self.B}): rank={self.rank} "
+                f"[{self.rank_bounds[0]},{self.rank_bounds[1]}]",
+            ]
         if self.generators:
             lines.append(f"  generators: {self.generators}")
         if self.raw_square_x:
@@ -226,6 +229,7 @@ def analyze_pair(
     *,
     normalize: bool = False,
     profile: ConcordantProfile | None = None,
+    include_rank: bool = True,
 ) -> ConcordantResult:
     """Full EC analysis of a single (A, B) pair."""
     if pari is None:
@@ -237,7 +241,10 @@ def analyze_pair(
     if A > B:
         A, B = B, A
 
-    rank, bounds, gens = compute_rank(A, B, pari, profile=profile)
+    if include_rank:
+        rank, bounds, gens = compute_rank(A, B, pari, profile=profile)
+    else:
+        rank, bounds, gens = None, None, []
     raw_square_x, concordant_n = find_concordant_integers(
         A,
         B,
