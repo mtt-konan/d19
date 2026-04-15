@@ -220,12 +220,18 @@ class TestConcordantCompatibility:
             ChainCandidateDiagnostic as new_candidate_diagnostic,
         )
         from rational_distance.concordant import (
+            ConcordantProfile as new_profile,
+        )
+        from rational_distance.concordant import (
             ConcordantPairDiagnostics as new_pair_diagnostics,
         )
         from rational_distance.concordant_ec import analyze_pair as legacy_analyze_pair
         from rational_distance.concordant_ec import diagnose_pair as legacy_diagnose_pair
         from rational_distance.concordant_ec import (
             ChainCandidateDiagnostic as legacy_candidate_diagnostic,
+        )
+        from rational_distance.concordant_ec import (
+            ConcordantProfile as legacy_profile,
         )
         from rational_distance.concordant_ec import (
             ConcordantPairDiagnostics as legacy_pair_diagnostics,
@@ -240,6 +246,8 @@ class TestConcordantCompatibility:
         assert callable(legacy_generate_ab_pairs)
         assert new_candidate_diagnostic.__name__ == "ChainCandidateDiagnostic"
         assert legacy_candidate_diagnostic.__name__ == "ChainCandidateDiagnostic"
+        assert new_profile.__name__ == "ConcordantProfile"
+        assert legacy_profile.__name__ == "ConcordantProfile"
         assert new_pair_diagnostics.__name__ == "ConcordantPairDiagnostics"
         assert legacy_pair_diagnostics.__name__ == "ConcordantPairDiagnostics"
 
@@ -311,6 +319,20 @@ class TestConcordantCli:
         deep_payload = json.loads(deep_out.read_text(encoding="utf-8"))
         assert default_payload == deep_payload
 
+    def test_pair_cli_profile_writes_profile_json(self, tmp_path):
+        out_path = tmp_path / "pair_profile.json"
+        proc = self._run_pair("--profile", "--out", str(out_path))
+        assert proc.returncode == 0, proc.stderr or proc.stdout
+        assert "Concordant profile" in proc.stdout
+        payload = json.loads(out_path.read_text(encoding="utf-8"))
+        assert "profile" in payload
+        profile = payload["profile"]
+        assert profile["n_pairs_total"] == 1
+        assert profile["n_pairs_completed"] == 1
+        assert "time_rank_s" in profile
+        assert "time_find_concordant_s" in profile
+        assert "time_candidate_diagnostics_s" in profile
+
     def test_batch_cli_out_includes_diagnostic_summary(self, tmp_path):
         out_path = tmp_path / "batch.json"
         proc = subprocess.run(
@@ -323,6 +345,7 @@ class TestConcordantCli:
                 "--ec-bound",
                 "100000",
                 "--no-progress",
+                "--profile",
                 "--top",
                 "3",
                 "--out",
@@ -338,12 +361,17 @@ class TestConcordantCli:
         assert "Pairs with mirror hits" in proc.stdout
         assert "Pairs with C1 hits" in proc.stdout
         assert "Pairs with side hits" in proc.stdout
+        assert "Concordant profile" in proc.stdout
         payload = json.loads(out_path.read_text(encoding="utf-8"))
         assert payload["n_pairs"] > 0
         assert "n_with_mirror_hit" in payload
         assert "n_with_c1_hit" in payload
         assert "n_with_c2_hit" in payload
         assert "n_with_side_hit" in payload
+        assert "profile" in payload
+        assert payload["profile"]["n_pairs_total"] == payload["n_pairs"]
+        assert "time_pari_init_s" in payload["profile"]
+        assert "time_pair_generation_s" in payload["profile"]
         assert payload["pairs"]
         first = payload["pairs"][0]
         assert "c1_hit_n" in first

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from math import isqrt
 
@@ -12,6 +13,7 @@ from rational_distance.concordant.analysis import (
     check_chain_compatibility,
     enumerate_multiples,
 )
+from rational_distance.concordant.profile import ConcordantProfile
 
 
 @dataclass(frozen=True)
@@ -112,15 +114,20 @@ def diagnose_pair(
     *,
     deep: int = 0,
     normalize: bool = False,
+    profile: ConcordantProfile | None = None,
 ) -> ConcordantPairDiagnostics:
     """Diagnose why a fixed (A, B) pair fails or nearly fits the chain constraint."""
+    pair_started = time.perf_counter() if profile is not None else 0.0
     if pari is None:
         pari = _ensure_pari()
 
-    result = analyze_pair(A, B, ec_bound=ec_bound, pari=pari, normalize=normalize)
+    result = analyze_pair(A, B, ec_bound=ec_bound, pari=pari, normalize=normalize, profile=profile)
     deep_extra_n: list[int] = []
     if deep > 0:
+        deep_started = time.perf_counter() if profile is not None else 0.0
         deep_candidates = enumerate_multiples(result.A, result.B, max_depth=deep, pari=pari)
+        if profile is not None:
+            profile.time_deep_search_s += time.perf_counter() - deep_started
         deep_extra_n = sorted(n for n in deep_candidates if n not in result.concordant_n)
 
     base_n = set(result.concordant_n)
@@ -129,6 +136,7 @@ def diagnose_pair(
 
     candidates: list[ChainCandidateDiagnostic] = []
     mirror_hit_n: list[int] = []
+    diag_started = time.perf_counter() if profile is not None else 0.0
     for n in all_concordant_n:
         b = result.A + result.B - n
         c1_sq = result.B * result.B + b * b
@@ -158,6 +166,12 @@ def diagnose_pair(
             combined_delta=c1_delta + c2_delta,
         )
         candidates.append(candidate)
+
+    if profile is not None:
+        profile.time_candidate_diagnostics_s += time.perf_counter() - diag_started
+        profile.time_pair_analysis_s += time.perf_counter() - pair_started
+        profile.n_candidates_total += len(all_concordant_n)
+        profile.n_deep_extra_total += len(deep_extra_n)
 
     best_candidate = next((candidate for candidate in candidates if candidate.chain_ok), None)
     if best_candidate is None and candidates:

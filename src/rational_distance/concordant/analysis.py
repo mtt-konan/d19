@@ -26,8 +26,11 @@ X = N^2.
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass, field
 from math import gcd, isqrt
+
+from rational_distance.concordant.profile import ConcordantProfile
 
 logger = logging.getLogger(__name__)
 
@@ -91,13 +94,23 @@ def _ensure_pari():
     return pari
 
 
-def compute_rank(A: int, B: int, pari=None) -> tuple[int, tuple[int, int], list]:
+def compute_rank(
+    A: int,
+    B: int,
+    pari=None,
+    *,
+    profile: ConcordantProfile | None = None,
+) -> tuple[int, tuple[int, int], list]:
     """Compute the rank of E: Y^2 = X(X+A^2)(X+B^2)."""
+    started = time.perf_counter() if profile is not None else 0.0
     if pari is None:
         pari = _ensure_pari()
 
     if A == B:
-        return -1, (-1, -1), []
+        result = (-1, (-1, -1), [])
+        if profile is not None:
+            profile.time_rank_s += time.perf_counter() - started
+        return result
 
     a2, b2 = A * A, B * B
     E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
@@ -114,13 +127,22 @@ def compute_rank(A: int, B: int, pari=None) -> tuple[int, tuple[int, int], list]
             pt = gen_list[i]
             gens.append((int(pt[0]), int(pt[1])))
 
+    if profile is not None:
+        profile.time_rank_s += time.perf_counter() - started
+
     return rank, (lower, upper), gens
 
 
 def find_concordant_integers(
-    A: int, B: int, ec_bound: int = 100000, pari=None
+    A: int,
+    B: int,
+    ec_bound: int = 100000,
+    pari=None,
+    *,
+    profile: ConcordantProfile | None = None,
 ) -> tuple[list[int], list[int]]:
     """Find concordant integers N using ellratpoints."""
+    started = time.perf_counter() if profile is not None else 0.0
     if pari is None:
         pari = _ensure_pari()
 
@@ -133,6 +155,8 @@ def find_concordant_integers(
             if _is_perfect_square(N * N + a2):
                 raw_square_x.append(N)
                 concordant_n.append(N)
+        if profile is not None:
+            profile.time_find_concordant_s += time.perf_counter() - started
         return raw_square_x, concordant_n
 
     a2, b2 = A * A, B * B
@@ -142,6 +166,8 @@ def find_concordant_integers(
         points = pari.ellratpoints(E, ec_bound)
     except Exception:
         logger.warning("ellratpoints failed for (A=%d, B=%d, bound=%d)", A, B, ec_bound)
+        if profile is not None:
+            profile.time_find_concordant_s += time.perf_counter() - started
         return [], []
 
     raw_square_x: list[int] = []
@@ -176,7 +202,11 @@ def find_concordant_integers(
         if _is_perfect_square(N * N + a2) and _is_perfect_square(N * N + b2):
             concordant_n.append(N)
 
-    return sorted(set(raw_square_x)), sorted(set(concordant_n))
+    raw = sorted(set(raw_square_x))
+    concordant = sorted(set(concordant_n))
+    if profile is not None:
+        profile.time_find_concordant_s += time.perf_counter() - started
+    return raw, concordant
 
 
 def check_chain_compatibility(A: int, B: int, N: int) -> bool:
@@ -195,6 +225,7 @@ def analyze_pair(
     pari=None,
     *,
     normalize: bool = False,
+    profile: ConcordantProfile | None = None,
 ) -> ConcordantResult:
     """Full EC analysis of a single (A, B) pair."""
     if pari is None:
@@ -206,9 +237,20 @@ def analyze_pair(
     if A > B:
         A, B = B, A
 
-    rank, bounds, gens = compute_rank(A, B, pari)
-    raw_square_x, concordant_n = find_concordant_integers(A, B, ec_bound, pari)
+    rank, bounds, gens = compute_rank(A, B, pari, profile=profile)
+    raw_square_x, concordant_n = find_concordant_integers(
+        A,
+        B,
+        ec_bound,
+        pari,
+        profile=profile,
+    )
+    chain_started = time.perf_counter() if profile is not None else 0.0
     chain_compat = [N for N in concordant_n if check_chain_compatibility(A, B, N)]
+    if profile is not None:
+        profile.time_chain_compat_s += time.perf_counter() - chain_started
+        profile.n_raw_square_x_total += len(raw_square_x)
+        profile.n_concordant_n_total += len(concordant_n)
 
     return ConcordantResult(
         A=A,

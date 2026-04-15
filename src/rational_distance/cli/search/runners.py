@@ -11,6 +11,7 @@ from pathlib import Path
 from .output import (
     _NearMissTopK,
     _print_chain_fast_profile,
+    _print_concordant_profile,
     _print_four_vertex,
     _print_summary,
     _print_table,
@@ -480,6 +481,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 
 def _run_concordant(args: argparse.Namespace) -> None:
     from rational_distance.concordant import (
+        ConcordantProfile,
         diagnose_pair,
         generate_ab_pairs,
     )
@@ -578,8 +580,12 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
     print("=" * 72)
     print("Elliptic curve concordant-form analysis")
+    profile = ConcordantProfile(enabled=bool(getattr(args, "profile", False)), deep=args.deep)
+    active_profile = profile if profile.enabled else None
 
     if args.pair:
+        from rational_distance.concordant.analysis import _ensure_pari
+
         parts = args.pair.split(",")
         if len(parts) != 2:
             print("Error: --pair must be A,B (e.g. --pair 264,420)")
@@ -589,7 +595,31 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print("=" * 72)
 
         t0 = time.perf_counter()
-        diagnostics = diagnose_pair(A, B, ec_bound=args.ec_bound, deep=args.deep)
+        profile.n_pairs_total = 1
+        pari_started = time.perf_counter()
+        pari = _ensure_pari()
+        profile.time_pari_init_s += time.perf_counter() - pari_started
+        diagnostics = diagnose_pair(
+            A,
+            B,
+            ec_bound=args.ec_bound,
+            pari=pari,
+            deep=args.deep,
+            profile=active_profile,
+        )
+        profile.n_pairs_completed = 1
+        if diagnostics.result.has_concordant:
+            profile.n_pairs_with_concordant = 1
+        if diagnostics.result.has_chain_solution:
+            profile.n_pairs_with_chain_compatible = 1
+        if diagnostics.mirror_hit_n:
+            profile.n_pairs_with_mirror_hit = 1
+        if diagnostics.c1_hit_n:
+            profile.n_pairs_with_c1_hit = 1
+        if diagnostics.c2_hit_n:
+            profile.n_pairs_with_c2_hit = 1
+        if diagnostics.side_hit_n:
+            profile.n_pairs_with_side_hit = 1
         result = diagnostics.result
         print(f"\n{result.summary()}")
         if args.deep > 0:
@@ -628,9 +658,16 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
         elapsed = time.perf_counter() - t0
         if args.out:
+            json_started = time.perf_counter()
+            report = _pair_report(diagnostics, deep=args.deep)
+            if profile.enabled:
+                report["profile"] = profile.as_dict()
             with open(args.out, "w") as handle:
-                json.dump(_pair_report(diagnostics, deep=args.deep), handle, indent=2)
+                json.dump(report, handle, indent=2)
+            profile.time_json_write_s += time.perf_counter() - json_started
             print(f"\nReport saved to {args.out}")
+        if profile.enabled:
+            _print_concordant_profile(profile.as_dict())
         print(f"\nCompleted in {elapsed:.1f}s")
 
     else:
@@ -638,7 +675,10 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print("=" * 72)
 
         t0 = time.perf_counter()
+        pair_gen_started = time.perf_counter()
         pairs = generate_ab_pairs(args.max_hyp)
+        profile.time_pair_generation_s += time.perf_counter() - pair_gen_started
+        profile.n_pairs_total = len(pairs)
         print(f"Generated {len(pairs)} primitive (A,B) pairs")
 
         results = []
@@ -656,15 +696,23 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
             iterator = tqdm(list(iterator), desc="EC analysis", leave=False)
 
-        import cypari2
+        from rational_distance.concordant.analysis import _ensure_pari
 
-        pari = cypari2.Pari()
-        pari.allocatemem(64 * 1024 * 1024)
+        pari_started = time.perf_counter()
+        pari = _ensure_pari()
+        profile.time_pari_init_s += time.perf_counter() - pari_started
 
         for _idx, (A, B) in iterator:
             try:
-                diagnostics = diagnose_pair(A, B, ec_bound=args.ec_bound, pari=pari)
+                diagnostics = diagnose_pair(
+                    A,
+                    B,
+                    ec_bound=args.ec_bound,
+                    pari=pari,
+                    profile=active_profile,
+                )
                 results.append(diagnostics)
+                profile.n_pairs_completed += 1
 
                 result = diagnostics.result
                 rank = result.rank
@@ -683,6 +731,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 if diagnostics.side_hit_n:
                     n_with_side_hit += 1
             except Exception as exc:
+                profile.n_pairs_failed += 1
                 print(f"\n  Error on ({A},{B}): {exc}")
 
         elapsed = time.perf_counter() - t0
@@ -703,7 +752,14 @@ def _run_concordant(args: argparse.Namespace) -> None:
             print("\n*** HARBORTH SOLUTIONS EXIST! ***")
 
         top = args.top if args.top > 0 else len(results)
+        post_started = time.perf_counter()
         conc_results = [diagnostics for diagnostics in results if diagnostics.result.has_concordant]
+        profile.n_pairs_with_concordant = n_with_concordant
+        profile.n_pairs_with_chain_compatible = n_with_chain
+        profile.n_pairs_with_mirror_hit = n_with_mirror_hit
+        profile.n_pairs_with_c1_hit = n_with_c1_hit
+        profile.n_pairs_with_c2_hit = n_with_c2_hit
+        profile.n_pairs_with_side_hit = n_with_side_hit
         if conc_results:
             print(f"\nPairs with concordant N (showing up to {top}):")
             conc_results.sort(key=_best_candidate_sort_key)
@@ -721,8 +777,13 @@ def _run_concordant(args: argparse.Namespace) -> None:
                     f"min_combined_delta={best.combined_delta if best is not None else 'none'}"
                 )
                 print()
+        profile.time_postprocess_s += time.perf_counter() - post_started
+
+        if profile.enabled:
+            _print_concordant_profile(profile.as_dict())
 
         if args.out:
+            json_started = time.perf_counter()
             report = {
                 "max_hyp": args.max_hyp,
                 "ec_bound": args.ec_bound,
@@ -740,8 +801,11 @@ def _run_concordant(args: argparse.Namespace) -> None:
                     for diagnostics in results
                 ],
             }
+            if profile.enabled:
+                report["profile"] = profile.as_dict()
             with open(args.out, "w") as handle:
                 json.dump(report, handle, indent=2)
+            profile.time_json_write_s += time.perf_counter() - json_started
             print(f"\nReport saved to {args.out}")
 
 

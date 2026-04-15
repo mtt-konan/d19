@@ -365,6 +365,11 @@ def build_parser() -> argparse.ArgumentParser:
         default=0,
         help="Generator multiple depth for deep search (0=off, default: 0)",
     )
+    co.add_argument(
+        "--profile",
+        action="store_true",
+        help="Collect and print concordant timing/count profile",
+    )
     co.add_argument("--out", type=str, default=None, help="Write JSON report to this file")
     co.add_argument("--top", type=int, default=20, help="Max rows to print (0=all, default: 20)")
     co.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")

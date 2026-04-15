@@ -9,6 +9,7 @@ from rational_distance.concordant.analysis import (
     enumerate_multiples,
     find_concordant_integers,
 )
+from rational_distance.concordant.profile import ConcordantProfile
 from rational_distance.concordant.workflow import (
     ChainCandidateDiagnostic,
     ConcordantPairDiagnostics,
@@ -18,6 +19,7 @@ from rational_distance.concordant.workflow import (
 __all__ = [
     "ChainCandidateDiagnostic",
     "ConcordantPairDiagnostics",
+    "ConcordantProfile",
     "ConcordantResult",
     "_is_perfect_square",
     "analyze_pair",

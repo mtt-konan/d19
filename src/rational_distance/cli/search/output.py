@@ -255,8 +255,48 @@ def _print_chain_fast_profile(profile: dict) -> None:
         )
 
 
+def _print_concordant_profile(profile: dict) -> None:
+    print("\nConcordant profile")
+    print(
+        f"  pairs total/completed/failed="
+        f"{profile['n_pairs_total']}/{profile['n_pairs_completed']}/{profile['n_pairs_failed']}"
+    )
+    print(
+        f"  hits: concordant={profile['n_pairs_with_concordant']}  "
+        f"chain={profile['n_pairs_with_chain_compatible']}  "
+        f"mirror={profile['n_pairs_with_mirror_hit']}  "
+        f"c1={profile['n_pairs_with_c1_hit']}  "
+        f"c2={profile['n_pairs_with_c2_hit']}  "
+        f"side={profile['n_pairs_with_side_hit']}"
+    )
+    print(
+        f"  values: raw_square_x={profile['n_raw_square_x_total']}  "
+        f"concordant_n={profile['n_concordant_n_total']}  "
+        f"candidates={profile['n_candidates_total']}  "
+        f"deep_extra={profile['n_deep_extra_total']}"
+    )
+    print(
+        f"  time_s: pair_gen={profile['time_pair_generation_s']:.3f}  "
+        f"pari_init={profile['time_pari_init_s']:.3f}  "
+        f"rank={profile['time_rank_s']:.3f}  "
+        f"find={profile['time_find_concordant_s']:.3f}  "
+        f"chain={profile['time_chain_compat_s']:.3f}  "
+        f"deep={profile['time_deep_search_s']:.3f}  "
+        f"diagnostics={profile['time_candidate_diagnostics_s']:.3f}  "
+        f"pair_total={profile['time_pair_analysis_s']:.3f}  "
+        f"post={profile['time_postprocess_s']:.3f}  "
+        f"json={profile['time_json_write_s']:.3f}"
+    )
+    if profile["n_pairs_completed"] > 0:
+        print(
+            f"  avg pair time="
+            f"{profile['time_pair_analysis_s'] / profile['n_pairs_completed']:.6f}s"
+        )
+
+
 __all__ = [
     "_NearMissTopK",
+    "_print_concordant_profile",
     "_print_chain_fast_profile",
     "_print_four_vertex",
     "_print_summary",
