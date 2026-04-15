@@ -175,3 +175,17 @@ uv run python scripts/search.py concordant --pair 264,420
 - `concordant` 做 `active`
 
 另外，`tmp.txt` 后面那条“固定 `(A,B)`，研究共同腿 `N`”的路线，本质上就属于现在的 `concordant` 主线，只是切入角度不同。
+
+## 五、辅助脚本怎么理解
+
+除了这 5 个子命令，项目里还有几类辅助脚本。它们不是新的搜索方法，只是配套工具：
+
+- `scripts/analyze_ec_db.py`：分析 `ec` 的 SQLite 结果
+- `scripts/analyze_chain_db.py`：分析 `chain-fast` 的 SQLite 结果
+- `scripts/compare_parametric.py`：对照 CPU 和加速后端是否一致
+- `scripts/visualize.py`：读取 JSON 结果并生成 HTML 可视化
+
+最简单的理解方式是：
+
+- 搜索本身，先看 `scripts/search.py`
+- 结果分析和可视化，再看这些辅助脚本

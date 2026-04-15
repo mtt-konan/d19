@@ -402,7 +402,10 @@ $(kA, kB)$ 的 concordant $N$ 不是 $k$ 的倍数时，在归约后的曲线上
 
 ### 8.7 实现
 
-- `concordant_ec.py`：`ConcordantCurve` 分析器，通过 `cypari2` (PARI/GP) 计算秩、
-  生成元、`ellratpoints` 搜索 concordant $N$
-- `pair_generator.py`：从 chain-fast 的三元组对构造提取去重原始 $(A, B)$ 对
+- `src/rational_distance/concordant/analysis.py`：通过 `cypari2` (PARI/GP) 计算秩、
+  生成元，并搜索 concordant $N$
+- `src/rational_distance/concordant/pairs.py`：从 chain-fast 的三元组对构造提取去重原始 $(A, B)$ 对
+- `src/rational_distance/concordant/workflow.py`：把单对分析、批量诊断和 CLI 流程串起来
+- `src/rational_distance/concordant_ec.py` 与 `src/rational_distance/pair_generator.py`：
+  仍保留为旧导入路径的兼容入口
 - CLI：`scripts/search.py concordant --pair 264,420 --ec-bound 400000`
