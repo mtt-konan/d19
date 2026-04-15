@@ -479,11 +479,12 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 
 
 def _run_concordant(args: argparse.Namespace) -> None:
-    from rational_distance.concordant_ec import (
+    from rational_distance.concordant import (
         analyze_pair,
+        check_chain_compatibility,
         enumerate_multiples,
+        generate_ab_pairs,
     )
-    from rational_distance.pair_generator import generate_ab_pairs
 
     print("=" * 72)
     print("Elliptic curve concordant-form analysis")
@@ -508,7 +509,6 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 new = [n for n in deep_n if n not in result.concordant_n]
                 if new:
                     print(f"  New concordant N from deep search: {new}")
-                    from rational_distance.concordant_ec import check_chain_compatibility
 
                     for n_value in new:
                         ok = check_chain_compatibility(A, B, n_value)
