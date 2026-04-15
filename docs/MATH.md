@@ -333,6 +333,8 @@ $$h_3^2 - h_4^2 = A^2 - B^2 = (q_1q_2-p_1p_2)(q_1q_2+p_1p_2)$$
 
 ## 八、椭圆曲线 concordant 分析
 
+工程入口、路线关系与推荐阅读顺序请先看 [docs/DIRECTIONS.md](./DIRECTIONS.md)；本节只记录数学定义与推导，不重复项目叙事。
+
 ### 8.1 Concordant 问题
 
 给定正整数 $A, B$（$A \neq B$），**concordant 问题**求整数 $N$ 使得：
