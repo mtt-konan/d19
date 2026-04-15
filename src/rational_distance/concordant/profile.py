@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 
 
 @dataclass
@@ -12,7 +12,12 @@ class ConcordantProfile:
     enabled: bool = False
     deep: int = 0
     rank_enabled: bool = True
+    safe_pair_sieve_enabled: bool = False
     n_pairs_total: int = 0
+    n_pairs_after_safe_pair_sieve: int = 0
+    n_pairs_rejected_by_safe_pair_sieve: int = 0
+    n_pairs_rejected_mixed_parity: int = 0
+    n_pairs_rejected_mod4: int = 0
     n_pairs_completed: int = 0
     n_pairs_failed: int = 0
     n_pairs_with_concordant: int = 0
@@ -26,6 +31,7 @@ class ConcordantProfile:
     n_candidates_total: int = 0
     n_deep_extra_total: int = 0
     time_pair_generation_s: float = 0.0
+    time_safe_pair_sieve_s: float = 0.0
     time_pari_init_s: float = 0.0
     time_rank_s: float = 0.0
     time_find_concordant_s: float = 0.0

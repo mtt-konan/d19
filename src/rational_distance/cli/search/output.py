@@ -257,7 +257,17 @@ def _print_chain_fast_profile(profile: dict) -> None:
 
 def _print_concordant_profile(profile: dict) -> None:
     print("\nConcordant profile")
-    print(f"  rank_enabled={profile['rank_enabled']}  deep={profile['deep']}")
+    print(
+        f"  rank_enabled={profile['rank_enabled']}  deep={profile['deep']}  "
+        f"safe_pair_sieve={profile['safe_pair_sieve_enabled']}"
+    )
+    print(
+        "  pair sieve: "
+        f"kept={profile['n_pairs_after_safe_pair_sieve']}  "
+        f"rejected={profile['n_pairs_rejected_by_safe_pair_sieve']}  "
+        f"(mixed_parity={profile['n_pairs_rejected_mixed_parity']}, "
+        f"odd_odd_mod4={profile['n_pairs_rejected_mod4']})"
+    )
     print(
         f"  pairs total/completed/failed="
         f"{profile['n_pairs_total']}/{profile['n_pairs_completed']}/{profile['n_pairs_failed']}"
@@ -278,6 +288,7 @@ def _print_concordant_profile(profile: dict) -> None:
     )
     print(
         f"  time_s: pair_gen={profile['time_pair_generation_s']:.3f}  "
+        f"safe_pair={profile['time_safe_pair_sieve_s']:.3f}  "
         f"pari_init={profile['time_pari_init_s']:.3f}  "
         f"rank={profile['time_rank_s']:.3f}  "
         f"find={profile['time_find_concordant_s']:.3f}  "
@@ -297,8 +308,8 @@ def _print_concordant_profile(profile: dict) -> None:
 
 __all__ = [
     "_NearMissTopK",
-    "_print_concordant_profile",
     "_print_chain_fast_profile",
+    "_print_concordant_profile",
     "_print_four_vertex",
     "_print_summary",
     "_print_table",

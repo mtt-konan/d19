@@ -209,32 +209,66 @@ class TestConcordantDiagnostics:
         assert diagnostics.side_hit_n == []
 
 
+class TestConcordantSafePairSieve:
+    """Tests for the reduced-pair concordant safe sieve."""
+
+    def test_allow_reduced_pair_examples(self):
+        from rational_distance.concordant.safe_pair_sieve import allow_reduced_pair
+
+        assert allow_reduced_pair(22, 35) is False
+        assert allow_reduced_pair(5, 9) is False
+        assert allow_reduced_pair(7, 45) is True
+
+    def test_classify_matches_allow_and_is_symmetric(self):
+        from rational_distance.concordant.safe_pair_sieve import (
+            allow_reduced_pair,
+            classify_reduced_pair,
+        )
+
+        examples = [(22, 35), (5, 9), (7, 45), (45, 7), (11, 21), (13, 19)]
+        for A, B in examples:
+            classification = classify_reduced_pair(A, B)
+            assert allow_reduced_pair(A, B) is (classification == "pass")
+            assert allow_reduced_pair(A, B) is allow_reduced_pair(B, A)
+            assert classify_reduced_pair(A, B) == classify_reduced_pair(B, A)
+
+
 class TestConcordantCompatibility:
     """Smoke tests for old and new concordant import paths."""
 
     def test_legacy_and_new_import_paths_are_available(self):
-        from rational_distance.concordant import analyze_pair as new_analyze_pair
-        from rational_distance.concordant import diagnose_pair as new_diagnose_pair
-        from rational_distance.concordant import generate_ab_pairs as new_generate_ab_pairs
         from rational_distance.concordant import (
             ChainCandidateDiagnostic as new_candidate_diagnostic,
+        )
+        from rational_distance.concordant import (
+            ConcordantPairDiagnostics as new_pair_diagnostics,
         )
         from rational_distance.concordant import (
             ConcordantProfile as new_profile,
         )
         from rational_distance.concordant import (
-            ConcordantPairDiagnostics as new_pair_diagnostics,
+            analyze_pair as new_analyze_pair,
         )
-        from rational_distance.concordant_ec import analyze_pair as legacy_analyze_pair
-        from rational_distance.concordant_ec import diagnose_pair as legacy_diagnose_pair
+        from rational_distance.concordant import (
+            diagnose_pair as new_diagnose_pair,
+        )
+        from rational_distance.concordant import (
+            generate_ab_pairs as new_generate_ab_pairs,
+        )
         from rational_distance.concordant_ec import (
             ChainCandidateDiagnostic as legacy_candidate_diagnostic,
+        )
+        from rational_distance.concordant_ec import (
+            ConcordantPairDiagnostics as legacy_pair_diagnostics,
         )
         from rational_distance.concordant_ec import (
             ConcordantProfile as legacy_profile,
         )
         from rational_distance.concordant_ec import (
-            ConcordantPairDiagnostics as legacy_pair_diagnostics,
+            analyze_pair as legacy_analyze_pair,
+        )
+        from rational_distance.concordant_ec import (
+            diagnose_pair as legacy_diagnose_pair,
         )
         from rational_distance.pair_generator import generate_ab_pairs as legacy_generate_ab_pairs
 
@@ -272,6 +306,26 @@ class TestConcordantCli:
                 "264,420",
                 "--ec-bound",
                 "400000",
+                *extra_args,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    @staticmethod
+    def _run_batch(*extra_args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "concordant",
+                "--max-hyp",
+                "200",
+                "--ec-bound",
+                "100000",
+                "--no-progress",
                 *extra_args,
             ],
             cwd=ROOT,
@@ -328,36 +382,29 @@ class TestConcordantCli:
         assert "profile" in payload
         profile = payload["profile"]
         assert profile["n_pairs_total"] == 1
+        assert profile["n_pairs_after_safe_pair_sieve"] == 1
+        assert profile["n_pairs_rejected_by_safe_pair_sieve"] == 0
+        assert profile["n_pairs_rejected_mixed_parity"] == 0
+        assert profile["n_pairs_rejected_mod4"] == 0
         assert profile["n_pairs_completed"] == 1
         assert profile["rank_enabled"] is False
+        assert profile["safe_pair_sieve_enabled"] is False
         assert profile["time_rank_s"] == 0
+        assert profile["time_safe_pair_sieve_s"] == 0
         assert "time_rank_s" in profile
         assert "time_find_concordant_s" in profile
         assert "time_candidate_diagnostics_s" in profile
 
+    def test_pair_cli_rejects_safe_pair_sieve(self):
+        proc = self._run_pair("--safe-pair-sieve")
+        assert proc.returncode != 0
+        assert "--safe-pair-sieve currently supports only batch concordant runs" in (
+            proc.stderr or proc.stdout
+        )
+
     def test_batch_cli_out_includes_diagnostic_summary(self, tmp_path):
         out_path = tmp_path / "batch.json"
-        proc = subprocess.run(
-            [
-                sys.executable,
-                str(ROOT / "scripts" / "search.py"),
-                "concordant",
-                "--max-hyp",
-                "40",
-                "--ec-bound",
-                "100000",
-                "--no-progress",
-                "--profile",
-                "--top",
-                "3",
-                "--out",
-                str(out_path),
-            ],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        proc = self._run_batch("--profile", "--top", "3", "--out", str(out_path))
         assert proc.returncode == 0, proc.stderr or proc.stdout
         assert "Pairs with concordant N" in proc.stdout
         assert "Pairs with mirror hits" in proc.stdout
@@ -370,11 +417,20 @@ class TestConcordantCli:
         assert "n_with_c1_hit" in payload
         assert "n_with_c2_hit" in payload
         assert "n_with_side_hit" in payload
+        assert "n_pairs_analyzed" in payload
         assert "profile" in payload
         assert payload["profile"]["n_pairs_total"] == payload["n_pairs"]
+        assert payload["profile"]["n_pairs_after_safe_pair_sieve"] == payload["n_pairs"]
+        assert payload["profile"]["n_pairs_rejected_by_safe_pair_sieve"] == 0
+        assert payload["profile"]["n_pairs_rejected_mixed_parity"] == 0
+        assert payload["profile"]["n_pairs_rejected_mod4"] == 0
+        assert payload["n_pairs_analyzed"] == payload["n_pairs"]
+        assert payload["safe_pair_sieve_enabled"] is False
         assert payload["profile"]["rank_enabled"] is False
+        assert payload["profile"]["safe_pair_sieve_enabled"] is False
         assert payload["profile"]["time_rank_s"] == 0
         assert "time_pari_init_s" in payload["profile"]
+        assert "time_safe_pair_sieve_s" in payload["profile"]
         assert "time_pair_generation_s" in payload["profile"]
         assert payload["pairs"]
         first = payload["pairs"][0]
@@ -386,3 +442,44 @@ class TestConcordantCli:
         assert "mirror_hit_count" in first
         assert "min_combined_delta" in first
         assert "best_candidate" in first
+
+    def test_batch_cli_safe_pair_sieve_reduces_analyzed_pairs(self, tmp_path):
+        baseline_path = tmp_path / "baseline.json"
+        sieve_path = tmp_path / "sieve.json"
+
+        baseline_proc = self._run_batch("--profile", "--out", str(baseline_path))
+        sieve_proc = self._run_batch("--profile", "--safe-pair-sieve", "--out", str(sieve_path))
+        assert baseline_proc.returncode == 0, baseline_proc.stderr or baseline_proc.stdout
+        assert sieve_proc.returncode == 0, sieve_proc.stderr or sieve_proc.stdout
+        assert "Safe pair sieve:" in sieve_proc.stdout
+
+        baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
+        filtered = json.loads(sieve_path.read_text(encoding="utf-8"))
+
+        assert filtered["n_pairs"] == baseline["n_pairs"]
+        assert filtered["safe_pair_sieve_enabled"] is True
+        assert filtered["n_pairs_analyzed"] == filtered["profile"]["n_pairs_after_safe_pair_sieve"]
+        assert (
+            filtered["profile"]["n_pairs_after_safe_pair_sieve"]
+            == filtered["profile"]["n_pairs_completed"]
+        )
+        assert filtered["n_pairs_analyzed"] == len(filtered["pairs"])
+        assert filtered["n_pairs_analyzed"] < filtered["n_pairs"]
+        assert filtered["profile"]["safe_pair_sieve_enabled"] is True
+        assert (
+            filtered["profile"]["n_pairs_rejected_by_safe_pair_sieve"]
+            == filtered["n_pairs"] - filtered["n_pairs_analyzed"]
+        )
+        assert (
+            filtered["profile"]["n_pairs_rejected_mixed_parity"]
+            + filtered["profile"]["n_pairs_rejected_mod4"]
+            == filtered["profile"]["n_pairs_rejected_by_safe_pair_sieve"]
+        )
+        assert filtered["profile"]["time_safe_pair_sieve_s"] >= 0
+
+        from rational_distance.concordant.safe_pair_sieve import allow_reduced_pair
+
+        assert all(allow_reduced_pair(row["A"], row["B"]) for row in filtered["pairs"])
+        baseline_keys = {(row["A"], row["B"]) for row in baseline["pairs"]}
+        filtered_keys = {(row["A"], row["B"]) for row in filtered["pairs"]}
+        assert filtered_keys < baseline_keys

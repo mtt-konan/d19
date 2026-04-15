@@ -16,6 +16,24 @@ sys.path.insert(0, str(ROOT / "src"))
 class TestChainFastCLI:
     """Tests for chain-fast CLI flows backed by the chain DB."""
 
+    def test_chain_fast_cli_help_hides_experimental_flags(self):
+        """Help output should hide experimental sieve flags but keep bucket stats visible."""
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "chain-fast",
+                "--help",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert "--bucket-stats" in proc.stdout
+        assert "--mod-sieve" not in proc.stdout
+        assert "--safe-pair-sieve" not in proc.stdout
+
     def test_chain_fast_cli_profile_and_cache(self, tmp_path):
         """CLI run should persist profile fields and reuse cached triples on the second run."""
         db_path = tmp_path / "chain.db"
@@ -213,6 +231,29 @@ class TestChainFastCLI:
         )
         assert "safe_pair_sieve=True" in proc.stdout
         assert "after_safe_pair=" in proc.stdout
+
+    def test_chain_fast_cli_mod_sieve_hidden_but_works(self):
+        """The hidden mod sieve flag should still parse and execute."""
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "chain-fast",
+                "--max-hyp",
+                "120",
+                "--backend",
+                "python",
+                "--profile",
+                "--mod-sieve",
+                "--no-progress",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert "mod_sieve=True" in proc.stdout
+        assert "after_c3_mod=" in proc.stdout
 
     def test_chain_fast_cli_safe_pair_sieve_requires_python_backend(self):
         """CLI should fail clearly when safe-pair-sieve would hit numpy."""

@@ -317,12 +317,12 @@ def build_parser() -> argparse.ArgumentParser:
     cf.add_argument(
         "--mod-sieve",
         action="store_true",
-        help="Experimental C3 pre-sieve using fixed small moduli (16,3,5,7)",
+        help=argparse.SUPPRESS,
     )
     cf.add_argument(
         "--safe-pair-sieve",
         action="store_true",
-        help="Experimental proved-safe pair sieve (python backend only)",
+        help=argparse.SUPPRESS,
     )
 
     co = sub.add_parser(
@@ -368,6 +368,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--profile",
         action="store_true",
         help="Collect and print concordant timing/count profile",
+    )
+    co.add_argument(
+        "--safe-pair-sieve",
+        action="store_true",
+        help=(
+            "Experimental reduced-pair safe pre-sieve for full-chain analysis "
+            "(odd/odd and A+B divisible by 4)"
+        ),
     )
     co.add_argument("--out", type=str, default=None, help="Write JSON report to this file")
     co.add_argument("--top", type=int, default=20, help="Max rows to print (0=all, default: 20)")
