@@ -24,6 +24,7 @@ _WORKER_BACKEND: str = "python"
 _WORKER_S_ARR = None
 _WORKER_T_ARR = None
 _WORKER_COLLECT_PROFILE = False
+_WORKER_SAFE_PAIR_SIEVE_ENABLED = False
 _WORKER_MOD_SIEVE_ENABLED = False
 _WORKER_BUCKET_STATS_ENABLED = False
 
@@ -61,6 +62,7 @@ def _scan_t1_range(
     s_arr=None,
     t_arr=None,
     collect_profile: bool = False,
+    safe_pair_sieve_enabled: bool = False,
     mod_sieve_enabled: bool = False,
     collect_bucket_stats: bool = False,
 ) -> ChunkScanResult:
@@ -81,6 +83,7 @@ def _scan_t1_range(
                 s_arr,
                 t_arr,
                 collect_profile=collect_profile,
+                safe_pair_sieve_enabled=safe_pair_sieve_enabled,
                 mod_sieve_enabled=mod_sieve_enabled,
                 collect_bucket_stats=collect_bucket_stats,
             )
@@ -89,6 +92,7 @@ def _scan_t1_range(
                 i,
                 triples,
                 collect_profile=collect_profile,
+                safe_pair_sieve_enabled=safe_pair_sieve_enabled,
                 mod_sieve_enabled=mod_sieve_enabled,
                 collect_bucket_stats=collect_bucket_stats,
             )
@@ -113,15 +117,18 @@ def _init_parallel_worker(
     triples: list[tuple[int, int, int]],
     backend_label: str,
     collect_profile: bool,
+    safe_pair_sieve_enabled: bool,
     mod_sieve_enabled: bool,
     collect_bucket_stats: bool,
 ) -> None:
     global _WORKER_BACKEND, _WORKER_BUCKET_STATS_ENABLED, _WORKER_COLLECT_PROFILE
-    global _WORKER_MOD_SIEVE_ENABLED, _WORKER_S_ARR, _WORKER_T_ARR, _WORKER_TRIPLES
+    global _WORKER_MOD_SIEVE_ENABLED, _WORKER_S_ARR, _WORKER_SAFE_PAIR_SIEVE_ENABLED
+    global _WORKER_T_ARR, _WORKER_TRIPLES
 
     _WORKER_TRIPLES = triples
     _WORKER_BACKEND = backend_label
     _WORKER_COLLECT_PROFILE = collect_profile
+    _WORKER_SAFE_PAIR_SIEVE_ENABLED = safe_pair_sieve_enabled
     _WORKER_MOD_SIEVE_ENABLED = mod_sieve_enabled
     _WORKER_BUCKET_STATS_ENABLED = collect_bucket_stats
     if backend_label == "numpy" and np is not None:
@@ -142,6 +149,7 @@ def _worker_process_chunk(bounds: tuple[int, int]) -> ChunkScanResult:
         _WORKER_S_ARR,
         _WORKER_T_ARR,
         _WORKER_COLLECT_PROFILE,
+        _WORKER_SAFE_PAIR_SIEVE_ENABLED,
         _WORKER_MOD_SIEVE_ENABLED,
         _WORKER_BUCKET_STATS_ENABLED,
     )
@@ -179,6 +187,7 @@ def map_chunks_in_parallel(
     backend_label: str,
     collect_profile: bool,
     workers: int,
+    safe_pair_sieve_enabled: bool,
     mod_sieve_enabled: bool,
     collect_bucket_stats: bool,
 ) -> Iterator[ChunkScanResult]:
@@ -189,6 +198,7 @@ def map_chunks_in_parallel(
             triples,
             backend_label,
             collect_profile,
+            safe_pair_sieve_enabled,
             mod_sieve_enabled,
             collect_bucket_stats,
         ),

@@ -281,8 +281,14 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     backend = resolve_backend_choice(args.max_hyp, backend_requested)
     near_miss_limit = int(getattr(args, "near_miss_limit", 100000))
     bucket_stats_enabled = bool(getattr(args, "bucket_stats", False))
+    safe_pair_sieve_enabled = bool(getattr(args, "safe_pair_sieve", False))
     if bucket_stats_enabled and not getattr(args, "db", None):
         raise SystemExit("--bucket-stats requires --db so the aggregated rows can be persisted.")
+    if safe_pair_sieve_enabled and backend != "python":
+        raise SystemExit(
+            "--safe-pair-sieve currently supports only backend=python. "
+            "Use --backend python or disable the experimental sieve."
+        )
     run_params = {
         "backend": backend,
         "backend_requested": backend_requested,
@@ -292,6 +298,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
         "near_miss": bool(getattr(args, "near_miss", False)),
         "near_miss_limit": near_miss_limit,
         "profile": bool(getattr(args, "profile", False)),
+        "safe_pair_sieve": safe_pair_sieve_enabled,
         "workers": args.workers,
     }
     near_miss_store = _NearMissTopK(near_miss_limit)
@@ -365,7 +372,8 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     print("Pythagorean 4-cycle fast search — O(n²) primitive-triple-pair method")
     print(
         f"  max_hyp={args.max_hyp}  backend={backend}"
-        f"  workers={args.workers}  mod_sieve={bool(getattr(args, 'mod_sieve', False))}"
+        f"  workers={args.workers}  safe_pair_sieve={safe_pair_sieve_enabled}"
+        f"  mod_sieve={bool(getattr(args, 'mod_sieve', False))}"
         f"  bucket_stats={bucket_stats_enabled}"
         f"  start_t1={start_t1}  triples_source={triples_source}"
     )
@@ -383,6 +391,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
         triples=triples,
         profile=bool(getattr(args, "profile", False)),
         triples_source=triples_source,
+        safe_pair_sieve=safe_pair_sieve_enabled,
         mod_sieve=bool(getattr(args, "mod_sieve", False)),
         bucket_stats=bucket_stats_enabled,
     )

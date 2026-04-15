@@ -45,11 +45,13 @@ class ChainFastProfile:
     backend: str
     workers: int
     profile_enabled: bool
+    safe_pair_sieve_enabled: bool = False
     mod_sieve_enabled: bool = False
     mod_sieve_moduli: tuple[int, ...] = DEFAULT_MODULI
     triples_source: str = "generated"
     n_triples: int = 0
     n_pairs_total: int = 0
+    n_pairs_after_safe_pair_sieve: int = 0
     n_pairs_after_basic_filters: int = 0
     n_pairs_after_c3_mod_sieve: int = 0
     n_c3_pass: int = 0
@@ -62,6 +64,7 @@ class ChainFastProfile:
     near_miss_dropped: int = 0
     time_generate_triples_s: float = 0.0
     time_outer_loop_s: float = 0.0
+    time_safe_pair_sieve_s: float = 0.0
     time_filter_s: float = 0.0
     time_mod_sieve_c3_s: float = 0.0
     time_c3_s: float = 0.0
@@ -72,12 +75,14 @@ class ChainFastProfile:
 
     def absorb_scan(self, scan: ScanProfile) -> None:
         self.n_pairs_total += scan.n_pairs_total
+        self.n_pairs_after_safe_pair_sieve += scan.n_pairs_after_safe_pair_sieve
         self.n_pairs_after_basic_filters += scan.n_pairs_after_basic_filters
         self.n_pairs_after_c3_mod_sieve += scan.n_pairs_after_c3_mod_sieve
         self.n_c3_pass += scan.n_c3_pass
         self.n_c4_pass += scan.n_c4_pass
         self.n_solutions_before_dedup += scan.n_solutions_before_dedup
         self.n_near_miss += scan.n_near_miss
+        self.time_safe_pair_sieve_s += scan.time_safe_pair_sieve_s
         self.time_filter_s += scan.time_filter_s
         self.time_mod_sieve_c3_s += scan.time_mod_sieve_c3_s
         self.time_c3_s += scan.time_c3_s
@@ -89,11 +94,13 @@ class ChainFastProfile:
             "backend": self.backend,
             "workers": self.workers,
             "profile_enabled": self.profile_enabled,
+            "safe_pair_sieve_enabled": self.safe_pair_sieve_enabled,
             "mod_sieve_enabled": self.mod_sieve_enabled,
             "mod_sieve_moduli": list(self.mod_sieve_moduli),
             "triples_source": self.triples_source,
             "n_triples": self.n_triples,
             "n_pairs_total": self.n_pairs_total,
+            "n_pairs_after_safe_pair_sieve": self.n_pairs_after_safe_pair_sieve,
             "n_pairs_after_basic_filters": self.n_pairs_after_basic_filters,
             "n_pairs_after_c3_mod_sieve": self.n_pairs_after_c3_mod_sieve,
             "n_c3_pass": self.n_c3_pass,
@@ -106,6 +113,7 @@ class ChainFastProfile:
             "near_miss_dropped": self.near_miss_dropped,
             "time_generate_triples_s": round(self.time_generate_triples_s, 6),
             "time_outer_loop_s": round(self.time_outer_loop_s, 6),
+            "time_safe_pair_sieve_s": round(self.time_safe_pair_sieve_s, 6),
             "time_filter_s": round(self.time_filter_s, 6),
             "time_mod_sieve_c3_s": round(self.time_mod_sieve_c3_s, 6),
             "time_c3_s": round(self.time_c3_s, 6),
@@ -167,15 +175,23 @@ def run_chain_fast(
     triples: list[tuple[int, int, int]] | None = None,
     profile: bool = False,
     triples_source: str = "generated",
+    safe_pair_sieve: bool = False,
     mod_sieve: bool = False,
     bucket_stats: bool = False,
 ) -> ChainFastExecution:
     """Run chain-fast and return both results and execution profile."""
+    effective_backend = resolve_backend_choice(max_hyp, backend)
+    if safe_pair_sieve and effective_backend != "python":
+        raise ValueError(
+            "safe-pair-sieve currently supports only backend='python'; "
+            "choose backend='python' or disable the experimental sieve."
+        )
     profile_data = ChainFastProfile(
         requested_backend=backend,
-        backend=resolve_backend_choice(max_hyp, backend),
+        backend=effective_backend,
         workers=workers,
         profile_enabled=profile,
+        safe_pair_sieve_enabled=safe_pair_sieve,
         mod_sieve_enabled=mod_sieve,
         triples_source=triples_source,
     )
@@ -236,6 +252,7 @@ def run_chain_fast(
                     s_arr,
                     t_arr,
                     profile,
+                    safe_pair_sieve,
                     mod_sieve,
                     bucket_stats,
                 )
@@ -258,6 +275,7 @@ def run_chain_fast(
                 backend_label,
                 profile,
                 resolved_workers,
+                safe_pair_sieve,
                 mod_sieve,
                 bucket_stats,
             )
@@ -298,6 +316,7 @@ def find_chains_fast(
     start_t1: int = 0,
     near_miss_callback: Callable | None = None,
     chunk_complete_callback: Callable[[int], None] | None = None,
+    safe_pair_sieve: bool = False,
     mod_sieve: bool = False,
 ) -> list[ChainResult]:
     """Compatibility wrapper returning only the deduplicated result list."""
@@ -309,5 +328,6 @@ def find_chains_fast(
         start_t1=start_t1,
         near_miss_callback=near_miss_callback,
         chunk_complete_callback=chunk_complete_callback,
+        safe_pair_sieve=safe_pair_sieve,
         mod_sieve=mod_sieve,
     ).results

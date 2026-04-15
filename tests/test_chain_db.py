@@ -33,6 +33,7 @@ class TestChainDB:
             "near_miss": False,
             "near_miss_limit": 100000,
             "profile": False,
+            "safe_pair_sieve": False,
             "workers": 1,
         }
         params.update(overrides)
@@ -541,6 +542,56 @@ class TestChainDB:
         assert proc.returncode != 0
         combined = f"{proc.stdout}\n{proc.stderr}"
         assert "--bucket-stats requires --db" in combined
+
+    def test_chain_fast_cli_safe_pair_sieve_python(self):
+        """The experimental safe pair sieve should run on the python backend."""
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "chain-fast",
+                "--max-hyp",
+                "120",
+                "--backend",
+                "python",
+                "--profile",
+                "--safe-pair-sieve",
+                "--no-progress",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert "safe_pair_sieve=True" in proc.stdout
+        assert "after_safe_pair=" in proc.stdout
+
+    def test_chain_fast_cli_safe_pair_sieve_requires_python_backend(self):
+        """CLI should fail clearly when safe-pair-sieve would hit numpy."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY
+
+        for backend in ("numpy", "auto"):
+            if backend == "auto" and not _HAS_NUMPY:
+                continue
+            proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "search.py"),
+                    "chain-fast",
+                    "--max-hyp",
+                    "120",
+                    "--backend",
+                    backend,
+                    "--safe-pair-sieve",
+                    "--no-progress",
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+            )
+            assert proc.returncode != 0
+            combined = f"{proc.stdout}\n{proc.stderr}"
+            assert "--safe-pair-sieve currently supports only backend=python" in combined
 
     def test_cli_fails_on_legacy_chain_db(self, tmp_path):
         """The chain-fast CLI should fail clearly on an old schema DB."""

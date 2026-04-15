@@ -10,6 +10,7 @@ from rational_distance.search_chain import ChainResult
 
 from .bucket_stats import BucketStatsCollector, build_bucket_identities
 from .mod_sieve import DEFAULT_C3_MOD_SIEVE
+from .safe_pair_sieve import decide_safe_pair_sieve, passes_n_mod4_requirement
 
 try:
     import numpy as np
@@ -22,12 +23,14 @@ NearMissRecord = tuple[int, int, int, int, bool, bool, int, int, int, int]
 @dataclass
 class ScanProfile:
     n_pairs_total: int = 0
+    n_pairs_after_safe_pair_sieve: int = 0
     n_pairs_after_basic_filters: int = 0
     n_pairs_after_c3_mod_sieve: int = 0
     n_c3_pass: int = 0
     n_c4_pass: int = 0
     n_solutions_before_dedup: int = 0
     n_near_miss: int = 0
+    time_safe_pair_sieve_s: float = 0.0
     time_filter_s: float = 0.0
     time_mod_sieve_c3_s: float = 0.0
     time_c3_s: float = 0.0
@@ -35,12 +38,14 @@ class ScanProfile:
 
     def merge(self, other: ScanProfile) -> None:
         self.n_pairs_total += other.n_pairs_total
+        self.n_pairs_after_safe_pair_sieve += other.n_pairs_after_safe_pair_sieve
         self.n_pairs_after_basic_filters += other.n_pairs_after_basic_filters
         self.n_pairs_after_c3_mod_sieve += other.n_pairs_after_c3_mod_sieve
         self.n_c3_pass += other.n_c3_pass
         self.n_c4_pass += other.n_c4_pass
         self.n_solutions_before_dedup += other.n_solutions_before_dedup
         self.n_near_miss += other.n_near_miss
+        self.time_safe_pair_sieve_s += other.time_safe_pair_sieve_s
         self.time_filter_s += other.time_filter_s
         self.time_mod_sieve_c3_s += other.time_mod_sieve_c3_s
         self.time_c3_s += other.time_c3_s
@@ -69,17 +74,23 @@ def _numpy_scan_t1(
     s_arr,
     t_arr,
     collect_profile: bool = False,
+    safe_pair_sieve_enabled: bool = False,
     mod_sieve_enabled: bool = False,
     collect_bucket_stats: bool = False,
 ) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile, BucketStatsCollector | None]:
     """Vectorised inner T2 loop for one outer T1 iteration."""
     if np is None:  # pragma: no cover - guarded by backend selection
         raise RuntimeError("numpy backend requested but numpy is not installed")
+    if safe_pair_sieve_enabled:  # pragma: no cover - guarded by API/CLI validation
+        raise RuntimeError("safe-pair-sieve currently supports only the python backend")
 
     s1, t1, h1 = triples[i]
     solutions: list[ChainResult] = []
     near_misses: list[NearMissRecord] = []
-    scan_profile = ScanProfile(n_pairs_total=len(triples))
+    scan_profile = ScanProfile(
+        n_pairs_total=len(triples),
+        n_pairs_after_safe_pair_sieve=len(triples),
+    )
     bucket_stats = BucketStatsCollector() if collect_bucket_stats else None
 
     filter_started = time.perf_counter() if collect_profile else 0.0
@@ -316,6 +327,7 @@ def _python_scan_t1(
     i: int,
     triples: list[tuple[int, int, int]],
     collect_profile: bool = False,
+    safe_pair_sieve_enabled: bool = False,
     mod_sieve_enabled: bool = False,
     collect_bucket_stats: bool = False,
 ) -> tuple[list[ChainResult], list[NearMissRecord], ScanProfile, BucketStatsCollector | None]:
@@ -334,7 +346,18 @@ def _python_scan_t1(
             bucket_ids = build_bucket_identities(s1, t1, s2, t2)
             bucket_stats.note_total(bucket_ids)
 
+        decision = None
+        if safe_pair_sieve_enabled:
+            sieve_started = time.perf_counter() if collect_profile else 0.0
+            decision = decide_safe_pair_sieve(s1, t1, s2, t2)
+            if collect_profile:
+                scan_profile.time_safe_pair_sieve_s += time.perf_counter() - sieve_started
+            if not decision.allow_pair:
+                continue
+
         filter_started = time.perf_counter() if collect_profile else 0.0
+        if not safe_pair_sieve_enabled:
+            scan_profile.n_pairs_after_safe_pair_sieve += 1
         cg = gcd(t1, s2)
         s2r = s2 // cg
         t1r = t1 // cg
@@ -342,6 +365,17 @@ def _python_scan_t1(
         A = t1r * t2
         B = s1 * s2r
         N = s2r * (s1 - t1) + A
+
+        if safe_pair_sieve_enabled:
+            sieve_started = time.perf_counter() if collect_profile else 0.0
+            passes_safe_sieve = passes_n_mod4_requirement(decision, N)
+            if collect_profile:
+                scan_profile.time_safe_pair_sieve_s += time.perf_counter() - sieve_started
+            if not passes_safe_sieve:
+                if collect_profile:
+                    scan_profile.time_filter_s += time.perf_counter() - filter_started
+                continue
+            scan_profile.n_pairs_after_safe_pair_sieve += 1
 
         if N <= 0:
             if collect_profile:

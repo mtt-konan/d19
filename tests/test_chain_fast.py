@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from math import gcd
 from pathlib import Path
 
 import pytest
@@ -38,6 +39,7 @@ def _bucket_totals_by_type(rows) -> dict[str, dict[str, int]]:
         current["n_c4_pass"] += row.n_c4_pass
         current["n_near_miss"] += row.n_near_miss
     return totals
+
 
 class TestChainFast:
     """Tests for the O(n²) primitive-triple-pair chain search."""
@@ -113,6 +115,67 @@ class TestChainFastAdditional:
         )
 
 
+class TestSafePairSieveHelpers:
+    """Tests for the mathematically safe pair-sieve helpers."""
+
+    def test_classify_orientation_for_both_orderings(self):
+        """Each primitive triple orientation should map to OE or EO correctly."""
+        from rational_distance.chain_fast.safe_pair_sieve import classify_orientation
+
+        assert classify_orientation(3, 4) == "OE"
+        assert classify_orientation(4, 3) == "EO"
+        assert classify_orientation(5, 12) == "OE"
+        assert classify_orientation(12, 5) == "EO"
+
+    def test_v2_small_examples(self):
+        """v2 should count the exact power of two dividing each input."""
+        from rational_distance.chain_fast.safe_pair_sieve import v2
+
+        assert v2(1) == 0
+        assert v2(2) == 1
+        assert v2(4) == 2
+        assert v2(12) == 2
+        assert v2(40) == 3
+
+    def test_same_orientation_pairs_are_rejected(self):
+        """(OE, OE) and (EO, EO) are proved-dead cases."""
+        from rational_distance.chain_fast.safe_pair_sieve import decide_safe_pair_sieve
+
+        assert decide_safe_pair_sieve(3, 4, 5, 12).allow_pair is False
+        assert decide_safe_pair_sieve(4, 3, 12, 5).allow_pair is False
+
+    def test_oe_eo_requires_matching_v2(self):
+        """For T1=OE and T2=EO, mismatched v2 values must be rejected."""
+        from rational_distance.chain_fast.safe_pair_sieve import decide_safe_pair_sieve
+
+        decision = decide_safe_pair_sieve(3, 4, 8, 15)
+        assert decision.allow_pair is False
+        assert decision.require_n_multiple_of_4 is False
+
+    def test_oe_eo_n_mod4_requirement_uses_actual_n(self):
+        """The surviving OE/EO case must still satisfy N ≡ 0 (mod 4)."""
+        from rational_distance.chain_fast.safe_pair_sieve import (
+            decide_safe_pair_sieve,
+            passes_n_mod4_requirement,
+        )
+
+        blocked = decide_safe_pair_sieve(3, 4, 12, 5)
+        assert blocked.allow_pair is True
+        assert blocked.require_n_multiple_of_4 is True
+        g_blocked = gcd(4, 12)
+        n_blocked = (4 // g_blocked) * 5 + (12 // g_blocked) * (3 - 4)
+        assert n_blocked == 2
+        assert passes_n_mod4_requirement(blocked, n_blocked) is False
+
+        allowed = decide_safe_pair_sieve(3, 4, 20, 21)
+        assert allowed.allow_pair is True
+        assert allowed.require_n_multiple_of_4 is True
+        g_allowed = gcd(4, 20)
+        n_allowed = (4 // g_allowed) * 21 + (20 // g_allowed) * (3 - 4)
+        assert n_allowed == 16
+        assert passes_n_mod4_requirement(allowed, n_allowed) is True
+
+
 # ── chain-fast numpy backend ──────────────────────────────────────────────────
 
 
@@ -183,6 +246,34 @@ class TestChainFastNumpy:
         np_ = find_chains_fast(max_hyp=300, progress=False, backend="numpy", mod_sieve=True)
         assert py == np_
 
+    def test_safe_pair_sieve_rejects_numpy_backend(self):
+        """The safe pair sieve is an experimental python-only path."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        with pytest.raises(ValueError, match="backend='python'"):
+            run_chain_fast(
+                max_hyp=200,
+                progress=False,
+                backend="numpy",
+                safe_pair_sieve=True,
+            )
+
+    def test_safe_pair_sieve_rejects_auto_when_numpy_would_be_used(self):
+        """backend=auto should also fail if it resolves to numpy."""
+        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+
+        if not _HAS_NUMPY:
+            pytest.skip("numpy not installed")
+        with pytest.raises(ValueError, match="backend='python'"):
+            run_chain_fast(
+                max_hyp=200,
+                progress=False,
+                backend="auto",
+                safe_pair_sieve=True,
+            )
+
     def test_start_t1_resumes_subset(self):
         """start_t1=k should return a subset of the full run's results."""
         from rational_distance.search_chain_fast import find_chains_fast
@@ -242,6 +333,7 @@ class TestChainFastProfile:
         assert set(profile) >= {
             "n_triples",
             "n_pairs_total",
+            "n_pairs_after_safe_pair_sieve",
             "n_pairs_after_basic_filters",
             "n_pairs_after_c3_mod_sieve",
             "n_c3_pass",
@@ -252,6 +344,7 @@ class TestChainFastProfile:
             "near_miss_saved",
             "near_miss_dropped",
             "time_generate_triples_s",
+            "time_safe_pair_sieve_s",
             "time_filter_s",
             "time_mod_sieve_c3_s",
             "time_c3_s",
@@ -262,13 +355,16 @@ class TestChainFastProfile:
         }
         assert (
             profile["n_pairs_total"]
+            >= profile["n_pairs_after_safe_pair_sieve"]
             >= profile["n_pairs_after_basic_filters"]
             >= profile["n_pairs_after_c3_mod_sieve"]
             >= profile["n_c3_pass"]
             >= profile["n_c4_pass"]
         )
         assert profile["n_solutions_before_dedup"] >= profile["n_solutions_after_dedup"]
+        assert profile["n_pairs_after_safe_pair_sieve"] == profile["n_pairs_total"]
         assert profile["n_pairs_after_c3_mod_sieve"] == profile["n_pairs_after_basic_filters"]
+        assert profile["time_safe_pair_sieve_s"] == pytest.approx(0.0)
         assert profile["time_mod_sieve_c3_s"] == pytest.approx(0.0)
 
     def test_run_chain_fast_profile_keys_match_numpy(self):
@@ -306,12 +402,34 @@ class TestChainFastProfile:
         assert profile["mod_sieve_moduli"] == [16, 3, 5, 7]
         assert (
             profile["n_pairs_total"]
+            >= profile["n_pairs_after_safe_pair_sieve"]
             >= profile["n_pairs_after_basic_filters"]
             >= profile["n_pairs_after_c3_mod_sieve"]
             >= profile["n_c3_pass"]
             >= profile["n_c4_pass"]
         )
         assert profile["time_mod_sieve_c3_s"] >= 0.0
+
+    def test_run_chain_fast_profile_safe_pair_sieve_fields(self):
+        """Enabling the safe pair sieve should expose stable counters and timings."""
+        from rational_distance.search_chain_fast import run_chain_fast
+
+        profile = run_chain_fast(
+            max_hyp=200,
+            progress=False,
+            backend="python",
+            profile=True,
+            safe_pair_sieve=True,
+        ).profile.as_dict()
+        assert profile["safe_pair_sieve_enabled"] is True
+        assert (
+            profile["n_pairs_total"]
+            >= profile["n_pairs_after_safe_pair_sieve"]
+            >= profile["n_pairs_after_basic_filters"]
+            >= profile["n_c3_pass"]
+            >= profile["n_c4_pass"]
+        )
+        assert profile["time_safe_pair_sieve_s"] >= 0.0
 
     def test_run_chain_fast_with_cached_triples_keeps_results(self):
         """Passing prebuilt triples should not change the result set."""
@@ -467,6 +585,32 @@ class TestChainFastModSieve:
             progress=False,
             backend="python",
             mod_sieve=True,
+            near_miss_callback=lambda *row: sieve_near_misses.append(row),
+        )
+        assert filtered == baseline
+        assert sieve_near_misses == baseline_near_misses
+
+
+class TestChainFastSafePairSieve:
+    """Tests for the experimental mathematically safe pair sieve."""
+
+    def test_safe_pair_sieve_keeps_python_results_and_near_misses(self):
+        """The safe sieve must only remove doomed pairs, not change outputs."""
+        from rational_distance.search_chain_fast import find_chains_fast
+
+        baseline_near_misses: list[tuple] = []
+        sieve_near_misses: list[tuple] = []
+        baseline = find_chains_fast(
+            max_hyp=500,
+            progress=False,
+            backend="python",
+            near_miss_callback=lambda *row: baseline_near_misses.append(row),
+        )
+        filtered = find_chains_fast(
+            max_hyp=500,
+            progress=False,
+            backend="python",
+            safe_pair_sieve=True,
             near_miss_callback=lambda *row: sieve_near_misses.append(row),
         )
         assert filtered == baseline

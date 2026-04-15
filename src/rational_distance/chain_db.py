@@ -43,6 +43,7 @@ def params_key_for_run(params: dict) -> str:
         "near_miss": bool(params["near_miss"]),
         "near_miss_limit": int(params.get("near_miss_limit", 100000)),
         "profile": bool(params.get("profile", False)),
+        "safe_pair_sieve": bool(params.get("safe_pair_sieve", False)),
         "workers": int(params.get("workers", 1)),
     }
     return json.dumps(normalized, sort_keys=True, separators=(",", ":"))

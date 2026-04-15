@@ -319,6 +319,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Experimental C3 pre-sieve using fixed small moduli (16,3,5,7)",
     )
+    cf.add_argument(
+        "--safe-pair-sieve",
+        action="store_true",
+        help="Experimental proved-safe pair sieve (python backend only)",
+    )
 
     co = sub.add_parser(
         "concordant",

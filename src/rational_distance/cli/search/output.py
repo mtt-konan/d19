@@ -221,6 +221,7 @@ def _print_chain_fast_profile(profile: dict) -> None:
     print("\nProfile:")
     print(
         f"  triples={profile['n_triples']}  pairs={profile['n_pairs_total']}  "
+        f"after_safe_pair={profile['n_pairs_after_safe_pair_sieve']}  "
         f"after_filters={profile['n_pairs_after_basic_filters']}  "
         f"after_c3_mod={profile['n_pairs_after_c3_mod_sieve']}"
     )
@@ -235,13 +236,16 @@ def _print_chain_fast_profile(profile: dict) -> None:
     )
     print(
         f"  time_s: triples={profile['time_generate_triples_s']:.3f}  "
-        f"outer={profile['time_outer_loop_s']:.3f}  filter={profile['time_filter_s']:.3f}  "
+        f"outer={profile['time_outer_loop_s']:.3f}  "
+        f"safe_pair={profile['time_safe_pair_sieve_s']:.3f}  "
+        f"filter={profile['time_filter_s']:.3f}  "
         f"mod_c3={profile['time_mod_sieve_c3_s']:.3f}  c3={profile['time_c3_s']:.3f}  "
         f"c4={profile['time_c4_s']:.3f}  "
         f"dedup={profile['time_dedup_s']:.3f}  db={profile['time_db_write_s']:.3f}"
     )
     print(
-        f"  mod_sieve={profile['mod_sieve_enabled']}  "
+        f"  safe_pair_sieve={profile['safe_pair_sieve_enabled']}  "
+        f"mod_sieve={profile['mod_sieve_enabled']}  "
         f"moduli={profile['mod_sieve_moduli']}"
     )
     if profile.get("db_bytes_after_run", 0):
