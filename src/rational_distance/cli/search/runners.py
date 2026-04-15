@@ -481,10 +481,49 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 def _run_concordant(args: argparse.Namespace) -> None:
     from rational_distance.concordant import (
         analyze_pair,
-        check_chain_compatibility,
-        enumerate_multiples,
+        diagnose_pair,
         generate_ab_pairs,
     )
+
+    def _candidate_payload(candidate) -> dict[str, object]:
+        return {
+            "n": candidate.n,
+            "source": candidate.source,
+            "b": candidate.b,
+            "b_in_concordant_set": candidate.b_in_concordant_set,
+            "b_source": candidate.b_source,
+            "c1_ok": candidate.c1_ok,
+            "c2_ok": candidate.c2_ok,
+            "chain_ok": candidate.chain_ok,
+            "c1_nearest_square_delta": candidate.c1_nearest_square_delta,
+            "c2_nearest_square_delta": candidate.c2_nearest_square_delta,
+            "combined_delta": candidate.combined_delta,
+        }
+
+    def _pair_report(diagnostics, *, deep: int) -> dict[str, object]:
+        result = diagnostics.result
+        return {
+            "mode": "pair",
+            "A": result.A,
+            "B": result.B,
+            "ec_bound": result.ec_bound,
+            "deep": deep,
+            "rank": result.rank,
+            "rank_bounds": list(result.rank_bounds),
+            "generators": [list(generator) for generator in result.generators],
+            "raw_square_x": result.raw_square_x,
+            "concordant_n": result.concordant_n,
+            "deep_extra_n": diagnostics.deep_extra_n,
+            "all_concordant_n": diagnostics.all_concordant_n,
+            "mirror_hit_n": diagnostics.mirror_hit_n,
+            "chain_compatible": diagnostics.chain_compatible,
+            "best_candidate": (
+                _candidate_payload(diagnostics.best_candidate)
+                if diagnostics.best_candidate is not None
+                else None
+            ),
+            "candidates": [_candidate_payload(candidate) for candidate in diagnostics.candidates],
+        }
 
     print("=" * 72)
     print("Elliptic curve concordant-form analysis")
@@ -499,29 +538,43 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print("=" * 72)
 
         t0 = time.perf_counter()
-        result = analyze_pair(A, B, ec_bound=args.ec_bound)
+        diagnostics = diagnose_pair(A, B, ec_bound=args.ec_bound, deep=args.deep)
+        result = diagnostics.result
         print(f"\n{result.summary()}")
-
         if args.deep > 0:
             print(f"\nDeep search (depth={args.deep})...")
-            deep_n = enumerate_multiples(A, B, max_depth=args.deep)
-            if deep_n:
-                new = [n for n in deep_n if n not in result.concordant_n]
-                if new:
-                    print(f"  New concordant N from deep search: {new}")
-
-                    for n_value in new:
-                        ok = check_chain_compatibility(A, B, n_value)
-                        b_value = A + B - n_value
-                        print(f"    N={n_value}, b={b_value}, chain_ok={ok}")
-                        if ok:
-                            print("    *** HARBORTH SOLUTION FOUND! ***")
-                else:
-                    print("  No new concordant N beyond ellratpoints results.")
-            else:
-                print("  No concordant N from generator multiples.")
+        print("\nChain compatibility diagnostics")
+        print(f"  deep_extra_n: {diagnostics.deep_extra_n if diagnostics.deep_extra_n else 'none'}")
+        print(f"  all_concordant_n: {diagnostics.all_concordant_n}")
+        print(f"  mirror_hit_n: {diagnostics.mirror_hit_n if diagnostics.mirror_hit_n else 'none'}")
+        if diagnostics.best_candidate is None:
+            print("  best_candidate: none")
+        else:
+            candidate = diagnostics.best_candidate
+            print(
+                "  best_candidate: "
+                f"N={candidate.n} source={candidate.source} b={candidate.b} "
+                f"chain_ok={candidate.chain_ok} combined_delta={candidate.combined_delta}"
+            )
+        if diagnostics.candidates:
+            print("  candidates:")
+            for candidate in diagnostics.candidates:
+                print(
+                    "    "
+                    f"N={candidate.n} source={candidate.source} b={candidate.b} "
+                    f"b_in_concordant_set={candidate.b_in_concordant_set} "
+                    f"C1={candidate.c1_ok}(delta={candidate.c1_nearest_square_delta}) "
+                    f"C2={candidate.c2_ok}(delta={candidate.c2_nearest_square_delta}) "
+                    f"combined_delta={candidate.combined_delta}"
+                )
+        else:
+            print("  candidates: none")
 
         elapsed = time.perf_counter() - t0
+        if args.out:
+            with open(args.out, "w") as handle:
+                json.dump(_pair_report(diagnostics, deep=args.deep), handle, indent=2)
+            print(f"\nReport saved to {args.out}")
         print(f"\nCompleted in {elapsed:.1f}s")
 
     else:

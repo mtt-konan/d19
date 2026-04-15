@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -172,17 +174,126 @@ class TestConcordantEC:
         assert "concordant N" in s
 
 
+class TestConcordantDiagnostics:
+    """Tests for fixed-pair concordant diagnostics."""
+
+    def test_diagnose_pair_264_420(self):
+        from rational_distance.concordant import diagnose_pair
+
+        diagnostics = diagnose_pair(264, 420, ec_bound=400000)
+        assert diagnostics.all_concordant_n == [77, 315, 352]
+        assert diagnostics.deep_extra_n == []
+        assert diagnostics.mirror_hit_n == []
+        assert diagnostics.chain_compatible == []
+
+        expected_b = {77: 607, 315: 369, 352: 332}
+        assert {candidate.n: candidate.b for candidate in diagnostics.candidates} == expected_b
+
+        for candidate in diagnostics.candidates:
+            assert candidate.source == "ellratpoints"
+            assert candidate.chain_ok is False
+            assert candidate.b_in_concordant_set is False
+            assert candidate.b_source is None
+            assert candidate.c1_nearest_square_delta >= 0
+            assert candidate.c2_nearest_square_delta >= 0
+
+        assert diagnostics.best_candidate is not None
+        assert diagnostics.best_candidate.combined_delta == min(
+            candidate.combined_delta for candidate in diagnostics.candidates
+        )
+        assert all(candidate.source != "deep" for candidate in diagnostics.candidates)
+
+
 class TestConcordantCompatibility:
     """Smoke tests for old and new concordant import paths."""
 
     def test_legacy_and_new_import_paths_are_available(self):
         from rational_distance.concordant import analyze_pair as new_analyze_pair
+        from rational_distance.concordant import diagnose_pair as new_diagnose_pair
         from rational_distance.concordant import generate_ab_pairs as new_generate_ab_pairs
+        from rational_distance.concordant import (
+            ChainCandidateDiagnostic as new_candidate_diagnostic,
+        )
+        from rational_distance.concordant import (
+            ConcordantPairDiagnostics as new_pair_diagnostics,
+        )
         from rational_distance.concordant_ec import analyze_pair as legacy_analyze_pair
+        from rational_distance.concordant_ec import diagnose_pair as legacy_diagnose_pair
+        from rational_distance.concordant_ec import (
+            ChainCandidateDiagnostic as legacy_candidate_diagnostic,
+        )
+        from rational_distance.concordant_ec import (
+            ConcordantPairDiagnostics as legacy_pair_diagnostics,
+        )
         from rational_distance.pair_generator import generate_ab_pairs as legacy_generate_ab_pairs
 
         assert callable(new_analyze_pair)
+        assert callable(new_diagnose_pair)
         assert callable(new_generate_ab_pairs)
         assert callable(legacy_analyze_pair)
+        assert callable(legacy_diagnose_pair)
         assert callable(legacy_generate_ab_pairs)
+        assert new_candidate_diagnostic.__name__ == "ChainCandidateDiagnostic"
+        assert legacy_candidate_diagnostic.__name__ == "ChainCandidateDiagnostic"
+        assert new_pair_diagnostics.__name__ == "ConcordantPairDiagnostics"
+        assert legacy_pair_diagnostics.__name__ == "ConcordantPairDiagnostics"
 
+        new_result = new_diagnose_pair(264, 420, ec_bound=400000)
+        legacy_result = legacy_diagnose_pair(264, 420, ec_bound=400000)
+        assert new_result.all_concordant_n == legacy_result.all_concordant_n
+        assert new_result.chain_compatible == legacy_result.chain_compatible
+
+
+class TestConcordantCli:
+    """CLI tests for fixed-pair concordant diagnostics."""
+
+    @staticmethod
+    def _run_pair(*extra_args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "search.py"),
+                "concordant",
+                "--pair",
+                "264,420",
+                "--ec-bound",
+                "400000",
+                *extra_args,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    def test_pair_cli_prints_diagnostics(self):
+        proc = self._run_pair()
+        assert proc.returncode == 0, proc.stderr or proc.stdout
+        assert "Chain compatibility diagnostics" in proc.stdout
+        assert "mirror_hit_n: none" in proc.stdout
+
+    def test_pair_cli_out_writes_json(self, tmp_path):
+        out_path = tmp_path / "pair.json"
+        proc = self._run_pair("--out", str(out_path))
+        assert proc.returncode == 0, proc.stderr or proc.stdout
+        assert out_path.exists()
+        payload = json.loads(out_path.read_text(encoding="utf-8"))
+        assert payload["mode"] == "pair"
+        assert payload["A"] == 264
+        assert payload["B"] == 420
+        assert payload["all_concordant_n"] == [77, 315, 352]
+        assert payload["mirror_hit_n"] == []
+        assert len(payload["candidates"]) == 3
+
+    def test_pair_cli_deep_zero_matches_default(self, tmp_path):
+        default_out = tmp_path / "default.json"
+        deep_out = tmp_path / "deep0.json"
+
+        default_proc = self._run_pair("--out", str(default_out))
+        deep_proc = self._run_pair("--deep", "0", "--out", str(deep_out))
+        assert default_proc.returncode == 0, default_proc.stderr or default_proc.stdout
+        assert deep_proc.returncode == 0, deep_proc.stderr or deep_proc.stdout
+
+        default_payload = json.loads(default_out.read_text(encoding="utf-8"))
+        deep_payload = json.loads(deep_out.read_text(encoding="utf-8"))
+        assert default_payload == deep_payload
