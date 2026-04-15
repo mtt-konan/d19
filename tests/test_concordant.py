@@ -192,8 +192,10 @@ class TestConcordantDiagnostics:
         for candidate in diagnostics.candidates:
             assert candidate.source == "ellratpoints"
             assert candidate.chain_ok is False
+            assert candidate.b_positive is True
             assert candidate.b_in_concordant_set is False
             assert candidate.b_source is None
+            assert candidate.side_hit == "none"
             assert candidate.c1_nearest_square_delta >= 0
             assert candidate.c2_nearest_square_delta >= 0
 
@@ -202,6 +204,9 @@ class TestConcordantDiagnostics:
             candidate.combined_delta for candidate in diagnostics.candidates
         )
         assert all(candidate.source != "deep" for candidate in diagnostics.candidates)
+        assert diagnostics.c1_hit_n == []
+        assert diagnostics.c2_hit_n == []
+        assert diagnostics.side_hit_n == []
 
 
 class TestConcordantCompatibility:
@@ -242,6 +247,7 @@ class TestConcordantCompatibility:
         legacy_result = legacy_diagnose_pair(264, 420, ec_bound=400000)
         assert new_result.all_concordant_n == legacy_result.all_concordant_n
         assert new_result.chain_compatible == legacy_result.chain_compatible
+        assert new_result.candidates[0].side_hit == legacy_result.candidates[0].side_hit
 
 
 class TestConcordantCli:
@@ -271,6 +277,8 @@ class TestConcordantCli:
         assert proc.returncode == 0, proc.stderr or proc.stdout
         assert "Chain compatibility diagnostics" in proc.stdout
         assert "mirror_hit_n: none" in proc.stdout
+        assert "side_hit_n: none" in proc.stdout
+        assert "side_hit=none" in proc.stdout
 
     def test_pair_cli_out_writes_json(self, tmp_path):
         out_path = tmp_path / "pair.json"
@@ -283,7 +291,12 @@ class TestConcordantCli:
         assert payload["B"] == 420
         assert payload["all_concordant_n"] == [77, 315, 352]
         assert payload["mirror_hit_n"] == []
+        assert payload["c1_hit_n"] == []
+        assert payload["c2_hit_n"] == []
+        assert payload["side_hit_n"] == []
         assert len(payload["candidates"]) == 3
+        assert payload["best_candidate"]["side_hit"] == "none"
+        assert payload["best_candidate"]["b_positive"] is True
 
     def test_pair_cli_deep_zero_matches_default(self, tmp_path):
         default_out = tmp_path / "default.json"
@@ -323,11 +336,21 @@ class TestConcordantCli:
         assert proc.returncode == 0, proc.stderr or proc.stdout
         assert "Pairs with concordant N" in proc.stdout
         assert "Pairs with mirror hits" in proc.stdout
+        assert "Pairs with C1 hits" in proc.stdout
+        assert "Pairs with side hits" in proc.stdout
         payload = json.loads(out_path.read_text(encoding="utf-8"))
         assert payload["n_pairs"] > 0
         assert "n_with_mirror_hit" in payload
+        assert "n_with_c1_hit" in payload
+        assert "n_with_c2_hit" in payload
+        assert "n_with_side_hit" in payload
         assert payload["pairs"]
         first = payload["pairs"][0]
+        assert "c1_hit_n" in first
+        assert "c2_hit_n" in first
+        assert "side_hit_n" in first
+        assert "best_side_hit" in first
+        assert "best_b_positive" in first
         assert "mirror_hit_count" in first
         assert "min_combined_delta" in first
         assert "best_candidate" in first

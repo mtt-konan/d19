@@ -489,10 +489,12 @@ def _run_concordant(args: argparse.Namespace) -> None:
             "n": candidate.n,
             "source": candidate.source,
             "b": candidate.b,
+            "b_positive": candidate.b_positive,
             "b_in_concordant_set": candidate.b_in_concordant_set,
             "b_source": candidate.b_source,
             "c1_ok": candidate.c1_ok,
             "c2_ok": candidate.c2_ok,
+            "side_hit": candidate.side_hit,
             "chain_ok": candidate.chain_ok,
             "c1_nearest_square_delta": candidate.c1_nearest_square_delta,
             "c2_nearest_square_delta": candidate.c2_nearest_square_delta,
@@ -515,6 +517,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
             "deep_extra_n": diagnostics.deep_extra_n,
             "all_concordant_n": diagnostics.all_concordant_n,
             "mirror_hit_n": diagnostics.mirror_hit_n,
+            "c1_hit_n": diagnostics.c1_hit_n,
+            "c2_hit_n": diagnostics.c2_hit_n,
+            "side_hit_n": diagnostics.side_hit_n,
             "chain_compatible": diagnostics.chain_compatible,
             "best_candidate": (
                 _candidate_payload(diagnostics.best_candidate)
@@ -538,14 +543,38 @@ def _run_concordant(args: argparse.Namespace) -> None:
             "raw_square_x": result.raw_square_x,
             "mirror_hit_n": diagnostics.mirror_hit_n,
             "mirror_hit_count": len(diagnostics.mirror_hit_n),
+            "c1_hit_n": diagnostics.c1_hit_n,
+            "c2_hit_n": diagnostics.c2_hit_n,
+            "side_hit_n": diagnostics.side_hit_n,
             "best_candidate": (
                 _candidate_payload(best_candidate) if best_candidate is not None else None
             ),
+            "best_side_hit": best_candidate.side_hit if best_candidate is not None else "none",
+            "best_b_positive": best_candidate.b_positive if best_candidate is not None else None,
             "min_combined_delta": (
                 best_candidate.combined_delta if best_candidate is not None else None
             ),
             "best_b": best_candidate.b if best_candidate is not None else None,
         }
+
+    def _best_candidate_sort_key(diagnostics) -> tuple[float, float, float, float, int, int]:
+        candidate = diagnostics.best_candidate
+        if candidate is None:
+            return (1.0, 1.0, 1.0, float("inf"), diagnostics.result.A, diagnostics.result.B)
+        if candidate.side_hit == "both":
+            side_rank = 0.0
+        elif candidate.side_hit != "none":
+            side_rank = 1.0
+        else:
+            side_rank = 2.0
+        return (
+            0.0 if candidate.chain_ok else 1.0,
+            0.0 if candidate.b_positive else 1.0,
+            side_rank,
+            float(candidate.combined_delta),
+            diagnostics.result.A,
+            diagnostics.result.B,
+        )
 
     print("=" * 72)
     print("Elliptic curve concordant-form analysis")
@@ -569,6 +598,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print(f"  deep_extra_n: {diagnostics.deep_extra_n if diagnostics.deep_extra_n else 'none'}")
         print(f"  all_concordant_n: {diagnostics.all_concordant_n}")
         print(f"  mirror_hit_n: {diagnostics.mirror_hit_n if diagnostics.mirror_hit_n else 'none'}")
+        print(f"  c1_hit_n: {diagnostics.c1_hit_n if diagnostics.c1_hit_n else 'none'}")
+        print(f"  c2_hit_n: {diagnostics.c2_hit_n if diagnostics.c2_hit_n else 'none'}")
+        print(f"  side_hit_n: {diagnostics.side_hit_n if diagnostics.side_hit_n else 'none'}")
         if diagnostics.best_candidate is None:
             print("  best_candidate: none")
         else:
@@ -576,6 +608,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
             print(
                 "  best_candidate: "
                 f"N={candidate.n} source={candidate.source} b={candidate.b} "
+                f"b_positive={candidate.b_positive} side_hit={candidate.side_hit} "
                 f"chain_ok={candidate.chain_ok} combined_delta={candidate.combined_delta}"
             )
         if diagnostics.candidates:
@@ -584,6 +617,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 print(
                     "    "
                     f"N={candidate.n} source={candidate.source} b={candidate.b} "
+                    f"b_positive={candidate.b_positive} side_hit={candidate.side_hit} "
                     f"b_in_concordant_set={candidate.b_in_concordant_set} "
                     f"C1={candidate.c1_ok}(delta={candidate.c1_nearest_square_delta}) "
                     f"C2={candidate.c2_ok}(delta={candidate.c2_nearest_square_delta}) "
@@ -612,6 +646,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
         n_with_concordant = 0
         n_with_chain = 0
         n_with_mirror_hit = 0
+        n_with_c1_hit = 0
+        n_with_c2_hit = 0
+        n_with_side_hit = 0
 
         iterator = enumerate(pairs)
         if not args.no_progress:
@@ -639,6 +676,12 @@ def _run_concordant(args: argparse.Namespace) -> None:
                     print(f"\n*** CHAIN SOLUTION: {result.summary()} ***")
                 if diagnostics.mirror_hit_n:
                     n_with_mirror_hit += 1
+                if diagnostics.c1_hit_n:
+                    n_with_c1_hit += 1
+                if diagnostics.c2_hit_n:
+                    n_with_c2_hit += 1
+                if diagnostics.side_hit_n:
+                    n_with_side_hit += 1
             except Exception as exc:
                 print(f"\n  Error on ({A},{B}): {exc}")
 
@@ -652,6 +695,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print(f"\nPairs with concordant N: {n_with_concordant}/{len(results)}")
         print(f"Pairs with chain-compatible N: {n_with_chain}/{len(results)}")
         print(f"Pairs with mirror hits: {n_with_mirror_hit}/{len(results)}")
+        print(f"Pairs with C1 hits: {n_with_c1_hit}/{len(results)}")
+        print(f"Pairs with C2 hits: {n_with_c2_hit}/{len(results)}")
+        print(f"Pairs with side hits: {n_with_side_hit}/{len(results)}")
 
         if n_with_chain > 0:
             print("\n*** HARBORTH SOLUTIONS EXIST! ***")
@@ -660,16 +706,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
         conc_results = [diagnostics for diagnostics in results if diagnostics.result.has_concordant]
         if conc_results:
             print(f"\nPairs with concordant N (showing up to {top}):")
-            conc_results.sort(
-                key=lambda diagnostics: (
-                    0 if diagnostics.result.has_chain_solution else 1,
-                    diagnostics.best_candidate.combined_delta
-                    if diagnostics.best_candidate is not None
-                    else float("inf"),
-                    diagnostics.result.A,
-                    diagnostics.result.B,
-                )
-            )
+            conc_results.sort(key=_best_candidate_sort_key)
             for diagnostics in conc_results[:top]:
                 result = diagnostics.result
                 best = diagnostics.best_candidate
@@ -677,7 +714,10 @@ def _run_concordant(args: argparse.Namespace) -> None:
                     f"  (A={result.A}, B={result.B}): rank={result.rank} "
                     f"concordant_n={result.concordant_n} "
                     f"mirror_hit_n={diagnostics.mirror_hit_n or 'none'} "
+                    f"side_hit_n={diagnostics.side_hit_n or 'none'} "
+                    f"best_side_hit={best.side_hit if best is not None else 'none'} "
                     f"best_b={best.b if best is not None else 'none'} "
+                    f"best_b_positive={best.b_positive if best is not None else 'none'} "
                     f"min_combined_delta={best.combined_delta if best is not None else 'none'}"
                 )
                 print()
@@ -692,6 +732,9 @@ def _run_concordant(args: argparse.Namespace) -> None:
                 "n_with_concordant": n_with_concordant,
                 "n_with_chain_compatible": n_with_chain,
                 "n_with_mirror_hit": n_with_mirror_hit,
+                "n_with_c1_hit": n_with_c1_hit,
+                "n_with_c2_hit": n_with_c2_hit,
+                "n_with_side_hit": n_with_side_hit,
                 "pairs": [
                     _batch_pair_summary(diagnostics)
                     for diagnostics in results
