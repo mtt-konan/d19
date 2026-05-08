@@ -27,12 +27,13 @@
 
 ## 0. 推荐阅读顺序
 
-1. 本文：先把“现在有哪些路线”搞清楚。
+1. 本文：先把"现在有哪些路线"搞清楚。
 2. [docs/PROJECT_STATUS.md](PROJECT_STATUS.md)：只看现状、主线和瓶颈。
-3. [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)：把 5 个子命令当成词典看。
-4. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
-5. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
-6. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
+3. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：可以减少搜索空间的理论方向。
+4. [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)：把 5 个子命令当成词典看。
+5. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
+6. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
+7. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
 
 ---
 

@@ -61,22 +61,19 @@ uv run ruff format .
 |------|------|
 | [docs/DIRECTIONS.md](docs/DIRECTIONS.md) | 项目方向总地图：当前主线、基线、暂停路线，以及每条线对应的代码、测试、脚本和入口 |
 | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 项目当前主线、基线、暂停路线，以及现在真正的瓶颈 |
-| [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | 5 个子命令分别做什么，只讲方法，不负责判断当前优先级 |
+| [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) | **当前重点**：可以减少搜索空间的理论方向（因子分解攻击、Gaussian 整数筛、2-descent 等） |
 | [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论，优先看高置信结论 |
-| [docs/CHAIN_PERFORMANCE.md](docs/CHAIN_PERFORMANCE.md) | `chain` 默认路线的实测耗时记录：时间拆分、增长趋势，以及当前主要瓶颈 |
-| [docs/CHAIN_FAST_PERFORMANCE.md](docs/CHAIN_FAST_PERFORMANCE.md) | `chain-fast` 的 profile、并行实测和当前瓶颈判断 |
-| [docs/CHAIN_FAST_MOD_SIEVE.md](docs/CHAIN_FAST_MOD_SIEVE.md) | `chain-fast` 的 `mod` 预筛实验：筛掉了多少、为什么目前还没更快 |
-| [docs/CHAIN_FAST_SAFE_FILTERS.md](docs/CHAIN_FAST_SAFE_FILTERS.md) | `chain-fast` 的安全前筛：哪些条件已证明安全、为什么当前还没更快 |
-| [docs/CHAIN_FAST_BUCKET_STATS.md](docs/CHAIN_FAST_BUCKET_STATS.md) | `chain-fast` 的结构桶统计：为什么先采证据、SQLite 里到底多了什么 |
-| [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](docs/CHAIN_FAST_STRUCTURE_FINDINGS.md) | `chain-fast` 结构统计首轮结论：`10w` 上已经看出的稳定信号和工程边界 |
-| [docs/CHAIN_FAST_OPTIMIZATION.md](docs/CHAIN_FAST_OPTIMIZATION.md) | `chain-fast` 当前到底慢在哪、数据库解决什么、后续更该优先做什么 |
 | [docs/MATH.md](docs/MATH.md) | 数学总库：参数化推导、chain 化简、concordant 椭圆曲线等推导 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 工程结构参考：代码分区、实现入口、兼容层现状 |
+| [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | 5 个子命令分别做什么，只讲方法，不负责判断当前优先级 |
+| [docs/METHOD_COMPARISON.md](docs/METHOD_COMPARISON.md) | 5 条方法的实测对比：各自在找什么、产出什么、速度如何 |
 | [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |
+| [docs/archive/](docs/archive/) | 历史文档与实验记录（参考用，不是当前主线） |
 
 当前建议的阅读顺序是：
 
 1. [docs/DIRECTIONS.md](docs/DIRECTIONS.md)
 2. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
-3. [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md)
+3. [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) ← **新增，优先看**
 4. [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md)
+5. [docs/MATH.md](docs/MATH.md)（需要数学细节时）
