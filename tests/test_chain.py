@@ -89,5 +89,72 @@ class TestChainSearch:
         assert "x4:" in s
         assert "→" in s
 
+    def test_diagonal_sign_sieve_rejects_smallest_general_family_cycle(self):
+        """The experimental diagonal sign sieve should reject (25,60,91,312)."""
+        from rational_distance.search_chain import find_chains, passes_diagonal_sign_sieve
+
+        results = find_chains(max_val=313, progress=False)
+        target = next(
+            result
+            for result in results
+            if (result.a, result.b, result.c, result.d) == (25, 60, 91, 312)
+        )
+        assert passes_diagonal_sign_sieve(target) is False
+
+    def test_diagonal_sign_sieve_keeps_known_small_example(self):
+        """The experimental diagonal sign sieve should keep at least one small 4-cycle."""
+        from rational_distance.search_chain import find_chains, passes_diagonal_sign_sieve
+
+        results = find_chains(max_val=400, progress=False)
+        target = next(
+            result
+            for result in results
+            if (result.a, result.b, result.c, result.d) == (65, 72, 320, 156)
+        )
+        assert passes_diagonal_sign_sieve(target) is True
+
+    def test_diagonal_sign_sieve_matches_manual_filter(self):
+        """Direct diagonal-sign mode must match manual post-filtering on canonical results."""
+        from rational_distance.search_chain import find_chains, passes_diagonal_sign_sieve
+
+        default_results = find_chains(max_val=500, progress=False)
+        direct_results = find_chains(max_val=500, diagonal_sign_sieve=True, progress=False)
+        manual_results = [
+            result for result in default_results if passes_diagonal_sign_sieve(result)
+        ]
+
+        assert [(r.a, r.b, r.c, r.d) for r in direct_results] == [
+            (r.a, r.b, r.c, r.d) for r in manual_results
+        ]
+
+    def test_diagonal_sign_sieve_square_mode_matches_manual_filter(self):
+        """Square-only diagonal-sign mode must match filtering the square-only result set."""
+        from rational_distance.search_chain import find_chains, passes_diagonal_sign_sieve
+
+        default_square = find_chains(max_val=500, require_square=True, progress=False)
+        direct_square = find_chains(
+            max_val=500,
+            require_square=True,
+            diagonal_sign_sieve=True,
+            progress=False,
+        )
+        manual_square = [result for result in default_square if passes_diagonal_sign_sieve(result)]
+
+        assert [(r.a, r.b, r.c, r.d) for r in direct_square] == [
+            (r.a, r.b, r.c, r.d) for r in manual_square
+        ]
+
+    def test_diagonal_sign_stats_report_search_stage_counts(self):
+        """Search stats must reflect canonical counts before and after the sieve."""
+        from rational_distance.search_chain import ChainSearchStats, find_chains
+
+        stats = ChainSearchStats()
+        results = find_chains(max_val=500, diagonal_sign_sieve=True, progress=False, stats=stats)
+
+        assert len(results) == 2
+        assert stats.pre_diagonal_results == 10
+        assert stats.diagonal_sign_filtered == 8
+        assert stats.emitted_results == 2
+
 
 # ── chain_fast (additional) ───────────────────────────────────────────────────

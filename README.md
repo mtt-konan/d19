@@ -63,6 +63,7 @@ uv run ruff format .
 | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 项目当前主线、基线、暂停路线，以及现在真正的瓶颈 |
 | [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | 5 个子命令分别做什么，只讲方法，不负责判断当前优先级 |
 | [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论，优先看高置信结论 |
+| [docs/CHAIN_PERFORMANCE.md](docs/CHAIN_PERFORMANCE.md) | `chain` 默认路线的实测耗时记录：时间拆分、增长趋势，以及当前主要瓶颈 |
 | [docs/CHAIN_FAST_PERFORMANCE.md](docs/CHAIN_FAST_PERFORMANCE.md) | `chain-fast` 的 profile、并行实测和当前瓶颈判断 |
 | [docs/CHAIN_FAST_MOD_SIEVE.md](docs/CHAIN_FAST_MOD_SIEVE.md) | `chain-fast` 的 `mod` 预筛实验：筛掉了多少、为什么目前还没更快 |
 | [docs/CHAIN_FAST_SAFE_FILTERS.md](docs/CHAIN_FAST_SAFE_FILTERS.md) | `chain-fast` 的安全前筛：哪些条件已证明安全、为什么当前还没更快 |

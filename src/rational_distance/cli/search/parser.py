@@ -225,6 +225,9 @@ def build_parser() -> argparse.ArgumentParser:
             "  uv run python scripts/search.py chain\n"
             "  uv run python scripts/search.py chain --max-val 1000\n"
             "  uv run python scripts/search.py chain --max-val 2000 --out chain.json\n"
+            "  uv run python scripts/search.py chain --max-val 50000 --db .cache/chain.sqlite3\n"
+            "  uv run python scripts/search.py chain --max-val 80000 "
+            "--db .cache/chain.sqlite3 --resume\n"
             "  uv run python scripts/search.py chain --max-val 5000 --require-square"
         ),
     )
@@ -239,9 +242,29 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Only report solutions where a+c == b+d (unit-square constraint)",
     )
+    c.add_argument(
+        "--diagonal-sign-sieve",
+        action="store_true",
+        help=(
+            "Experimental: keep only cycles where opposite primitive-edge deltas "
+            "(p1-q1 vs p3-q3, p2-q2 vs p4-q4) have opposite signs"
+        ),
+    )
     c.add_argument("--out", type=str, default=None, help="Write JSON results to this file")
     c.add_argument("--top", type=int, default=50, help="Max rows to print (0=all, default: 50)")
     c.add_argument("--no-progress", action="store_true", help="Suppress the progress bar")
+    c.add_argument(
+        "--db",
+        type=str,
+        default=None,
+        metavar="PATH",
+        help="SQLite cache path for adjacency/results reuse and incremental extension",
+    )
+    c.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume the latest incomplete chain cache run for this --max-val (requires --db)",
+    )
 
     cf = sub.add_parser(
         "chain-fast",

@@ -45,7 +45,7 @@ cross-contamination.
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import asdict, dataclass, field
 from math import gcd
 
@@ -72,6 +72,12 @@ def _edge_str(a: int, b: int, h: int) -> str:
     if k == 1:
         return f"{a}²+{b}²={h}²  →  {triple}"
     return f"{a}²+{b}²={h}²  →  {k}×{triple}"
+
+
+def _primitive_delta_sign(a: int, b: int, h: int) -> int:
+    """Return the sign of `P-Q` for the oriented primitive edge decomposition."""
+    _, p, q, _ = _primitive_decomp(a, b, h)
+    return 1 if p > q else -1
 
 
 # ── Data class ────────────────────────────────────────────────────────────────
@@ -125,6 +131,19 @@ class ChainResult:
             _edge_str(self.c, self.d, self.x3),
             _edge_str(self.d, self.a, self.x4),
         ]
+
+    def diagonal_delta_signs(self) -> tuple[int, int, int, int]:
+        """Return the primitive `(P-Q)` signs for the four oriented edges."""
+        return diagonal_delta_signs_from_edges(
+            self.a,
+            self.b,
+            self.c,
+            self.d,
+            self.x1,
+            self.x2,
+            self.x3,
+            self.x4,
+        )
 
     def __str__(self) -> str:
         sq = "✓" if self.square_ok else "✗"
@@ -180,6 +199,52 @@ def _build_adjacency(
     return adj, hyp
 
 
+def _iter_pythagorean_pairs(
+    start_a: int,
+    stop_a: int,
+    b_start: int,
+    b_stop: int,
+    progress: bool = True,
+    desc: str = "Building Pythagorean pairs",
+) -> Iterator[tuple[int, int, int]]:
+    """Yield ordered Pythagorean edges (a, b, h) over one rectangular range."""
+    if start_a > stop_a or b_start > b_stop:
+        return
+
+    vals = np.arange(b_start, b_stop + 1, dtype=np.int64)
+    it: Iterator[int] = iter(range(start_a, stop_a + 1))
+    if progress:
+        it = tqdm(range(start_a, stop_a + 1), desc=desc, leave=False)  # type: ignore[assignment]
+
+    for a in it:
+        sq_a = np.int64(a) ** 2
+        sums = sq_a + vals**2
+        roots = np.floor(np.sqrt(sums.astype(np.float64))).astype(np.int64)
+        over = (roots + 1) ** 2 == sums
+        roots[over] += 1
+        hits = roots**2 == sums
+
+        b_arr = vals[hits]
+        r_arr = roots[hits]
+        for b, h in zip(b_arr.tolist(), r_arr.tolist(), strict=True):
+            yield int(a), int(b), int(h)
+
+
+def build_adjacency_from_rows(
+    max_val: int,
+    rows: Iterator[tuple[int, int, int]],
+) -> tuple[dict[int, list[int]], dict[int, dict[int, int]]]:
+    """Rebuild adjacency and hyp maps from cached `(a, b, h)` rows."""
+    adj: dict[int, list[int]] = {a: [] for a in range(1, max_val + 1)}
+    hyp: dict[int, dict[int, int]] = {a: {} for a in range(1, max_val + 1)}
+    for a, b, h in rows:
+        if a > max_val or b > max_val:
+            continue
+        adj[a].append(b)
+        hyp[a][b] = h
+    return adj, hyp
+
+
 def _symmetry_group(a: int, b: int, c: int, d: int) -> list[tuple[int, int, int, int]]:
     """Return all 8 dihedral images of a 4-cycle (4 rotations × 2 reflections)."""
     return [
@@ -194,14 +259,194 @@ def _symmetry_group(a: int, b: int, c: int, d: int) -> list[tuple[int, int, int,
     ]
 
 
+def canonical_cycle_key(a: int, b: int, c: int, d: int) -> tuple[int, int, int, int]:
+    """Return the canonical dihedral representative for one 4-cycle."""
+    return min(_symmetry_group(a, b, c, d))
+
+
+def diagonal_delta_signs_from_edges(
+    a: int,
+    b: int,
+    c: int,
+    d: int,
+    x1: int,
+    x2: int,
+    x3: int,
+    x4: int,
+) -> tuple[int, int, int, int]:
+    """Return the primitive `(P-Q)` signs for four oriented edges."""
+    return (
+        _primitive_delta_sign(a, b, x1),
+        _primitive_delta_sign(b, c, x2),
+        _primitive_delta_sign(c, d, x3),
+        _primitive_delta_sign(d, a, x4),
+    )
+
+
+def passes_diagonal_sign_sieve_edges(
+    a: int,
+    b: int,
+    c: int,
+    d: int,
+    x1: int,
+    x2: int,
+    x3: int,
+    x4: int,
+) -> bool:
+    """Return True iff opposite primitive-edge deltas have opposite signs."""
+    s1, s2, s3, s4 = diagonal_delta_signs_from_edges(a, b, c, d, x1, x2, x3, x4)
+    return s1 != s3 and s2 != s4
+
+
+def passes_diagonal_sign_sieve(result: ChainResult) -> bool:
+    """Return True iff opposite primitive-edge deltas have opposite signs."""
+    return passes_diagonal_sign_sieve_edges(
+        result.a,
+        result.b,
+        result.c,
+        result.d,
+        result.x1,
+        result.x2,
+        result.x3,
+        result.x4,
+    )
+
+
+@dataclass
+class ChainSearchStats:
+    """Small counters that describe one chain search run."""
+
+    pre_diagonal_results: int = 0
+    pre_diagonal_square_results: int = 0
+    diagonal_sign_filtered: int = 0
+    emitted_results: int = 0
+    emitted_square_results: int = 0
+
+    def note_pre_diagonal(self, square_ok: bool) -> None:
+        self.pre_diagonal_results += 1
+        if square_ok:
+            self.pre_diagonal_square_results += 1
+
+    def note_filtered(self) -> None:
+        self.diagonal_sign_filtered += 1
+
+    def note_emitted(self, square_ok: bool) -> None:
+        self.emitted_results += 1
+        if square_ok:
+            self.emitted_square_results += 1
+
+
+def iter_chain_results(
+    adj: dict[int, list[int]],
+    hyp: dict[int, dict[int, int]],
+    max_val: int,
+    require_square: bool = False,
+    diagonal_sign_sieve: bool = False,
+    canonical: bool = True,
+    progress: bool = True,
+    start_a: int = 1,
+    stats: ChainSearchStats | None = None,
+    result_callback: Callable[[ChainResult], None] | None = None,
+    outer_complete_callback: Callable[[int], None] | None = None,
+) -> list[ChainResult]:
+    """Scan one adjacency graph for 4-cycles, optionally streaming results."""
+    if start_a < 1:
+        raise ValueError("start_a must be >= 1")
+    if start_a > max_val:
+        return []
+
+    adj_sets = {a: set(bs) for a, bs in adj.items()}
+    results: list[ChainResult] = []
+    seen: set[tuple[int, int, int, int]] = set()
+
+    it: Iterator[int] = iter(range(start_a, max_val + 1))
+    if progress:
+        it = tqdm(
+            range(start_a, max_val + 1),
+            desc="Searching 4-cycles",
+            leave=False,
+        )  # type: ignore[assignment]
+
+    for a in it:
+        for b in adj.get(a, []):
+            for c in adj.get(b, []):
+                d_set = adj_sets.get(c, set()) & adj_sets.get(a, set())
+                for d in sorted(d_set):
+                    if len({a, b, c, d}) < 4:
+                        continue
+                    if a * c == b * d:
+                        continue
+
+                    square_ok = a + c == b + d
+                    if require_square and not square_ok:
+                        continue
+
+                    x1 = hyp[a][b]
+                    x2 = hyp[b][c]
+                    x3 = hyp[c][d]
+                    x4 = hyp[d][a]
+
+                    key = None
+                    if canonical:
+                        key = canonical_cycle_key(a, b, c, d)
+                        if key in seen:
+                            continue
+
+                    if stats is not None:
+                        stats.note_pre_diagonal(square_ok)
+
+                    if diagonal_sign_sieve and not passes_diagonal_sign_sieve_edges(
+                        a,
+                        b,
+                        c,
+                        d,
+                        x1,
+                        x2,
+                        x3,
+                        x4,
+                    ):
+                        if stats is not None:
+                            stats.note_filtered()
+                        if canonical and key is not None:
+                            seen.add(key)
+                        continue
+
+                    if canonical and key is not None:
+                        seen.add(key)
+
+                    result = ChainResult(
+                        a=a,
+                        b=b,
+                        c=c,
+                        d=d,
+                        x1=x1,
+                        x2=x2,
+                        x3=x3,
+                        x4=x4,
+                        square_ok=square_ok,
+                    )
+                    if stats is not None:
+                        stats.note_emitted(square_ok)
+                    if result_callback is not None:
+                        result_callback(result)
+                    else:
+                        results.append(result)
+        if outer_complete_callback is not None:
+            outer_complete_callback(a)
+
+    return results
+
+
 # ── Public API ────────────────────────────────────────────────────────────────
 
 
 def find_chains(
     max_val: int = 500,
     require_square: bool = False,
+    diagonal_sign_sieve: bool = False,
     canonical: bool = True,
     progress: bool = True,
+    stats: ChainSearchStats | None = None,
 ) -> list[ChainResult]:
     """Find all Pythagorean 4-cycles (a, b, c, d) with values in [1, max_val].
 
@@ -215,67 +460,29 @@ def find_chains(
     Args:
         max_val:        Upper bound for all four integers.
         require_square: If True, only return solutions with a+c == b+d.
+        diagonal_sign_sieve:
+                        If True, keep only cycles where opposite primitive-edge
+                        deltas have opposite signs.
         canonical:      If True, deduplicate under cyclic rotation and reflection
                         (8-element dihedral group); keeps the lexicographically
                         smallest representative.
         progress:       Show tqdm progress bars.
+        stats:          Optional counters populated during the search.
 
     Returns:
         Sorted list of ChainResult objects.
     """
     adj, hyp = _build_adjacency(max_val, progress=progress)
-    adj_sets = {a: set(bs) for a, bs in adj.items()}
-
-    results: list[ChainResult] = []
-    seen: set[tuple[int, int, int, int]] = set()
-
-    it: Iterator[int] = iter(range(1, max_val + 1))
-    if progress:
-        it = tqdm(range(1, max_val + 1), desc="Searching 4-cycles", leave=False)  # type: ignore[assignment]
-
-    for a in it:
-        for b in adj[a]:
-            for c in adj.get(b, []):
-                # d must close the cycle: d in adj[c] (c²+d² sq.) ∩ adj[a] (d²+a² sq.)
-                d_set = adj_sets.get(c, set()) & adj_sets.get(a, set())
-                for d in sorted(d_set):
-                    # All four values must be distinct
-                    if len({a, b, c, d}) < 4:
-                        continue
-
-                    # Exclude cross-product family: (pm,qm,qn,pn) always has ac=bd.
-                    # For such tuples a+c-(b+d) = (p-q)(m-n) ≠ 0 for any Pythagorean
-                    # pair (since p≠q and m≠n), so this family provably cannot satisfy
-                    # the unit-square constraint.  Only the general family (ac≠bd)
-                    # is of interest for the Harborth conjecture.
-                    if a * c == b * d:
-                        continue
-
-                    square_ok = a + c == b + d
-                    if require_square and not square_ok:
-                        continue
-
-                    if canonical:
-                        key = min(_symmetry_group(a, b, c, d))
-                        if key in seen:
-                            continue
-                        seen.add(key)
-
-                    results.append(
-                        ChainResult(
-                            a=a,
-                            b=b,
-                            c=c,
-                            d=d,
-                            x1=hyp[a][b],
-                            x2=hyp[b][c],
-                            x3=hyp[c][d],
-                            x4=hyp[d][a],
-                            square_ok=square_ok,
-                        )
-                    )
-
-    return results
+    return iter_chain_results(
+        adj,
+        hyp,
+        max_val=max_val,
+        require_square=require_square,
+        diagonal_sign_sieve=diagonal_sign_sieve,
+        canonical=canonical,
+        progress=progress,
+        stats=stats,
+    )
 
 
 def results_to_json(
@@ -283,6 +490,7 @@ def results_to_json(
     max_val: int,
     require_square: bool,
     elapsed: float,
+    experimental_filters: dict | None = None,
 ) -> dict:
     """Serialise results to a JSON-compatible dict."""
 
@@ -304,6 +512,7 @@ def results_to_json(
         "params": {
             "max_val": max_val,
             "require_square": require_square,
+            "experimental_filters": experimental_filters,
         },
         "elapsed_s": round(elapsed, 3),
         "count": len(results),
