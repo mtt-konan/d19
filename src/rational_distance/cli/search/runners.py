@@ -13,6 +13,133 @@ from .output import _print_concordant_profile
 from .parametric_runner import _resolve_parametric_limits, _run_parametric
 
 
+def _run_concordant_factor(
+    args: argparse.Namespace,
+    *,
+    safe_pair_sieve_enabled: bool = False,
+) -> None:
+    """Run concordant analysis using the pure-Python factor-decomposition method."""
+    from rational_distance.concordant import (
+        check_chain_compatibility,
+        generate_ab_pairs,
+    )
+    from rational_distance.concordant.factor_search import find_concordant_by_factorization
+    from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
+
+    if args.pair:
+        if safe_pair_sieve_enabled:
+            raise SystemExit(
+                "--safe-pair-sieve currently supports only batch concordant runs, not --pair."
+            )
+        parts = args.pair.split(",")
+        if len(parts) != 2:
+            print("Error: --pair must be A,B (e.g. --pair 264,420)")
+            return
+        pair_a, pair_b = int(parts[0].strip()), int(parts[1].strip())
+        print(f"  pair=({pair_a}, {pair_b})  method=factor")
+        print("=" * 72)
+        t0 = time.perf_counter()
+        concordant_n = find_concordant_by_factorization(pair_a, pair_b)
+        chain_compatible = [n for n in concordant_n if check_chain_compatibility(pair_a, pair_b, n)]
+        elapsed = time.perf_counter() - t0
+        print(f"\n(A={pair_a}, B={pair_b}): concordant_n={concordant_n}")
+        print(f"  chain_compatible={chain_compatible}")
+        if concordant_n:
+            print("\nChain compatibility diagnostics")
+            for n in concordant_n:
+                b = pair_a + pair_b - n
+                chain_ok = check_chain_compatibility(pair_a, pair_b, n)
+                print(
+                    f"  N={n}  b={b}  b_positive={b > 0}  "
+                    f"chain_ok={chain_ok}"
+                )
+        print(f"\nCompleted in {elapsed:.3f}s")
+        if chain_compatible:
+            print("\n*** CHAIN SOLUTION FOUND! ***")
+
+    else:
+        print(f"  max_hyp={args.max_hyp}  method=factor")
+        print("=" * 72)
+        t0 = time.perf_counter()
+        pairs = generate_ab_pairs(args.max_hyp)
+        print(f"Generated {len(pairs)} primitive (A,B) pairs")
+
+        pairs_to_analyze = pairs
+        if safe_pair_sieve_enabled:
+            filtered_pairs: list[tuple[int, int]] = []
+            for ab_a, ab_b in pairs:
+                classification = classify_reduced_pair(ab_a, ab_b)
+                if classification == "pass":
+                    filtered_pairs.append((ab_a, ab_b))
+            pairs_to_analyze = filtered_pairs
+            print(f"Safe pair sieve: kept {len(pairs_to_analyze)}/{len(pairs)} pairs")
+
+        iterator = enumerate(pairs_to_analyze)
+        if not args.no_progress:
+            from tqdm import tqdm
+            iterator = tqdm(list(iterator), desc="Factor search", leave=False)
+
+        n_with_concordant = 0
+        n_with_chain = 0
+        results_summary: list[tuple[int, int, list[int], list[int]]] = []
+
+        for _idx, (ab_a, ab_b) in iterator:
+            concordant_n = find_concordant_by_factorization(ab_a, ab_b)
+            chain_compatible = [
+                n for n in concordant_n if check_chain_compatibility(ab_a, ab_b, n)
+            ]
+            if concordant_n:
+                n_with_concordant += 1
+                results_summary.append((ab_a, ab_b, concordant_n, chain_compatible))
+            if chain_compatible:
+                n_with_chain += 1
+                print(f"\n*** CHAIN SOLUTION: (A={ab_a}, B={ab_b}) concordant_n={concordant_n} ***")
+
+        elapsed = time.perf_counter() - t0
+
+        analyzed = len(pairs_to_analyze)
+        print(f"\n{'─' * 72}")
+        print(f"Analysed {analyzed} pairs in {elapsed:.1f}s")
+        print(f"Pairs with concordant N: {n_with_concordant}/{analyzed}")
+        print(f"Pairs with chain-compatible N: {n_with_chain}/{analyzed}")
+
+        if n_with_chain > 0:
+            print("\n*** HARBORTH SOLUTIONS EXIST! ***")
+
+        top = args.top if args.top > 0 else len(results_summary)
+        if results_summary:
+            print(f"\nPairs with concordant N (showing up to {top}):")
+            for ab_a, ab_b, concordant_n, chain_compatible in results_summary[:top]:
+                print(
+                    f"  (A={ab_a}, B={ab_b}): "
+                    f"concordant_n={concordant_n}  chain_compatible={chain_compatible or 'none'}"
+                )
+
+        if args.out:
+            report = {
+                "method": "factor",
+                "max_hyp": args.max_hyp,
+                "n_pairs": len(pairs),
+                "n_pairs_analyzed": analyzed,
+                "safe_pair_sieve_enabled": safe_pair_sieve_enabled,
+                "elapsed_s": round(elapsed, 2),
+                "n_with_concordant": n_with_concordant,
+                "n_with_chain_compatible": n_with_chain,
+                "pairs": [
+                    {
+                        "A": ab_a,
+                        "B": ab_b,
+                        "concordant_n": concordant_n,
+                        "chain_compatible": chain_compatible,
+                    }
+                    for ab_a, ab_b, concordant_n, chain_compatible in results_summary
+                ],
+            }
+            with open(args.out, "w") as handle:
+                json.dump(report, handle, indent=2)
+            print(f"\nReport saved to {args.out}")
+
+
 def _run_concordant(args: argparse.Namespace) -> None:
     from rational_distance.concordant import (
         ConcordantProfile,
@@ -116,8 +243,13 @@ def _run_concordant(args: argparse.Namespace) -> None:
             diagnostics.result.B,
         )
 
+    use_factor = getattr(args, "concordant_method", "ec") == "factor"
+
     print("=" * 72)
-    print("Elliptic curve concordant-form analysis")
+    print(
+        "Concordant-form analysis"
+        f"  method={'factor-decomposition' if use_factor else 'PARI-ellratpoints'}"
+    )
     profile = ConcordantProfile(
         enabled=bool(getattr(args, "profile", False)),
         deep=args.deep,
@@ -125,6 +257,10 @@ def _run_concordant(args: argparse.Namespace) -> None:
         safe_pair_sieve_enabled=safe_pair_sieve_enabled,
     )
     active_profile = profile if profile.enabled else None
+
+    if use_factor:
+        _run_concordant_factor(args, safe_pair_sieve_enabled=safe_pair_sieve_enabled)
+        return
 
     if args.pair:
         if safe_pair_sieve_enabled:
@@ -221,7 +357,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
         print(f"\nCompleted in {elapsed:.1f}s")
 
     else:
-        print(f"  max_hyp={args.max_hyp}  ec_bound={args.ec_bound}")
+        print(f"  max_hyp={args.max_hyp}  ec_bound={args.ec_bound}  method=ec")
         print("=" * 72)
 
         t0 = time.perf_counter()

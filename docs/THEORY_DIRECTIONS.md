@@ -4,7 +4,7 @@
 
 ---
 
-## 方向一：(h3, h4) 因子分解攻击（最有潜力）
+## 方向一：(h3, h4) 因子分解攻击 ✅ 已实现
 
 ### 核心推导
 
@@ -38,12 +38,20 @@ h4² - h3² = B² - A²
 - 典型情况：`τ(n) ≈ O(n^ε)` 对任意 `ε > 0`
 - 相比 `B - A`：通常快数个数量级
 
-### 实现建议
+### 实现状态：已完成
 
-1. 对每个 `(A, B)` pair，预计算 `B² - A²`
-2. 因子分解（可用试除法或 Pollard rho）
-3. 枚举因子对，计算 `h3, h4, N`
-4. 用 `isqrt` 验证 N 是否为完全平方
+- **模块**：`src/rational_distance/concordant/factor_search.py`
+- **函数**：`find_concordant_by_factorization(A, B) -> list[int]`
+- **CLI**：`concordant --method factor`（默认仍为 `ec`，完全兼容）
+- **测试**：`tests/test_concordant.py::TestConcordantFactorSearch`（8 个测试）
+
+```bash
+# 单对验证（无需 PARI）
+uv run python scripts/search.py concordant --pair 264,420 --method factor
+
+# 批量分析（无需 PARI，无上界）
+uv run python scripts/search.py concordant --max-hyp 500 --method factor --no-progress
+```
 
 这是把 C3+C4 从"两个独立条件"改写成"一个联立方程"，**从根本上绕过了 N 的线性扫描**。
 

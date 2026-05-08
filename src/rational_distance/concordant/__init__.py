@@ -1,5 +1,6 @@
 """Public concordant-analysis interface."""
 
+from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.concordant.analysis import (
     ConcordantResult,
     analyze_pair,
@@ -26,6 +27,7 @@ __all__ = [
     "compute_rank",
     "diagnose_pair",
     "enumerate_multiples",
+    "find_concordant_by_factorization",
     "find_concordant_integers",
     "generate_ab_pairs",
 ]

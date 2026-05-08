@@ -483,3 +483,89 @@ class TestConcordantCli:
         baseline_keys = {(row["A"], row["B"]) for row in baseline["pairs"]}
         filtered_keys = {(row["A"], row["B"]) for row in filtered["pairs"]}
         assert filtered_keys < baseline_keys
+
+
+class TestConcordantFactorSearch:
+    """Tests for the PARI-free factor-decomposition concordant search."""
+
+    def test_known_pair_264_420(self):
+        """Factor method must find N=77, 315, 352 for (264, 420)."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        result = find_concordant_by_factorization(264, 420)
+        assert 77 in result
+        assert 315 in result
+        assert 352 in result
+
+    def test_known_pair_5_9(self):
+        """Factor method must find N=12 for (5, 9) — classic textbook example."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        result = find_concordant_by_factorization(5, 9)
+        assert 12 in result
+
+    def test_all_results_satisfy_squares(self):
+        """Every returned N must satisfy N²+A²=□ and N²+B²=□."""
+        from math import isqrt
+
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        for n_val in find_concordant_by_factorization(264, 420):
+            sq3 = n_val * n_val + 264 * 264
+            sq4 = n_val * n_val + 420 * 420
+            r3 = isqrt(sq3)
+            r4 = isqrt(sq4)
+            assert r3 * r3 == sq3, f"N={n_val}: N²+264² not a perfect square"
+            assert r4 * r4 == sq4, f"N={n_val}: N²+420² not a perfect square"
+
+    def test_equal_inputs_returns_empty(self):
+        """A == B has no concordant N (degenerate case)."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        assert find_concordant_by_factorization(7, 7) == []
+
+    def test_order_invariant(self):
+        """Result must be the same regardless of whether A < B or A > B."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        assert find_concordant_by_factorization(264, 420) == find_concordant_by_factorization(
+            420, 264
+        )
+
+    def test_result_sorted_and_deduplicated(self):
+        """Returned list must be sorted and contain no duplicates."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        result = find_concordant_by_factorization(264, 420)
+        assert result == sorted(set(result))
+
+    def test_no_solution_pair(self):
+        """Pair with no concordant N returns empty list (not an error)."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+
+        result = find_concordant_by_factorization(1, 2)
+        assert isinstance(result, list)
+
+    def test_matches_ec_method_small_pairs(self):
+        """Factor method must find the same concordant N as the EC method on small pairs."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+        from rational_distance.concordant_ec import find_concordant_integers
+
+        test_pairs = [(5, 9), (3, 5), (20, 35), (25, 91)]
+        for pair_a, pair_b in test_pairs:
+            _, ec_n = find_concordant_integers(pair_a, pair_b, ec_bound=200000)
+            factor_n = find_concordant_by_factorization(pair_a, pair_b)
+            for n in ec_n:
+                assert n in factor_n, (
+                    f"EC found N={n} for ({pair_a},{pair_b}) but factor method missed it"
+                )
+
+    def test_factor_method_finds_all_for_264_420(self):
+        """Factor method must find at least as many N as EC at high bound for (264,420)."""
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+        from rational_distance.concordant_ec import find_concordant_integers
+
+        _, ec_n = find_concordant_integers(264, 420, ec_bound=400000)
+        factor_n = find_concordant_by_factorization(264, 420)
+        for n in ec_n:
+            assert n in factor_n, f"EC found N={n} but factor method missed it"

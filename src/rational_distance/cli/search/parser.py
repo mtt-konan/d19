@@ -350,16 +350,23 @@ def build_parser() -> argparse.ArgumentParser:
 
     co = sub.add_parser(
         "concordant",
-        help="Elliptic curve concordant-form analysis of chain (A,B) pairs",
+        help="Concordant-form analysis of chain (A,B) pairs",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=(
-            "Analyse (A,B) pairs from the chain parameterisation using elliptic\n"
-            "curves.  For each pair, searches for concordant integers N where\n"
-            "N²+A²=□ and N²+B²=□, then checks chain compatibility.\n\n"
+            "Analyse (A,B) pairs from the chain parameterisation.  For each pair,\n"
+            "searches for concordant integers N where N²+A²=□ and N²+B²=□, then\n"
+            "checks chain compatibility.\n\n"
+            "Two search methods are available:\n"
+            "  ec     (default) PARI ellratpoints — fast in practice but needs\n"
+            "         cypari2 and an --ec-bound upper limit.\n"
+            "  factor Pure-Python factor decomposition of B²-A² — no PARI, no\n"
+            "         upper bound, provably finds ALL integer solutions.\n\n"
             "Examples:\n"
             "  uv run python scripts/search.py concordant --max-hyp 100\n"
             "  uv run python scripts/search.py concordant --max-hyp 500 --ec-bound 500000\n"
             "  uv run python scripts/search.py concordant --pair 264,420\n"
+            "  uv run python scripts/search.py concordant --pair 264,420 --concordant-method factor\n"
+            "  uv run python scripts/search.py concordant --max-hyp 500 --concordant-method factor\n"
             "  uv run python scripts/search.py concordant --pair 264,420 --deep 10"
         ),
     )
@@ -373,7 +380,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--ec-bound",
         type=int,
         default=100000,
-        help="Bound for ellratpoints search (default: 100000)",
+        help="Bound for ellratpoints search (default: 100000; ignored with --method factor)",
+    )
+    co.add_argument(
+        "--concordant-method",
+        choices=["ec", "factor"],
+        default="ec",
+        dest="concordant_method",
+        help=(
+            "Search method: 'ec' uses PARI ellratpoints (default), "
+            "'factor' uses pure-Python factor decomposition (no PARI, no upper bound)"
+        ),
     )
     co.add_argument(
         "--pair",
