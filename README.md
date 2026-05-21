@@ -24,6 +24,11 @@ uv run python scripts/search.py concordant --max-hyp 100 --ec-bound 100000
 uv run python scripts/search.py chain-fast --max-hyp 200 --no-progress
 uv run python scripts/search.py chain-fast --max-hyp 1000 --profile --no-progress
 
+# 累积式证明无解（新）：每个 pair 的判定都进 SQLite，下次跑会跳过已 terminal 的
+uv run python scripts/prove_no_solution.py --max-hyp 100 --db .cache/proofs.sqlite3
+uv run python scripts/prove_no_solution.py --pair 264,420 --db .cache/proofs.sqlite3
+uv run python scripts/prove_no_solution.py --db .cache/proofs.sqlite3 --report
+
 # 保留的三顶点 / 背景路线
 uv run python scripts/search.py parametric --scale 80
 uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800
@@ -61,7 +66,8 @@ uv run ruff format .
 |------|------|
 | [docs/DIRECTIONS.md](docs/DIRECTIONS.md) | 项目方向总地图：当前主线、基线、暂停路线，以及每条线对应的代码、测试、脚本和入口 |
 | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 项目当前主线、基线、暂停路线，以及现在真正的瓶颈 |
-| [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) | **当前重点**：可以减少搜索空间的理论方向（因子分解攻击、Gaussian 整数筛、2-descent 等） |
+| [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) | **当前重点**：短中期可落地的理论方向（因子分解攻击、Gaussian 整数筛、2-descent 等） |
+| [docs/THEORY_DIRECTIONS_ADVANCED.md](docs/THEORY_DIRECTIONS_ADVANCED.md) | **长期突破**：可能撬动 Harborth 猜想本身的方向（Heegner 点 / Chabauty / Brauer–Manin / K3 曲面） |
 | [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论，优先看高置信结论 |
 | [docs/MATH.md](docs/MATH.md) | 数学总库：参数化推导、chain 化简、concordant 椭圆曲线等推导 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 工程结构参考：代码分区、实现入口、兼容层现状 |
@@ -74,6 +80,7 @@ uv run ruff format .
 
 1. [docs/DIRECTIONS.md](docs/DIRECTIONS.md)
 2. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
-3. [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) ← **新增，优先看**
-4. [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md)
-5. [docs/MATH.md](docs/MATH.md)（需要数学细节时）
+3. [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) ← 短中期可落地的方向
+4. [docs/THEORY_DIRECTIONS_ADVANCED.md](docs/THEORY_DIRECTIONS_ADVANCED.md) ← **长期突破方向**，看完上一份再看
+5. [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md)
+6. [docs/MATH.md](docs/MATH.md)（需要数学细节时）

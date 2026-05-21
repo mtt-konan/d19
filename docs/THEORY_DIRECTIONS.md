@@ -1,6 +1,14 @@
 # 理论方向与搜索空间缩减
 
-本文档总结当前可以减少搜索空间的理论方向，按可落地难度排序。
+本文档总结当前可以减少搜索空间的**短中期可落地**理论方向，按可落地难度排序。
+
+> 想看可能直接撬动 Harborth 猜想本身的**长期数学突破**方向（Heegner 点、Chabauty、
+> Brauer–Manin、K3 曲面等），请看 [THEORY_DIRECTIONS_ADVANCED.md](./THEORY_DIRECTIONS_ADVANCED.md)。
+>
+> 简单区分：
+>
+> - 本文 = "几周内能落到 `chain-fast` / `concordant` 里的安全前筛"
+> - ADVANCED = "可能需要 SageMath / Magma 重型工具栈、但能把过滤器变成判定器"
 
 ---
 
@@ -161,10 +169,19 @@ a + c = b + d ⟺ k1(p1 - q1) + k3(p3 - q3) = 0
 
 | 方向 | 数学难度 | 工程难度 | 预期收益 | 建议 |
 |------|---------|---------|---------|------|
-| **因子分解攻击** | 低 | 中 | **高** | **立即动手** |
-| **Gaussian 整数 mod 筛** | 中 | 低 | **中高** | **次优先** |
-| **2-descent Selmer** | 高 | 高 | 高 | 长期研究 |
+| **因子分解攻击** | 低 | 中 | **高** | ✅ 已实现 |
+| **Gaussian 整数 mod 筛** | 中 | 低 | **中高** | **下一步立即动手** |
+| **2-descent Selmer** | 高 | 高 | 高 | 中期 |
 | **对角符号加强** | 低 | 低 | 中 | 可选 |
+
+> 上述方向都还属于"工程范式内"——核心思想都是"减少搜索空间"。
+> 如果想跳出这个范式，看是否有方法能**直接判定一个 `(A,B)` pair 永远无解**，
+> 请看 [THEORY_DIRECTIONS_ADVANCED.md](./THEORY_DIRECTIONS_ADVANCED.md) 中的：
+>
+> - 方向五（Heegner 点直接构造）— 工程化最现实，**优先尝试**
+> - 方向七（Chabauty / Quadratic Chabauty）— 长期攻关
+> - 方向八（Brauer–Manin 障碍）— 可能直接证明 Harborth 猜想
+> - 方向十（K3 曲面 / Mordell–Weil lattice）— 革命性视角
 
 ---
 
