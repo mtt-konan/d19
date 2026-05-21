@@ -131,7 +131,9 @@ Concretely, the most honest near-term moves are:
 1. Implement direction 2 (Gaussian mod p² sieve) for incremental kills
 2. Run `max_hyp=1000+` to enlarge the hard_case sample (helps any future
    theoretical work)
-3. Begin reading on canonical heights for direction 5
+3. Use the new conservative `heegner` diagnostic (`run_heegner_height`) to
+   collect rank-one generator / canonical-height data, then do the remaining
+   height-theory work needed to turn bounded scans into proofs
 
 ## Takeaway
 

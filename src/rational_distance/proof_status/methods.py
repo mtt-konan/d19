@@ -11,13 +11,14 @@ Methods are listed in increasing order of cost and mathematical depth:
 2. ``factor_concordant``— enumerate concordant N via h4^2 - h3^2 = B^2 - A^2
                           and check chain closure
 3. ``rank_zero``        — call PARI ellrank; if proven rank == 0 ⇒ no_solution
-4. ``heegner_stub``     — placeholder for SageMath-based Heegner generator check
+4. ``heegner``          — rank-one generator + canonical-height diagnostics
 5. ``chabauty_stub``    — placeholder for Quadratic Chabauty
 6. ``brauer_manin_stub``— placeholder for Brauer–Manin obstruction
 
-The three stubs always return ``skipped`` so the workflow can record them
-without needing optional dependencies. They are kept as named methods so
-that once implemented, no schema change is required.
+The Heegner/height method is deliberately conservative: it can record rank-one
+generator/height evidence and can prove a positive witness if a chain-compatible
+point is found, but it does not mark ``no_solution`` until a future global height
+bound is implemented.
 """
 
 from __future__ import annotations
@@ -256,25 +257,126 @@ def run_rank_zero(A: int, B: int) -> MethodResult:
 
 
 # ---------------------------------------------------------------------------
-# Methods 4-6: stubs for the advanced theoretical directions
+# Method 4: heegner  (rank-one generator + canonical-height scan)
 # ---------------------------------------------------------------------------
 
 
-def run_heegner_stub(_A: int, _B: int) -> MethodResult:
-    """Placeholder for the Sage-based Heegner point construction.
+def _heegner_details(scan) -> dict[str, object]:
+    """Convert a HeegnerHeightScan dataclass into JSON-friendly details."""
+    return {
+        "backend": scan.backend,
+        "reason": scan.skipped_reason,
+        "rank_lower": scan.rank_lower,
+        "rank_upper": scan.rank_upper,
+        "generator": list(scan.generator) if scan.generator is not None else None,
+        "generator_height": scan.generator_height,
+        "multiple_bound": scan.multiple_bound,
+        "height_bound": scan.height_bound,
+        "effective_height_bound": scan.effective_height_bound,
+        "points_checked": scan.points_checked,
+        "square_x_count": len(scan.square_x_points),
+        "square_x_points": [
+            {
+                "multiple": point.multiple,
+                "torsion_label": point.torsion_label,
+                "x": point.x,
+                "n": point.n,
+                "concordant": point.concordant,
+                "chain_compatible": point.chain_compatible,
+                "canonical_height": point.canonical_height,
+            }
+            for point in scan.square_x_points[:16]
+        ],
+        "concordant_n_count": len(scan.concordant_n),
+        "sample_concordant_n": scan.concordant_n[:16],
+        "chain_compatible_count": len(scan.chain_compatible_n),
+        "chain_compatible_n": scan.chain_compatible_n[:16],
+    }
+
+
+def run_heegner_height(A: int, B: int) -> MethodResult:
+    """Run direction-five rank-one generator / canonical-height diagnostics.
 
     See docs/THEORY_DIRECTIONS_ADVANCED.md (方向五).
+
+    This is a safe partial implementation: it scans the rank-one
+    Mordell-Weil generator (from PARI ``ellrank``; Heegner construction can
+    replace this source later) together with the known torsion subgroup, and
+    records canonical-height evidence.  It returns ``solution_found`` if a real
+    chain witness is found.  It otherwise returns ``inconclusive`` for rank-one
+    scans and ``skipped`` when the method is not applicable (for example
+    rank != 1).  It never returns ``no_solution`` yet.
     """
+    started = time.perf_counter()
+    try:
+        from rational_distance.concordant.heegner_height import scan_rank_one_height
+
+        scan = scan_rank_one_height(A, B, pari=_get_cached_pari())
+    except Exception as exc:
+        return MethodResult(
+            method="heegner",
+            outcome="error",
+            details={"exception": str(exc)},
+            elapsed_s=time.perf_counter() - started,
+            notes=f"Heegner/height method failed: {exc}",
+        )
+
+    details = _heegner_details(scan)
+    elapsed = scan.elapsed_s or (time.perf_counter() - started)
+
+    if scan.skipped_reason is not None:
+        outcome = (
+            "error"
+            if scan.skipped_reason == "pari_error"
+            else "inconclusive"
+            if scan.skipped_reason == "missing_generator"
+            else "skipped"
+        )
+        return MethodResult(
+            method="heegner",
+            outcome=outcome,
+            details=details,
+            elapsed_s=elapsed,
+            notes=scan.notes or f"Heegner/height skipped: {scan.skipped_reason}",
+        )
+
+    if scan.chain_compatible_n:
+        return MethodResult(
+            method="heegner",
+            outcome="solution_found",
+            details=details,
+            elapsed_s=elapsed,
+            notes=(
+                "Rank-one height scan found chain-compatible N: "
+                f"{scan.chain_compatible_n[:4]} (would refute Harborth)."
+            ),
+        )
+
     return MethodResult(
         method="heegner",
-        outcome="skipped",
-        details={"reason": "not_implemented"},
-        elapsed_s=0.0,
+        outcome="inconclusive",
+        details=details,
+        elapsed_s=elapsed,
         notes=(
-            "Heegner point construction not yet implemented. "
-            "Planned via SageMath EllipticCurve.heegner_point()."
+            "Rank-one generator/height scan found no chain-compatible point "
+            f"within |n| <= {scan.multiple_bound}. This is diagnostic only, "
+            "not a global no-solution proof."
         ),
     )
+
+
+def run_heegner_stub(A: int, B: int) -> MethodResult:
+    """Backward-compatible name for the direction-five method.
+
+    Older docs/tests imported ``run_heegner_stub``.  Keep the symbol, but route
+    it to the implemented conservative method.
+    """
+    return run_heegner_height(A, B)
+
+
+# ---------------------------------------------------------------------------
+# Methods 5-6: stubs for the remaining advanced theoretical directions
+# ---------------------------------------------------------------------------
 
 
 def run_chabauty_stub(_A: int, _B: int) -> MethodResult:
@@ -330,6 +432,7 @@ __all__ = [
     "run_brauer_manin_stub",
     "run_chabauty_stub",
     "run_factor_concordant",
+    "run_heegner_height",
     "run_heegner_stub",
     "run_rank_zero",
     "run_safe_sieve",

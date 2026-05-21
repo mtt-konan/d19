@@ -1,6 +1,11 @@
 """Public concordant-analysis interface."""
 
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
+from rational_distance.concordant.heegner_height import (
+    HeegnerHeightScan,
+    HeightScanPoint,
+    scan_rank_one_height,
+)
 from rational_distance.concordant.analysis import (
     ConcordantResult,
     analyze_pair,
@@ -22,6 +27,8 @@ __all__ = [
     "ConcordantPairDiagnostics",
     "ConcordantProfile",
     "ConcordantResult",
+    "HeegnerHeightScan",
+    "HeightScanPoint",
     "analyze_pair",
     "check_chain_compatibility",
     "compute_rank",
@@ -30,4 +37,5 @@ __all__ = [
     "find_concordant_by_factorization",
     "find_concordant_integers",
     "generate_ab_pairs",
+    "scan_rank_one_height",
 ]

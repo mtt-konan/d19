@@ -51,13 +51,15 @@ Six methods, called in order. Stops at the first terminal verdict.
 | 1 | `safe_sieve` | 2-adic necessary conditions on reduced pairs (A, B both odd, (A+B) % 4 == 0) | ✅ rigorous, PARI-free |
 | 2 | `factor_concordant` | enumerate all concordant N via `B² - A² = (h4-h3)(h4+h3)` factor pairs, then test full-chain closure | ✅ rigorous, PARI-free |
 | 3 | `rank_zero` | PARI `ellrank` on `E: Y² = X(X+A²)(X+B²)`; if upper bound is 0 ⇒ only torsion ⇒ no concordant N | ✅ rigorous, requires PARI |
-| 4 | `heegner` | Heegner point construction (方向五) | 🟡 stub, always returns `skipped` |
+| 4 | `heegner` | Rank-one generator + canonical-height bounded scan (方向五) | 🟡 conservative diagnostic; may find witnesses, does not prove `no_solution` |
 | 5 | `chabauty` | Chabauty / Quadratic Chabauty (方向七) | 🟡 stub |
 | 6 | `brauer_manin` | Brauer–Manin obstruction (方向八) | 🟡 stub |
 
-The three stubs are deliberately kept as named methods so that future
-implementations only need to swap out the function body; no schema change is
-required.
+`heegner` has since been upgraded from a pure stub to a conservative diagnostic
+implementation.  It keeps the same method name, records generator/height
+evidence for rank-one curves, and still refuses to mark `no_solution` without a
+future certified global height bound.  `chabauty` and `brauer_manin` remain
+stubs.
 
 ## SQLite Schema
 

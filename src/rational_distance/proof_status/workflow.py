@@ -83,7 +83,7 @@ def _aggregate_details(
     """
     details = result.details
 
-    if method == "rank_zero":
+    if method in {"rank_zero", "heegner"}:
         rank_lower = _coerce_int(details.get("rank_lower"), rank_lower)
         rank_upper = _coerce_int(details.get("rank_upper"), rank_upper)
     if method == "factor_concordant":

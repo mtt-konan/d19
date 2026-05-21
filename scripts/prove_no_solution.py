@@ -22,11 +22,16 @@ Typical usage
   # Re-run all methods even for pairs already classified as terminal
   uv run python scripts/prove_no_solution.py --max-hyp 500 \
       --db .cache/proofs.sqlite3 --rerun-terminal
+
+  # Make the direction-five Heegner/height diagnostic scan deeper
+  uv run python scripts/prove_no_solution.py --pair 7,45 \
+      --db .cache/proofs.sqlite3 --heegner-multiple-bound 30
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -148,7 +153,34 @@ def main() -> None:
         action="store_true",
         help="Print the materialised status line for each processed pair.",
     )
+    parser.add_argument(
+        "--heegner-multiple-bound",
+        type=int,
+        default=None,
+        help=(
+            "Direction-five diagnostic depth: scan nG+T for |n| <= this bound "
+            "(default from RD_HEEGNER_MULTIPLE_BOUND or 12)."
+        ),
+    )
+    parser.add_argument(
+        "--heegner-height-bound",
+        type=float,
+        default=None,
+        help=(
+            "Optional canonical-height cap for the Heegner/height diagnostic scan. "
+            "This only limits the scan; it is not treated as a no-solution proof."
+        ),
+    )
     args = parser.parse_args()
+
+    if args.heegner_multiple_bound is not None:
+        if args.heegner_multiple_bound < 0:
+            raise SystemExit("--heegner-multiple-bound must be non-negative")
+        os.environ["RD_HEEGNER_MULTIPLE_BOUND"] = str(args.heegner_multiple_bound)
+    if args.heegner_height_bound is not None:
+        if args.heegner_height_bound < 0:
+            raise SystemExit("--heegner-height-bound must be non-negative")
+        os.environ["RD_HEEGNER_HEIGHT_BOUND"] = str(args.heegner_height_bound)
 
     db_path = Path(args.db)
 
@@ -186,6 +218,10 @@ def main() -> None:
     print(f"Proof-status workflow — DB: {db_path}")
     print(f"  pairs to process: {len(pairs)}")
     print(f"  rerun_terminal:   {args.rerun_terminal}")
+    if args.heegner_multiple_bound is not None:
+        print(f"  heegner |n|<=:    {args.heegner_multiple_bound}")
+    if args.heegner_height_bound is not None:
+        print(f"  heegner height<=: {args.heegner_height_bound}")
     print("=" * 72)
 
     counts: dict[str, int] = {}

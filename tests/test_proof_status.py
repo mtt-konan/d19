@@ -95,15 +95,54 @@ class TestRankZeroMethod:
         assert result.outcome in {"skipped", "inconclusive", "no_solution", "error"}
 
 
-class TestStubs:
-    """Stubs must always be safe to call and return ``skipped``."""
+class TestAdvancedMethods:
+    """Advanced methods must be safe to call with optional dependencies."""
 
-    def test_heegner_stub(self):
+    def test_scan_rank_one_height_rejects_non_rank_one(self):
+        from rational_distance.concordant.heegner_height import scan_rank_one_height
+
+        scan = scan_rank_one_height(264, 420, multiple_bound=1)
+        if scan.skipped_reason == "cypari2_unavailable":
+            pytest.skip("cypari2 / PARI not available")
+        assert scan.skipped_reason == "rank_not_one"
+        assert scan.rank_lower == 2
+        assert scan.rank_upper == 2
+
+    def test_scan_rank_one_height_7_45_regression(self, monkeypatch):
+        from rational_distance.concordant.heegner_height import scan_rank_one_height
+
+        monkeypatch.delenv("RD_HEEGNER_MULTIPLE_BOUND", raising=False)
+        monkeypatch.delenv("RD_HEEGNER_HEIGHT_BOUND", raising=False)
+
+        scan = scan_rank_one_height(7, 45)
+        if scan.skipped_reason == "cypari2_unavailable":
+            pytest.skip("cypari2 / PARI not available")
+        assert scan.skipped_reason is None
+        assert scan.rank_lower == 1
+        assert scan.rank_upper == 1
+        assert scan.generator is not None
+        assert scan.points_checked > 0
+        assert scan.multiple_bound == 12
+        assert scan.concordant_n == [24]
+        assert scan.chain_compatible_n == []
+
+    def test_heegner_height_is_conservative(self):
+        from rational_distance.proof_status.methods import run_heegner_height
+
+        result = run_heegner_height(264, 420)
+        assert result.method == "heegner"
+        # (264,420) is rank 2, so the rank-one method should normally skip.
+        # If PARI is unavailable or errors, it must still return a MethodResult
+        # rather than raising.  It must never prove no_solution at this stage.
+        assert result.outcome in {"skipped", "inconclusive", "solution_found", "error"}
+        assert result.outcome != "no_solution"
+
+    def test_heegner_stub_compatibility_name(self):
         from rational_distance.proof_status.methods import run_heegner_stub
 
         result = run_heegner_stub(264, 420)
         assert result.method == "heegner"
-        assert result.outcome == "skipped"
+        assert result.outcome != "no_solution"
 
     def test_chabauty_stub(self):
         from rational_distance.proof_status.methods import run_chabauty_stub
