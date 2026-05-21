@@ -1,32 +1,9 @@
-"""Compatibility layer for the chain-fast search API.
+"""Deprecated stub. Real implementation: ``rational_distance.chain_fast``.
 
-The implementation now lives in ``rational_distance.chain_fast``:
-
-- ``api.py``      — public entrypoints and stable return types
-- ``workflow.py`` — chunking, multiprocessing, merge, and orchestration
-- ``kernel.py``   — pure numpy/python scanning logic
+The full re-export list lives in ``rational_distance._legacy.search_chain_fast``.
+Kept only so that historical imports continue to work. New code should import
+from ``rational_distance.chain_fast`` directly.
 """
 
-from __future__ import annotations
-
-from rational_distance.chain_fast import (
-    _HAS_NUMPY,
-    _NUMPY_MAX_HYP,
-    ChainFastExecution,
-    ChainFastProfile,
-    build_chain_fast_triples,
-    find_chains_fast,
-    resolve_backend_choice,
-    run_chain_fast,
-)
-
-__all__ = [
-    "_HAS_NUMPY",
-    "_NUMPY_MAX_HYP",
-    "ChainFastExecution",
-    "ChainFastProfile",
-    "build_chain_fast_triples",
-    "find_chains_fast",
-    "resolve_backend_choice",
-    "run_chain_fast",
-]
+from rational_distance._legacy.search_chain_fast import *  # noqa: F403
+from rational_distance._legacy.search_chain_fast import __all__ as __all__

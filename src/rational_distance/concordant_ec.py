@@ -1,31 +1,9 @@
-"""Compatibility re-export for concordant elliptic-curve helpers."""
+"""Deprecated stub. Real implementation: ``rational_distance.concordant``.
 
-from rational_distance.concordant.analysis import (
-    ConcordantResult,
-    _is_perfect_square,
-    analyze_pair,
-    check_chain_compatibility,
-    compute_rank,
-    enumerate_multiples,
-    find_concordant_integers,
-)
-from rational_distance.concordant.profile import ConcordantProfile
-from rational_distance.concordant.workflow import (
-    ChainCandidateDiagnostic,
-    ConcordantPairDiagnostics,
-    diagnose_pair,
-)
+The full re-export list lives in ``rational_distance._legacy.concordant_ec``.
+This top-level file is kept only so that historical imports like
+``from rational_distance.concordant_ec import compute_rank`` keep working.
+"""
 
-__all__ = [
-    "ChainCandidateDiagnostic",
-    "ConcordantPairDiagnostics",
-    "ConcordantProfile",
-    "ConcordantResult",
-    "_is_perfect_square",
-    "analyze_pair",
-    "check_chain_compatibility",
-    "compute_rank",
-    "diagnose_pair",
-    "enumerate_multiples",
-    "find_concordant_integers",
-]
+from rational_distance._legacy.concordant_ec import *  # noqa: F403
+from rational_distance._legacy.concordant_ec import __all__ as __all__
