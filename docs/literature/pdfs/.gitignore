@@ -1,0 +1,7 @@
+# 忽略本目录所有 PDF，但保留 README.md 和 .gitignore 本身
+*.pdf
+*.PDF
+
+# 不忽略说明文件
+!README.md
+!.gitignore
