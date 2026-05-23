@@ -268,3 +268,23 @@ case 上 +33% time 换 7/7 certified vs effort=0 的 1/7）。`ConcordantResult`
   - 两个都是 rank=1，给出 5 个 quartic covers（不是 rank=1 普遍的 3 个）
 
 这是项目第一次显式追踪到 Sha[2] 信息——是 wl036 4-tuple bug 修复的直接收益。
+
+### 9.7 Finite-descent 在 320 hard_case × N ≤ 10^8 上零候选（[wl 037](./work-logs/037-finite-descent-on-hard-cases.md)）
+
+实现 Peschmann §7(2) 风格的两层 modular search：
+
+- **Layer 1** (per-prime universal blocker probe，46 primes < 200，0.1s):
+  0/320 hard_case 被某 prime 简单阻挡; log_density ∈ [-61, -54]，median ≈
+  $e^{-58} \approx 10^{-25}$，heuristic 上 N ≤ $10^{25}$ 才期待出现单个候选
+- **Layer 2** (CRT-merged mod 30030 sieve + 精确 N 枚举，N ≤ $10^8$，58s):
+  全 320 hard_case 上 0 chain-compatible N，$4.82 \times 10^8$ N 通过 sieve
+  后用精确平方判定 + 4-chain closure 检查全部排除
+
+**实证 lemma (effective)**: 对 max_hyp=500 的全部 320 个 hard_case $(A, B)$，
+不存在整数 $N \in [1, 10^8]$ 使 $N^2 + A^2$ 和 $N^2 + B^2$ 都是平方且
+$b = A+B-N \geq 1$ 给出有效 4-chain closure。这把 d19 的 ec_bound 从 $10^5$
+推到 $10^8$（×1000），完全可复现，58s 一次。
+
+观察：concordant N 大量出现（每 hard_case 在 $N \leq 10^8$ 内至少 1 个），
+但几乎全部 degenerate（$A+B-N \leq 0$ 或剩余两个平方条件不满足），定量印证
+chain 问题 vs cuboid 问题在 closure constraint 上的本质区别。

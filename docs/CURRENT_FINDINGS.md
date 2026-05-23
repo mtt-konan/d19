@@ -269,6 +269,26 @@ $\dim_{\mathbb{F}_2} E[2](\mathbb{Q}) - 1$。
 4-tuple bug 修复的直接收益。后续可用 Cassels-Tate pairing（PARI 的
 `elltatepairing`）做更细致的分析。
 
+### 7. Finite-descent effective bound：N ≤ 10^8 上零 chain solution（worklog 037）
+
+实现 Peschmann §7(2) 风格的两层 modular search：
+
+- Layer 1 (per-prime universal blocker probe): **0 个 hard_case** 被任何
+  prime $p < 200$ 简单阻挡。log_density 中位数 $\approx -58$，heuristic 上
+  允许 N 残余比例 $\approx 10^{-25}$。
+- Layer 2 (CRT mod 30030 + N 枚举到 $10^8$，58 秒): **0 chain-compatible N**
+  在 320/320 hard_case 上。
+
+**实证 lemma**: 对 max_hyp=500 的全部 320 hard_case $(A, B)$，不存在整数
+$N \in [1, 10^8]$ 使两个平方条件 + 4-chain closure 同时成立。
+
+把 d19 现有 ec_bound = $10^5$ 推到 $10^8$（×1000），$4.82 \times 10^8$ N
+通过 mod-30030 sieve 后被精确平方判定 + chain closure 全部排除。完全可复现。
+
+观察：concordant N 大量存在但几乎全部"几何 degenerate"（$A+B-N \leq 0$ 或
+剩余两个平方条件不满足）—— chain 问题 vs cuboid 的 closure constraint 差异
+在数据上明显。
+
 ---
 
 ## 六、补充阅读（更工程向的细节）
@@ -286,3 +306,4 @@ $\dim_{\mathbb{F}_2} E[2](\mathbb{Q}) - 1$。
 - [docs/work-logs/034-hypotenuse-identity.md](./work-logs/034-hypotenuse-identity.md) — hypotenuse 恒等式
 - [docs/work-logs/035-pari-selmer-api.md](./work-logs/035-pari-selmer-api.md) — PARI Selmer API + Peschmann §6/§7
 - [docs/work-logs/036-compute-rank-fix-and-ell2cover-batch.md](./work-logs/036-compute-rank-fix-and-ell2cover-batch.md) — compute_rank 4-tuple 修复 + 320 hard_case Selmer 数据 + 2 个 sha2=2 case
+- [docs/work-logs/037-finite-descent-on-hard-cases.md](./work-logs/037-finite-descent-on-hard-cases.md) — Peschmann §7(2) 风格两层 modular search，320 hard_case × N ≤ 10^8 零 chain-compatible N（effective lemma）

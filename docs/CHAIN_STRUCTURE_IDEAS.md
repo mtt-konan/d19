@@ -353,4 +353,5 @@ Peschmann 2026 在 perfect cuboid 上**没有**用到对偶视角 — 他的 qua
 - `work-logs/034-hypotenuse-identity.md` — 想法 1 实证：恒等式 A/C 100% 验证 ✅，但 §2.4 blocker prime 论证基础假设错误 ❌
 - `work-logs/035-pari-selmer-api.md` — 想法 3 工具发现：PARI 已自带 ell2cover/Sha2，**无需装 Sage**
 - `work-logs/036-compute-rank-fix-and-ell2cover-batch.md` — compute_rank 4-tuple 修复 + 320 hard_case ell2cover 批量，发现 2 个 sha2=2 case
-- 后续动手时新建 `work-logs/037-...`（safe_sieve 扩展或 sha2=2 case 深挑）
+- `work-logs/037-finite-descent-on-hard-cases.md` — Peschmann §7(2) 风格两层 modular search，320 hard_case × N ≤ 10^8 零 chain solution
+- 后续动手时新建 `work-logs/038-...`（Heegner 完整版 / Cassels-Tate / Brauer-Manin / 更大 N_max）
