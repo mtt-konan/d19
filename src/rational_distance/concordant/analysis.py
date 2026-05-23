@@ -48,6 +48,9 @@ class ConcordantResult:
     chain_compatible: list[int]
     ec_bound: int
     raw_square_x: list[int] = field(default_factory=list)
+    sha2_lower: int | None = None
+    """Lower bound on F_2-dim of Sha(E)[2] / E[2](Q) (free side product
+    from PARI's ellrank; see worklog 035 / 036)."""
 
     @property
     def has_concordant(self) -> bool:
@@ -61,9 +64,14 @@ class ConcordantResult:
         if self.rank_bounds is None:
             lines = [f"(A={self.A}, B={self.B}): rank=skipped"]
         else:
+            sha = (
+                f" sha2_lo={self.sha2_lower}"
+                if self.sha2_lower is not None and self.sha2_lower > 0
+                else ""
+            )
             lines = [
                 f"(A={self.A}, B={self.B}): rank={self.rank} "
-                f"[{self.rank_bounds[0]},{self.rank_bounds[1]}]",
+                f"[{self.rank_bounds[0]},{self.rank_bounds[1]}]{sha}",
             ]
         if self.generators:
             lines.append(f"  generators: {self.generators}")
@@ -103,29 +111,58 @@ def compute_rank(
     pari=None,
     *,
     profile: ConcordantProfile | None = None,
-) -> tuple[int, tuple[int, int], list]:
-    """Compute the rank of E: Y^2 = X(X+A^2)(X+B^2)."""
+    effort: int = 1,
+) -> tuple[int, tuple[int, int], int, list]:
+    """Compute the rank of E: Y^2 = X(X+A^2)(X+B^2).
+
+    PARI's ``ellrank(E, effort)`` returns the 4-tuple
+    ``[rank_lower, rank_upper, sha2_lower, generators]``.
+    This wrapper exposes all four pieces.
+
+    The default ``effort=1`` was chosen empirically (see worklog 036): on a
+    sample of seven chain near-misses where ``effort=0`` reported fake
+    ``rank=0``, ``effort=1`` certified all seven at +33% time vs ``effort=0``,
+    while ``effort=2`` cost roughly 3x the time without certifying any
+    additional cases.
+
+    Returns
+    -------
+    (rank, (lower, upper), sha2_lower, generators)
+        - ``rank``: best lower bound from PARI (== upper iff certified).
+        - ``(lower, upper)``: PARI's certified lower / upper rank bounds.
+        - ``sha2_lower``: PARI's lower bound on the F_2-dimension of
+          ``Sha(E)[2] / E[2](Q)``. Free side product; 0 means "no Sha[2]
+          witness needed at this effort", not "Sha[2] = 0".
+        - ``generators``: list of ``(x, y)`` integer/rational coordinates
+          for independent rational points found.
+    """
     started = time.perf_counter() if profile is not None else 0.0
     if pari is None:
         pari = _ensure_pari()
 
     if A == B:
-        result = (-1, (-1, -1), [])
+        result = (-1, (-1, -1), 0, [])
         if profile is not None:
             profile.time_rank_s += time.perf_counter() - started
         return result
 
     a2, b2 = A * A, B * B
     E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
-    result = pari.ellrank(E)
+    if effort == 0:
+        # Preserve PARI's "no effort argument" call form: identical to
+        # ``ellrank(E)`` in older PARI/GP scripts.
+        pari_result = pari.ellrank(E)
+    else:
+        pari_result = pari.ellrank(E, effort)
 
-    lower = int(result[0])
-    upper = int(result[1])
+    lower = int(pari_result[0])
+    upper = int(pari_result[1])
+    sha2_lower = int(pari_result[2]) if len(pari_result) > 2 else 0
     rank = lower
 
-    gens = []
-    if len(result) > 3:
-        gen_list = result[3]
+    gens: list = []
+    if len(pari_result) > 3:
+        gen_list = pari_result[3]
         for i in range(len(gen_list)):
             pt = gen_list[i]
             gens.append((int(pt[0]), int(pt[1])))
@@ -133,7 +170,7 @@ def compute_rank(
     if profile is not None:
         profile.time_rank_s += time.perf_counter() - started
 
-    return rank, (lower, upper), gens
+    return rank, (lower, upper), sha2_lower, gens
 
 
 def find_concordant_integers(
@@ -242,9 +279,9 @@ def analyze_pair(
         A, B = B, A
 
     if include_rank:
-        rank, bounds, gens = compute_rank(A, B, pari, profile=profile)
+        rank, bounds, sha2_lower, gens = compute_rank(A, B, pari, profile=profile)
     else:
-        rank, bounds, gens = None, None, []
+        rank, bounds, sha2_lower, gens = None, None, None, []
     raw_square_x, concordant_n = find_concordant_integers(
         A,
         B,
@@ -269,6 +306,7 @@ def analyze_pair(
         chain_compatible=chain_compat,
         ec_bound=ec_bound,
         raw_square_x=raw_square_x,
+        sha2_lower=sha2_lower,
     )
 
 

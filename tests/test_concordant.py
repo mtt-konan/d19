@@ -60,16 +60,17 @@ class TestConcordantEC:
         """Known pair (264, 420) has rank 2."""
         from rational_distance.concordant_ec import compute_rank
 
-        rank, bounds, gens = compute_rank(264, 420)
+        rank, bounds, sha2_lower, gens = compute_rank(264, 420)
         assert rank == 2
         assert bounds == (2, 2)
+        assert sha2_lower >= 0
         assert len(gens) == 2
 
     def test_compute_rank_singular(self):
         """A == B gives singular curve, rank -1."""
         from rational_distance.concordant_ec import compute_rank
 
-        rank, _bounds, _gens = compute_rank(5, 5)
+        rank, _bounds, _sha2, _gens = compute_rank(5, 5)
         assert rank == -1
 
     def test_concordant_n_264_420(self):

@@ -207,7 +207,7 @@ def run_rank_zero(A: int, B: int) -> MethodResult:
     try:
         from rational_distance.concordant.analysis import compute_rank
 
-        rank, (lower, upper), gens = compute_rank(A, B, pari)
+        rank, (lower, upper), sha2_lower, gens = compute_rank(A, B, pari)
     except Exception as exc:
         return MethodResult(
             method="rank_zero",
@@ -222,6 +222,7 @@ def run_rank_zero(A: int, B: int) -> MethodResult:
         "rank": rank,
         "rank_lower": lower,
         "rank_upper": upper,
+        "sha2_lower": sha2_lower,
         "generators": gens[:4],
     }
 
