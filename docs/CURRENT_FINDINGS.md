@@ -237,8 +237,37 @@ $h_1, h_2, h_3, h_4$ 满足：
 - `pari.ell2cover(E)` 给出 Selmer 群的 quartic covers（= Sage `E.two_descent()` 核心）
 - `pari.elltors(E)` 完整 torsion 结构
 
-→ d19 现行 `concordant.analysis.compute_rank` 只用了 4 元组前 3 项，**丢失 `sha2`**。
-这是个待修的项目级 bug，是 worklog 036 第一步。
+→ 该 bug 已在 worklog 036 修复，详见下面第 6 节。
+
+### 6. compute_rank 4-tuple 修复 + 320 hard_case Selmer 实证（worklog 036）
+
+`compute_rank` 现在返回 4 元组 `(rank, (lower, upper), sha2_lower, gens)`，
+默认 `effort=1`（实测决定，比 effort=0 多 33% 时间换 7/7 certified vs 1/7）。
+194/194 测试通过零 regression。
+
+在 max_hyp=500 的 320 hard_case 上跑 `pari.ell2cover` + `pari.ellrank(E, 1)`
+（共 3.6 秒）拿到 Selmer 数据，两个核心结果：
+
+#### Selmer 维度公式实证
+
+```
+n_quartic_covers = rank_lower + 2 + sha2_lower
+```
+
+320/320 hard_case 全部满足。常数 "+2" 来自 $E_{A,B}$ 三根全有理给出的
+$\dim_{\mathbb{F}_2} E[2](\mathbb{Q}) - 1$。
+
+#### 项目首次追踪到非平凡 Sha[2]（2 个 hard_case）
+
+| (A, B) | rank | sha2_lower | n_quartic_covers |
+|---|---|---|---|
+| (243, 1085) | 1 | 2 | 5 |
+| (3969, 15895) | 1 | 2 | 5 |
+
+两个 case 都 rank=1，但 Selmer 群比一般 rank=1 case 大（5 个 cover vs 3 个），
+非平凡 Sha[2] 维度 = 2。这是项目第一次显式追踪到 Sha[2] 信息——是 worklog 036
+4-tuple bug 修复的直接收益。后续可用 Cassels-Tate pairing（PARI 的
+`elltatepairing`）做更细致的分析。
 
 ---
 
@@ -256,3 +285,4 @@ $h_1, h_2, h_3, h_4$ 满足：
 - [docs/work-logs/033-dual-ec-probe.md](./work-logs/033-dual-ec-probe.md) — dual EC 视角
 - [docs/work-logs/034-hypotenuse-identity.md](./work-logs/034-hypotenuse-identity.md) — hypotenuse 恒等式
 - [docs/work-logs/035-pari-selmer-api.md](./work-logs/035-pari-selmer-api.md) — PARI Selmer API + Peschmann §6/§7
+- [docs/work-logs/036-compute-rank-fix-and-ell2cover-batch.md](./work-logs/036-compute-rank-fix-and-ell2cover-batch.md) — compute_rank 4-tuple 修复 + 320 hard_case Selmer 数据 + 2 个 sha2=2 case

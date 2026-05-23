@@ -250,3 +250,21 @@
 
 这定量验证了"chain 不是 cuboid"——Peschmann 风格的经典 Selmer obstruction
 **不直接适用**于 chain candidate，d19 需要找自己问题特有的 obstruction。
+
+### 9.6 compute_rank bug 修复 + 320 hard_case Selmer 实证（[wl 036](./work-logs/036-compute-rank-fix-and-ell2cover-batch.md)）
+
+修了 wl035 标记的项目级 bug：`compute_rank` 现在返回 4 元组
+`(rank, (lower, upper), sha2_lower, gens)`，默认 `effort=1`（实测在 hard
+case 上 +33% time 换 7/7 certified vs effort=0 的 1/7）。`ConcordantResult`
+也加了 `sha2_lower` 字段。194/194 测试通过。
+
+在 320 hard_case (max_hyp=500) 上跑了 ell2cover + ellrank 批量（3.6s 总）：
+
+- 公式确认：`n_quartic_covers = rank + 2 + sha2_lower`（318/318 sha2=0 + 2/2
+  sha2=2 全满足）
+- **新发现**：2 个 hard_case 有非平凡 Sha[2]（sha2_lower=2）：
+  - $(A, B) = (243, 1085)$
+  - $(A, B) = (3969, 15895)$
+  - 两个都是 rank=1，给出 5 个 quartic covers（不是 rank=1 普遍的 3 个）
+
+这是项目第一次显式追踪到 Sha[2] 信息——是 wl036 4-tuple bug 修复的直接收益。
