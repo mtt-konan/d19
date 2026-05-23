@@ -98,14 +98,17 @@ def deduplicate_d4(rows: list[dict]) -> list[dict]:
     return sorted(best.values(), key=lambda r: (r["sq4_deficit"], r["id"]))
 
 
-def safe_rank(pari, A: int, B: int) -> tuple[int, int, int, float]:
-    """Wrap compute_rank with timing; never raises -- returns -2 on failure."""
+def safe_rank(pari, A: int, B: int) -> tuple[int, int, int, int, float]:
+    """Wrap compute_rank with timing; never raises -- returns -2 on failure.
+
+    Returns (rank, lower, upper, sha2_lower, time_s).
+    """
     started = time.perf_counter()
     try:
-        rank, bounds, _gens = compute_rank(A, B, pari=pari)
-        return rank, bounds[0], bounds[1], time.perf_counter() - started
+        rank, bounds, sha2_lower, _gens = compute_rank(A, B, pari=pari)
+        return rank, bounds[0], bounds[1], sha2_lower, time.perf_counter() - started
     except Exception:  # pragma: no cover - defensive: PARI can blow up
-        return -2, -2, -2, time.perf_counter() - started
+        return -2, -2, -2, -2, time.perf_counter() - started
 
 
 def main() -> int:
@@ -195,8 +198,8 @@ def main() -> int:
     overall_started = time.perf_counter()
     for i, row in enumerate(sample):
         a, b, c, d = row["a"], row["b"], row["c"], row["d"]
-        rk_ac, lo_ac, hi_ac, t_ac = safe_rank(pari, a, c)
-        rk_bd, lo_bd, hi_bd, t_bd = safe_rank(pari, b, d)
+        rk_ac, lo_ac, hi_ac, sha_ac, t_ac = safe_rank(pari, a, c)
+        rk_bd, lo_bd, hi_bd, sha_bd, t_bd = safe_rank(pari, b, d)
 
         joint[(rk_ac, rk_bd)] += 1
         samples_by_class.setdefault((rk_ac, rk_bd), []).append(row)
@@ -220,8 +223,10 @@ def main() -> int:
                         "d": d,
                         "rank_ac": rk_ac,
                         "rank_ac_bounds": [lo_ac, hi_ac],
+                        "sha2_ac": sha_ac,
                         "rank_bd": rk_bd,
                         "rank_bd_bounds": [lo_bd, hi_bd],
+                        "sha2_bd": sha_bd,
                         "sq3_deficit": row["sq3_deficit"],
                         "sq4_deficit": row["sq4_deficit"],
                         "time_ac_s": round(t_ac, 4),
