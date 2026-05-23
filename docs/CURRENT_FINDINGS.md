@@ -182,7 +182,7 @@ uv run python scripts/search.py ...
 
 ## 五、2026-05 新增已确认结论（worklog 033–035）
 
-针对 `CHAIN_STRUCTURE_IDEAS.md` 的四个想法做了系统性实证：
+针对 `archive/CHAIN_STRUCTURE_IDEAS.md`（已归档）的四个想法做了系统性实证：
 
 ### 1. dual EC 视角不提供 free obstruction（worklog 033）
 
@@ -296,9 +296,9 @@ $N \in [1, 10^8]$ 使两个平方条件 + 4-chain closure 同时成立。
 如果想看 `chain-fast` 侧的工程记录与实验结果，可以直接看：
 
 - [docs/CHAIN_FAST_SAFE_FILTERS.md](./CHAIN_FAST_SAFE_FILTERS.md)
-- [docs/CHAIN_FAST_BUCKET_STATS.md](./CHAIN_FAST_BUCKET_STATS.md)
-- [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](./CHAIN_FAST_STRUCTURE_FINDINGS.md)
-- [docs/CHAIN_FAST_OPTIMIZATION.md](./CHAIN_FAST_OPTIMIZATION.md)
+- [docs/archive/CHAIN_FAST_BUCKET_STATS.md](./archive/CHAIN_FAST_BUCKET_STATS.md)（已归档）
+- [docs/archive/CHAIN_FAST_STRUCTURE_FINDINGS.md](./archive/CHAIN_FAST_STRUCTURE_FINDINGS.md)（已归档）
+- [docs/archive/CHAIN_FAST_OPTIMIZATION.md](./archive/CHAIN_FAST_OPTIMIZATION.md)（已归档）
 
 针对 2026-05 实证细节：
 

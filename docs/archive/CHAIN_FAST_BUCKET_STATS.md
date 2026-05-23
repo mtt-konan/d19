@@ -85,7 +85,7 @@ uv run python scripts/search.py chain-fast --max-hyp 5000 --db results/chain.db 
 
 如果想直接看首轮实测读出了什么，可以看：
 
-- [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](./CHAIN_FAST_STRUCTURE_FINDINGS.md)
+- [CHAIN_FAST_STRUCTURE_FINDINGS.md](./CHAIN_FAST_STRUCTURE_FINDINGS.md)（同目录归档）
 
 ## 三类固定桶
 

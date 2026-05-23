@@ -195,7 +195,7 @@
 
 ## 九、2026-05 实证进展（worklog 033–035）
 
-本月对 `docs/CHAIN_STRUCTURE_IDEAS.md` 列出的 4 个数学想法做了系统性实证。
+本月对 `docs/archive/CHAIN_STRUCTURE_IDEAS.md`（已归档）列出的 4 个数学想法做了系统性实证。
 **主线不变**（仍是 concordant），但若干新结论确认或排除了具体路径，并暴露
 出一个项目级 bug。
 

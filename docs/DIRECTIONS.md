@@ -111,12 +111,13 @@
   - `src/rational_distance/chain_db.py`
   - `src/rational_distance/chain_analysis.py`
 - 文档入口：
-  - [docs/CHAIN_FAST_PERFORMANCE.md](CHAIN_FAST_PERFORMANCE.md)
-  - [docs/CHAIN_FAST_OPTIMIZATION.md](CHAIN_FAST_OPTIMIZATION.md)
-  - [docs/CHAIN_FAST_SAFE_FILTERS.md](CHAIN_FAST_SAFE_FILTERS.md)
-  - [docs/CHAIN_FAST_MOD_SIEVE.md](CHAIN_FAST_MOD_SIEVE.md)
-  - [docs/CHAIN_FAST_BUCKET_STATS.md](CHAIN_FAST_BUCKET_STATS.md)
-  - [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](CHAIN_FAST_STRUCTURE_FINDINGS.md)
+  - [docs/CHAIN_FAST_SAFE_FILTERS.md](CHAIN_FAST_SAFE_FILTERS.md)（当前线 safe_sieve 说明）
+  - 历史背景（已归档）：
+    [PERFORMANCE](archive/CHAIN_FAST_PERFORMANCE.md)、
+    [OPTIMIZATION](archive/CHAIN_FAST_OPTIMIZATION.md)、
+    [MOD_SIEVE](archive/CHAIN_FAST_MOD_SIEVE.md)、
+    [BUCKET_STATS](archive/CHAIN_FAST_BUCKET_STATS.md)、
+    [STRUCTURE_FINDINGS](archive/CHAIN_FAST_STRUCTURE_FINDINGS.md)
 - 测试入口：
   - `tests/test_chain_fast.py`
   - `tests/test_chain_db.py`
