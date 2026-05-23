@@ -288,3 +288,39 @@ $b = A+B-N \geq 1$ 给出有效 4-chain closure。这把 d19 的 ec_bound 从 $1
 观察：concordant N 大量出现（每 hard_case 在 $N \leq 10^8$ 内至少 1 个），
 但几乎全部 degenerate（$A+B-N \leq 0$ 或剩余两个平方条件不满足），定量印证
 chain 问题 vs cuboid 问题在 closure constraint 上的本质区别。
+
+### 9.8 4653 hard_case Sha[2] 大规模扫描 + 模式狩猎（[wl 038](./work-logs/038-large-scale-sha2-pattern-hunt.md)）
+
+把 hard_case 从 320 → **4653**（max_hyp=2000），用 timeout-safe subprocess
+scanner（`scripts/batch_sha2_scan_v2.py` + `sha2_worker.py`）跑全集 PARI
+ellrank effort=1，6 分钟完成：
+
+- **rank=1: 1410, rank=2: 2175, rank=3: 939, rank=4: 122, rank=5: 3** （0 个真 rank=0）
+- **sha2_lower=2: 156 个 (3.35% of hard_case)**，sha2≥4: 0
+- TIMEOUT: 4 (0.09%)，ERROR: 0
+
+之前 wl036 在 320 sample 上找到的 2 个 sha2≥2 是统计正常波动 (0.6% vs 3.4%)，
+**sha2≥2 不是孤立特例，是稳定的 hard_case 子类**。
+
+**chi² 找到 sha2≥2 的明确子标记**:
+
+| Feature | sha2≥2% | sha2=0% | χ² | p |
+|---|---|---|---|---|
+| max_exp(B) ≥ 4 | **21.2%** | 10.9% | 14.94 | **1.1e-4** |
+| neither_squarefree | **43.0%** | 31.2% | 9.12 | **2.5e-3** |
+| B_squarefree | 28.9% | 37.5% | 4.47 | 0.03 |
+| A 的 features | — | — | — | NS |
+| mod 4 / mod 8 | — | — | — | NS |
+
+**sha2≥2 的明确形状：rank=1 (80.8%) + B 含 ≥ 4 次素数幂 + A 任意**。这条公式
+能在 ~1ms 不调 PARI 的情况下圈出"高概率 sha2≥2 候选"——给后续 Cassels-Tate /
+Heegner work 列出 priority queue。
+
+**意外修正**：之前以为"hard_case 倾向于 (A, B) 含高 prime power"。**实际相反**：
+
+- A squarefree: hard 44% vs easy 33%
+- B squarefree: hard 37% vs easy 25%
+- max_exp(B) ≥ 5: hard 3% vs easy **22%**
+
+(A, B) 含高 prime power → 丰富 bad reduction → cheap sieve 易杀 → 进 no_solution；
+hard_case 反而是"clean" pair 的子集。
