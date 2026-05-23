@@ -191,3 +191,62 @@
 
 工程上最容易上手的是**方向五（Heegner 点）**，理由是 SageMath 已有现成 API，
 对单个 `(A,B)` pair 的判定可能是 O(1) 解析公式。
+
+## 九、2026-05 实证进展（worklog 033–035）
+
+本月对 `docs/CHAIN_STRUCTURE_IDEAS.md` 列出的 4 个数学想法做了系统性实证。
+**主线不变**（仍是 concordant），但若干新结论确认或排除了具体路径，并暴露
+出一个项目级 bug。
+
+### 9.1 想法 4（对偶 EC）：实证否定（[wl 033](./work-logs/033-dual-ec-probe.md)）
+
+在 150 个 D4-distinct chain near-miss 上跑 dual EC `E_{b,d}` 的 rank：
+
+- **0 个 certified rank=0** dual EC（即想法 4 期望的 "free obstruction" 不存在）
+- 11 个 `default ellrank` 报 rank=0 的候选，用 `effort=2` 复核后**全部升级到 rank=2**
+- 项目级教训：cypari2 `ellrank` 默认 effort 太浅，会系统性给出虚假 `lower=0`
+
+### 9.2 想法 1（hypotenuse 恒等式 + blocker prime）：部分确认 / 部分否定（[wl 034](./work-logs/034-hypotenuse-identity.md)）
+
+在 1005 个长方形 4-chain (`max_val=5000`) 上：
+
+- **代数恒等式 A 和 C 数值 100% 通过验证** ✅（chain 结构的真实代数贡献）
+- **IDEAS §2.4 的"$h_i$ 奇素因子 ≡ 1 mod 4"假设错误** ❌
+  - Fermat-Euler 只对 *primitive* Pythagorean triple 的 hypotenuse 成立
+  - non-primitive 的 hypotenuse $kh$ 继承 scale $k$ 的任意素因子
+  - 反例：$(66, 88, 105, 360)$ 的 $h_1 = 110 = 2 \cdot 5 \cdot \mathbf{11}$
+- 因此 §2.4 的 blocker prime 论证不成立
+
+### 9.3 想法 3（2-descent）：工具就绪（[wl 035](./work-logs/035-pari-selmer-api.md)）
+
+原计划装 SageMath（1–2 天工作量）。实测发现 PARI 自带工具已足够：
+
+- `pari.ellrank(E, effort)` 返回 **4 元组** `[rank_lo, rank_hi, sha2_lo, gens]`，
+  现行 `concordant.analysis.compute_rank` 只用前 3 项 ← **项目级 bug**
+- `pari.ell2cover(E)` 直接给出 Selmer 群的 quartic covers（= Sage `E.two_descent()`
+  的核心输出）
+- 读完 Peschmann 2026 §6 + §7 后澄清的关键事实：**chain candidate 在 dual EC
+  上自动落入 trivial 2-descent class**——这从理论上解释了 wl033 的 dual EC
+  失败为何是必然而非巧合
+
+工作量从"装 Sage 1–2 天"降为"在 PARI 上跑 batch + 实现 finite-descent"，
+是 worklog 036 的目标。
+
+### 9.4 长期方向列表更新（§8 补充第 5 条）
+
+在原列表（Heegner / Chabauty / Brauer-Manin / K3）外加：
+
+- **方向 N：PARI 内置 2-descent + finite-descent on hard_case**（无需 Sage）
+  Peschmann §7(2) 的 "modular search on lattice + 45 primes < 200" 思路
+  在 d19 上的对应物。是 d19 现有 safe_sieve（mod 1680, ~5 primes）的自然
+  扩展版本。
+
+### 9.5 chain ≠ cuboid 的算术结构差异
+
+| | Peschmann (cuboid) | d19 (chain, wl 034) |
+|---|---|---|
+| 主导素因子 mod 4 | 88.4% $\equiv 1$, 0% $\equiv 3$ | 大多数因子里 $\equiv 3$ 占多数 |
+| Selmer trivial class | 主要 obstruction 来源 | chain candidate 自动落入，无 obstruction |
+
+这定量验证了"chain 不是 cuboid"——Peschmann 风格的经典 Selmer obstruction
+**不直接适用**于 chain candidate，d19 需要找自己问题特有的 obstruction。

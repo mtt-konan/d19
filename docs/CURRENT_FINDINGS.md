@@ -180,7 +180,69 @@ uv run python scripts/search.py ...
 - 证明某一大类结构根本不可能
 - 或者把搜索问题改写成更硬的数论问题
 
-## 五、补充阅读（更工程向的细节）
+## 五、2026-05 新增已确认结论（worklog 033–035）
+
+针对 `CHAIN_STRUCTURE_IDEAS.md` 的四个想法做了系统性实证：
+
+### 1. dual EC 视角不提供 free obstruction（worklog 033）
+
+在 150 个 D4-distinct chain near-miss 上算对偶椭圆曲线 $E_{b,d}: Y^2 = X(X+b^2)(X+d^2)$
+的 rank：
+
+- 默认 `ellrank` 报 4 个 dual rank=0 看似是 obstruction
+- 用 `effort=2` 复核后 **0 个 certified rank=0**（全部升级到 rank=2）
+- 这把已知的"chain pair rank 过滤率 0%"从 $E_{A,B}$ 主线推广到了对偶视角
+
+### 2. chain candidate 在 dual EC 上必然是 trivial 2-descent class（worklog 035）
+
+代数事实：把 Peschmann 2-descent map $\delta_i = \text{sf}(v^2(X - r_i))$ 用到
+$E_{a,c}$ 上 $X = b^2$ 的有理点：
+
+- $\delta_1 = \text{sf}(b^2) = 1$
+- $\delta_2 = \text{sf}(b^2 + a^2) = \text{sf}(h_1^2) = 1$（因为 $a^2 + b^2$ 是平方）
+- $\delta_3 = \text{sf}(b^2 + c^2) = \text{sf}(h_2^2) = 1$（因为 $b^2 + c^2$ 是平方）
+
+所以 chain candidate 在 dual EC 上**自动**给出 trivial 2-descent class
+$(1, 1, 1)$。这反向解释了为什么 worklog 033 必然是负面结果——Selmer 视角的
+free obstruction 永远不可能命中 chain candidate。
+
+### 3. 4-chain 的代数恒等式 A 和 C（worklog 034）
+
+对任意 4-chain $(a, b, c, d)$（不要求正方形条件），4 个 hypotenuse
+$h_1, h_2, h_3, h_4$ 满足：
+
+- **恒等式 A**: $h_1^2 + h_3^2 = h_2^2 + h_4^2 = a^2+b^2+c^2+d^2$
+- **恒等式 C**: $(h_1 h_3 - h_2 h_4)(h_1 h_3 + h_2 h_4) = (d-b)(a-c)(a+c)(b+d)$
+
+1005 个长方形 4-chain (`max_val=5000`) 上 100% 数值验证通过。这是项目对 chain
+结构发现的真实代数贡献，可以直接进 paper。
+
+但基于这两个恒等式的 §2.4 "blocker prime" 论证**基础假设错误**（Fermat-Euler
+对 hypotenuse 没有 mod 4 parity 约束），不提供 obstruction。
+
+### 4. cypari2 性能 / 默认值教训（worklog 033/035）
+
+实测确认两件需要注意的事：
+
+- `pari.ellrank(E)` 默认 effort 太浅，会系统性给出虚假 `lower=0`。
+  汇报 rank=0 之前必须 `effort=2` 复核。
+- `pari.ellanalyticrank(E)` 在 conductor 中等大小时单条耗时 906s~6929s。
+  任何脚本默认必须关闭，由 flag 显式开启。
+
+### 5. 工具盘点：PARI 已含 2-descent 全部所需 API（worklog 035）
+
+原 IDEAS §4 想法 3 估计装 Sage 要 1–2 天。实测发现 cypari2 已暴露：
+
+- `pari.ellrank(E, effort)` 返回 **4 元组** `[rank_lo, rank_hi, sha2_lo, gens]`
+- `pari.ell2cover(E)` 给出 Selmer 群的 quartic covers（= Sage `E.two_descent()` 核心）
+- `pari.elltors(E)` 完整 torsion 结构
+
+→ d19 现行 `concordant.analysis.compute_rank` 只用了 4 元组前 3 项，**丢失 `sha2`**。
+这是个待修的项目级 bug，是 worklog 036 第一步。
+
+---
+
+## 六、补充阅读（更工程向的细节）
 
 如果想看 `chain-fast` 侧的工程记录与实验结果，可以直接看：
 
@@ -188,3 +250,9 @@ uv run python scripts/search.py ...
 - [docs/CHAIN_FAST_BUCKET_STATS.md](./CHAIN_FAST_BUCKET_STATS.md)
 - [docs/CHAIN_FAST_STRUCTURE_FINDINGS.md](./CHAIN_FAST_STRUCTURE_FINDINGS.md)
 - [docs/CHAIN_FAST_OPTIMIZATION.md](./CHAIN_FAST_OPTIMIZATION.md)
+
+针对 2026-05 实证细节：
+
+- [docs/work-logs/033-dual-ec-probe.md](./work-logs/033-dual-ec-probe.md) — dual EC 视角
+- [docs/work-logs/034-hypotenuse-identity.md](./work-logs/034-hypotenuse-identity.md) — hypotenuse 恒等式
+- [docs/work-logs/035-pari-selmer-api.md](./work-logs/035-pari-selmer-api.md) — PARI Selmer API + Peschmann §6/§7

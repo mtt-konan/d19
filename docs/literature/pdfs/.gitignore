@@ -5,3 +5,10 @@
 # 不忽略说明文件
 !README.md
 !.gitignore
+
+# 注：read_file 工具读取 PDF 会因 null-byte 而拒绝（PDF 是二进制），
+# 改 gitignore allow 列表也救不了。要在本仓库读 PDF 文本，请：
+#   - uv pip install pypdf  并写小脚本调用 pypdf.PdfReader
+#   - 或 brew install poppler 再用 pdftotext
+#   - 或拉 arXiv HTML（参见 docs/literature/notes/peschmann-2604-09328.md
+#     里的 arXiv ID）
