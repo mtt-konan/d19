@@ -324,3 +324,30 @@ Heegner work 列出 priority queue。
 
 (A, B) 含高 prime power → 丰富 bad reduction → cheap sieve 易杀 → 进 no_solution；
 hard_case 反而是"clean" pair 的子集。
+
+### 9.9 ell2cover 实证 BM-obstruction + 2-Selmer 结构公式（[wl 039](./work-logs/039-ell2cover-sha2-explicit.md)）
+
+在 156 sha2≥2 case 上跑 PARI `ell2cover(E)` + `hyperellratpoints` (h=10⁴ 然后
+h=10⁵)，11 秒跑完：
+
+- **156/156 都至少有 ≥1 个 cover 没有有理点** → 100% explicit Sha[E][2] candidate
+- 两条 deterministic 规律：
+  - **`n_covers = rank + 4`** 完美匹配 `dim Sel(E,2) = rank + dim E[2](Q) + dim Sha[2] = rank + 2 + 2`
+  - **PARI ell2cover 输出顺序严格分层**：先 E(Q)/2E(Q) image cover，后 Sha + 高度大的 generator pullback
+
+**outliers (n_without_pt ≥ 4) 是 9 个 case，全部 robust**：
+
+- h=10⁴ 跟 h=10⁵ 完全一致（9/9 STAY） → 不是 height search 假象
+- effort=1/2/3 的 sha2_lower 全部 = 2 → 不是 effort 太低看不到更高 sha2
+- 解释：generator 在 cover-pullback 后 height ≫ 10⁵，需要 Heegner-level 工具
+
+**修正**：之前以为 n_without_pt 直接量度 Sha 维度。实际 `n_without_pt = sha2 + k(h)`，
+其中 k(h) 跟 generator 在 cover 上 lift-height 相关。
+
+**156 case 的 Sha[E][2] dim 全部 = 2**——是 sha2≥2 hard_case 子集的稳定 invariant。
+
+下一步候选：
+- Heegner / Stoll 高度 sieve 在 9 outliers 上 cert no_solution
+- max_hyp=5000 scale up（156 → ~750 sha2≥2 case）验证公式在更大 sample
+- (169, 235) deep-dive：手算 quartic `-5279x⁴ - 17626x³ + 25673x² + 27418x - 2831`
+  的 local solubility everywhere → 直接 cert "explicit Sha[2] generator"
