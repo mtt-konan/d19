@@ -7,6 +7,7 @@
 - 当前真正的瓶颈是什么
 
 如果想看完整方向地图，请先看 [docs/DIRECTIONS.md](./DIRECTIONS.md)。
+读 §9.x（PARI / 沙群 / Selmer 相关）时英文术语查 [docs/GLOSSARY.md](./GLOSSARY.md)。
 
 ## 一、当前主线已经定下来了
 

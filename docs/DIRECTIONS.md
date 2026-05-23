@@ -29,13 +29,14 @@
 
 1. 本文：先把"现在有哪些路线"搞清楚。
 2. [docs/PROJECT_STATUS.md](PROJECT_STATUS.md)：只看现状、主线和瓶颈。
-3. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：短中期可落地的理论方向（安全前筛）。
-4. [docs/THEORY_DIRECTIONS_ADVANCED.md](THEORY_DIRECTIONS_ADVANCED.md)：长期数学突破方向（Heegner / Chabauty / Brauer–Manin / K3）。
-5. [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)：把 5 个子命令当成词典看。
-6. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
-7. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
-8. [docs/literature/](literature/README.md)：相关文献的索引、时间轴、BibTeX、阅读笔记。⭐ 重点看 `notes/peschmann-2604-09328.md`，那是 d19 的"完美双胞胎"对标论文。
-9. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
+3. [docs/GLOSSARY.md](GLOSSARY.md)：英文术语 → 中文叫法 + 一句话解释。第一次读 `concordant`/沙群/Selmer 相关 worklog 时查表。
+4. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：短中期可落地的理论方向（安全前筛）。
+5. [docs/THEORY_DIRECTIONS_ADVANCED.md](THEORY_DIRECTIONS_ADVANCED.md)：长期数学突破方向（Heegner / Chabauty / Brauer–Manin / K3）。
+6. [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)：把 5 个子命令当成词典看。
+7. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
+8. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
+9. [docs/literature/](literature/README.md)：相关文献的索引、时间轴、BibTeX、阅读笔记。⭐ 重点看 `notes/peschmann-2604-09328.md`，那是 d19 的"完美双胞胎"对标论文。
+10. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
 
 ---
 

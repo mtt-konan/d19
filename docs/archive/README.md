@@ -7,7 +7,6 @@
 | 文档 | 内容 | 状态 |
 |------|------|------|
 | `CHAIN_PERFORMANCE.md` | `chain` 命令的实测耗时记录 | 参考用 |
-| `CHAIN_FAST_PERFORMANCE.md` | `chain-fast` 的 profile 与并行实测 | 参考用 |
 | `CHAIN_FAST_MOD_SIEVE.md` | `mod` 预筛实验：筛掉了多少、为什么没更快 | 已结束 |
 | `CHAIN_FAST_BUCKET_STATS.md` | 结构桶统计的 SQLite 设计 | 参考用 |
 | `CHAIN_FAST_OPTIMIZATION.md` | `chain-fast` 性能分析与优化方向 | 参考用 |
@@ -15,7 +14,7 @@
 
 ## 何时查看
 
-- **需要了解历史背景**：看 `CHAIN_PERFORMANCE.md` 或 `CHAIN_FAST_PERFORMANCE.md`
+- **需要了解历史背景**：看 `CHAIN_PERFORMANCE.md`（当前线性能数据在顶层 `docs/CHAIN_FAST_PERFORMANCE.md`）
 - **需要 SQLite 数据库设计细节**：看 `CHAIN_FAST_BUCKET_STATS.md`
 - **需要理解已尝试过但未成功的方向**：看 `CHAIN_FAST_MOD_SIEVE.md` 或 `CONCORDANT_SAFE_FILTERS.md`
 
