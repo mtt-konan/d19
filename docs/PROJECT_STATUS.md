@@ -367,8 +367,8 @@ h=10⁵)，11 秒跑完：
 
 | max_hyp | 之前 hard_case | 现在 hard_case | 砍 % |
 |---|---|---|---|
-| 500  | 320  | **2**  | **99.4%** |
-| 2000 | 4,653 | **18** | **99.6%** |
+| 500   | 320   | **2**   | **99.4%** |
+| 2,000 | 4,653 | **18**  | **99.6%** |
 
 剩下 18 个就是真正"硬"的 case，不再被噪声淹没。可以集中力量上 Heegner /
 Chabauty / Brauer-Manin。
@@ -376,3 +376,29 @@ Chabauty / Brauer-Manin。
 **重要更新**：方向五 Heegner 之前估计能砍 ~37% hard_case（rank=1 子集），
 现在 hard_case 砍到 18 个，方向五能升级的绝对数量从 ~118 降到 ~6。但
 **剩下的就是 deep theory 真正应该攻的目标**。
+
+### 9.11 Parallel pipeline + max_hyp=10000 scaling（[wl 041](./work-logs/041-parallel-pipeline-and-max-hyp-10k.md)）
+
+接 wl040 后立刻把 pipeline 并行化（multiprocessing + batched commit），
+把 max_hyp=10000 的全 pipeline 时间从估计的 30-60 分钟压到 **1m25s**
+（8 workers, 599% CPU）。
+
+| max_hyp | pair 总数 | hard_case | wall time | 加速 |
+|---:|---:|---:|---:|---:|
+| 500   | 6.2k    | 2   | 0.4s   | — |
+| 2,000 | 99.3k   | 18  | ~3s    | — |
+| 5,000 | 617.4k  | 77  | 19s    | ~20× |
+| **10,000** | **2.5M** | **326** | **1m25s** | **~25×** |
+
+**hard_case 比例稳定 ~0.01%**，2.5M pair 上 0 chain 反例。
+
+326 hard_case 的 ell2cover/rank 分布（max_hyp=10000，6.6 秒）：
+
+- rank=1: 88 (Heegner 目标)；rank=2: 146；rank=3+: 92；**0 个 rank=0**
+- **sha2_lower=2: 13 (4.0%)** — chain_closure_sieve 砍掉了大量 sha2=0 的
+  "简单 local 障碍" case，留下来的 hard_case 中 sha2≥2 比例从 wl036 的
+  0.6% 升到 4.0%
+- 公式 `n_quartic_covers = rank + 2 + sha2_lower` 326/326 完全成立
+
+326 case 的 chain refutation 检查：0 反例。326 全部都是 "唯一/极少 concordant
+N + chain closure 失败" 的 local-global gap 样本。
