@@ -289,6 +289,36 @@ $N \in [1, 10^8]$ 使两个平方条件 + 4-chain closure 同时成立。
 剩余两个平方条件不满足）—— chain 问题 vs cuboid 的 closure constraint 差异
 在数据上明显。
 
+### 8. Chain-closure mod p² 联立筛：hard_case 砍 99.6%（worklog 040）
+
+之前所有 sieve 都只检查 N 自己，没看 chain-closure 端的 $b = A+B-N$。把这
+条对称条件写成 mod p² 联立筛：
+
+定义 $T(A, B, M) = \{n \bmod M : n²+A² \text{ 和 } n²+B² \text{ 都是 mod } M \text{ 的平方}\}$。
+chain closure 必要条件：
+
+$$N \bmod M \in T \cap \bigl((A+B) - T\bigr) \pmod M$$
+
+**若对某 M 这个交集为空，则 (A, B) 不存在 chain 解**（unconditional）。
+
+实测（14 个 prime square，$p \in [3, 53]$）：
+
+| max_hyp | 之前 hard_case | 现在 hard_case | 砍 % |
+|---|---|---|---|
+| 500  | 320  | **2**  | 99.4% |
+| 2000 | 4,653 | **18** | 99.6% |
+
+**关键意义**：
+
+- 之前所有 sieve（wl037 layer 1/2 含 46 个 prime $< 200$）**只筛 N 不筛 b**，
+  漏掉了 chain closure 端的对称约束。
+- 本筛把变量改成"N 和 b 联立"，立即在 mod $p^2$ 上抓到了 99.6% 的 obstruction。
+- 跟 wl034 的 hypotenuse 恒等式无关——只用 $(A, B)$ 本身的 mod $p^2$ 反射条件。
+- 复杂度：每对 $(A, B)$ ~50 µs，max_hyp=2000 全 pipeline ~1-2 分钟。
+
+剩下的 18 个 survivor 是真正"硬"的 case，需要 deeper theory（Heegner /
+Chabauty / Brauer-Manin）。它们不再淹没在大量"还能用简单 mod 砍掉"的噪声里。
+
 ---
 
 ## 六、补充阅读（更工程向的细节）

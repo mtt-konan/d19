@@ -352,3 +352,27 @@ h=10⁵)，11 秒跑完：
 - max_hyp=5000 scale up（156 → ~750 sha2≥2 case）验证公式在更大 sample
 - (169, 235) deep-dive：手算 quartic `-5279x⁴ - 17626x³ + 25673x² + 27418x - 2831`
   的 local solubility everywhere → 直接 cert "explicit Sha[2] generator"
+
+### 9.10 Chain-closure mod p² 联立筛：hard_case 砍 99.6%（[wl 040](./work-logs/040-chain-closure-mod-sieve.md)）
+
+之前所有 sieve（wl037 含 46 个 prime $< 200$）**只筛 N 不筛 b = A+B-N**。
+本 worklog 把对称约束改成 mod p² 联立筛：
+
+> $N \bmod M \in T(A,B,M) \cap \bigl((A+B) - T(A,B,M)\bigr) \pmod M$
+
+其中 $T = \{n : n^2+A^2, n^2+B^2 \text{ 都是 mod } M \text{ 的平方}\}$。
+对某 $M$ 这个交集为空 → 不存在 chain 解。**Unconditional obstruction**，0 误杀。
+
+实测（14 个 prime square, $p \in [3, 53]$，~50 µs per pair）：
+
+| max_hyp | 之前 hard_case | 现在 hard_case | 砍 % |
+|---|---|---|---|
+| 500  | 320  | **2**  | **99.4%** |
+| 2000 | 4,653 | **18** | **99.6%** |
+
+剩下 18 个就是真正"硬"的 case，不再被噪声淹没。可以集中力量上 Heegner /
+Chabauty / Brauer-Manin。
+
+**重要更新**：方向五 Heegner 之前估计能砍 ~37% hard_case（rank=1 子集），
+现在 hard_case 砍到 18 个，方向五能升级的绝对数量从 ~118 降到 ~6。但
+**剩下的就是 deep theory 真正应该攻的目标**。
