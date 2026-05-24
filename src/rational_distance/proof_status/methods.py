@@ -27,6 +27,10 @@ import time
 from collections.abc import Callable
 from math import isqrt
 
+from rational_distance.concordant.chain_closure_sieve import (
+    DEFAULT_PRIME_SQUARE_MODULI,
+    all_killer_moduli,
+)
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
 from rational_distance.proof_status.types import MethodResult
@@ -85,7 +89,70 @@ def run_safe_sieve(A: int, B: int) -> MethodResult:
 
 
 # ---------------------------------------------------------------------------
-# Method 2: factor_concordant  (exhaustive concordant N + chain closure)
+# Method 2: chain_closure_mod_sieve  (joint mod p^k necessary condition on
+#                                     N and b = A+B-N, see worklog 040)
+# ---------------------------------------------------------------------------
+
+
+def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
+    """Joint mod-p² sieve enforcing both ``N ∈ T`` and ``b = A+B-N ∈ T``.
+
+    Define ``T(A, B, M) = {n mod M : n²+A² and n²+B² are squares mod M}``.
+
+    Any chain-closing integer ``N`` satisfies ``N mod M ∈ T`` (from the
+    concordant conditions on ``N``) AND ``(A+B-N) mod M ∈ T`` (from the
+    concordant conditions on the apex partner ``b``).
+
+    Equivalently ``N mod M ∈ T ∩ ((A+B) - T)``. If this intersection is empty
+    for *any* modulus ``M``, no chain solution can exist — ``no_solution``.
+
+    Soundness is immediate: any concrete chain solution reduces mod ``M`` to
+    a point in the intersection. So this method never raises false negatives.
+
+    Empirically: at ``max_hyp = 2000`` (4,653 hard_case pairs surviving the
+    earlier methods), this single sieve over prime squares ``p² < 53²``
+    kills **~99.6%** of those hard_case pairs in well under a second total.
+    """
+    started = time.perf_counter()
+    killer_moduli = all_killer_moduli(A, B, DEFAULT_PRIME_SQUARE_MODULI)
+    elapsed = time.perf_counter() - started
+
+    details: dict[str, object] = {
+        "moduli_tested": list(DEFAULT_PRIME_SQUARE_MODULI),
+        "killer_moduli": killer_moduli,
+        "n_killers": len(killer_moduli),
+    }
+
+    if killer_moduli:
+        smallest = killer_moduli[0]
+        extra = (
+            f" (also mod {killer_moduli[1:]})" if len(killer_moduli) > 1 else ""
+        )
+        return MethodResult(
+            method="chain_closure_mod_sieve",
+            outcome="no_solution",
+            details=details,
+            elapsed_s=elapsed,
+            notes=(
+                f"Chain closure obstructed mod {smallest}{extra}: "
+                "T ∩ ((A+B)-T) = ∅."
+            ),
+        )
+
+    return MethodResult(
+        method="chain_closure_mod_sieve",
+        outcome="pass",
+        details=details,
+        elapsed_s=elapsed,
+        notes=(
+            "Chain-closure mod p² sieve survived all tested moduli; "
+            "deeper methods required."
+        ),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Method 3: factor_concordant  (exhaustive concordant N + chain closure)
 # ---------------------------------------------------------------------------
 
 
@@ -419,6 +486,7 @@ MethodFn = Callable[[int, int], MethodResult]
 # Each entry is (name, MethodFn). Stubs at the end so they are always recorded.
 DEFAULT_METHOD_PIPELINE: tuple[tuple[str, MethodFn], ...] = (
     ("safe_sieve", run_safe_sieve),
+    ("chain_closure_mod_sieve", run_chain_closure_mod_sieve),
     ("factor_concordant", run_factor_concordant),
     ("rank_zero", run_rank_zero),
     ("heegner", run_heegner_stub),
@@ -432,6 +500,7 @@ __all__ = [
     "MethodFn",
     "run_brauer_manin_stub",
     "run_chabauty_stub",
+    "run_chain_closure_mod_sieve",
     "run_factor_concordant",
     "run_heegner_height",
     "run_heegner_stub",
