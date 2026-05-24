@@ -166,8 +166,13 @@ def upsert_pair_status(
     concordant_n_count: int | None = None,
     chain_compatible_count: int | None = None,
     notes: str = "",
+    commit: bool = True,
 ) -> None:
-    """Insert or update the materialised proof status for one pair."""
+    """Insert or update the materialised proof status for one pair.
+
+    Set ``commit=False`` to defer the commit (useful for batched/parallel
+    writes where the caller drives commits at a coarser granularity).
+    """
     conn.execute(
         """
         INSERT INTO pair_proof_status (
@@ -204,7 +209,8 @@ def upsert_pair_status(
             _utc_now(),
         ),
     )
-    conn.commit()
+    if commit:
+        conn.commit()
 
 
 def record_method_attempt(
@@ -213,8 +219,13 @@ def record_method_attempt(
     A: int,
     B: int,
     result: MethodResult,
+    commit: bool = True,
 ) -> None:
-    """Append one method attempt for this pair to the audit log."""
+    """Append one method attempt for this pair to the audit log.
+
+    Set ``commit=False`` to defer the commit (useful for batched/parallel
+    writes where the caller drives commits at a coarser granularity).
+    """
     conn.execute(
         """
         INSERT INTO pair_method_attempts
@@ -232,7 +243,8 @@ def record_method_attempt(
             _utc_now(),
         ),
     )
-    conn.commit()
+    if commit:
+        conn.commit()
 
 
 def status_counts(conn: sqlite3.Connection) -> dict[str, int]:

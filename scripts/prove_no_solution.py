@@ -154,6 +154,28 @@ def main() -> None:
         help="Print the materialised status line for each processed pair.",
     )
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help=(
+            "Number of parallel worker processes for batch runs. "
+            "Default: 1 (sequential). When > 1, uses multiprocessing + "
+            "batched commits (see --commit-every) for large speedups on "
+            "max_hyp >= 5000 runs. Implies the default method pipeline; "
+            "incompatible with --rerun-terminal."
+        ),
+    )
+    parser.add_argument(
+        "--commit-every",
+        type=int,
+        default=1000,
+        help=(
+            "When --workers > 1: commit the SQLite transaction every N "
+            "pairs (default: 1000). Larger values reduce commit overhead "
+            "at the cost of less frequent persistence checkpoints."
+        ),
+    )
+    parser.add_argument(
         "--heegner-multiple-bound",
         type=int,
         default=None,
@@ -205,6 +227,12 @@ def main() -> None:
 
     config = workflow.WorkflowConfig(rerun_terminal=args.rerun_terminal)
 
+    if args.workers > 1 and args.rerun_terminal:
+        raise SystemExit(
+            "--workers > 1 is not compatible with --rerun-terminal "
+            "(parallel path only processes pairs not yet terminal)."
+        )
+
     progress = None
     if not args.no_progress and len(pairs) > 1:
         try:
@@ -218,6 +246,9 @@ def main() -> None:
     print(f"Proof-status workflow — DB: {db_path}")
     print(f"  pairs to process: {len(pairs)}")
     print(f"  rerun_terminal:   {args.rerun_terminal}")
+    print(f"  workers:          {args.workers}")
+    if args.workers > 1:
+        print(f"  commit_every:     {args.commit_every}")
     if args.heegner_multiple_bound is not None:
         print(f"  heegner |n|<=:    {args.heegner_multiple_bound}")
     if args.heegner_height_bound is not None:
@@ -226,19 +257,59 @@ def main() -> None:
 
     counts: dict[str, int] = {}
 
-    def _on_pair(status) -> None:
-        counts[status.status] = counts.get(status.status, 0) + 1
-        if args.print_each:
-            _print_pair_status(status)
-        if progress is not None:
-            progress.update(1)
-            progress.set_postfix(
-                no_sol=counts.get("no_solution", 0),
-                hard=counts.get("hard_case", 0),
-                sol=counts.get("solution_found", 0),
-            )
+    if args.workers > 1:
 
-    workflow.process_pairs(conn, pairs, config=config, on_pair=_on_pair)
+        def _on_result(result) -> None:
+            counts[result.final_status] = counts.get(result.final_status, 0) + 1
+            if args.print_each:
+                # Build a minimal status-like object for the existing printer.
+                # Only used for human-readable feedback; not load-bearing.
+                from rational_distance.proof_status.types import PairProofStatus
+
+                synthetic = PairProofStatus(
+                    A=result.A,
+                    B=result.B,
+                    status=result.final_status,
+                    method=result.final_method,
+                    rank_lower=result.rank_lower,
+                    rank_upper=result.rank_upper,
+                    concordant_n_count=result.concordant_n_count,
+                    chain_compatible_count=result.chain_compatible_count,
+                    notes=result.final_notes,
+                    updated_at="",
+                )
+                _print_pair_status(synthetic)
+            if progress is not None:
+                progress.update(1)
+                progress.set_postfix(
+                    no_sol=counts.get("no_solution", 0),
+                    hard=counts.get("hard_case", 0),
+                    sol=counts.get("solution_found", 0),
+                )
+
+        workflow.process_pairs_parallel(
+            conn,
+            pairs,
+            workers=args.workers,
+            commit_every=args.commit_every,
+            skip_terminal=not args.rerun_terminal,
+            on_result=_on_result,
+        )
+    else:
+
+        def _on_pair(status) -> None:
+            counts[status.status] = counts.get(status.status, 0) + 1
+            if args.print_each:
+                _print_pair_status(status)
+            if progress is not None:
+                progress.update(1)
+                progress.set_postfix(
+                    no_sol=counts.get("no_solution", 0),
+                    hard=counts.get("hard_case", 0),
+                    sol=counts.get("solution_found", 0),
+                )
+
+        workflow.process_pairs(conn, pairs, config=config, on_pair=_on_pair)
 
     if progress is not None:
         progress.close()
