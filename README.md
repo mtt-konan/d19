@@ -36,9 +36,9 @@ uv run python scripts/search.py chain --max-val 500 --require-square
 
 # 辅助分析与可视化脚本
 uv run python scripts/search.py ec --max-m 30 --max-k-num 400 --max-k-den 800 --db .cache/rational_distance.sqlite3
-uv run python scripts/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest
-uv run python scripts/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest --triple 8,15,17 --html triple_8_15_17.html
-uv run python scripts/visualize.py results.json --out report.html
+uv run python scripts/archive/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest
+uv run python scripts/archive/analyze_ec_db.py --db .cache/rational_distance.sqlite3 --run latest --triple 8,15,17 --html triple_8_15_17.html
+uv run python scripts/archive/visualize.py results.json --out report.html
 
 # 查看所有参数
 uv run python scripts/search.py --help
@@ -46,8 +46,8 @@ uv run python scripts/search.py chain-fast --help
 uv run python scripts/search.py concordant --help
 
 # 对照 CPU 和加速后端是否一致
-uv run python scripts/compare_parametric.py --scale 20 --backend torch
-uv run python scripts/compare_parametric.py --scale 20 --backend numpy  # 本机 CPU 验证
+uv run python scripts/archive/compare_parametric.py --scale 20 --backend torch
+uv run python scripts/archive/compare_parametric.py --scale 20 --backend numpy  # 本机 CPU 验证
 
 # 代码质量检查
 uv run ruff check .

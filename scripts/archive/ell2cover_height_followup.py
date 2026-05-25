@@ -17,7 +17,7 @@ import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent
 WORKER = ROOT / "scripts" / "ell2cover_worker.py"
 
 

@@ -327,7 +327,7 @@ Chabauty / Brauer-Manin）。它们不再淹没在大量"还能用简单 mod 砍
 
 如果想看 `chain-fast` 侧的工程记录与实验结果，可以直接看：
 
-- [docs/CHAIN_FAST_SAFE_FILTERS.md](./CHAIN_FAST_SAFE_FILTERS.md)
+- [docs/archive/CHAIN_FAST_SAFE_FILTERS.md](./archive/CHAIN_FAST_SAFE_FILTERS.md)（已归档）
 - [docs/archive/CHAIN_FAST_BUCKET_STATS.md](./archive/CHAIN_FAST_BUCKET_STATS.md)（已归档）
 - [docs/archive/CHAIN_FAST_STRUCTURE_FINDINGS.md](./archive/CHAIN_FAST_STRUCTURE_FINDINGS.md)（已归档）
 - [docs/archive/CHAIN_FAST_OPTIMIZATION.md](./archive/CHAIN_FAST_OPTIMIZATION.md)（已归档）

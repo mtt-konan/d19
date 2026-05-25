@@ -34,7 +34,7 @@ import time
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.search_chain import find_chains  # noqa: E402

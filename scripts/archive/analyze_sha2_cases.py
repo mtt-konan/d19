@@ -12,7 +12,7 @@ import math
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent
 
 
 def prime_factors(n: int) -> dict[int, int]:

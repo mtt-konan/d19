@@ -98,7 +98,7 @@ uv run python scripts/search.py concordant --max-hyp 500 --method factor --no-pr
 
 ### 与现有筛的关系
 
-当前 `mod 8` 筛（来自 CHAIN_FAST_SAFE_FILTERS.md）实际上是 `p = 2` 的特例。这个方向是把它推广到所有 `p ≡ 3 (mod 4)` 的素数。
+当前 `mod 8` 筛（来自 archive/CHAIN_FAST_SAFE_FILTERS.md）实际上是 `p = 2` 的特例。这个方向是把它推广到所有 `p ≡ 3 (mod 4)` 的素数。
 
 ---
 
@@ -204,6 +204,6 @@ a + c = b + d ⟺ k1(p1 - q1) + k3(p3 - q3) = 0
 
 - MATH.md §7：Pythagorean 4-cycle 的代数化简
 - MATH.md §8：Concordant 椭圆曲线分析
-- CHAIN_FAST_SAFE_FILTERS.md：当前已实现的 mod 筛
+- archive/CHAIN_FAST_SAFE_FILTERS.md：当前已实现的 mod 筛（已归档）
 - archive/CHAIN_FAST_STRUCTURE_FINDINGS.md：`max_hyp=100000` 的结构统计（已归档）
 

@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 cli_search = import_module("scripts.search")
-compare_cli = import_module("scripts.compare_parametric")
+compare_cli = import_module("scripts.archive.compare_parametric")
 
 class TestCliParametricArgs:
     def test_scale_populates_missing_parametric_limits(self):
@@ -65,7 +65,7 @@ class TestCompareScript:
         proc = subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "scripts" / "compare_parametric.py"),
+                str(ROOT / "scripts" / "archive" / "compare_parametric.py"),
                 "--scale",
                 "10",
                 "--max-k-num",

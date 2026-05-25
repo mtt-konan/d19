@@ -33,7 +33,7 @@
 4. [docs/MULTI_CONCORDANT_N_STRATEGY.md](MULTI_CONCORDANT_N_STRATEGY.md)：multi-N / 高 rank / closure 障碍的新主线。
 5. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：短中期可落地的理论方向（安全前筛）。
 6. [docs/THEORY_DIRECTIONS_ADVANCED.md](THEORY_DIRECTIONS_ADVANCED.md)：长期数学突破方向（Heegner / Chabauty / Brauer–Manin / K3）。
-7. [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)：把 5 个子命令当成词典看。
+7. [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)：把 5 个子命令当成词典看（已归档，仅供参考）。
 8. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
 9. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
 10. [docs/literature/](literature/README.md)：相关文献的索引、时间轴、BibTeX、阅读笔记。⭐ 重点看 `notes/peschmann-2604-09328.md`，那是 d19 的"完美双胞胎"对标论文。
@@ -55,15 +55,15 @@
   - `src/rational_distance/parametric_core.py`
   - `src/rational_distance/search_gpu.py`
 - 文档入口：
-  - [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)
+  - [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)
   - [docs/MATH.md](MATH.md)
 - 测试入口：
   - `tests/test_parametric.py`
   - `tests/test_cli.py`
 - 脚本入口：
   - `scripts/search.py`
-  - `scripts/compare_parametric.py`
-  - `scripts/visualize.py`
+  - `scripts/archive/compare_parametric.py`
+  - `scripts/archive/visualize.py`
 
 ### 1.2 `ec`（paused）
 
@@ -76,14 +76,14 @@
   - `src/rational_distance/ec_db.py`
   - `src/rational_distance/ec_analysis.py`
 - 文档入口：
-  - [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)
+  - [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)
   - [docs/MATH.md](MATH.md)
   - [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)
 - 测试入口：
   - `tests/test_ec.py`
 - 脚本入口：
   - `scripts/search.py`
-  - `scripts/analyze_ec_db.py`
+  - `scripts/archive/analyze_ec_db.py`
 
 ### 1.3 `chain`（paused）
 
@@ -93,7 +93,7 @@
 - 代码入口：
   - `src/rational_distance/search_chain.py`
 - 文档入口：
-  - [docs/SEARCH_METHODS.md](SEARCH_METHODS.md)
+  - [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)
   - [docs/PROJECT_STATUS.md](PROJECT_STATUS.md)
   - [docs/MATH.md](MATH.md)
 - 测试入口：
@@ -112,7 +112,7 @@
   - `src/rational_distance/chain_db.py`
   - `src/rational_distance/chain_analysis.py`
 - 文档入口：
-  - [docs/CHAIN_FAST_SAFE_FILTERS.md](CHAIN_FAST_SAFE_FILTERS.md)（当前线 safe_sieve 说明）
+  - [docs/archive/CHAIN_FAST_SAFE_FILTERS.md](archive/CHAIN_FAST_SAFE_FILTERS.md)（safe_sieve 说明，已归档）
   - 历史背景（已归档）：
     [PERFORMANCE](archive/CHAIN_FAST_PERFORMANCE.md)、
     [OPTIMIZATION](archive/CHAIN_FAST_OPTIMIZATION.md)、
@@ -125,7 +125,7 @@
   - `tests/test_chain_fast_cli.py`
 - 脚本入口：
   - `scripts/search.py`
-  - `scripts/analyze_chain_db.py`
+  - `scripts/archive/analyze_chain_db.py`
 
 ### 1.5 `concordant`（active）
 

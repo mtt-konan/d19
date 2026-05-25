@@ -57,7 +57,7 @@
 | chain / 4-chain | **链 / 4-链** | 4 个边距离都是有理数的四顶点配置 | [DIRECTIONS](DIRECTIONS.md) |
 | hard_case | **疑难对** | 暂时既没找到解也没证无解的 $(A, B)$ 对 | [wl 030](work-logs/030-large-range-proof-stats.md) |
 | no_solution | **已证无解** | 用 cheap sieve（mod 1680, modular obstruction）证完全没有 N 满足条件的 (A, B) | [wl 030](work-logs/030-large-range-proof-stats.md) |
-| safe_sieve | **安全前筛** | 不会误杀真解的快速过滤（mod 8, mod 1680 等） | [CHAIN_FAST_SAFE_FILTERS](CHAIN_FAST_SAFE_FILTERS.md) |
+| safe_sieve | **安全前筛** | 不会误杀真解的快速过滤（mod 8, mod 1680 等） | [CHAIN_FAST_SAFE_FILTERS](archive/CHAIN_FAST_SAFE_FILTERS.md) |
 | max_hyp | **最大斜边** | 扫描时给 $\sqrt{A^2+B^2}$ 设的上界 | [wl 030](work-logs/030-large-range-proof-stats.md) |
 | chain-fast | **基线搜索器** | 当前最可信的 4 顶点搜索实现 | [DIRECTIONS](DIRECTIONS.md) §1.4 |
 

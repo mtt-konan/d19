@@ -14,6 +14,9 @@
 | `CHAIN_FAST_STRUCTURE_FINDINGS.md` | `chain-fast --bucket-stats` 在 `max_hyp=100000` 上的首轮结论 | 参考用 |
 | `CHAIN_STRUCTURE_IDEAS.md` | 2026-05 头脑风暴的 4 个想法（已被 wl 033/034/035 实证 follow-up） | 参考用 |
 | `CONCORDANT_SAFE_FILTERS.md` | concordant 的早期前筛实验 | 已结束 |
+| `CHAIN_FAST_SAFE_FILTERS.md` | chain-fast 当前 safe_sieve 的可证明性说明 | 参考用 |
+| `SEARCH_METHODS.md` | 5 个 CLI 子命令的词典（parametric / ec / chain / chain-fast / concordant） | 参考用 |
+| `METHOD_COMPARISON.md` | 5 个方法的实测时间与适用场景对比 | 参考用 |
 
 ## 何时查看
 

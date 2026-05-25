@@ -385,7 +385,7 @@ class TestEcDatabase:
         subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "scripts" / "analyze_ec_db.py"),
+                str(ROOT / "scripts" / "archive" / "analyze_ec_db.py"),
                 "--db",
                 str(db_path),
                 "--run",

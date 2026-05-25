@@ -164,7 +164,7 @@ class TestChainFastCLI:
         proc = subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "scripts" / "analyze_chain_db.py"),
+                str(ROOT / "scripts" / "archive" / "analyze_chain_db.py"),
                 "--db",
                 str(db_path),
                 "--run",

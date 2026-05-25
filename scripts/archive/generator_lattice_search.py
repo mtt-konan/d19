@@ -31,7 +31,7 @@ from typing import Any
 
 import cypari2
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent
 
 
 def is_perfect_square(n: int) -> tuple[bool, int]:

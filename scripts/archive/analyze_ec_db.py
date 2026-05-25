@@ -7,7 +7,7 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -54,7 +54,7 @@ def _print_summary(report: dict) -> None:
 
 def main() -> None:
     from rational_distance.ec_analysis import build_analysis_report, parse_triple_arg
-    from scripts.visualize import build_html
+    from scripts.archive.visualize import build_html
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
