@@ -16,10 +16,9 @@ returns.
 
 from __future__ import annotations
 
-import multiprocessing as mp
 import sqlite3
 from collections.abc import Callable, Iterable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from rational_distance.proof_status import schema as schema
 from rational_distance.proof_status.methods import DEFAULT_METHOD_PIPELINE, MethodFn
@@ -364,7 +363,7 @@ def process_pairs_parallel(
     conn: sqlite3.Connection,
     pairs: Iterable[tuple[int, int]],
     *,
-    workers: int = 1,
+    workers: int | None = None,
     commit_every: int = 1000,
     chunksize: int = 50,
     skip_terminal: bool = True,
@@ -372,7 +371,8 @@ def process_pairs_parallel(
 ) -> dict[str, int]:
     """Parallel sibling of ``process_pairs`` with batched commits.
 
-    - ``workers``: number of worker processes (1 = sequential, no Pool).
+    - ``workers``: number of worker processes. None = auto (CPU count).
+      Use 1 for sequential execution without Pool overhead.
     - ``commit_every``: commit the SQLite transaction every N pairs.
     - ``chunksize``: ``Pool.imap_unordered`` chunksize knob.
     - ``skip_terminal``: skip pairs already classified ``no_solution`` /
@@ -384,6 +384,11 @@ def process_pairs_parallel(
 
     Returns the status histogram (same shape as ``process_pairs``).
     """
+    from rational_distance.parallel import parallel_map, default_workers
+
+    if workers is None:
+        workers = default_workers()
+
     pairs_list = list(pairs)
     if skip_terminal:
         kept: list[tuple[int, int]] = []
@@ -407,17 +412,16 @@ def process_pairs_parallel(
         if on_result is not None:
             on_result(result)
 
-    if workers <= 1:
-        for A, B in pairs_list:
-            _handle(_worker_compute((A, B)))
-    else:
-        # spawn context: macOS / Linux; avoids fork+PARI library quirks.
-        ctx = mp.get_context("spawn")
-        with ctx.Pool(processes=workers) as pool:
-            for result in pool.imap_unordered(
-                _worker_compute, pairs_list, chunksize=chunksize
-            ):
-                _handle(result)
+    # 使用公共并行工具，但需要自定义 on_result 处理 batched commit
+    # 所以这里不能直接用 parallel_map 的返回值，而是用 on_result 回调
+    parallel_map(
+        _worker_compute,
+        pairs_list,
+        workers=workers,
+        chunksize=chunksize,
+        on_result=_handle,
+        ordered=False,
+    )
 
     if pending > 0:
         conn.commit()

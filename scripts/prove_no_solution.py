@@ -153,17 +153,26 @@ def main() -> None:
         action="store_true",
         help="Print the materialised status line for each processed pair.",
     )
+    # 导入公共并行工具获取默认 worker 数
+    from rational_distance.parallel import default_workers
+    _default_workers = default_workers()
+
     parser.add_argument(
         "--workers",
         type=int,
-        default=1,
+        default=_default_workers,
         help=(
-            "Number of parallel worker processes for batch runs. "
-            "Default: 1 (sequential). When > 1, uses multiprocessing + "
-            "batched commits (see --commit-every) for large speedups on "
-            "max_hyp >= 5000 runs. Implies the default method pipeline; "
-            "incompatible with --rerun-terminal."
+            f"Number of parallel worker processes for batch runs. "
+            f"Default: {_default_workers} (auto = CPU count). Use --workers 1 for "
+            f"sequential execution. When > 1, uses multiprocessing + "
+            f"batched commits (see --commit-every) for large speedups. "
+            f"Incompatible with --rerun-terminal."
         ),
+    )
+    parser.add_argument(
+        "--serial",
+        action="store_true",
+        help="Run in serial mode (equivalent to --workers 1).",
     )
     parser.add_argument(
         "--commit-every",
@@ -227,7 +236,10 @@ def main() -> None:
 
     config = workflow.WorkflowConfig(rerun_terminal=args.rerun_terminal)
 
-    if args.workers > 1 and args.rerun_terminal:
+    # 处理 --serial 参数
+    workers = 1 if args.serial else args.workers
+
+    if workers > 1 and args.rerun_terminal:
         raise SystemExit(
             "--workers > 1 is not compatible with --rerun-terminal "
             "(parallel path only processes pairs not yet terminal)."
@@ -246,8 +258,8 @@ def main() -> None:
     print(f"Proof-status workflow — DB: {db_path}")
     print(f"  pairs to process: {len(pairs)}")
     print(f"  rerun_terminal:   {args.rerun_terminal}")
-    print(f"  workers:          {args.workers}")
-    if args.workers > 1:
+    print(f"  workers:          {workers}")
+    if workers > 1:
         print(f"  commit_every:     {args.commit_every}")
     if args.heegner_multiple_bound is not None:
         print(f"  heegner |n|<=:    {args.heegner_multiple_bound}")
@@ -257,7 +269,7 @@ def main() -> None:
 
     counts: dict[str, int] = {}
 
-    if args.workers > 1:
+    if workers > 1:
 
         def _on_result(result) -> None:
             counts[result.final_status] = counts.get(result.final_status, 0) + 1
@@ -290,7 +302,7 @@ def main() -> None:
         workflow.process_pairs_parallel(
             conn,
             pairs,
-            workers=args.workers,
+            workers=workers,
             commit_every=args.commit_every,
             skip_terminal=not args.rerun_terminal,
             on_result=_on_result,
