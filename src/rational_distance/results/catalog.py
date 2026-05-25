@@ -83,6 +83,15 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
+        path="multi_concordant_N_max50000_pari_rank.jsonl",
+        category="multi-concordant",
+        description=(
+            "Subset of max_hyp=50000 F₂-rank>=3 multi-N pairs with "
+            "PARI ellrank-certified rank bounds (wl050)."
+        ),
+        authoritative=False,
+    ),
+    CuratedArtifact(
         path="proof_status.db",
         category="proof-status",
         description="SQLite database for proof workflow state.",
