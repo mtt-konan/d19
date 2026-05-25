@@ -92,6 +92,31 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
+        path="multi_concordant_N_max100000_fast.jsonl",
+        category="multi-concordant",
+        description=(
+            "Pivot-on-N fast scanner output for max_hyp=100000 (wl052)."
+        ),
+        authoritative=False,
+    ),
+    CuratedArtifact(
+        path="multi_concordant_N_max100000_classified.jsonl",
+        category="multi-concordant",
+        description=(
+            "max_hyp=100000 multi-N pairs annotated with F₂-rank (wl052)."
+        ),
+        authoritative=False,
+    ),
+    CuratedArtifact(
+        path="multi_concordant_N_max100000_pari_rank.jsonl",
+        category="multi-concordant",
+        description=(
+            "Subset of max_hyp=100000 F₂-rank>=3 multi-N pairs with "
+            "PARI ellrank-certified rank bounds (wl052)."
+        ),
+        authoritative=False,
+    ),
+    CuratedArtifact(
         path="proof_status.db",
         category="proof-status",
         description="SQLite database for proof workflow state.",
