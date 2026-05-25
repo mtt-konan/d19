@@ -443,6 +443,83 @@ def run_heegner_stub(A: int, B: int) -> MethodResult:
 
 
 # ---------------------------------------------------------------------------
+# Method 3.5: f2_rank  (cheap PARI-free lower bound on Mordell-Weil rank
+#                       via half-point 2-descent images; see wl049/wl050)
+# ---------------------------------------------------------------------------
+
+
+def run_f2_rank(A: int, B: int) -> MethodResult:
+    """Compute the F₂-rank of half-point 2-descent images for concordant N.
+
+    This is a millisecond-scale, PARI-free *lower bound* on the
+    Mordell-Weil rank of ``E_{A, B}``. Concretely, for every concordant
+    integer ``N`` we take one positive-signature half-point ``Q_N`` and
+    record its image ``(sf(x), sf(x + A²))`` in ``(Q*/Q*²)²``. The
+    F₂-rank of the resulting set of vectors satisfies
+
+        F₂-rank ≤ rank(E) + 2
+
+    because the descent map lands inside ``E(Q)/2E(Q)`` and that group
+    has F₂-dimension ``rank + dim E[2](Q) = rank + 2``. Hence
+    ``rank ≥ max(0, F₂-rank − 2)``.
+
+    Outcome
+    -------
+    The method is purely informational (``outcome="pass"``): it never
+    decides ``no_solution`` or ``solution_found``. Its job is to
+    contribute a ``rank_lower`` floor and an ``f2_rank`` field to the
+    pair's evidence so downstream filters and later methods can use it.
+
+    The method is skipped when fewer than 2 concordant N exist (the
+    F₂-rank on a single half-point is not informative).
+    """
+    started = time.perf_counter()
+    Ns = find_concordant_by_factorization(A, B)
+    if len(Ns) < 2:
+        return MethodResult(
+            method="f2_rank",
+            outcome="skipped",
+            details={
+                "reason": "need_at_least_two_concordant_n",
+                "concordant_n_count": len(Ns),
+            },
+            elapsed_s=time.perf_counter() - started,
+            notes=(
+                f"Skipped: only {len(Ns)} concordant N (need >=2 for F₂-rank)."
+            ),
+        )
+
+    from rational_distance.concordant.two_descent_rank import (
+        f2_rank_of_concordant_pair,
+    )
+
+    f2_result = f2_rank_of_concordant_pair(A, B, Ns)
+    elapsed = time.perf_counter() - started
+
+    rank_floor = max(0, f2_result.f2_rank - 2)
+    details: dict[str, object] = {
+        "f2_rank": f2_result.f2_rank,
+        "k": len(Ns),
+        "saturated": f2_result.f2_rank == len(Ns),
+        "rank_lower": rank_floor if rank_floor > 0 else None,
+    }
+    if f2_result.minimal_relation is not None:
+        details["minimal_relation"] = list(f2_result.minimal_relation)
+
+    saturation = "saturated" if f2_result.f2_rank == len(Ns) else "deficient"
+    return MethodResult(
+        method="f2_rank",
+        outcome="pass",
+        details=details,
+        elapsed_s=elapsed,
+        notes=(
+            f"F2-rank={f2_result.f2_rank} (k={len(Ns)}, {saturation}); "
+            f"rank >= {rank_floor} from half-points."
+        ),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Methods 5-6: stubs for the remaining advanced theoretical directions
 # ---------------------------------------------------------------------------
 
@@ -488,6 +565,7 @@ DEFAULT_METHOD_PIPELINE: tuple[tuple[str, MethodFn], ...] = (
     ("safe_sieve", run_safe_sieve),
     ("chain_closure_mod_sieve", run_chain_closure_mod_sieve),
     ("factor_concordant", run_factor_concordant),
+    ("f2_rank", run_f2_rank),
     ("rank_zero", run_rank_zero),
     ("heegner", run_heegner_stub),
     ("chabauty", run_chabauty_stub),
@@ -501,6 +579,7 @@ __all__ = [
     "run_brauer_manin_stub",
     "run_chabauty_stub",
     "run_chain_closure_mod_sieve",
+    "run_f2_rank",
     "run_factor_concordant",
     "run_heegner_height",
     "run_heegner_stub",

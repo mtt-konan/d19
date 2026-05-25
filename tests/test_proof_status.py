@@ -171,6 +171,57 @@ class TestFactorConcordantMethod:
         assert result.details["concordant_n_count"] == 0
 
 
+class TestF2RankMethod:
+    """The f2_rank method records a PARI-free Mordell-Weil lower bound."""
+
+    def test_skipped_when_no_concordant_n(self):
+        from rational_distance.proof_status.methods import run_f2_rank
+
+        # (1, 3): both odd, passes safe_sieve, no concordant N exists.
+        result = run_f2_rank(1, 3)
+        assert result.method == "f2_rank"
+        assert result.outcome == "skipped"
+        assert result.details["concordant_n_count"] == 0
+
+    def test_skipped_with_only_one_concordant_n(self):
+        from rational_distance.concordant.factor_search import (
+            find_concordant_by_factorization,
+        )
+        from rational_distance.proof_status.methods import run_f2_rank
+
+        # (7, 45): passes safe_sieve, has exactly one concordant N.
+        ns = find_concordant_by_factorization(7, 45)
+        assert len(ns) == 1  # sanity check on the test setup
+
+        result = run_f2_rank(7, 45)
+        assert result.outcome == "skipped"
+        assert result.details["concordant_n_count"] == 1
+
+    def test_reports_f2_rank_for_known_multi_n_pair(self):
+        from rational_distance.proof_status.methods import run_f2_rank
+
+        # (153, 560): three concordant N (204, 420, 3900), F2-rank=3 saturated.
+        result = run_f2_rank(153, 560)
+        assert result.outcome == "pass"
+        assert result.details["f2_rank"] == 3
+        assert result.details["k"] == 3
+        assert result.details["saturated"] is True
+        # F2-rank=3 ⇒ rank_lower = max(0, 3-2) = 1.
+        assert result.details["rank_lower"] == 1
+        assert "minimal_relation" not in result.details
+
+    def test_records_minimal_relation_when_deficient(self):
+        from rational_distance.proof_status.methods import run_f2_rank
+
+        # (11776, 17199): four concordant N, F2-rank=3 (deficient).
+        result = run_f2_rank(11776, 17199)
+        assert result.outcome == "pass"
+        assert result.details["f2_rank"] == 3
+        assert result.details["k"] == 4
+        assert result.details["saturated"] is False
+        assert result.details["minimal_relation"] == [3960, 4368, 541632]
+
+
 class TestRankZeroMethod:
     """The rank_zero method requires PARI; tests are skipped if unavailable."""
 
@@ -343,6 +394,22 @@ def pari_free_pipeline():
     )
 
 
+@pytest.fixture
+def f2_rank_pipeline():
+    """PARI-free pipeline that also records the f2_rank step."""
+    from rational_distance.proof_status.methods import (
+        run_f2_rank,
+        run_factor_concordant,
+        run_safe_sieve,
+    )
+
+    return (
+        ("safe_sieve", run_safe_sieve),
+        ("factor_concordant", run_factor_concordant),
+        ("f2_rank", run_f2_rank),
+    )
+
+
 class TestWorkflow:
     def test_safe_sieve_terminates_pipeline(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow
@@ -443,6 +510,35 @@ class TestWorkflow:
             "SELECT COUNT(*) FROM pair_method_attempts WHERE A=1 AND B=5"
         ).fetchone()[0]
         assert after == before + 1  # safe_sieve attempted once more
+
+    def test_f2_rank_pipeline_records_rank_lower_for_multi_n(
+        self, tmp_path: Path, f2_rank_pipeline
+    ):
+        from rational_distance.proof_status import schema, workflow
+
+        db = tmp_path / "p.sqlite3"
+        conn = schema.connect_db(db)
+        schema.init_schema(conn)
+
+        cfg = workflow.WorkflowConfig(methods=f2_rank_pipeline)
+        # (9269, 24255): odd-odd with (A+B) % 4 == 0 (passes safe_sieve),
+        # has 3 concordant N and F2-rank=3 saturated ⇒ rank_lower=1.
+        status = workflow.process_pair(conn, 9269, 24255, cfg)
+
+        assert status.status == "hard_case"
+        assert status.rank_lower == 1
+        attempt_methods = [
+            row["method"]
+            for row in conn.execute(
+                "SELECT method FROM pair_method_attempts "
+                "WHERE A=9269 AND B=24255 ORDER BY id"
+            ).fetchall()
+        ]
+        assert "f2_rank" in attempt_methods
+        # Order is preserved: safe_sieve, factor_concordant, f2_rank.
+        assert attempt_methods.index("f2_rank") > attempt_methods.index(
+            "factor_concordant"
+        )
 
     def test_status_counts_aggregate(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow

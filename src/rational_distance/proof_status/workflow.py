@@ -86,6 +86,12 @@ def _aggregate_details(
     if method in {"rank_zero", "heegner"}:
         rank_lower = _coerce_int(details.get("rank_lower"), rank_lower)
         rank_upper = _coerce_int(details.get("rank_upper"), rank_upper)
+    if method == "f2_rank":
+        # f2_rank only contributes a *lower bound*. Never let it lower an
+        # existing tighter bound; only adopt it if it is strictly higher.
+        candidate = _coerce_int(details.get("rank_lower"), None)
+        if candidate is not None and (rank_lower is None or candidate > rank_lower):
+            rank_lower = candidate
     if method == "factor_concordant":
         concordant_n_count = _coerce_int(
             details.get("concordant_n_count"), concordant_n_count
