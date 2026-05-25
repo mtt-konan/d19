@@ -1,0 +1,1357 @@
+--- page 1 ---
+
+ACTA ARITHMETICA
+LXXVIII.2 (1996)
+Euler’s concordant forms
+by
+Ken Ono (Princeton, N.J., and University Park, Penn.)
+1. Introduction. In [6] Euler asks for a classiﬁcation of those pairs of
+distinct non-zero integers M and N for which there are integer solutions
+(x, y, t, z ) with xy ̸= 0 to
+(1) x2 + M y 2 = t2 and x2 + N y 2 = z 2.
+This is known as Euler’s concordant forms problem , and when M = −N
+Euler’s problem is the congruent number problem. Tunnell gave a conditional
+solution to the congruent number problem using elliptic curves and modular
+forms. Using these ideas, we consider Euler’s problem which reduces to a
+study of the elliptic curve over Q :
+EQ (M, N ) : y 2 = x3 + ( M + N )x2 + M N x.
+If EQ (M, N ) has positive rank, then there are inﬁnitely many primitive
+integer solutions to (1); but if EQ (M, N ) has rank 0, then there may be a
+non-trivial solution. Such a solution exists if and only if the torsion group
+is Z2 ×Z8 or Z2 ×Z6. We classify all such cases, thereby reducing Euler’s
+problem to a question of ranks. In some cases, the ranks of quadratic twists
+of EQ (M, N ) are described by the representations of integers by ternary
+quadratic forms. Consequently, we obtain results regarding Euler’s problem,
+and the existence of solutions to a pair of Pell’s equations. Moreover, we give
+a new and elementary method, using the theory of lacunary modular forms,
+which establishes that there are inﬁnitely many rank 0 quadratic twists of
+EQ (M, N ) by discriminants in arithmetic progressions.
+2. Results. A solution to (1) is primitive if x, y, t, and z are positive
+integers and gcd( x, y ) = 1. In [1] E. T. Bell parametrized the solutions of (1)
+in terms of polynomials in 41 variables, a solution that is diﬃcult to absorb.
+1991 Mathematics Subject Classiﬁcation : Primary 05A17; Secondary 11P83.
+Key words and phrases : Euler’s concordant forms problem.
+The author is supported by NSF grants DMS-9304580 and DMS-9508976.
+[101]
+
+--- page 2 ---
+
+102 K. O n o
+In [17] T. Ono mentions various cases of (1) where it is known that there
+are inﬁnitely many solutions. For example, if M = 1 and N = 2 n2 − 1 with
+n ̸= 0 , 1, and 2, then there are inﬁnitely many primitive solutions.
+By multiplying the two equations in (1) together, and then multiplying
+by x2/y 6, we get
+(2) x2t2z 2
+y 6 = x6
+y 6 + ( M + N )
+(
+x4
+y 4
+)
++ M N
+(
+x2
+y 2
+)
+.
+If we then replace x2/y 2 by x and also xtz/y 3 by y we ﬁnd that
+(3) y 2 = x3 + ( M + N )x2 + M N x.
+In studying the points of EQ (M, N ), we note that one may make the further
+assumption that the gcd( M, N ) be a square-free integer. To see this we
+note that if d is a non-zero integer, then EQ (d2M, d 2N ) is isomorphic to
+EQ (M, N ) by replacing y by y/d 3 and x by x/d 2. Also note that EQ (M, N ) ∼=
+EQ (N, M ), hence we may freely interchange the order of M and N in what
+follows. Furthermore, we also note that EQ (M, N ) ∼= EQ (−M, N − M ) ∼=
+EQ (−N, M − N ) by replacing x by x − M and x − N . Therefore we could
+without loss of generality assume that M and N are both positive integers.
+Using the standard deﬁnitions, one can easily verify that the discriminant
+of EQ (M, N ) is ∆ = 16 M 2N 2(M − N )2 and its j -invariant is
+j = 256( M 2 − M N + N 2)3
+M 2N 2(M − N )2 .
+By Mordell’s theorem, EQ (M, N ) forms a ﬁnitely generated abelian
+group, and so satisﬁes
+EQ (M, N ) ∼= E tor ×Zr
+where E tor , the torsion subgroup of EQ (M, N ), is a ﬁnite abelian group and
+the rank r is a non-negative integer. However, by Mazur’s theorem E tor
+satisﬁes
+E tor ∈
+{
+Zm, where 1 ≤ m ≤ 10, or m = 12,
+Z2 ×Z2m, where 1 ≤ m ≤ 4.
+Computing the rank r of an elliptic curve E has been the focus of sig-
+niﬁcant interest, and of central importance is the Hasse–Weil L-function
+L(E, s ). For every prime p let N (p) denote the number of points (includ-
+ing the point at inﬁnity) on E p, the reduction of E modulo p. Deﬁne
+a(p) := p + 1 − N (p). Then L(E, s ) is deﬁned by
+L(E, s ) :=
+∞∑
+n=1
+a(n)
+ns =
+∏
+p|∆
+1
+1 − a(p)p−s
+∏
+p∤∆
+1
+1 − a(p)p−s + p1−2s .
+
+--- page 3 ---
+
+Euler’s concordant forms 103
+The conjectures of Birch and Swinnerton-Dyer (B-SD) connect the analytic
+properties of the Hasse–Weil L-function L(E, s ) for an elliptic curve E over
+Q with its rank. A weak version is:
+Conjecture (B-SD). Let E be an elliptic curve over Q, and let L(E, s )
+=
+∑∞
+n=1 a(n)/n s be its Hasse–Weil L-function. Then L(E, s ) has an analytic
+continuation to the entire complex plane and the rank of E is positive if and
+only if L(E, 1) = 0 .
+In [4] Coates and Wiles proved that if E is a positive rank elliptic curve
+over Q with complex multiplication, then L(E, 1) = 0, and as we shall see
+in Section 4, by the work of Kolyvagin, M. R. Murty, V. K. Murty, Bump,
+Friedberg, and Hoﬀstein much more is now known concerning this conjecture
+for modular elliptic curves.
+Returning to Euler’s problem, if (1) has a non-trivial integer solution
+(α, β, γ, δ ), then by (2) we see that EQ (M, N ) contains the Q-rational point
+(α2/β 2, αγδ/β 3). By factoring (2) and letting y = 0, we ﬁnd the three
+trivial order 2 points (0 , 0), (−M, 0), and ( −N, 0), and so Z2 ×Z2 is always
+a subgroup of the torsion subgroup of EQ (M, N ). Since these points have
+y = 0, it is not possible for them to correspond to a non-trivial solution of
+(1); hence a solution of (1), if there are any, must correspond to points of
+inﬁnite order or torsion points with order diﬀerent from 2.
+If M = −N , the congruent number case, or if M = 2 N , or if M = 1
+2 N ,
+then the elliptic curve EQ (M, N ) has j = 1728 and hence has complex
+multiplication by Q(i). If M = 2 N , then by replacing x by x−N in E (2N, N )
+we obtain the more familiar model
+y 2 = x3 − N 2x.
+Since the torsion subgroups of all of these curves is Z2 ×Z2 and these torsion
+points do not aﬀord any solutions, a non-trivial solution to Euler’s problem
+exists if and only if the rank of EQ (2N, N ) is positive, which is precisely
+the condition for determining whether or not N is a congruent number.
+Consequently, by Tunnell’s theorem we obtain:
+Corollary 1. Let n be a square-free integer , d any non-zero integer ,
+and let M = 2 d2n and N = d2n.
+• If n is odd and there is a non-trivial solution to (1), then the number
+of integer representations of n by 2x2 + y 2 + 32 z 2 equals the number of its
+integer representations 2x2 + y 2 + 8 z 2. Furthermore , assuming B-SD , if the
+representation numbers of n by these two ternary quadratic forms are equal ,
+then there are inﬁnitely many primitive solutions to (1) .
+• If n is even and there is a non-trivial solution to (1), then the number
+of integer representations of n/ 2 by 4x2 + y 2 + 32 z 2 equals the number of its
+integer representations by 4x2 + y 2 + 8 z 2. Furthermore , assuming B-SD , if
+
+--- page 4 ---
+
+104 K. O n o
+the representation numbers of n/ 2 by these two ternary quadratic forms are
+equal , then there exist inﬁnitely many primitive solutions to (1) .
+Unlike the congruent number problem, it is the case that there are tor-
+sion points which aﬀord non-trivial solutions. For example, if we let M = 5
+and N = 32, then the elliptic curve EQ (5, 32) has rank zero yet (2 , 1, 3, 6)
+is a non-trivial solution to (1). It turns out that this solution is the unique
+primitive solution and it corresponds to certain torsion points of order 3
+on the elliptic curve EQ (5, 32). A thorough investigation of the torsion sub-
+groups of EQ (M, N ) shows that certain torsion points of order 3 and certain
+torsion points of order 4 correspond to non-trivial solutions of (1). In all
+other cases, there are non-trivial solutions to (1) if and only if the rank of
+EQ (M, N ) is positive. In Section 3 we will prove the following classiﬁcation
+theorem.
+Main Theorem 1. The torsion subgroups of EQ (M, N ) are uniquely
+determined by the following conditions :
+• The torsion subgroup of EQ (M, N ) contains Z2 ×Z4 if M and N are
+both squares , or −M and N − M are both squares , or if −N and M − N
+are both squares.
+• The torsion subgroup of EQ (M, N ) is Z2 ×Z8 if there exists a non-
+zero integer d such that M = d2u4 and N = d2v 4, or M = −d2v 4 and
+N = d2(u4 − v 4), or M = d2(u4 − v 4) and N = −d2v 4, where (u, v, w ) forms
+a Pythagorean triple (i.e. u2 + v 2 = w 2).
+• The torsion subgroup of EQ (M, N ) is Z2 ×Z6 if there exists integers
+a and b such that a/b ̸∈ {− 2, −1, −1/2, 0, 1} and M = a4 + 2 a3b and N =
+2ab 3 + b4.
+• In all other cases , the torsion subgroup of EQ (M, N ) is Z2 ×Z2.
+As a corollary we obtain the following complete classiﬁcation of the prim-
+itive solutions to (1) which correspond to torsion points in EQ (M, N ).
+Main Corollary 1. The primitive solutions to (1) aﬀorded by the tor-
+sion points of EQ (M, N ) are as follows :
+• If there exists a non-zero integer d such that M = d2u4 and N = d2v 4
+and (u, v, w ) is a Pythagorean triple , then the unique primitive solution to
+(1) arising from the torsion subgroup of EQ (M, N ) is (|duv |, 1, |duw |, |dvw |).
+• If there exists a non-zero integer d such that M = −d2v 4 and N =
+d2(u4 − v 4) ( resp. M = d2(u4 − v 4) and N = −d2v 4) where (u, v, w )
+is a Pythagorean triple , then the unique primitive solution to (1) arising
+from the torsion subgroup of EQ (M, N ) is (|dvw |, 1, |duv |, |duw |) ( resp.
+(|dvw |, 1, |duw |, |duv |)).
+• If there exists integers a and b such that a/b ̸∈ {− 2, −1, −1/2, 0, 1} and
+M = a4 + 2a3b and N = 2 ab 3 + b4, then the unique primitive solution to (1)
+
+--- page 5 ---
+
+Euler’s concordant forms 105
+arising from the torsion subgroup of EQ (M, N ) is (|ab|, 1, |a(a+b)|, |b(a+b)|).
+• In all other cases , there are no non-trivial solutions to (1) aﬀorded by
+the torsion points of EQ (M, N ).
+So when the torsion subgroup of EQ (M, N ) is Z2 ×Z2 or Z2 ×Z4, then
+there are non-trivial solutions (inﬁnitely many) to (1) if and only if the rank
+of EQ (M, N ) is positive.
+In the general case, assuming the Shimura–Taniyama–Weil conjecture
+(STW) and B-SD, we establish how explicit knowledge of the Fourier ex-
+pansions of weight 3 /2 modular forms can lead to a theoretical solution of
+suitable cases of Euler’s problem. In several cases we explicitly carry out
+the details in connection with representation numbers by ternary quadratic
+forms. For convenience, if Q is a quadratic form, then let r(n, Q ) be the
+number of integer representations of n by Q. We obtain:
+Main Theorem 2. Let n1 be a positive square free integer.
+(a) Suppose that L(EQ (6n1, −18n1), 1) ̸= 0 and r(n1, x2 + 2 y 2 + 12 z 2) ̸=
+r(n1, 2x2 + 3 y 2 + 4 z 2). Let n2 ≡ n1 mod 24 be a positive square-free integer
+and suppose that
+(M, N ) ∈
+{
+(24 d2n2, 18d2n2), (6d2n2, −18d2n2), (−6d2n2, −24d2n2),
+(6d2n2, 54d2n2), (48 d2n2, −6d2n2), (−48d2n2, −54d2n2)
+}
+for some non-zero integer d. If r(n2, x2 + 2 y 2 + 12 z 2) ̸= r(n2, 2x2 + 3 y 2 +
+4z 2), then the rank of EQ (M, N ) is unconditionally 0. If these representation
+numbers are equal , then assuming B-SD the rank of EQ (M, N ) is positive.
+(b) Suppose that L(EQ (40 n1, −10n1), 1) ̸= 0 and r(n1, x2 +2 y 2 +20 z 2) ̸=
+r(n1, 2x2 + 4 y 2 + 5 z 2). Let n2 ≡ n1, 9n1 mod 40, be a positive square-free
+integer and suppose that
+(M, N ) ∈ { (50 d2n2, 10d2n2), (40 d2n2, −10d2n2), (−40d2n2, −50d2n2)}
+for some non-zero integer d. If r(n2, x2 + 2 y 2 + 20 z 2) ̸= r(n2, 2x2 + 3 y 2 +
+4z 2), then the rank of EQ (M, N ) is unconditionally 0. If these representation
+numbers are equal , then assuming B-SD the rank of EQ (M, N ) is positive.
+(c) Suppose that L(EQ (9n1, −3n1), 1) ̸= 0 and r(n1, x2 + 7 y 2 + 7 z 2 −
+2yz ) ̸= r(n1, 3x2 + 4 y 2 + 5 z 2 − 4yz ). Let n2 ≡ n1 mod 24 be a positive
+square-free integer and suppose that
+(M, N ) ∈
+{
+(12 d2n2, 3d2n2), (9d2n2, −3d2n2), (−9d2n2, −12d2n2),
+(27 d2n2, 24d2n2), (3d2n2, −24d2n2), (−3d2n2, −27d2n2)
+}
+for some non-zero integer d. If r(n2, x2 +7 y 2 +7 z 2 − 2yz ) ̸= r(n2, 3x2 +4 y 2 +
+5z 2 − 4yz ), then the rank of EQ (M, N ) is unconditionally 0. If these repre-
+sentation numbers are equal , then assuming B-SD the rank of EQ (M, N ) is
+positive.
+
+--- page 6 ---
+
+106 K. O n o
+Consequently, we obtain:
+Main Corollary 2. Assume that d is any non-zero integer , and that
+(M, N ) is a pair of integers belonging to one of the families given in (a), (b)
+or (c) of Main Theorem 2. Then in each case we obtain :
+(a) Let n2 be an odd positive square-free integer. If r(n2, x2 + 2 y 2 +
+12z 2) ̸= r(n2, 2x2 + 3 y 2 + 4 z 2), then there are unconditionally no primitive
+solutions to (1) . If these representation numbers are equal , then assuming
+B-SD there are inﬁnitely many primitive solutions to (1) .
+(b) Let n2 be an odd positive square-free integer. If r(n2, x2 + 2 y 2 +
+20z 2) ̸= r(n2, 2x2 + 4 y 2 + 5 z 2), then there are unconditionally no primitive
+solutions to (1) . If these representation numbers are equal , then assuming
+B-SD there are inﬁnitely many primitive solutions to (1) .
+(c) Let n2 ̸≡ 7 mod 8 be an odd positive square-free integer. If r(n2, x2 +
+7y 2 +7 z 2 − 2yz ) ̸= r(n2, 3x2 +4 y 2 +5 z 2 − 4yz ), then there are unconditionally
+no primitive solutions to (1) . If these representation numbers are equal , then
+assuming B-SD there are inﬁnitely many primitive solutions to (1) .
+With the theory of lacunary modular forms, we show that there are
+inﬁnitely many quadratic twists in each of the families mentioned in Main
+Corollary 2 with rank 0.
+Main Theorem 3. Let d be a non-zero integer.
+• Let 1 ≤ r ≤ 23 be an odd integer. Then there are inﬁnitely many
+positive square-free integers n ≡ r mod 24 such that for
+(M, N ) ∈
+{
+(24 d2n, 18d2n), (6d2n, −18d2n), (−6d2n, −24d2n),
+(6d2n, 54d2n), (48 d2n, −6d2n), (−48d2n, −54d2n)
+}
+the rank of EQ (M, N ) is 0. In each of these cases , there are no primitive
+solutions to (1) .
+• If 1 ≤ r ≤ 40 is an odd integer , then there are inﬁnitely many positive
+square-free integers n ≡ r or 9r mod 40 such that for
+(M, N ) ∈ { (50 d2n, 10d2n), (40 d2n, −10d2n), (−40d2n, −50d2n)}
+the rank of EQ (M, N ) is 0. In each of these cases , there are no primitive
+solutions to (1) .
+• Let r be one of 1, 3, 5, 9, 11, 13, 17, 19 or 21. Then there are inﬁnitely
+many positive square-free integers n ≡ r mod 24 such that for
+(M, N ) ∈
+{
+(12 d2n, 3d2n), (9d2n, −3d2n), (−9d2n, −12d2n),
+(27 d2n, 24d2n), (3d2n, −24d2n), (−3d2n, −27d2n)
+}
+the rank of EQ (M, N ) is 0. In such cases there are no primitive solutions
+to (1) .
+
+--- page 7 ---
+
+Euler’s concordant forms 107
+3. The torsion subgroup of EQ (M, N ). To obtain Main Theorem 1,
+we use the following 2-descent proposition [7, 4.1, p. 37]:
+Proposition 1. Let P = ( x′, y ′) be a Q-rational point on E , an elliptic
+curve over Q given by
+y 2 = ( x − α)(x − β )(x − γ )
+where α, β, and γ ∈ Q. Then there exists a Q-rational point Q = ( x, y ) on
+E such that 2Q = P if and only if x′ − α, x ′ − β , and x′ − γ are all Q-rational
+squares.
+As an immediate corollary we obtain
+Corollary 2. If M and N are distinct non-zero integers , then there
+exists a non-trivial solution to (1) if and only if there exist non-trivial
+points P = ( x′, y ′) and Q = ( x, y ) on EQ (M, N ) such that 2Q = P ̸∈
+{(0, 0), (−M, 0), (−N, 0)}.
+P r o o f. First note that (3) has the factorization y 2 = x(x + M )(x +
+N ). Suppose that ( x, y, t, z ) = ( a, b, c, d ) is a non-trivial solution to (1).
+Then P = ( a2/b 2, acd/b 3) is a point on EQ (M, N ) and a2 + M b2 = c2
+and a2 + N b2 = d2. Hence we ﬁnd that a2/b 2, a2/b 2 + M = c2/b 2, and
+a2/b 2 + N = d2/b 2 are all rational squares. Then by the proposition above
+there exists a point Q such that P = 2 Q.
+Suppose that there exists a Q-rational point Q = ( x, y ) such that P =
+(x′, y ′) = 2 Q. We may assume that x′ = a2/b 2 since by the duplication
+formula (see [27, 28]) it is known that the x-coordinate of 2 Q (denoted by
+X (2Q)) is
+X (2Q) =
+(
+x2 − M N
+2y
+)2
+= x′.
+Hence by the above proposition we know that a2/b 2 + M and a2/b 2 + N are
+both non-zero squares; hence by multiplying through by b2 we obtain the
+primitive solution ( |a|, |b|,
+√
+a2 + M b2,
+√
+a2 + N b2) to (1).
+P r o o f o f M a i n T h e o r e m 1. We prove this theorem by investi-
+gating the cases where the torsion subgroup contains points of order 4 , 8,
+and 3.
+• In the ﬁrst case, we ﬁrst observe that Z2 ×Z4 is in the torsion subgroup
+of EQ (M, N ) if and only if there exists a point of order 4. EQ (M, N ) has a
+point Q of order 4 if and only if 2 Q = ( x′, y ′), an order 2 point, is one of
+(0, 0), (−M, 0), or ( −N, 0). But by the above proposition, it is known that
+(0, 0) (resp. ( −M, 0), and ( −N, 0)) is twice another point if and only if M
+and N are both squares (resp. −M and N − M are both squares and −N
+and M − N are both squares).
+
+--- page 8 ---
+
+108 K. O n o
+We now explicitly list the four points of order 4. If M = m 2 and N = n2
+(we assume that m, n > 0), then
+X (2Q) =
+(
+x2 − m 2n2
+2y
+)2
+= 0 .
+Hence it is clear that x = ±mn . By solving for y in (3) we ﬁnd that the four
+order 4 points are
+(4) ( mn, ±mn (m + n)) and ( −mn, ±mn (m − n)).
+Now if −M = m 2 and N − M = k 2, then
+X (2Q) =
+(
+x2 + m 2(k 2 − m 2)
+2y
+)2
+= m 2.
+Then by letting y = ±(x2 + m 2(k 2 − m 2))/(2m) and solving for x in (3), we
+obtain the four order 4 points:
+(5) ( m 2 − mk, ±k(m 2 − mk )) and ( m 2 + mk, ±k(m 2 + mk )).
+If −N and M − N are both squares, then the four order 4 points are found
+as in this last case.
+• In this case we determine when the torsion subgroup is Z2 ×Z8. Since
+Z2 ×Z4 is a subgroup of Z2 ×Z8, we consider each of the cases which arose
+when determining whether or not Z2 ×Z4 is contained in the torsion group.
+First we consider the case where M = m 2 and N = n2. So if Q = ( x, y )
+is a point of order 8, then 2 Q must be one of the four order 4 points given
+above. In particular, it is easy to see that X (2Q) = mn . By the proposition,
+such a point Q exists if and only if mn, mn + m 2, and mn + n2 are all squares.
+Since we may assume that gcd( M, N ) is square free, we may assume that
+gcd( m, n ) = 1. Hence it is clear that both m and n are squares, say m = u2
+and n = v 2. We now know that u2v 2, u2v 2 + u4, and u2v 2 + v 4 are all squares.
+This occurs if and only if u2 + v 2 = w 2 (i.e. ( u, v, w ) is a Pythagorean triple).
+So we ﬁnd that if M and N are both squares and the torsion group is Z2×Z8,
+then M = d2u4 and N = d2v 4 where ( u, v, w ) is a Pythagorean triple and d
+is some non-zero integer.
+Now we consider the case where −M = m 2 and N − M = k 2 (the case
+where M − N = k 2 and −N = n2 is handled similarly). If Q = ( x, y ) is a
+point of order 8, then by the discussion above we ﬁnd that X (2Q) = m 2 + mk
+(by choosing the signs of m and k if necessary). Hence by the proposition we
+ﬁnd that m 2 + mk , mk , and mk + k 2 are all squares if and only if there is such
+a point Q. Since we may assume that the gcd( M, N ) is square-free, we may
+also assume that the gcd( m, k ) = 1. Since mk is a square, we may assume
+that both are positive and also that m and k are both squares, say m = v 2
+and k = u2. Therefore v 4 + u2v 2, u2v 2, and u2v 2 + u4 are all squares, which
+
+--- page 9 ---
+
+Euler’s concordant forms 109
+then implies that u2 + v 2 = w 2. Hence we ﬁnd that the torsion subgroup is
+Z2 ×Z8 when M = −d2v 4 and N = d2(u4 − v 4).
+• In this case we determine those EQ (M, N ) for which the torsion sub-
+group is Z2 ×Z6. To do this use the triplication formula (see [28]) which
+determines whether or not a point Q = ( x, y ) has order 3. In the case of
+EQ (M, N ), it turns out that Q has order 3 if and only if
+3x4 + 4( M + N )x3 + 6 M N x2 − M 2N 2 = 0 .
+As a degree 4 homogeneous polynomial in the variables M, N , and x, it has
+a rational parametrization (due to Nigel Boston)
+M
+x = (1 + t)2 − 1, N
+x =
+(
+1 + 1
+t
+)2
+− 1.
+So replacing t by a/b (where gcd( a, b ) = 1) we ﬁnd that
+M
+x = 2ab + a2
+b2 and N
+x = 2ab + b2
+a2 .
+By the Nagell–Lutz theorem, we know that x is an integer and from the last
+two equalities we ﬁnd that x = a2b2. Hence M = 2 a3b+a4 and N = 2 ab 3 +b4.
+Note that if a/b ∈ {− 2, −1, −1/2, 0, 1} then we do not obtain an elliptic
+curve.
+By solving for y in (3) where x = a2b2, we ﬁnd that the two order 3
+points are
+(6) ( a2b2, ±a2b2(a + b)2).
+• Since Z2 ×Z2 is always contained in the torsion subgroup of EQ (M, N ),
+the torsion subgroup (by Mazur’s theorem) must be one of Z2 ×Z2,Z2 ×
+Z4,Z2 ×Z6, orZ2 ×Z8. Therefore if M and N are distinct non-zero integers
+which do not occur in the list above, then by process of elimination, the
+torsion subgroup of EQ (M, N ) must be Z2 ×Z2.
+As an immediate corollary we obtain Main Corollary 1.
+P r o o f o f M a i n C o r o l l a r y 1. As a consequence of Corollary 2, we
+see that non-trivial solutions aﬀorded by the torsion subgroup of EQ (M, N )
+exist if and only if the torsion subgroup is either Z2 × Z8 or Z2 × Z6.
+Moreover, from its proof, we ﬁnd that in these cases the non-trivial solutions
+must correspond to the order 4 or 3 torsion points. In each of these cases one
+may simply plug in the values of M and N into (4), (5), and (6) to obtain
+the x-coordinates of these points. There is only one positive x-coordinate
+belonging to order 4 and 3 points, hence there is a unique primitive solution
+as a consequence of the proof of Corollary 2.
+
+--- page 10 ---
+
+110 K. O n o
+4. Modular forms and quadratic twists of EQ (M, N ). As a con-
+sequence of the results in the last section, we see that when the torsion
+subgroup of EQ (M, N ) is Z2 ×Z2 or Z2 ×Z4, then there are primitive solu-
+tions to (1) if and only if the rank of EQ (M, N ) is positive. Moreover, there
+are inﬁnitely many such primitive solutions for any ( M, N ) if and only if
+the rank of EQ (M, N ) is positive.
+The Shimura–Taniyama–Weil Conjecture (STW) asserts that certain
+weight 2 newforms correspond to the L-functions of elliptic curves over Q.
+More precisely, a weak version of the conjecture is:
+Conjecture (STW). If E is an elliptic curve over Q with conductor
+N and L-function L(E, s ) =
+∑∞
+n=1 a(n)/n s, then the Mellin transform of
+L(E, s ), f (z) =
+∑∞
+n=1 a(n)q n is a weight 2 newform in S2(N, χ 0) where χ0
+is the trivial Dirichlet character mod N .
+If E is a curve for which the STW conjecture holds, then E is known
+as a modular elliptic curve . By the works of Carayol, Eichler, and Shimura
+it is known that if f (z) =
+∑∞
+n=1 a(n)q n is a weight 2 newform with integer
+coeﬃcients with trivial character χ0, then there exists an elliptic curve E
+over Q with L(E, s ) =
+∑∞
+n=1 a(n)/n s. Recently Wiles [31] has proven the
+conjecture for semistable elliptic curves, and Diamond and Kramer [5] have
+proved the conjecture for curves with full 2-torsion. In particular, if M ̸= N
+are non-zero integers, then EQ (M, N ) is a modular elliptic curve.
+By combining B-SD and STW, it turns out that the rank of an elliptic
+curve over Q is positive if and only if the special value of a certain modular
+L-function at s = 1 is 0. Recently from the works of Kolyvagin, M. R. Murty,
+V. K. Murty, Bump, Friedberg, and Hoﬀstein (see [3, 10, 14]) we have:
+Theorem 1. If E is a modular elliptic curve where L(E, 1) ̸= 0, then
+the rank of E is 0.
+Let ψ be a Dirichlet character mod M and let f (z) ∈ Sk (N, χ ) with
+Fourier expansion f (z) =
+∑∞
+n=1 a(n)q n . Then the function fψ (z), the ψ -
+twist of f (z), deﬁned by
+(7) fψ (z) =
+∞∑
+n=1
+ψ (n)a(n)q n
+is also a modular form and is contained in Sk (N M 2, χψ 2). Now we relate
+these twists when ψ is a quadratic character to the twists of an elliptic curve.
+If E is an elliptic curve over Q given by the equation y 2 = x3 + Ax 2 +
+Bx + C and D is a square-free integer, then the equation of its D -quadratic
+twist is
+Dy 2 = x3 + Ax 2 + Bx + C.
+
+--- page 11 ---
+
+Euler’s concordant forms 111
+This curve is denoted by E D . If D is a square-free integer, then the D -
+quadratic twist of EQ (M, N ) is given by Dy 2 = x3 + ( M + N )x2 + M N x.
+By multiplying both sides of this model by D 3 and then replacing D 2y by
+y and Dx by x we ﬁnd that the D -quadratic twist of EQ (M, N ) is
+(8) y 2 = x3 + ( DM + DN )x2 + D 2M N x,
+the curve EQ (DM, DN ). If L(EQ (M, N ), s) =
+∑∞
+n=1 a(n)/n s is the L-
+function for EQ (M, N ), then the L-function for its quadratic twist
+L(EQ (DM, DN ), s) =
+∞∑
+n=1
+aD (n)q n
+is
+∞∑
+n=1
+χD (n)a(n)
+ns
+where χD (n) is the quadratic character for Q(
+√
+D )/Q. Speciﬁcally this
+means that for almost all primes p, aD (p) =
+(D
+p
+)
+a(p) where
+(D
+p
+)
+is the
+usual Kronecker–Legendre symbol.
+Now we brieﬂy describe the theory of half-integral weight modular forms
+as developed by Shimura. Let N be a positive integer that is divisible by 4.
+Now deﬁne
+(c
+d
+)
+and εd by
+(
+c
+d
+)
+:=
+{
+−
+( c
+|d|
+)
+if c, d < 0,( c
+|d|
+)
+otherwise.
+εd :=
+{
+1, d ≡ 1 mod 4,
+i, d ≡ 3 mod 4.
+Also let ( cz + d)1/2 be the principal square root of ( cz + d) (i.e. with positive
+imaginary part). Let χ be a Dirichlet character mod N . Then a meromor-
+phic function f (z) on H is called a half-integer weight modular form if
+f
+(
+az + b
+cz + d
+)
+= χ(d)
+(
+c
+d
+)2λ+1
+ε−1−2λ
+d (cz + d)λ+1 /2f (z)
+for all
+(a b
+c d
+)
+∈ Γ0(N ). Such a form is called a form with weight λ + 1 /2
+and character χ. The set of all such forms that are holomorphic on H as
+well as at the cusps is denoted by M λ+1 /2(N, χ ) and is a ﬁnite-dimensional
+C-vector space. The set of those f (z) in M λ+1 /2(N, χ ) that also vanish at
+the cusps, the cusp forms, is denoted by Sλ+1 /2(N, χ ).
+As in the case of integer weight forms, there are Hecke operators that pre-
+serve M λ+1 /2(N, χ ) and Sλ+1 /2(N, χ ). However, for these forms the Hecke
+operators act on Fourier expansions in square towers; speciﬁcally, if p is a
+
+--- page 12 ---
+
+112 K. O n o
+prime, then the Hecke operator Tp2 acts on f (z) ∈ M λ+1 /2(N, χ ) by
+(9) f (z)|Tp2
+:=
+∞∑
+n=0
+(
+a(p2n) + χ(p)
+(
+(−1) λn
+p
+)
+pλ−1a(n) + χ(p2)p2λ−1a(n/p 2)
+)
+q n .
+As in the integer weight case, a form f (z) is called an eigenform if for every
+prime p there exists a complex number λp such that
+f (z)|Tp2 = λpf (z).
+The canonical example of weight 1 /2 modular forms is
+θ(z) :=
+∑
+n∈Z
+q n2
+= 1 + 2 q + 2 q 4 + 2 q 9 + . . .
+However, this is an example of a more general phenomenon from which many
+examples of forms are obtained. For example, if Q(x1, . . . , x k ) is a positive
+deﬁnite quadratic form in k variables then let r(n, Q ) denote the number of
+representations of n by Q. The generating function for r(n, Q ) deﬁned by
+(10) θQ (z) :=
+∑
+x1 ,...,x k ∈Zk
+q Q(x1 ,...,x k )
+is a weight k/ 2 modular form on some congruence group. Here we illustrate
+how to construct cusp forms using quadratic forms. Two positive deﬁnite
+quadratic forms Q 1 and Q 2 are in the same genus if they are equivalent over
+R and over Zp for every prime p. Then let θQ 1 (z) and θQ 2 (z) be deﬁned as
+in (10). In [26] Siegel showed that if Q 1 and Q 2 are in the same genus then
+the function F (z) := θQ 1 (z) − θQ 2 (z) is a cusp form.
+Speciﬁcally, we have the following theorem due to Schoeneberg [22] which
+explicitly computes the level and character of such cusp forms when there
+are an even number of variables in the quadratic form.
+Theorem (Schoeneberg). Let Q be a positive deﬁnite quadratic form in
+2k variables with determinant D and let ∆ := ( −1) k D be its discriminant.
+If A is the 2k × 2k matrix which represents Q, then let N be the smallest
+positive integer such that N A−1 is an integral matrix with even diagonal
+entries. Then θQ (z), as deﬁned in (10), is in M k (2N, χ ) where χ(n) :=
+(∆
+n
+)
+.
+Now equipped with results of Schoeneberg and Siegel we construct three
+weight 3 /2 eigenforms which are critical to the sequel. We simply searched
+through a list of reduced ternary quadratic forms and we found the fol-
+lowing convenient weight 3 /2 forms, which by the methods of this paper,
+correspond to elliptic curves with full 2-torsion. The referee has informed
+us of a paper by Lehman [11] where a systematic version of this method is
+described. Moreover, there is an explicit table containing all the weight 3 /2
+theta series arising from positive deﬁnite ternary quadratic forms with level
+
+--- page 13 ---
+
+Euler’s concordant forms 113
+≤ 100. Consequently, with some routine computation, more cases of Euler’s
+problem may be handled with the results in [11].
+Proposition 2. Let Q 1 = x2 + 2 y 2 + 12 z 2, Q 2 = 2 x2 + 3 y 2 + 4 z 2,
+Q 3 = x2 + 2 y 2 + 20 z 2, Q 4 = 2 x2 + 4 y 2 + 5 z 2, Q 5 = x2 + 7 y 2 + 7 z 2 − 2yz ,
+and Q 6 = 3 x2 + 4 y 2 + 5 z 2 − 4yz and deﬁne
+f1(z) := 1
+2 (θQ 1 (z) − θQ 2 (z)),
+f2(z) := 1
+2 (θQ 3 (z) − θQ 4 (z)),
+f3(z) := 1
+2 (θQ 5 (z) − θQ 6 (z)).
+Then as weight 3/2 cusp forms we ﬁnd that f1(z) ∈ S3/2
+(
+48,
+(6
+n
+))
+, f2(z) ∈
+S3/2
+(
+80,
+(10
+n
+))
+, and f3(z) ∈ S3/2
+(
+192 ,
+(3
+n
+))
+.
+P r o o f. We prove the proposition for f3(z), leaving f1(z) and f2(z) to
+the reader. First we note that Q 5 and Q 6 are two ternary quadratic forms
+which are in the same genus. Hence by Siegel’s theorem f3(z) is a weight
+3/2 cusp form on some congruence subgroup.
+Let ˜Q 5 = 7 y 2+7 z 2−2yz and ˜Q 6 = 4 y 2+5 z 2−4yz . Then by Schoeneberg’s
+theorem we ﬁnd that θ ˜Q 5
+(z) ∈ M 1
+(
+192 ,
+(−3
+n
+))
+and θ ˜Q 6
+(z) ∈ M 1
+(
+64,
+(−1
+n
+))
+.
+It is easy to see that θQ 5 (z) = θ(z)θ ˜Q 5
+(z) and that θQ 6 (z) = θ(3z)θ ˜Q 6
+(z).
+Since θ(z) ∈ M 1/2(4, χ0) and θ(3z) ∈ M 1/2
+(
+12,
+(3
+n
+))
+, we see that
+θQ 5
+(
+az + b
+cz + d
+)
+=
+(
+c
+d
+)
+ε−1
+d
+(
+−3
+d
+)
+(cz + d)3/2θQ 5 (z)
+and
+θQ 6
+(
+az + b
+cz + d
+)
+=
+(
+3
+d
+)(
+c
+d
+)
+ε−1
+d
+(
+−1
+d
+)
+(cz + d)3/2θQ 6 (z)
+for all
+(a b
+c d
+)
+∈ Γ0(192). But since ε−2
+d =
+(−1
+d
+)
+we ﬁnd that θQ 5 (z) and θQ 6 (z)
+are contained in M 3/2
+(
+192 ,
+(3
+n
+))
+, and so f3(z) := 1
+2 (θQ 5 (z) − θQ 6 (z)) ∈
+S3/2
+(
+192 ,
+(3
+n
+))
+since Q 5 and Q 6 are in the same genus.
+The critical link between the theory of half integer weight modular forms
+and the integer weight modular forms is the Shimura lift . The Shimura lifts
+are a family of maps which take the L-function of a half-integer weight cusp
+form and return the L-function of an integer weight modular form. More
+precisely, let f (z) =
+∑∞
+n=1 a(n)q n ∈ Sλ+1 /2(N, χ ) where λ ≥ 1. Deﬁne the
+Dirichlet character ψ by ψ (d) = χ(d)
+(−1
+d
+)λ
+. Now deﬁne A(n) by the formal
+product of L-functions
+∞∑
+n=1
+A(n)
+ns := L(s − λ + 1 , ψ )
+∞∑
+n=1
+a(n2)
+ns .
+
+--- page 14 ---
+
+114 K. O n o
+Then Shimura proved that the Mellin transform of this product, which we
+denote by S (f (z)) =
+∑∞
+n=1 A(n)q n , is a weight 2 λ modular form. In fact,
+it is known that S (f (z)) ∈ M 2λ(N/ 2, χ2). Furthermore, if λ ≥ 2, then
+S (f (z)) ∈ S2λ (N/ 2, χ2).
+Shimura conjectured that there are formulae involving special values of
+modular L-functions relating the Fourier coeﬃcients of f (z) with those of
+S (f (z)). First we ﬁx some necessary notation. If F (z) =
+∑∞
+n=1 A(n)q n is a
+modular form, then its L-function L(F, s ) is deﬁned by
+L(F, s ) =
+∞∑
+n=1
+A(n)
+ns .
+Now if ψ is a Dirichlet character and if Fψ (z) =
+∑∞
+n=1 ψ (n)A(n)q n is the
+ψ -twist of F (z), then we let L(F, ψ, s ) denote the modular L-function for
+Fψ (z).
+In [30] Waldspurger proved this conjecture explicitly. For our purposes
+we use:
+Theorem (Waldspurger). Let f (z) ∈ Sλ+1 /2(N, χ ) be an eigenform of
+the Hecke operators Tp2 such that S (f (z)) = F (z) ∈ S new
+2λ (M, χ 2) for an
+appropriate positive integer M . Denote their respective Fourier expansions
+by f (z) =
+∑∞
+n=1 a(n)q n and F (z) =
+∑∞
+n=1 A(n)q n . Let n1 and n2 be two
+positive square-free integers such that n1/n 2 ∈Q ×2
+p for all p | N . Then
+(11) a2(n1)L
+(
+F,
+(
+−1
+n
+)λ
+χ−1χn2 , λ
+)
+χ(n2/n 1)n
+λ−1/2
+2
+= a2(n2)L
+(
+F,
+(
+−1
+n
+)λ
+χ−1χn1 , λ
+)
+n
+λ−1/2
+1 .
+By combining Waldspurger’s theorem with B-SD we ﬁnd that we can
+determine whether or not the ranks of certain twists of an elliptic curve
+over Q are positive.
+Theorem 2. Let E be a modular elliptic curve over Q with L(E, s ) =∑∞
+n=1 A(n)/n s. Let f (z) =
+∑∞
+n=1 a(n)q n ∈ S3/2
+(
+N,
+(d
+n
+))
+be an eigenform
+of the Hecke operators Tp2 such that S (f (z)) = F (z) =
+∑∞
+n=1 A(n)q n . Now
+let n1 be a positive square-free integer such that a(n1) ̸= 0 and such that
+L(E −dn 1 , 1) ̸= 0 . Suppose that n2 is a positive square-free integer such that
+n1/n 2 ∈Q ×2
+p for every prime p | N . If a(n2) ̸= 0, then the rank of E −dn 2 is
+unconditionally 0. If a(n2) = 0, then assuming B-SD the rank of E −dn 2 is
+positive.
+
+--- page 15 ---
+
+Euler’s concordant forms 115
+P r o o f. In (11) we now substitute 1 for λ and replace χ by
+(d
+n
+)
+. Then
+by solving for L
+(
+F,
+(−dn 2
+n
+)
+, 1
+)
+we obtain
+L
+(
+F,
+(
+−dn 2
+n
+)
+, 1
+)
+=
+a2(n2)L
+(
+F,
+(−dn 1
+n
+)
+, 1
+)√n1
+√n2a2(n1) .
+Since E is a modular elliptic curve corresponding to the weight 2 newform
+F (z), we ﬁnd that
+L(E −dn 2 , 1) = a2(n2)L(E −dn 1 , 1)√n1
+√n2a2(n1) .
+So by hypothesis we ﬁnd that L(E −dn 2 , 1) = 0 if and only if a(n2) = 0.
+If a(n2) ̸= 0, then by Theorem 1 we ﬁnd that the rank of E −dn 2 is un-
+conditionally 0. If a(n2) = 0, then by B-SD the rank of E −dn 2 is posi-
+tive.
+We now prove Main Theorem 2.
+P r o o f o f M a i n T h e o r e m 2. We now prove Main Theorem 2 which
+contains explicit examples of the above theorem. Using the cusp forms f1(z),
+f2(z) and f3(z) from Proposition 2, let S (fi(z)) =
+∑∞
+n=1 A i(n)q n for 1 ≤
+i ≤ 3. For example, we found that
+S (f1(z)) = q − q 3 − 2q 5 + q 9 + 4 q 11 − 2q 13 + 2 q 15 + 2 q 17 + . . .
+= η(2z)η(4z)η(6z)η(12 z)
+and
+S (f3(z)) = q + q 3 − 2q 5 + q 9 − 4q 11 − 2q 13 − 2q 15 + 2 q 17 + . . .
+= η 4(4z)η 4(12 z)
+η(2z)η(6z)η(8z)η(24 z) .
+In fact, it should be noted that S (f3(z)) is S (f1(z)) twisted by the quadratic
+character
+(−1
+n
+)
+, which implies that the corresponding curves are twists of
+each other by D = −1.
+Since the Hecke operators Tp2 and Tp commute with the Shimura lift
+and the images S (fi(z)) are all weight 2 newforms, it follows that all three
+weight 3 /2 forms are eigenforms.
+We ﬁnd that S (f1(z)) ∈ S new
+2 (24 , χ0), S (f2(z)) ∈ S new
+2 (40 , χ0), and
+S (f3(z)) ∈ S new
+2 (48 , χ0). In these cases the weight 2 newforms correspond
+to certain EQ (M, N ). Since elliptic curves with conductor 24, 40, and 48
+are all modular, it is easy to verify that the L(EQ (M, N ), s) are the Mellin
+transforms of the S (Fi(z)).
+The pairs ( M, N ) for which L(EQ (M, N ), s) corresponds to S (f1(z)) are
+(−4, −3), ( −1, 3), (1 , 4), ( −1, −9), ( −8, 1), and (8 , 9). Those corresponding
+to S (f2(z)) are ( −5, −1), ( −4, 1), and (4 , 5), and those corresponding to
+
+--- page 16 ---
+
+116 K. O n o
+S (f3(z)) are ( −4, −1), ( −3, 1), (3 , 4), ( −9, −8), ( −1, 8), and (1 , 9). By The-
+orems 1 and 2 and since the coeﬃcient of q n in fi(z) is 1
+2 (r(n, Q 2i−1) −
+r(n, Q 2i)) by Proposition 2 we obtain the main result.
+We immediately obtain Main Corollary 2 by the following computations.
+P r o o f o f M a i n C o r o l l a r y 2. Since the torsion subgroups (by
+Main Theorem 1) are not Z2 ×Z8 nor Z2 ×Z6, we only need to determine
+the ranks of the relevant curves. By the last theorem, we only need to look for
+square-free positive integers n1 in each arithmetic progression which satisfy
+the hypotheses of the last theorem. We check these case by case.
+• In the ﬁrst case one can check that the conditions of Main Theorem 2
+are satisﬁed by n1 = 1 , 3, 5, 7, 57, 35, 13, 39, 17, 67, 93, and 23, and they are
+the representatives for the odd arithmetic progressions mod 24 in increasing
+order by residue class.
+• In the second case the hypotheses of Main Theorem 2 are satisﬁed by
+n1 = 1 , 3, 5, 7, 11, 13, 55, 17, 61, 145 , 31, and 195. The arithmetic progressions
+come in pairs and hence we only need one representative for each pair.
+• In the third case the conditions of the theorem are satisﬁed by n1 =
+1, 3, 5, 57, 11, 37, 17, 19, and 21. These are representatives for the odd arith-
+metic progressions mod 24 (except those that are 7 mod 8) in increasing or-
+der by residue class. We note that for every non-negative integer n
+r(8n + 7 , x2 + 7 y 2 + 7 z 2 − 2yz ) = r(8n + 7 , 3x2 + 4 y 2 + 5 z 2 − 4yz )
+hence the conditions of the theorem are not satisﬁed for the arithmetic
+progression 7 mod 8.
+We now show how one may use results like Main Theorem 2 to establish
+the existence of inﬁnitely many quadratic twists of certain curves with rank
+0. Using impressive analytic estimates on certain special values of modular
+L-functions, L. Mai and M. R. Murty [12] proved that a modular elliptic
+curve E has inﬁnitely many quadratic twists by D ≡ 1 mod 4 N , where N is
+the conductor of E , with rank 0. Here we show that this is indeed the case
+in the families of quadratic twists in Main Corollary 2. To do this we will
+use the theory of modular forms with complex multiplication as developed
+by Hecke and Serre. The author developed two other elementary methods of
+guaranteeing the existence of rank 0 quadratic twists in [15, 16]. In fact, in
+[16] it is shown that for some elliptic curves E there exists a set S of primes
+with density 1 /3 for which the D -twist of E has rank 0 provided that all
+the prime factors of D are in S .
+First we give essential preliminaries and deﬁnitions regarding modu-
+lar forms with complex multiplication. Let K = Q(
+√
+−d) be an imagi-
+nary quadratic ﬁeld with integer ring O K with discriminant −D . A Hecke
+Gr¨ ossencharakter φ of weight k ≥ 2 with conductor Λ, an ideal in O K , is a
+
+--- page 17 ---
+
+Euler’s concordant forms 117
+group homomorphism from I (Λ), the group of fractional ideals prime to Λ,
+to C× satisfying
+φ(αO K ) = αk−1 when α ≡ 1 mod Λ.
+Given such a φ, deﬁne a formal power series Ψ (z) in q = e2πiz by
+Ψ (z) :=
+∑
+a
+φ(a)q N (a),
+where the sum is taken over all integral ideals a prime to Λ and N (a) is the
+ideal norm of a in O K . The function Ψ (z) is a newform in S new
+k
+(
+DN (Λ),(−d
+n
+)φ(nO K )
+nk− 1
+)
+. Such forms are known as modular forms with complex multi-
+plication. Using these deﬁnitions we ﬁnd that if
+Ψ (z) =
+∞∑
+n=1
+a(n)q n ,
+then for every prime p where
+(−d
+p
+)
+= −1 we have a(p) = 0 (then there are
+no ideals of norm p). These are the inert primes of K .
+Now introduce the notion of a lacunary modular form. Suppose that
+f (z) =
+∑∞
+n=1 a(n)q n ∈ M k (N, χ ) for some positive integers k and N and
+some suitable Dirichlet character χ. The form f (z) is called lacunary if
+almost all of the Fourier coeﬃcients a(n) are zero. In this setting we take
+“almost all” to mean that a(n) = 0 on a subset of the positive integers with
+density one. In [23], Serre proved that such a form f (z) is lacunary if and
+only if f (z) is expressible as a ﬁnite linear combination of modular forms
+with complex multiplication.
+We now use these ideas to prove Main Theorem 3.
+P r o o f o f M a i n T h e o r e m 3. First we recall the following fact con-
+cerning the restriction of the Fourier expansion of an integer weight modular
+form to an arithmetic progression.
+Lemma 1. Let f (z) =
+∑∞
+n=0 a(n)q n be a modular form in M k (N, χ ) and
+let d := gcd( r, t). If 0 ≤ r < t , then
+fr,t (z) =
+∑
+n≡r mod t
+a(n)q n
+is the Fourier expansion of a modular form in M k (N t2/d).
+Deﬁne
+F1(z) := f1(z)θ(24 z) =
+∞∑
+n=1
+A 1(n)q n , F 2(z) := f2(z)θ(40 z) =
+∞∑
+n=1
+A 2(n)q n ,
+
+--- page 18 ---
+
+118 K. O n o
+and
+F3(z) := f3(z)θ(24 z) =
+∞∑
+n=1
+A 3(n)q n .
+It is easily veriﬁed that F1(z) ∈ S2(192 , χ0), F 2(z) ∈ S2(160 , χ0), and F3(z)
+∈ S2(192 , χ0). Let ai(n) (1 ≤ i ≤ 3) denote the Fourier coeﬃcients of fi(z).
+By (9), it is clear that the Hecke operators Tp2 act on ai(n), in square
+towers. In other words, if n is a positive square-free integer, then ai(nm 2) is
+uniquely determined by ai(n) and the eigenvalues for Tp2 for primes p | m.
+In fact, it is easy to verify that if ai(n) = 0, then ai(nm 2) = 0 for every
+non-zero integer m.
+Let F1,r (z) be the weight 2 cusp form deﬁned by
+F1,r (z) :=
+∑
+n≡r mod 24
+A 1(n)q n .
+By Lemma 1, it is clear that F1,r (z) is a weight 2 modular form (in fact,
+a cuspidal one) with respect to the congruence subgroup Γ0(24 2 · 96). It is
+easy to verify that if n is a square-free integer such that nm 2 ≡ r mod 24
+and m is prime to 6, then n ≡ r mod 24.
+Let 1 ≤ r ≤ 24 be a positive odd integer. Suppose that there are only
+ﬁnitely many square-free positive integers n ≡ r mod 24 such that a1(n) ̸= 0,
+say n1, . . . , n tr . So by the deﬁnition of F1(z), we ﬁnd that
+F1,r (z) =
+( tr∑
+i=1
+∑
+gcd( m, 24)=1
+a1(nim 2)q ni m 2
+)(∑
+n∈Z
+q 24 n2
+)
+.
+Since the set of positive integers that are represented by any binary quadratic
+form has density zero in the set of non-negative integers, we ﬁnd that F1,r (z)
+is a lacunary modular form. Hence by Serre’s theorem it must be the case
+that F1,r (z) is a ﬁnite linear combination of complex multiplication modular
+forms of weight 2. Since F1,r (z) has level 24 2 · 96 = 2 11 33 and the discrimi-
+nants of the CM ﬁelds divide the level, the only imaginary quadratic ﬁelds
+whose Hecke Gr¨ ossencharakters can occur in this linear combination are
+Q(i),Q(
+√
+−2),Q(
+√
+−3), and Q(
+√
+−6).
+Now if there exists a prime p which is inert in each of these ﬁelds such
+that the coeﬃcient A 1(pm ) ̸= 0 where pm ≡ r mod 24 and gcd( p, m ) = 1,
+then F1,r (z) cannot be a linear combination of such CM forms. This follows
+from the fact that the coeﬃcients in every newform are multiplicative and
+there are no ideals with norm p in any of these ﬁelds. It is impossible for
+any of the CM forms in the linear combination to have a non-zero coeﬃcient
+associated with the exponent pm . The smallest prime which is inert in each
+of these ﬁelds is p = 23. For r = 1 it turns out that A 1(23 · 71) = −16 ̸= 0.
+Hence F1,1(z) is not a linear combination of CM forms, hence it is not
+
+--- page 19 ---
+
+Euler’s concordant forms 119
+lacunary. This contradicts the assumption that there are only ﬁnitely many
+square-free positive integers n ≡ 1 mod 24 such that a1(n) ̸= 0. Hence there
+are inﬁnitely many n such that a1(n) ̸= 0, and by Main Corollary 2 this
+implies that the given pairs ( M, N ) of integers are rank 0 quadratic twists.
+For r = 3 , 5, 7, 9, 11, 13, 15, 17, 19, 21, and 23 we ﬁnd that A 1(987) = −16,
+A 1(437) = 16, A 1(391) = 8, A 1(345) = −8, A 1(299) = −8, A 1(253) = −16,
+A 1(207) = 4, A 1(713) = −32, A 1(115) = −8, A 1(69) = 4, and A 1(23) = 4
+respectively. All of these indices contain either 23, 47, or 71 as a simple prime
+factor and all three primes are inert in all four quadratic imaginary ﬁelds. All
+of these coeﬃcients are non-zero, which shows that none of the F1,r (z) are
+lacunary, thereby contradicting the assumption that there are only ﬁnitely
+many square-free positive integers n ≡ r mod 24 where a1(n) ̸= 0.
+In the second case, suppose that there are only ﬁnitely many square-free
+positive integers n ≡ r or 9 r mod 40 such that a2(n) ̸= 0, say n1, . . . , n tr . It
+is easy to verify that if nm 2 ≡ r or 9 r mod 40 where n is square-free, then
+n ≡ r or 9 r mod 40. Hence if we deﬁne Fr,9r (z) by
+Fr,9r (z) =
+∑
+n≡r,9r mod 40
+A 2(n)q n ,
+then Fr,9r (z) is a weight 2 cusp form with respect to the group Γ0(40 2 · 160)
+and by hypothesis satisﬁes
+Fr,9r (z) =
+( tr∑
+i=1
+∑
+gcd( m, 40)=1
+a2(nim 2)q ni m 2
+)(∑
+n∈Z
+q 40 n2
+)
+.
+Again as in the ﬁrst case we ﬁnd that Fr,9r (z) is a lacunary modular form
+and hence it is a ﬁnite linear combination of CM forms with respect to Q(i),
+Q(
+√
+−2), Q(
+√
+−5), and Q(
+√
+−10). However, we ﬁnd that A 2(1209) = 32,
+A 2(923) = 8, A 2(1085) = 8, A 2(527) = −8, A 2(651) = −24, A 2(213) = 24,
+A 2(775) = 4, A 2(217) = −8, A 2(341) = −8, A 2(1065) = −24, A 2(31) = 4,
+and A 2(355) = −4. All of these coeﬃcients are non-zero and they cover all
+pairs of residue classes r, 9 r mod 40 with r odd. Since all the exponents
+above contain either 31 or 71 as simple factors and they are inert in all four
+quadratic imaginary ﬁelds, it is not the case that any of the Fr,9r (z) are ﬁnite
+linear combinations of CM forms. Hence by Serre’s theorem none of them
+are lacunary; therefore if 1 ≤ r ≤ 40 is odd, then there are inﬁnitely many
+square-free integers n ≡ r or 9 r mod 40 for which the relevant EQ (M, N )
+twisted by n has rank 0.
+In the third case for 1 ≤ r ≤ 24 odd, we deﬁne
+F3,r (z) =
+∑
+n≡r mod 24
+A 3(n)q n .
+
+--- page 20 ---
+
+120 K. O n o
+If there are only ﬁnitely many square-free positive integers n ≡ r mod 24
+such that a3(n) ̸= 0, say n1, . . . , n tr , then F3,r (z) has the following factor-
+ization:
+F3,r (z) =
+( tr∑
+i=1
+∑
+gcd( m, 24)=1
+a3(nim 2)q ni m 2
+)(∑
+n∈Z
+q 24 n2
+)
+.
+So F3,r (z) is a lacunary weight 2 cusp form with respect to the group
+Γ0(24 2 · 96). Hence by Serre’s theorem, F3,r (z) is a ﬁnite linear combina-
+tion of CM forms with respect to Q(i),Q(
+√
+−2), Q(
+√
+−3), and Q(
+√
+−6). For
+r = 1 , 3, 5, 9, 11, 13, 17, 19, and 21 we ﬁnd that A 3(1081) = 16, A 3(483) = 16,
+A 3(437) = −16, A 3(345) = −8, A 3(851) = 32, A 3(805) = 48, A 3(161) = −8,
+A 3(115) = −16, and A 3(69) = −4 respectively. All of these coeﬃcients are
+non-zero and these indices all contain at least one of 23 or 47, primes that
+are inert in each of these four quadratic imaginary ﬁelds, as simple prime
+factors. As in the previous two cases, if r = 1 , 3, 5, 9, 11, 13, 17, 19, or 21,
+then there are inﬁnitely many square-free positive integers n ≡ r mod 24
+such that the quadratic twist of EQ (M, N ) by n has rank 0.
+5. Simultaneous Pellian equations. Let M and N be distinct positive
+integers. In this section we investigate the existence of simultaneous non-
+trivial integer solutions ( a, b, c ) to the pair of Pellian equations
+(12) a2 − M b2 = 1 and c2 − N b2 = 1 .
+Such a solution ( a, b, c ) is called non-trivial if b ̸= 0. Using the methods
+developed by Schmidt [20, 21], Schlickewei [19] proved that the number of
+simultaneous integer solutions ( a, b, c ) to (12) is ≪ 4 · 8278
+. In recent work
+by Masser and Rickert [13], this bound has been lowered to 132, and M.
+Bennett has informed me that he [2] has lowered this bound to 28.
+The aim of this section is to show that there are several inﬁnite families
+of such systems where one may deduce the non-existence of non-trivial solu-
+tions to (12) by simply computing the number of representations of certain
+integers by pairs of ternary quadratic forms.
+We ﬁrst prove the following elementary proposition.
+Lemma 2. If M and N are distinct positive integers and (a, b, c ) is a
+non-trivial solution to (12), then (x, y ) = (1 /b 2, ac/b 3) is a point of inﬁnite
+order on the elliptic curve EQ (M, N ). In particular , if EQ (M, N ) has rank
+0, then there are no non-trivial solutions to (12) .
+P r o o f. Suppose that ( a, b, c ) is a non-trivial solution to (12). It is easy
+to see that 1 + M b2 = a2 and 1 + N b2 = c2. Therefore ( x, y, t, z ) = (1 , b, a, c )
+is a non-trivial solution to (1). It is easy to see that this implies that
+a2c2 = 1 + ( M + N )b2 + M N b4,
+
+--- page 21 ---
+
+Euler’s concordant forms 121
+which after multiplying through by 1 /b 6 becomes
+a2c2
+b6 = 1
+b6 + M + N
+b4 + M N
+b2 .
+Hence ( x, y ) = (1 /b 2, ac/b 3) is a rational point on EQ (M, N ). Moreover, by
+the Lutz–Nagell theorem [7, Theorem 5.1], since the coordinates of torsion
+points are integers, we may assume that b = ±1.
+By Main Corollary 1, the primitive solutions ( x, y, t, z ) to (12) aﬀorded
+by the torsion points of E (M, N ) are completely classiﬁed. It is a straight-
+forward exercise to deduce that (1 /b 2, ac/b 3) is not any of the torsion points
+found in the proof of Main Theorem 1.
+We immediately obtain the following as a consequence of Lemma 2,
+Corollary 1, and Main Corollary 2.
+Main Corollary 3. Let d be any non-zero integer.
+(i) Let n be an odd positive square-free integer and suppose that (M, N )
+= (2 d2n, d 2n). If 2r(n, 2x2 + y 2 + 32 z 2) ̸= r(n, 2x2 + y 2 + 8 z 2), then there
+are no non-trivial solutions to (12) .
+(ii) Let n be an even positive square-free integer and suppose that (M, N )
+= (2 d2n, d 2n). If 2r(n/ 2, 4x2 + y 2 + 32 z 2) ̸= r(n/ 2, 4x2 + y 2 + 8 z 2), then
+there are no non-trivial solutions to (12) .
+(iii) Let n be an odd positive square-free integer and suppose that (M, N )
+= (24 d2n, 18d2n) or (6d2n, 54d2n). If r(n, x 2 + 2 y 2 + 12 z 2) ̸= r(n, 2x2 +
+3y 2 + 4 z 2), then there are no non-trivial solutions to (12) .
+(iv) Let n be an odd positive square-free integer and suppose that (M, N )
+= (50 d2n, 10d2n). If r(n, x 2 + 2y 2 + 20z 2) ̸= r(n, 2x2 + 4y 2 + 5z 2), then there
+are no non-trivial solutions to (12) .
+(v) Let n ̸≡ 7 mod 8 be an odd positive square-free integer for which
+(M, N ) = (12 d2n, 3d2n) or (27 d2n, 24d2n). If r(n, x 2 + 7 y 2 + 7 z 2 − 2yz ) ̸=
+r(n, 3x2 + 4y 2 + 5z 2 − 4yz ), then there are no non-trivial primitive solutions
+to (12) .
+R e m a r k. In [18] Rickert proves that there are no non-trivial solutions
+to (12) where M = 2 and N = 3. By the above proposition, it is easy to
+obtain this result because E (2, 3) is a rank 0 elliptic curve.
+Acknowledgements. The author thanks Michael Bennett, Nigel Bos-
+ton, David Bradley, Darrin Doud, and Kevin James for their help during
+the preparation of this manuscript. He especially thanks Kevin for correct-
+ing some errors which appeared in earlier versions of this manuscript. The
+author is also indebted to the referee for doing an exceptional job.
+
+--- page 22 ---
+
+122 K. O n o
+References
+[1] E. T. B e l l, The problems of congruent numbers and concordant forms , Proc. Amer.
+Acad. Sci. 33 (1947), 326–328.
+[2] M. B e n n e t t, private communication.
+[3] D. B u m p, S. F r i e d b e r g and J. H o f f s t e i n, Nonvanishing theorems for L-func-
+tions of modular forms and their derivatives , Invent. Math. 102 (1990), 543–618.
+[4] J. C o a t e s and A. W i l e s, On the conjecture of Birch and Swinnerton-Dyer , ibid.
+39 (1977), 223–251.
+[5] F. D i a m o n d and K. K r a m e r, Modularity of a family of elliptic curves , Math.
+Res. Lett. 2 (3) (1995), 299–304.
+[6] L. E u l e r, De binis formulis speciei xx + myy et xx + nyy inter se concordibus et
+disconcordibus , Opera Omnia Series 1 vol. 5 (1780), 48–60, Leipzig–Berlin–Z¨ urich,
+1944.
+[7] D. H u s e m ¨ o l l e r, Elliptic Curves , Springer, New York, 1987.
+[8] A. K n a p p, Elliptic Curves , Princeton Univ. Press, 1992.
+[9] N. K o b l i t z, Introduction to Elliptic Curves and Modular Forms , Springer, 1984.
+[10] V. A. K o l y v a g i n, Finiteness of E (Q) and the Tate–Shafarevich group of E (Q) for
+a subclass of Weil curves , Izv. Akad. Nauk SSSR Ser. Mat. 52 (1988), 522–540 (in
+Russian).
+[11] J. L e h m a n, Levels of positive deﬁnite ternary quadratic forms , Math. Comp. 58,
+197 (1992), 399–417.
+[12] L. M a i and M. R. M u r t y, A note on quadratric twists of an elliptic curve , in:
+Elliptic Curves and Related Topics, CRM Proc. Lecture Notes, Amer. Math. Soc.,
+1994, 121–124.
+[13] D. M a s s e r and J. R i c k e r t, Simultaneous Pell equations , J. Number Theory, to
+appear.
+[14] M. R. M u r t y and V. K. M u r t y, Mean values of derivatives of modular L-series ,
+Ann. of Math. 133 (1991), 447–475.
+[15] K. O n o, Rank zero quadratic twists of modular elliptic curves , Compositio Math.,
+to appear.
+[16] —, Twists of elliptic curves , Compositio Math., to appear.
+[17] T. O n o, Variations on a Theme of Euler , Plenum, New York, 1994.
+[18] J. R i c k e r t, Simultaneous rational approximations and related Diophantine equa-
+tions , Math. Proc. Cambridge Philos. Soc. 113 (1993), 461–472.
+[19] H. P. S c h l i c k e w e i, The number of subspaces occurring in the p-adic subspace
+theorem in Diophantine approximation , J. Reine Angew. Math. 406 (1990), 44–108.
+[20] W. M. S c h m i d t, Norm form equations , Ann. of Math. 96 (1972), 526–551.
+[21] —, Diophantine Approximations , Lecture Notes in Math. 785, Springer, 1980.
+[22] B. S c h o e n e b e r g, Das Verhalten von mehrfachen Thetareihen bei Modulsubstitu-
+tionen , Math. Ann. 116 (1939), 511–523.
+[23] J.-P. S e r r e, Divisibilit´ e de certaines fonctions arithm´ etiques , Enseign. Math. 22
+(1976), 227–260.
+[24] G. S h i m u r a, Introduction to the Arithmetic Theory of Automorphic Functions ,
+Princeton Univ. Press, 1971.
+[25] —, On modular forms of half-integral weight , Ann. of Math. 97 (1973), 440–481.
+[26] C. S i e g e l, ¨Uber die analytische Theorie der quadratischen formen , in: Gesammelte
+Abhandlungen, Bd. 3, Springer, 1966, 326–405.
+[27] J. S i l v e r m a n, The Arithmetic of Elliptic Curves , Springer, New York, 1986.
+
+--- page 23 ---
+
+Euler’s concordant forms 123
+[28] J. S i l v e r m a n and J. T a t e, Rational Points on Elliptic Curves , Springer, New
+York, 1992.
+[29] J. T u n n e l l, A classical Diophantine problem and modular forms of weight 3
+2 , In-
+vent. Math. 72 (1983), 323–334.
+[30] J. L. W a l d s p u r g e r, Sur les coeﬃcients de Fourier des formes modulaires de poids
+demi-entier , J. Math. Pures Appl. 60 (1981), 375–484.
+[31] A. W i l e s, Modular elliptic curves and Fermat’s Last Theorem , Ann. of Math. 141
+(1995), 443–551.
+School of Mathematics Department of Mathematics
+Institute for Advanced Study Penn State University
+Princeton, New Jersey 08540 University Park, Pennsylvania 16802
+U.S.A. U.S.A.
+E-mail: ono@math.ias.edu E-mail: ono@math.psu.edu
+Received on 16.10.1995
+and in revised form on 11.3.1996 (2878)

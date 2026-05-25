@@ -1,0 +1,1743 @@
+--- page 1 ---
+
+An Algorithm to Find Rational Points on Elliptic
+Curves Related to the Concordant Form Problem
+Hagen Knaf, Erich Selder, Karlheinz Spindler
+Abstract We derive an eﬃcient algorithm to ﬁnd solutions to Euler’s concordant
+form problem and rational points on elliptic curves associated with this problem.
+Keywords algorithmic number theory, elliptic curves, concordant forms
+AMS Subject Classiﬁcation11Y16, 11G05, 14H52
+1 Introduction
+It is well known that the determination of the Mordell-Weil group of an elliptic curve
+is a diﬃcult problem. Apart from the torsion subgroup, which can be calculated rather
+easily using the Lutz-Nagell-Theorem ([11], [16], cf. [20], [21]) and for which very good
+general information is given by Mazur’s Theorem (cf. [12]), obtaining information on
+the rational points of a rationally deﬁned elliptic curve is hard. Even if the elliptic curve
+is explicitly given, both the calculation of the rank of the Mordell-Weil group and the
+determination of explicit solutions (generators of this group) are diﬃcult problems. A
+famous example due to Zagier (cf. [25]; also see [9], p.5, Fig. 1.3), which illustrates
+the problems, is the task of explicitly showing thatn = 157 is a congruent number by
+determining the sides of a rational triangle with area157, which consist of fractions
+with more than25 decimal places in both the numerator and the denominator. As a
+byproduct of these calculations one easily obtains nontrivial rational solutions of the
+equation y2 = x(x− 157)(x + 157), the smallest of which is given by
+x =−166136231668185267540804/2825630694251145858025,
+y = 167661624456834335404812111469782006 /150201095200135518108761470235125.
+An even more exciting example was discovered by Bremner and Cassels in [1] who
+considered the family of curves with equationsy2 = x(x2+p) with prime numbersp≡ 5
+(mod 8). In the introduction to this paper the authors mention an observation of S.
+Lang which asserts that in the tables of elliptic curves and generators of the Mordell-
+Weil group known at that time (around 1982) the numerator and the denominator
+of the x-value of smallest nontrivial solutions to elliptic curve equations with integral
+1
+arXiv:1907.02148v1  [math.AG]  3 Jul 2019
+
+--- page 2 ---
+
+coeﬃcients are never much greater than the square of the discriminant. Note that
+the above example of Zagier exempliﬁes this observation, since the discriminant of the
+example is△ = 16· 1576 = 239617149303184.
+The most spectacular example calculated in [1] (see also [20], Chap. X, §6, Remark
+6.3) is given by the prime numberp = 877. The generator of the inﬁnite part of the
+Mordell-Weil group in this example is given by
+x = 375494528127162193105504069942092792346201
+62159877768644257535639389356838044100
+and
+y = 256256267988926809388776834045513089648669153204356603464786949
+490078023219787588959802933995928925096061616470779979261000
+so that both the numerator and the denominator ofx are greater than∆4, thus pro-
+viding a clear counterexample to Lang’s observation.
+In this paper we present an algorithm which enables us to calculate a large number
+of examples of smallest solutions to certain classes of elliptic curve equations. Many
+of the explicitly computed examples belonging to classes of elliptic curves other than
+those of the paper of Bremner and Cassels (namely those corresponding to Euler’s
+concordant forms) also contradict Lang’s assertion. We are not interested in general
+discussions on the determination of the rank of the Mordell-Weil group, but focus on
+ﬁnding explicit solutions. So in general we assume the given elliptic curves to have
+positive Mordell-Weil-rank. The method for ﬁnding solutions is a simple search loop
+of quadratic complexity, but the key point is the reduction of the equations to be
+considered to simpler ones by some technical tricks.
+The ﬁrst (and most important) reduction is a well-known descent procedure in
+which the original elliptic curve E is substituted by a homogeneous space Q over
+E. The equations deﬁning this homogeneous space can be simpliﬁed by Newton’s
+method of parametrizing a quadric by means of a projection from a ﬁxed point onto
+that quadric. These two concepts already enable us to formulate a simple algorithm,
+allowing us to ﬁnd explicit solutions for a large class of curves.
+The core of our approach is an improvement of the above algorithm which makes
+it possible to obtain solutions of twice the complexity as compared to the simpler
+algorithm. This improvement is achieved by invoking a technical condition which is
+satisﬁed in many situations.
+The potential of this improved algorithm will be illustrated by some series of exam-
+ples. For example, this algorithm can be used to ﬁnd the smallest nontrivial integers
+A, B, C, D satisfying the two equationsA2− 373B2 = C 2 and A2 + 373B2 = D2, which
+are found to be
+A = 6464736286838262275566375140640125524476830394378258160144359151221846588162921
+B = 214402886988423616335778394508029972671920911384749815755228436417174376951980
+C = 4964526988887992094202607668810309975770378526931158358479760499172740751760929
+D = 7677180621382399924131415436519959747090354653821331133153517438341892919535729
+2
+
+--- page 3 ---
+
+and have up to79 decimals. (The existence of such a solution shows explicitly that
+373 is a congruent number.) Based on an analysis of the examples to be presented
+later in the paper, it may be possible to gain some insight into the behaviour of the
+solutions depending on the input parameters of the given elliptic curves, but many open
+questions remain. We see our contribution mainly in providing a tool which allows one
+to systematically ﬁnd rational points on certain classes of elliptic curves.
+The paper is organized as follows. After this introduction we present some prepara-
+tory material on elliptic curves and quadratic forms. The most important part of this
+section will be the description of the abstract descent procedure and its concrete real-
+ization for our purposes. In a subsequent section we illustrate this descent procedure
+by some examples, some of which will be taken up again in the series of examples
+discussed at the end of the paper. Subsequently, we describe our algorithm in detail.
+In particular, we point out the critical choices to be made during the execution of
+the algorithm and the conditions which are necessary to make it work. A further sec-
+tion contains some series of examples showing the power of the algorithm. Finally, we
+close with a critical discussion of the algorithm, examine consequences of the examples
+generated by the algorithm and give an outlook to further questions to be pursued.
+2 General background
+2.1 Elliptic curves
+2.1.1 General notions
+Throughout this paper we consider most of our geometric objects to be deﬁned over
+the ﬁeld Q of rational numbers. Sometimes we argue geometrically and regard the
+objects to be deﬁned over an algebraic closureQ or over some number ﬁeld.
+An elliptic curve deﬁned overQ is a plane projective curveE whose aﬃne part is
+given by a Weierstraß equation of the formy2 = P (x)where P∈ Q[x]is a polynomial of
+degree 3 with nonzero discriminant. Note that such a curve always has a single smooth
+point at inﬁnity which is deﬁned overQ. The geometric points ofE carry the structure
+of an algebraic group, the group law being given by Newton’s well-known secant and
+tangent construction. We ﬁx the structure such that the point at inﬁnity is the neutral
+element of this group law. The group law restricts to the setE(Q) of rational points on
+E, the so-called Mordell-Weil group of the elliptic curveE. By the important theorem
+of Mordell and Weil (cf. [13], [22]) this group is a ﬁnitely generated abelian group,
+hence is isomorphic (as an abstract group) toZr× T where r = rank(E(Q)) is the rank
+of E(Q) and T is a torsion group, i. e., a ﬁnite abelian group.
+If E is explicitly given then it is relatively easy to compute the torsion part of the
+Mordell-Weil group by the theorem of Lutz-Nagell. Moreover, the famous theorem of
+Mazur tells us that there are only very few possibilities for a ﬁnite abelian group to
+occur as the torsion subgroup of the Mordell-Weil group of an elliptic curve. In fact,
+T is either isomorphic toZ/nZ where 1≤ n≤ 12 , n̸= 11, or else is isomorphic to
+Z/2Z× Z/2nZ where 1≤ n≤ 4.
+3
+
+--- page 4 ---
+
+In contrast to the torsion part, the determination of the rank of the Mordell-Weil
+group is a much deeper problem. Moreover, it is very diﬃcult to ﬁnd non-torsion
+solutions even if one knows in advance that the rank is positive, i. e., that there exist
+inﬁnitely many rational points onE. This is due to the fact that even if the coeﬃcients
+of the elliptic curve are small (measured for example in terms of a naive notion of height
+in projective space) the smallest non-torsion point onE may be very large.
+2.1.2 Elliptic curves corresponding to concordant forms
+In the sequel we will deal with elliptic curvesE deﬁned over the rationals with torsion
+subgroup containingZ/2Z× Z/2Z. This is equivalent to saying thatE is deﬁned by an
+aﬃne equation of the formy2 = (x− e1)(x− e2)(x− e3) with pairwise diﬀerent rational
+numbers e1, e2, e3∈ Q. We denote this elliptic curve byEe1,e2,e3. By simple rational
+transformations we can clear denominators and translate thex-coordinates such that
+the equation becomesy2 = x(x+ M)(x+ N) with diﬀerent nonzero integersM, N∈ Z;
+we denote this curve byEM,N. (In projective notation we use homogeneous coordinates
+(T, X, Y ) and write the points of the aﬃne part ofEM,N as (x, y) = (X/T, Y /T).) In
+this form the elliptic curve correponds to Euler’s concordant form problem (cf. [3],
+[17]), which is the problem of ﬁnding nontrivial integral solutions of the system of two
+quadratic equations X 2
+0 + M X2
+1 = X 2
+2 and X 2
+0 + N X2
+1 = X 2
+3. (See [2], Ch. 8, for
+the representation of elliptic curves as intersections of quadrics.) The intersection of
+these two quadrics in projective three-spaceP3(Q) will be denoted byQM,N. For future
+reference, let us ﬁx the notations
+(1) EM,N ={(T : X : Y )∈ P2(Q)| T Y 2 = X(X+T M)(X+T N)},
+QM,N ={(X0 : X1 : X2 : X3)∈ P3(Q)| X 2
+0 +M X2
+1 = X 2
+2 , X 2
+0 +N X2
+1 = X 2
+3}.
+We note thatQM,N deﬁnes an abstract elliptic curve (i.e., a smooth projective curve
+of arithmetic genus one) which is isomorphic to the curveEM,N. In fact, the mappings
+F : QM,N→ EM,N given by
+(2) F
+
+
+X0
+X1
+X2
+X3
+
+ =
+
+
+N X2− M X3 + (M− N)X0
+M N(X3− X2)
+M N(M− N)X1
+
+
+and G : EM,N→ QM,N given by
+(3) G
+
+
+T
+X
+Y
+
+ =
+
+
+−(X + M T)(Y 2− M(X + N T)2)
+2Y (X + N T)(X + M T)
+−(X + M T)(Y 2 + M(X + N T)2)
+−(X + N T)(Y 2 + N(X + M T)2)
+
+
+extend to completely deﬁned biregular mappings which are mutually inverse; cf. [19].
+Note that for the equation ofEM,N we may assume thatM > 0 and N < 0 after a
+trivial change of variables. Furthermore, we may writeM = pk and−N = qk with
+4
+
+--- page 5 ---
+
+coprime natural numbers p, q∈ N and a squarefree natural numberk∈ N. In this
+form the equation is closely related to theθ-congruent number problem in the sense of
+Fujiwara (cf. [4]; see also [7], [24]).
+Note that the two-torsion points(0, 0), (−M, 0), (−N, 0) together with the point
+at inﬁnity onEM,N correspond to the trivial solutions(1, 0,±1,±1) of the concordant
+form equations and to the trivial solution (the degenerated triangle) of theθ-congruent
+number problem. Let us point out that by Mazur’s Theorem the only further torsion
+points could be either4- or 8-torsion points or else3- or 6-torsion points. Moreover,
+these additional torsion points can occur only in very rare cases. In fact, in the form
+Epk,−qk of the elliptic curve such torsion points can only occur whenk = 1, 2, 3 or 6 (cf.
+[5], [19]). Since the torsion points can be calculated easily we will ignore them in the
+subsequent considerations in which we develop methods for ﬁnding non-torsion points
+on elliptic curves of the considered form.
+2.2 Quadratic Forms
+In the following sections we frequently consider ternary quadratic forms, in most
+cases of a rather special form. We will collect some facts about these forms needed
+later. The quadratic forms which occur in the following considerations are of the form
+F (X0, X1, X2) = a00X 2
+0 + a01X0X1 + a11X 2
+1 + a22X 2
+2 with coprime integer coeﬃcients
+aij∈ Z. In most cases the forms are already in diagonal form (i.e.,a01 = 0) or are
+transformed to diagonal form in the course of our investigations.
+2.2.1 Solvability criterion
+Let F (X0, X1, X2) = a00X 2
+0 + a11X 2
+1 + a22X 2
+2 be a ternary diagonal form with integer
+coeﬃcients. Then by standard techniques we can transform this equation into one for
+which the producta00a11a22 is squarefree (equivalently, such that the three coeﬃcients
+are squarefree and pairwise coprime). The following criterion for the existence of a
+nonzero integer solution(x0, x1, x2)∈ Z3 dates back to Legendre (cf. [10]).
+Legendre Criterion: The equation a00X 2
+0 + a11X 2
+1 + a22X 2
+2 = 0 has a nonzero
+solution if and only if not all the coeﬃcients have the same sign (which is equivalent
+to saying that there is a solution over the real numbers) and, in addition, for all
+permutations (i, j, k) of (0, 1, 2) the number−aiiajj is a quadratic residue moduloakk.
+With this criterion one can easily check whether or not a given ternary quadratic
+form has a nontrivial solution. In addition, by the work of Holzer and his followers
+(cf. [6], [14], [23]) there are algorithms to ﬁnd explicit solutions which terminate with
+a complexity which is known a priori depending on the coeﬃcients. (Incidentally,
+Holzer’s Theorem occurs both as a tool within our algorithm and as a model for our
+overall approach, namely, to produce explicit solutions to certain types of equations in
+which the mere existence of solutions is known by other, more abstract, methods.)
+Holzer’s Theorem:If F (X0, X1, X2) = a00X 2
+0 +a11X 2
+1 +a22X 2
+2 is a quadratic form
+withpairwisecoprimeandsquarefreecoeﬃcientssuchthattheequation F (X0, X1, X2) =
+5
+
+--- page 6 ---
+
+0 has a nontrivial solution, then there exists such a solution(x0, x1, x2) satisfying the
+inequalities|x0| <
+√
+|a11a22| ,|x1| <
+√
+|a00a22| and|x2| <
+√
+|a00a11|.
+2.2.2 Parametrization of quadratic forms
+In the sequel we will make use of the fact that there is a systematic approach to
+ﬁnding all solutions of a quadratic form, provided one ﬁxed solution is known. The
+technique is a well-known construction, dating back to Newton, which geometrically
+uses the fact that any line through the ﬁxed point has a uniquely determined second
+point of intersection with the quadric, whose coordinates are rational expressions in
+the coeﬃcients of the given quadric and the coordinates of the ﬁxed point, where the
+slope of the line serves as a parameter. We summarize the calculations, writing down
+the parametrization using projective coordinates.
+Lemma: Consider the projective quadric Q ={(x0, x1, x2)∈ P2| F (X0, X1, X2)
+= 0} where F (X0, X1, X2) = a00X 2
+0 + a01X0X1 + a11X 2
+1 + a22X 2
+2. The set of all points
+(x0, x1, x2)∈ Q with x2̸= 0 can be parametrized by the rational mappingΦ : P1→ Q
+given by Φ(ξ0, ξ1) = (ϕ0(ξ0, ξ1), ϕ1(ξ0, ξ1), ϕ2(ξ0, ξ1)) where
+(4a)
+X0 = ϕ0(ξ0, ξ1) = a11x0ξ2
+0− 2a11x1ξ0ξ1− (a01x1 + a00x0)ξ2
+1,
+X1 = ϕ1(ξ0, ξ1) = ( −a11x1− a01x0)ξ2
+0− 2a00x0ξ0ξ1 + a00x1ξ2
+1,
+X2 = ϕ2(ξ0, ξ1) = a11x2ξ2
+0 + a01x2ξ0ξ1 + a00x2ξ2
+1.
+whereas if x2 = 0 and x1̸= 0 the following parametrization can be used:
+(4b)
+X0 = ϕ0(ξ0, ξ1) = −(a01x1 + a00x0)ξ2
+0 + a22x0ξ2
+1,
+X1 = ϕ1(ξ0, ξ1) = a00x1ξ2
+0 + a22x1ξ2
+1,
+X2 = ϕ2(ξ0, ξ1) = −(a01x1 + 2a00x0)ξ0ξ1.
+The proof is an elementary and simple calculation, which we omit.
+Remark: We did not specify a base ﬁeld over which the projective spaces and all
+the coordinates are deﬁned, since the lemma is valid for any ﬁeld. We will apply this
+lemma in the situation that the quadric is deﬁned over the rational numbers; i.e., the
+coeﬃcients a00, a01, a11, a22 as well as the coordinates of the ﬁxed point(x0, x1, x2) and
+the parameters (ξ0, ξ1) are rational numbers. In this situation we can always assume
+that all these data are, in fact, integers such that the coeﬃcientsa00, a01, a11, a22 are
+coprime, the coordinatesx0, x1, x2 are coprime and the parametersξ0, ξ1 are coprime.
+2.2.3 Pairs of quadrics with separated variables
+In the situation of the following discussion we will sometimes be given two quadrics in
+projective three-space of a special form in which the variables of the quadrics will be
+separated in some sense. More precisely, the quadricsQ1 and Q2 will have equations
+6
+
+--- page 7 ---
+
+of the form
+(5) Q1 : a00X 2
+0 + a01X0X1 + a11X 2
+1 + a22X 2
+2 = 0 ,
+Q2 : b00X 2
+0 + b01X0X1 + b11X 2
+1 + b33X 2
+3 = 0
+so that the equations for the quadrics share two of the four variables such that the other
+two variables occur only as squares. We always assume the quadrics to have rational
+solutions, so by means of a ﬁxed point(x0, x1, x2) on Q1 we can parametrize the points
+on the ﬁrst quadricQ1, viewed as a quadric in the projective plane with coordinates
+(X0, X1, X2), and we can substitute the parametrizations for the common variables
+X0, X1 into the second quadric, thus yielding a function of the variables ξ0, ξ1, X3
+which is of degree4 in the parameter variablesξ0, ξ1 and of pure degree2 in the third
+variable X3. Let us summarize the result of the calculations.
+Lemma: Let Q1, Q2 be two quadratic forms as above, let(x0, x1, x2) be a point on
+Q1 and let
+(6)
+X0 = ϕ0(ξ0, ξ1) = α00ξ2
+0 + α01ξ0ξ1 + α11ξ2
+1
+X1 = ϕ1(ξ0, ξ1) = β00ξ2
+0 + β01ξ0ξ1 + β11ξ2
+1
+X2 = ϕ2(ξ0, ξ1) = γ00ξ2
+0 + γ01ξ0ξ1 + γ11ξ2
+1
+be the parametrization ofQ1 projecting from (x0, x1, x2). Then the substitution ofϕ0
+and ϕ1 into the quadricQ2 gives the equation
+(7) Q2 : B40ξ4
+0 + B31ξ3
+0ξ1 + B22ξ2
+0ξ2
+1 + B13ξ0ξ3
+1 + B04ξ4
+1 + b33X 2
+3
+where
+(8)
+B40 = b00α2
+00 + b01α00β00 + b11β2
+00
+B31 = 2b00α00α01 + b01(α00β01+α01β00) + 2b11β00β01
+B22 = b00(2α00α11+α2
+01) + b01(α00β11+α01β01 + α11β00) + b11(2β00β11+β2
+01)
+B13 = 2b00α01α11 + b01(α01β11+α11β01) + 2b11β01β11
+B04 = b00α2
+11 + b01α11β11 + b11β2
+11
+Again, the proof is just an easy calculation and is omitted.
+Corollary: If the two quadricsQ1 and Q2 are diagonal (i.e., ifa01 = b01 = 0) and if
+one of the coordinatesx0 or x1 of the ﬁxed point is zero, then the substituted form of
+Q2 is biquadratic in(ξ0, ξ1).
+In fact, in this situation we haveα00 = α11 = β01 = 0 if x0 = 0 or else α01 = β00 =
+β11 = 0 if x1 = 0. In both cases the two coeﬃcientsB31 and B13 vanish.
+7
+
+--- page 8 ---
+
+2.3 Two-descent
+2.3.1 General theory
+We are interested in explicitly ﬁnding rational points on the elliptic curvesEe1,e2,e3 =
+{(x, y)∈ Q2| y2 = (x− e1)(x− e2)(x− e3)} as deﬁned in 2.1.2. We may restrict our
+considerations to the case that the numbersei are integers. According to Silverman
+(cf. [20], Chap. X, Remark 3.4) theexistence of rational points may be checked by de-
+ciding whether certain homogeneous spaces overEe1,e2,e3 are trivial in the sense of [20],
+Chap. X, §3, Prop. 3.3. But these homogeneous spaces are also useful for calculating
+rational points explicitly. Since for our purposes we do not make use of the important
+homological criteria for the existence of solutions (local-global principle, Selmer group,
+Tate-Shafarevich group etc.), we only recall the principal facts on the determination of
+homogeneous spaces belonging to rational points onEe1,e2,e3. Here we may restrict our
+attention to the isogeny given by the multiplication-by-2-map on Ee1,e2,e3. We use the
+notations of [20] (see Chap. X, Section 1 and Example 4.5.1). The same calculations
+can be found in [8] (see Chap. IV, Section 3).
+First we observe that any element ofQ∗/(Q∗)2 can be uniquely represented by a
+squarefree integer. Any pair(b1, b2)∈ Q∗/(Q∗)2× Q∗/(Q∗)2 deﬁnes the intersection of
+two quadrics Qe1,e2,e3,b1,b2 = Q1∩ Q2 in projective three-space by
+(9) Q1 : b1X 2
+1− b2X 2
+2 + (e1− e2)X 2
+0 = 0 ,
+Q2 : b1X 2
+1− b1b2X 2
+3 + (e1− e3)X 2
+0 = 0 .
+(Cf. [20], Chap. X, Section 1.) This intersection deﬁnes an abstract elliptic curve which
+in general does not have any rational point, but which is a twist of the given curve;
+i.e., it becomes isomorphic to Ee1,e2,e3 over an algebraic closure Q. This curve de-
+ﬁnes a homogeneous space overEe1,e2,e3, hence an element in the Weil-Chatelet group
+W C(Ee1,e2,e3, Q). More precisely, since the above construction stems from the multipli-
+cation by 2 on Ee1,e2,e3, it deﬁnes an element of the 2-torsion part ofW C(Ee1,e2,e3, Q)
+(cf. [20], Ex. 4.5.1).
+The assignment (x0, x1, x2, x3) ↦→
+(
+(b1x2
+1/x2
+0) + e1, b 1b2x1x2x3/x3
+0
+)
+extends to a
+well-deﬁned regular mapping Qe1,e2,e3,b1,b2 → Ee1,e2,e3 of degree 4. In particular, if
+(x0, x1, x2, x3) is a rational point on the homogeneous space Qe1,e2,e3,b1,b2, one gets
+a rational point on the given curve. Note that the logarithmic height of the point
+(b1x2
+1/x2
+0 + e1, b1b2x1x2x3/x3
+0) on Ee1e2e3 is about three times the height of the point
+(x0, x1, x2, x3)on Qe1,e2,e3,b1,b2. (Recallthatthelogarithmicheightofapoint P∈ PN(Q)
+is the logarithm ofmax(|x0|, . . . ,|xN|) where P = ( x0 : x1 :··· : xN) is represented
+with coprime integers xi.) This explains why it is reasonable to look for points on
+Qe1,e2,e3,b1,b2 instead of ﬁnding rational points onEe1,e2,e3 directly. The problem is to
+determine the approriate homogeneous spaces which have rational points. The most
+important approach to this question is contained in the following two-descent proce-
+dure (cf. [20], Chap. X, Prop. 1.4; [8], Chap. IV, Section 3).
+8
+
+--- page 9 ---
+
+Let S bethesetofintegersconsistingof −1, 2andallthedivisorsofthediscriminant
+of Ee1,e2,e3. Let Q(S, 2) be the subgroup of Q∗/(Q∗)2 generated by the elements of
+S. Thus any element in Q(S, 2) has a unique representation by an integer which
+is squarefree and which has prime factors only inS. Let us consider the mappings
+ϕi : Ee1,e2,e3(Q)/2Ee1,e2,e3(Q)→ Q(S, 2) deﬁned by
+(10) ϕi(P ) :=
+
+
+
+x− ei if P = (x, y) with x̸= ei;
+(ei− ej)(ei− ek) if P = (ei, 0) where{i, j, k} ={1, 2, 3};
+1 if P =∞.
+Here the values are taken as representatives modulo(Q∗)2. Then ϕi is well-deﬁned and
+a homomorphism of groups. Furthermore, the homomorphism
+(11) ϕ : Ee1,e2,e3(Q)/2Ee1,e2,e3(Q) → Q(S, 2)× Q(S, 2)
+P ↦→
+(
+ϕ1(P ), ϕ2(P )
+)
+is injective (see [8], Prop. 4.8, or [20], Chap. X, Prop. 1.4).
+Consequence: The homogeneous spaces Qe1,e2,e3,b1,b2 which contain a rational point
+(and hence are trivial in the sense of [20], Chap. X, Section 3) are exactly those for
+which (b1, b2) is contained in the image of the mappingϕ. Since Q(S, 2)× Q(S, 2) is
+ﬁnite, we therefore have to check only a ﬁnite number of homogeneous spaces for the
+existence of a rational point.
+Remark: If the curve is given in the Weierstraß form forEe1,e2,e3, the two-descent pro-
+cedure (and thus the meaning of the mappingϕ) can be explained in a very elementary
+way. The aﬃne part ofEe1,e2,e3 is given by the equationy2 = (x− e1)(x− e2)(x− e3).
+If p = ( x, y)∈ Q2 is a point on Ee1,e2,e3(Q) such that all three factors(x− ei) are
+rational squares, then p = [2]· q for some rational point q∈ Ee1,e2,e3(Q), where [2]
+denotes the multiplication-by-two map onEe1,e2,e3. This halving procedure stops after
+a ﬁnite number of steps (because Ee1,e2,e3(Q) is ﬁnitely generated), yielding a point
+p∈ Ee1,e2,e3(Q) which is not twice another rational point onEe1,e2,e3(Q). For this point
+p = (x, y) we know that not all the factors(x− ei) can be rational squares, whereas
+the product y2 = (x− e1)(x− e2)(x− e3) is a rational square. Writing
+(12) x− e1 = A1α2
+1, x − e2 = A2α2
+2, x − e3 = A3α2
+3
+with squarefree integersAi, we can eliminatex = A1α2
+1 + e1 to arrive at the equations
+(13) A1α2
+1− A2α2
+2 = e2− e1, A 1α2
+1− A3α2
+3 = e3− e1.
+Moreover, the productA1A2A3 is a perfect square, which implies thatA3 = A1A2 up
+to a square factor. In this way we obtain the equations of the homogeneous space in
+the above considerations.
+9
+
+--- page 10 ---
+
+2.3.2 Reducing the number of possibilities
+Let us ﬁrst observe that, given a set P ⊆ Ee1,e2,e3(Q) of known rational points on
+Ee1,e2,e3, andgivenahomogeneousspace Qe1,e2,e3,b1,b2 bycoeﬃcients (b1, b2)∈ Q∗/(Q∗)2×
+Q∗/(Q∗)2, thenQe1,e2,e3,b1,b2 contains a rational point (i.e., is trivial in the Weil-Chatelet
+group) if and only if for any pointp∈ P the homogeneous space Qe1,e2,e3,c1,c2 with
+(c1, c2) = ( b1, b2)· ϕ(p) has a rational point. So we may say that (b1, b2), (c1, c2)∈
+Q∗/(Q∗)2× Q∗/(Q∗)2 are P-equivalent if and only if there is a pointp∈ P such that
+(c1, c2) = (b1, b2)· ϕ(p). Using this relation, we may restrict our considerations to spe-
+cial representatives of homogeneous spaces whenever wea priori know some rational
+points on Ee1,e2,e3. Note that a well-known set of rational points onEe1,e2,e3 is always
+given by the set of 2-torsion points.
+Now we consider either a single curveEe1,e2,e3 or else a family of curvesEe1,e2,e3 de-
+pending on some parameter(s) such that we know in advance that the curve(s) contain
+rational points other than the 2-torsion points. To ﬁnd appropriate homogeneous
+spaces for Ee1,e2,e3 possessing rational points, we may pursue the following strategy:
+• determine the (ﬁnite) setQ(S, 2);
+• buildequivalenceclassesofpairs (b1, b2)∈ Q(S, 2)×Q(S, 2)whichare P-equivalent
+with respect to the setP of 2-torsion points ofEe1,e2,e3;
+• exclude those classes of pairs (b1, b2)∈ Q(S, 2)× Q(S, 2) for which a rational
+solution cannot exist for one of the following reasons:
+– the quadric intersection Qe1,e2,e3,b1,b2 has no rational points because of ob-
+structions due to properties of quadratic residues;
+– at least one of the quadratic equations deﬁningQe1,e2,e3,b1,b2 has no solution
+(for example because of Legendre’s criterion).
+Then the homogeneous spaces associated with the remaining classes are good candi-
+dates for having rational points and thus giving rational points on the original elliptic
+curve(s) Ee1,e2,e3. Examples for the application of this method will be presented in the
+next section.
+2.3.3 Notations
+The notations used up to this point were chosen to be consistent with the ones used in
+[20] and [8]. For the use in later sections, it will be convenient to modify the notations
+slightly. As mentioned in 2.1, we always may assume that the elliptic curve under
+consideration is one of the curvesEM,N with diﬀerent nonzero integersM, N∈ Z\{0},
+given in aﬃne form by a Weierstraß equation of the special formy2 = x(x+M)(x+N).
+In addition, we may assumeM = pk > 0 and N =−qk < 0 with coprime natural
+numbers p, q∈ N and a square-free natural numberk. We write the equations for the
+10
+
+--- page 11 ---
+
+homogeneous spaces in the form
+(14) AX 2
+0 + M X2
+1− BX 2
+2 = 0, AX 2
+0 + N X2
+1− CX 2
+3 = 0
+where A, B, C∈ Q(S, 2) are represented by squarefree integers, withC depending on
+A and B by the condition thatABC is a perfect square. We call(A, B, C) a triplet
+deﬁning a homogeneous space forEM,N. The approach sketched in 2.3.2 provides us
+withmeanstoreducethenumberofpotentialtriplets (A, B, C)byrulingoutimpossible
+ones and by identifying triplets with respect to 2-torsion equivalence. (In the next
+section some speﬁcic examples are provided which explicitly show how this is done.)
+Let us choose any of the possible 2-descent parameter sets(A, B, C). Then we know
+that ﬁnding the expected solution ofEM,N is equivalent to ﬁnding a solution of the
+system (12), which in our situation reads
+(15) x = Aα2, x + M = Bβ 2, x + N = Cγ 2.
+where x, α, β, γ∈ Q. With such a solution we get a rational point(x, y) on EM,N by
+setting y =
+√
+ABCαβγ. The system (15) is equivalent to the system (14), and an
+integer solution(x0, x1, x2, x3) of (14) yields a rational solution of (15) via
+(16) x = Ax2
+0
+x2
+1
+, y =
+√
+ABC x0x2x3
+x3
+1
+, (α, β, γ) =
+(x0
+x1
+, x2
+x1
+, x3
+x1
+)
+.
+In projective notation, the sought rational point(x, y) on EM,N is given by the expres-
+sion (x3
+1 : Ax2
+0x1 :
+√
+ABC x 0x2x3). We see that the logarithmic height of this point is
+about 3 times the logarithmic height of the solution(x0, x1, x2, x3).
+In the sequel we thus may restrict our considerations to systems of quadratic equa-
+tions of the form (14). We may also assume that this system has a solution at all,
+which in particular implies that each of the two individual quadratic equations has a
+solution.
+3 Examples for the two-descent
+As before we consider elliptic curves which are given by an aﬃne equation of the form
+y2 = x(x+ M)(x+ N) where M = pk and N =−qk with coprime natural numbersp, q
+and a squarefree natural numberk. We denote the elliptic curve deﬁned in this way
+by Ep,q,k and its Mordell-Weil group byEp,q,k(Q). As explained before, our aim is to
+determine the homogeneous spaces overEp,q,k deﬁned over the rationals which have a
+rational point. For this purpose we consider the homomorphismϕ = (ϕ−pk, ϕ0, ϕqk) :
+Ep,q,k(Q)/2Ep,q,k(Q)→ (Q∗/(Q∗)2)3 where the components are deﬁned as in (11). For
+the sake of simplicity we look at all three components even though the third one is
+already determined by the other two. From the considerations in 2.3.1 above we know
+that ﬁnding non-2-torsion points onEp,q,k is equivalent to ﬁnding triplets in the image
+of the mapping ϕ (or, equivalently, homogeneous spaces having a rational point). In
+this section we give examples how to ﬁnd candidates of triplets which potentially may
+lie in the image ofϕ. In other words, we try to ﬁnd criteria which exclude many of
+these triplets from potentially lying in the image ofϕ.
+11
+
+--- page 12 ---
+
+3.1 General strategy
+We proceed as follows:
+1. Determine the discriminant of the equation forEp,q,k. Determine all prime divi-
+sors of this discriminant and the setSp,q,k(2, Q) of all squarefree integers which
+are candidates for components appearing in the image ofϕ.
+2. Determine all the triplets (A, B, C)∈ (Sp,q,k(2, Q))3 which cannot a priori be
+ruled out to lie in the image ofϕ. Note that with the conventions set up above,
+A is positive andABC is a perfect square.
+3. Generate equivalence classes of the remaining triplets with respect to 2-torsion
+equivalence; extract representatives of these equivalence classes.
+4. Eliminate all those triplets which give rise to a homogeneous space overEp,q,k
+which cannot have a rational point due to the quadratic residue behaviour of the
+quadratic equations deﬁning the homogeneous space.
+5. Eliminate all triplets leading to a system of quadratic equations of the form (14)
+of section 2 such that at least one of the quadratic equations is not solvable.
+The remaining triplets are good candidates to start the algorithm to be developed in
+the sequel.
+3.2 General data
+Since the discriminant of the elliptic curveEp,q,k is given by discr(Ep,q,k) = 16p2q2(p +
+q)2k6, the elements ofSp,q,k(2, Q) are the squarefree integral numbers which are com-
+posed of−1, 2 and the prime divisors ofp, q, p + q and k. For analyzing the 2-torsion-
+equivalent triplets, it is interesting to know the values of the mappingsϕ−pk, ϕ0, ϕqk
+at the 2-torsion points(−pk, 0), (0, 0), (qk, 0). We collect the results in the following
+table, where the values always have to be regarded as representatives which should be
+replaced by their squarefree parts.
+(−pk, 0) (0, 0) (qk, 0)
+ϕ−pk p(p + q) pk (p + q)k
+ϕ0 −pk −pq qk
+ϕqk −(p + q)k −qk q(p + q)
+For any triplet (A, B, C) deﬁning a homogeneous space over Ep,q,k we consider the
+equations x + pk = Aα2, x = Bβ 2, x− qk = Cγ 2 and try to examine whether or not
+these equations are solvable in rational numbersx, α, β, γ. Here we may restrict our
+attention to some representative(A, B, C) modulo 2-torsion equivalence.
+12
+
+--- page 13 ---
+
+3.3 Examples
+3.3.1 Congruent prime numbers
+The case of congruent prime numbers corresponds to the casep = q = 1 with k being a
+prime number. This case is discussed extensively in [8]. The results can be summarized
+as follows:
+• If k≡ 1or 3mod 8, then the rank ofE1,1,k(Q)is zero and there is no non-2-torsion
+point on E1,1,k(Q)
+• If k≡ 5 mod 8, then the triplets(A, B, C) yielding a homogeneous space with a
+rational point are given by the 2-torsion-equivalence class containing(1,−1,−1),
+(2, k, 2k), (k, 1, k) and (2k,−k,−2).
+• If k≡ 7 mod 8, then the triplets(A, B, C) yielding a homogeneous space with
+a rational point are given by the 2-torsion-equivalence class containing(2, 1, 2),
+(1,−k,−k), (2k,−1,−2k) and (k, k, 1).
+3.3.2 Congruent numbers which are twice a prime number
+This case corresponds top = q = 1 and k = 2ℓ where ℓ is a prime number and can be
+discussed in a way similar to the above case. By diﬀerent methods (see [18], p. 343)
+we a priori know that 2ℓ is a congruent number ifℓ≡ 3 or 7 mod 8. In this situation
+we haveS1,1,2ℓ ={−1, 2, ℓ}, and the possibilities for the triplets deﬁning homogeneous
+spaces over E1,1,2ℓ are grouped into the following 2-torsion-equivalence classes:
+1.{(1, 1, 1), (2,−2l,−l), (2l,−1,−2l), (l, 2l, 2)}
+2.{(1,−1,−1), (2, 2l, l), (2l, 1, 2l), (l,−2l, 2)}
+3.{(1, 2, 2), (2,−l,−2l), (2l,−2,−l), (l, l, 1)}
+4.{(1,−2,−2), (2, l, 2l), (2l, 2, l), (l,−l,−1)}
+5.{(2, 1, 2), (1,−2l,−2l), (l,−1,−l), (2l, 2l, 1)}
+6.{(2,−1,−2), (1, 2l, 2l), (l, 1, l), (2l,−2l,−1)}
+7.{(2, 2, 1), (1,−l,−l), (l,−2,−2l), (2l, l, 2)}
+8.{(2,−2,−1), (1, l, l), (l, 2, 2l), (2l,−l,−2)}
+The ﬁrst of these classes is given by the 2-torsion elements themselves. For the other
+ones it is suﬃcient to consider the equations corresponding to the ﬁrst triplet.
+2. If (A, B, C) = (1,−1,−1) then x + 2ℓ = α2, x =−β2 and x− 2ℓ =−γ2. Subtract-
+ing the third equation from the ﬁrst yields4ℓ = α2 + γ2. Clearing denominators and
+reducing modulo the prime numberℓ, we see that−1 is a quadratic residue modℓ,
+hence ℓ≡ 1 mod 4. So ℓ≡ 1 or 5 mod 8.
+3. If (A, B, C) = (1, 2, 2) then x + 2ℓ = α2, x = 2β2 and x− 2ℓ = 2γ2. Subtracting the
+third equation from the ﬁrst yields4ℓ = α2−2γ2. Clearing denominators and reducing
+modulo ℓ we see that2 is a quadratic residue modℓ, hence ℓ≡ 1 or 7 mod 8.
+13
+
+--- page 14 ---
+
+4. If (A, B, C) = (1,−2,−2) then x+2 ℓ = α2, x =−2β2 and x−2ℓ =−2γ2. Subtract-
+ing the second equation from the ﬁrst yields2lℓ = α2+2β2. Clearing denominators and
+reducing moduloℓ we see that−2 is a quadratic residue modℓ, henceℓ≡ 1 or 3 mod 8.
+5. If (A, B, C) = (2 , 1, 2) then x + 2ℓ = 2 α2, x = β2, x− 2ℓ = 2 γ2. Subtracting
+the second equation from the ﬁrst yields2ℓ = 2 α2− γ2. Clearing denominators and
+reducing moduloℓ we see that−2 is a quadratic residue modℓ, henceℓ≡ 1 or 7 mod 8.
+6. If (A, B, C) = (2,−1,−2) then x + 2ℓ = 2α2, x =−β2, x− 2ℓ =−2γ2. On the one
+hand, subtracting the third equation from the ﬁrst yields4ℓ = 2α2 + 2γ2. Clearing de-
+nominators, dividing by2 and reducing moduloℓ we see that−1 is a quadratic residue
+mod ℓ, hence ℓ≡ 1 mod 4 so that ℓ≡ 1 or 5 mod 8. On the other hand, subtracting
+the second equation from the ﬁrst yields2ℓ = 2α2 + β2. Clearing denominators and
+reducing modulo ℓ we see that−2 is a quadratic residue modℓ, which implies that
+ℓ≡ 1 or 3 mod 8. Combining both results, we see thatℓ≡ 1 mod 8.
+7. If (A, B, C) = (2 , 2, 1) then x + 2ℓ = 2 α2, x = 2 β2, x− 2ℓ = γ2. Subtracting
+the third equation from the ﬁrst yields4ℓ = 2 α2− γ2. Clearing denominators and
+reducing modulo ℓ we see that2 is a quadratic residue modℓ, hence ℓ≡ 1 or 7 mod 8.
+8. If (A, B, C) = (2 ,−2,−1) then x + 2ℓ = 2 α2, x =−2β2, x− 2ℓ =−γ2. On
+the one hand, subtracting the third equation from the ﬁrst yields4ℓ = 2α2 + γ2. Clear-
+ing denominators and reducing moduloℓ we see that−2 is a quadratic residue modℓ,
+hence ℓ≡ 1 or 3 mod 8. On the other hand, subtracting the second equation from the
+ﬁrst yields 2ℓ = 2α2 + 2β2. Clearing denominators, dividing by 2 and reducing modulo
+ℓ we see that−1 is a quadratic residue modℓ, hence ℓ≡ 1 or 5 mod 8. Combining
+both results we see thatℓ≡ 1 mod 8.
+Since we know beforehand (see [18], p. 343) that the number2ℓ is congruent ifℓ≡ 3
+or 7 mod 8, the above calculations give the following necessary conditions.
+• If l≡ 3 mod 8 then the only possibilities for solvable systems are given by the
+equivalence classes of the triplets(1,−2,−2) and (2,−2,−1).
+• If l≡ 7 mod 8 then the only possibilities for solvable systems are given by the
+equivalence classes of the triplets(1, 2, 2), (2, 1, 2) and (2, 2, 1).
+Explicit calculations show that in the ﬁrst case the triplet(1,−2,−2) yields solvable
+equations whereas the second one does not. Also by explicit calculations, in the second
+case the only triplet yielding solvable equations is(2, 2, 1). For the rational points on
+the corresponding elliptic curves we refer to section 5 below.
+3.3.3 Examples with rank
+(
+Ep,q,k(Q)
+)
+= 2
+The examples considered here correspond to the2π/3-congruent numbers14, 206 and
+398. These numbers are of the form2ℓ where ℓ is a prime number satisfyingℓ≡ 7 mod
+14
+
+--- page 15 ---
+
+96; hence the associated elliptic curve is given byp = 1, q = 3 and k = 2ℓ. We do not
+know whether all of these numbersℓ yield elliptic curves with rank(E1,3,2ℓ(Q)) = 2, but
+at least for the three explicit examples above we will show in section 5 that there are
+two independent solutions.
+The discriminant ofE1,3,2ℓ is discr(E1,3,2ℓ) = 2 1432ℓ6 so that S1,3,2ℓ ={−1, 2, 3, ℓ}.
+In particular, we get128 possibilities for the triplets(A, B, C) characterizing the ho-
+mogeneous spaces associated with the 2-descent. The table for the mappingϕ at the
+2-torsion points looks as follows.
+(−2l, 0) (0, 0) (6l, 0)
+ϕ−2l 1 2l 2l
+ϕ0 −2l −3 6l
+ϕ6l −2l −6l 3
+We see that any 2-torsion equivalence class contains a triplet which is independent
+of 2ℓ. So the equivalence classes of these triplets are already determined by the 32
+possible triplets composed of the factor set{−1, 2, 3}. (Note that−1 does not occur
+as a factor ofA since A is positive.)
+Let us discuss the explicit example of the triplet(A, B, C) = (3, 3, 1). The equations
+from 3.2 arex + 2ℓ = 3α2, x = 3β2 and x− 6ℓ = γ2. Subtracting the third equation
+from the ﬁrst yields8ℓ = 3α2− γ2. Clearing denominators and reducing modulo the
+prime number ℓ shows that 3 is a quadratic residue modℓ, hence ℓ≡ 1 or 11 mod
+12. But this is not the case forl≡ 7 mod 96. So this triplet does not belong to a
+homogeneous space having a rational point.
+In the same way we may discuss all 32 possibilities. The only triplets which do
+not lead to a contradiction are (1, 2, 2), (1,−3,−3), (1,−6,−6), (2, 1, 2), (2, 2, 1),
+(2,−3,−6) and (2,−6,−3). These triplets provide candidates for the search for ratio-
+nal solutions of the corresponding equations. In section 5 we will see that the triplets
+(1, 2, 2), (2,−3,−6) and (2,−6,−3) indeed lead to solutions, as, of course, also do all
+triplets which are 2-torsion-equivalent to one of these. For the sake of completeness,
+let us explicitly write down the 2-torsion equivalence classes of these three triplets:
+•{ (1, 2, 2), (2l,−6,−3l), (1,−l,−l), (2l, 3l, 6)};
+•{ (2,−3,−6), (l, 1, l), (2, 6l, 3l), (l,−2l,−2)};
+•{ (2,−6,−3), (l, 2, 2l), (2, 3l, 6l), (l,−l,−1)}.
+Note that in the group structure of(Q∗/(Q∗)2× (Q∗/(Q∗)2× (Q∗/(Q∗)2 the third
+triplet is the product of the other two. So solutions corresponding to the third triplet
+correspond to sums of solutions of the other ones (the sum being calculated in terms
+of the elliptic curve structure of the given curveE1,3,2ℓ). But the solutions belonging
+to the ﬁrst and the second triplet are independent with respect to the elliptic curve
+addition, and since they are of inﬁnite order we have shown that the Mordell-Weil rank
+of these groups is at least2.
+15
+
+--- page 16 ---
+
+4 Algorithm
+4.1 Weak form of the algorithm
+The starting point of our algorithm is a system of quadratic equations of the form
+(17) Q1(X0, X1, X2) = a00X 2
+0 + a11X 2
+1 + a22X 2
+2 = 0
+Q2(X0, X1, X3) = b00X 2
+0 + b11X 2
+1 + b33X 2
+3 = 0
+which we assume to be solvable in integers. Then in particular there is a point
+(x0, x1, x2)∈ Z3\{ (0, 0, 0)} with Q1(x0, x1, x2) = 0. By Newton’s method, projecting
+from (x0, x1, x2), we may parametrize the solutions ofQ1 by quadratic polynomials
+(18) X0 = Φ0(ξ0, ξ1), X 1 = Φ1(ξ0, ξ1), X 2 = Φ2(ξ0, ξ1),
+which means that the solutions (x0, x1, x2) of the equation Q1 = 0 are exactly the
+points
+(
+Φ0(ξ0, ξ1), Φ1(ξ0, ξ1), Φ2(ξ0, ξ1)
+)
+) where (ξ0, ξ1) ∈ P1(Q). Substituting this
+parametrization for X0 and X1 into the equation forQ2 yields an equation
+(19) Q3(ξ0, ξ1, X3) = Q2
+(
+Φ0(ξ0, ξ1), Φ0(ξ0, ξ1), X3
+)
+= b00Φ0(ξ0, ξ1)2 + b11Φ1(ξ0, ξ1)2 + b33X 2
+3 = 0
+which is of degree4 in (ξ0, ξ1) and of degree2 in X3. This equation is the basis of the
+weak form of the following algorithm for ﬁnding solutions of a system of the form (17).
+/* weak algorithm */
+INPUT: quadrics Q1 and Q2
+BEGIN
+determine a solution (x0, x1, x2) of Q1 = 0
+calculate parametrizations Xi = Φi(ξ0, ξ1), i = 0, 1, 2
+loop over (ξ0, ξ1)
+BEGIN
+calculate value =−b33(b00Φ0(ξ0, ξ1)2 + b11Φ1(ξ0, ξ1)2)
+check whether value is a square number
+if yes
+BEGIN
+/* solution found */
+x0 = Φ0(ξ0, ξ1)
+x1 = Φ1(ξ0, ξ1)
+x2 = Φ2(ξ0, ξ1)
+x3 =
+√
+value/(−b33)
+RETURN (x0, x1, x2, x3)
+END
+END
+END
+16
+
+--- page 17 ---
+
+Remarks:
+• The algorithm is not guaranteed to terminate. In fact, to the best of our knowl-
+edge no upper bound for the smallest solution of a system of the form (17) is
+known.
+• The logarithmic height of a solution (x0, x1, x2, x3) found by the algorithm is
+about twice the logarithmic height of the parameters(ξ0, ξ1).
+• Assuming that the algorithmic complexity of the calculations within the algo-
+rithm do not too strongly depend on the magnitude of the numbers involved,
+then the complexity of the algorithm depends quadratically on the height of the
+parameters (ξ0, ξ1).
+• Using a general purpose computer, it is possible to calculate the ﬁnal loop for
+the parameters ξ0, ξ1 up to about 10 000 within a few minutes, which yields
+results for the original quadratic equations with up to about25 digits (in decimal
+representation).
+4.2 Strong form of the algorithm
+This section is devoted to an improved version of the weak form of the algorithm,
+provided a special property of the considered equations holds.
+4.2.1 Additional preparation and condition
+We note that the starting point of our algorithm is the system(17) which consists of
+two quadratic equations of a very special form. Namely, exactly two of the variables
+appear in both equations. We can, of course, eliminate from each of the equations one
+of the common variables, which yields four equations each of which contains exactly
+three of the four original variables, and each choice of two of these equations deﬁnes
+the same quadric intersection in projective 3-space. We now impose a condition which
+seems to be of a purely technical nature (not corresponding to any geometric or arith-
+metic property of the given elliptic curve), but seems to be satisﬁed in many particular
+cases. (See the examples in the subsequent sections.)
+Condition: We suppose that at least one of the four equations has a solution with
+one coordinate being zero.
+We choosethe equation ofthe conditionto bethe ﬁrstoneand choosea secondequation
+such that the variable whose coordinate in the distinguished solution is zero appears
+in both equations. After renaming the variables if necessary, we may suppose without
+loss of generality that the equations have the form(17) and that(0, x1, x2) is an integer
+solution for Q1. As above, we parametrize the quadratic formQ1 projecting from this
+point (0, x1, x2), which gives expressionsXi = Φ i(ξ0, ξ1) as in (18), and as above we
+substitute the parametrizations ofX0 and X1 into the second equation. The crucial
+observation is that in our particular situation the polynomialQ3 in equation (19) is
+17
+
+--- page 18 ---
+
+biquadratic in (ξ0, ξ1); see 2.2.3. Hence substitutingY0 = ξ2
+0, Y1 = ξ2
+1, Y2 = X3 yields
+a quadratic form, which we denote (with a slight abuse of notation) byQ3(Y0, Y1, Y2).
+Our task is then to ﬁnd an integer solution of the equationQ3(y0, y1, y2) = 0 in such a
+way that bothy0 and y1 are squares.
+Remark: The property of being a square number is not invariant with respect to
+the change of representatives of projective coordinates. So the above problem can be
+stated equivalently by saying that we look for a coprime solution(y0, y1, y2) for Q3 and
+a factorµ (which we may assume to be squarefree) such thaty0 = µσ2
+0, y1 = µσ2
+1. This
+seems to be diﬃcult. However, we can establish a strong condition for the possible
+factors µ, as will be explained below.
+Remark: The order of magnitude of ξi is about twice the order of magnitude of
+Xi, so Yi and Xi are nearly of the same order of magnitude.
+4.2.2 Parametrization of Q3 and condition forµ
+As always we assume our problem to have a solution, henceQ3 has a solution with
+the required property; in particular,Q3 has a rational solution which, without loss of
+generality, we may assume to consist of coprime integers. Letp = (p0, p1, p2) be such a
+solution. We parametrizeQ3 using p as projection point according to Newton’s method
+to get representations
+(20) Y0 = Ψ 0(η0, η1), Y 1 = Ψ 1(η0, η1), Y 2 = Ψ 2(η0, η1)
+with quadratic formsΨ0, Ψ1, Ψ2. We observe that ifµ is a factor as considered in the
+last remark of 4.2.1, thenµ divides the numbersΨi(η0, η1) where i = 0, 1, 2 and hence
+also divides allZ-linear combination of these three numbers. We write
+(21)
+Ψ0(η0, η1) = ψ(0)
+00 η2
+0 + ψ(0)
+01 η0η1 + ψ(0)
+11 η2
+1
+Ψ1(η0, η1) = ψ(1)
+00 η2
+0 + ψ(1)
+01 η0η1 + ψ(1)
+11 η2
+1
+Ψ2(η0, η1) = ψ(2)
+00 η2
+0 + ψ(2)
+01 η0η1 + ψ(2)
+11 η2
+1
+and determine coprime integer coeﬃcientsci where i = 0, 1, 2 such that
+(22) c0ψ(0)
+00 + c1ψ(1)
+00 + c2ψ(2)
+00 = 0 ,
+c0ψ(0)
+11 + c1ψ(1)
+11 + c2ψ(2)
+11 = 0 .
+so that
+(23) c0Y0 + c1Y1 + c2Y2 = ( c0ψ(0)
+01 + c1ψ(1)
+01 + c2ψ(2)
+01 )· η0η1.
+Since we are looking for coprime solutions(y0, y1, y2) we may assume (η0, η1) to be
+coprime and the factorµ to be coprime with bothη0 and η1. So we have the following
+necessary condition for the possible factorsµ.
+18
+
+--- page 19 ---
+
+Condition: The factor µ divides (the squarefree part of)D = c0ψ(0)
+01 + c1ψ(1)
+01 + c2ψ(2)
+01 .
+A second (trivial) necessary condition for µ is given by the property that the two
+quadratic equation
+(24) µσ2
+0 = Ψ 0(η0, η1) = ψ(0)
+00 η2
+0 + ψ(0)
+01 η0η1 + ψ(0)
+11 η2
+1,
+µσ2
+1 = Ψ 1(η0, η1) = ψ(1)
+00 η2
+0 + ψ(1)
+01 η0η1 + ψ(1)
+11 η2
+1
+are both (individually) solvable (in the variablesη0, η1 and σ0 or σ1, respectively. Apart
+from the above necessary conditions for the factorµ, there seems to be noa priori cri-
+terion for selecting an appropriate factor µ. We have to resort to a trial-and-error
+approach going through the possible candidates. We note in passing that the logarith-
+mic height of(Y0, Y1, Y2) is about twice the logarithmic height of(η0, η1).
+4.2.3 New quadratic form
+Havingchosenasuitablefactor µaccordingto4.2.2, theoriginalproblemistransformed
+to solving the system(24). (Note that the orders of magnitude of the parametersη0,
+η1 and of σ0, σ1 are approximately equal.)
+Let us rename the variables(η0, η1, σ0) to (Z0, Z1, Z2) and let us denote the ﬁrst
+of the quadratic equations in(24) by Q4(Z0, Z1, Z2) = 0 . Again, let us determine a
+rational point(z0, z1, z2) on this quadric and let us parametrizeQ4 by using this point
+as a projection point. Then we obtain a representation
+(25) Z0 = Γ 0(ρ0, ρ1), Z 1 = Γ 1(ρ0, ρ1), Z 2 = Γ 2(ρ0, ρ1)
+with quadratic formsΓi. Again, for any pair of parameters(ρ0, ρ1) we get a solution
+for the ﬁrst equationQ4(Z0, Z1, Z2) = 0. Substituting the expressions for Z0 and Z1
+into the right-hand side of the second equation yields
+(26) Ψ 1
+(
+Γ0(ρ0, ρ1), Γ1(ρ0, ρ1)
+)
+= µσ2
+1.
+This equation (which is of degree4 in the variablesρ0, ρ1) is the base for a ﬁnal search
+loop. We note that the logarithmic height of(Z0, Z1, Z2) is about twice the logarithmic
+height of(ρ0, ρ1).
+4.2.4 Algorithm
+The considerations above may be combined to the following strong form of the algo-
+rithm.
+/* strong algorithm */
+INPUT: quadrics Q1 and Q2
+BEGIN
+calculate a representation of the quadric intersection as in 4.2.1
+calculate a special point on Q1 of the form x = (0, x1, x2)
+19
+
+--- page 20 ---
+
+calculate the parametrization of Q1 projecting from x:
+Xi = Φi(ξ0, ξ1), i = 0, 1, 2;
+substitute Xi = Φi(ξ0, ξ1), i = 0, 1, and plug into Q2
+calculate quadratic form Q3(Y0, Y1, Y2) from this substitution
+determine point y = (y0, y1, y2) on Q3
+calculate the parametrization of Q3 projecting from y:
+Yi = Ψi(η0, η1), i = 0, 1, 2
+determine the system of linear equations (22)
+determine a solution of this system
+calculate the value D from 4.2.2
+determine the possible values for the coefficient µ
+choose an appropriate value for µ
+calculate the quadratic form Q4(Z0, Z1, Z2) from 4.2.3
+determine a point z = (z0, z1, z2) on Q4
+calculate the parametrization of Q4 projecting from z:
+Zi = Γi(ρ0, ρ1), i = 0, 1, 2
+calculate the quartic form Ψ1(Γ0(ρ0, ρ1), Γ1(ρ0, ρ1))
+loop over (ρ0, ρ1)
+BEGIN
+calculate the value val = Ψ1
+(
+Γ0(ρ0, ρ1), Γ1(ρ0, ρ1)
+)
+check whether µ·val is a square
+if yes then
+BEGIN
+/* Solution found */
+BREAK
+END
+END
+calculate values Zi = Γi(ρ0, ρ1), i = 0, 1, 2
+SET ηi = Zi , i = 0, 1
+calculate values Yi = Ψi(η0, η1)
+calculate ξi =√µYi, i = 0, 1
+calculate values Xi = Φi(ξ0, ξ1), i = 0, 1, 2
+if necessary, rename the variables as explained in 4.2.1
+RETURN (X0, X1, X2, X3)
+END
+Remarks:
+• As was the case with its weak form, the algorithm is not guaranteed to terminate.
+• The logarithmic height of a solution (x0, x1, x2, x3) found by the algorithm is
+about four times the logarithmic height of the parameters(ρ0, ρ1) of the ﬁnal
+loop. Hence the number of digits in the solutions which can be found by a search
+up to a certain height for the parameters in the ﬁnal search loop is about twice
+as large as compared to the weak form of the algorithm. This improvement is
+counteractedbythefactthattheadditionalconditionof4.2.1needstobeimposed
+20
+
+--- page 21 ---
+
+on the given quadratic forms. Another disadvantage is the task of choosing a
+factor µ according to 4.2.3, for which we are not aware of a guiding principle.
+• As is the case with its weak form, the complexity of the algorithm depends
+quadratically on the height of the parameters(ρ0, ρ1).
+5 Examples
+This section is devoted to the discussion and presentation of explicit examples to which
+the above algorithm is applied. In the ﬁrst example we demonstrate the execution of
+the algorithm, exploiting the choices to be made for making the algorithm work and
+presentingtheintermediatedataproducedwithinthealgorithm. Thesecondsubsection
+collects some series of examples which are very similar in their behaviour, while the
+third part treats examples with rank larger than one.
+5.1 An explicit example
+Let us consider the case of the2π/3-congruent numbern = 142 = 2· 71. (Note that71
+is a prime number congruent to−1 mod 8 and hence is2π/3-congruent; cf. [24].) The
+elliptic curve associated with this problem is given byy2 = x(x + 142)(x− 3· 142), and
+the equations for the corresponding concordant form problem areW 2
+0−3·142 W 2
+1 = W 2
+2
+and W 2
+0 + 142W 2
+1 = W 2
+3. From the equivalence classes determined by the 2-descent we
+get the class belonging to the triplet(A, B, C) = (1, 2, 2), which is a good candidate for
+yielding a homogeneous space having a rational point. The corresponding equations
+are
+(27) x + 142 = α2, x = 2β2, x − 3· 142 = 2γ2.
+These equations are equivalent to the following system of quadratic equations
+(28) Q1 : 3 X 2
+0− 8X 2
+1 + 2X 2
+2 = 0, Q 2 : X 2
+0− 2X 2
+1− 142X 2
+3 = 0.
+Each of these equations individually possesses rational solutions; so the corresponding
+homogeneous space has a chance to have a rational point. We see thatQ1 has the
+rational point(0, 1, 2), so the critical condition of section 4.2 is fulﬁlled. Parametrizing
+Q1 with this point gives
+(29) X0 = 16 ξ0ξ1, X 1 = 8 ξ2
+0 + 3ξ2
+1, X 2 = −16ξ2
+0 + 6ξ2
+1.
+Substituting the expressions forX0 and X1 in Q2 and settingY0 = ξ2
+0, Y1 = ξ2
+1, Y2 = X3
+gives the quadric
+(30) Q3 : −64Y 2
+0 + 80Y0Y1− 9Y 2
+1− 71Y 2
+2 = 0 .
+The next step is to ﬁnd a point on Q3. We ﬁnd the point (y0, y1, y2) = (10 , 9, 1).
+Parametrizing Q3 using this point gives the following representations:
+21
+
+--- page 22 ---
+
+(31)
+Y0 = Ψ 0(η0, η1) = −90η2
+0 + 81η0η1− 20η2
+1,
+Y1 = Ψ 1(η0, η1) = −719η2
+0 + 640η0η1− 144η2
+1,
+Y2 = Ψ 2(η0, η1) = −9η2
+0 + 40η0η1− 16η2
+1.
+Now we have to ﬁnd an appropriate coeﬃcientµ which, according to the necessary con-
+dition from the linear system in 4.2.2, must divideD = 142. The only candidates for
+µ which result in (individually) solvable quadratic equations Ψ0(η0, η1) = µσ2
+0 and
+Ψ1(η0, η1) = µσ2
+1 are µ =−1 and µ =−71. We do not have ana priori criterion which
+of these values to use for the following search, but must use trial and error. It turns out
+that µ =−1 does not yield a solution, butµ =−71 does. So let us consider this choice.
+Accordingtothenotationsofsection4, wedenoteby Q4 and Q5 thequadraticequations
+Ψ0(η0, η1) = µσ2
+0 and Ψ1(η0, η1) = µσ2
+1, respectively, where we rename the variables as
+follows: Z0 = η0, Z1 = η1, Z2 = σ0, Z3 = σ1. Thus we arrive at the following equations:
+(32) Q4 : − 90Z 2
+0 + 81Z0Z1− 20Z 2
+1 + 71Z 2
+2 = 0 ,
+Q5 : − 719Z 2
+0 + 640Z0Z1− 144Z 2
+1 + 71Z 2
+3 = 0 .
+Again, we have to look for a point onQ4. We ﬁnd the point(z0, z1, z2) = (4, 1, 4) and
+use this point to parametrizeQ4. This yields
+(33)
+Z0 = Γ 0(ρ0, ρ1) = −5ρ2
+0 + 10ρ0ρ1 + 279ρ2
+1,
+Z1 = Γ 1(ρ0, ρ1) = −19ρ2
+0 + 180ρ0ρ1− 90ρ2
+1,
+Z2 = Γ 2(ρ0, ρ1) = −5ρ2
+0 + 81ρ0ρ1− 360ρ2
+1.
+Finally, we substitute the expressions forZ0 and Z1 into Q5; this yields:
+(34) Q5 : Ψ1(Z0, Z1) + 71Z 2
+3 = −9 159ρ4
+0 + 359 260ρ3
+0ρ1− 5 176 610ρ2
+0ρ2
+1
++32 218 380ρ0ρ3
+1− 73 204 479ρ4
+1 + 71 Z 2
+3 = 0
+This last expression is the starting point for the ﬁnal search loop. We look for integers
+(ρ0, ρ1) such that
+(35) −71 Ψ1(Γ0(ρ0, ρ1), Γ1(ρ0, ρ1)) = −9 159ρ4
+0 + 359 260ρ3
+0ρ1− 5 176 610ρ2
+0ρ2
+1
++32 218 380ρ0ρ3
+1− 73 204 479ρ4
+1
+is a perfect square. Having found such a pair of integers we can recover a solution of
+the original equations. Using (ρ0, ρ1) = (20 , 3), the right-hand side of (35) takes the
+value−10633599 =−71· 3872, so we have found a solution. With these values we ﬁnd
+that
+(36)
+(Z0, Z1, Z2, Z3) = (1111 , 2390,−380, 387)
+(Y0, Y1, Y2) = ( −10252400,−10633599, 3709111)
+(X0, X1, X2, X3) = (2352960 , 1604507,−1411786,−52241)
+22
+
+--- page 23 ---
+
+which results in the point
+(37) ( x, y) =
+(5148885426098
+2729122081 , 10659946547134851840
+142572066633521
+)
+on the curvey2 = x(x + 142)(x− 426). The corresponding solution(W0, W1, W2, W3)
+of the concordant form problem is given by
+(38)
+
+
+W0
+W1
+W2
+W3
+
+ =
+
+
+−1685098252492020382767601
+69610783446108974371680
+−880513748494434998396401
+−1878201269026558326761999
+
+
+We note that the signs in this solution are not important; they arise from the iso-
+morphism used between the elliptic curve and the quadric intersection deﬁning the
+concordant form problem. Other distributions of signs correspond to other points on
+the elliptic curve; these other points are determined by adding any of the 2-torsion
+points of E1,3,142(Q) to the above solution. They are given by the following three
+points, together with their negatives (in the sense of the elliptic curve addition), which
+are obtained by reversing the sign of they-component:
+(39)
+(x1, y1) =
+(−82545026461926
+2574442713049 , 5248834080776243516160
+4130711354186111843
+)
+,
+(x2, y2) =
+(294814405555200
+498284927449 , 2982672665844557232960
+351735842291756957
+)
+,
+(x3, y3) =
+(−35378229848879
+346026297600 , 298269379294025686631
+203546509300224000
+)
+.
+Remarks. During the execution of the algorithm one has to make some choices, most
+of which are not very critical and do not aﬀect the working of the algorithm. Examples
+of such choices are those of the points on the quadricsQ1, Q3 and Q4, which are used
+for the parametrizations of these quadrics. Also, it is irrelevant whether one uses the
+quadric Q4 for parametrization and substitution into Q5 or whether one exchanges
+the roles of Q4 and Q5. A more delicate task is the choice of the parameterµ, for
+which we have no good suggestions. Note that using diﬀerent parametrizations of the
+intermediate quadrics may aﬀect the possible choices for this parameterµ.
+5.2 Some series of examples with similar behaviour
+5.2.1 Congruent prime numbers k≡ 5 mod 8
+Let k∈ N be a prime number satisfyingk≡ 5 mod 8. Then k is a congruent number,
+i.e., it is the area of a right triangle with rational sides. This is tantamount to saying
+that there are nontrivial rational points on the elliptic curvey2 = x(x + k)(x− k), and
+the corresponding concordant form problem is given by the equationsW 2
+0− kW 2
+1 = W 2
+2
+and W 2
+0 +kW 2
+1 = W 2
+3. The Mordell-Weil-rank of these curves is one, and rational points
+23
+
+--- page 24 ---
+
+on these curves can be found by examining the 2-descent with parameters(A, B, C) =
+(1,−1,−1). The initial quadrics for the algorithm are given by
+(40) Q1 : 2 X 2
+0 + X 2
+1− X 2
+2 = 0, Q 2 : X 2
+0 + X 2
+1− kX 2
+3 = 0.
+The point (0, 1, 1) is on Q1 and can be used for the ﬁrst parametrization. Appendix 1
+provides a table which contains the results found for all prime numbersk≡ 5 mod 8
+up to 613 in terms of the solutions(W0, W1, W2, W3) to the concordant form problem
+(with all the components being positive). The table shows (in the last column) also the
+logarithmic heights of the solutions found (with respect to the logarithm with base10,
+i.e., the maximum number of decimal places of the solution). The following diagram
+shows the logarithmic heights depending on the prime numbersk.
+5.2.2 Diagrams of some other series
+(a) The following diagram shows the heights of the solutions (in terms of the solu-
+tions (W0, W1, W2, W3) of the concordant form problem) depending on the coeﬃcients
+k, where k is a prime number satisfyingk≡ 7 mod 8.
+24
+
+--- page 25 ---
+
+(b) The following diagram shows the logarithmic heights of the solutions to the
+congruent number problem for the numbersk = 2ℓwhere ℓis a prime number satisfying
+ℓ≡ 7 mod 8.
+(c) Finally, let us consider the2π/3-congruent number problem. This corresponds
+to the elliptic curvesE1,3,k given by y2 = x(x + k)(x− 3k). From [24] we know that
+prime numbers k≡ 5 mod 24 are 2π/3-congruent. The following diagram shows again
+the logarithmic heights of solutions in terms of the solutions to the corresponding
+concordant form problem.
+5.3 Special examples
+Let r = 2 ℓ where ℓ∈ N is a prime number satisfyingℓ≡ 7 mod 96. As in section
+3, we consider the2π/3-congruent number problem for these numbers. The solution
+to this problem corresponds to determining the rational points on the elliptic curve
+y2 = x(x+ 2ℓ)(x−6ℓ), and the corresponding concordant form problem is given by the
+equations W 2
+0 +2 ℓW 2
+1 = W 2
+2 and W 2
+0−6ℓW 2
+1 = W 2
+3. According to the considerations in
+section 3, we have a good chance to ﬁnd rational solutions to this problem by examining
+25
+
+--- page 26 ---
+
+the homogeneous spaces belonging to the 2-descent parameter sets(A, B, C) = (1, 2, 2),
+(2,−3,−6) and (2,−6,−3), where the solutions to the third parameter set are obtained
+as the sums of the solutions of the ﬁrst two parameter sets in terms of the group
+structure of the elliptic curve. Appendix 2 shows the results obtained for the three
+examples ℓ = 7, ℓ = 103 and ℓ = 199. For the concordant form we only exhibit the
+solution with positive coeﬃcients; in addition, we list the four points on the elliptic
+curve with positive y-coordinates which correspond to the concordant form solutions
+obtained by changing the signs of the coeﬃcients (which means adding 2-torsion points
+on the elliptic curve).
+6 Concluding remarks and open questions
+The algorithm described in section 4 provides us with a tool to ﬁnd explicit solutions to
+elliptic curve equations of a special form. This algorithm improves a simpler strategy
+which is probably well known to the experts and which is based on a classical 2-
+descent procedure together with a parametrization scheme for quadratic forms. As was
+shown by way of various examples, the algorithm works quite well in many situations.
+However, there are certain points which are not fully understood, and these open
+questions are addressed in this ﬁnal section.
+6.1 Choices within the algorithm
+The algorithm applies to elliptic curves with full 2-torsionZ/2Z×Z/2Z. It requires the
+validity of a certain condition which seems to be of a purely technical nature; namely,
+we assumed that the homogeneous space leading to a solution of the elliptic curve
+equation can be given by two diagonal quadrics with separated variables in the form
+(41) Q1 : a00X 2
+0 + a11X 2
+1 + a22X 2
+2 = 0
+Q2 : b00X 2
+0 + b11X 2
+1 + b33X 2
+3 = 0
+such that at least one of the equations (without loss of generality the ﬁrst one) has
+a solution of the form(0, x1, x2) or (x0, 0, x2). However, this condition is not always
+fulﬁlled, as is shown by the following example.
+Let k be a prime number congruent to23 modulo 24. Then, assuming the validity
+of the Birch-Swinnerton-Dyer Conjecture, the elliptic curveE1,3,k has positive rank(
+cf. [24], section 3, expectation (e1)
+)
+; in fact, we expect the rank of this curve to be
+one. Let us consider the special casek = 23. Then by the 2-descent procedure we ﬁnd
+the triplet (A, B, C) = (2 , 3, 6) to determine a homogeneous space having a rational
+solution. The four quadrics which are determined by this triplet according to 4.2.1 are
+given by
+26
+
+--- page 27 ---
+
+(42)
+0 = X 2
+0− 2X 2
+1 + X 2
+2
+0 = 2 X 2
+0− 3X 2
+1− 23X 2
+3 = 2 X 2
+0− 3X 2
+1− kX 2
+3
+0 = X 2
+0− 3X 2
+2− 46X 2
+3 = X 2
+0− 3X 2
+2− 2kX 2
+3
+0 = X 2
+1− 2X 2
+2− 23X 2
+3 = X 2
+1− 2X 2
+2− kX 2
+3
+and it is easy to see that none of these equations has an integer solution with one
+component being 0. However, (7, 5, 1, 1) is a solution for this system of quadratic
+equations, and this solution determines for example the point(75, 210) on the elliptic
+curve E1,3,23. The same equations yield solutions for other values ofk, for example
+k = 47, 71, 167, 191, 239, 263, 311, 359, 383, 431, 479, 503, 599.
+Note that for any of the triplets(A′, B′, C′) which are equivalent to(2, 3, 6) with
+respect to the 2-torsion points, the critical condition is not satisﬁed either; hence we
+cannot apply the strong form of the algorithm to ﬁnd rational points on the curves of
+the form E1,3,k with prime numbersk≡ 23 modulo 24.
+Question: Is there a geometric or arithmetic interpretation of the above condition?
+During the execution of the algorithm we have to make some choices, some of which
+cause no problems at all whereas others need to be treated carefully.
+1. We have to choose an appropriate homogeneous space leading to a solution.
+There are at least the homogeneous spaces beingP-equivalent in the sense of section
+2, where P is the set of 2-torsion points on the elliptic curve. The choice of diﬀerent
+spaces should yield diﬀerent solutions which are in the same residue class with respect
+to the 2-torsion subgroup.
+2. In several situations we have to choose a point on a quadric for deﬁning a
+parametrization of that quadric. Since the parametrizations always determine all ratio-
+nal points on that quadric, the choice of the point is irrelevant. However, the solutions
+found by choosing diﬀerent points may arise in diﬀerent succession.
+3. At a sensitive point of the algorithm, we have to choose a factorµ which deter-
+minesthe“right” representativeofapointinprojectivespacetohavesquarecoeﬃcients.
+We have determined a ﬁnite set of possibilities for this choice, and we can exclude many
+of the potential candidates by simple arguments. However, for the remaining possibil-
+ities we have no guidelines which of the candidates may give rise to a solution, and
+hence resort to a trial-and-error approach.
+Question: Is there a geometric or arithmetic interpretation of this factor which may
+lead to a better way of choosing this factor?
+27
+
+--- page 28 ---
+
+6.2 Qualities of the algorithm
+Summarizing the observations made in section 4, we see that a search within the
+algorithm in which the parametersρ0 and ρ1 of the central loop are considered up to
+logarithmic height n, the solutions will have logarithmic height of about12n. Hence a
+search with parameters up to around10 000 is expected to ﬁnd solutions with about
+50 decimal places. Such a search can be performed with a usual personal computer in
+a few minutes. However, as mentioned in section 4, the complexity of the algorithm
+grows quadratically with the parameters(ρ0, ρ1). Hence a search in a parameter range
+of up to 100 000, which could provide solution with about70 decimal places, would
+already take several hours.
+In spite of this complexity defect, the examples of section 5 show that we can
+generate enough data to obtain interesting information on the behaviour of the smallest
+solutions found by the algorithm, depending on the coeﬃcients of the original elliptic
+curves. Of course the data are too sparse to lead to serious conjectures. Nevertheless,
+the diagrams in section 5 suggest that for the families considered there may be a linear
+correlation between the parameters deﬁning the curves and the logarithmic height of
+the smallest solutions. We are far from being able to formulate such a suspected
+correlation in more precise terms.
+6.3 Structural questions
+The central point in both the weak as well as the strong version of the algorithm is the
+consideration of a suitable homogeneous spaceQ over the given elliptic curveE. Such
+a homogeneous space is geometrically (i.e. over an algebraic closure ofQ) isomorphic
+to E. It is trivial (in the sense of the Weil-Chatelet group) if and only if it contains a
+rational point, and in this situation it is isomorphic overQ to some rationally deﬁned
+elliptic curve EQ. Via the well known construction of Nagell (cf. [15]) we can deﬁne a
+biregular mapping fromQ to EQ given by a Weierstraß equation.
+Question: What can be said about this elliptic curve?
+We observe that if rank(EQ(Q)) > 0 we obtain an inﬁnite series of rational points
+on E by considering the composition of an isomorphism ofQ to EQ and the mapping
+from Q to E given in section 2. Obviously, independent rational points onEQ(Q) will
+determine independent points onE(Q). So we certainly have rk(EQ(Q))≤ rk(E(Q)).
+In the examples of section 5 two cases occurred.
+• There were examples with rk(E(Q)) = 1, and hence for the choosen homogeneous
+space to yield a solution of inﬁnite order we also had necessarily rk(EQ(Q)) = 1.
+• There were examples with rk(E(Q)) = 2 , and in these examples invariably all
+the homogeneous spaces Q considered for ﬁnding solutions onE(Q) were such
+that rk(EQ(Q)) = 1 . Hence to ﬁnd independent solutions we had to look for
+two diﬀerent (and non-equivalent with respect to 2-torsion points) homogeneous
+spaces.
+28
+
+--- page 29 ---
+
+Question: Are there examples in which rk(EQ(Q)) > 1?
+Let us again consider the case in which rk(E(Q))≥ 2, and letQ and Q′ be two inde-
+pendent homogeneous spaces yielding independent rational solutions onE(Q). Then
+the associated rationally deﬁned elliptic curvesEQ and EQ′ are twists of one another
+(and twists of the original curveE as well).
+Question: What can be said about the connection between these two elliptic curves?
+6.4 Further outlook
+The algorithm above was developed for the class of elliptic curvesE with full 2-torsion,
+which means that the torsion subgroup ofE contains Z/2Z× Z/2Z. Equivalently, the
+curves considered can be given in aﬃne form by a Weierstraß equation with split poly-
+nomial in the form y2 = ( x− e1)(x− e2)(x− e3) where e1, e2, e3∈ Q are pairwise
+diﬀerent. It would be of interest to develop algorithms for other classes of elliptic
+curves with positive rank. Note that the 2-descent procedure may always be formu-
+lated in the same way as in section 2, but over some number ﬁeld instead ofQ. One
+could try to develop an algorithm over such a number ﬁeld and then,a fortiori, try
+to extract those solutions which are actually rational. Alternatively, one could try to
+reformulate the 2-descent procedure (at least in special cases) such that a rationally
+deﬁned algorithm can be developed. Both strategies seem to be not entirely trivial.
+Hagen Knaf, Karlheinz Spindler
+Hochschule RheinMain, Germany
+Applied Mathematics
+hagen.knaf@hs-rm.de, karlheinz.spindler@hs-rm.de
+Erich Selder
+Frankfurt University of Applied Sciences, Germany
+Computer Science and Engineering
+e_selder@fb2.fra-uas.de
+29
+
+--- page 30 ---
+
+7 References
+1. Andrew Bremner, John William Scott Cassels,On the equation Y 2 = X(X 2 + p),
+Mathematics of Computation, Vol. 42, No. 165, 1984, pp. 257–264.
+2. John William Scott Cassels,Lectures on Elliptic Curves , London Mathematical
+Society Students Texts vol. 24, London 1991.
+3. Leonhard Euler,De binis formulis speciei xx+myy et xx+nyy inter se concordibus
+et discordibus, Mem. Acad. Sci. St.-Petersbourg 1780 (Opera Omnia: Ser. 1,
+Vol. 5, pp. 406–413).
+4. Masahiko Fujiwara, θ-congruent numbers, in: K. Györy et al. (eds.), Number
+theory, de Gruyter, Berlin 1998, pp. 235–241.
+5. Masahiko Fujiwara, Some properties of θ-congruent numbers, Natural Science
+Report, Ochanomizu University, vol. 52, no. 2, 2001.
+6. Ludwig Holzer, Minimal solutions of diophantine equations , Canad. J. Math. 2,
+1950, pp. 238–244.
+7. Makiko Kan, θ-congruent numbers and elliptic curves , Acta Arithmetica 94 (2),
+2000, pp. 153–160.
+8. Anthony W. Knapp,Elliptic Curves, Mathematical Notes 40, Princeton Univer-
+sity Press 1992.
+9. Neal Koblitz,Introduction to Elliptic Curves and Modular Forms , Springer, New
+York/Berlin/Heidelberg 1993.
+10. Adrien-Marie Le Gendre,Recherches d’Analyse indéterminée, Histoire de l’Aca-
+démie Royale des Sciences 1785, pp. 465–559.
+11. Elisabeth Lutz, Sur l’équation y2 = x3− Ax− B dans les corps p-adiques, J.
+Reine Angew. Mathematik 177 (1937), pp. 237–247.
+12. Barry Charles Mazur, Modular curves and the Eisenstein ideal , Publications
+mathématiques de l’I.H.E.S 47 (2), 1977, pp. 33–186.
+13. Louis Joel Mordell, On the Rational Solutions of the Indeterminate Equations
+of the Third and Fourth Degrees , Proc. Cambridge Phil. Soc. XXI, 1922, pp.
+179–192.
+14. Louis Joel Mordell, On the Magnitude of the Integer Solutions of the Equation
+ax2 + by2 + cz2 = 0, J. Number Theory 1, 1969, pp. 1–3.
+15. Trygve Nagell, Sur les propriétés arithmétiques des cubiques planes du premier
+genre, Acta Mathematica 52 (1928), pp. 93–126.
+30
+
+--- page 31 ---
+
+16. Trygve Nagell, Solution de quelques problèmes dans la théorie arithmétique des
+cubiques planes du premier genre , Wid. Akad. Skrifter I, (1), 1935.
+17. Ken Ono, Euler’s Concordant Forms, Acta arithmetica LXXVIII (2), 1996, pp.
+101–123.
+18. Takashi Ono, Variations on a Theme of Euler , Plenum Press, New York and
+London 1994.
+19. Erich Selder, Karlheinz Spindler, On θ-congruent numbers, rational squares in
+arithmetic progressions, concordant forms and elliptic curves , Mathematics 3(1),
+2015, pp. 2–15.
+20. Joseph H. Silverman,The Arithmetic of Elliptic Curves , Springer 2009.
+21. Joseph H. Silverman, J. Tate,Rational Points on Elliptic Curves , Springer, New
+York 1992.
+22. André Weil: Sur un théorème de Mordell , Bull. Sci. Math. 2 (54), 1930, pp.
+182–191.
+23. Kenneth S. Williams,On the Size of a Solution of Legendre’s Equation , Utilitas
+Mathematica 34, 1988, pp. 65–72.
+24. Shin-ichi Yoshida, Some Variants of the Congruent Number Problem I , Kyushu
+J. Math. 55 (2001), pp. 387–404.
+25. Don Bernard Zagier, Elliptische Kurven: Fortschritte und Anwendungen , JBer.
+DMV 92 (1990), pp. 58–76.
+31
+
+--- page 32 ---
+
+Table 1: Solutions to the systemW 2
+0− kW 2
+1 = W 2
+2, W 2
+0 + kW 2
+1 = W 2
+3
+where k is prime withk≡ 5 mod 8
+k W0, W1, W2, W3 log
+hgt
+5 W0 = 41 2
+W1 = 12
+W2 = 31
+W3 = 49
+13 W0 = 106921 6
+W1 = 19380
+W2 = 80929
+W3 = 127729
+29 W0 = 48029801 8
+W1 = 180180
+W2 = 48019999
+W3 = 48039601
+37 W0 = 605170417321 12
+W1 = 9475102140
+W2 = 602419674529
+W3 = 607908713329
+53 W0 = 4850493897329785961 19
+W1 = 595711308569957580
+W2 = 2172343665411286111
+W3 = 6506573990620136689
+61 W0 = 250510625883241 15
+W1 = 18295510698660
+W2 = 205760310228191
+W3 = 288398755364209
+101 W0 = 2015242462949760001961 22
+W1 = 118171431852779451900
+W2 = 1628124370727269996961
+W3 = 2339148435306225006961
+109 W0 = 10537321 8
+W1 = 872340
+W2 = 5299871
+W3 = 13927729
+149 W0 = 11880808361 11
+W1 = 879612300
+W2 = 5086222111
+W3 = 16013667889
+157 W0 = 224403517704336969924557513090674863160948472041 48
+W1 = 17824664537857719176051070357934327140032961660
+W2 = 21796977171070247104112455266586147721935979809
+W3 = 316605068345983991287469841722668300352741098609
+32
+
+--- page 33 ---
+
+k W0, W1, W2, W3 log
+hgt
+173 W0 = 11389552969201600543101928087171460571651881 44
+W1 = 151819892495256080406058239068697733204020
+W2 = 11213134773123931932373766469330799882824031
+W3 = 11563279908237839493160911313667068050342769
+181 W0 = 10940671490772286441 20
+W1 = 812534430489915900
+W2 = 447084261166681441
+W3 = 15465985290352891441
+197 W0 = 3976155246560604347409241506281 31
+W1 = 128879379273797845692300739620
+W2 = 3540856019037985665622394486369
+W3 = 4368290253857372604620867723569
+229 W0 = 764646440211958998267241 24
+W1 = 9404506457489780613180
+W2 = 751285786287393798649441
+W3 = 777777618847556210645041
+269 W0 = 3895373414239011964782976279255856376333539432681 49
+W1 = 27965347900755720997936131300398362642863770100
+W2 = 3868276064680043715910003459047778706397631593569
+W3 = 3922283564474102177246930010978679686556478603569
+277 W0 = 225651876701966818406248027783418906721100922839903398228891241 63
+W1 = 7177227596170451913324498105378376615737197106454374393982740
+W2 = 191441323585574742208871474928771109013368200999037188254008609
+W3 = 255318934946162061510445203213880843051935526236604388007831409
+293 W0 = 464650359520278159096671986562151812257229902698281 51
+W1 = 9525532939264666216445930388515870770466775878580
+W2 = 435102716279337902002156546716850448714905366022431
+W3 = 492428207448547244972204796522699373235322337048369
+317 W0 = 7704952068030240987029060443439470576691561 43
+W1 = 273033470936425799912142469450375693280340
+W2 = 5977859131736779268748519442377486506296289
+W3 = 9110311352659588118420210652872068714343089
+349 W0 = 543117687145297245481 21
+W1 = 24479594709742323420
+W2 = 292981872551143852319
+W3 = 710010751000672703281
+373 W0 = 6464736286838262275566375140640125524476830394378258160144359151221846588162921 79
+W1 = 214402886988423616335778394508029972671920911384749815755228436417174376951980
+W2 = 4964526988887992094202607668810309975770378526931158358479760499172740751760929
+W3 = 7677180621382399924131415436519959747090354653821331133153517438341892919535729
+33
+
+--- page 34 ---
+
+k W0, W1, W2, W3 log
+hgt
+389 W0 = 7091795623967975164665712219283669343892955896357711001321 58
+W1 = 178471843490509327250771615016308845953260187406885241100
+W2 = 6156546092792523632766658624365628021678212406860376224929
+W3 = 7917327235348034759843187663340785352885655138147390834929
+397 W0 = 40610678141909645597145961 26
+W1 = 897770616925261772023980
+W2 = 36458857951695016208049311
+W3 = 44375737009650677093379889
+421 W0 = 206116218357279640098356283784343401 36
+W1 = 5615337183197656507592648081062140
+W2 = 170906168853566716230403514501943649
+W3 = 236133166640367788597694235239072049
+461 W0 = 3891001511194439641326936071293799433960980792636201 52
+W1 = 141603906393919705341026008387612184428936054638300
+W2 = 2428183393618185294158471720281132279464765769008799
+W3 = 4937986525618685709148575673193534971677351329281201
+509 W0 = 8234822441 11
+W1 = 358112820
+W2 = 1592388641
+W3 = 11536416241
+541 W0 = 20712649137553815516771958538277092457342029080681 50
+W1 = 692383596502537714323160801078335881010146641980
+W2 = 13025402685121753757242473560733781819142094311519
+W3 = 26236740527002218360424469656173951317763934832881
+557 W0 = 5499709076648565793208509282424464890877481 43
+W1 = 73405451625480094969934137800528933306420
+W2 = 5219720607933421868366276874910516409140831
+W3 = 5766117986189355551406701674738483083808369
+613 W0 = 18030067140713632672003110416838548155838466663510382251241 59
+W1 = 184995021722032435269683407294072813709395011761171749380
+W2 = 17438592982424790791434179315233932893903828538097188624609
+W3 = 18602744877856272407302202226070441326874205450445721695409
+34
+
+--- page 35 ---
+
+Table 2: Solutions to the systemW 2
+0 + 2ℓW 2
+1 = W 2
+2, W 2
+0− 6ℓW 2
+1 = W 2
+3
+and to the equationy2 = x(x + 2ℓ)(x− 6ℓ) where ℓ∈{ 7, 103, 199}
+l (A, B, C) W0, W1, W2, W3 (x, y)
+7 (1, 2, 2) W0 = 193 (50, 160)
+W1 = 20 (−294/25,−4705/125)
+W2 = 207 (336, 5880)
+W3 = 143 (−7/4, 245/8)
+7 (2,−3,−6) W0 = 61 (−12, 36)
+W1 = 6 (49, 147)
+W2 = 65 (378, 7056)
+W3 = 47 (−14/9, 784/27)
+7 (2,−6,−3) W0 = 13 (−6, 48)
+W1 = 2 (98, 784)
+W2 = 15 (84, 588)
+W3 = 1 (−7, 49)
+103 (1, 2, 2) W0 = 14497255873 (−3757543
+33124 , 16707000155
+6028568 )
+W1 = 573225380 ( 40941264
+36481 , 191037111720
+6967871 )
+W2 = 16669115727 ( 470450
+289 , 269753120
+4913 )
+W3 = 2665230577 (−18396006
+235225 , 300932687328
+114084125 )
+103 (2,−3,−6) W0 = 11581 (−108, 2772)
+W1 = 462 (10609/9, 816893/27)
+W2 = 13345 (74778/49, 16804656/343)
+W3 = 1487 (−10094/121, 3564624/1331)
+103 (2,−6,−3) W0 = 8487373 (−103/841,−3044783/24389)
+W1 = 16646 (1039476, 1059584484)
+W2 = 8490735 (1039682/1681, 34458032/68921)
+W3 = 8477279 (−10086/49, 57072/343)
+198 (1, 2, 2) W0 = 58653195191109140161 ( 28710309938
+15499969 , 3196495762009760
+61023377953 )
+W1 = 1573075476879053140 (−3682885634214
+14355154969 , 12478518082656282720
+1719934182300797 )
+W2 = 66521235373358303439 (−253808255431
+2179956100 , 667116748338909653
+101782150309000 )
+W3 = 22035538516500689039 ( 5205735166800
+1275418369 , 10465997585174146680
+45549016212097 )
+198 (2,−3,−6) W0 = 255711950171342941 (−496910700
+2436721 , 28292464294380
+3803721481 )
+W1 = 7360756127254530 ( 96496588321
+41409225 , 22649052322875419
+266468362875 )
+W2 = 294877147817303041 ( 677864759226
+236452129 , 454954755901005360
+3635924387633 )
+W3 = 26397138616197359 (−94107947342
+567725929 , 97869913424403120
+13527205710283 )
+198 (2,−6,−3) W0 = 9901 (−6, 1680)
+W1 = 70 (79202, 22176560)
+W2 = 9999 (59700/49, 2376060/343)
+W3 = 9601 (−9751/25, 277207/125)
+35

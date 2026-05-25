@@ -1,0 +1,1326 @@
+--- page 1 ---
+
+arXiv:1502.07312v1  [math.NT]  25 Feb 2015
+POINTS A T RA TIONAL DIST ANCES FROM THE VERTICES OF
+CERT AIN GEOMETRIC OBJECTS
+ANDREW BREMNER, MACIEJ ULAS
+Abstract. W e consider various problems related to ﬁnding points in Q2 and
+in Q3 which lie at rational distance from the vertices of some spec iﬁed geomet-
+ric object, for example, a square or rectangle in Q2, and a cube or tetrahedron
+in Q3.
+1. Introduction
+Berry [1] showed that the set of rational points in the plane with rat ional dis-
+tances to three given vertices of the unit square is inﬁnite. More pr ecisely, he
+showed that the set of rational parametric solutions of the corre sponding system
+of equations is inﬁnite; this generalizes some earlier work of Leech. I n a related
+work, he was able to show that for any given triangle ABC in which the length of
+at least one side is rational and the squares of the lengths of all side s are rational,
+then the set of points P with rational distances |P A|, |P B|, |P C| to the vertices
+of the triangle is dense in the plane of the triangle; see Berry [2]. Howe ver, it is a
+notorious and unsolved problem to determine whether there exists a rational point
+in the plane at rational distance from the four corners of the unit square (see Prob-
+lem D19 in Guy’s book [5]). Because of the diﬃculty of this problem one ca n ask
+a slightly diﬀerent question, as to whether there exist rational poin ts in the plane
+which lie at rational distance from the four vertices of the rectangle with vertices
+(0, 0), (0 , 1), ( a, 0), and ( a, 1), for a ∈ Q. This problem is brieﬂy alluded to in
+section D19 on p. 284 of Guy’s book. In section 2 we reduce this prob lem to the
+investigation of the existence of rational points on members of a ce rtain family of
+algebraic curves Ca,t (depending on rational parameters a, t). We show that the
+set of a ∈ Q for which the set of rational points on Ca,t is inﬁnite is dense in R (in
+the Euclidean topology).
+Richard Guy has pointed out that there are immediate solutions to th e four-
+distance unit square problem if the point is allowed to lie in three space Q3. Indeed,
+( 1
+2 , 1
+2 , 1
+4 ) lies at rational distance to the four vertices (0 , 0, 0), (0 , 1, 0), (1 , 0, 0),
+(1, 1, 0) of the square. This observation leads us to consider the more ge neral
+problem, of points in Q3 which lie at rational distance from the four vertices (0 , 0, 0),
+(0, 1, 0), (1 , 0, 0), (1 , 1, 0) of the unit square. In section 3 we show that such points
+are dense on the line x = 1
+2 , y = 1
+2 , and dense on the plane x = 1
+2 . Further, there are
+inﬁnitely many parameterizations of such points on the plane x = y. In section 4 we
+consider the general problem of ﬁnding points ( x, y, z) ∈ Q3 with rational distances
+2010 Mathematics Subject Classiﬁcation. 11D25, 14J20, 11G35, 14G05.
+Key words and phrases. rational points, elliptic surfaces, rational distances se t.
+The research of the second author is supported by the grant of the Polish National Science Centre
+no. UMO-2012/07/E/ST1/00185.
+1
+
+--- page 2 ---
+
+2 ANDREW BREMNER, MACIEJ ULAS
+to the vertices of a unit square lying in the plane z = 0 without any assumptions
+on x, y, z. Attempts to show such points are dense in R3 have been unsuccessful
+to date. However, we are able to show that the variety related to t his problem is
+unirational over Q. In particular, this implies the existence of a parametric family of
+rational points with rational distances to the four vertices (0 , 0, 0), (0, 1, 0), (1, 0, 0),
+(1, 1, 0) of the unit square. Whether there exist points in Q3 at rational distance
+from the eight vertices of the unit cube is another seemingly intractable problem
+which we leave as open and certainly worthy of further investigation .
+In section 5 we consider the problem of ﬁnding points in Q3 at rational distance
+from the vertices of a general tetrahedron (with rational vertic es) and prove that
+the corresponding algebraic variety is unirational over Q. This is related to section
+D22 in Guy’s book. This result, together with the construction of a p arameterized
+family of tetrahedra having rational edges, face areas, and volum e (an independent
+investigation), leads to constructing a double inﬁnity of sets of ﬁve points in Q3
+with the ten distances between them all rational.
+Finally, in the last section we collect some numerical results and prove that under
+a certain symmetry assumption it is possible to ﬁnd a parametric family of points in
+Q3 with rational distances to the six vertices of the unit cube. Without symmetry,
+we found just one point with ﬁve of the distances rational.
+2. Points in Q2 with rational distances from the vertices of
+rectangles
+Let a ∈ Q. Consider the rectangle Ra in the plane with vertices at P1 = (0 , 0),
+P2 = (0, 1), P3 = (a, 0), and P4 = (a, 1).
+Theorem 2.1. The set of a ∈ Q such that there are inﬁnitely many rational points
+with rational distance to each of the corners P1, ..., P4 of Ra is dense in R.
+Proof. Let M = ( x, y) be a rational point with rational distance to each vertex
+P1, ..., P4 of R. This determines the following system of equations:
+(1)
+
+
+
+
+
+
+
+
+
+x2 + y2 = P 2 = |M P1|2,
+x2 + (1 − y)2 = Q2 = |M P2|2,
+(a − x)2 + y2 = R2 = |M P3|2,
+(a − x)2 + (1 − y)2 = S2 = |M P4|2.
+From the ﬁrst and third equations, and the ﬁrst and second equat ions, we deduce
+respectively
+(2) x = 1
+2a (a2 + P 2 − R2), y = 1
+2 (P 2 − Q2 + 1).
+Eliminating x, y from the system (1) we obtain
+(3)
+{
+P 2 − Q2 = R2 − S2,
+a2(R4 + a2 + 1) + Q4 + (1 + a2)S4 = 2Q2(a2 + S2) + 2a2R2(S2 + 1).
+The ﬁrst quadric may be parameterized by
+(4) R = (P + Q)t2 + P − Q
+2t , S = (P + Q)t2 − P + Q
+2t .
+
+--- page 3 ---
+
+POINTS AT RATIONAL DISTANCES 3
+On homogenizing, by setting P = X/Z, Q = Y /Z, the second equation at (3)
+becomes:
+(1 − 4t2 + 6t4 + 16a2t4 − 4t6 + t8)(X 4 + Y 4) + 4(t2 − 1)3(t2 + 1)(X 2 + Y 2)XY −
+8a2t2(1 + t2)2(X 2 + Y 2)Z 2 + 16a2t2Z 2((1 − t4)XY + (1 + a2)t2Z 2)+
+2(3 − 4t2 + 2t4 − 16a2t4 − 4t6 + 3t8)X 2Y 2 = 0.
+This equation deﬁnes a curve Ca,t of genus three over the ﬁeld Q(a, t). It is well
+known that a curve of genus at least 2 deﬁned over a function ﬁeld h as only ﬁnitely
+many points with coordinates in this ﬁeld. Thus, in order to prove the theorem we
+must ﬁnd some specialization a0, t0 of the rational parameters a, t, such that the
+corresponding curve Ca0,t0, has genus at most 1. In particular, the curve Ca,t needs
+to have singular points. Denote the deﬁning polynomial of Ca,t by F = F (X, Y, Z).
+Now Ca,t has singular points when the system of equations
+(5) F (X, Y, Z) = ∂X F (X, Y, Z) = ∂Y F (X, Y, Z) = ∂ZF (X, Y, Z) = 0
+has rational solutions. In order to ﬁnd solutions of this system, co nsider the ideal
+Sing =< F, ∂X F, ∂Y F, ∂Z F >
+and compute its Gr¨ obner basis. The basis contains the polynomial− a2(1+a2)t6(1+
+2at − t2)(− 1 + 2 at + t2)Z 7, and to obtain something non-trivial, we require a =
+± (1 − t2)/2t. We choose without loss of generality a = (1 − t2)/2t (the other sign
+corresponds to solutions in which x is replaced by − x). Now, F = G2, where
+G(X, Y, Z) = ( t2 − 1)((t2 + 1)X 2 + 2(t2 − 1)XY + (t2 + 1)Y 2 − (t2 + 1)Z 2)
+and by abuse of notation we are working with the curve Ca,t : G(X, Y, Z) = 0 of
+degree 2 deﬁned over the rational function ﬁeld Q(t). The genus of Ca,t is 0, and
+moreover, there is a Q(t)-rational point (0 , 1, 1) lying on Ca,t. This point allows the
+parametrization of Ca,t in the following form:
+X = 2u((1− t2)u+(t2+1)v), Y = (t2+1)(u2− v2), Z = (t2+1)(u2+v2)− 2(t2− 1)uv.
+Recalling that P = X/Z, Q = Y /Z and using the expressions for R, S at (4), x, y
+at (2), we get that for a = (1 − t2)/2t there is the following parametric solution of
+the system (1):
+x = 4tu(v2 − u2)
+(
+(t2 − 1)u − (t2 + 1)v
+)
+((t2 + 1)u2 − 2(t2 − 1)uv + (1 + t2)v2)2 ,
+y = 2u ((t − 1)u − (t + 1)v) ((t + 1)u − (t − 1)v)
+(
+(t2 − 1)u − (t2 + 1)v
+)
+((t2 + 1)u2 − 2(t2 − 1)uv + (1 + t2)v2)2 .
+To ﬁnish the proof, note that the rational map a : R ∋ t ↦→ 1− t2
+2t ∈ R is continuous
+and has the obvious property
+lim
+t→−∞
+a(t) = + ∞ , lim
+t→ +∞
+a(t) = −∞ .
+The density of Q in R together with the properties of a(t) immediately imply that
+the set a(Q)∩ R+ is dense in R+ in the Euclidean topology. The theorem follows. □
+Remark 2.2. Observe that the construction presented in the proof of Theore m
+2.1 allows deduction of the following simple result..
+
+--- page 4 ---
+
+4 ANDREW BREMNER, MACIEJ ULAS
+Theorem 2.3. Let K be a number ﬁeld and suppose that
+√
+2 ∈ K. Then the set
+of K-rational points with K-rational distances to the vertices of the square R1 is
+inﬁnite.
+Proof. Let a = 1 and take t = 1 +
+√
+2. Then 1 + 2 at − t2 = 0 and using the
+parametrization constructed at the end of Theorem 2.1 (with v = 1) we get that
+for
+x = u(u −
+√
+2)(1 − u2)
+(u2 −
+√
+2u + 1)2 ,
+y = (3 − 2
+√
+2)u(
+√
+2(u − 1) − 2)(
+√
+2(u − 1) +
+√
+2)((1 +
+√
+2)u −
+√
+2 − 2)
+2(u2 −
+√
+2u + 1)2
+and any given u ∈ K such that
+√
+2u2 − 2u +
+√
+2 ̸= 0, the distance of the point
+P = (x, y) to the vertices P1, P2, P3, P4 of R1 is K-rational. □
+Remark 2.4. The construction of a’s and the corresponding solutions x, y of the
+system (1) presented in the proof of Theorem 2.1 has one aesthet ic disadvantage.
+In order that ( x, y) lie inside the rectangle R, it is necessary that x, a − x, y, 1 − y,
+all be positive. However,
+x(a − x)y(1 − y) = − 4u2(u2 − v2)2 (((1 − t)u + (1 + t)v)((1 + t)u + (1 − t)v))2 ×
+( ((1 − t2)u + (1 + t2)v)((1 + 2t − t2)u + (1 + t2)v)((1 − 2t − t2)u + (1 + t2)v)
+((1 + t2)u2 + 2(1 − t2)uv + (1 + t2)v2)4
+) 2
+which is evidently negative. Thus the point ( x, y) can never lie within the rectangle
+R. A natural question arises therefore as to whether it is possible to ﬁnd a positive
+rational number a such that the system (1) has rational solutions x, y with x, a − x,
+y, 1 − y, all positive? The answer is yes, on account of the family
+a = 2t
+t2 − 1 , x = t
+t2 − 1 , y = 1
+2
+where x, a − x, y, 1 − y are all positive when t > 1; however, this family is rather
+uninteresting, in that correspondingly P = Q = R = S. An equivalent question was
+posed by Dodge in [4] with an answer given by Shute and Yocom. They p roved that
+if pi, qi, ri are Pythagorean triples for i = 1, 2, and A = p1q2 +p2q1, B = p1p2 +q1q2,
+then the point M = (p1q2, q1q2) lies inside the rectangle with vertices (0 , 0), ( A, 0),
+(0, B), ( A, B), and, moreover, the distances of M to the vertices of the rectangle
+are rational. Using their result one can prove that the set of those a ∈ Q, such
+that there are inﬁnitely many rational points inside the rectangle Ra with rational
+distance to its vertices, is dense in R+. Indeed, note that the point
+P =
+(p1q2
+B , q1q2
+B
+)
+lies inside the rectangle Ra, with a = A/B. To ﬁnish the proof, it is enough to
+show that one can ﬁnd inﬁnitely many Pythagorean triples pi, qi, ri, i = 1 , 2, such
+that a = A/B is constant. Put
+p1 = 1 − U 2, q 1 = 2U, r 1 = 1 + U 2,
+p2 = 1 − V 2, q 2 = 2V, r 2 = 1 + V 2
+and then
+A(U, V ) = 2( U + V )(1 − U V ), B (U, V ) = (1 + U − (1 − U )V )(1 − U + (1 + U )V ).
+
+--- page 5 ---
+
+POINTS AT RATIONAL DISTANCES 5
+Since the rectangles Ra and R1/a are equivalent under rotation by ninety degrees
+and scaling, we consider only the case 0 < a < 1. Set a = a(t) = 2t
+1− t2 , with
+0 < t <
+√
+2− 1 (the transformation between Ra and R1/a is now given by t ↔ 1− t
+1+t ).
+Deﬁne Ct to be the curve A(U, V ) = a(t)B(U, V ):
+Ct : ( U + V )(1 − U V )(1 − t2) − t(1 + U − (1 − U )V )(1 − U + (1 + U )V ) = 0 .
+The triple ( t, U, V ) corresponds to a point P with rational distances to the vertices
+of Ra (with a = a(t)) precisely when
+(6) 0 < p1q2
+B < A
+B , 0 < q1q2
+B < 1,
+that is, when
+(7) V (1 − U 2)
+∆ > 0, U (1 − V 2)
+∆ > 0, U V
+∆ > 0, (1 − U 2)(1 − V 2)
+∆ > 0,
+where
+∆ = (1 + U − (1 − U )V )(1 − U + (1 + U )V ) = (1 − U 2)(1 − V 2) + 4U V.
+Our strategy is to show that the curve Ct contains inﬁnitely many rational points
+in the unit square 0 < U < 1, 0 < V < 1, when the inequalities (7) clearly hold, so
+that the inequalities (6) will follow.
+The equation for Ct deﬁnes the hyperelliptic quartic curve:
+Ct : W 2 = ((t2 − 1)U 2 − 4tU + 1 − t2)2 + 4(tU 2 − (t2 − 1)U − t)2,
+where W = 2(t − U )(1 +tU )V + ((t − 1)U − t − 1)((t + 1)U + t − 1). Now Ct contains
+the point R = (0, t 2 + 1), and a cubic model Et for Ct is given by
+Et : Y 2 = X(X + (t2 − 2t − 1)2)(X + (t2 + 2t − 1)2).
+The curve Et contains the point H(X, Y ) = ( − (1 + t2)2, 4t(1 − t4)), and it is
+readily checked that H is of inﬁnite order in Et(Q(t)). We now apply theorems of
+Silverman [8, p. 368] and of Hurwitz [6] (see also Skolem [9, p. 78]). Silve rman’s
+theorem states that if Et is an elliptic curve deﬁned over Q(t) with positive rank,
+then for all but ﬁnitely many t0 ∈ Q, the curve Et0 obtained from the curve Et
+by the specialization t = t0 has positive rank. From this result it follows that for
+all but ﬁnitely many t0 ∈ Q the elliptic curve Et0 is of positive rank. (Indeed,
+a straightforward computation shows that the specialization of H at t = t0 is of
+inﬁnite order in Et0 (Q) for all t0 ∈ Q with t0 ̸= 0 , ± 1, that is, for all t0 giving a
+nonsingular specialization).
+The theorem of Hurwitz states that if an elliptic curve E deﬁned over Q has
+positive rank and one torsion point of order two (deﬁned over the ﬁ eld R) then the
+set E(Q) is dense in E(R). The same result holds if E has three torsion points
+(deﬁned over the ﬁeld R) of order two under the assumption that there is a rational
+point of inﬁnite order on the bounded branch of the set E(R). Here, for 0 < t < 1,
+the point H satisﬁes this latter condition, since for 0 < t < 1 we have
+− (− 1 − 2t + t2)2 < − (1 + t2)2 < − (− 1 + 2t + t2)2.
+Applying the Hurwitz theorem we get that for all but ﬁnitely many t0 ∈ Q the
+set Et0(Q) is dense in the set Et0 (R). This proves that the set Et0(Q) is dense in the
+
+--- page 6 ---
+
+6 ANDREW BREMNER, MACIEJ ULAS
+±4
+±3
+±2
+±1
+1
+2
+3
+4
+V
+±4 ±3 ±2 ±1 1 2 3 4
+U
+Figure 1. The graph of Ct when 0 < t <
+√
+2 − 1
+set Et0 (R) in the Euclidean topology. As a consequence we get that the set Ct0(Q)
+is dense in the set Ct0(R). This immediately implies that the image of the map
+Ct0(Q) ∋ (U, W ) ↦→ U ∈ R
+is dense in R for all but ﬁnitely many t0 ∈ Q (which is a consequence of the
+positivity of the polynomial deﬁning the quartic Ct).
+In order to ﬁnish the proof therefore we need to show that for giv en rational
+t ∈ (0,
+√
+2 − 1) we can ﬁnd inﬁnitely many rational points ( U, V ) ∈ C t(Q) satisfying
+0 < U < 1 and 0 < V < 1. Now
+V = V (U ) = ( W (U ) − ((t − 1)U − (t + 1))((t + 1)U + t − 1))/(2(t − U )(1 + tU )),
+and we consider the connected component of the curve that pass es through the
+point ( U, V ) = (0 , t), certainly a continuous function on the interval 0 < U < t .
+Using
+dV
+dU = − 1 + t2 − 2tU + 4tV + 2U V − 2t2U V + V 2 − t2V 2 + 2tU V 2
+1 − t2 − 4tU − U 2 + t2U 2 + 2tV − 2U V + 2t2U V − 2tU 2V
+we compute that dV
+dU (0, t) = − (− 1− 2t+t2)(− 1+2t+t2)
+(1+t2) < 0. Taking dV
+dU in the form
+dV
+dU = − (1 + U 2)(t − V )V (1 + tV )
+(1 + V 2)(t − U )U (1 + tU ) ,
+then the derivative can vanish for 0 < U < t only when V = − 1/t (forcing U = 0),
+0 (with U = − 1/t, t), t (with U = 0). Accordingly dV
+dU has constant sign (negative)
+for 0 < U < t , so that V (U ) is a decreasing function on the interval 0 ≤ U < t .
+Accordingly, 0 ≤ U < t implies 0 < V ≤ t on this component of the curve. Thus
+the curve Ct contains inﬁnitely many rational points in the square 0 < U < t ,
+0 < V < t . The situation is graphed in Figure 1.
+Summing up, for all but ﬁnitely many t ∈ (0,
+√
+2 − 1) we can ﬁnd inﬁnitely
+many rational points satisfying the conditions (7) and the equation A(U, V ) =
+a(t)B(U, V ). This implies that for all but ﬁnitely rational numbers t ∈ (0,
+√
+2 − 1),
+the corresponding point P lies inside the rectangle Ra(t). Because of the continuity
+
+--- page 7 ---
+
+POINTS AT RATIONAL DISTANCES 7
+of the function a = a(t), we get that the set a(Q ∩ (0,
+√
+2 − 1)) with a(t) having the
+required property, is dense in the set R+ ∩ (0, 1).
+The earlier remark about the equivalence of the rectangles R1/a and Ra under
+rotation and scaling now gives the following theorem.
+Theorem 2.5. The set of a ∈ Q such that there are inﬁnitely many rational points
+lying inside the rectangle Ra with rational distance to each of the corners P1, ..., P4
+of Ra is dense in R+.
+Remark 2.6. It is quite interesting that all a’s we have found above are of the
+form (1 − t2)/2t or 2t/(1− t2). A question arises as to whether we can ﬁnd a’s which
+are not of this form and such that there is a rational point with ratio nal distances
+to the vertices of the rectangle Ra. A small numerical search for other such triples
+(a, x, y) ∈ Q3 was undertaken. We wrote ( x, y) = ( X/Z, Y /Z), X, Y, Z > 0, and
+restricted the search to height of a at most 20, and X + Y + Z ≤ 1000. The
+involutions ( a, x, y) ↔ (1/a, y/a, x/a), ( a, x, y) ↔ (a, x − a, y), and ( a, x, y) ↔
+(a, x, 1 − y) mean that we can restrict attention to solutions satisfying a > 1,
+x ≤ a/2, y ≤ 1/2. Of the solutions found in the range, fourteen have x = 0;
+seventeen have x = a/2; and forty-ﬁve have y = 1/2. These all imply some equalities
+between P, Q, R, S, and we list only those solutions found where P, Q, R, S are
+distinct.
+a
+x y a x y a x y
+13/12 88/399 55/133 12/11 24/77 32/77 19/12 35/204 7/17
+9/8 120/169 50/169 17/15 15/14 11/56 13/6 273/500 34/125
+9/8 15/56 5/14
+Table 1: points in Q2 at rational distance to vertices of Ra
+3. Special points in Q3 at rational distance to the vertices of the
+unit square
+We normalize coordinates so that the unit square lies in the plane z = 0, with
+vertices A = {(0, 0, 0), (0, 1, 0), (1, 0, 0), (1, 1, 0)}.
+Proposition 3.1. Let λ be the line in R3 given by λ : x = y = 1
+2 . Then the set
+Λ = {P ∈ λ(Q) : the distance |P Q| is rational for all Q ∈ A}
+is dense in λ(R).
+Proof. It is clear that P = ( 1
+2 , 1
+2 , z) ∈ Λ if and only if
+1
+4 + z2 = T 2,
+for some rational T . This equation represents a conic with rational point ( z, T ) =
+(0, 1
+2 ), and so is parameterizable, for example, by:
+z = 1 − u2
+4u , T = 1 + u2
+4u .
+To ﬁnish the proof, note that for the rational map z : R ∋ u ↦→ 1− u2
+4u ∈ R we have
+z(Q) = R. This implies that Λ = {( 1
+2 , 1
+2 , z(u)) : u ∈ Q \ {0}} is dense in λ(R). □
+
+--- page 8 ---
+
+8 ANDREW BREMNER, MACIEJ ULAS
+Theorem 3.2. Let π be the plane in R3 given by π : x = 1
+2 . Then the set
+Π = {M ∈ π(Q) : the distance |M R| is rational for all R ∈ A}
+is dense in π(R).
+Proof. Points ( 1
+2 , y, z) which lie in Π are in one to one correspondence with rational
+points on the intersection of the following two quadric surfaces in R4:
+(8) 1
+4 + y2 + z2 = P 2, 1
+4 + (1 − y)2 + z2 = Q2.
+Subtracting the second equation from the ﬁrst gives y = 1
+2 (P 2 − Q2 + 1). So, on
+eliminating y, the problem of ﬁnding rational solutions of (8) is equivalent to ﬁndin g
+rational points on the surface S given by the equation
+(9) S : 4 z2 = − 2 + 2P 2 − P 4 + 2(P 2 + 1)Q2 − Q4 =: H(P, Q).
+From a geometric point of view, the (homogenized version) of the su rface S repre-
+sents a del Pezzo surface of degree two which is just a blowup of se ven points lying
+in general position in P2. In particular, this implies that the surface is geometri-
+cally rational which means that it is rational over C. Note that this immediately
+implies the potential density of rational points on S, which means that there is a
+ﬁnite extension K of Q such that S(K) is dense in the Zariski topology. However,
+we are interested in the density of rational points in the Euclidean to pology, and it
+seems that there is no way to use the mentioned property in order t o address this.
+We thus provide alternative reasoning.
+First, from (8) we have the inequalities |P | ≥ 1/2, |Q| ≥ 1/2, and because H(P, Q) =
+H(± P, ± Q) we may suppose without loss of generality that P ≥ 1/2, Q ≥ 1/2. We
+have the point on S deﬁned by ( P0(u, v), Q0(u, v), z0(u, v)) =
+
+ u4 + 1 − 4 u(u2− 1)
+u2+1 v + 2v2
+4(u2 − 1)v ,
+u4 + 1 + 4 u(u2− 1)
+u2+1 v + 2v2
+4(u2 − 1)v , u4 + 1 − 2v2
+4(u2 + 1)v
+
+ ;
+and in the domain D := {(u, v) ∈ R2 : u > 1, v > 0}, it is straightforward to verify
+that P0(u, v) has a single extremum at the point
+(u0, v0) = ( α + α2, (1 + α)(1 + α2)), α 2 = 1 +
+√
+5
+2 .
+This point is a local minimum, with minimum value P0(u0, v0) = 1
+2 . Since P0(u, v)
+is a continuous function in D and lim u→ 1+ P0(u, v) = lim v→ 0+ P0(u, v) = ∞ , it
+follows that the set of values {P0(u, v) : u ∈ Q ∩ (1, ∞ ), v ∈ Q ∩ (0, ∞ )} is dense in
+the real interval ( 1
+2 , ∞ ). Next, consider the equation
+C : 4 Z 2 = H(P0(u, v), Q),
+which we regard as deﬁning a curve C over Q(u, v). The curve possesses the point
+(Q, Z) = ( Q0(u, v), z0(u, v)), and has cubic model
+E :y2 = x3 −
+(
+(1 + u2)2(1 + u4)2 + 8u(1 − u8)v + 4(5 + 6u2 − 14u4 + 6u6 + 5u8)v2+
+16u(1 − u4)v3 + 4(1 + u2)2v4)
+x2 + 16(u4 − 1)2v2(
+(1 + u2)(1 + u4) + 2(1 − u)(1 + u)3v+
+2(1 + u2)v2)(
+(1 + u2)(1 + u4) − 2(1 − u)3(1 + u)v + 2(1 + u2)v2)
+x.
+
+--- page 9 ---
+
+POINTS AT RATIONAL DISTANCES 9
+It is easy to check that if u′, v′ ∈ Q, then the curve Eu′,v′ obtained from E by
+the specialization u = u′, v = v′ is singular only when u = 1 or v = 0. How-
+ever, the sets {1} × Q, Q × { 0} have empty intersection with D. Thus, for all
+(u′, v′) ∈ (Q × Q) ∩ D =: D′, the specialized curve Eu′,v′ is an elliptic curve. Fur-
+thermore, we note that for each u′, v′ ∈ Q, Eu′,v′ has three points of order 2 deﬁned
+over R (this is a simple consequence of the positivity of the discriminant of th e
+polynomial deﬁning the curve E), with x-coordinates 0 < r 1 < r 2, so that (0 , 0)
+lies on the bounded component of the curve.
+The image Ru,v on E of the point ( − Q0(u, v), z0(u, v)) is of inﬁnite order as el-
+ement of the group E(Q(u, v)). For any given u′ ∈ Q ∩ (1, ∞ ) it is straightforward
+to compute the set of rational numbers v′ ∈ Q ∩ (0, ∞ ) such that the point Ru′,v′
+is of ﬁnite order on Eu′,v′; this set is ﬁnite in consequence of Mazur’s Theorem.
+Applying Silverman’s Theorem, for given u′ ∈ Q ∩ (1, ∞ ) then for all but ﬁnitely
+many v′ ∈ Q the point Ru′,v′ is of inﬁnite order on the curve Eu′,v′.
+Now choose sequences ( un)n∈ N, ( vn)n∈ N of rational numbers such that
+un ∈ Q ∩ (1, ∞ ), lim
+n→ +∞
+un = α + α2, v n ∈ Q ∩ (0, ∞ ), lim
+n→ +∞
+vn = (1 + α)(1 + α2),
+so that lim n→ +∞ P0(un, vn) = 1 /2.
+With Run,v′ of inﬁnite order on Eun,v′, then either Run,v′ or Run,v′ + (0, 0) lies
+on the bounded component of the curve, and we can apply the Hurw itz Theorem
+as before to deduce that the set Eun,v′(Q) is dense in the set Eun,v′(R). This
+immediately implies that the set E(Q) is dense in the set E(R). Because E is
+birationally equivalent to C, we get that C(Q) is dense in C(R). Because
+⋃
+n∈ N
+{P0(un, v′) : v′ ∈ Q ∩ (0, ∞ )}
+is dense in ( 1
+2 , ∞ ), it follows that S(Q) ∩ { (P, Q, z) : P > 1/2} is dense in the
+Euclidean topology in the set S(R)∩{ (P, Q, z) : P > 1/2}. Our theorem follows. □
+Remark 3.3. The proof could be simpliﬁed if we were able to demonstrate ﬁnite-
+ness of the set of ( u′, v′) ∈ D ′ for which the point Ru′,v′ is of ﬁnite order in E(Q), for
+then the theorems of Silverman and Hurwitz could be applied directly w ithout the
+necessity of selecting limiting sequences. However, this computatio n is diﬃcult. By
+Mazur’s Theorem the point Ru′,v′ on Eu′,v′ is of ﬁnite order provided mRu′,v′ = O
+for some m ∈ { 2, . . . ,10, 12}. Let
+mRu,v =
+( xm
+d2
+m
+, ym
+d3
+m
+)
+,
+where xm, ym, dm ∈ Q[u, v] for m = 2 , . . . ,10, 12. We consider the denominator of
+the x- coordinate of the point mRu′,v′ and deﬁne the curve Cm : dm(u, v) = 0.
+The set Cm(D′) of points in D′ lying on Cm parameterize those pairs ( u′, v′) ∈ D ′
+which lead to Ru′,v′ of order (dividing) m. Consider the map
+Φ : Cm(D′) ∋ (u, v) ↦→ u ∈ Q.
+and put
+B :=
+12⋃
+m=2
+Φ( Cm(D′)),
+
+--- page 10 ---
+
+10 ANDREW BREMNER, MACIEJ ULAS
+where for m = 7, 11 we put Cm(D′) = ∅. Indeed, the case m = 7 is impossible due
+to the existence of the rational point (0 , 0) of order 2 on Eu′,v′ and the fact that the
+torsion group of Eu′,v′ cannot be isomorphic to Z2 × Z7 ≃ Z14. From the deﬁnition
+of B, if u′ ̸∈ B then the point Ru′,v′ is of inﬁnite order on Eu′,v′ for all rational
+v′ > 0. In theory at least it is possible to give a precise description of the s et B.
+Indeed, for given m the polynomial dm may be factorized as dm = f1,m ·. . . ·fkm,m
+in Q[u, v], where fi,m is irreducible in Q[u, v]. Thus dm(u, v) = 0 if and only if
+fi,m(u, v) = 0 for some i ∈ { 1, 2, . . . , km}. The equation fi,m(u, v) = 0 deﬁnes an
+irreducible curve, say Ci,m, and thus
+B =
+12⋃
+m=2
+km⋃
+i=1
+Φ( Ci,m(D′))
+(where we deﬁne Ci,7(D′) = Ci,11(D′) = ∅). For example, we have d2(u, v) =
+(u2 − 1)(u4 − 2v2 + 1)f4,2(u, v)f5,2(u, v). The curve C3,2 : u4 − 2v2 + 1 = 0 is
+of genus 1 and the only rational points on C3,2 satisfy |u| = |v| = 1. The genus
+of C4,2 is 3 and the genus of C5,2 is 19; thus by Faltings’s Theorem these curves
+contain only ﬁnitely many rational points. However, we are unable to compute the
+corresponding sets. Matters are even worse for m ≥ 3. It is a highly non-trivial
+task to compute the factorization of dm and even when this has been done, it is
+still necessary to compute the genus of the corresponding curve s. When m = 3
+we were able to compute that d3(u, v) = ( u2 − 1)(u4 − 2v2 + 1)f4,3(u, v), where
+f4,3 is of degree 72. A rather long computation was needed in order to ch eck that
+the genus of C4,3 is ≥ 65. To get this inequality we reduce the curve C4,3 modulo
+5 and observe that f4,3 ∈ F5[u, v] is irreducible and deg Q[u,v] f4,3 = deg F5[u,v] f4,3.
+We thus get the inequality genus C(C4,3) ≥ genusF5(C4,3) = 65, where the last
+equality was obtained via computation in Magma. When m = 4 we have d4(u, v) =
+(u2 − 1)(u4 − 2v2 + 1)f4,4(u, v)f5,4(u, v), where deg f4,4 = 36 and deg f5,4 = 72.
+Using similar reasoning as for m = 3, the genus of C4,4 is ≥ 29 and the genus of
+C5,4 is ≥ 113 (in this case we performed calculations over F3). When m = 5 we
+have d5(u, v) = ( u2 − 1)(u4 − 2v2 + 1)f4,5(u, v), where deg f4,5 = 216. We were
+unable to ﬁnish the genus calculations in this case: Magma was still run ning after
+three days. However, we expect that these computations can be performed and
+believe that in each case the genus of the corresponding curve is ≥ 2 which would
+imply (via the Faltings theorem) that the set B is ﬁnite.
+Remark 3.4. The combination of the theorems of Hurwitz and Silverman which
+allows proof of the density results is a very useful tool and can be u sed in other
+situations too; see [2, 3, 10].
+Remark 3.5. It is clear that the same result as in Proposition 3.2 can be obtained
+for the plane given by the equation y = 1
+2 .
+We are able to prove the following result (which falls short of being a de nsity
+statement) concerning the existence of rational points on the pla ne x = y with
+rational distances to elements of A.
+Proposition 3.6. Let π be the plane in R3 given by π : x = y. Then the set
+Π = {P ∈ π(Q) : the distance |P Q| is rational for all Q ∈ A}
+contains images of inﬁnitely many rational parametric curv es.
+
+--- page 11 ---
+
+POINTS AT RATIONAL DISTANCES 11
+Proof. We now have
+(10)
+
+
+
+
+
+2x2 + z2 = P 2,
+2x2 − 2x + 1 + z2 = Q2,
+2(x − 1)2 + z2 = S2.
+Thus
+P 2 − 2Q2 + S2 = 0, x = 1/2 + (P 2 − Q2)/2, z 2 = P 2 − 2x2.
+The former is parametrized by
+τ P = m2 + 2m − 1, τ Q = m2 + 1, τ S = m2 − 2m − 1,
+giving
+x = 1/2 − 2m(1 − m2)/τ 2, (τ 2z)2 = 1/2(τ 2 − 8m2)(− τ 2 + 2(1 − m2)2).
+Regard the latter as an elliptic quartic over Q(m). Under the quadratic base change
+m = 4k/(2 + k2), the curve becomes, with τ = t/(2 + k2)2, Z = t2z,
+C : Z 2 = − 1
+2 (t2 − 128k2(2 + k2)2)(t2 − 2(4 − 12k2 + k4)2),
+which has a point at
+(t, Z) =
+(4(2 + k2)2(4 − 12k2 + k4)
+(12 − 4k2 + 3k4) ,
+4(4 − k4)(4 − 12k2 + k4)(16 − 352k2 − 104k4 − 88k6 + k8)
+(12 − 4k2 + 3k4)2
+)
+.
+A cubic model of the curve is
+E : Y 2 = X(X − (4 − 16k − 12k2 − 8k3 + k4)2)(X − (4 + 16k − 12k2 + 8k3 + k4)2),
+with point of inﬁnite order Q = (X, Y ), where
+X = (2 + k2)2(12 − 4k2 + 3k4)2
+(− 2 + k2)2 ,
+Y = 8(2 + k2)(− 16 + 20k2 + k6)(− 4 − 5k4 + k6)(12 − 4k2 + 3k4)
+(− 2 + k2)3 .
+We do not present explicitly the map ϕ : C → E because the formula is unwieldy.
+Note that the existence of Q of inﬁnite order on E implies the Zariski density of
+rational points on the surface E (using the same reasoning as in the proof of the
+previous theorem). Computing ϕ− 1(mQ) for m ∈ Z, and then the expressions
+for x, z, we get rational parametric solutions of the system (10). This obs ervation
+ﬁnishes the proof. □
+Remark 3.7. The simplest parametric solution of (10) that we ﬁnd is
+x = y = (4 + 2k − 2k2 + k3)(2 − 2k + k2 + k3)(4 − 16k − 12k2 − 8k3 + k4)
+2(2 + k2)3(4 − 12k2 + k4) ,
+z = (2 − k2)(16 − 352k2 − 104k4 − 88k6 + k8)
+4(2 + k2)3(4 − 12k2 + k4)) .
+
+--- page 12 ---
+
+12 ANDREW BREMNER, MACIEJ ULAS
+4. Points in Q3 at rational distance to the vertices of the unit
+square
+We consider here the problem of ﬁnding points in Q3 that lie at rational distance
+to the vertices of the unit square, i.e. we do not assume any addition al constraints
+on the coordinates of the points. From the previous section we kno w that there
+is an inﬁnite set M of rational curves lying in the plane x = 1 /2 (or in the plane
+x = y) with the property that each rational point on each curve C ∈ M has rational
+distance to the vertices of the unit square. A question arises whet her in the more
+general situation considered here we can expect the existence of rational surfaces
+having the same property. Moreover, can any density result be ob tained in this
+case? Unfortunately, we are unable to prove any density result. H owever, we show
+that there are many rational points in Q3 lying at rational distance to the vertices
+of the unit square. More precisely, we show the following.
+Theorem 4.1. Put A = {(0, 0, 0), (0, 1, 0), (1, 0, 0), (1, 1, 0)} and consider the set
+F := {P ∈ Q3 : the distance |P Q|is rational for all Q ∈ A}.
+Then the algebraic variety parameterizing the set F is unirational over Q.
+Proof. It is clear that points in F are in one to one correspondence with rational
+points on the intersection in R7 of the following four quadratic threefolds:
+(11)
+
+
+
+
+
+
+
+
+
+x2 + y2 + z2 = P 2,
+(1 − x)2 + y2 + z2 = Q2,
+x2 + (1 − y)2 + z2 = R2,
+(1 − x)2 + (1 − y)2 + z2 = S2.
+We immediately have
+(12) x = 1
+2 (P 2 − Q2 + 1), y = 1
+2 (P 2 − R2 + 1),
+and P 2 − R2 = Q2 − S2. All rational solutions of the latter are given by
+P = uX + Y, Q = uX − Y, R = uY + X, S = uY − X,
+and then from (12),
+x = 2uXY + 1
+2 , y = 1
+2 (u2 − 1)(X 2 − Y 2) + 1
+2 .
+Finding points on the system (11) now reduces to studying the algeb raic variety
+S : V 2 = G(u, X, Y ),
+where V = 2z and the polynomial G is given by
+G(u, X, Y ) = − 2 + 2(u2 + 1)(X 2 + Y 2) − (u2 − 1)2(X 2 − Y 2)2 − 16u2X 2Y 2.
+The dimension of S is 3. However, we can view the variety S as a del Pezzo surface
+of degree two deﬁned over the ﬁeld Q(u). It is known then that the existence of
+a suﬃciently general Q(u)-rational point on S implies Q(u)-unirationality, and in
+consequence Q-unirationality, of S (see Manin [7, Theorem 29.4]). However, it
+seems that there is no general Q(u)-rational point on S. Thus it is natural to ask
+how one can construct a rational base change u = ϕ(t) such that the surface Sϕ :
+V 2 = G(ϕ(t), X, Y ) deﬁned over the ﬁeld Q(t), contains a Q(t)-rational point. We
+present the following approach to this problem. Suppose that Q0 = (u0, X0, Y0, V0)
+
+--- page 13 ---
+
+POINTS AT RATIONAL DISTANCES 13
+is a rational point with non-zero coordinates lying on S. We construct a parametric
+curve L lying on S as follows. Deﬁne L by equations
+L : u = u0, X = T + X0, Y = pT + Y0, V = qT 2 + tT + V0,
+where t is a rational parameter and p, q, T are to be determined. With u, X, Y, V so
+deﬁned, V 2 − G(u, X, Y ) = ∑4
+i=1 Ai(p, q)T i. The expression A1 is linear in p and
+takes the form A1 = pB1 + B0 + 2tV0, where B0, B1 depend only on the coordinates
+of the point Q. In particular, A1 is independent of q; so the equation A1 = 0 has a
+non-zero solution for p if and only if B1 ̸= 0. The expression for B1 is
+B1 = 4Y0((− u4
+0 + 10u2
+0 − 1)X 2
+0 + (u2
+0 − 1)2Y 2
+0 − u2
+0 − 1).
+Next, observe that A2 = C2p2 + C1p + C0 + 2qV0 + t2, where Ci depend only on
+the coordinates of the point Q0 for i = 0 , 1, 2, and thus A2 = 0 can be solved
+for q precisely when V0 is non-zero. To sum up, the system A1 = A2 = 0 has a
+non-trivial solution for p, q as rational functions in Q(t) when B1V0 ̸= 0. With p, q
+computed in this way:
+V 2 − G(u, X, Y ) = T 3(A3(p, q) + A4(p, q)T ).
+If A3A4 ̸= 0 as a function in t then the expression for T that we seek is given
+by T = − A3(p, q)/A4(p, q). Thus if the point Q0 = (u0, X0, Y0, V0) satisﬁes certain
+conditions, then there exists a rational curve on the surface Su0 : V 2 = G(u0, X, Y ).
+Moreover, the curve constructed in this manner can be used to pr oduce rational ex-
+pressions for P, Q, R, S and in consequence rational expressions for x, y, z satisfying
+the system (11).
+Let X = X ′(t), Y = Y ′(t) be parametric equations of the constructed curve. The
+polynomial G is invariant under the mapping ( u, X, Y ) ↦→
+(
+X
+Y , uY, Y
+)
+and thus we
+can deﬁne a non-constant base change u = ϕ(t) = X ′(t)/Y ′(t) such that the surface
+Sϕ : V 2 = G(ϕ(t), X, Y ) contains the Q(t)-rational point (X, Y ) = ( u0Y ′(t), Y ′(t)).
+Using the cited result of Manin we get Q(t)-unirationality of Sϕ and in consequence
+Q-unirationality of S.
+Thus in order to ﬁnish the proof it suﬃces to ﬁnd a suitable point Q0 on the
+threefold S. It is straightforward to check that all the required conditions on Q0
+are met on taking
+(u0, X0, Y0, V0) =
+(
+2, 1
+12 , 19
+36 , 7
+27
+)
+.
+
+--- page 14 ---
+
+14 ANDREW BREMNER, MACIEJ ULAS
+With this choice of Q0, the expressions for x, y, z arising from the constructed
+parametric curve are as follows:
+x =3(5522066829177276301427600 − 258403606687492419505600t
++ 24350105869790104153088t2 − 930272613423360964576t3
++ 39295267680627366536 t4 − 1085485845235095088t5
++ 24133448660417792t6 − 401146604231320t7 + 3899504263625t8)/∆ 2,
+y =30(3992136439221148602640 − 6939554120499388567712t
++ 117488065643083258096t2 − 13393876262858078048t3
++ 411476041942299568 t4 − 13249457441223848t5
++ 681815047971100t6 − 7562115944888t7 + 337499289355t8)/∆ 2,
+z =714(3779374597422498556400 + 529318935972209201600 t
+− 977278343015269168t2 + 1745565618326470736t3
+− 10290117484952896t4 + 1635035001144368t5
+− 3620551914412t6 + 458263598420t7 + 118863425t8)/∆ 2,
+where
+∆ = 18(221769748580 − 3052768504t + 670128264t2 − 6059132t3 + 500425t4).
+□
+Remark 4.2. The point ( x, y, z) satisﬁes 0 < x, y < 1 for values of t satisfying
+t < − 10.9337, or t > 28.2852.
+Notwithstanding the large coeﬃcient size in the above parameteriza tion, there
+seem to be many points in Q3 at rational distance to the vertices A of the unit
+square. A (non-exhaustive) search ﬁnds the following points ( x, y, z) ∈ Q3 of height
+at most 10 4, x ̸= 1
+2 , x ̸= y, having rational distances to the vertices (0 , 0, 0), (0, 1, 0),
+(1, 0, 0), (1 , 1, 0) of the unit square, and which lie in the positive octant. We list
+only one point under the symmetries x ↔ 1 − x, y ↔ 1 − y, x ↔ y.
+x y z x y z
+41/27 77/108 28/27 1/35 37/105 17/140
+5/54 35/108 7/54 161/80 587/300 7/25
+83/125 549/500 14/75 37/156 987/2704 119/676
+1/189 283/756 31/189 232/189 493/756 59/189
+113/190 2369/1900 287/2850 202/195 213/325 161/1300
+383/348 5397/1682 2429/1682 571/476 2419/2975 94/425
+203/594 119/1188 469/594 1589/594 985/1188 427/594
+1/756 127/1512 307/756 1436/847 7967/3388 992/847
+127/1029 341/1372 307/343 251/1029 401/1372 223/343
+791/1210 5299/3630 2569/2420 1571/1210 7487/7260 509/1210
+1906/2541 4019/3388 360/847 2185/2541 3819/3388 345/847
+3059/2738 4487/5476 3059/8214
+Table 2: points in Q3 at rational distance to the vertices of the unit square
+We are motivated to make the following conjecture.
+
+--- page 15 ---
+
+POINTS AT RATIONAL DISTANCES 15
+Conjecture 4.3. Put A = {(0, 0, 0), (0, 1, 0), (1, 0, 0), (1, 1, 0)} and consider the
+set
+F := {P ∈ Q3 : the distance |P Q|is rational for all Q ∈ A}.
+Then F is dense in R3 in the Euclidean topology.
+5. Points with rational distances from the vertices of a tetrah edron
+Let P0, P1, P2, P3 be given points in Q3, not all lying on a plane. Without loss of
+generality we may assume that P0 = (0, 0, 0). Put Pi = (ai1, ai2, ai3) for i = 1, 2, 3,
+and deﬁne dij = |PiPj|for 0 ≤ i < j ≤ 3, i.e. dij is the distance between the points
+Pi, Pj. The constraint on the points Pi implies that the points deﬁne the vertices of
+a genuine tetrahedron with non-zero volume, so that the determin ant of the matrix
+[aij]1≤ i,j≤ 3 is non-zero. Let P = ( x, y, z) be a point in Q3 with rational distance
+to each of the points P0, P1, P2, P3. The corresponding system of Diophantine
+equations is thus
+{
+x2 + y2 + z2 = Q2
+0
+(x − ai1)2 + (y − ai2)2 + (z − ai3)2 = Q2
+i , for i = 1, 2, 3,
+or equivalently, on replacing the second, third, and fourth equatio ns by their dif-
+ferences with the ﬁrst equation,
+(13)
+{
+x2 + y2 + z2 = Q2
+0
+ai1x + ai2y + ai3z = 1
+2 (Q2
+0 − Q2
+i + d2
+0i), for i = 1, 2, 3.
+Since the determinant of the matrix A = [aij]1≤ i,j≤ 3 is non-zero, the (linear) system
+consisting of the last three equations from (13) can be solved with r espect to x, y, z.
+The solution takes the following form:
+(14) x = det A1
+det A , y = det A2
+det A , z = det A3
+det A
+where Ai, for i = 1, 2, 3, is obtained from the matrix A by replacing the i-th column
+by the column comprising the right hand sides of the last three equat ions from (13).
+In particular, x, y, z are (inhomogeneous) quadratic forms in four variables Q0, Q1,
+Q2, Q3, with coeﬃcients in K := Q({aij : i, j ∈ { 1, 2, 3}}). Putting these computed
+values of x,y,z into the ﬁrst equation, there results one inhomogeneous equation
+of degree four in four variables. We homogenize this equation by intr oducing new
+variables Qi = Ri/R4 for i = 0, 1, 2, 3, and work with the quartic threefold, say X ,
+deﬁned by an equation of the form F (R) = 0, where for ease of notation we put
+R = ( R0, R1, R2, R3, R4). Using Mathematica, the set Sing( X ) of singular points
+of the variety X is computed to be
+Sing(X ) = {(0, ± d01, ± d02, ± d03, 1), (± d01, 0, ± d12, ± d13, 1),
+(± d02, ± d12, 0, ± d23, 1), (± d03, ± d12, ± d23, 0, 1), (1, ± 1, ± 1, ± 1, 0)}.
+Thus for generic choice of P1, P2, P3, the variety X contains 40 isolated singular
+points.
+We now prove that for generic choice of P1, P2, P3, there is a solution depending
+on three (homogenous) parameters of the equation deﬁning the v ariety X . We thus
+regard aij as independent variables and work with X as a quartic threefold deﬁned
+over the rational function ﬁeld K. In order to ﬁnd a parameterization we will use
+
+--- page 16 ---
+
+16 ANDREW BREMNER, MACIEJ ULAS
+the rational double point P = (1 , 1, 1, 1, 0) lying on X and the idea used in the
+proof of Theorem 4.1. Put
+R0 = T + 1, R i = (pi + 1)T + 1, for i = 1, 2, 3, and R4 = p4T,
+where pi and T are to be determined. On substituting these expressions into the
+equation F (R) = 0, there results T 2(C2 + C3T + C4T 2) = 0, where Ci is a ho-
+mogenous form of degree i in the four variables p1, . . . , p4. Certainly under the
+assumption on the points Pi, i = 0, 1, 2, 3 (namely, det A ̸= 0), the form C2 is non-
+zero as an element of K[p1, p2, p3, p4]. Indeed, we have C2(0, 0, 0, p4) = − (det A)2p2
+4.
+We also checked that for a generic choice of the points P1, P2, P3, the polynomial
+C2 is genuinely dependent upon the variables p1, . . . , p4, in that there are no linear
+forms Lj(p1, ..., p4), j = 1, 2, 3, such that C2(L1, L2, L3) is a form in three or fewer
+variables.
+Consider now the quadric Y : C2(p1, p2, p3, p4) = 0, regarded as a quadric
+deﬁned over K. There are K-rational points on Y, namely Yj = (a1j, a2j, a3j, 1), j =
+1, 2, 3, and so in particular, Y can be rationally parameterized with parametrization
+of the form pi = Xi(q1, q2, q3), for homogeneous quadratic forms Xi, i = 1 , 2, 3, 4.
+Thus, after the substitution pi → Xi there results an equation T 3(C′
+3 + C′
+4T ) = 0,
+where C′
+i = Ci(X1, X2, X3, X4) and C′
+i ̸= 0 as an element of K[q1, q2, q3] for i = 3, 4.
+This equation has a non-zero K-rational root T = ϕ(q1, q2, q3) = − C′
+3/C ′
+4 and
+accordingly we get a rational parametric solution in three (homogen ous) parameters
+of the equation deﬁning X , in the form
+Q0 = 1
+X4(q)
+(
+1 + 1
+ϕ(q)
+)
+, Q i = 1
+X4(q)
+(
+1 + Xi(q) + 1
+ϕ(q)
+)
+, i = 1, 2, 3,
+where we put q = ( q1, q2, q3). It is straightforward to check that the image of the
+map Φ : P(K)2 ∋ (q1, q2, q3) ↦→ (Q0, Q1, Q2, Q3) ∈ X (K) is not contained in a
+curve lying on the variety X . Using now the expressions for Q0, Q1, Q2, Q3, we
+can recover the corresponding expressions for x, y, z given by (14).
+It is possible to write down from the Jacobian matrix of R(q1, q2, q3) all the
+conditions on {aij}, i, j ∈ { 1, 2, 3}, which guarantee that the parameterization is
+genuinely dependent on three (homogenous) parameters. Howev er, we refrain from
+doing so, because the computation is massively memory intensive, an d the result-
+ing equations complicated and unenlightening. If we choose particula r values of
+aij, then this independence of q1, q2, q3 is readily checked (as happens, for exam-
+ple, when P1 = (1 , 0, 0), P2 = (0 , 1, 0), P3 = (0 , 0, 1)). In general, there results
+an explicit rational parameterization in three independent paramet ers. There may,
+however, be some choices of vertices Pi for which this approach (with the particular
+rational double point chosen in the construction) results in the imag e of the map
+Φ being a curve lying on X .
+To sum up, we have the following result.
+Theorem 5.1. Let P0 = (0 , 0, 0) and let Pi = ( ai1, ai2, ai3) be generic points
+in Q3 for i = 1 , 2, 3. Then the variety parameterizing the points P ∈ Q3 with
+rational distances to Pi, i = 0, 1, 2, 3 is a quartic threefold X ; and the set of rational
+parametric solutions of the equation deﬁning X is non-empty.
+We believe that much more is true.
+
+--- page 17 ---
+
+POINTS AT RATIONAL DISTANCES 17
+Conjecture 5.2. Let P0 = (0, 0, 0) and P1, P2, P3 be generic rational points such
+that no three lie on a line and the points do not all lie on a plan e. Then the variety,
+say X , parameterizing those P ∈ Q3 with rational distances to Pi, i = 0 , 1, 2, 3, is
+unirational over Q.
+One can also state the following natural question.
+Question 5.3. Let X be deﬁned as in Conjecture 5.2. Is the set X (Q) dense in
+the Euclidean topology in the set X (R)?
+We expect that the answer is yes.
+Remark 5.4. The construction above ﬁnds a double inﬁnity of points in Q3 at
+rational distance from the four vertices of the tetrahedron. If we suppose that the
+initial tetrahedron has rational edges, then we thus deduce inﬁnit ely many sets of
+ﬁve points in Q3 where the ten mutual distances are rational. We take as example
+the tetrahedron with vertices
+P1 = (0, 0, 0), P 2 = (1, 0, 0), P 3 =
+( 11
+200 , 117
+800 , 0
+)
+, P 4 =
+( 7
+25 , 63
+325 , 21
+260
+)
+.
+This is chosen as an example of a tetrahedron, discovered by Rathb un, where the
+edges, face areas, and volume, are all rational. It corresponds t o the ﬁrst example
+in the list in Section D22 of Guy [5]. The explicit parametrization as compu ted
+above takes several computer screens to display, so we do not pr esent it. However,
+on computing specializations, the point with smallest coordinates (min imizing the
+least common multiple of the denominators of x, y, z) that we could ﬁnd is
+( 617
+4900 , 2553
+63700 , 3
+25480
+)
+,
+which in fact lies within the tetrahedron.
+Remark 5.5. The fact in the above proof that the matrix A = [aij]1≤ i,j≤ 3 is non-
+singular follows from the assumption that the points P0, P1, P2, P3 deﬁne a genuine
+tetrahedron. A question arises as to what can be said in the situatio n when det A =
+0? We need to consider two cases: where the rank rk( A) is 2 or 1, corresponding
+respectively to the four points being coplanar, and the four points being collinear.
+Consider ﬁrst the case of rk( A) = 2. Note that we encounter this situation in section
+4. The vectors P1, P2, P3 are linearly dependent, and without loss of generality we
+can assume that P1, P2 are linearly independent, so that P3 = pP1 + QP2 for some
+p, q ∈ Q. It follows that the linear forms in x, y, z from the system (13) are linearly
+dependent. Let Aij be the 2 × 2 matrix obtained from A by deleting the i-th row
+and the j-th column. Then at least one of A31, A32, A33 has non-zero determinant.
+Without loss of generality, suppose det A31 ̸= 0. Solving the ﬁrst two equations at
+(13) with respect to y, z:
+y = − det A32
+det A31
+x − 1
+2 det A31
+(a23d2
+01 − a13d2
+02 + (a23 − a13) Q2
+0 − a23Q2
+1 + a13Q2
+2),
+z = − det A33
+det A31
+x − 1
+2 det A31
+(a22d2
+01 − a12d2
+02 + (a22 − a12) Q2
+0 − a22Q2
+1 + a12Q2
+2.
+Moreover, Q0, Q1, Q2, Q3 need to satisfy the equation
+(15) Q : ( p + q − 1)Q2
+0 − pQ2
+1 − qQ2
+2 + Q2
+3 = d2
+03 − pd2
+01 − qd2
+02.
+
+--- page 18 ---
+
+18 ANDREW BREMNER, MACIEJ ULAS
+The quadric Q may be viewed as a quadric deﬁned over the function ﬁeld K :=
+Q({aij : i = 1 , 2, j = 1 , 2, 3}). The quadric Q contains the point at inﬁnity
+(Q0 : Q1 : Q2 : Q3 : T ) = (1 : 1 : 1 : 1 : 0) and thus Q can be parameterized
+by rational functions, say Qi = fi(R) ∈ K(R), where R = ( R0, R1, R2) are (non-
+homogenous) coordinates.
+Moreover, the numerator of fi is of degree ≤ 2 for i = 0 , 1, 2; and the same is
+true for the common denominator of fi, i = 0 , 1, 2. Using this parametrization we
+compute the expressions for y, z. Next, substitute the computed values of y, z and
+Q0 into the equation x2 + y2 + z2 = Q2
+0. This equation is a quadratic equation in
+x of the form
+C2x2 + C1x + C0 = 0,
+where Ci ∈ K(R) for i = 0, 1, 2. We arrive at the problem of ﬁnding rational points
+on the threefold
+X : V 2 = C2
+1 − 4C0C2 =: F (R)
+deﬁned over the ﬁeld K. The polynomial F is of degree 6. However, one can check
+that with respect to each Ri, i = 0 , 1, 2, the degree of F is 4, and thus X can
+be viewed as a hyperelliptic quartic (of genus ≤ 1) deﬁned over the ﬁeld K(R′),
+where R′ is a vector comprising exactly two variables from R0, R1, R2. We thus
+expect that for most rational points P1, P2, P3 with P3 = pP1 + qP2, there is a
+specialization of R0, R1 (say), to rational numbers such that XR0,R1 represents a
+curve of genus one with inﬁnitely many rational points. Tracing back the reasoning
+in this case we will get inﬁnitely many rational points with rational dista nces to
+the points P0, P1, P2, P3.
+What can be done in the case when rk( A) = 1 (which corresponds to the points
+P0, P1, P2, P3 being collinear)? In order to simplify the notation, put P1 = (a, b, c)
+and d01 = d. Without loss of generality we can assume that P2 = pP1, P3 = qP1 for
+some p, q ∈ Q \ {0}. Then the system (13) comprises just one linear form in x, y, z
+which needs to be represented by three non-homogenous quadra tic forms. More
+precisely,
+(16) ax + by + cz = 1
+2 (Q2
+0 − Q2
+1 + d2) = 1
+2p (Q2
+0 − Q2
+2 + p2d2) = 1
+2q (Q2
+0 − Q2
+3 + q2d2).
+Let V be the variety deﬁned by the last two equations. After homogeniza tion by
+Qi ↦→ Qi/T and simple manipulation, we get
+V :
+{
+Q2
+2 = (1 − p)Q2
+0 + pQ2
+1 + p(p − 1)d2T 2,
+Q2
+3 = (1 − q)Q2
+0 + qQ2
+1 + q(q − 1)d2T 2.
+The point ( Q0 : Q1 : Q2 : Q3 : T ) = (1 : 1 : 1 : 1 : 0) lies on V and can be used
+to ﬁnd parametric solutions of the system deﬁning V. However, observe that any
+point which lies on V with T ̸= 0 allows us to compute the value of z from equation
+(16). This expression for z depends on x, y, and substituting into the ﬁrst equation
+at (13), namely x2 + y2 + z2 = Q2
+0, we are left with one equation of the form
+W : C0x2 + C1xy + C2y2 + C3x + C4y + C5 = 0,
+where Ci depends on p, q, a, b, c and the solution of the system deﬁning the variety
+V. In general, W is a conic and thus has genus 0. Thus, provided that we can ﬁnd
+a rational point on W, we can ﬁnd inﬁnitely many rational points (in fact a param-
+eterized curve) with rational distances to the four collinear points P0, P1, P2, P3.
+
+--- page 19 ---
+
+POINTS AT RATIONAL DISTANCES 19
+As example here, assume that d =
+√
+a2 + b2 + c2 is a rational number. Then the
+variety V contains the rational line
+(Q0 : Q1 : Q2 : Q3 : T ) = ( u − d/2 : u + d/2 : u − (1/2 − p)d : u − (1/2 − q)d : 1).
+In this case (16) reduces to the one equation ax + by + cz = d(d − 2u)/2. Solving
+for z, and performing the necessary computations, the equation for t he quadric W
+takes the following form:
+V 2 = b2 +c2 − d2 +4adX − 4(a2+b2 +c2)X 2 = − a2 +4adX − 4d2X 2 = − (a− 2dX)2,
+where V = (2(b2 + c2)y − b(d2 − 2du − 2ax))/(c(d − 2u)) and X = x/(d − 2u), the
+last identity following from the equality a2 + b2 + c2 = d2. From the assumption
+on rationality of d, we can ﬁnd x, y, z in the following form:
+x = a(d − 2u)
+2d , y = b(d − 2u)
+2d , z = c(d − 2u)
+2d ,
+with
+Q0 = d − 2u
+2 , Q 1 = d + 2u
+2 , Q 2 = dp − d − 2u
+2 , Q 3 = dq − d − 2u
+2 ,
+giving rational solutions of the original system.
+Remark 5.6. Guy op. cit. gives one parameterized family of tetrahedra which
+have rational edges, face areas, and volume. He also lists nine exam ples due to John
+Leech of such tetrahedra comprised of four congruent acute-a ngled Heron triangles
+appropriately ﬁtted together. The six edges of the tetrahedron thus fall into three
+equal pairs. We discover that it is straightforward to write down an inﬁnite family
+of such tetrahedra as follows.
+If the Heron triangle has sides p, q, r, then the area and volume conditions for
+the tetrahedron become
+(p + q + r)(− p + q + r)(p − q + r)(p + q − r) =□,
+2(− p2 + q2 + r2)(p2 − q2 + r2)(p2 + q2 − r2) =□.
+Using the Brahmagupta parameterization of Heron triangles, we se t
+(p, q, r) = (( v + w)(u2 − vw), v (u2 + w2), w (u2 + v2)),
+reducing the two conditions above to the single demand
+− (u2 − v2)(u2 − w2)(u2 − u(v + w) − vw)(u2 + u(v + w) − vw) = □.
+Setting W = w/u, this is equivalent to
+− (1 − W 2)
+( u + v
+u − v − W
+) ( u − v
+u + v + W
+)
+= □.
+This elliptic quartic has cubic form
+Y 2 = X(X + v2(u2 − v2))(X − u2(u2 − v2)).
+Demanding a point with X = 2uv2(u + v) gives
+2(3u − v)(− u + 2v) = □,
+parameterized by
+(u, v, w) = ( m2 + 4, 3m2 + 2), with w = (2m2 + 3)(m2 + 4)
+4m2 + 1 .
+
+--- page 20 ---
+
+20 ANDREW BREMNER, MACIEJ ULAS
+This in turn leads to the tetrahedron with vertices
+P1 =(0, 0, 0),
+P2 =(10(m4 − 1)(m4 + 3m2 + 1), 0, 0),
+P3 =
+(2(m2 − 1)(m2 + 4)(3m2 + 2)2
+5 , (m2 + 4)(2m2 + 3)(3m2 + 2)(4m2 + 1)
+5 , 0
+)
+,
+P4 =
+(2(m2 − 1)(2m2 + 3)2(4m2 + 1)
+5 ,
+− (2m2 + 3)(2m2 − 5m − 2)(2m2 + 5m − 2)(3m2 + 2)
+5 ,
+4(m2 − 1)m(2m2 + 3)(3m2 + 2)
+)
+;
+edge lengths ( p, q, r) given by
+p = 10(m4 − 1)(m4 + 3m2 + 1),
+q = (m2 + 4)(3m2 + 2)(2m4 + 2m2 + 1),
+r = (2m2 + 3)(4m2 + 1)(m4 + 2m2 + 2);
+face areas given by
+(m4 − 1)(m2 + 4)(4m2 + 1)(2m2 + 3)(3m2 + 2)(1 + 3m2 + m4);
+and volume equal to
+1
+62208 m(m2 − 1)(m4 − 1)(m2 + 4)(4m2 + 1)(2m2 + 3)2(3m2 + 2)2(1 + 3m2 + m4).
+6. The unit cube
+Finding an inﬁnity of points in Q3, if indeed such exist, that lie at rational
+distance from the eight vertices ( i, j, k), i, j, k = 0 , 1, of the unit cube seems to be
+an intractable problem. If we restrict attention to the plane x = y, we are aware
+of the following two points (equivalent under the symmetry x ↔ 1 − x) where
+distances to the vertices of the unit square are rational, and dista nces to the two
+cube vertices (1 , 0, 1), (0, 1, 1) are rational:
+(17) ( x, y, z) =
+( 31
+108 , 31
+108 , 1519
+1080
+)
+,
+( 77
+108 , 77
+108 , 1519
+1080
+)
+.
+The deﬁning system of equations for this situation is
+
+
+
+
+
+
+
+
+
+2x2 + z2 = P 2,
+2x2 − 2x + 1 + z2 = Q2,
+2(x − 1)2 + z2 = S2,
+(1 − x)2 + x2 + (1 − z)2 = T 2.
+Then 1 + Q2 − 2z = T 2, so we obtain
+z2 = 1/2(1 − 8m2/t2)(− 1 + 2(1 − m2)2/t2), 1 + (1 + m2)2/t2 − 2z = T 2.
+Equivalently,
+2(t2 − 8m2)(− t2 + 2(1 − m2)2) = ( t2 + (1 + m2)2 − U 2)2,
+where U = T t, Z = t2z. A search over this surface up to a height of 5000 resulted
+in discovering only the point ( m, t, U) = ( − 24, 360, 313) and symmetries, leading
+
+--- page 21 ---
+
+POINTS AT RATIONAL DISTANCES 21
+to the points at (17).
+A point on the plane x = 1 /2 at rational distance from the vertices of the cube
+results in four pairs of equal distance, with deﬁning equations
+(18)
+
+
+
+
+
+
+
+
+
+1/4 + y2 + z2 = P 2,
+1/4 + (1 − y)2 + z2 = Q2,
+1/4 + y2 + (1 − z)2 = R2,
+1/4 + (1 − y)2 + (1 − z)2 = S2,
+and we found no solution. However, if we ask only for three pairs of distances to the
+cube vertices be rational, rather than four, e.g. consider the sys tem of equations
+deﬁned by the ﬁrst three equations from (18), then we are able to prove the following
+result.
+Theorem 6.1. Let A be the set of rational curves lying on the plane x = 1/2 with
+the property that each rational point on A ∈ A has rational distances to six vertices
+of the unit cube. Then A is inﬁnite.
+Proof. We consider only the system of equations deﬁned by the ﬁrst three equations
+from the system (18) above (other cases are treated in the same manner). The six
+distances now fall into three equal pairs, requiring
+y = (P 2 − Q2 + 1)/2, z = (P 2 − R2 + 1)/2,
+together with the equation which can be written in homogenous coor dinates in the
+following form:
+V : ( P 2 − R2)2 + (P 2 − Q2)2 − 2(Q2 + R2)T 2 + 3T 4 = 0.
+We prove that the set of rational curves lying on V is inﬁnite. Consider the
+intersection of V with the family of planes La : T = a(P − R). Remarkably, the
+intersection V ∩ La deﬁnes a singular curve, say C, in the projective plane P2(Q(a)),
+with singular points [ P : Q : R] = [1 : ± 1 : 1]. In fact, the curve C is of genus 1. By
+homogeneity we can assume that R = 1. Making a change of variables
+(P, Q) = ( p + 1, pq + 1) with inverse ( p, q) =
+(
+P − 1, Q − 1
+P − 1
+)
+the (inhomogenous) equation of C takes the form p2H(p, q) = 0, where
+H(p, q) = (2+3 a4− 2(a2+1)q2+q4)p2+4(2− (1+a2)q− q2+q3)p+4(q2− 2q− a2+2)).
+In other words, the curve C is the set-theoretic sum of the (double) line p = 0 and
+the curve of degree 6, given by the equation C′ : H(p, q) = 0. The equation for C′
+can be rewritten as
+C′ : W 2 = (a2 − 1)q4 − 2(a2 − 1)q3 − (2a2 − 1)2q2 + 2a2(3a2 − 2)q + a2(3a4 − 6a2 + 2),
+where we put W = 1
+2 (q4 − 2(a2 + 1)q2 + 3a4 + 2)p + q3 − q2 − (a2 + 1)q + 2. In order
+to guarantee the existence of rational points on C′ (and hence on C) we consider a
+quadratic base change a = (t2 + 1)/2t. Then a2 − 1 = (( t2 − 1)/2t)2 and thus the
+curve C′ contains a Q(t)-rational point at inﬁnity. The birational model E ′ of the
+
+--- page 22 ---
+
+22 ANDREW BREMNER, MACIEJ ULAS
+curve C′ is given by the equation in short Weierstrass form E ′ : Y 2 = X 3 + AX + B,
+where
+A = − 108(13t16 − 20t12 + 78t8 − 20t4 + 13),
+B = 864(23t24 − 132t20 + 129t16 − 296t12 + 129t8 − 132t4 + 23).
+The curve E ′ contains the point of inﬁnite order
+Z = (12(2t8 + 3t6 − 2t4 + 3t2 + 2), 108t(t2 + 1)(t8 − 1)).
+The point 2 Z leads to a non-trivial curve lying on V (the equations for this curve
+are too unwieldy to present explicitly here), and correspond to the following y, z
+satisfying the ﬁrst three equations of our system:
+y =(t48 − 8t47 + 20t46 + 8t45 − 24t44 − 1528t43 + 6684t42 − 4872t41 − 69302t40
++ 96040t39 + 771532t38 − 2467368t37 − 4047800t36 + 22047704t35 + 12635044t34
+− 107433944t33 − 23948593t32 + 342788016t31 + 24622088t30 − 780080048t29
+− 638000t28 + 1324015696t27 − 37969832t26 − 1716035152t25 + 57538508t24
++ 1716035152t23 − 37969832t22 − 1324015696t21 − 638000t20 + 780080048t19
++ 24622088t18 − 342788016t17 − 23948593t16 + 107433944t15 + 12635044t14
+− 22047704t13 − 4047800t12 + 2467368t11 + 771532t10 − 96040t9 − 69302t8
++ 4872t7 + 6684t6 + 1528t5 − 24t4 − 8t3 + 20t2 + 8t + 1)/(2t∆) ,
+z = (3t48 − 16t47 + 56t46 − 32t45 + 1096t44 − 5696t43 + 15928t42 + 11472t41
++ 51710t40 − 551056t39 + 1282392t38 + 3181248t37 − 11188440t36 − 701152t35
++ 39387992t34 − 55013168t33 − 75669523t32 + 272885472t31 + 75471984t30
+− 744371648t29 + 210064t28 + 1377115648t27 − 116092816t26 − 1850031968t25
++ 173321252t24 + 1850031968t23 − 116092816t22 − 1377115648t21 + 210064t20
++ 744371648t19 + 75471984t18 − 272885472t17 − 75669523t16 + 55013168t15
++ 39387992t14 + 701152t13 − 11188440t12 − 3181248t11 + 1282392t10
++ 551056t9 + 51710t8 − 11472t7 + 15928t6 + 5696t5 + 1096t4 + 32t3 + 56t2
++ 16t + 3)/((t2 − 1)∆) ,
+where
+∆ = 4( t − 1)(t + 1)(t2 + 1)2(t8 − 4t7 + 10t6 + 12t5 − 14t4 − 12t3 + 10t2 + 4t + 1) ×
+(t16 − 4t14 + 168t12 − 492t10 + 718t8 − 492t6 + 168t4 − 4t2 + 1) × (t16 + 4t14
+− 32t13 + 232t12 + 160t11 − 756t10 − 320t9 + 1102t8 + 320t7 − 756t6 − 160t5
++ 232t4 + 32t3 + 4t2 + 1).
+Computing the points mZ for m = 3 , 4, . . . and the corresponding points on C, we
+get inﬁnitely many rational curves lying on V; and the result follows. □
+We know (up to symmetry) precisely two points ( x, y, z) ∈ Q3, with x ̸= 1
+2 ,
+x ̸= y, where the distances to the vertices (0 , 0, 0), (0 , 1, 0), (1 , 0, 0), (1 , 1, 0) of the
+
+--- page 23 ---
+
+POINTS AT RATIONAL DISTANCES 23
+unit square are rational, and where there is also rational distance t o a ﬁfth vertex
+(0, 0, 1) of the unit cube:
+x y z d1 d2 d3 d4 d5
+77/108 41/27 -28/27 71/36 67/36 49/36 43/36 95/36
+83/125 -49/500 -14/75 389/300 349/300 209/300 119/300 409/300
+Table 3: points in Q3 with ﬁve rational distances to vertices of the unit cube
+References
+[1] T. G. Berry, Points at rational distance from the corners of a unit square , Ann. Scuola
+Norm. Sup. Pisa Cl. Sci. 17 (4) (1990), 505-529.
+[2] T. G. Berry, Points at rational distance from the vertices of a triangle , Acta Arith. 62 (4)
+(1992), 391-398.
+[3] A. Bremner, M. Ulas, Rational points in geometric progressions on certain hyper elliptic
+curves, Publ. Math. Debrecen, 82/3-4 (2013), 669–683.
+[4] C. W. Dodge, Problem 966 , Math. Mag., 49 (1976), 43; partial solution 50 (1977), 166–67;
+comment 59 (1986), 52.
+[5] R.K. Guy, Unsolved Problems in Number Theory, 3rd editio n, Springer, 2004.
+[6] A. Hurwitz, ¨Uber tern¨ are diophantische Gleichungen dritten Grades, V jschr. naturforsch.
+Ges. Z¨ urich bd.62 (1917), 207–229
+[7] Yu. I. Manin, Cubic forms: Algebra, geometry, arithmetic , Second Edition, North-Holland
+Mathematical Library, vol. 4, North-Holland Publishing Co ., Amsterdam, 1986. Translated
+from the Russian by M. Hazewinkel
+[8] J.H. Silverman, The Arithmetic of Elliptic Curves , Springer-Verlag, New York, 1986.
+[9] Th. Skolem, Diophantische Gleichungen , New York : Chelsea Publishing Company, 1950.
+[10] M. Ulas, Rational points in arithmetic progressions on y2 = xn + k, Can. Math. Bull. 55
+(1) (2012), 193-207.
+School of Mathematical and Statistical Sciences, Arizona State U niversity, Tempe
+AZ 85287-1804, USA; email: bremner@asu.edu
+Jagiellonian University, Faculty of Mathematics and Computer Scienc e, Institute of
+Mathematics, /suppress Lojasiewicza 6, 30 - 348 Krak´ ow, Poland; email:maciej.ulas@uj.edu.pl

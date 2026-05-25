@@ -12,15 +12,34 @@
 - `bremner-guy-1989-delta-lambda.pdf`
 - `peschmann-2026-quartic-reductions.pdf`
 - `knaf-selder-spindler-2019-algorithm.pdf`
-- `ono-1996-concordant-forms.pdf`
+- `ono-1996-eulers-concordant-forms.pdf`
+
+## 文本抽取
+
+本项目提供了统一脚本：
+
+```bash
+uv run python scripts/extract_pdf_text.py docs/literature/pdfs/ono-1996-eulers-concordant-forms.pdf
+uv run python scripts/extract_pdf_text.py docs/literature/pdfs/*.pdf
+```
+
+默认输出到同目录同名 `.txt` 文件。例如：
+
+```text
+ono-1996-eulers-concordant-forms.pdf
+ono-1996-eulers-concordant-forms.txt
+```
+
+抽取器用 `pypdf`，不依赖系统命令 `pdftotext`。
 
 ## Git 处理
 
-本目录的 PDF **不入版本控制**（受 `.gitignore` 控制）。
+本目录的 PDF **不入版本控制**（受 `.gitignore` 控制）。`.txt` 抽取文本可以入版本控制，用来 grep、review 和引用。
 原因：
 1. PDF 文件体积大、二进制改不易 diff
-2. 许多文献有版权限制，不应散播
-3. 关键 metadata 已在 `../references.bib` 里
+2. 抽取文本可以 diff，也能被代码检索工具读取
+3. 许多文献有版权限制，不应散播 PDF
+4. 关键 metadata 已在 `../references.bib` 里
 
 如果有需要团队共享但 GitHub 不便上传的 PDF：
 - 用 Zenodo / Google Drive / OneDrive 等外部存储
@@ -44,9 +63,11 @@
    - 配套代码：https://github.com/renpe/euler-brick-obstructions
    - 数据：https://renepeschmann.de/research
 
-3. ⭐⭐⭐ **ono-1996-concordant-forms.pdf**
+3. ⭐⭐⭐ **ono-1996-eulers-concordant-forms.pdf** ✅ 已获取
    - 全名：Ono, K. (1996). Euler's concordant forms. Acta Arithmetica 78(2), 101-123.
+   - 本地路径：`ono-1996-eulers-concordant-forms.pdf`
    - 获取途径：
+     - Acta Arithmetica mirror: http://matwbn.icm.edu.pl/ksiazki/aa/aa78/aa7821.pdf
      - EUDML: https://eudml.org/doc/206936
      - ResearchGate: https://www.researchgate.net/publication/228792276
      - Academia: https://www.academia.edu/73654253
