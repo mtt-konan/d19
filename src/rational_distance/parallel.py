@@ -36,6 +36,7 @@
 
 from __future__ import annotations
 
+import argparse
 import itertools
 import multiprocessing as mp
 import os
@@ -70,6 +71,12 @@ class _PoolProtocol(Protocol):
 
 class _ContextProtocol(Protocol):
     def Pool(self, processes: int) -> _PoolProtocol: ...
+
+
+class _ParallelArgsProtocol(Protocol):
+    workers: int
+    chunksize: int
+    serial: bool
 
 
 def default_workers() -> int:
@@ -282,7 +289,10 @@ class ParallelConfig:
         )
 
 
-def add_parallel_args(parser, default_workers_value: int | None = None) -> None:
+def add_parallel_args(
+    parser: argparse.ArgumentParser,
+    default_workers_value: int | None = None,
+) -> None:
     """为 argparse.ArgumentParser 添加标准并行参数。
 
     添加的参数：
@@ -303,32 +313,32 @@ def add_parallel_args(parser, default_workers_value: int | None = None) -> None:
     if default_workers_value is None:
         default_workers_value = default_workers()
 
-    parser.add_argument(
+    _ = parser.add_argument(
         "--workers",
         type=int,
         default=default_workers_value,
         help=f"Number of parallel workers (default: {default_workers_value}, i.e. CPU count)",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--chunksize",
         type=int,
         default=50,
         help="Pool imap chunksize (default: 50)",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--serial",
         action="store_true",
         help="Run in serial mode (equivalent to --workers 1)",
     )
 
 
-def get_parallel_config_from_args(args) -> ParallelConfig:
+def get_parallel_config_from_args(args: _ParallelArgsProtocol) -> ParallelConfig:
     """从 argparse 结果创建 ParallelConfig。
 
     配合 add_parallel_args 使用。
     """
-    workers = 1 if getattr(args, "serial", False) else getattr(args, "workers", default_workers())
-    chunksize = getattr(args, "chunksize", 50)
+    workers = 1 if args.serial else args.workers
+    chunksize = args.chunksize
     return ParallelConfig(workers=workers, chunksize=chunksize)
 
 

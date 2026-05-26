@@ -17,6 +17,31 @@ sys.path.insert(0, str(ROOT / "src"))
 # ---------------------------------------------------------------------------
 
 
+def test_default_method_pipeline_names_are_stable() -> None:
+    from rational_distance.proof_status.methods import DEFAULT_METHOD_PIPELINE
+
+    assert tuple(name for name, _ in DEFAULT_METHOD_PIPELINE) == (
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "factor_concordant",
+        "f2_rank",
+        "rank_zero",
+        "heegner",
+        "chabauty",
+        "brauer_manin",
+    )
+
+
+def test_legacy_factor_concordant_still_checks_chain_closure() -> None:
+    from rational_distance.proof_status.methods import run_factor_concordant
+
+    result = run_factor_concordant(264, 420)
+    assert result.method == "factor_concordant"
+    assert result.details["concordant_n_count"] == 4
+    assert result.details["chain_compatible_count"] == 0
+    assert result.outcome == "inconclusive"
+
+
 class TestSafeSieveMethod:
     """The 2-adic safe_sieve method is rigorous and PARI-free."""
 
