@@ -321,6 +321,26 @@ $$N \bmod M \in T \cap \bigl((A+B) - T\bigr) \pmod M$$
 剩下的 18 个 survivor 是真正"硬"的 case，需要 deeper theory（Heegner /
 Chabauty / Brauer-Manin）。它们不再淹没在大量"还能用简单 mod 砍掉"的噪声里。
 
+### 9. 公共并行层在“循环里反复并行一小批任务”的脚本上，主瓶颈是反复建池（worklog 064）
+
+对 `src/rational_distance/parallel.py` 的调用方式做了专项检查后，已经确认一件很工程但很硬的事实：
+
+- 如果脚本是**单次大批处理**，`cfg.map(...)` 已经够用。
+- 如果脚本是**循环里每轮都 `map(...)` 一次**（例如 `partner_full_bfs.py`），在 mac 上真正贵的往往不是单个任务本身，而是每轮都重新创建 `spawn` 单任务子进程池。
+
+针对这个模式，公共并行层已经加入两条低风险优化：
+
+- `ParallelConfig.executor()` / `ParallelExecutor`：复用同一个 `spawn` 单任务子进程池
+- `collect_results=False`：对只靠 `on_result` 回调汇总的脚本，不再在主进程里白攒一整份结果列表
+
+小基准（`scripts/benchmark_parallel_executor.py`）已经实测：
+
+- `133` 对 / `9` 批：复用进程池约 **`x5.9`**
+- `640` 对 / `40` 批：复用进程池约 **`x9.1`**
+- `1280` 对 / `80` 批：复用进程池约 **`x9.2`**
+
+从差值近似按批次数线性增长这一点看，收益主要来自**消掉每批固定的建池/收池成本**，不是数学计算本身突然变快。
+
 ---
 
 ## 六、补充阅读（更工程向的细节）

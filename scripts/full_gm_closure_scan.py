@@ -98,7 +98,7 @@ def main() -> int:
                   flush=True)
             last_report_t = time.time()
 
-    _ = cfg.map(_check_closure, all_pairs, on_result=on_result)
+    _ = cfg.map(_check_closure, all_pairs, on_result=on_result, collect_results=False)
     print(f"[{time.time()-t0:.1f}s] closure 检查完成", flush=True)
 
     # 3. 报告

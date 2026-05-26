@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.parallel import (
     ParallelConfig,
+    ParallelExecutor,
     default_workers,
     parallel_map,
 )
@@ -76,6 +77,19 @@ class TestParallelMap:
         parallel_map(_square, [1, 2, 3], workers=1, on_result=results_seen.append)
         assert sorted(results_seen) == [1, 4, 9]
 
+    def test_collect_results_false_returns_empty_list(self) -> None:
+        """collect_results=False should stream to callback without storing results."""
+        results_seen: list[int] = []
+        result = parallel_map(
+            _square,
+            [1, 2, 3],
+            workers=1,
+            on_result=results_seen.append,
+            collect_results=False,
+        )
+        assert result == []
+        assert sorted(results_seen) == [1, 4, 9]
+
     def test_ordered_preserves_order(self) -> None:
         """ordered=True should preserve input order."""
         result = parallel_map(_square, [5, 3, 1, 4, 2], workers=1, ordered=True)
@@ -102,6 +116,33 @@ class TestParallelConfig:
         """Custom chunksize should be respected."""
         cfg = ParallelConfig.default(chunksize=100)
         assert cfg.chunksize == 100
+
+
+class TestParallelExecutor:
+    """Tests for reusable ParallelExecutor."""
+
+    def test_reuses_pool_across_multiple_maps(self) -> None:
+        """Executor should create one pool and reuse it across map calls."""
+        mock_ctx = mock.Mock()
+        mock_pool = mock.Mock()
+
+        def _imap_unordered(fn, items, chunksize=1):
+            return map(fn, items)
+
+        mock_pool.imap_unordered.side_effect = _imap_unordered
+        mock_ctx.Pool.return_value = mock_pool
+
+        with mock.patch("rational_distance.parallel.mp.get_context", return_value=mock_ctx):
+            executor = ParallelExecutor(workers=2, chunksize=10)
+            first = executor.map(_square, [1, 2, 3])
+            second = executor.map(_square, [4, 5])
+            executor.close()
+
+        assert first == [1, 4, 9]
+        assert second == [16, 25]
+        mock_ctx.Pool.assert_called_once_with(processes=2)
+        mock_pool.close.assert_called_once()
+        mock_pool.join.assert_called_once()
 
 
 class TestParallelMapWithMultiprocessing:

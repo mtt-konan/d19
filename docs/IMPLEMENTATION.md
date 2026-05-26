@@ -122,6 +122,7 @@
 职责：
 
 - 公共数学工具
+- 公共并行工具
 - 公共点/对称逻辑
 - 后端检测
 - CLI 壳层
@@ -130,6 +131,7 @@
 主要代码：
 
 - [src/rational_distance/math_utils.py](../src/rational_distance/math_utils.py)
+- [src/rational_distance/parallel.py](../src/rational_distance/parallel.py)
 - [src/rational_distance/square.py](../src/rational_distance/square.py)
 - [src/rational_distance/backend.py](../src/rational_distance/backend.py)
 - [src/rational_distance/cli/](../src/rational_distance/cli)
@@ -139,8 +141,21 @@
 - [scripts/search.py](../scripts/search.py)
 - [scripts/analyze_ec_db.py](../scripts/analyze_ec_db.py)
 - [scripts/analyze_chain_db.py](../scripts/analyze_chain_db.py)
+- [scripts/benchmark_parallel_executor.py](../scripts/benchmark_parallel_executor.py)
 - [scripts/compare_parametric.py](../scripts/compare_parametric.py)
 - [scripts/visualize.py](../scripts/visualize.py)
+
+实现备注：
+
+- `parallel.py` 是公共并行层：统一 `parallel_map(...)`、`ParallelConfig`、标准参数
+  （`--workers` / `--chunksize` / `--serial`）。
+- **单次批处理**优先直接用 `cfg.map(...)`。
+- **循环里反复 map 的脚本**（例如 BFS 每轮都要并行一批任务）优先用
+  `with cfg.executor() as executor:` 复用同一个 `spawn` 进程池，避免每轮重复建池。
+- **只靠 `on_result` 回调汇总结果**的脚本，优先传 `collect_results=False`，避免在主进程
+  里额外攒一整份返回列表。
+- `scripts/benchmark_parallel_executor.py` 是小型基准脚本，用来比较“每轮重建进程池”与
+  “复用进程池”两种写法的真实开销差。
 
 ## 三、入口层和实现层怎么区分
 
@@ -207,6 +222,7 @@
 - [tests/test_chain_db.py](../tests/test_chain_db.py)：`chain-fast` DB
 - [tests/test_chain_fast_cli.py](../tests/test_chain_fast_cli.py)：`chain-fast` CLI / 脚本冒烟
 - [tests/test_concordant.py](../tests/test_concordant.py)：`concordant` + 兼容入口校验
+- [tests/test_parallel.py](../tests/test_parallel.py)：公共并行层（串行回退、回调、复用进程池）
 - [tests/test_proof_status.py](../tests/test_proof_status.py)：`proof_status` 各 method、schema DAO、workflow 流程
 - [tests/test_cli.py](../tests/test_cli.py)：CLI 参数与 compare 脚本冒烟
 

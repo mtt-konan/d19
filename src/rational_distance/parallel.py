@@ -36,14 +36,40 @@
 
 from __future__ import annotations
 
+import itertools
 import multiprocessing as mp
 import os
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass
-from typing import TypeVar
+from types import TracebackType
+from typing import Protocol, TypeVar, cast
 
 T = TypeVar("T")
 R = TypeVar("R")
+
+
+class _PoolProtocol(Protocol):
+    def imap(
+        self,
+        func: Callable[[object], object],
+        iterable: Iterable[object],
+        chunksize: int = 1,
+    ) -> Iterator[object]: ...
+
+    def imap_unordered(
+        self,
+        func: Callable[[object], object],
+        iterable: Iterable[object],
+        chunksize: int = 1,
+    ) -> Iterator[object]: ...
+
+    def close(self) -> None: ...
+
+    def join(self) -> None: ...
+
+
+class _ContextProtocol(Protocol):
+    def Pool(self, processes: int) -> _PoolProtocol: ...
 
 
 def default_workers() -> int:
@@ -74,6 +100,7 @@ def parallel_map(
     chunksize: int = 50,
     on_result: Callable[[R], None] | None = None,
     ordered: bool = False,
+    collect_results: bool = True,
 ) -> list[R]:
     """并行 map：对 items 中每个元素应用 fn，返回结果列表。
 
@@ -105,17 +132,21 @@ def parallel_map(
     if workers is None:
         workers = default_workers()
 
-    items_list = list(items)
-    if not items_list:
+    iterator = iter(items)
+    try:
+        first_item = next(iterator)
+    except StopIteration:
         return []
+    items_iter = itertools.chain((first_item,), iterator)
 
     results: list[R] = []
 
     if workers <= 1:
         # 串行路径：无 Pool 开销
-        for item in items_list:
+        for item in items_iter:
             r = fn(item)
-            results.append(r)
+            if collect_results:
+                results.append(r)
             if on_result is not None:
                 on_result(r)
         return results
@@ -124,12 +155,91 @@ def parallel_map(
     ctx = mp.get_context("spawn")
     with ctx.Pool(processes=workers) as pool:
         mapper = pool.imap if ordered else pool.imap_unordered
-        for r in mapper(fn, items_list, chunksize=chunksize):
-            results.append(r)
+        for r in mapper(fn, items_iter, chunksize=chunksize):
+            if collect_results:
+                results.append(r)
             if on_result is not None:
                 on_result(r)
 
     return results
+
+
+class ParallelExecutor:
+    def __init__(
+        self,
+        *,
+        workers: int | None = None,
+        chunksize: int = 50,
+        ordered: bool = False,
+    ) -> None:
+        self.workers: int = default_workers() if workers is None else workers
+        self.chunksize: int = chunksize
+        self.ordered: bool = ordered
+        self._ctx: _ContextProtocol | None = None
+        self._pool: _PoolProtocol | None = None
+
+    def _ensure_pool(self) -> _PoolProtocol | None:
+        if self.workers <= 1:
+            return None
+        if self._pool is None:
+            self._ctx = mp.get_context("spawn")
+            self._pool = self._ctx.Pool(processes=self.workers)
+        return self._pool
+
+    def map(
+        self,
+        fn: Callable[[T], R],
+        items: Iterable[T],
+        on_result: Callable[[R], None] | None = None,
+        *,
+        collect_results: bool = True,
+    ) -> list[R]:
+        iterator = iter(items)
+        try:
+            first_item = next(iterator)
+        except StopIteration:
+            return []
+        items_iter = itertools.chain((first_item,), iterator)
+
+        results: list[R] = []
+        pool = self._ensure_pool()
+        if pool is None:
+            for item in items_iter:
+                result = fn(item)
+                if collect_results:
+                    results.append(result)
+                if on_result is not None:
+                    on_result(result)
+            return results
+
+        mapper = pool.imap if self.ordered else pool.imap_unordered
+        worker_fn = cast(Callable[[object], object], fn)
+        worker_items = cast(Iterable[object], items_iter)
+        for raw_result in mapper(worker_fn, worker_items, chunksize=self.chunksize):
+            result = cast(R, raw_result)
+            if collect_results:
+                results.append(result)
+            if on_result is not None:
+                on_result(result)
+        return results
+
+    def close(self) -> None:
+        if self._pool is not None:
+            self._pool.close()
+            self._pool.join()
+            self._pool = None
+            self._ctx = None
+
+    def __enter__(self) -> "ParallelExecutor":
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
+        self.close()
 
 
 @dataclass(frozen=True)
@@ -150,6 +260,8 @@ class ParallelConfig:
         fn: Callable[[T], R],
         items: Iterable[T],
         on_result: Callable[[R], None] | None = None,
+        *,
+        collect_results: bool = True,
     ) -> list[R]:
         """使用此配置执行 parallel_map。"""
         return parallel_map(
@@ -158,6 +270,14 @@ class ParallelConfig:
             workers=self.workers,
             chunksize=self.chunksize,
             on_result=on_result,
+            ordered=self.ordered,
+            collect_results=collect_results,
+        )
+
+    def executor(self) -> ParallelExecutor:
+        return ParallelExecutor(
+            workers=self.workers,
+            chunksize=self.chunksize,
             ordered=self.ordered,
         )
 
@@ -214,6 +334,7 @@ def get_parallel_config_from_args(args) -> ParallelConfig:
 
 __all__ = [
     "ParallelConfig",
+    "ParallelExecutor",
     "add_parallel_args",
     "default_workers",
     "get_parallel_config_from_args",

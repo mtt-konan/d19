@@ -97,42 +97,43 @@ def main() -> int:
     frontier: set[tuple[int, int]] = seeds.copy()
     round_num = 0
 
-    while frontier:
-        round_num += 1
-        batch = [p for p in frontier if p not in visited and max(p) <= max_value]
-        if not batch:
-            break
+    with cfg.executor() as executor:
+        while frontier:
+            round_num += 1
+            batch = [p for p in frontier if p not in visited and max(p) <= max_value]
+            if not batch:
+                break
 
-        t1 = time.time()
-        # 并行算 N 列表
-        results = cfg.map(_compute_ns, batch)
-        compute_time = time.time() - t1
+            t1 = time.time()
+            # 并行算 N 列表
+            results = executor.map(_compute_ns, batch)
+            compute_time = time.time() - t1
 
-        # 单线程更新 visited + edges + 下轮 frontier
-        next_frontier: set[tuple[int, int]] = set()
-        for p, ns in results:
-            visited.add(p)
-            vertices_with_N[p] = ns
-            for i in range(len(ns)):
-                for j in range(i + 1, len(ns)):
-                    u = sorted_pair(ns[i], ns[j])
-                    if u == p:
-                        continue
-                    if max(u) > max_value:
-                        continue
-                    e = (p, u) if p < u else (u, p)
-                    edges.add(e)
-                    if u not in visited:
-                        next_frontier.add(u)
+            # 单线程更新 visited + edges + 下轮 frontier
+            next_frontier: set[tuple[int, int]] = set()
+            for p, ns in results:
+                visited.add(p)
+                vertices_with_N[p] = ns
+                for i in range(len(ns)):
+                    for j in range(i + 1, len(ns)):
+                        u = sorted_pair(ns[i], ns[j])
+                        if u == p:
+                            continue
+                        if max(u) > max_value:
+                            continue
+                        e = (p, u) if p < u else (u, p)
+                        edges.add(e)
+                        if u not in visited:
+                            next_frontier.add(u)
 
-        print(
-            f"[{time.time()-t0:.1f}s] round {round_num}: "
-            f"processed {len(batch)}, edges={len(edges)}, "
-            f"visited={len(visited)}, next_frontier={len(next_frontier)}, "
-            f"compute={compute_time:.1f}s",
-            flush=True,
-        )
-        frontier = next_frontier
+            print(
+                f"[{time.time()-t0:.1f}s] round {round_num}: "
+                f"processed {len(batch)}, edges={len(edges)}, "
+                f"visited={len(visited)}, next_frontier={len(next_frontier)}, "
+                f"compute={compute_time:.1f}s",
+                flush=True,
+            )
+            frontier = next_frontier
 
     print(f"[{time.time()-t0:.1f}s] BFS 完成: {len(visited)} 顶点, {len(edges)} 边", flush=True)
 
