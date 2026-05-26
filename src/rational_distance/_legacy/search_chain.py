@@ -1,0 +1,521 @@
+"""Pythagorean 4-cycle search (independent module).
+
+Finds integer 4-tuples (a, b, c, d) with 1 ≤ each ≤ max_val satisfying:
+
+  a² + b² = x₁²   (Pythagorean condition on pair (a,b))
+  b² + c² = x₂²   (Pythagorean condition on pair (b,c))
+  c² + d² = x₃²   (Pythagorean condition on pair (c,d))
+  d² + a² = x₄²   (Pythagorean condition on pair (d,a))
+
+Optionally also filters for the unit-square constraint:
+
+  a + c == b + d   (5th constraint)
+
+If the 5th constraint is satisfied, let k = a+c = b+d; then the point
+(a/k, b/k) lies in [0,1]² and has rational distances to all four corners
+A(0,0), B(1,0), C(1,1), D(0,1) of the unit square:
+
+  dist(P, A) = x₁/k,  dist(P, B) = x₂/k,
+  dist(P, C) = x₃/k,  dist(P, D) = x₄/k
+
+─────────────────────────────────────────────────────────────────────
+CROSS-PRODUCT FAMILY (provably excluded)
+─────────────────────────────────────────────────────────────────────
+Any two Pythagorean pairs (p,q) and (m,n) generate a 4-cycle:
+
+  (a,b,c,d) = (pm, qm, qn, pn)
+
+This "cross-product family" satisfies ac = bd (equivalently, a/b = d/c).
+For such tuples:
+
+  a+c - (b+d) = pm+qn - qm-pn = (p-q)(m-n)
+
+Since p≠q and m≠n for any Pythagorean pair, the unit-square constraint
+is provably never satisfied by any member of this family.
+
+All results returned by this module exclude the cross-product family
+(i.e., only solutions with ac ≠ bd are reported).  These are the
+"general family" — the only candidates that could possibly satisfy the
+unit-square constraint and resolve the Harborth conjecture.
+
+This module is intentionally independent of the parametric / EC search
+infrastructure so its logic can be audited and extended without risk of
+cross-contamination.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Callable, Iterator
+from dataclasses import asdict, dataclass, field
+from math import gcd
+
+import numpy as np
+from tqdm import tqdm
+
+# ── Primitive decomposition helper ───────────────────────────────────────────
+
+
+def _primitive_decomp(a: int, b: int, h: int) -> tuple[int, int, int, int]:
+    """Decompose a Pythagorean pair (a, b, h) into scale × primitive triple.
+
+    Returns (k, P, Q, H) where k = gcd(a,b), P = a//k, Q = b//k, H = h//k,
+    and (P, Q, H) is a primitive Pythagorean triple (gcd(P,Q) = 1).
+    """
+    k = gcd(a, b)
+    return k, a // k, b // k, h // k
+
+
+def _edge_str(a: int, b: int, h: int) -> str:
+    """Human-readable description of a Pythagorean edge a²+b²=h²."""
+    k, P, Q, H = _primitive_decomp(a, b, h)
+    triple = f"({P},{Q},{H})"
+    if k == 1:
+        return f"{a}²+{b}²={h}²  →  {triple}"
+    return f"{a}²+{b}²={h}²  →  {k}×{triple}"
+
+
+def _primitive_delta_sign(a: int, b: int, h: int) -> int:
+    """Return the sign of `P-Q` for the oriented primitive edge decomposition."""
+    _, p, q, _ = _primitive_decomp(a, b, h)
+    return 1 if p > q else -1
+
+
+# ── Data class ────────────────────────────────────────────────────────────────
+
+
+@dataclass
+class ChainResult:
+    """One solution to the Pythagorean 4-cycle system."""
+
+    a: int
+    b: int
+    c: int
+    d: int
+    x1: int  # isqrt(a²+b²)
+    x2: int  # isqrt(b²+c²)
+    x3: int  # isqrt(c²+d²)
+    x4: int  # isqrt(d²+a²)
+    square_ok: bool  # a+c == b+d
+
+    # Unit-square point (populated when square_ok is True)
+    k: int = field(default=0)  # a+c = b+d
+    px_num: int = field(default=0)  # reduced numerator of a/k
+    px_den: int = field(default=0)  # reduced denominator of a/k
+    py_num: int = field(default=0)  # reduced numerator of b/k
+    py_den: int = field(default=0)  # reduced denominator of b/k
+
+    def __post_init__(self) -> None:
+        if self.square_ok:
+            k = self.a + self.c
+            self.k = k
+            g1 = gcd(self.a, k)
+            g2 = gcd(self.b, k)
+            self.px_num, self.px_den = self.a // g1, k // g1
+            self.py_num, self.py_den = self.b // g2, k // g2
+
+    @property
+    def rectangle(self) -> tuple[int, int]:
+        """Width and height of the bounding rectangle (a+c) × (b+d)."""
+        return (self.a + self.c, self.b + self.d)
+
+    def edges(self) -> list[str]:
+        """Return four human-readable edge descriptions with primitive decomposition.
+
+        Each string has the form:
+          "a²+b²=h²  →  (P,Q,H)"          if gcd(a,b)=1  (primitive)
+          "a²+b²=h²  →  k×(P,Q,H)"        otherwise
+        """
+        return [
+            _edge_str(self.a, self.b, self.x1),
+            _edge_str(self.b, self.c, self.x2),
+            _edge_str(self.c, self.d, self.x3),
+            _edge_str(self.d, self.a, self.x4),
+        ]
+
+    def diagonal_delta_signs(self) -> tuple[int, int, int, int]:
+        """Return the primitive `(P-Q)` signs for the four oriented edges."""
+        return diagonal_delta_signs_from_edges(
+            self.a,
+            self.b,
+            self.c,
+            self.d,
+            self.x1,
+            self.x2,
+            self.x3,
+            self.x4,
+        )
+
+    def __str__(self) -> str:
+        sq = "✓" if self.square_ok else "✗"
+        w, h = self.rectangle
+        header = (
+            f"({self.a},{self.b},{self.c},{self.d})  "
+            f"rect={w}×{h}  sq={sq}"
+        )
+        if self.square_ok:
+            header += f"  point=({self.px_num}/{self.px_den}, {self.py_num}/{self.py_den})"
+        labels = ["x1", "x2", "x3", "x4"]
+        edge_lines = "\n".join(
+            f"  {lbl}: {e}" for lbl, e in zip(labels, self.edges(), strict=True)
+        )
+        return f"{header}\n{edge_lines}"
+
+
+# ── Core helpers ──────────────────────────────────────────────────────────────
+
+
+def _build_adjacency(
+    max_val: int,
+    progress: bool = True,
+) -> tuple[dict[int, list[int]], dict[int, dict[int, int]]]:
+    """Build Pythagorean adjacency structures using numpy.
+
+    Returns:
+        adj:  adj[a]    = sorted list of b ∈ [1, max_val] with a²+b² a perfect square
+        hyp:  hyp[a][b] = isqrt(a²+b²)  for every such pair
+    """
+    vals = np.arange(1, max_val + 1, dtype=np.int64)
+    adj: dict[int, list[int]] = {}
+    hyp: dict[int, dict[int, int]] = {}
+
+    it = range(1, max_val + 1)
+    if progress:
+        it = tqdm(it, desc="Building Pythagorean pairs", leave=False)
+
+    for a in it:
+        sq_a = np.int64(a) ** 2
+        sums = sq_a + vals**2
+        roots = np.floor(np.sqrt(sums.astype(np.float64))).astype(np.int64)
+        # Correct float-sqrt rounding errors (±1)
+        over = (roots + 1) ** 2 == sums
+        roots[over] += 1
+        hits = roots**2 == sums
+
+        b_arr = vals[hits]
+        r_arr = roots[hits]
+        adj[a] = b_arr.tolist()
+        hyp[a] = {int(b): int(r) for b, r in zip(b_arr, r_arr, strict=True)}
+
+    return adj, hyp
+
+
+def _iter_pythagorean_pairs(
+    start_a: int,
+    stop_a: int,
+    b_start: int,
+    b_stop: int,
+    progress: bool = True,
+    desc: str = "Building Pythagorean pairs",
+) -> Iterator[tuple[int, int, int]]:
+    """Yield ordered Pythagorean edges (a, b, h) over one rectangular range."""
+    if start_a > stop_a or b_start > b_stop:
+        return
+
+    vals = np.arange(b_start, b_stop + 1, dtype=np.int64)
+    it: Iterator[int] = iter(range(start_a, stop_a + 1))
+    if progress:
+        it = tqdm(range(start_a, stop_a + 1), desc=desc, leave=False)  # type: ignore[assignment]
+
+    for a in it:
+        sq_a = np.int64(a) ** 2
+        sums = sq_a + vals**2
+        roots = np.floor(np.sqrt(sums.astype(np.float64))).astype(np.int64)
+        over = (roots + 1) ** 2 == sums
+        roots[over] += 1
+        hits = roots**2 == sums
+
+        b_arr = vals[hits]
+        r_arr = roots[hits]
+        for b, h in zip(b_arr.tolist(), r_arr.tolist(), strict=True):
+            yield int(a), int(b), int(h)
+
+
+def build_adjacency_from_rows(
+    max_val: int,
+    rows: Iterator[tuple[int, int, int]],
+) -> tuple[dict[int, list[int]], dict[int, dict[int, int]]]:
+    """Rebuild adjacency and hyp maps from cached `(a, b, h)` rows."""
+    adj: dict[int, list[int]] = {a: [] for a in range(1, max_val + 1)}
+    hyp: dict[int, dict[int, int]] = {a: {} for a in range(1, max_val + 1)}
+    for a, b, h in rows:
+        if a > max_val or b > max_val:
+            continue
+        adj[a].append(b)
+        hyp[a][b] = h
+    return adj, hyp
+
+
+def _symmetry_group(a: int, b: int, c: int, d: int) -> list[tuple[int, int, int, int]]:
+    """Return all 8 dihedral images of a 4-cycle (4 rotations × 2 reflections)."""
+    return [
+        (a, b, c, d),
+        (b, c, d, a),
+        (c, d, a, b),
+        (d, a, b, c),  # rotations
+        (a, d, c, b),
+        (d, c, b, a),
+        (c, b, a, d),
+        (b, a, d, c),  # reflections
+    ]
+
+
+def canonical_cycle_key(a: int, b: int, c: int, d: int) -> tuple[int, int, int, int]:
+    """Return the canonical dihedral representative for one 4-cycle."""
+    return min(_symmetry_group(a, b, c, d))
+
+
+def diagonal_delta_signs_from_edges(
+    a: int,
+    b: int,
+    c: int,
+    d: int,
+    x1: int,
+    x2: int,
+    x3: int,
+    x4: int,
+) -> tuple[int, int, int, int]:
+    """Return the primitive `(P-Q)` signs for four oriented edges."""
+    return (
+        _primitive_delta_sign(a, b, x1),
+        _primitive_delta_sign(b, c, x2),
+        _primitive_delta_sign(c, d, x3),
+        _primitive_delta_sign(d, a, x4),
+    )
+
+
+def passes_diagonal_sign_sieve_edges(
+    a: int,
+    b: int,
+    c: int,
+    d: int,
+    x1: int,
+    x2: int,
+    x3: int,
+    x4: int,
+) -> bool:
+    """Return True iff opposite primitive-edge deltas have opposite signs."""
+    s1, s2, s3, s4 = diagonal_delta_signs_from_edges(a, b, c, d, x1, x2, x3, x4)
+    return s1 != s3 and s2 != s4
+
+
+def passes_diagonal_sign_sieve(result: ChainResult) -> bool:
+    """Return True iff opposite primitive-edge deltas have opposite signs."""
+    return passes_diagonal_sign_sieve_edges(
+        result.a,
+        result.b,
+        result.c,
+        result.d,
+        result.x1,
+        result.x2,
+        result.x3,
+        result.x4,
+    )
+
+
+@dataclass
+class ChainSearchStats:
+    """Small counters that describe one chain search run."""
+
+    pre_diagonal_results: int = 0
+    pre_diagonal_square_results: int = 0
+    diagonal_sign_filtered: int = 0
+    emitted_results: int = 0
+    emitted_square_results: int = 0
+
+    def note_pre_diagonal(self, square_ok: bool) -> None:
+        self.pre_diagonal_results += 1
+        if square_ok:
+            self.pre_diagonal_square_results += 1
+
+    def note_filtered(self) -> None:
+        self.diagonal_sign_filtered += 1
+
+    def note_emitted(self, square_ok: bool) -> None:
+        self.emitted_results += 1
+        if square_ok:
+            self.emitted_square_results += 1
+
+
+def iter_chain_results(
+    adj: dict[int, list[int]],
+    hyp: dict[int, dict[int, int]],
+    max_val: int,
+    require_square: bool = False,
+    diagonal_sign_sieve: bool = False,
+    canonical: bool = True,
+    progress: bool = True,
+    start_a: int = 1,
+    stats: ChainSearchStats | None = None,
+    result_callback: Callable[[ChainResult], None] | None = None,
+    outer_complete_callback: Callable[[int], None] | None = None,
+) -> list[ChainResult]:
+    """Scan one adjacency graph for 4-cycles, optionally streaming results."""
+    if start_a < 1:
+        raise ValueError("start_a must be >= 1")
+    if start_a > max_val:
+        return []
+
+    adj_sets = {a: set(bs) for a, bs in adj.items()}
+    results: list[ChainResult] = []
+    seen: set[tuple[int, int, int, int]] = set()
+
+    it: Iterator[int] = iter(range(start_a, max_val + 1))
+    if progress:
+        it = tqdm(
+            range(start_a, max_val + 1),
+            desc="Searching 4-cycles",
+            leave=False,
+        )  # type: ignore[assignment]
+
+    for a in it:
+        for b in adj.get(a, []):
+            for c in adj.get(b, []):
+                d_set = adj_sets.get(c, set()) & adj_sets.get(a, set())
+                for d in sorted(d_set):
+                    if len({a, b, c, d}) < 4:
+                        continue
+                    if a * c == b * d:
+                        continue
+
+                    square_ok = a + c == b + d
+                    if require_square and not square_ok:
+                        continue
+
+                    x1 = hyp[a][b]
+                    x2 = hyp[b][c]
+                    x3 = hyp[c][d]
+                    x4 = hyp[d][a]
+
+                    key = None
+                    if canonical:
+                        key = canonical_cycle_key(a, b, c, d)
+                        if key in seen:
+                            continue
+
+                    if stats is not None:
+                        stats.note_pre_diagonal(square_ok)
+
+                    if diagonal_sign_sieve and not passes_diagonal_sign_sieve_edges(
+                        a,
+                        b,
+                        c,
+                        d,
+                        x1,
+                        x2,
+                        x3,
+                        x4,
+                    ):
+                        if stats is not None:
+                            stats.note_filtered()
+                        if canonical and key is not None:
+                            seen.add(key)
+                        continue
+
+                    if canonical and key is not None:
+                        seen.add(key)
+
+                    result = ChainResult(
+                        a=a,
+                        b=b,
+                        c=c,
+                        d=d,
+                        x1=x1,
+                        x2=x2,
+                        x3=x3,
+                        x4=x4,
+                        square_ok=square_ok,
+                    )
+                    if stats is not None:
+                        stats.note_emitted(square_ok)
+                    if result_callback is not None:
+                        result_callback(result)
+                    else:
+                        results.append(result)
+        if outer_complete_callback is not None:
+            outer_complete_callback(a)
+
+    return results
+
+
+# ── Public API ────────────────────────────────────────────────────────────────
+
+
+def find_chains(
+    max_val: int = 500,
+    require_square: bool = False,
+    diagonal_sign_sieve: bool = False,
+    canonical: bool = True,
+    progress: bool = True,
+    stats: ChainSearchStats | None = None,
+) -> list[ChainResult]:
+    """Find all Pythagorean 4-cycles (a, b, c, d) with values in [1, max_val].
+
+    Only returns solutions where:
+    - all four values are distinct (symmetric solutions excluded), and
+    - ac ≠ bd (cross-product family excluded — provably can't satisfy a+c=b+d).
+
+    The remaining "general family" solutions are the only candidates relevant
+    to the Harborth conjecture (unit-square rational distance problem).
+
+    Args:
+        max_val:        Upper bound for all four integers.
+        require_square: If True, only return solutions with a+c == b+d.
+        diagonal_sign_sieve:
+                        If True, keep only cycles where opposite primitive-edge
+                        deltas have opposite signs.
+        canonical:      If True, deduplicate under cyclic rotation and reflection
+                        (8-element dihedral group); keeps the lexicographically
+                        smallest representative.
+        progress:       Show tqdm progress bars.
+        stats:          Optional counters populated during the search.
+
+    Returns:
+        Sorted list of ChainResult objects.
+    """
+    adj, hyp = _build_adjacency(max_val, progress=progress)
+    return iter_chain_results(
+        adj,
+        hyp,
+        max_val=max_val,
+        require_square=require_square,
+        diagonal_sign_sieve=diagonal_sign_sieve,
+        canonical=canonical,
+        progress=progress,
+        stats=stats,
+    )
+
+
+def results_to_json(
+    results: list[ChainResult],
+    max_val: int,
+    require_square: bool,
+    elapsed: float,
+    experimental_filters: dict | None = None,
+) -> dict:
+    """Serialise results to a JSON-compatible dict."""
+
+    def _edge_dict(a: int, b: int, h: int) -> dict:
+        k, P, Q, H = _primitive_decomp(a, b, h)
+        return {"leg1": a, "leg2": b, "hyp": h, "scale": k, "primitive": [P, Q, H]}
+
+    def _result_dict(r: ChainResult) -> dict:
+        d = asdict(r)
+        d["edges"] = [
+            _edge_dict(r.a, r.b, r.x1),
+            _edge_dict(r.b, r.c, r.x2),
+            _edge_dict(r.c, r.d, r.x3),
+            _edge_dict(r.d, r.a, r.x4),
+        ]
+        return d
+
+    return {
+        "params": {
+            "max_val": max_val,
+            "require_square": require_square,
+            "experimental_filters": experimental_filters,
+        },
+        "elapsed_s": round(elapsed, 3),
+        "count": len(results),
+        "count_square": sum(1 for r in results if r.square_ok),
+        "results": [_result_dict(r) for r in results],
+    }
