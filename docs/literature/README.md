@@ -29,6 +29,8 @@ literature/
 | Peschmann 2026 (arXiv 2604.09328) | ⭐⭐⭐ | abstract+章节读完 | `notes/peschmann-2604-09328.md` |
 | Bremner-Guy 1989 J. Number Theory 32 | ⭐⭐⭐ | **待获取全文** | `notes/bremner-guy-1989.md` |
 | Ono 1996 Acta Arithmetica 78 | ⭐⭐⭐ | PDF/text 已获取，§1-3 关键结论已整理 | `notes/ono-1996-concordant.md` |
+| **Halbeisen-Hungerbühler 2021 arXiv:2101.08163** | ⭐⭐⭐ | **PDF/text 已获取，§1-3 精读完成** | **`notes/halbeisen-hungerbuhler-2021.md`** |
+| **Halbeisen-Hungerbühler-Zargar 2024 arXiv:2405.12989** | ⭐⭐ | **PDF/text 已获取，§1-2 精读完成** | **`notes/halbeisen-hungerbuhler-voznyy-2024.md`** |
 | KSS 2019/2020 系列 | ⭐⭐ | 核心算法论文 PDF/text 已获取，§2-4 已整理 | `notes/knaf-selder-spindler.md` |
 | Bremner-Ulas 2016 J. Number Theory 158 | ⭐⭐ | abstract 读完 | `notes/bremner-ulas-2016.md` |
 | Chang 2024 LIPIcs GD | ⭐⭐ | abstract 读完 | `notes/chang-2024-4regular.md` |
@@ -36,6 +38,7 @@ literature/
 | Bremner-Silverman-Tzanakis 2000 | ⭐ | 待读 | （未创建笔记）|
 | van Luijk 2000 (Utrecht thesis) | ⭐ | 待读 | （未创建笔记）|
 | MacLeod 2016 arXiv:1610.03430 | 🔵 综述 | 待读 | （未创建笔记）|
+| Zargar 2020 Kodai Math. J. 43 | ⭐ | 待读（标题"Pythagorean quadruplets"直接相关 K_{2,n}）| （未创建笔记）|
 
 ## 阅读路线建议
 

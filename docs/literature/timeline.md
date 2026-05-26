@@ -43,6 +43,14 @@
 | ⭐ 2019 | Knaf, Selder, Spindler | **An Algorithm to Find Rational Points on Elliptic Curves Related to the Concordant Form Problem** | arXiv:1907.02148 | **算法找 $E_{M,N}: y^2=x(x+M^2)(x+N^2)$ 有理点——我们的曲线族同构** |
 | 2020 | Knaf, Selder, Spindler | Four rational squares in arithmetic progressions and a family of elliptic curves with positive Mordell-Weil rank | Math. Sem. Hamburg | KSS 三部曲收官 |
 
+## 2020s：Pythapotent / 椭圆曲线对偶视角
+
+| 年份 | 作者 | 标题 | 出处 | 与 d19 的关系 |
+|---|---|---|---|---|
+| ⭐ 2020 | Zargar | On the rank of elliptic curves arising from Pythagorean quadruplets | Kodai Math. J. 43(1) | **Pythagorean quadruplet ↔ K_{2,n} 子图分析** |
+| ⭐⭐⭐ 2021 | Halbeisen, Hungerbühler | **Pairing Pythagorean Pairs** | arXiv:2101.08163 | **Γ_{a,b} 与我们 E_{A,B} 完全同构；double-pythapotent 的 rank 等价定理** |
+| ⭐⭐ 2024 | Halbeisen, Hungerbühler, Shamsi Zargar | Pairing Powers of Pythagorean Pairs | arXiv:2405.12989 | 推广到任意 degree h ≥ 3，给参数化判据 |
+
 ## 2024-2026：当代（active 期）
 
 | 年份 | 作者 | 标题 | 出处 | 与 d19 的关系 |

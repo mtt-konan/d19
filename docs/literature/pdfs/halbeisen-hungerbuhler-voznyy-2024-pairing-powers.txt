@@ -1,0 +1,514 @@
+--- page 1 ---
+
+arXiv:2405.12989v1  [math.NT]  24 Apr 2024
+Pairing Powers of Pythagorean Pairs
+Lorenz Halbeisen
+Department of Mathematics, ETH Zentrum, R¨ amistrasse 101, 8092 Z¨ urich, Switzerland
+lorenz.halbeisen@math.ethz.ch
+Norbert Hungerb¨ uhler
+Department of Mathematics, ETH Zentrum, R¨ amistrasse 101, 8092 Z¨ urich, Switzerland
+norbert.hungerbuehler@math.ethz.ch
+Arman Shamsi Zargar
+Department of Mathematics and Applications, University of Mohaghegh Ardabili, Ardabil, Iran
+zargar@uma.ac.ir
+key-words: pythagorean pair, pythapotent pair of arbitrary degree, e lliptic curve
+2020 Mathematics Subject Classiﬁcation : 11D72 11G05
+Abstract
+A pair ( a, b ) of positive integers is a pythagorean pair if a2 + b2 is a square.
+A pythagorean pair ( a, b ) is called a pythapotent pair of degree h if there is
+another pythagorean pair ( k, l ), which is not a multiple of ( a, b ), such that
+(ahk, b hl) is a pythagorean pair. To each pythagorean pair ( a, b ) we assign an
+elliptic curve Γ ah,bh for h ≥ 3 with torsion group isomorphic to Z/ 2Z × Z/ 4Z
+such that Γ ah,bh has positive rank over Q if and only if ( a, b ) is a pytha-
+potent pair of degree h. As a side result, we get that if ( a, b ) is a pythapotent
+pair of degree h, then there exist inﬁnitely many pythagorean pairs ( k, l ),
+not multiples of each other, such that ( ahk, b hl) is a pythagorean pair. In
+particular, we show that any pythagorean pair is always a pyt hapotent pair
+of degree 3. In a previous work, pythapotent pairs of degrees 1 and 2 have
+been studied.
+1 Introduction
+A pythagorean pair is a pair ( a, b ) of positive integers such that a2 + b2 is a square. We
+adopt the usual notation a2 + b2 = □ for this. A pythagorean pair ( a, b ) is called a pytha-
+potent pair of degree h if there is another pythagorean pair ( k, l ), which is not a multiple
+of ( a, b ), such that ( ahk, b hl) is also a pythagorean pair, i.e.,
+a2 + b2 = □ , k 2 + l2 = □ , and ( ahk)2 + (bhl)2 = □ .
+To simplify the language we will call a pythapotent pair of de gree 3, 4 and 5 a cubic, quartic
+and quintic pythapotent pair , respectively. We will also keep the deﬁnition of a double-
+pythapotent and quadratic pythapotent pair given in [
+3] that address a pythapotent pair
+of degree 1 and 2, respectively.
+1
+
+--- page 2 ---
+
+As the pair of squares ( a2, b 2) of a pythagorean pair ( a, b ) is never a pythagorean pair,
+it is natural to ask whether the Hadamard–Schur products ( ahk, b hℓ), h ≥ 1, of pytha-
+gorean pairs can be a pythagorean pair or not. For a double-py thapotent and quadratic
+pythapotent pair, the question has been investigated in [ 3]. More precisely, it has been
+shown that for each pythagorean pair ( a, b ), the elliptic curve Γ a,b (Γa2,b2, resp.) has
+torsion group isomorphic to Z/ 2Z × Z/ 4Z (Z/ 2Z × Z/ 8Z, resp.) and that ( a, b ) is a
+double-pythapotent (quadratic pythapotent, resp.) pair i f and only if Γ a,b (Γa2,b2, resp.)
+has positive rank over Q. With the points of inﬁnite order on the curve Γ a,b (Γa2,b2, resp.)
+inﬁnitely many pythagorean pairs ( k, l ) can be generated, not multiples of each other,
+such that ( ak, bl ) (( a2k, b 2l), resp.) are pythagorean pairs. Moreover, every elliptic c urve
+Γ with torsion group Z/ 2Z × Z/ 8Z is isomorphic to a curve of the form Γ a2,b2 for some
+pythagorean pair ( a, b ).
+In this work, we will answer aﬃrmatively the question for h ≥ 3, which generalizes
+the results of [ 3] concerning double-pythapotent and quadratic pythapoten t pairs. The
+question will lead, indeed, again in a natural way to associa ted elliptic curves of positive
+rank over Q.
+For a positive integer h we assign the elliptic curve
+Γah,bh : y2 = x3 + (a2h + b2h)x2 + a2hb2hx
+to the pythagorean pair ( a, b ). We will show that the curve Γ ah,bh with h ≥ 3 has torsion
+group isomorphic to Z/ 2Z × Z/ 4Z and that ( a, b ) is a pythapotent pair of degree h if and
+only if Γ ah,bh has positive rank over Q. With the points of inﬁnite order on the curve Γ ah,bh
+we can generate inﬁnitely many pythagorean pairs ( k, l ), not multiples of each other, such
+that ( ahk, b hl) are pythagorean pairs.
+Examples. We give an example of cubic pythapotent pair and of a quartic p ythapotent
+pair.
+1. The pythagorean pair ( a, b ) = (3 , 4) is a cubic pythapotent pair. Indeed, for the
+pythagorean pair ( k, l ) = (8 , 15) we have
+(33 ·8)2 + (43 ·15)2 = 9842.
+Since the rank of the elliptic curve Γ 34,44 is 1, (3 , 4) is also a quartic pythapotent
+pair.
+2. The pythagorean pair ( a, b ) = (3 , 4) is a quartic pythapotent pair. Indeed, for the
+pythagorean pair ( k, l ) = (176 , 57) we have
+(34 ·176)2 + (44 ·57)2 = 204002.
+However, since the rank of the elliptic curve Γ 35,45 is 0, (3 , 4) is not a quintic pytha-
+potent pair.
+Remark 1. In [3], the parametrization Γ a2,b2 for elliptic curves with torsion group Z/ 2Z×
+Z/ 8Z, where ( a, b ) is a pythagorean pair, was obtained by using Schroeter’s co nstruction
+of cubic curves with line involutions (see [ 4]). Other new parametrizations obtained by
+2
+
+--- page 3 ---
+
+Schroeter’s construction for elliptic curves with torsion groups Z/ 10Z, Z/ 12Z, and Z/ 14Z
+can be found in [ 5]. Furthermore, the curves Γ ah,bh, where ( a, b ) is a pythagorean pair,
+are obtained by replacing the terms a4 + b4 and a4b4 in the parametrization of Γ a2,b2 by
+a2h + b2h and a2hb2h, respectively.
+2 Pythapotent Pairs of Degree h
+We ﬁrst show that the curve Γ ah,bh has torsion group isomorphic to Z/ 2Z × Z/ 4Z for any
+positive integer h ̸= 2, and then we show how we obtain pythagorean pairs ( k, l ) from a
+point on Γ ah,bh whose x-coordinate is a square such that ( ahk, b hl) is a pythagorean pair.
+Proposition 1. If (a, b ) is a pythagorean pair, then the elliptic curve
+Γah,bh : y2 = x3 + (a2h + b2h)x2 + a2hb2hx ,
+has torsion group Z/ 2Z × Z/ 4Z for any positive integer h ̸= 2.
+Proof. We use Kubert’s parametrization for elliptic curves with to rsion group Z/ 2Z ×
+Z/ 4Z (see [ 6, p. 217]):
+y2 + xy − ey = x3 − ex2
+for
+e = v2 − 1
+16 where v ̸= 0, ± 1
+4 .
+By means of a rational transformation, this parameterizati on can be brought into the form
+y2 = x3 + ˜ax2 + ˜bx
+with
+˜a = 2 ·(16v2 + 1) and ˜b = (16v2 − 1)2.
+Now, for v = p
+q , let p := ah − bh and q := 1
+4 (ah + bh). Then the curve y2 = x3 + ˜ax2 + ˜bx
+is equivalent to the curve
+Γah,bh : y2 = x3 + (a2h + b2h)x2 + a2hb2hx.
+This shows that for any positive integer h, the torsion group of Γ ah,bh is Z/ 2Z × Z/ 4Z
+or Z/ 2Z × Z/ 8Z. But, thanks to the proof of [ 3, Proposition 1], for a given pythagorean
+pair (a, b ), the torsion subgroup of Γ ah,bh is isomorphic to Z/ 2Z × Z/ 8Z only when h = 2.
+This completes the proof. q.e.d.
+Theorem 2. The pythagorean pair (a, b ) is a pythapotent pair of degree h if and only if
+the elliptic curve Γah,bh has positive rank over Q.
+The following Lemmas 3, 4 and 5 prepare the proof of Theorem 2. First, we transform
+the curve Γ ah,bh to another curve on which we carry out our calculations.
+3
+
+--- page 4 ---
+
+Lemma 3. If (¯x, ¯y), ¯x ̸= 0 , is a point on the curve Γah,bh, then the point ( ahbh
+¯x , ¯y
+¯x ) is a
+point on the curve
+y2x = ahbh + (a2h + b2h)x + ahbhx2.
+In particular, if (¯x, ¯y) is a rational point, then so is ( ahbh
+¯x , ¯y
+¯x ).
+Proof. If (¯x, ¯y) lies on Γ ah,bh, then ( ¯X, ¯Y , ¯Z) = ( ahbh, ¯y, ¯x) is a point on the projective
+curve
+XY 2 = ahbhZ 3 + (a2h + b2h)XZ 2 + ahbhX 2Z.
+Since ¯x = ¯Z ̸= 0, the point ( ¯X, ¯Y , ¯Z) also satisﬁes the dehomogenized equation
+X
+Z
+( Y
+Z
+) 2
+= ahbh + (a2h + b2h) X
+Z + ahbh
+( X
+Z
+) 2
+.
+Hence, ( ¯X
+¯Z , ¯Y
+¯Z ) = ( ahbh
+¯x , ¯y
+¯x ) is a point on the aﬃne curve
+y2x = ahbh + (a2h + b2h)x + ahbhx2,
+as claimed. q.e.d.
+Let x0 = p
+q be the x-coordinate of a rational point on y2x = ahbh +(a2h +b2h)x+ahbhx2,
+where q = ˜q2 and p = ahbh ·˜p2 for some integers ˜q, ˜p. Then
+ahbh ·y2 · p
+q = ahbh ·y2 · ahbh ·˜p2
+˜q2 = y2 ·
+( ahbh ·˜p
+˜q
+) 2
+= □ .
+Therefore,
+ahbh ·
+(
+ahbh + (a2h + b2h) · p
+q + ahbh · p2
+q2
+)
+= □ ,
+and by clearing square denominators we obtain
+ahbh ·
+(
+ahq + bhp
+)
+·
+(
+ahp + bhq
+)
+= □ ,
+which is surely the case when
+ah ·(ahq + bhp) = □ and bh ·(ahp + bhq) = □ . (1)
+We will now use the group structure on elliptic curves to add p oints. In particular we will
+write [2] P to denote the point P + P .
+Lemma 4. Let P = ( x1, y 1) be a rational point on Γah,bh and let x2 be the x-coordinate
+of the point [2]P . Then, for x0 := ahbh
+x2
+= p
+q we have q = ˜q2 and p = ahbh · ˜p2 for some
+integers ˜q, ˜p, and p and q satisfy (1).
+Proof. By Silverman and Tate [ 7, p. 27] we have
+x2 = (x2
+1 − B)2
+(2y1)2 for B := a2hb2h,
+4
+
+--- page 5 ---
+
+and therefore
+x0 = ahbh
+x2
+= ahbh(
+4x3
+1 + 4Ax2
+1 + 4Bx1
+)
+(x2
+1 − B)2 = p
+q for A := a2h + b2h.
+So, q = □ and p = ahbh ·˜p2 for some integer ˜p.
+Now, for p and q (with a = m2 − n2 and b = 2mn) we obtain
+ah ·(ahq + bhp) = a2h(
+x2
+1 + 2b2h + B
+) 2 = □
+and
+bh ·(ahp + bhq) = b2h(
+x2
+1 + 2a2h + B
+) 2 = □
+which completes the proof. q.e.d.
+The next result gives a relation between rational points on Γ ah,bh with square x-coordinates
+and pythagorean pairs ( k, l ) such that ( ahk, b hl) is a pythagorean pair.
+Lemma 5. Let (a, b ) be a pythagorean pair. Then every pythagorean pair (k, l ) such that
+(ahk, b hl) is a pythagorean pair corresponds to a rational point on Γah,bh whose x-coordinate
+is a square, and vice versa.
+Proof. Let x2 = g2/f 2 be the x-coordinate of a rational point on Γ ah,bh for some rational
+values f and g. Then, by Lemma
+4, ahbh
+x2
+= ahbh·f 2
+g2 , where p = ahbh ·f 2 and q = g2
+satisfy ( 1), i.e., a2hg2 + a2hb2hf 2 = □ and b2hg2 + a2hb2hf 2 = □. So,
+( g
+f
+) 2 + b2h = ρ2 for
+some ρ ∈ Q and
+( g
+f
+) 2 + a2h = □. Let g
+f = 2ρt
+t2+1 and bh = ρ(t2− 1)
+t2+1 . Then ρ = bh(t2+1)
+t2− 1 and
+g
+f = 2bht
+t2− 1 , which gives us
+t = bhf ±
+√
+g2 + b2hf 2
+g .
+Since
+g2 + b2hf 2 = q + b2hp
+ahbh = q + bhp
+ah ,
+by multiplying by a2h we get
+a2h ·(g2 + b2hf 2) = a2h ·q + ahbh ·p = ah(ahq + bhp).
+Hence, by Lemma 4, g2 + b2hf 2 = □ and therefore t is rational, say t = r
+s . Finally, since( g
+f
+) 2 + a2h = □, we obtain
+a2h ·(r2 − s2)2 + b2h ·(2rs)2 = □,
+and for k := r2 − s2, l := 2rs, we ﬁnally get
+(ahk)2 + (bhl)2 = □ where k2 + l2 = □,
+which shows that ( a, b ) is a pythapotent pair of degree h.
+5
+
+--- page 6 ---
+
+Assume now that we ﬁnd a pythagorean pair ( k, l ) such that ( ahk, b hl) is a pythagorean
+pair. Without loss of generality we may assume that k and l are relatively prime. Thus,
+we ﬁnd relatively prime positive integers r and s such that k = r2 − s2 and l = 2rs. With
+r, s, a, b we can compute x2 = b2hl2
+k2 , which is the x-coordinate of a rational point on Γ ah,bh
+whose x-coordinate is obviously a square. q.e.d.
+We are now ready for the proof of the main theorem.
+Proof of Theorem 2. For every rational point P on Γ a,b with square x-coordinate let
+(kP , l P ) be the corresponding pythagorean pair. By Lemma 5 it is enough to show that
+no rational point with square x-coordinate has ﬁnite order. Notice that if P is a point
+of inﬁnite order, then for every integer i, [2 i]P is a rational point on Γ ah,bh with square
+x-coordinate, and not all of the corresponding pythagorean p airs ( k[2i]P , l [2i]P ) can be
+multiples of ( a, b ).
+Let us consider the x-coordinates of the torsion points on the curve Γ ah,bh with h ≥ 3.
+For simplicity, we consider the 8 torsion points on the equiv alent curve
+y2 = ahbh
+x + (a2h + b2h) + ahbhx.
+The two torsion points at inﬁnity are (0 , 1, 0) (which is the neutral element of the group)
+and (1 , 0, 0) (which is a point of order 2). The other two points of order 2 are ( − ah
+bh , 0)
+and ( − bh
+ah , 0), and the four points of order 4, which correspond to the fou r points on
+the curve where the tangent to the curve is parallel to the x-axis, are
+(
+1, ± (ah + bh)
+)
+and
+(
+− 1, ± (ah − bh)
+)
+. The corresponding points on the curve Γ ah,bh are the three points
+(0, 0), ( − b2h, 0) and ( − a2h, 0) of order 2, and the four points
+(
+ahbh, ± ahbh(ah + bh)
+)
+and(
+− ahbh, ± ahbh(ah − bh)
+)
+of order 4. Since x2 is a square, we have that none of the values
+0, − a2h, − b2h, a hbh, − ahbh,
+is a rational square except 0 and possibly ahbh. If x2 = 0, then this implies l = 0, but
+(k, 0) is not a pythagorean pair. If h is odd, ahbh cannot be a square unless ab = □,
+but it is impossible because it is equivalent to the rank 0 con gruent number elliptic curve
+y2 = x3 − x (also see [ 1, p. 175]). Consider now the case when h is even. For the case
+h = 2 see [ 3]. If h ≥ 4, then by some algebra we obtain that l2 = ahb− hk2, and therefore
+(ahk)2 + (bhl)2 = ahk2(ah + bh). Thus, if ( ahk)2 + (bhl)2 = □, then also
+ah + bh = □ .
+However, since h ≥ 4, by [ 2, Main Theorem 2.] this is impossible. Thus, there is no pytha -
+gorean pair ( k, l ) such that ( ahk, b hl) is a pythagorean pair.
+q.e.d.
+Corollary 6. If (a, b ) is a pythapotent pair of degree h, then there are inﬁnitely many
+pythagorean pairs (k, l ), not multiples of each other, such that (ahk, b hl) is a pythagorean
+pair.
+6
+
+--- page 7 ---
+
+Proof. By Theorem 2, there exists a point P on Γ ah,bh of inﬁnite order. Now, for every
+integer i, [2 i]P is a rational point on Γ ah,bh with square x-coordinate, and each of the
+corresponding pythagorean pairs ( k[2i]P , l [2i]P ) can be a multiple of just ﬁnitely many
+other such pythagorean pair. Thus, there are inﬁnitely many integers j, such that the
+pythagorean pairs ( k[2j]P , l [2j]P ) are not multiples of each other. q.e.d.
+Algorithm. The following algorithm describes how to construct pythago rean pairs ( k, l )
+from rational points on Γ ah,bh of inﬁnite order.
+• Let P be a rational point on Γ ah,bh of inﬁnite order and let x2 be the x-coordinate
+of [2] P .
+• Let f and g be relatively prime positive integers such that
+g
+f = √ x2.
+• Let r and s be relatively prime positive integers such that
+r
+s = bhf +
+√
+g2 + b2hf 2
+g .
+• Let k := r2 − s2 and let l := 2rs.
+Then ( ahk, b hl) is a pythagorean pair.
+Examples. For m = 2 and n = 1, let a = m2 − n2 and b = 2mn. Then ( a, b ) = (3 , 4) is a
+pythagorean pair and we have:
+1. For h = 1, 2, 5, 7, 10, the rank of Γ ah,bh is 0. Hence, (3 , 4) is not a pythapotent pair
+of degree h for these h’s.
+2. The curve Γ a3,b3, with torsion group Z/ 2Z × Z/ 4Z, has rank 1 with generator
+P = (− 3888, 50544). The x-coordinate of [2] P is 120 2 which leads to ( k, l ) = (8 , 15)
+with
+(33 ·8)2 + (43 ·15)2 = 984 2.
+3. The curve Γ a4,b4, with torsion group Z/ 2Z × Z/ 4Z, has rank 1 with generator
+P = ( − 11616, 1779360). The x-coordinate of [2] P is
+( 912
+11
+) 2 which leads to ( k, l ) =
+(176, 57) with
+(34 ·176)2 + (44 ·57)2 = 20400 2.
+4. The curve Γ a6,b6, with torsion group Z/ 2Z × Z/ 4Z, has rank 1 with generator
+P =
+( 46022656
+9 , − 678725632000
+27
+)
+. The x-coordinate of [2] P is
+( 3542528
+10335
+) 2 which leads to
+(k, l ) = (82680 , 6919) with
+(36 ·82680)2 + (46 ·6919)2 = 66603976 2.
+7
+
+--- page 8 ---
+
+5. The curve Γ a8,b8, with torsion group Z/ 2Z × Z/ 4Z, has rank 1 with generator
+P =
+(
+7708125201644979550524801024/ 4449714580590446281,
+1277921705702061766209671471345189388288000
+/ 9386382158955136069419053179
+)
+.
+The x-coordinate of [2] P is
+(
+53440130127350994946668083276381874419712
+/ 5167588869543442260000066303720001735
+) 2
+which leads to
+k = 165362843825390152320002121719040055520,
+l = 26093813538745603001302775037295837119
+with
+(38 ·165362843825390152320002121719040055520)2
++ (48 ·26093813538745603001302775037295837119)2
+= 20252147646539970254566247744527362383204162.
+6. The curve Γ a9,b9, with torsion group Z/ 2Z × Z/ 4Z, has rank 2 with generators
+P =
+(
+25081364886334831007139600/ 1571551568609929201,
+41443059164404768152156856423653413183280
+/ 1970121246732012270673366199
+)
+,
+and
+P ′ =
+(
+37016224137216/ 3481, − 626321243401613475840/ 205379
+)
+.
+The x-coordinate of [2] P is
+(
+893146963381147972449638465746558838722398648
+/ 1411411003643292904433293132813004363405
+) 2
+which leads to
+k = 46249115767383421892470149376016526980055040,
+l = 111643370422643496556204808218319854840299831
+with
+(39 ·46249115767383421892470149376016526980055040)2
++ (49 ·111643370422643496556204808218319854840299831)2
+= 292807937742836402481992588960773128319931145584642,
+8
+
+--- page 9 ---
+
+and x-coordinate of [2] P ′ is
+( 33879841085325312
+2390157690995
+) 2 which leads to
+(k′, l ′) = (2390157690995, 129241337148)
+with
+(39 ·2390157690995)2 + (49 ·129241337148)2 = 57975169167761913 2.
+Of course, we can also start with any other rational point on Γ 39,49, e.g., we can
+start with the point Q = P + P ′. The x-coordinate of [2] Q is
+(
+535606775034572770422692764010359062528
+/ 101246892970078905163938616171330325
+) 2
+which leads to
+k = 809975143760631241311508929370642600,
+l = 16345421601396874097372215698558321
+with
+39 ·809975143760631241311508929370642600)2
++ (49 ·16345421601396874097372215698558321)2
+= 165085116920727641497507613832483389447762 .
+Corollary 7. Let (a, b ) is a pythagorean pair with a = m2 − n2 and b = 2 mn such that
+either 5m2 − n2 = □ or m2 + 3mn + n2 = □ . Then (a, b ) is a double-pythapotent pair.
+Proof. One gets the quadratic conditions in the statement by imposi ng each of the points
+with x-coordinates n2(m2 − n2) and mn(m − n)2 on the curve Γ ah,bh respectively. The
+result is now obtained from [ 3, Algorithm 1]. q.e.d.
+Corollary 8. Let (a, b ) is a pythagorean pair with a = m2 − n2 and b = 2mn such that
+(i) − m4 − 4mn3 + n4 = □ , (iii) m4 − 2m3n + 2m2n2 + 2mn3 + n4 = □ ,
+(ii) m4 + 4m2n2 − n4 = □ , (iv) m4 − 2m3n − 2m2n2 − 2mn3 + n4 = □ .
+Then (a, b ) is a quadratic pythapotent pair.
+Proof. The quartic conditions (i)–(iv) are obtained by imposing ea ch of the points with
+x-coordinates − 8m2n4(m + n)2, 8 m4n2(m2 − n2), 8 m3n3(m2 − n2), − 8m3n3(m + n)2, on
+the curve Γ ah,bh respectively. Note that each of the quartic conditions (i)– (iv) is equivalent
+to an elliptic curve of rank one. The result now follows from [ 3, Algorithm 2]. q.e.d.
+Corollary 9. Let (a, b ) is a pythagorean pair with a = m2 − n2 and b = 2mn. Then (a, b )
+is a cubic pythapotent pair.
+9
+
+--- page 10 ---
+
+Proof. Since the curve Γ a3,b3 owns the non-obvious rational point
+P =
+(
+− 16(m2 − n2)2m4n4, 16(m2 − n2)2m4n4(m2 + n2)(m4 − 6m2n2 + n4)
+)
+,
+the result immediately comes from Algorithm 2 as follows. The x-coordinate of the point
+[2]P is (
+2m2n2(m − n)2(n + m)2/ (m2 + n2)
+) 2
+which, by applying Algorithm 2, leads to
+k = 4mn(m2 + n2), l = (m − n)2(n + m)2,
+with
+(a3k)2 + (b3l)2 = (4mn(m4 + n4)(m − n)2(n + m)2)2.
+q.e.d.
+We conclude the paper with two open problems.
+Question 1. Given an arbitrary pythagorean pair (a, b ). Is there an h ≥ 4 such that (a, b )
+is a pythapotent pair of degree h?
+Question 2. Given an arbitrary h ≥ 4. Is there a pythagorean pair (a, b ) which is a
+pythapotent pair of degree h? Or equivalently: Is there a pythagorean pair (a, b ) such that
+Γah,bh has positive rank over Q?
+Declarations of interest: none
+References
+[1] Bernhard Fr´ enicle de Bessy. Memoires de l’Academie royale des sciences , volume
+tome V. La compagnie des libraires, Paris, 1729.
+[2] Henri Darmon and Lo ¨ ıc Merel. Winding quotients and some variants of Fermat’s
+last theorem. Journal f¨ ur die Reine und Angewandte Mathematik. [Crelle’s Journal],
+490:81–100, 1997.
+[3] Lorenz Halbeisen and Norbert Hungerb¨ uhler. Pairing py thagorean pairs. Journal of
+Number Theory, 233:467–480, 2022.
+[4] Lorenz Halbeisen and Norbert Hungerb¨ uhler. Construct ing cubic curves with involu-
+tions. Beitr¨ age zur Algebra und Geometrie / Contributions to Algeb ra and Geometry ,
+63:921–940, 2022.
+[5] Lorenz Halbeisen, Norbert Hungerb¨ uhler, Arman Shamsi Zargar, and Maksym Voznyy.
+A geometric approach to elliptic curves with torsion groups Z/ 10Z, Z/ 12Z, Z/ 14Z,
+and Z/ 16Z. Rad Hrvatske akademije znanosti i umjetnosti. Matematiˇ ck e znanosti ,
+27:87–109, 2023.
+10
+
+--- page 11 ---
+
+[6] Daniel Sion Kubert. Universal bounds on the torsion of el liptic curves. Proceedings of
+the London Mathematical Society (3) , 33(2):193–237, 1976.
+[7] Joseph H. Silverman and John Tate. Rational Points on Elliptic Curves . Springer-
+Verlag, New York, 2nd edition, 2015.
+11

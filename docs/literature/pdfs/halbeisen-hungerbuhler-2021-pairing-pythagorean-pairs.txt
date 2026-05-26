@@ -1,0 +1,595 @@
+--- page 1 ---
+
+arXiv:2101.08163v1  [math.NT]  20 Jan 2021
+Pairing Pythagorean Pairs
+Lorenz Halbeisen
+Department of Mathematics, ETH Zentrum, R¨ amistrasse 101, 8092 Z¨ urich, Switzerland
+lorenz.halbeisen@math.ethz.ch
+Norbert Hungerb¨ uhler
+Department of Mathematics, ETH Zentrum, R¨ amistrasse 101, 8092 Z¨ urich, Switzerland
+norbert.hungerbuehler@math.ethz.ch
+key-words: pythagorean pair, elliptic curve
+2020 Mathematics Subject Classiﬁcation : 11D72 11G05
+Abstract
+A pair ( a, b) of positive integers is a pythagorean pair if a2 + b2 = □ (i.e.,
+a2 + b2 is a square). A pythagorean pair ( a, b) is called a double-pythapotent
+pair if there is another pythagorean pair ( k, l) such that ( ak, bl) is a pytha-
+gorean pair, and it is called a quadratic pythapotent pair if there is another
+pythagorean pair ( k, l) which is not a multiple of ( a, b), such that ( a2k, b2l)
+is a pythagorean pair. To each pythagorean pair ( a, b) we assign an elliptic
+curve Γa,b with torsion group Z/2Z× Z/4Z, such that Γ a,b has positive rank if
+and only if ( a, b) is a double-pythapotent pair. Similarly, to each pythagor ean
+pair (a, b) we assign an elliptic curve Γ a2,b2 with torsion group Z/2Z × Z/8Z,
+such that Γ a2,b2 has positive rank if and only if ( a, b) is a quadratic pytha-
+potent pair. Moreover, in the later case we obtain that every elliptic curve Γ
+with torsion group Z/2Z × Z/8Z is isomorphic to a curve of the form Γ a2,b2,
+where ( a, b) is a pythagorean pair. As a side-result we get that if ( a, b) is
+a double-pythapotent pair, then there are inﬁnitely many py thagorean pairs
+(k, l), not multiples of each other, such that ( ak, bl) is a pythagorean pair; the
+analogous result holds for quadratic pythapotent pairs.
+1 Introduction
+A pair ( a, b) of positive integers is a pythagorean pair if a2 + b2 is a square, denoted
+a2 + b2 = □ . A pythagorean pair ( a, b) is called a double-pythapotent pair if there is
+another pythagorean pair ( k, l) such that ( ak, bl) is a pythagorean pair, i.e.,
+a2 + b2 = □ , k 2 + l2 = □ , and ( ak)2 + (bl)2 = □ .
+Notice that since for positive integers a and b, a4 + b4 is never a square (see [
+3, Oeuvres, I,
+p. 327; III, p. 264], and ( a2, b2) is never a pythagorean pair. Furthermore, a pythagorean
+pair ( a, b) is called a quadratic pythapotent pair if there is another pythagorean pair ( k, l)
+which is not a multiple of ( a, b), such that ( a2k, b2l) is a pythagorean pair, i.e.,
+a2 + b2 = □ , k 2 + l2 = □ , and ( a2k)2 + (b2l)2 = □ .
+1
+
+--- page 2 ---
+
+To each pythagorean pair ( a, b) we assign the elliptic curve
+Γa,b : y2 = x3 + (a2 + b2)x2 + a2b2x ,
+and show that the curve Γ a,b has torsion group isomorphic to Z/2Z × Z/4Z and that
+(a, b) is a double-pythapotent pair if and only if Γ a,b has positive rank. With the points of
+inﬁnite order on the curve Γ a,b, we can generate inﬁnitely many pythagorean pairs ( k, l),
+not multiples of each other, such that ( ak, bl) are pythagorean pairs.
+Similarly, for each pythagorean pair ( a, b), the elliptic curve
+Γa2,b2 : y2 = x3 + (a4 + b4)x2 + a4b4x ,
+has torsion group isomorphic to Z/2Z × Z/8Z and ( a, b) is a quadratic pythapotent pair
+if and only if Γ a2,b2 has positive rank. Moreover, we can show that every elliptic curve
+Γ with torsion group Z/2Z × Z/8Z is isomorphic to a curve of the form Γ a2,b2 for some
+pythagorean pair ( a, b). Similar as above, with the points of inﬁnite order on the cu rve
+Γa2,b2, we can generate inﬁnitely many pythagorean pairs ( k, l), not multiples of each
+other, such that ( a2k, b2l) are pythagorean pairs.
+Remark 1. The results are similar for congruent numbers: To each posit ive integer A we
+can assign an elliptic curve
+ΓA : y2 = x3 − A2x
+with torsion group isomorphic to Z/2Z × Z/2Z such that A is a congruent number if and
+only if Γ A has positive rank. Moreover, with the points of inﬁnite orde r on the curve Γ A,
+we can generate inﬁnitely rational triples ( r, s, t) such that r2 + s2 = t2 and rs
+2 = A (an
+elementary proof of this result is given in [ 2]).
+2 Quadratic Pythapotent Pairs
+In this section we consider quadratic pythapotent pairs — th is case is slightly easier than
+the case with double-pythapotent pairs. First we show that t he curve Γ a2,b2 has torsion
+group isomorphic to Z/2Z × Z/8Z, and then we show how we obtain pythagorean pairs
+(k, l) from a point on Γ a2,b2 with quadratic x-coordinate such that ( a2k, b2l) is a pytha-
+gorean pair.
+Proposition 1. If (a, b) is a pythagorean pair, then the elliptic curve Γa2,b2 has torsion
+group Z/2Z × Z/8Z. Vice versa, if an elliptic curve Γ has torsion group Z/2Z × Z/8Z,
+then there exists a pythagorean pair (a, b) such that Γ is isomorphic to Γa2,b2.
+Proof. Kubert [
+4, p. 217] gives the following parametrization for elliptic c urves with torsion
+group Z/2Z × Z/8Z (see also Rabarison [ 5, 3.14]):
+y2 + (1 − c)xy − ey = x3 − ex2
+for
+τ = ˜m
+˜n , d = τ (8τ + 2)
+8τ 2 − 1 , c = (2d − 1)(d − 1)
+d , e = (2d − 1)(d − 1) .
+2
+
+--- page 3 ---
+
+After a rational transformation we obtain the curve
+y2 = x3 + ˜ax2 + ˜bx
+with
+˜a = 256 ˜m4(2 ˜m + ˜n)4 + (4 ˜m2 − (2 ˜m + ˜n)2)4 and ˜b = 256 ˜m4 ˜n4(2 ˜m + ˜n)4(4 ˜m + ˜n)4 .
+Let m := ˜m and n := 2 ˜m+˜n
+2 . Then we obtain the curve
+y2 = x3 + 28(
+(2mn)4 + (m2 − n2)4)
+)
+x2 + 216(
+(2mn)4 ·(m2 − n2)4)
+x ,
+which is, for a := m2 − n2 and b := 2mn, equivalent to the curve
+Γa2,b2 : y2 = x3 + (a4 + b4)x2 + a4b4x .
+Notice that by deﬁnition of a and b, ( a, b) is a pythagorean pair.
+For the other direction, recall that for every pythagorean p air ( a, b) we ﬁnd positive
+integers λ, m, n such that m and n are relatively prime and {a, b} =
+{
+λ(m2 − n2), λ(2mn)
+}
+.
+So, by the substitutions ˜ m := m and ˜n := 2( n − m), we see that every elliptic curve Γ
+with torsion group Z/2Z × Z/8Z is isomorphic to a curve of the form Γ a2,b2 for some
+pythagorean pair ( a, b). q.e.d.
+Remark 2. Let a := m2 − n2 and b := 2 mn. If we replace m and n by ¯m := m + n
+and ¯n := m − n, respectively, even though we obtain another pythagorean p air (a′, b′), the
+corresponding elliptic curves Γ a2,b2 and Γ ¯a2,¯b2 are equivalent.
+Theorem 2. The pythagorean pair (a, b) is a quadratic pythapotent pair if and only if the
+elliptic curve Γa2,b2 has positive rank.
+In order to prove Theorem 2, we ﬁrst transform the curve Γ a2,b2 to a another curve on
+which we carry out our calculations.
+Lemma 3. If x2 is the x-coordinate of a rational point on Γa2,b2, then
+x0 := a2b2
+x2
+is the x-coordinate of a rational point on the curve
+y2x = a2b2 + (a4 + b4)x + a2b2x2 .
+Proof. We work with homogeneous coordinates ( x, y, z). Consider the following transfor-
+mation: 
+
+x
+y
+z
+
+ :=
+
+
+0 0 1
+0 1 0
+1
+a2b2 0 0
+
+ ·
+
+
+X
+Y
+Z
+
+
+The the point ( x, y, z) belongs to the homogenized curve Γ a2,b2 if and only if the point
+(X, Y, Z) belongs to the curve Y 2X = a2b2Z 3 + (a4 + b4)XZ 2 + a2b2X 2Z. Hence, by
+3
+
+--- page 4 ---
+
+dehomogenizing, we obtain the curve y2x = a2b2 + (a4 + b4)x + a2b2x2, which is equivalent
+to Γ a2,b2, where the rational point ( x2, y2) belongs to Γ a2,b2 if and only if there is a rational
+y′ such that ( x0, y′) belongs to y2x = a2b2 + (a4 + b4)x + a2b2x2. q.e.d.
+Let x0 = p2
+q2 be a rational square and assume that x0 is the x-coordinate of a rational
+point on y2x = a2b2 + (a4 + b4)x + a2b2x2. Then, by dividing through x0 and clearing
+quadratic denominators we obtain
+a2b2 ·q4 + (a4 + b4) ·p2 ·q2 + a2b2 ·p4 = □ ,
+and since
+a2b2 ·q4 + (a4 + b4) ·p2 ·q2 + a2b2 ·p4 = ( a2q2 + b2p2) ·(a2p2 + b2q2) ,
+this is surely the case when
+a2q2 + b2p2 = □ and a2p2 + b2q2 = □ . (1)
+Lemma 4. Let P = ( x1, y1) be a rational point on Γa2,b2 and let x2 be the x-coordinate
+of the point 2 ∗ P . Then x0 := a2b2
+x2
+= p2
+q2 , where p and q satisfy (1).
+Proof. By Silverman and Tate [ 6, p.27],
+x2 = (x2
+1 − B)2
+(2y1)2 for B := a4b4,
+and therefore
+x0 = a2b2
+x2
+= a2b2(2y1)2
+(x2
+1 − B)2 = a2b2(
+4x3
+1 + 4Ax2
+1 + 4Bx1
+)
+(x2
+1 − B)2 = p2
+q2 for A := a4 + b4.
+Now, for p and q (with a = m2 − n2 and b = 2mn) we obtain
+a2q2 + b2p2 = a2(
+a4b4 + 2b4x1 + x2
+1
+) 2 = □
+and
+a2p2 + b2q2 = b2(
+a4b4 + 2a4x1 + x2
+1
+) 2 = □
+which completes the proof. q.e.d.
+The next result gives a relation between rational points on Γ a2,b2 with quadratic x-
+coordinate and pythagorean pairs ( k, l) such that ( a2k, b2l) is a pythagorean pair.
+Lemma 5. Every pythagorean pair (k, l) such that (a2k, b2l) corresponds to a rational
+point on Γa2,b2 with quadratic x-coordinate, and vice versa.
+Proof. Let x2 = □ be the x-coordinate of a rational point on Γ a2,b2. Then, by Lemma
+4,
+a2b2
+x2
+= p2
+q2 , where p and q satisfy ( 1), i.e., a2q2 + b2p2 = □. So, a2
+b2 + p2
+q2 = ρ2 for some
+ρ ∈ Q. In other words, we have
+( a
+b
+) 2
++
+( p
+q
+) 2
+= ρ2 ,
+4
+
+--- page 5 ---
+
+which implies that
+a
+b = 2ρt
+t2 + 1 and p
+q = ρ(t2 − 1)
+t2 + 1 for some t ∈ Q.
+In particular, we have
+ρ = a ·(t2 + 1)
+b ·(2t) .
+Now, since a2p2 + b2q2 = □, we have
+( a
+b
+) 2 +
+( q
+p
+) 2 = □, hence, a2
+b2 + (t2+1)2
+ρ2(t2− 1)2 = □, which
+implies that
+a4 ·(t2 − 1)2 + b4 ·(2t)2 = □ .
+For t = r
+s , we obtain
+a4 ·(r2 − s2)2
+s4 + b4 ·4r2
+s2 = □ ,
+which implies that
+a4 ·(r2 − s2)2 + b4 ·(2rs)2 = □ ,
+and for k := r2 − s2, l := 2rs, we ﬁnally obtain
+(a2k)2 + (b2l)2 = □ where k2 + l2 = □ ,
+which shows that ( a, b) is a quadratic pythapotent pair.
+Assume now that we ﬁnd a pythagorean pair ( k, l) such that ( a2k, b2l) is a pythagorean
+pair. Without loss of generality we may assume that k and l are relatively prime. Thus,
+we ﬁnd relatively prime positive integers r and s such that k = r2 − s2 and l = 2rs. With
+t := r
+s , a, and b, we can compute p and q, and ﬁnally obtain a rational point on Γ a2,b2
+whose x-coordinate is a square. q.e.d.
+We are now ready for the
+Proof of Theorem 2. For every rational point P on Γ a2,b2 with quadratic x-coordinate let
+(kP , lP ) be the corresponding pythagorean pair. By Lemma 5 it is enough to show that
+(kP , lP ) is a multiple of ( a, b) if and only if P is a torsion point. Notice that if P is a
+point of inﬁnite order, then for every integer i, 2 i ∗ P is a rational point on Γ a2,b2 with
+quadratic x-coordinate, and not all of the corresponding pythagorean p air (k2i∗P , l2i∗P can
+be multiples of ( a, b).
+Let us consider the x-coordinates of the torsion points on the curve Γ a2,b2. For simplicity,
+we consider the 16 torsion points on the equivalent curve
+y2 = a2b2
+x + (a4 + b4) + a2b2x .
+The two torsion points at inﬁnity are (0 , 1, 0) (which is the neutral element of the group)
+and (1 , 0, 0) (which is a point of order 2). The other two points of order 2 are ( − a2
+b2 , 0)
+and ( − b2
+a2 , 0), and the two points of order 4 are
+(
+1, ± (a2 + b2)
+)
+. The x-coordinates of the
+other 10 torsion points are m(m+n)
+n(m− n) , n(m− n)
+m(m+n) , − m(m− n)
+n(m+n , − n(m+n)
+m(m− n) , and − 1. Obviously, − 1,
+5
+
+--- page 6 ---
+
+− a2
+b2 , and − b2
+a2 are not squares of rational numbers. Furthermore, 0 would le ad to p = 0,
+q = 1, t = 1, r = 1, s = 0, k = 1 and l = 0, and therefore, ( k, l) is not a pythagorean
+pair. If m(m+n)
+n(m− n) = □, then, by multiplying with n2(m − n)2, also mn(m2 − n2) = □,
+which would imply that A := mn(m2 − n2) is a congruent number with A = □. But
+this is impossible, since otherwise 1 would be a congruent nu mber, which is not the case
+(see also [ 3, Oeuvres, I, p. 340] or [ 7, p. 163] for an annotated version of Fermat’s proof).
+Similarly, one can show that also n(m− n)
+m(m+n) , − m(m− n)
+n(m+n and − n(m+n)
+m(m− n) cannot be squares.
+Thus, the only value of x-coordinates of torsion points on the curve Γ a2,b2 which is a
+square is x = 1. This leads to k = 2 b and l = 2 a, i.e., to the pythagorean pair (2 b, 2a),
+which is a multiple of ( a, b) — notice that for c := a2 + b2, (2 a2b)2 + (2ab2)2 = (2abc)2.
+q.e.d.
+Corollary 6. If (a, b) is a quadratic pythapotent pair, then there are inﬁnitely ma ny
+pythagorean pairs (k, l), not multiples of each other, such that (ak, bl) is a pythagorean
+pair.
+Proof. By Theorem
+2, there exists a point P on Γ a2,b2 of inﬁnite order. Now, for every
+integer i, 2 i ∗ P is a rational point on Γ a2,b2 with quadratic x-coordinate, and each of
+the corresponding pythagorean pairs ( k2i∗P , l2i∗P ) can be a multiple of just ﬁnitely many
+other such pythagorean pair. Thus, there are inﬁnitely many integers j, such that the
+pythagorean pairs ( k2j∗P , l2j∗P ) are not multiples of each other. q.e.d.
+Algorithm 1. The following algorithm decribes how to construct pythagor ean pairs ( k, l)
+from rational points on Γ a2,b2 of inﬁnite order.
+• Let P be a rational point on Γ a2,b2 of inﬁnite order and let x2 be the x-coordinate
+of 2 ∗ P .
+• Let p and q be relatively prime positive integers such that
+q
+p =
+√ x2
+ab .
+• Let r and s be relatively prime positive integers such that
+r
+s = bp +
+√
+a2q2 + b2p2
+aq .
+• Let k := r2 − s2 and let l := 2rs.
+Then ( a2k, b2l) is a pythagorean pair.
+3 Double-Pythapotent Pairs
+Below we consider double-pythapotent pairs. As above, we ﬁr st show that the curve Γ a,b
+has torsion group isomorphic to Z/2Z × Z/4Z, and then we show how we obtain pytha-
+gorean pairs ( k, l) from a point on Γ a,b with quadratic x-coordinate such that ( ak, bl) is a
+pythagorean pair. Since the calculations are similar, we sh all omit the details.
+6
+
+--- page 7 ---
+
+Proposition 7. If (a, b) is a pythagorean pair, then the elliptic curve
+Γa,b : y2 = x3 + (a2 + b2)x2 + a2b2x ,
+has torsion group Z/2Z × Z/4Z.
+Proof. Kubert [4, p. 217] gives the following parametrization for elliptic c urves with torsion
+group Z/2Z × Z/4Z:
+y2 + xy − ey = x3 − ex2
+for
+e = v2 − 1
+16 where v ̸= 0, ± 1
+4 .
+After a rational transformation we obtain the curve
+y2 = x3 + ˜ax2 + ˜bx
+with
+˜a = 2 ·(16v2 + 1) and ˜b = (16v2 − 1)2 .
+For v = p
+q , a = m2 − n2, b = 2 mn, let p := 1
+8 (a − b) and q := 1
+2 (a + b). Then the curve
+y2 + xy − ey = x3 − ex2 is equivalent to the curve
+Γa,b : y2 = x3 + (a2 + b2)x2 + a2b2x .
+q.e.d.
+Remark 3. Notice that there are p and q which are not of the above form, which implies
+that there are curves with torsion group Z/2Z × Z/4Z which are not equivalent to some
+curve Γ a,b.
+Theorem 8. The pythagorean pair (a, b) is a double-pythapotent pair if and only if the
+elliptic curve Γa,b has positive rank.
+In order to prove Theorem 8, we again transform the curve Γ a,b to a another curve on
+which we carry out our calculations.
+Lemma 9. If x2 is the x-coordinate of a rational point on Γa,b, then
+x0 := ab
+x2
+is the x-coordinate of a rational point on the curve
+y2x = ab + (a2 + b2)x + abx2 .
+Proof. We can just follow the proof of Lemma 3, using the transformation
+
+
+0 0 1
+0 1 0
+1
+ab 0 0
+
+ .
+7
+
+--- page 8 ---
+
+q.e.d.
+Let x0 = p
+q be the x-coordinate of a rational point on y2x = ab + (a2 + b2)x + abx2,
+where q = ˜q2 and p = ab ·˜p2 for some integers ˜q, ˜p. Then
+ab ·y2 · p
+q = ab ·y2 · ab˜p2
+˜q2 = y2 ·
+( ab ·˜p
+˜q
+) 2
+= □ .
+Therefore,
+ab ·
+(
+ab + (a2 + b2) · p
+q + ab · p2
+q2
+)
+= □ ,
+and by clearing quadratic denominators we obtain
+ab ·
+(
+aq + bp
+)
+·
+(
+ap + bq
+)
+= □ ,
+which is surely the case when
+a ·(aq + bp) = □ and b ·(ap + bq) = □ . (2)
+Lemma 10. Let P = (x1, y1) be a rational point on Γa,b and let x2 be the x-coordinate of
+the point 2 ∗ P . Then x0 := ab
+x2
+= p
+q , where q = ˜q2 and p = ab · ˜p2 for some integers ˜q, ˜p
+and p and q satisfy (2).
+Proof. By Silverman and Tate [ 6, p.27],
+x2 = (x2
+1 − B)2
+(2y1)2 for B := a4b4,
+and therefore
+x0 = ab
+x2
+= ab
+(
+4x3
+1 + 4Ax2
+1 + 4Bx1
+)
+(x2
+1 − B)2 = p
+q for A := a4 + b4.
+So, q = □ and p = ab ·˜p2 for some integer ˜p.
+Now, for x1 = u
+v and x0 = p
+q (with a = m2 − n2 and b = 2mn) we obtain
+a ·(aq + bp) = 1
+v4
+(
+a2 ·
+(
+a2b2v2 + u(u + 2b2v)
+) ) 2
+= □
+and
+b ·(ap + bq) = 1
+v4
+(
+b2 ·
+(
+a2b2v2 + u(u + 2a2v)
+) ) 2
+= □
+which completes the proof. q.e.d.
+The next result gives a relation between rational points on Γ a,b with quadratic x-
+coordinate and pythagorean pairs ( k, l) such that ( a2k, b2l) is a pythagorean pair.
+Lemma 11. Every pythagorean pair (k, l) such that (a2k, b2l) is a pythagorean pair cor-
+responds to a rational point on Γa,b with quadratic x-coordinate, and vice versa.
+8
+
+--- page 9 ---
+
+Proof. Let x2 = □ be the x-coordinate of a rational point on Γ a,b. Then, by Lemma 10,
+ab
+x2
+= ab·f 2
+g2 , where p = ab · f 2 and q = g2 satisfy ( 2), i.e., a2g2 + a2b2f 2 = □. So,
+( g
+f
+) 2 + b2 = ρ2 for some ρ ∈ Q and
+( g
+f
+) 2 + a2 = □. Let g
+f = 2ρt
+t2+1 and b = ρ(t2− 1)
+t2+1 . Then
+ρ = b(t2+1)
+t2− 1 and g
+f = 2bt
+t2− 1 , which gives us
+t = bf ±
+√
+g2 + b2f 2
+g .
+Since
+g2 + b2f 2 = q + b2p
+ab = q + bp
+a ,
+by multiplying with a2 we get
+a2 ·(g2 + b2f 2) = a2 ·q + ab ·p = a(aq + bp) .
+Hence, by Lemma 10, g2 + b2f 2 = □ and therefore t is rational, say t = r
+s . Finally, since( g
+f
+) 2 + a2 = □, we obtain
+a2 ·(r2 − s2)2 + b2 ·(2rs)2 = □ ,
+and for k := r2 − s2, l := 2rs, we ﬁnally get
+(ak)2 + (bl)2 = □ where k2 + l2 = □ ,
+which shows that ( a, b) is a double-pythapotent pair.
+Assume now that we ﬁnd a pythagorean pair ( k, l) such that ( ak, bl) is a pythagorean
+pair. Without loss of generality we may assume that k and l are relatively prime. Thus,
+we ﬁnd relatively prime positive integers r and s such that k = r2 − s2 and l = 2rs. With
+t := r
+s , a, and b, we can compute p and q, and ﬁnally obtain a rational point on Γ a,b whose
+x-coordinate is a square. q.e.d.
+We are now ready for the
+Proof of Theorem 8. For every rational point P on Γ a,b with quadratic x-coordinate let
+(kP , lP ) be the corresponding pythagorean pair. By Lemma 11 it is enough to show that
+no rational point with quadratic x-coordinate has ﬁnite order.
+Let us consider the x-coordinates of the torsion points on the curve Γ a,b. For simplicity,
+we consider the 8 torsion points on the equivalent curve
+y2 = ab
+x + (a2 + b2) + abx .
+The two torsion points at inﬁnity are (0 , 1, 0) (which is the neutral element of the group)
+and (1, 0, 0) (which is a point of order 2). The other two points of order 2 are ( − a
+b , 0) and
+(− b
+a , 0), and the four points of order 4 are
+(
+1, ± (a + b)
+)
+and
+(
+− 1, ± (a − b)
+)
+. Now, we have
+that none of the values
+1
+ab , − 1
+ab , − a
+b
+ab = − 1
+b2 , − b
+a
+ab = − 1
+a2 ,
+9
+
+--- page 10 ---
+
+is a rational square. For example, if 1
+ab = □, then ab = □, and since b = 2mn, this implies
+that ab = 4 ·□. So, we have ab
+2 = 2 ·□, which is impossible (see [ 1, p. 175]). Thus, there
+is no pythagorean pair ( k, l) such that ( ak, bl) is a pythagorean pair. q.e.d.
+Similar as above, we get the following
+Corollary 12. If (a, b) is a double-pythapotent pair, then there are inﬁnitely many pytha-
+gorean pairs (k, l), not multiples of each other, such that (ak, bl) is a pythagorean pair.
+Remark 4. Let (a, b) be a double-pythapotent pair and let ( k1, l1) be a pythagorean pair
+such that ( ak1, bl1) is a pythagorean pair. Then ( k1, l1) is a double-pythapotent pair and
+we ﬁnd a pythagorean pair ( k2, l2), which is not a multiple of ( a, b) such that ( k1k2, l1l2) is
+a pythagorean pair, which implies that ( k2, l2) is a double-pythapotent pair. Proceeding
+this way, we can construct an inﬁnite family of double-pytha potent pairs which are not
+multiples of each other.
+Algorithm 2. The following algorithm decribes how to construct pythagor ean pairs ( k, l)
+from rational points on Γ a,b of inﬁnite order.
+• Let P be a rational point on Γ a,b of inﬁnite order and let x2 be the x-coordinate of
+2 ∗ P .
+• Let f and g be relatively prime positive integers such that
+g
+f = √ x2 .
+• Let r and s be relatively prime positive integers such that
+r
+s = bf +
+√
+g2 + b2f 2
+g .
+• Let k := r2 − s2 and let l := 2rs.
+Then ( ak, bl) is a pythagorean pair.
+References
+[1] Bernhard Fr´ enicle de Bessy.Memoires de l’Academie royale des sciences , volume tome
+V. La compagnie des libraires, Paris, 1729.
+[2] Lorenz Halbeisen and Norbert Hungerb¨ uhler. A theorem o f Fermat on congruent
+number curves. Hardy-Ramanujan Journal, 41:15–21, 2018.
+[3] Charles Henry and Paul Tannery. Œuvres de Fermat , volume I–III. Gauthier-Villars
+et Fils, Paris, 1891.
+[4] Daniel Sion Kubert. Universal bounds on the torsion of el liptic curves. Proceedings of
+the London Mathematical Society (3) , 33(2):193–237, 1976.
+10
+
+--- page 11 ---
+
+[5] F. Patrick Rabarison. Structure de torsion des courbes e lliptiques sur les corps quadra-
+tiques. Acta Arith., 144(1):17–52, 2010.
+[6] Joseph H. Silverman and John Tate. Rational Points on Elliptic Curves . Springer-
+Verlag, New York, 2nd edition, 2015.
+[7] Hieronymus Georg Zeuthen and Raphael Meyer. Geschichte der Mathematik im
+XVI. und XVII. Jahrhundert . B.G. Teubner, Leipzig, 1903.
+11
