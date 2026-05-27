@@ -214,6 +214,45 @@ uv run pytest tests/test_proof_status.py tests/test_ab_sieve_benchmark.py tests/
 - 现在默认只比较 3 个 core 层
 - split 模式只在你想回头看旧诊断问题时才需要
 
+## `max_hyp=10000` 实跑复核
+
+在这轮代码落地并过完回归测试之后，我又按和 wl041 同一条主路径重跑了一次
+`proof_status` 的 `max_hyp=10000`。
+
+命令：
+
+```bash
+/usr/bin/time -p uv run python scripts/prove_no_solution.py \
+    --max-hyp 10000 \
+    --db /tmp/proof_status_10k_opt.sqlite3 \
+    --workers 10 \
+    --commit-every 2000 \
+    --no-progress
+```
+
+结果：
+
+- `real 44.76s`
+- `user 58.65s`
+- `sys 12.07s`
+
+输出计数保持不变：
+
+- `no_solution = 2,512,731`
+- `hard_case = 326`
+- `solution_found = 0`
+
+和前一轮记下来的 `10k / 10 workers` 基线相比：
+
+- 旧基线：`87.91s real`
+- 新结果：`44.76s real`
+- 绝对减少：`43.15s`
+- wall time 降幅：约 `49.1%`
+- 相对提速：约 `1.96x`
+
+这说明这轮优化不是只在 micro-benchmark 里好看，而是已经落到了真正的
+`proof_status` 大样本主路径上。
+
 ## 边界
 
 这轮仍然守住两条边界。
@@ -264,5 +303,8 @@ factor_concordant / f2_rank / benchmark split 方法都开始共享 concordant N
 AB sieve 默认 benchmark 也按最新结论收口成 3 层 / 6 排序。
 ```
 
-这条 log 先记录“代码和测试已经到位”。
-接下来的单独动作，就是在这份代码上重新跑一次 `max_hyp=10000`，只看当前最快路径到底把 wall time 压到了哪里。
+这条 log 现在已经同时记下三件事：
+
+- 代码改动已经落地
+- 回归测试已经通过
+- `max_hyp=10000` 的主路径复跑已经确认 wall time 从 `87.91s` 压到 `44.76s`
