@@ -9,6 +9,7 @@ from rational_distance.proof_status.methods import (
     run_brauer_manin_stub,
     run_chabauty_stub,
     run_chain_closure_mod_sieve,
+    run_f2_rank,
     run_factor_concordant,
     run_heegner_height,
     run_rank_zero,
@@ -93,42 +94,7 @@ def run_multi_n_sieve_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
 
 
 def run_f2_rank_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
-    started = time.perf_counter()
-    ns = _get_concordant_n(A, B, ctx)
-    if len(ns) < 2:
-        return MethodResult(
-            method="f2_rank",
-            outcome="skipped",
-            details={
-                "reason": "need_at_least_two_concordant_n",
-                "concordant_n_count": len(ns),
-            },
-            elapsed_s=time.perf_counter() - started,
-            notes=f"Skipped: only {len(ns)} concordant N (need >=2 for F2-rank).",
-        )
-
-    from rational_distance.concordant.two_descent_rank import (
-        f2_rank_of_concordant_pair,
-    )
-
-    f2_result = f2_rank_of_concordant_pair(A, B, ns)
-    elapsed = time.perf_counter() - started
-    rank_floor = max(0, f2_result.f2_rank - 2)
-    details: dict[str, object] = {
-        "f2_rank": f2_result.f2_rank,
-        "k": len(ns),
-        "saturated": f2_result.f2_rank == len(ns),
-        "rank_lower": rank_floor if rank_floor > 0 else None,
-    }
-    if f2_result.minimal_relation is not None:
-        details["minimal_relation"] = list(f2_result.minimal_relation)
-    return MethodResult(
-        method="f2_rank",
-        outcome="pass",
-        details=details,
-        elapsed_s=elapsed,
-        notes=f"F2-rank={f2_result.f2_rank} with k={len(ns)}.",
-    )
+    return run_f2_rank(A, B, concordant_n=_get_concordant_n(A, B, ctx))
 
 
 def run_rank_zero_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
@@ -139,8 +105,8 @@ def run_heegner_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
     return run_heegner_height(A, B)
 
 
-def run_factor_concordant_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_factor_concordant(A, B)
+def run_factor_concordant_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
+    return run_factor_concordant(A, B, concordant_n=_get_concordant_n(A, B, ctx))
 
 
 def run_chabauty_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:

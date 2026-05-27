@@ -29,7 +29,7 @@ from math import isqrt
 
 from rational_distance.concordant.chain_closure_sieve import (
     DEFAULT_PRIME_SQUARE_MODULI,
-    all_killer_moduli,
+    find_killer_modulus,
 )
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
@@ -114,27 +114,32 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
     kills **~99.6%** of those hard_case pairs in well under a second total.
     """
     started = time.perf_counter()
-    killer_moduli = all_killer_moduli(A, B, DEFAULT_PRIME_SQUARE_MODULI)
+    killer = find_killer_modulus(A, B, DEFAULT_PRIME_SQUARE_MODULI)
     elapsed = time.perf_counter() - started
 
+    moduli_tested = list(DEFAULT_PRIME_SQUARE_MODULI)
+    killer_moduli: list[int]
+    if killer is None:
+        killer_moduli = []
+    else:
+        killer_moduli = [killer]
+        moduli_tested = moduli_tested[: moduli_tested.index(killer) + 1]
+
     details: dict[str, object] = {
-        "moduli_tested": list(DEFAULT_PRIME_SQUARE_MODULI),
+        "moduli_tested": moduli_tested,
         "killer_moduli": killer_moduli,
         "n_killers": len(killer_moduli),
     }
 
     if killer_moduli:
         smallest = killer_moduli[0]
-        extra = (
-            f" (also mod {killer_moduli[1:]})" if len(killer_moduli) > 1 else ""
-        )
         return MethodResult(
             method="chain_closure_mod_sieve",
             outcome="no_solution",
             details=details,
             elapsed_s=elapsed,
             notes=(
-                f"Chain closure obstructed mod {smallest}{extra}: "
+                f"Chain closure obstructed mod {smallest}: "
                 "T ∩ ((A+B)-T) = ∅."
             ),
         )
@@ -156,7 +161,12 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
 # ---------------------------------------------------------------------------
 
 
-def run_factor_concordant(A: int, B: int) -> MethodResult:
+def run_factor_concordant(
+    A: int,
+    B: int,
+    *,
+    concordant_n: list[int] | None = None,
+) -> MethodResult:
     """Enumerate every concordant N via factor decomposition and test chain closure.
 
     The factor enumeration is provably exhaustive (see
@@ -172,7 +182,7 @@ def run_factor_concordant(A: int, B: int) -> MethodResult:
       that gap is necessary).
     """
     started = time.perf_counter()
-    Ns = find_concordant_by_factorization(A, B)
+    Ns = concordant_n if concordant_n is not None else find_concordant_by_factorization(A, B)
     chain_ok = [N for N in Ns if _check_chain_compatibility(A, B, N)]
     elapsed = time.perf_counter() - started
 
@@ -448,7 +458,12 @@ def run_heegner_stub(A: int, B: int) -> MethodResult:
 # ---------------------------------------------------------------------------
 
 
-def run_f2_rank(A: int, B: int) -> MethodResult:
+def run_f2_rank(
+    A: int,
+    B: int,
+    *,
+    concordant_n: list[int] | None = None,
+) -> MethodResult:
     """Compute the F₂-rank of half-point 2-descent images for concordant N.
 
     This is a millisecond-scale, PARI-free *lower bound* on the
@@ -474,7 +489,7 @@ def run_f2_rank(A: int, B: int) -> MethodResult:
     F₂-rank on a single half-point is not informative).
     """
     started = time.perf_counter()
-    Ns = find_concordant_by_factorization(A, B)
+    Ns = concordant_n if concordant_n is not None else find_concordant_by_factorization(A, B)
     if len(Ns) < 2:
         return MethodResult(
             method="f2_rank",

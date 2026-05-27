@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable, Iterable
 from pathlib import Path
 
 import pytest
@@ -97,6 +98,30 @@ class TestChainClosureModSieve:
         assert isinstance(killer_moduli, list)
         assert 9 in killer_moduli  # smallest known killer for (7, 45)
 
+    def test_stops_after_first_killer_modulus(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import rational_distance.concordant.chain_closure_sieve as chain_closure_sieve
+        import rational_distance.proof_status.methods as methods
+
+        calls: list[int] = []
+
+        def fake_killed_at_modulus(A: int, B: int, M: int) -> bool:
+            assert (A, B) == (7, 45)
+            calls.append(M)
+            if M == 9:
+                return True
+            raise AssertionError(f"should stop after first killer, but tested mod {M}")
+
+        monkeypatch.setattr(methods, "DEFAULT_PRIME_SQUARE_MODULI", (9, 25, 49))
+        monkeypatch.setattr(chain_closure_sieve, "killed_at_modulus", fake_killed_at_modulus)
+
+        result = methods.run_chain_closure_mod_sieve(7, 45)
+
+        assert result.outcome == "no_solution"
+        assert calls == [9]
+        assert result.details["killer_moduli"] == [9]
+
     def test_sieve_is_sound_does_not_kill_real_candidate(self):
         """Soundness: the sieve must never reject a pair that actually has
         a chain solution.
@@ -139,13 +164,13 @@ class TestChainClosureModSieve:
                     pass
 
     def test_default_moduli_are_prime_squares(self):
+        from math import isqrt
+
         from rational_distance.concordant.chain_closure_sieve import (
             DEFAULT_PRIME_SQUARE_MODULI,
         )
 
         # 全是 p² 形式，且 p ∈ [3, 53]
-        from math import isqrt
-
         for M in DEFAULT_PRIME_SQUARE_MODULI:
             p = isqrt(M)
             assert p * p == M, f"{M} 不是完全平方"
@@ -536,6 +561,58 @@ class TestWorkflow:
         ).fetchone()[0]
         assert after == before + 1  # safe_sieve attempted once more
 
+    def test_process_pair_reuses_factor_search_between_factor_and_f2(
+        self,
+        tmp_path: Path,
+        f2_rank_pipeline,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+        from rational_distance.proof_status import schema, workflow
+
+        observed = {"calls": 0}
+
+        def counting_find(A: int, B: int) -> list[int]:
+            observed["calls"] += 1
+            return find_concordant_by_factorization(A, B)
+
+        monkeypatch.setattr(workflow, "find_concordant_by_factorization", counting_find)
+
+        db = tmp_path / "reuse.sqlite3"
+        conn = schema.connect_db(db)
+        schema.init_schema(conn)
+
+        status = workflow.process_pair(
+            conn,
+            9269,
+            24255,
+            workflow.WorkflowConfig(methods=f2_rank_pipeline),
+        )
+
+        assert status.status == "hard_case"
+        assert observed["calls"] == 1
+
+    def test_compute_pair_status_reuses_factor_search_between_factor_and_f2(
+        self,
+        f2_rank_pipeline,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        from rational_distance.concordant.factor_search import find_concordant_by_factorization
+        from rational_distance.proof_status import workflow
+
+        observed = {"calls": 0}
+
+        def counting_find(A: int, B: int) -> list[int]:
+            observed["calls"] += 1
+            return find_concordant_by_factorization(A, B)
+
+        monkeypatch.setattr(workflow, "find_concordant_by_factorization", counting_find)
+
+        result = workflow.compute_pair_status(9269, 24255, f2_rank_pipeline)
+
+        assert result.final_status == "hard_case"
+        assert observed["calls"] == 1
+
     def test_f2_rank_pipeline_records_rank_lower_for_multi_n(
         self, tmp_path: Path, f2_rank_pipeline
     ):
@@ -580,3 +657,49 @@ class TestWorkflow:
         counts = schema.status_counts(conn)
         assert counts["no_solution"] == 2
         assert counts["hard_case"] == 1
+
+    def test_parallel_path_disables_result_collection(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import rational_distance.parallel as parallel
+        from rational_distance.proof_status import schema, workflow
+
+        observed: dict[str, object] = {}
+
+        def fake_parallel_map(
+            fn: Callable[[tuple[int, int]], object],
+            items: Iterable[tuple[int, int]],
+            *,
+            workers: int | None = None,
+            chunksize: int = 50,
+            on_result: Callable[[object], None] | None = None,
+            ordered: bool = False,
+            collect_results: bool = True,
+        ) -> list[object]:
+            observed["workers"] = workers
+            observed["chunksize"] = chunksize
+            observed["ordered"] = ordered
+            observed["collect_results"] = collect_results
+            for item in items:
+                result = fn(item)
+                if on_result is not None:
+                    on_result(result)
+            return []
+
+        monkeypatch.setattr(parallel, "parallel_map", fake_parallel_map)
+
+        db = tmp_path / "parallel.sqlite3"
+        conn = schema.connect_db(db)
+        schema.init_schema(conn)
+
+        counts = workflow.process_pairs_parallel(
+            conn,
+            [(1, 5), (1, 3)],
+            workers=2,
+            commit_every=1,
+        )
+
+        assert observed["workers"] == 2
+        assert observed["ordered"] is False
+        assert observed["collect_results"] is False
+        assert counts["no_solution"] == 2

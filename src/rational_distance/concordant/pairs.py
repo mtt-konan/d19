@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from math import ceil, gcd, sqrt
 
 from rational_distance.math_utils import primitive_pythagorean_triples
 
 
-def generate_ab_pairs(max_hyp: int = 500) -> list[tuple[int, int]]:
-    """Generate all primitive (A, B) pairs from triple-pair parameterisation."""
+def iter_ab_pairs(max_hyp: int = 500) -> Iterator[tuple[int, int]]:
     max_m = ceil(sqrt(max_hyp)) + 1
     triples = [
         (a, b, c)
@@ -28,7 +28,12 @@ def generate_ab_pairs(max_hyp: int = 500) -> list[tuple[int, int]]:
             if a > b:
                 a, b = b, a
 
-            if (a, b) not in seen:
-                seen.add((a, b))
+            if (a, b) in seen:
+                continue
+            seen.add((a, b))
+            yield (a, b)
 
-    return sorted(seen)
+
+def generate_ab_pairs(max_hyp: int = 500) -> list[tuple[int, int]]:
+    """Generate all primitive (A, B) pairs from triple-pair parameterisation."""
+    return sorted(iter_ab_pairs(max_hyp))

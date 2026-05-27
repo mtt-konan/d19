@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+from itertools import islice
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -14,6 +15,19 @@ sys.path.insert(0, str(ROOT / "src"))
 
 class TestPairGenerator:
     """Tests for the (A, B) pair generator."""
+
+    def test_iter_ab_pairs_yields_normalized_unique_prefix(self):
+        from math import gcd
+
+        from rational_distance.concordant.pairs import iter_ab_pairs
+
+        pairs = list(islice(iter_ab_pairs(100), 20))
+
+        assert pairs
+        assert len(pairs) == len(set(pairs))
+        for a, b in pairs:
+            assert a <= b
+            assert gcd(a, b) == 1
 
     def test_returns_sorted_list(self):
         from rational_distance.pair_generator import generate_ab_pairs

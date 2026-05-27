@@ -3,8 +3,9 @@ from __future__ import annotations
 import itertools
 import time
 from collections import Counter, defaultdict
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
+from typing import TypeAlias
 
 from rational_distance.parallel import ParallelConfig
 from rational_distance.proof_status.ab_sieve_methods import (
@@ -17,11 +18,50 @@ from rational_distance.proof_status.types import MethodResult
 CORE_METHOD_NAMES: tuple[str, ...] = (
     "safe_sieve",
     "chain_closure_mod_sieve",
-    "concordant_search",
-    "multi_n_sieve",
+    "factor_concordant",
 )
 TAIL_METHOD_NAMES: tuple[str, ...] = ("f2_rank", "rank_zero", "heegner")
 FULL_METHOD_NAMES: tuple[str, ...] = CORE_METHOD_NAMES + TAIL_METHOD_NAMES
+HEAD_VALIDATION_ORDERS: tuple[tuple[str, ...], ...] = (
+    (
+        "safe_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve",
+    ),
+    (
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "safe_sieve",
+    ),
+    (
+        "concordant_search",
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+    ),
+    (
+        "multi_n_sieve",
+        "safe_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve",
+    ),
+)
+SAFE_TOP2_ORDERS: tuple[tuple[str, ...], ...] = (
+    (
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+    ),
+    (
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "multi_n_sieve",
+    ),
+)
 
 
 @dataclass(frozen=True)
@@ -111,14 +151,18 @@ class OrderBenchmarkSummary:
         }
 
 
-def build_core_order_specs() -> list[OrderSpec]:
+PairSource: TypeAlias = Iterable[tuple[int, int]] | Callable[[], Iterable[tuple[int, int]]]
+
+
+def build_core_order_specs(prefix: tuple[str, ...] = ()) -> list[OrderSpec]:
+    remaining = tuple(name for name in CORE_METHOD_NAMES if name not in prefix)
     return [
         OrderSpec(
-            name="core__" + "__".join(perm),
-            method_names=perm,
+            name="core__" + "__".join((*prefix, *perm)),
+            method_names=(*prefix, *perm),
             category="core",
         )
-        for perm in itertools.permutations(CORE_METHOD_NAMES)
+        for perm in itertools.permutations(remaining)
     ]
 
 
@@ -152,6 +196,28 @@ def build_full_order_specs() -> list[OrderSpec]:
             category="full",
         )
         for perm in itertools.permutations(FULL_METHOD_NAMES)
+    ]
+
+
+def build_head_validation_specs() -> list[OrderSpec]:
+    return [
+        OrderSpec(
+            name="head__" + "__".join(method_names),
+            method_names=method_names,
+            category="head",
+        )
+        for method_names in HEAD_VALIDATION_ORDERS
+    ]
+
+
+def build_safe_top2_specs() -> list[OrderSpec]:
+    return [
+        OrderSpec(
+            name="safe_top2__" + "__".join(method_names),
+            method_names=method_names,
+            category="safe_top2",
+        )
+        for method_names in SAFE_TOP2_ORDERS
     ]
 
 
@@ -196,8 +262,21 @@ def evaluate_pair_in_order(A: int, B: int, spec: OrderSpec) -> PairBenchmarkResu
     )
 
 
-def _make_batches(pairs: list[tuple[int, int]], batch_size: int) -> list[list[tuple[int, int]]]:
-    return [pairs[i:i + batch_size] for i in range(0, len(pairs), batch_size)]
+def _iter_pairs(pairs: PairSource) -> Iterable[tuple[int, int]]:
+    if callable(pairs):
+        return pairs()
+    return pairs
+
+
+def _make_batches(pairs: Iterable[tuple[int, int]], batch_size: int) -> Iterable[list[tuple[int, int]]]:
+    batch: list[tuple[int, int]] = []
+    for pair in pairs:
+        batch.append(pair)
+        if len(batch) >= batch_size:
+            yield batch
+            batch = []
+    if batch:
+        yield batch
 
 
 def _worker_run_batch(
@@ -210,11 +289,10 @@ def _worker_run_batch(
 def benchmark_specs(
     *,
     specs: Iterable[OrderSpec],
-    pairs: list[tuple[int, int]],
+    pairs: PairSource,
     parallel: ParallelConfig,
     batch_size: int,
 ) -> list[OrderBenchmarkSummary]:
-    batches = _make_batches(pairs, batch_size)
     summaries: list[OrderBenchmarkSummary] = []
     with parallel.executor() as executor:
         for spec in specs:
@@ -231,7 +309,7 @@ def benchmark_specs(
             started = time.perf_counter()
             _ = executor.map(
                 _worker_run_batch,
-                ((spec, batch) for batch in batches),
+                ((spec, batch) for batch in _make_batches(_iter_pairs(pairs), batch_size)),
                 on_result=_handle,
                 collect_results=False,
             )
@@ -243,6 +321,8 @@ def benchmark_specs(
 __all__ = [
     "CORE_METHOD_NAMES",
     "FULL_METHOD_NAMES",
+    "HEAD_VALIDATION_ORDERS",
+    "SAFE_TOP2_ORDERS",
     "TAIL_METHOD_NAMES",
     "OrderBenchmarkSummary",
     "OrderSpec",
@@ -250,8 +330,10 @@ __all__ = [
     "benchmark_specs",
     "build_core_order_specs",
     "build_full_order_specs",
+    "build_head_validation_specs",
     "build_incremental_specs",
     "build_legacy_baseline_spec",
+    "build_safe_top2_specs",
     "build_tail_order_specs",
     "evaluate_pair_in_order",
 ]

@@ -20,6 +20,8 @@ import sqlite3
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 
+from rational_distance.concordant.factor_search import find_concordant_by_factorization
+from rational_distance.proof_status import methods as proof_methods
 from rational_distance.proof_status import schema as schema
 from rational_distance.proof_status.methods import DEFAULT_METHOD_PIPELINE, MethodFn
 from rational_distance.proof_status.types import MethodResult, PairProofStatus
@@ -108,6 +110,27 @@ def _aggregate_details(
     }
 
 
+def _run_method_with_concordant_cache(
+    method_fn: MethodFn,
+    A: int,
+    B: int,
+    get_concordant_n: Callable[[], list[int]],
+) -> MethodResult:
+    if method_fn is proof_methods.run_factor_concordant:
+        return proof_methods.run_factor_concordant(
+            A,
+            B,
+            concordant_n=get_concordant_n(),
+        )
+    if method_fn is proof_methods.run_f2_rank:
+        return proof_methods.run_f2_rank(
+            A,
+            B,
+            concordant_n=get_concordant_n(),
+        )
+    return method_fn(A, B)
+
+
 def process_pair(
     conn: sqlite3.Connection,
     A: int,
@@ -134,13 +157,20 @@ def process_pair(
     rank_upper = existing.rank_upper if existing else None
     concordant_n_count = existing.concordant_n_count if existing else None
     chain_compatible_count = existing.chain_compatible_count if existing else None
+    concordant_n_cache: list[int] | None = None
 
     terminal_status: str | None = None
     terminal_method: str | None = None
     terminal_notes: str = ""
 
+    def _get_concordant_n() -> list[int]:
+        nonlocal concordant_n_cache
+        if concordant_n_cache is None:
+            concordant_n_cache = find_concordant_by_factorization(A, B)
+        return concordant_n_cache
+
     for method_name, method_fn in config.methods:
-        result = method_fn(A, B)
+        result = _run_method_with_concordant_cache(method_fn, A, B, _get_concordant_n)
         # Defensive: methods may forget to set the name; trust the registry.
         if result.method != method_name:
             result = MethodResult(
@@ -264,6 +294,7 @@ def compute_pair_status(
     rank_upper: int | None = None
     concordant_n_count: int | None = None
     chain_compatible_count: int | None = None
+    concordant_n_cache: list[int] | None = None
 
     method_results: list[MethodResult] = []
 
@@ -271,8 +302,14 @@ def compute_pair_status(
     terminal_method: str | None = None
     terminal_notes: str = ""
 
+    def _get_concordant_n() -> list[int]:
+        nonlocal concordant_n_cache
+        if concordant_n_cache is None:
+            concordant_n_cache = find_concordant_by_factorization(A, B)
+        return concordant_n_cache
+
     for method_name, method_fn in methods:
-        result = method_fn(A, B)
+        result = _run_method_with_concordant_cache(method_fn, A, B, _get_concordant_n)
         # Defensive: methods may forget to set the name; trust the registry.
         if result.method != method_name:
             result = MethodResult(
@@ -390,7 +427,7 @@ def process_pairs_parallel(
 
     Returns the status histogram (same shape as ``process_pairs``).
     """
-    from rational_distance.parallel import parallel_map, default_workers
+    from rational_distance.parallel import default_workers, parallel_map
 
     if workers is None:
         workers = default_workers()
@@ -420,13 +457,14 @@ def process_pairs_parallel(
 
     # 使用公共并行工具，但需要自定义 on_result 处理 batched commit
     # 所以这里不能直接用 parallel_map 的返回值，而是用 on_result 回调
-    parallel_map(
+    _ = parallel_map(
         _worker_compute,
         pairs_list,
         workers=workers,
         chunksize=chunksize,
         on_result=_handle,
         ordered=False,
+        collect_results=False,
     )
 
     if pending > 0:

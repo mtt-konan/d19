@@ -106,15 +106,23 @@
   - `schema.py`：SQLite schema、DAO（`pair_proof_status`、`pair_method_attempts`）
   - `methods.py`：6 个判定方法（`safe_sieve` / `factor_concordant` / `rank_zero` / 三个 stub）
   - `workflow.py`：pipeline 编排，遇 terminal outcome 即停
+  - `ab_sieve_methods.py`：把前四层 sieve 拆成可重排的 context-aware benchmark 方法
+  - `ab_sieve_benchmark.py`：order builder、pair evaluator、并行 benchmark 聚合
 
 入口脚本：
 
 - [scripts/prove_no_solution.py](../scripts/prove_no_solution.py)
+- [scripts/benchmark_ab_sieve_orders.py](../scripts/benchmark_ab_sieve_orders.py)
 
 实现备注：
 
 - 它**不是搜索器**，而是"判定 + 落库"工具，跟 `chain-fast` / `concordant` 不互相替代。
 - `safe_sieve` 与 `factor_concordant` 都是 PARI-free 的严格必要条件；`rank_zero` 通过 `cypari2` 调 PARI；其余三个（Heegner / Chabauty / Brauer–Manin）是 stub，留接口给后续 SageMath / Magma 集成。
+- `ab_sieve_methods.py` / `ab_sieve_benchmark.py` / `benchmark_ab_sieve_orders.py` 是这轮新增的**实验 benchmark 层**：
+  - 默认把 AB sieve core 当成 3 层：`safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`
+  - 默认 core order search 因而是 `3! = 6`
+  - `--head-only`、`--safe-top2-only` 等模式仍保留，但它们现在更偏 split 诊断和历史对照
+  - 不会自动改写 `workflow.py` 的默认生产顺序
 - 详见 [docs/THEORY_DIRECTIONS_ADVANCED.md](./THEORY_DIRECTIONS_ADVANCED.md) 中各方向的"实现状态"说明。
 
 ### 5. `shared`
