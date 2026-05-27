@@ -16,7 +16,8 @@ def iter_ab_pairs(max_hyp: int = 500) -> Iterator[tuple[int, int]]:
         if c <= max_hyp
     ]
 
-    seen: set[tuple[int, int]] = set()
+    seen: set[int] = set()
+    shift = max(1, (max_hyp * max_hyp).bit_length())
     for s1, t1, _h1 in triples:
         for s2, t2, _h2 in triples:
             cg = gcd(t1, s2)
@@ -28,9 +29,10 @@ def iter_ab_pairs(max_hyp: int = 500) -> Iterator[tuple[int, int]]:
             if a > b:
                 a, b = b, a
 
-            if (a, b) in seen:
+            key = (a << shift) | b
+            if key in seen:
                 continue
-            seen.add((a, b))
+            seen.add(key)
             yield (a, b)
 
 

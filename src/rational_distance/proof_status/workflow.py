@@ -19,6 +19,7 @@ from __future__ import annotations
 import sqlite3
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
+from typing import Protocol
 
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.proof_status import methods as proof_methods
@@ -28,6 +29,17 @@ from rational_distance.proof_status.types import MethodResult, PairProofStatus
 
 # Re-export the canonical type from methods, plus the pipeline shape.
 MethodPipeline = Iterable[tuple[str, MethodFn]]
+
+
+class _ExecutorProtocol(Protocol):
+    def map(
+        self,
+        fn: Callable[[tuple[int, int]], PairComputeResult],
+        items: Iterable[tuple[int, int]],
+        on_result: Callable[[PairComputeResult], None] | None = None,
+        *,
+        collect_results: bool = True,
+    ) -> list[PairComputeResult]: ...
 
 
 @dataclass(frozen=True)
@@ -411,6 +423,7 @@ def process_pairs_parallel(
     chunksize: int = 50,
     skip_terminal: bool = True,
     on_result: Callable[[PairComputeResult], None] | None = None,
+    executor: _ExecutorProtocol | None = None,
 ) -> dict[str, int]:
     """Parallel sibling of ``process_pairs`` with batched commits.
 
@@ -432,14 +445,20 @@ def process_pairs_parallel(
     if workers is None:
         workers = default_workers()
 
-    pairs_list = list(pairs)
+    pairs_iter = pairs
     if skip_terminal:
-        kept: list[tuple[int, int]] = []
-        for A, B in pairs_list:
-            existing = schema.get_pair_status(conn, A, B)
-            if not _is_terminal(existing):
-                kept.append((A, B))
-        pairs_list = kept
+        has_existing_rows = (
+            conn.execute("SELECT 1 FROM pair_proof_status LIMIT 1").fetchone()
+            is not None
+        )
+        if has_existing_rows:
+            # Must materialize to a list: the generator would be consumed in
+            # worker threads, but conn belongs to the main thread.
+            kept: list[tuple[int, int]] = []
+            for A, B in pairs:
+                if not _is_terminal(schema.get_pair_status(conn, A, B)):
+                    kept.append((A, B))
+            pairs_iter = kept
 
     counts: dict[str, int] = {}
     pending = 0
@@ -455,17 +474,23 @@ def process_pairs_parallel(
         if on_result is not None:
             on_result(result)
 
-    # 使用公共并行工具，但需要自定义 on_result 处理 batched commit
-    # 所以这里不能直接用 parallel_map 的返回值，而是用 on_result 回调
-    _ = parallel_map(
-        _worker_compute,
-        pairs_list,
-        workers=workers,
-        chunksize=chunksize,
-        on_result=_handle,
-        ordered=False,
-        collect_results=False,
-    )
+    if executor is not None:
+        _ = executor.map(
+            _worker_compute,
+            pairs_iter,
+            on_result=_handle,
+            collect_results=False,
+        )
+    else:
+        _ = parallel_map(
+            _worker_compute,
+            pairs_iter,
+            workers=workers,
+            chunksize=chunksize,
+            on_result=_handle,
+            ordered=False,
+            collect_results=False,
+        )
 
     if pending > 0:
         conn.commit()

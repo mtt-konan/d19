@@ -31,8 +31,10 @@ Typical usage
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -53,6 +55,20 @@ def _parse_pair(spec: str) -> tuple[int, int]:
     if a > b:
         a, b = b, a
     return a, b
+
+
+def _reset_sqlite_db(db_path: Path) -> None:
+    for path in (
+        db_path,
+        db_path.with_name(db_path.name + "-wal"),
+        db_path.with_name(db_path.name + "-shm"),
+    ):
+        if path.exists():
+            path.unlink()
+
+
+def _configure_pari_runtime() -> None:
+    os.environ.setdefault("PARI_MT_ENGINE", "single")
 
 
 def _print_status_report(db_path: Path) -> None:
@@ -153,6 +169,12 @@ def main() -> None:
         action="store_true",
         help="Print the materialised status line for each processed pair.",
     )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=0,
+        help="Print a plain progress line every N processed pairs (0 = disabled).",
+    )
     # 导入公共并行工具获取默认 worker 数
     from rational_distance.parallel import default_workers
     _default_workers = default_workers()
@@ -185,6 +207,43 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--moduli",
+        type=str,
+        default="standard",
+        choices=["minimal", "balanced", "standard", "extended"],
+        help=(
+            "模数档位：minimal(2个,最快), balanced(5个), "
+            "standard(14个,默认), extended(23个,最慢但最强)。"
+        ),
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="清空旧数据库，从头重跑（不做增量跳过）。",
+    )
+    parser.add_argument(
+        "--fast-core",
+        action="store_true",
+        help="快速核心筛模式：全量只跑核心筛，不写全量审计；只对疑难对写完整 proof_status。",
+    )
+    parser.add_argument(
+        "--fast-core-only",
+        action="store_true",
+        help="--fast-core: stop after core sieve summary; do not audit survivors with PARI.",
+    )
+    parser.add_argument(
+        "--pair-chunk-size",
+        type=int,
+        default=50_000,
+        help="--fast-core 每个 worker 任务包含的 pair 数量。",
+    )
+    parser.add_argument(
+        "--fast-summary-json",
+        type=Path,
+        default=None,
+        help="--fast-core: write aggregate summary and survivors to this JSON file.",
+    )
+    parser.add_argument(
         "--heegner-multiple-bound",
         type=int,
         default=None,
@@ -203,6 +262,10 @@ def main() -> None:
         ),
     )
     args = parser.parse_args()
+    _configure_pari_runtime()
+
+    if args.fast_core_only and not args.fast_core:
+        raise SystemExit("--fast-core-only requires --fast-core")
 
     if args.heegner_multiple_bound is not None:
         if args.heegner_multiple_bound < 0:
@@ -219,25 +282,39 @@ def main() -> None:
         _print_status_report(db_path)
         return
 
-    from rational_distance.concordant.pairs import generate_ab_pairs
-    from rational_distance.proof_status import schema, workflow
+    from rational_distance.concordant.pairs import generate_ab_pairs, iter_ab_pairs
+    from rational_distance.proof_status import fast_core, schema, workflow
+    from rational_distance.proof_status.methods import set_moduli_preset, get_current_moduli
+
+    # 设置模数档位
+    set_moduli_preset(args.moduli)
+
+    # --force: 删除旧库重建
+    if args.force:
+        _reset_sqlite_db(db_path)
 
     conn = schema.connect_db(db_path)
     schema.init_schema(conn)
 
+    # 处理 --serial 参数
+    workers = 1 if args.serial else args.workers
+
+    pair_label = "1"
     if args.pair:
-        pairs: list[tuple[int, int]] = [_parse_pair(args.pair)]
+        pairs = [_parse_pair(args.pair)]
     elif args.max_hyp:
         if args.max_hyp <= 0:
             raise SystemExit("--max-hyp must be positive")
-        pairs = generate_ab_pairs(max_hyp=args.max_hyp)
+        if workers > 1:
+            pairs = generate_ab_pairs(args.max_hyp)
+            pair_label = f"{len(pairs)} (materialized from max_hyp={args.max_hyp})"
+        else:
+            pairs = iter_ab_pairs(args.max_hyp)
+            pair_label = f"streaming (max_hyp={args.max_hyp})"
     else:
         raise SystemExit("must specify one of --pair, --max-hyp or --report")
 
     config = workflow.WorkflowConfig(rerun_terminal=args.rerun_terminal)
-
-    # 处理 --serial 参数
-    workers = 1 if args.serial else args.workers
 
     if workers > 1 and args.rerun_terminal:
         raise SystemExit(
@@ -245,20 +322,51 @@ def main() -> None:
             "(parallel path only processes pairs not yet terminal)."
         )
 
-    progress = None
-    if not args.no_progress and len(pairs) > 1:
-        try:
-            from tqdm import tqdm
+    counts: dict[str, int] = {}
+    started = time.perf_counter()
+    processed = 0
 
-            progress = tqdm(total=len(pairs), desc="proof_status", leave=False)
-        except ImportError:
-            progress = None
+    def _emit_progress(force: bool = False) -> None:
+        if args.progress_every <= 0:
+            return
+        if not force and processed % args.progress_every != 0:
+            return
+        elapsed = time.perf_counter() - started
+        rate = processed / elapsed if elapsed > 0 else 0.0
+        print(
+            f"[progress] done={processed} no_solution={counts.get('no_solution', 0)} hard_case={counts.get('hard_case', 0)} solution_found={counts.get('solution_found', 0)} elapsed={elapsed:.1f}s rate={rate:.1f}/s",
+            flush=True,
+        )
+
+    def _on_result(result) -> None:
+        nonlocal processed
+        processed += 1
+        counts[result.final_status] = counts.get(result.final_status, 0) + 1
+        if args.print_each:
+            from rational_distance.proof_status.types import PairProofStatus
+
+            synthetic = PairProofStatus(
+                A=result.A,
+                B=result.B,
+                status=result.final_status,
+                method=result.final_method,
+                rank_lower=result.rank_lower,
+                rank_upper=result.rank_upper,
+                concordant_n_count=result.concordant_n_count,
+                chain_compatible_count=result.chain_compatible_count,
+                notes=result.final_notes,
+                updated_at="",
+            )
+            _print_pair_status(synthetic)
+        _emit_progress()
 
     print("=" * 72)
     print(f"Proof-status workflow — DB: {db_path}")
-    print(f"  pairs to process: {len(pairs)}")
+    print(f"  mode:             {'fast-core' if args.fast_core else 'full-audit'}")
+    print(f"  pairs to process: {pair_label}")
     print(f"  rerun_terminal:   {args.rerun_terminal}")
     print(f"  workers:          {workers}")
+    print(f"  moduli:           {args.moduli} ({len(get_current_moduli())} 个)")
     if workers > 1:
         print(f"  commit_every:     {args.commit_every}")
     if args.heegner_multiple_bound is not None:
@@ -267,38 +375,70 @@ def main() -> None:
         print(f"  heegner height<=: {args.heegner_height_bound}")
     print("=" * 72)
 
-    counts: dict[str, int] = {}
+    if args.fast_core:
+        if not args.max_hyp:
+            raise SystemExit("--fast-core requires --max-hyp")
+        if args.fast_core_only and not args.fast_summary_json:
+            raise SystemExit("--fast-core-only requires --fast-summary-json")
+        if workers <= 1:
+            raise SystemExit("--fast-core requires --workers > 1")
+        if args.pair_chunk_size <= 0:
+            raise SystemExit("--pair-chunk-size must be positive")
 
-    if workers > 1:
-
-        def _on_result(result) -> None:
-            counts[result.final_status] = counts.get(result.final_status, 0) + 1
-            if args.print_each:
-                # Build a minimal status-like object for the existing printer.
-                # Only used for human-readable feedback; not load-bearing.
-                from rational_distance.proof_status.types import PairProofStatus
-
-                synthetic = PairProofStatus(
-                    A=result.A,
-                    B=result.B,
-                    status=result.final_status,
-                    method=result.final_method,
-                    rank_lower=result.rank_lower,
-                    rank_upper=result.rank_upper,
-                    concordant_n_count=result.concordant_n_count,
-                    chain_compatible_count=result.chain_compatible_count,
-                    notes=result.final_notes,
-                    updated_at="",
+        print(
+            f"[phase] fast-core start pairs={len(pairs)} workers={workers} "
+            f"chunk_size={args.pair_chunk_size}",
+            flush=True,
+        )
+        core_started = time.perf_counter()
+        core_result = fast_core.run_fast_core(
+            pairs,
+            workers=workers,
+            pair_chunk_size=args.pair_chunk_size,
+            pool_chunksize=1,
+            on_chunk=None,
+        )
+        core_elapsed = time.perf_counter() - core_started
+        counts["no_solution"] = counts.get("no_solution", 0) + core_result.no_solution
+        if args.fast_summary_json is not None:
+            args.fast_summary_json.parent.mkdir(parents=True, exist_ok=True)
+            args.fast_summary_json.write_text(
+                json.dumps(
+                    {
+                        "checked": core_result.checked,
+                        "no_solution": core_result.no_solution,
+                        "survivor_count": len(core_result.survivors),
+                        "survivors": [list(pair) for pair in core_result.survivors],
+                    },
+                    indent=2,
+                    sort_keys=True,
                 )
-                _print_pair_status(synthetic)
-            if progress is not None:
-                progress.update(1)
-                progress.set_postfix(
-                    no_sol=counts.get("no_solution", 0),
-                    hard=counts.get("hard_case", 0),
-                    sol=counts.get("solution_found", 0),
-                )
+                + "\n"
+            )
+        print(
+            f"[phase] fast-core done checked={core_result.checked} "
+            f"no_solution={core_result.no_solution} "
+            f"survivors={len(core_result.survivors)} elapsed={core_elapsed:.1f}s",
+            flush=True,
+        )
+        if args.fast_core_only:
+            print("[phase] fast-core-only: survivor audit skipped", flush=True)
+        else:
 
+            print(f"[phase] survivor audit start pairs={len(core_result.survivors)}", flush=True)
+            audit_started = time.perf_counter()
+            workflow.process_pairs_parallel(
+                conn,
+                core_result.survivors,
+                workers=workers,
+                commit_every=args.commit_every,
+                skip_terminal=False,
+                on_result=_on_result,
+            )
+            audit_elapsed = time.perf_counter() - audit_started
+            print(f"[phase] survivor audit done elapsed={audit_elapsed:.1f}s", flush=True)
+
+    elif workers > 1:
         workflow.process_pairs_parallel(
             conn,
             pairs,
@@ -310,21 +450,16 @@ def main() -> None:
     else:
 
         def _on_pair(status) -> None:
+            nonlocal processed
+            processed += 1
             counts[status.status] = counts.get(status.status, 0) + 1
             if args.print_each:
                 _print_pair_status(status)
-            if progress is not None:
-                progress.update(1)
-                progress.set_postfix(
-                    no_sol=counts.get("no_solution", 0),
-                    hard=counts.get("hard_case", 0),
-                    sol=counts.get("solution_found", 0),
-                )
+            _emit_progress()
 
         workflow.process_pairs(conn, pairs, config=config, on_pair=_on_pair)
 
-    if progress is not None:
-        progress.close()
+    _emit_progress(force=True)
 
     print()
     print("Summary of this run:")

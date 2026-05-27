@@ -192,6 +192,37 @@
 2. 如果只想复查旧的 split 问题，再用 `head_only` / `safe_top2_only`
 3. 把这条线当作 `(A,B)` 批量诊断的加速手段，而不是把它误当成主问题已经解决的信号
 
+### 7.2 `proof_status` 大范围运行现在优先用 fast-core
+
+`proof_status` 现在多了 fast-core 两阶段模式。它把大范围运行拆成两步：
+
+1. 全量 pair 只跑 `safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`。
+2. 只对 survivor 做完整 SQLite 审计，或者用 `--fast-core-only` 直接停在 summary JSON。
+
+当前 20k 实测的核心筛结果是：
+
+- `checked = 10090806`
+- `no_solution = 10089445`
+- `survivor_count = 1361`
+
+50k 以上先用：
+
+```bash
+PARI_MT_ENGINE=single uv run python scripts/prove_no_solution.py \
+  --db /tmp/proof_status_50k_core.db \
+  --max-hyp 50000 \
+  --workers 6 \
+  --fast-core \
+  --fast-core-only \
+  --force \
+  --fast-summary-json /tmp/proof_status_fast_50k_summary.json \
+  --no-progress
+```
+
+详细用法见 [docs/PROOF_STATUS_FAST_MODE.md](./PROOF_STATUS_FAST_MODE.md)。
+实现记录见 [wl069](./work-logs/069-proof-status-fast-core-mode.md) 和
+[wl070](./work-logs/070-pari-mt-engine-and-survivor-audit-hang.md)。
+
 ## 八、长期方向：跳出“加速搜索”的范式
 
 上面几节说的都还是工程范式内：把现有搜索器跑得更快、加更多筛、积累更多数据。

@@ -56,6 +56,7 @@
 | concordant form | **协同型** / "共轭对" | $\exists N: N^2+A^2, N^2+B^2$ 同为平方的 $(A, B)$ 对 | [MATH.md](MATH.md) §2 |
 | chain / 4-chain | **链 / 4-链** | 4 个边距离都是有理数的四顶点配置 | [DIRECTIONS](DIRECTIONS.md) |
 | hard_case | **疑难对** | 暂时既没找到解也没证无解的 $(A, B)$ 对 | [wl 030](work-logs/030-large-range-proof-stats.md) |
+| survivor | **幸存疑难对** | 通过前置核心筛、仍需后续完整审计的 $(A, B)$ 对 | [wl 069](work-logs/069-proof-status-fast-core-mode.md) |
 | no_solution | **已证无解** | 用 cheap sieve（mod 1680, modular obstruction）证完全没有 N 满足条件的 (A, B) | [wl 030](work-logs/030-large-range-proof-stats.md) |
 | safe_sieve | **安全前筛** | 不会误杀真解的快速过滤（mod 8, mod 1680 等） | [CHAIN_FAST_SAFE_FILTERS](archive/CHAIN_FAST_SAFE_FILTERS.md) |
 | max_hyp | **最大斜边** | 扫描时给 $\sqrt{A^2+B^2}$ 设的上界 | [wl 030](work-logs/030-large-range-proof-stats.md) |
@@ -94,6 +95,7 @@
 | driver / batch_*_v2 | **批量调度器** | 把任务分发给多个 worker，处理超时和续跑 | [wl 038](work-logs/038-large-scale-sha2-pattern-hunt.md) |
 | timeout-safe | **超时安全** | 单个任务卡住不影响整体扫描 | [wl 038](work-logs/038-large-scale-sha2-pattern-hunt.md) |
 | subprocess isolation | **子进程隔离** | 用独立子进程跑 PARI，避免 cypari2 内存泄漏污染主进程 | [wl 038](work-logs/038-large-scale-sha2-pattern-hunt.md) |
+| fast-core | **快速核心筛** | `proof_status` 的两阶段快路径：先全量跑低成本严格筛，再只审计幸存疑难对 | [wl 069](work-logs/069-proof-status-fast-core-mode.md) |
 | JSONL | **JSON 行格式** | 每行一个 JSON 对象的纯文本格式，便于流式 append 和 grep | [wl 030](work-logs/030-large-range-proof-stats.md) |
 | resume / resumable | **断点续跑** | 中断后从上次进度继续，不重复已完成的任务 | [wl 038](work-logs/038-large-scale-sha2-pattern-hunt.md) |
 

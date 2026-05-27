@@ -54,10 +54,27 @@ test then has fewer compatible residue classes to fall into.
 
 from __future__ import annotations
 
-# Default modulus list: prime squares p² for primes p in [3, 53].  Skipping
-# p = 2 because the safe_sieve already exhausts the 2-adic information at
-# mod 4, and additional powers of 2 give 0 kills on hard_case.
-DEFAULT_PRIME_SQUARE_MODULI: tuple[int, ...] = (
+# ---------------------------------------------------------------------------
+# 模数档位：根据性价比（μs/kill）分四档
+# ---------------------------------------------------------------------------
+# 精简版：只用最高性价比的 2 个模数，适合小规模或下游 concordant_search 很快时
+MINIMAL_MODULI: tuple[int, ...] = (
+    9,    # 3²  μs/kill ≈ 1.4
+    25,   # 5²  μs/kill ≈ 2.9
+)
+
+# 平衡版：加上性价比还行的模数（μs/kill < 100）
+BALANCED_MODULI: tuple[int, ...] = (
+    9,    # 3²
+    25,   # 5²
+    121,  # 11²  μs/kill ≈ 38
+    169,  # 13²  μs/kill ≈ 49
+    361,  # 19²  μs/kill ≈ 91
+)
+
+# 原版：prime squares p² for primes p in [3, 53]
+# Skipping p = 2 because safe_sieve already exhausts 2-adic info at mod 4
+STANDARD_MODULI: tuple[int, ...] = (
     9,    # 3²
     25,   # 5²
     49,   # 7²
@@ -73,6 +90,22 @@ DEFAULT_PRIME_SQUARE_MODULI: tuple[int, ...] = (
     2209, # 47²
     2809, # 53²
 )
+
+# 扩展版：加上 59² 到 97²，适合超大规模时减少下游压力
+EXTENDED_MODULI: tuple[int, ...] = STANDARD_MODULI + (
+    3481,  # 59²
+    3721,  # 61²
+    4489,  # 67²
+    5041,  # 71²
+    5329,  # 73²
+    6241,  # 79²
+    6889,  # 83²
+    7921,  # 89²
+    9409,  # 97²
+)
+
+# 默认使用原版，保持向后兼容
+DEFAULT_PRIME_SQUARE_MODULI: tuple[int, ...] = STANDARD_MODULI
 
 
 def _squares_mod(M: int) -> frozenset[int]:
@@ -148,7 +181,11 @@ def all_killer_moduli(
 
 
 __all__ = [
+    "BALANCED_MODULI",
     "DEFAULT_PRIME_SQUARE_MODULI",
+    "EXTENDED_MODULI",
+    "MINIMAL_MODULI",
+    "STANDARD_MODULI",
     "all_killer_moduli",
     "allowed_n_mod",
     "find_killer_modulus",

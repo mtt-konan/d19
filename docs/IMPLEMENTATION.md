@@ -106,6 +106,7 @@
   - `schema.py`：SQLite schema、DAO（`pair_proof_status`、`pair_method_attempts`）
   - `methods.py`：6 个判定方法（`safe_sieve` / `factor_concordant` / `rank_zero` / 三个 stub）
   - `workflow.py`：pipeline 编排，遇 terminal outcome 即停
+  - `fast_core.py`：`--fast-core` 使用的核心筛并行 runner，只返回计数和 survivor
   - `ab_sieve_methods.py`：把前四层 sieve 拆成可重排的 context-aware benchmark 方法
   - `ab_sieve_benchmark.py`：order builder、pair evaluator、并行 benchmark 聚合
 
@@ -118,6 +119,12 @@
 
 - 它**不是搜索器**，而是"判定 + 落库"工具，跟 `chain-fast` / `concordant` 不互相替代。
 - `safe_sieve` 与 `factor_concordant` 都是 PARI-free 的严格必要条件；`rank_zero` 通过 `cypari2` 调 PARI；其余三个（Heegner / Chabauty / Brauer–Manin）是 stub，留接口给后续 SageMath / Magma 集成。
+- `scripts/prove_no_solution.py --fast-core` 是大范围 `(A,B)` 诊断入口：
+  - 全量只跑 `safe_sieve` / `chain_closure_mod_sieve` / `factor_concordant`
+  - 默认只把 survivor 写进 SQLite
+  - `--fast-core-only` 只写 summary JSON，不跑 survivor 审计
+  - 长跑命令建议显式加 `PARI_MT_ENGINE=single`，避免 PARI 内部多线程和外层多进程叠加
+  - 详细命令见 [docs/PROOF_STATUS_FAST_MODE.md](./PROOF_STATUS_FAST_MODE.md)
 - `ab_sieve_methods.py` / `ab_sieve_benchmark.py` / `benchmark_ab_sieve_orders.py` 是这轮新增的**实验 benchmark 层**：
   - 默认把 AB sieve core 当成 3 层：`safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`
   - 默认 core order search 因而是 `3! = 6`

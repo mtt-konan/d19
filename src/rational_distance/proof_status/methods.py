@@ -28,9 +28,41 @@ from collections.abc import Callable
 from math import isqrt
 
 from rational_distance.concordant.chain_closure_sieve import (
+    BALANCED_MODULI,
     DEFAULT_PRIME_SQUARE_MODULI,
+    EXTENDED_MODULI,
+    MINIMAL_MODULI,
+    STANDARD_MODULI,
     find_killer_modulus,
 )
+
+import os
+
+# 模数档位映射，供 CLI 使用
+MODULI_PRESETS: dict[str, tuple[int, ...]] = {
+    "minimal": MINIMAL_MODULI,
+    "balanced": BALANCED_MODULI,
+    "standard": STANDARD_MODULI,
+    "extended": EXTENDED_MODULI,
+}
+
+# 环境变量名，用于跨进程传递模数档位
+_MODULI_ENV_VAR = "RD_MODULI_PRESET"
+
+
+def set_moduli_preset(name: str) -> None:
+    """设置当前使用的模数档位（通过环境变量，worker 进程也能读到）。"""
+    if name not in MODULI_PRESETS:
+        raise ValueError(f"Unknown moduli preset: {name!r}, choose from {list(MODULI_PRESETS)}")
+    os.environ[_MODULI_ENV_VAR] = name
+
+
+def get_current_moduli() -> tuple[int, ...]:
+    """获取当前使用的模数（从环境变量读取，支持 worker 进程）。"""
+    name = os.environ.get(_MODULI_ENV_VAR, "standard")
+    return MODULI_PRESETS.get(name, DEFAULT_PRIME_SQUARE_MODULI)
+
+
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
 from rational_distance.proof_status.types import MethodResult
@@ -114,10 +146,11 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
     kills **~99.6%** of those hard_case pairs in well under a second total.
     """
     started = time.perf_counter()
-    killer = find_killer_modulus(A, B, DEFAULT_PRIME_SQUARE_MODULI)
+    moduli = get_current_moduli()
+    killer = find_killer_modulus(A, B, moduli)
     elapsed = time.perf_counter() - started
 
-    moduli_tested = list(DEFAULT_PRIME_SQUARE_MODULI)
+    moduli_tested = list(moduli)
     killer_moduli: list[int]
     if killer is None:
         killer_moduli = []
