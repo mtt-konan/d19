@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterator
 from math import gcd, isqrt
 from pathlib import Path
+
+from pytest import MonkeyPatch
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from rational_distance.concordant import fast_multi_n as fast_multi_module
 from rational_distance.concordant.fast_multi_n import iter_concordant_a_n
 
 
@@ -47,6 +51,31 @@ def test_iter_concordant_a_n_includes_known_concordant_examples() -> None:
     assert (153, 204) in pairs
     # (A=560, N=204) is also concordant (560^2 + 204^2 = 596^2)
     assert (560, 204) in pairs
+
+
+def test_iter_concordant_a_n_uses_spf_factorization(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    """Ensure ``iter_concordant_a_n`` factors every A via the SPF table
+    (not via repeated trial division of A^2)."""
+    calls: list[int] = []
+    original = fast_multi_module._factor_with_spf
+
+    def tracking_factor_with_spf(value: int, spf: list[int]) -> dict[int, int]:
+        calls.append(value)
+        return original(value, spf)
+
+    monkeypatch.setattr(
+        fast_multi_module,
+        "_factor_with_spf",
+        tracking_factor_with_spf,
+    )
+
+    generated = list(fast_multi_module.iter_concordant_a_n(max_leg=20))
+
+    assert generated
+    # A=1 is skipped (1^2 + N^2 = h^2 has no positive N), so calls is [2..20].
+    assert calls == list(range(2, 21))
 
 
 def _slow_multi_concordant(max_hyp: int) -> dict[tuple[int, int], list[int]]:
