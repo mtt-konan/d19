@@ -5,8 +5,11 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import types
 from itertools import islice
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
@@ -86,6 +89,29 @@ class TestConcordantEC:
 
         rank, _bounds, _sha2, _gens = compute_rank(5, 5)
         assert rank == -1
+
+    def test_ensure_pari_forces_single_thread_when_requested(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        from rational_distance.concordant import analysis
+
+        calls: list[object] = []
+
+        class FakePari:
+            def __call__(self, expr: str) -> None:
+                calls.append(expr)
+
+            def allocatemem(self, amount: int) -> None:
+                calls.append(("allocatemem", amount))
+
+        fake_cypari2 = types.SimpleNamespace(Pari=FakePari)
+        monkeypatch.setitem(sys.modules, "cypari2", fake_cypari2)
+        monkeypatch.setenv("PARI_MT_ENGINE", "single")
+
+        analysis._ensure_pari()
+
+        assert "default(nbthreads,1)" in calls
 
     def test_concordant_n_264_420(self):
         """Should find N=77, 315, 352 for (264, 420) with sufficient bound."""

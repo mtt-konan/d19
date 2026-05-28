@@ -151,9 +151,15 @@ SQLite DB 路径。
 
 ### `PARI_MT_ENGINE=single`
 
-关闭 PARI 内部多线程。
+请求关闭 PARI 内部多线程。
 
-即使代码已经默认设置，长跑命令也建议显式写上。这样命令记录里能看出运行环境。
+注意：在当前 macOS + cypari2 + PARI 2.17.2 组合里，单独设置这个环境变量后，`default(nbthreads)` 仍可能是 `10`。所以代码现在还会在创建 `Pari()` 后显式执行：
+
+```text
+default(nbthreads,1)
+```
+
+即使代码已经默认设置，长跑命令也建议显式写上。这样命令记录里能看出运行意图。
 
 ### `--fast-core`
 
@@ -257,6 +263,8 @@ pthread_join
 ```
 
 那就是 PARI 内部多线程等待。先确认命令里有没有 `PARI_MT_ENGINE=single`。
+
+如果命令里已经有 `PARI_MT_ENGINE=single`，还要确认当前代码是否已经包含 `_ensure_pari()` 里的 `default(nbthreads,1)` 修复。只看环境变量不够，因为这台机器上环境变量没有自动把 `nbthreads` 改成 1。
 
 ## 6. 推荐工作流
 

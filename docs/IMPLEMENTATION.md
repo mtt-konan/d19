@@ -123,7 +123,7 @@
   - 全量只跑 `safe_sieve` / `chain_closure_mod_sieve` / `factor_concordant`
   - 默认只把 survivor 写进 SQLite
   - `--fast-core-only` 只写 summary JSON，不跑 survivor 审计
-  - 长跑命令建议显式加 `PARI_MT_ENGINE=single`，避免 PARI 内部多线程和外层多进程叠加
+  - 长跑命令建议显式加 `PARI_MT_ENGINE=single`，表达要关闭 PARI 内部多线程的运行意图；实际关闭点在 `concordant.analysis._ensure_pari()`，创建 `Pari()` 后会显式执行 `default(nbthreads,1)`
   - 详细命令见 [docs/PROOF_STATUS_FAST_MODE.md](./PROOF_STATUS_FAST_MODE.md)
 - `ab_sieve_methods.py` / `ab_sieve_benchmark.py` / `benchmark_ab_sieve_orders.py` 是这轮新增的**实验 benchmark 层**：
   - 默认把 AB sieve core 当成 3 层：`safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`

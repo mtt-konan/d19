@@ -132,11 +132,70 @@ def _configure_pari_runtime() -> None:
 
 效果：
 
-- 用户没有显式设置时，脚本默认把 PARI 内部多线程关掉。
+- 用户没有显式设置时，脚本默认请求把 PARI 内部多线程关掉。
 - 如果用户提前设置了 `PARI_MT_ENGINE`，脚本尊重外部值。
 - worker 用 `spawn` 启动，会继承主进程环境变量。
 
 这不是数学变化。它只改变 PARI 的内部调度方式。
+
+## 2026-05-27 追加修正：环境变量不等于 `nbthreads=1`
+
+后续 20k minimal run 复现了新的卡住：
+
+```text
+checked        = 10090806
+no_solution    = 10080387
+survivor_count = 10419
+DB rows        = 10000
+```
+
+也就是说 fast-core 已结束，survivor 审计已经完成 10000 个幸存疑难对，然后剩 419 个时卡住。
+
+这次检查运行中环境：
+
+```text
+PARI_MT_ENGINE=single
+```
+
+主进程和 worker 都有这个环境变量。但独立探针显示：
+
+```text
+env single
+default(nbthreads) => 10
+```
+
+所以旧修复不充分：环境变量已经传到 worker，但当前 cypari2 + PARI 2.17.2 没有因此把内部线程数降到 1。
+
+卡住 worker 的 `sample` 栈仍是：
+
+```text
+ellrank
+ell2selmer
+mt_queue_reset
+pthread_join
+```
+
+真正需要补的是在创建 `Pari()` 后显式设置：
+
+```text
+default(nbthreads,1)
+```
+
+已在 `rational_distance.concordant.analysis._ensure_pari()` 里补上：
+
+```python
+pari = cypari2.Pari()
+if os.environ.get("PARI_MT_ENGINE", "").strip().lower() == "single":
+    pari("default(nbthreads,1)")
+pari.allocatemem(64 * 1024 * 1024)
+```
+
+验证：
+
+```text
+env single
+nbthreads 1
+```
 
 ## 为什么还建议命令行显式写一次
 
@@ -154,7 +213,7 @@ PARI_MT_ENGINE=single uv run python scripts/prove_no_solution.py ...
 
 ## 对性能的影响
 
-`PARI_MT_ENGINE=single` 不一定让单个 `ellrank` 更快。它解决的是稳定性和进程组合问题。
+`PARI_MT_ENGINE=single` 不一定让单个 `ellrank` 更快。它表达的是稳定性优先的运行意图；在当前环境里，还必须由 `_ensure_pari()` 显式执行 `default(nbthreads,1)`，才真正把 PARI 内部线程数降到 1。
 
 当前 `proof_status` 并行模型已经有 Python 单任务子进程。让 PARI 在每个子进程里再开线程，会制造过度并行和内部锁等待。更安全的组合是：
 

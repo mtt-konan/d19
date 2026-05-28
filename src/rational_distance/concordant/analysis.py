@@ -26,6 +26,7 @@ X = N^2.
 from __future__ import annotations
 
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from math import gcd, isqrt
@@ -101,6 +102,8 @@ def _ensure_pari():
             "cypari2 is required for EC analysis. Install with: uv pip install cypari2"
         ) from exc
     pari = cypari2.Pari()
+    if os.environ.get("PARI_MT_ENGINE", "").strip().lower() == "single":
+        pari("default(nbthreads,1)")
     pari.allocatemem(64 * 1024 * 1024)
     return pari
 
