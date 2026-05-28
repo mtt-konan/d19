@@ -8,6 +8,30 @@
 
 ---
 
+## 现实情景判断 (2026-05, wl084 之后)
+
+**严格证明卡点**: A1 不严格 (wl084), path B 关闭, 三大重剩余路径都需要重大投入:
+Brauer-Manin (协作者), Magma quadratic Chabauty (拒装), Stoll-Bruin Chabauty (调研).
+
+**不引入新工具时, 真正"能继续做"的有意义工作分三类**:
+
+1. **工程加速 max_hyp**: 推到 10M-30M 给 empirical 信心, 但**不构成证明**
+2. **低成本非工程方向**: A.2 / A.3 / A.5 / D.1 — 真有可能突破的代数 / 数据工作
+3. **写 conditional paper**: "假设 A1 成立, 则 ..." 形式的论文
+
+**关于"找高 k pair 出反例"这个直觉 — 没据**:
+
+数据显示高 k 既不增加也不减少反例概率, 详见 A.7 §警告. 不要把
+"高 k 更易出反例" 或 "反例倾向出在小 k" 当 established fact. wl066 |Δ|=1
+sample (10 个) k 分布跟总体 k 分布几乎一致, 没有任何 k 维度的偏好.
+
+A.7 (D-scaling 快速生成器) 仍值得做, 但理由是:
+- per-point closure-check 信号密度 (K_10 ≈ 45 × k=2)
+- 给 A.1 (K_n hub partner identity) 提供 sample
+- **不是** "更高反例概率"
+
+---
+
 ## 分类
 
 - **A. 理论方向 — 真正没尝试过 (新角度)**
@@ -144,10 +168,42 @@ K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70
 
 **关键事实**: 同构 X = d² x, Y = d³ y 让 rank 不变, 但整数 N 是 d 决定的.
 
-**预期收益**:
+**预期收益 (校准后, 2026-05 修正)**:
 - 给定 target k=10, 不必扫到 max_hyp 极大, 只用几十个 primitive × 几千个 d
-- 是发现 high-k counterexample candidates (closure check) 的最高效率路径
-- 对 path A K_n hub partner identity 推广 (A.1) 提供 sample
+- 对 path A K_n hub partner identity 推广 (A.1) 提供 sample (主要价值)
+- **per-point efficiency**: K_n 顶点提供 C(n,2) 个 (N₁, N₂) closure 候选,
+  K_10 单顶点 ≈ 45 × k=2 顶点的 closure check 量, 信号密度更大
+- ⚠️ **不是**"找反例的更高概率路径": 见下文 §A.7 警告
+
+**A.7 警告 — "高 k 更易出反例" 这个直觉无据**:
+
+我之前在文档里有过 "高 k 是反例最优路径" 类型的措辞, 实际数据**不支持**这点:
+
+1. **wl063 全 G_M scan**: 338,225 顶点 (含全部 K_5 到 K_10) → 0 closure
+2. **wl065 K_9/K_10 全检**: 16 个 hub → 0 closure (但 sample 仅 4 个 primitive 底型)
+3. **wl066 |Δ|=1 顶点 k 分布** (10 个 near-miss):
+   ```
+   k=2: 9   (90%)     vs 总体 unsafe k=2: 98.04%
+   k=3: 1   (10%)     vs 总体 unsafe k=3:  1.87%
+   ```
+   |Δ|=1 sample 的 k 分布跟总体几乎一致, **没有显示高 k 更近 closure**, 也
+   **没有显示小 k 更近 closure**.
+
+4. **wl065 §3 机制论证**: 高 k 是 primitive 底型 (a₀, b₀) 通过 d 放大产生
+   (X = d²x, Y = d³y 同构), rank 不变, **不在代数层产生新 independent
+   closure 机会**.
+
+**严格能 conclude 的**:
+- (a) 已扫范围内 K_9/K_10 全 closure=0 (sample 小, 不是 statistical proof)
+- (b) 高 k 机制不在 rank 层产生新 independent closure 机会
+- (c) 已扫范围内 closure-near-miss 没有 k 偏好
+
+**严格不能 conclude 的**:
+- ✗ "高 k 不增加反例概率" — sample 太小, 仅 algebraic 论证不够
+- ✗ "反例倾向出在小 k" — |Δ|=1 sample 仅 10 个, k 分布 ≈ 总体
+
+⟹ A.7 仍值得做, 但理由是 **per-point efficiency + path A sample 源**,
+不是"更可能出反例". 不要把"高 k bias"当 established fact 使用.
 
 **工作量**: 1 周 (PARI ellgens 找 generators + 枚举 d 较直接)
 
@@ -496,7 +552,7 @@ K_11+ 是否出现.
 
 按"真正可推动证明 + 可行性高"排序:
 
-1. **A.7 D-scaling K_n 快速生成器** ⭐⭐⭐ ★ (产出 high-k sample 的最优路径)
+1. **A.7 D-scaling K_n 快速生成器** ⭐⭐⭐ ★ (per-point closure-check 信号密度 + A.1 sample 源; ⚠️ **不是**"更高反例概率", 见 A.7 §警告)
 2. **A.2 cycle linear relation 追踪** ⭐⭐⭐ (与 E.3 联动)
 3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 与 A.7 联动)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
