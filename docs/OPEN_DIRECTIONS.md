@@ -148,7 +148,18 @@ rank=1 上 effective (PARI ellheegner 直接可调).
 
 ---
 
-### A.7 D-scaling K_n 快速生成器 ⭐⭐⭐ ★ HIGH-VALUE 工程+算法
+### A.7 D-scaling K_n 快速生成器 ✅ 已实现 (wl085)
+
+**状态**: wl085 落地. 见 `docs/work-logs/085-dscale-kn-fast-generator.md`.
+模块 `src/rational_distance/concordant/dscale_kn.py`, CLI
+`scripts/multi_n/dscale_kn_generator.py`, 测试 `tests/test_dscale_kn.py`.
+
+验证: 6/6 wl063 K_10 hub 完美 reproduce (2.7s for 4 primitives vs wl063
+partner BFS 几十分钟). 新发现 K_11/K_12/K_13 hub (wl063 max_value=100k 限制范围外).
+
+下面保留原始设计文档作 reference.
+
+---
 
 **出处**: wl065 §3 ("再研究每个底型沿着不同放大倍数 d 的 k(d) 如何增长"), wl066
 
@@ -552,9 +563,9 @@ K_11+ 是否出现.
 
 按"真正可推动证明 + 可行性高"排序:
 
-1. **A.7 D-scaling K_n 快速生成器** ⭐⭐⭐ ★ (per-point closure-check 信号密度 + A.1 sample 源; ⚠️ **不是**"更高反例概率", 见 A.7 §警告)
+1. ~~**A.7 D-scaling K_n 快速生成器**~~ ✅ 已实现 wl085 (3 个 K_10 完美 reproduce + K_11/K_12/K_13 新发现)
 2. **A.2 cycle linear relation 追踪** ⭐⭐⭐ (与 E.3 联动)
-3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 与 A.7 联动)
+3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 现在用 A.7 输出做 sample 源)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
 5. **D.1 110 个 F₂-rank ≥ 3 pair PARI ellrank** ⭐⭐⭐ (低成本数据)
 6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐

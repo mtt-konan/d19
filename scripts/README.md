@@ -32,6 +32,7 @@
 | `build_results_catalog.py` | 结果目录构建 |
 | `k_distribution_audit.py` | k 分布 (safe-pass vs unsafe) 统计 (wl084) |
 | `validate_fast_multi_n.py` | fast scanner 与朴素扫描的一致性校验 |
+| `dscale_kn_generator.py` | D-scaling K_n 快速生成器 (wl085, A.7 落地) |
 
 ### `partner/` — Partner graph (G_M) / K_n hub 分析
 
