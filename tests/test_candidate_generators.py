@@ -99,7 +99,7 @@ def test_cli_writes_json_summary(tmp_path: Path) -> None:
     completed = subprocess.run(
         [
             sys.executable,
-            "scripts/benchmark_candidate_generators.py",
+            "scripts/benchmark/benchmark_candidate_generators.py",
             "--max-hyp",
             "200",
             "--json-out",
@@ -125,7 +125,7 @@ def test_cli_can_run_only_multi_n_generator(tmp_path: Path) -> None:
     completed = subprocess.run(
         [
             sys.executable,
-            "scripts/benchmark_candidate_generators.py",
+            "scripts/benchmark/benchmark_candidate_generators.py",
             "--max-hyp",
             "200",
             "--only",

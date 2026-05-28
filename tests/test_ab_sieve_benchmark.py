@@ -30,7 +30,7 @@ from rational_distance.proof_status.ab_sieve_methods import (
     run_factor_concordant_ctx,
     run_multi_n_sieve_ctx,
 )
-from scripts.benchmark_ab_sieve_orders import main
+from scripts.benchmark.benchmark_ab_sieve_orders import main
 
 
 def test_concordant_search_and_multi_n_are_split() -> None:

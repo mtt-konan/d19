@@ -45,9 +45,9 @@ results/multi_concordant_N_max10000.jsonl
 配套索引和查询命令：
 
 ```bash
-uv run python scripts/build_results_catalog.py
+uv run python scripts/multi_n/build_results_catalog.py
 uv run python scripts/lookup_multi_n.py 153 560
-uv run python scripts/analyze_multi_n_half_points.py 153 560
+uv run python scripts/theory/analyze_multi_n_half_points.py 153 560
 ```
 
 其中：
@@ -357,7 +357,7 @@ docs/literature/pdfs/knaf-selder-spindler-2019-algorithm.pdf
 文本抽取：
 
 ```bash
-uv run python scripts/extract_pdf_text.py docs/literature/pdfs/*.pdf
+uv run python scripts/utility/extract_pdf_text.py docs/literature/pdfs/*.pdf
 ```
 
 需要从文中提取：

@@ -19,8 +19,8 @@
 本项目提供了统一脚本：
 
 ```bash
-uv run python scripts/extract_pdf_text.py docs/literature/pdfs/ono-1996-eulers-concordant-forms.pdf
-uv run python scripts/extract_pdf_text.py docs/literature/pdfs/*.pdf
+uv run python scripts/utility/extract_pdf_text.py docs/literature/pdfs/ono-1996-eulers-concordant-forms.pdf
+uv run python scripts/utility/extract_pdf_text.py docs/literature/pdfs/*.pdf
 ```
 
 默认输出到同目录同名 `.txt` 文件。例如：

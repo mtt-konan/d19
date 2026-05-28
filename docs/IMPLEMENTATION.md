@@ -113,7 +113,7 @@
 入口脚本：
 
 - [scripts/prove_no_solution.py](../scripts/prove_no_solution.py)
-- [scripts/benchmark_ab_sieve_orders.py](../scripts/benchmark_ab_sieve_orders.py)
+- [scripts/benchmark/benchmark_ab_sieve_orders.py](../scripts/benchmark/benchmark_ab_sieve_orders.py)
 
 实现备注：
 
@@ -154,11 +154,11 @@
 脚本层：
 
 - [scripts/search.py](../scripts/search.py)
-- [scripts/analyze_ec_db.py](../scripts/analyze_ec_db.py)
-- [scripts/analyze_chain_db.py](../scripts/analyze_chain_db.py)
-- [scripts/benchmark_parallel_executor.py](../scripts/benchmark_parallel_executor.py)
-- [scripts/compare_parametric.py](../scripts/compare_parametric.py)
-- [scripts/visualize.py](../scripts/visualize.py)
+- [scripts/archive/analyze_ec_db.py](../scripts/archive/analyze_ec_db.py)
+- [scripts/archive/analyze_chain_db.py](../scripts/archive/analyze_chain_db.py)
+- [scripts/benchmark/benchmark_parallel_executor.py](../scripts/benchmark/benchmark_parallel_executor.py)
+- [scripts/archive/compare_parametric.py](../scripts/archive/compare_parametric.py)
+- [scripts/archive/visualize.py](../scripts/archive/visualize.py)
 
 实现备注：
 
@@ -169,7 +169,7 @@
   `with cfg.executor() as executor:` 复用同一个 `spawn` 进程池，避免每轮重复建池。
 - **只靠 `on_result` 回调汇总结果**的脚本，优先传 `collect_results=False`，避免在主进程
   里额外攒一整份返回列表。
-- `scripts/benchmark_parallel_executor.py` 是小型基准脚本，用来比较“每轮重建进程池”与
+- `scripts/benchmark/benchmark_parallel_executor.py` 是小型基准脚本，用来比较“每轮重建进程池”与
   “复用进程池”两种写法的真实开销差。
 
 ## 三、入口层和实现层怎么区分

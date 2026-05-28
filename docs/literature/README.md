@@ -61,7 +61,7 @@ literature/
 简言之：
 - 文件名格式：`{作者}-{年份}-{短标题}.pdf`，例如 `bremner-guy-1989-delta-lambda.pdf`
 - PDF 不入 git（受 `.gitignore` 控制），但 `.txt` 抽取文本可以入 git 供 grep/review
-- 抽取文本：`uv run python scripts/extract_pdf_text.py docs/literature/pdfs/*.pdf`
+- 抽取文本：`uv run python scripts/utility/extract_pdf_text.py docs/literature/pdfs/*.pdf`
 - 大于 100MB 的不要放，应放外部存储（Zenodo 等）
 
 ## 相关 worklog

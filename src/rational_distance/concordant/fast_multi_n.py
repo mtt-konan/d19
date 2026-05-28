@@ -1,6 +1,6 @@
 """Pivot-on-N fast generator for multi-concordant-N pairs.
 
-The slow path (`scripts/multi_concordant_n_scan.py`) iterates over reduced
+The slow path (`scripts/multi_n/multi_concordant_n_scan.py`) iterates over reduced
 coprime pairs (A, B) and runs `find_concordant_by_factorization` per pair.
 The fast path inverts the loop: for each candidate A, enumerate the divisor
 factorizations of A^2 to recover every N with A^2 + N^2 a perfect square,

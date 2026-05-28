@@ -82,7 +82,7 @@ fast_multi_concordant_pairs(max_hyp=10000) == ground_truth_pairs
 不追求 v0 同时做 closure / signature / rank。这些是 L2 之后的层，已有工具：
 
 - `scripts/lookup_multi_n.py`
-- `scripts/analyze_multi_n_half_points.py`
+- `scripts/theory/analyze_multi_n_half_points.py`
 
 ## 5. 验证策略
 
