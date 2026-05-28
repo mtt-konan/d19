@@ -53,7 +53,7 @@ def _print_summary(report: dict) -> None:
 
 
 def main() -> None:
-    from rational_distance.ec_analysis import build_analysis_report, parse_triple_arg
+    from rational_distance._legacy.ec_analysis import build_analysis_report, parse_triple_arg
     from scripts.archive.visualize import build_html
 
     parser = argparse.ArgumentParser(description=__doc__)

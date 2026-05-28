@@ -57,7 +57,7 @@ class TestChainCliCache:
         assert "experimental diagonal_sign_sieve: kept 2/10, filtered 8" in proc.stdout
 
     def test_chain_cli_cache_reuse_by_result_mode(self, tmp_path):
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             RESULT_MODE_DEFAULT,
             RESULT_MODE_DIAGONAL_SIGN,
             connect_db,
@@ -122,7 +122,7 @@ class TestChainCliCache:
         )
 
     def test_chain_cli_resume_completes_partial_run(self, tmp_path):
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             RESULT_MODE_DEFAULT,
             checkpoint_run,
             connect_db,
@@ -134,7 +134,7 @@ class TestChainCliCache:
             start_run,
             update_adjacency_max_val,
         )
-        from rational_distance.search_chain import (
+        from rational_distance._legacy.search_chain import (
             _iter_pythagorean_pairs,
             build_adjacency_from_rows,
             find_chains,

@@ -43,13 +43,13 @@ def _resolve_parametric_limits(args: argparse.Namespace) -> None:
 
 def _run_parametric(args: argparse.Namespace) -> None:
     from rational_distance.backend import _try_torch, detect_backend
-    from rational_distance.search import (
+    from rational_distance._legacy.search import (
         brute_force_search,
         dedup_by_symmetry,
         merge_results,
         parametric_search_fast,
     )
-    from rational_distance.search_gpu import parametric_search_gpu
+    from rational_distance._legacy.search_gpu import parametric_search_gpu
 
     _resolve_parametric_limits(args)
 

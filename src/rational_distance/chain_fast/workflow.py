@@ -7,7 +7,7 @@ from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from multiprocessing import cpu_count
 
-from rational_distance.search_chain import ChainResult, _symmetry_group
+from rational_distance._legacy.search_chain import ChainResult, _symmetry_group
 
 from .bucket_stats import BucketStatsCollector
 from .kernel import NearMissRecord, ScanProfile, _numpy_scan_t1, _python_scan_t1

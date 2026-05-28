@@ -6,7 +6,7 @@ import time
 from dataclasses import dataclass
 from math import gcd, isqrt
 
-from rational_distance.search_chain import ChainResult
+from rational_distance._legacy.search_chain import ChainResult
 
 from .bucket_stats import BucketStatsCollector, build_bucket_identities
 from .mod_sieve import DEFAULT_C3_MOD_SIEVE

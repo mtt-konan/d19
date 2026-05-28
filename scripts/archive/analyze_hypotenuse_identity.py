@@ -37,7 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from rational_distance.search_chain import find_chains  # noqa: E402
+from rational_distance._legacy.search_chain import find_chains  # noqa: E402
 
 try:
     from sympy import factorint  # type: ignore[import]

@@ -71,7 +71,7 @@ def _print_summary(report: dict) -> None:
 
 
 def main() -> None:
-    from rational_distance.chain_analysis import build_chain_analysis_report
+    from rational_distance._legacy.chain_analysis import build_chain_analysis_report
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", required=True, help="SQLite database created by chain-fast runs")

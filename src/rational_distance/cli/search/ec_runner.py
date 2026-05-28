@@ -11,8 +11,8 @@ from .output import _print_four_vertex, _print_summary, _print_table, _save_json
 
 def _run_ec(args: argparse.Namespace) -> None:
     from rational_distance.backend import _try_torch, detect_backend
-    from rational_distance.ec_db import ECSearchStore
-    from rational_distance.search_ec import ec_search
+    from rational_distance._legacy.ec_db import ECSearchStore
+    from rational_distance._legacy.search_ec import ec_search
 
     xp = None
     backend_name = "numpy (CPU)"

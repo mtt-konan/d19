@@ -64,7 +64,7 @@ def _experimental_count_before(
 
 
 def _run_chain(args: argparse.Namespace) -> None:
-    from rational_distance.search_chain import (
+    from rational_distance._legacy.search_chain import (
         ChainSearchStats,
         _iter_pythagorean_pairs,
         build_adjacency_from_rows,
@@ -108,7 +108,7 @@ def _run_chain(args: argparse.Namespace) -> None:
         )
         largest_result = _largest_result_by_max_side(results)
     else:
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             RESULT_MODE_DEFAULT,
             checkpoint_run,
             connect_db,

@@ -76,8 +76,8 @@ def _print_chain_fast_banner(
 
 
 def _run_chain_fast(args: argparse.Namespace) -> None:
-    from rational_distance.search_chain import results_to_json
-    from rational_distance.search_chain_fast import (
+    from rational_distance._legacy.search_chain import results_to_json
+    from rational_distance._legacy.search_chain_fast import (
         build_chain_fast_triples,
         resolve_backend_choice,
         run_chain_fast,
@@ -98,7 +98,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
     db_write_s = 0.0
 
     if getattr(args, "db", None):
-        from rational_distance.chain_db import (
+        from rational_distance._legacy.chain_db import (
             cache_triples,
             connect_db,
             init_schema,
@@ -154,7 +154,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
             near_miss_store.consider(a, b, c, d, c3_ok, c4_ok, sq3, sq4, h3, h4)
 
     if db_conn is not None:
-        from rational_distance.chain_db import checkpoint_t1
+        from rational_distance._legacy.chain_db import checkpoint_t1
 
         def chunk_complete_callback(last_t1_index: int) -> None:
             checkpoint_t1(db_conn, run_id, last_t1_index)
@@ -194,7 +194,7 @@ def _run_chain_fast(args: argparse.Namespace) -> None:
 
     run_row = None
     if db_conn is not None:
-        from rational_distance.chain_db import (
+        from rational_distance._legacy.chain_db import (
             finish_run,
             get_bucket_stats,
             get_near_misses,

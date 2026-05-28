@@ -12,18 +12,18 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
-from rational_distance import parametric_core as core
+from rational_distance._legacy import parametric_core as core
 from rational_distance.backend import detect_backend
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
-from rational_distance.search import (
+from rational_distance._legacy.search import (
     _parametric_search_fast_run,
     brute_force_search,
     dedup_by_symmetry,
     parametric_search,
     parametric_search_fast,
 )
-from rational_distance.search_gpu import _parametric_search_gpu_run, parametric_search_gpu
-from rational_distance.square import VERTICES, make_point
+from rational_distance._legacy.search_gpu import _parametric_search_gpu_run, parametric_search_gpu
+from rational_distance._legacy.square import VERTICES, make_point
 
 
 class TestRationalSqrt:
@@ -116,7 +116,7 @@ class TestRationalPoint:
 
     def test_canonical_xy_idempotent_and_consistent(self):
         """canonical_xy is idempotent: applying it twice gives the same result."""
-        from rational_distance.square import canonical_xy
+        from rational_distance._legacy.square import canonical_xy
 
         # Use a point inside the unit square
         cx1, cy1 = canonical_xy(Fraction(3, 7), Fraction(2, 5))
@@ -125,7 +125,7 @@ class TestRationalPoint:
 
     def test_canonical_xy_same_orbit(self):
         """D4-symmetric points map to the same canonical representative."""
-        from rational_distance.square import canonical_xy
+        from rational_distance._legacy.square import canonical_xy
 
         x, y = Fraction(1, 3), Fraction(1, 4)
         # D4 images of (x, y) in unit square: (1-x,y), (x,1-y), (1-x,1-y), (y,x), ...
@@ -223,7 +223,7 @@ class TestDedupBySymmetry:
 
     def test_no_symmetric_duplicates_remain(self):
         """After dedup, no two points should be related by a D4 symmetry."""
-        from rational_distance.square import canonical_xy
+        from rational_distance._legacy.square import canonical_xy
 
         results = parametric_search_fast(
             max_m=20, max_k_num=80, max_k_den=40, workers=1, progress=False

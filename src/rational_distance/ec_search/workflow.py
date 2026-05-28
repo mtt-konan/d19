@@ -8,7 +8,7 @@ from typing import Any
 import numpy as np
 
 from rational_distance.math_utils import primitive_pythagorean_triples
-from rational_distance.square import RationalPoint, canonical_xy, make_point
+from rational_distance._legacy.square import RationalPoint, canonical_xy, make_point
 
 from .curve import QuarticEC
 from .models import ECCandidateRecord, ECSeedBranch, ECSeedRecord, ECTripleTrace

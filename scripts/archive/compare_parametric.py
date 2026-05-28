@@ -93,8 +93,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
-    from rational_distance.search import _parametric_search_fast_run, dedup_by_symmetry
-    from rational_distance.search_gpu import _parametric_search_gpu_run
+    from rational_distance._legacy.search import _parametric_search_fast_run, dedup_by_symmetry
+    from rational_distance._legacy.search_gpu import _parametric_search_gpu_run
 
     args = build_parser().parse_args()
     _resolve_limits(args)

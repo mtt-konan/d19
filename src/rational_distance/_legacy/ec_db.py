@@ -9,8 +9,8 @@ from datetime import UTC, datetime
 from fractions import Fraction
 from pathlib import Path
 
-from rational_distance.search_ec import ECTripleTrace
-from rational_distance.square import RationalPoint
+from rational_distance._legacy.search_ec import ECTripleTrace
+from rational_distance._legacy.square import RationalPoint
 
 
 def _utc_now() -> str:

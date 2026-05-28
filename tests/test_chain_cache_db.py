@@ -12,8 +12,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 
 def _cache_adjacency_to(conn, old_max: int, new_max: int) -> int:
-    from rational_distance.chain_cache_db import insert_adjacency_rows
-    from rational_distance.search_chain import _iter_pythagorean_pairs
+    from rational_distance._legacy.chain_cache_db import insert_adjacency_rows
+    from rational_distance._legacy.search_chain import _iter_pythagorean_pairs
 
     inserted = 0
     if new_max <= old_max:
@@ -43,14 +43,14 @@ def _cache_adjacency_to(conn, old_max: int, new_max: int) -> int:
 
 class TestChainCacheDb:
     def test_adjacency_round_trip_incremental(self, tmp_path):
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             connect_db,
             get_cache_state,
             init_schema,
             load_cached_adjacency_rows,
             update_cache_state,
         )
-        from rational_distance.search_chain import _build_adjacency, build_adjacency_from_rows
+        from rational_distance._legacy.search_chain import _build_adjacency, build_adjacency_from_rows
 
         db_path = tmp_path / "chain-cache.db"
         conn = connect_db(db_path)
@@ -72,7 +72,7 @@ class TestChainCacheDb:
         conn.close()
 
     def test_cached_results_match_fresh_search_and_filters(self, tmp_path):
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             RESULT_MODE_DEFAULT,
             RESULT_MODE_DIAGONAL_SIGN,
             connect_db,
@@ -84,7 +84,7 @@ class TestChainCacheDb:
             update_adjacency_max_val,
             update_result_state,
         )
-        from rational_distance.search_chain import (
+        from rational_distance._legacy.search_chain import (
             build_adjacency_from_rows,
             find_chains,
             iter_chain_results,
@@ -194,7 +194,7 @@ class TestChainCacheDb:
         conn.close()
 
     def test_run_resume_bookkeeping_isolated_by_result_mode(self, tmp_path):
-        from rational_distance.chain_cache_db import (
+        from rational_distance._legacy.chain_cache_db import (
             RESULT_MODE_DEFAULT,
             RESULT_MODE_DIAGONAL_SIGN,
             checkpoint_run,
@@ -284,7 +284,7 @@ class TestChainCacheDb:
         conn.close()
 
     def test_schema_v1_db_is_rejected(self, tmp_path):
-        from rational_distance.chain_cache_db import connect_db, init_schema
+        from rational_distance._legacy.chain_cache_db import connect_db, init_schema
 
         db_path = tmp_path / "legacy-v1.sqlite3"
         conn = sqlite3.connect(db_path)

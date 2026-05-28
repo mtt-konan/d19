@@ -6,7 +6,7 @@ import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 
-from rational_distance.search_chain import ChainResult
+from rational_distance._legacy.search_chain import ChainResult
 
 CHAIN_CACHE_SCHEMA_VERSION = 2
 RESULT_MODE_DEFAULT = "default"

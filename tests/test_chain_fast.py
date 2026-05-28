@@ -46,14 +46,14 @@ class TestChainFast:
 
     def test_returns_list(self):
         """find_chains_fast should return an empty list (no Harborth solution known)."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         results = find_chains_fast(max_hyp=200, progress=False)
         assert isinstance(results, list)
 
     def test_all_results_square_ok(self):
         """All results must satisfy a+c == b+d by construction."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         for r in find_chains_fast(max_hyp=500, progress=False):
             assert r.square_ok, f"square_ok should be True: {r}"
@@ -61,7 +61,7 @@ class TestChainFast:
 
     def test_pythagorean_conditions(self):
         """All four hypotenuses must be correct integer square roots."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         for r in find_chains_fast(max_hyp=500, progress=False):
             assert r.x1 ** 2 == r.a ** 2 + r.b ** 2, f"x1 wrong: {r}"
@@ -78,22 +78,22 @@ class TestChainFastAdditional:
 
     def test_no_cross_product_family(self):
         """No result should belong to the cross-product family (ac == bd)."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         for r in find_chains_fast(max_hyp=500, progress=False):
             assert r.a * r.c != r.b * r.d, f"Cross-product family found: {r}"
 
     def test_all_distinct(self):
         """All four values a,b,c,d must be distinct."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         for r in find_chains_fast(max_hyp=500, progress=False):
             assert len({r.a, r.b, r.c, r.d}) == 4, f"Non-distinct: {r}"
 
     def test_no_duplicates(self):
         """No two results should be equivalent under the dihedral symmetry group."""
-        from rational_distance.search_chain import _symmetry_group
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain import _symmetry_group
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         results = find_chains_fast(max_hyp=500, progress=False)
         keys: set[tuple[int, int, int, int]] = set()
@@ -105,8 +105,8 @@ class TestChainFastAdditional:
 
     def test_consistent_with_chain_no_solution(self):
         """Both search methods should agree: no unit-square solution in small range."""
-        from rational_distance.search_chain import find_chains
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain import find_chains
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         fast = find_chains_fast(max_hyp=200, progress=False)
         slow = find_chains(max_val=200, require_square=True, progress=False)
@@ -184,7 +184,7 @@ class TestChainFastNumpy:
 
     def test_numpy_matches_python(self):
         """numpy and python backends must return identical results."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         py = find_chains_fast(max_hyp=300, progress=False, backend="python")
         np_ = find_chains_fast(max_hyp=300, progress=False, backend="numpy")
@@ -192,7 +192,7 @@ class TestChainFastNumpy:
 
     def test_auto_selects_numpy(self):
         """backend='auto' should choose numpy when it is available."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, find_chains_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -201,7 +201,7 @@ class TestChainFastNumpy:
 
     def test_numpy_backend_forced(self):
         """backend='numpy' should not raise for safe max_hyp values."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, find_chains_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -209,7 +209,7 @@ class TestChainFastNumpy:
 
     def test_numpy_overflow_guard(self):
         """backend='numpy' with max_hyp > _NUMPY_MAX_HYP must raise ValueError."""
-        from rational_distance.search_chain_fast import (
+        from rational_distance._legacy.search_chain_fast import (
             _HAS_NUMPY,
             _NUMPY_MAX_HYP,
             find_chains_fast,
@@ -222,7 +222,7 @@ class TestChainFastNumpy:
 
     def test_near_miss_callback_fires_same_count(self):
         """near_miss_callback should fire the same number of times for both backends."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, find_chains_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -238,7 +238,7 @@ class TestChainFastNumpy:
 
     def test_mod_sieve_numpy_matches_python(self):
         """The experimental mod sieve must preserve results across both backends."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, find_chains_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -248,7 +248,7 @@ class TestChainFastNumpy:
 
     def test_safe_pair_sieve_rejects_numpy_backend(self):
         """The safe pair sieve is an experimental python-only path."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, run_chain_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -262,7 +262,7 @@ class TestChainFastNumpy:
 
     def test_safe_pair_sieve_rejects_auto_when_numpy_would_be_used(self):
         """backend=auto should also fail if it resolves to numpy."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, run_chain_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -276,7 +276,7 @@ class TestChainFastNumpy:
 
     def test_start_t1_resumes_subset(self):
         """start_t1=k should return a subset of the full run's results."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         full = find_chains_fast(max_hyp=300, progress=False, backend="python")
         partial = find_chains_fast(max_hyp=300, progress=False, backend="python", start_t1=5)
@@ -286,7 +286,7 @@ class TestChainFastNumpy:
 
     def test_python_workers_match_single_process(self):
         """workers>1 must preserve the exact python-backend result set."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         single = find_chains_fast(max_hyp=300, progress=False, backend="python", workers=1)
         parallel = find_chains_fast(max_hyp=300, progress=False, backend="python", workers=2)
@@ -294,7 +294,7 @@ class TestChainFastNumpy:
 
     def test_numpy_workers_match_single_process(self):
         """workers>1 must preserve the exact numpy-backend result set."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, find_chains_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, find_chains_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -304,7 +304,7 @@ class TestChainFastNumpy:
 
     def test_parallel_start_t1_resumes_subset(self):
         """workers>1 with start_t1 should still return a subset of the full run."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         full = find_chains_fast(max_hyp=300, progress=False, backend="python", workers=2)
         partial = find_chains_fast(
@@ -326,7 +326,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_profile_fields_python(self):
         """run_chain_fast(profile=True) should populate the expected fields."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         execution = run_chain_fast(max_hyp=200, progress=False, backend="python", profile=True)
         profile = execution.profile.as_dict()
@@ -369,7 +369,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_profile_keys_match_numpy(self):
         """python and numpy profiled runs should expose the same profile keys."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, run_chain_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -389,7 +389,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_profile_mod_sieve_fields(self):
         """Enabling mod sieve should populate its counters and preserve monotonic counts."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         profile = run_chain_fast(
             max_hyp=200,
@@ -412,7 +412,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_profile_safe_pair_sieve_fields(self):
         """Enabling the safe pair sieve should expose stable counters and timings."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         profile = run_chain_fast(
             max_hyp=200,
@@ -433,7 +433,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_with_cached_triples_keeps_results(self):
         """Passing prebuilt triples should not change the result set."""
-        from rational_distance.search_chain_fast import (
+        from rational_distance._legacy.search_chain_fast import (
             build_chain_fast_triples,
             find_chains_fast,
             run_chain_fast,
@@ -453,7 +453,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_bucket_stats_rows_are_monotone(self):
         """bucket_stats=True should emit stable per-bucket monotone counters."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         execution = run_chain_fast(
             max_hyp=120,
@@ -484,7 +484,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_bucket_stats_match_parallel_python(self):
         """bucket stats should be identical across python worker counts."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         single = run_chain_fast(
             max_hyp=120,
@@ -504,7 +504,7 @@ class TestChainFastProfile:
 
     def test_run_chain_fast_bucket_stats_match_numpy_totals(self):
         """When numpy is available, bucket totals should match the python backend."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY, run_chain_fast
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY, run_chain_fast
 
         if not _HAS_NUMPY:
             pytest.skip("numpy not installed")
@@ -526,7 +526,7 @@ class TestChainFastProfile:
 
     def test_bucket_stats_do_not_change_results_or_near_misses(self):
         """bucket stats collection must not change the solution or near-miss sets."""
-        from rational_distance.search_chain_fast import run_chain_fast
+        from rational_distance._legacy.search_chain_fast import run_chain_fast
 
         baseline_near_misses: list[tuple] = []
         bucket_near_misses: list[tuple] = []
@@ -570,7 +570,7 @@ class TestChainFastModSieve:
 
     def test_mod_sieve_keeps_python_results_and_near_misses(self):
         """The sieve must not change solutions or near-miss callbacks on python."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         baseline_near_misses: list[tuple] = []
         sieve_near_misses: list[tuple] = []
@@ -596,7 +596,7 @@ class TestChainFastSafePairSieve:
 
     def test_safe_pair_sieve_keeps_python_results_and_near_misses(self):
         """The safe sieve must only remove doomed pairs, not change outputs."""
-        from rational_distance.search_chain_fast import find_chains_fast
+        from rational_distance._legacy.search_chain_fast import find_chains_fast
 
         baseline_near_misses: list[tuple] = []
         sieve_near_misses: list[tuple] = []

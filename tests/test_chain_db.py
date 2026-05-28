@@ -15,7 +15,7 @@ class TestChainDB:
     """Tests for the chain_db SQLite persistence layer."""
 
     def _make_conn(self, tmp_path):
-        from rational_distance.chain_db import connect_db, init_schema
+        from rational_distance._legacy.chain_db import connect_db, init_schema
 
         conn = connect_db(tmp_path / "test.db")
         init_schema(conn)
@@ -58,8 +58,8 @@ class TestChainDB:
 
     def test_start_and_finish_run(self, tmp_path):
         """start_run and finish_run should store profile fields."""
-        from rational_distance.chain_db import finish_run, get_run, start_run
-        from rational_distance.search_chain_fast import ChainFastProfile
+        from rational_distance._legacy.chain_db import finish_run, get_run, start_run
+        from rational_distance._legacy.search_chain_fast import ChainFastProfile
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(
@@ -105,8 +105,8 @@ class TestChainDB:
 
     def test_record_solution_dedup(self, tmp_path):
         """record_solution should dedup within one run and count only real inserts."""
-        from rational_distance.chain_db import get_run, record_solution, start_run
-        from rational_distance.search_chain import ChainResult
+        from rational_distance._legacy.chain_db import get_run, record_solution, start_run
+        from rational_distance._legacy.search_chain import ChainResult
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(), n_triples=160)
@@ -120,8 +120,8 @@ class TestChainDB:
 
     def test_record_solution_isolated_per_run(self, tmp_path):
         """The same solution should be storable in two different runs."""
-        from rational_distance.chain_db import get_run, record_solution, start_run
-        from rational_distance.search_chain import ChainResult
+        from rational_distance._legacy.chain_db import get_run, record_solution, start_run
+        from rational_distance._legacy.search_chain import ChainResult
 
         conn = self._make_conn(tmp_path)
         run_a = start_run(conn, self._params(max_hyp=500), n_triples=160)
@@ -138,7 +138,7 @@ class TestChainDB:
 
     def test_checkpoint_and_resume(self, tmp_path):
         """resume_run should only match runs with identical params."""
-        from rational_distance.chain_db import checkpoint_t1, resume_run, start_run
+        from rational_distance._legacy.chain_db import checkpoint_t1, resume_run, start_run
 
         conn = self._make_conn(tmp_path)
         params = self._params(backend="numpy")
@@ -155,7 +155,7 @@ class TestChainDB:
 
     def test_record_near_miss(self, tmp_path):
         """record_near_miss should dedup within one run and count only real inserts."""
-        from rational_distance.chain_db import get_near_misses, get_run, record_near_miss, start_run
+        from rational_distance._legacy.chain_db import get_near_misses, get_run, record_near_miss, start_run
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(near_miss=True), n_triples=160)
@@ -195,7 +195,7 @@ class TestChainDB:
 
     def test_record_near_miss_isolated_per_run(self, tmp_path):
         """The same near-miss should be storable in two different runs."""
-        from rational_distance.chain_db import get_run, record_near_miss, start_run
+        from rational_distance._legacy.chain_db import get_run, record_near_miss, start_run
 
         conn = self._make_conn(tmp_path)
         run_a = start_run(conn, self._params(max_hyp=500, near_miss=True), n_triples=160)
@@ -223,14 +223,14 @@ class TestChainDB:
 
     def test_finish_run_recomputes_counts(self, tmp_path):
         """finish_run should recompute both counts from the per-run tables."""
-        from rational_distance.chain_db import (
+        from rational_distance._legacy.chain_db import (
             finish_run,
             get_run,
             record_near_miss,
             record_solution,
             start_run,
         )
-        from rational_distance.search_chain import ChainResult
+        from rational_distance._legacy.search_chain import ChainResult
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(near_miss=True), n_triples=160)
@@ -265,7 +265,7 @@ class TestChainDB:
         """Old chain DBs without a schema marker should be rejected."""
         import sqlite3
 
-        from rational_distance.chain_db import connect_db, init_schema
+        from rational_distance._legacy.chain_db import connect_db, init_schema
 
         db_path = tmp_path / "legacy.db"
         legacy = sqlite3.connect(db_path)
@@ -289,7 +289,7 @@ class TestChainDB:
         """Older schema versions with chain_meta should also be rejected."""
         import sqlite3
 
-        from rational_distance.chain_db import connect_db, init_schema
+        from rational_distance._legacy.chain_db import connect_db, init_schema
 
         db_path = tmp_path / "old_version.db"
         legacy = sqlite3.connect(db_path)
@@ -306,7 +306,7 @@ class TestChainDB:
 
     def test_cache_and_record_run_triples(self, tmp_path):
         """Triple cache and per-run triple recording should persist ordered triples."""
-        from rational_distance.chain_db import (
+        from rational_distance._legacy.chain_db import (
             cache_triples,
             load_cached_triples,
             record_run_triples,
@@ -333,7 +333,7 @@ class TestChainDB:
 
     def test_record_bucket_stats(self, tmp_path):
         """Aggregated bucket stats should persist and be queryable per run."""
-        from rational_distance.chain_db import get_bucket_stats, record_bucket_stats, start_run
+        from rational_distance._legacy.chain_db import get_bucket_stats, record_bucket_stats, start_run
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(bucket_stats=True), n_triples=2)

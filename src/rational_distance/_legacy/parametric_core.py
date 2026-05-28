@@ -15,7 +15,7 @@ from math import gcd, isqrt
 import numpy as np
 
 from rational_distance.backend import _xp_cast
-from rational_distance.square import RationalPoint
+from rational_distance._legacy.square import RationalPoint
 
 # Largest integer X such that X^2 and (X+1)^2 both fit in int64 after the
 # "sum of two squares" safety margin is applied.

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from fractions import Fraction
 
-from rational_distance.square import RationalPoint
+from rational_distance._legacy.square import RationalPoint
 
 
 @dataclass(frozen=True)

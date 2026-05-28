@@ -8,7 +8,7 @@ from fractions import Fraction
 from pathlib import Path
 from statistics import median
 
-from rational_distance.ec_db import connect_db, resolve_run_row
+from rational_distance._legacy.ec_db import connect_db, resolve_run_row
 
 
 def parse_triple_arg(text: str) -> tuple[int, int, int]:

@@ -23,10 +23,10 @@ Architecture guard:
 
 from __future__ import annotations
 
-from rational_distance import parametric_core as core
+from rational_distance._legacy import parametric_core as core
 from rational_distance.backend import detect_backend
 from rational_distance.math_utils import primitive_pythagorean_triples
-from rational_distance.square import RationalPoint
+from rational_distance._legacy.square import RationalPoint
 
 # ── Public GPU search ─────────────────────────────────────────────────────────
 

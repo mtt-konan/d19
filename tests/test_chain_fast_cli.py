@@ -53,9 +53,9 @@ class TestChainFastCLI:
         first = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=True)
         assert "Profile:" in first.stdout
 
-        from rational_distance.chain_db import connect_db as chain_connect_db
-        from rational_distance.chain_db import get_run
-        from rational_distance.chain_db import init_schema as chain_init_schema
+        from rational_distance._legacy.chain_db import connect_db as chain_connect_db
+        from rational_distance._legacy.chain_db import get_run
+        from rational_distance._legacy.chain_db import init_schema as chain_init_schema
 
         conn = chain_connect_db(db_path)
         chain_init_schema(conn)
@@ -103,10 +103,10 @@ class TestChainFastCLI:
         ]
         subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=True)
 
-        from rational_distance.chain_db import connect_db as chain_connect_db
-        from rational_distance.chain_db import get_near_misses as chain_get_near_misses
-        from rational_distance.chain_db import get_run
-        from rational_distance.chain_db import init_schema as chain_init_schema
+        from rational_distance._legacy.chain_db import connect_db as chain_connect_db
+        from rational_distance._legacy.chain_db import get_near_misses as chain_get_near_misses
+        from rational_distance._legacy.chain_db import get_run
+        from rational_distance._legacy.chain_db import init_schema as chain_init_schema
 
         conn = chain_connect_db(db_path)
         chain_init_schema(conn)
@@ -146,10 +146,10 @@ class TestChainFastCLI:
         ]
         subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, check=True)
 
-        from rational_distance.chain_db import connect_db as chain_connect_db
-        from rational_distance.chain_db import get_bucket_stats as chain_get_bucket_stats
-        from rational_distance.chain_db import get_run
-        from rational_distance.chain_db import init_schema as chain_init_schema
+        from rational_distance._legacy.chain_db import connect_db as chain_connect_db
+        from rational_distance._legacy.chain_db import get_bucket_stats as chain_get_bucket_stats
+        from rational_distance._legacy.chain_db import get_run
+        from rational_distance._legacy.chain_db import init_schema as chain_init_schema
 
         conn = chain_connect_db(db_path)
         chain_init_schema(conn)
@@ -257,7 +257,7 @@ class TestChainFastCLI:
 
     def test_chain_fast_cli_safe_pair_sieve_requires_python_backend(self):
         """CLI should fail clearly when safe-pair-sieve would hit numpy."""
-        from rational_distance.search_chain_fast import _HAS_NUMPY
+        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY
 
         for backend in ("numpy", "auto"):
             if backend == "auto" and not _HAS_NUMPY:

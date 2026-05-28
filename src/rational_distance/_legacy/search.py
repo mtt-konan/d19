@@ -44,9 +44,9 @@ from math import gcd
 
 import numpy as np
 
-from rational_distance import parametric_core as core
+from rational_distance._legacy import parametric_core as core
 from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
-from rational_distance.square import RationalPoint, make_point
+from rational_distance._legacy.square import RationalPoint, make_point
 
 # ── Worker state (set once per process by _init_worker) ──────────────────────
 
@@ -280,7 +280,7 @@ def dedup_by_symmetry(points: list[RationalPoint]) -> list[RationalPoint]:
     For each orbit the representative kept is the one with the most rational
     distances; ties are broken by smallest denominator, then lexicographic (x,y).
     """
-    from rational_distance.square import canonical_xy
+    from rational_distance._legacy.square import canonical_xy
 
     best: dict[tuple[Fraction, Fraction], RationalPoint] = {}
     for pt in points:

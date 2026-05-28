@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from tqdm import tqdm
 
 from rational_distance.math_utils import primitive_pythagorean_triples
-from rational_distance.search_chain import ChainResult
+from rational_distance._legacy.search_chain import ChainResult
 
 from .bucket_stats import BucketStatRow, BucketStatsCollector
 from .mod_sieve import DEFAULT_MODULI

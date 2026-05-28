@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from rational_distance.chain_db import connect_db, get_bucket_stats, init_schema
+from rational_distance._legacy.chain_db import connect_db, get_bucket_stats, init_schema
 
 _BUCKET_TYPES = ("g_bucket", "delta_bucket", "residue_bucket")
 
