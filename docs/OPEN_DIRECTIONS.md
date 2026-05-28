@@ -124,6 +124,35 @@ rank=1 上 effective (PARI ellheegner 直接可调).
 
 ---
 
+### A.7 D-scaling K_n 快速生成器 ⭐⭐⭐ ★ HIGH-VALUE 工程+算法
+
+**出处**: wl065 §3 ("再研究每个底型沿着不同放大倍数 d 的 k(d) 如何增长"), wl066
+
+**问题**: 现有 `fast_multi_concordant_pairs` 是全 (a, b) ≤ max_hyp 暴力扫. 找到
+K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70,117),
+(91,990), (221,704)) 就解释 wl065 全部 16 个 K_9/K_10 样本.
+
+**思路 (wl065 已分析机制, 未实现)**:
+
+```
+1. 在 small max_hyp 内扫 primitive (a₀, b₀) (rank ≥ 1)
+2. 对每个 primitive, PARI 算 E_{a₀,b₀}(ℚ) 的有限 rational concordant n 全集
+3. 枚举放大倍数 d ∈ ℤ⁺, 对每个 n 检查 d·n ∈ ℤ (即 d 清掉 n 分母)
+4. 输出 (d·a₀, d·b₀) 与对应 N = d·n 的整数集
+5. filter k(d, primitive) ≥ target, target=4/5/9/10/...
+```
+
+**关键事实**: 同构 X = d² x, Y = d³ y 让 rank 不变, 但整数 N 是 d 决定的.
+
+**预期收益**:
+- 给定 target k=10, 不必扫到 max_hyp 极大, 只用几十个 primitive × 几千个 d
+- 是发现 high-k counterexample candidates (closure check) 的最高效率路径
+- 对 path A K_n hub partner identity 推广 (A.1) 提供 sample
+
+**工作量**: 1 周 (PARI ellgens 找 generators + 枚举 d 较直接)
+
+---
+
 ### A.6 K_n 与 4-chain 反例的关系厘清 ⭐⭐
 
 **出处**: wl055 §下一步 3
@@ -467,14 +496,15 @@ K_11+ 是否出现.
 
 按"真正可推动证明 + 可行性高"排序:
 
-1. **A.2 cycle linear relation 追踪** ⭐⭐⭐ (与 E.3 联动)
-2. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性)
-3. **A.3 Heegner sieve on outliers** ⭐⭐
-4. **D.1 110 个 F₂-rank ≥ 3 pair PARI ellrank** ⭐⭐⭐ (低成本数据)
-5. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
-6. **C.2-C.4 工程小项** ⭐⭐⭐ (低成本工程)
-7. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
-8. **A.6 K_n vs 4-chain 严格关系** ⭐⭐ (纸面工作)
+1. **A.7 D-scaling K_n 快速生成器** ⭐⭐⭐ ★ (产出 high-k sample 的最优路径)
+2. **A.2 cycle linear relation 追踪** ⭐⭐⭐ (与 E.3 联动)
+3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 与 A.7 联动)
+4. **A.3 Heegner sieve on outliers** ⭐⭐
+5. **D.1 110 个 F₂-rank ≥ 3 pair PARI ellrank** ⭐⭐⭐ (低成本数据)
+6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
+7. **C.2-C.4 工程小项** ⭐⭐⭐ (低成本工程)
+8. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
+9. **A.6 K_n vs 4-chain 严格关系** ⭐⭐ (纸面工作)
 
 按"工作量低 + 立即可做"排序:
 
