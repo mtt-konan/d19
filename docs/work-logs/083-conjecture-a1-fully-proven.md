@@ -1,5 +1,12 @@
 # wl083 — Conjecture A1 完全严格证明
 
+> ⚠️ **后续修正 (wl084)**: 本 wl 标题与结论 **over-claim**. 它把 step (b)
+> 归约到 wl082, 但 wl082 论证 invalid for `c` composite. k=2 sample 上
+> 实证 0/3758 violations 是 vacuous truth (hypothesis 从未触发).
+> A1 严格证明仍开放. 详见
+> `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md`.
+
+
 承接 wl082 (A2-hard 证明). 本 wl 通过一个简单观察彻底关闭 A1 sketch 的
 最后 algebraic gap, 完成 **k=2 multi-N pair ⟹ rank(E_{A,B}) ≥ 2** 的严格证明.
 

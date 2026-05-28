@@ -1,5 +1,11 @@
 # wl081 — Path A 接续: algebraic step (a) 严格化 + (b) gap 收窄
 
+> ⚠️ **后续修正 (wl084)**: 本 wl 提出 Conjecture A2 与 step (b) 收窄思路.
+> step (a) sign argument 仍严格. step (b) 在 wl082-083 中"完成"的论证有 bug
+> (Gaussian uniqueness 仅对 c prime-power 成立); k=4 实证存在 counterexample.
+> A1 严格证明实际未完成. 详见 `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md`.
+
+
 承接 wl076 (Conjecture A1 sketch + F₂-rank 实证 1879/1879). 本 wl 重审 sketch, 
 找出 **algebraic gap**, 严格证明其中一部分 (step a), 并把剩余 gap (step b)
 收窄成一个干净的 conjecture A2.

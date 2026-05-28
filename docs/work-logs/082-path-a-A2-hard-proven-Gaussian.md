@@ -1,5 +1,12 @@
 # wl082 — Conjecture A2-hard (d_2=d_3=1) 用 Gaussian integers 严格证明
 
+> ⚠️ **后续修正 (wl084)**: 本 wl 论证有 **bug**. Gaussian uniqueness 假设
+> 仅对 `c` prime/prime-power 成立; 对 `c` composite (多 prime ≡ 1 mod 4 因子)
+> 失效. k=4 实证存在 counterexample (`(A,B,N) = (426496, 482625, 352800)`,
+> `c = 1073 = 29·37`). 论证 invalid. 详见
+> `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md`.
+
+
 承接 wl081 (A2 收窄). 本 wl 把 A2 进一步分成 "hard" 与 "easy"  子情形, 
 **严格证明 hard case 不可能**, 把 A2 的 algebraic gap 缩到 "easy" 案.
 
