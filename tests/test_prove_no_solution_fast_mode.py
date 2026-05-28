@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 import sys
+from collections.abc import Iterable
 from pathlib import Path
 
 import pytest
@@ -26,9 +27,11 @@ def test_cli_fast_core_audits_only_survivors(
 
     db = tmp_path / "proof.sqlite3"
 
-    def fake_generate(max_hyp: int):
+    def fake_iter(max_hyp: int) -> Iterable[tuple[int, int]]:
         assert max_hyp == 100
-        return [(1, 5), (2, 7), (7, 45)]
+        yield (1, 5)
+        yield (2, 7)
+        yield (7, 45)
 
     def fake_run_fast_core(pairs, *, workers, pair_chunk_size, pool_chunksize, on_chunk):
         assert list(pairs) == [(1, 5), (2, 7), (7, 45)]
@@ -79,7 +82,7 @@ def test_cli_fast_core_audits_only_survivors(
         return {"hard_case": 1}
 
     monkeypatch.setattr(cli, "_print_status_report", lambda _db_path: None)
-    monkeypatch.setattr(pair_module, "generate_ab_pairs", fake_generate)
+    monkeypatch.setattr(pair_module, "iter_ab_pairs", fake_iter)
     monkeypatch.setattr(fast_core_module, "run_fast_core", fake_run_fast_core)
     monkeypatch.setattr(workflow_module, "process_pairs_parallel", fake_process_pairs_parallel)
     monkeypatch.setattr(
@@ -128,7 +131,7 @@ def test_cli_fast_core_writes_summary_json(
     summary = tmp_path / "summary.json"
 
     monkeypatch.setattr(cli, "_print_status_report", lambda _db_path: None)
-    monkeypatch.setattr(pair_module, "generate_ab_pairs", lambda _max_hyp: [(1, 5), (7, 45)])
+    monkeypatch.setattr(pair_module, "iter_ab_pairs", lambda _max_hyp: iter([(1, 5), (7, 45)]))
     monkeypatch.setattr(
         fast_core_module,
         "run_fast_core",
@@ -171,6 +174,67 @@ def test_cli_fast_core_writes_summary_json(
     assert payload["survivors"] == [[7, 45]]
 
 
+def test_cli_fast_core_streams_pairs_without_materializing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import rational_distance.concordant.pairs as pair_module
+    import rational_distance.proof_status.fast_core as fast_core_module
+    import rational_distance.proof_status.workflow as workflow_module
+    from rational_distance.proof_status.fast_core import CoreChunkResult
+    from scripts import prove_no_solution as cli
+
+    db = tmp_path / "proof.sqlite3"
+    summary = tmp_path / "summary.json"
+
+    def fail_generate(_max_hyp: int) -> list[tuple[int, int]]:
+        raise AssertionError("fast-core should stream pairs instead of materializing")
+
+    def fake_iter(max_hyp: int) -> Iterable[tuple[int, int]]:
+        assert max_hyp == 100
+        yield (1, 5)
+        yield (7, 45)
+
+    def fake_run_fast_core(pairs, **kwargs):
+        assert list(pairs) == [(1, 5), (7, 45)]
+        return CoreChunkResult(
+            checked=2,
+            no_solution=1,
+            survivors=((7, 45),),
+        )
+
+    monkeypatch.setattr(cli, "_print_status_report", lambda _db_path: None)
+    monkeypatch.setattr(pair_module, "generate_ab_pairs", fail_generate)
+    monkeypatch.setattr(pair_module, "iter_ab_pairs", fake_iter)
+    monkeypatch.setattr(fast_core_module, "run_fast_core", fake_run_fast_core)
+    monkeypatch.setattr(
+        workflow_module,
+        "process_pairs_parallel",
+        lambda *args, **kwargs: {"hard_case": 1},
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "prove_no_solution.py",
+            "--db",
+            str(db),
+            "--max-hyp",
+            "100",
+            "--workers",
+            "2",
+            "--fast-core",
+            "--fast-core-only",
+            "--fast-summary-json",
+            str(summary),
+            "--force",
+            "--no-progress",
+        ],
+    )
+
+    cli.main()
+
+
 def test_cli_fast_core_only_skips_survivor_audit(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -191,7 +255,7 @@ def test_cli_fast_core_only_skips_survivor_audit(
         raise AssertionError("survivor audit should not run in --fast-core-only mode")
 
     monkeypatch.setattr(cli, "_print_status_report", lambda _db_path: None)
-    monkeypatch.setattr(pair_module, "generate_ab_pairs", lambda _max_hyp: [(1, 5), (7, 45)])
+    monkeypatch.setattr(pair_module, "iter_ab_pairs", lambda _max_hyp: iter([(1, 5), (7, 45)]))
     monkeypatch.setattr(
         fast_core_module,
         "run_fast_core",

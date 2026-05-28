@@ -305,7 +305,10 @@ def main() -> None:
     elif args.max_hyp:
         if args.max_hyp <= 0:
             raise SystemExit("--max-hyp must be positive")
-        if workers > 1:
+        if args.fast_core:
+            pairs = iter_ab_pairs(args.max_hyp)
+            pair_label = f"streaming (max_hyp={args.max_hyp})"
+        elif workers > 1:
             pairs = generate_ab_pairs(args.max_hyp)
             pair_label = f"{len(pairs)} (materialized from max_hyp={args.max_hyp})"
         else:
@@ -386,7 +389,7 @@ def main() -> None:
             raise SystemExit("--pair-chunk-size must be positive")
 
         print(
-            f"[phase] fast-core start pairs={len(pairs)} workers={workers} "
+            f"[phase] fast-core start pairs={pair_label} workers={workers} "
             f"chunk_size={args.pair_chunk_size}",
             flush=True,
         )
