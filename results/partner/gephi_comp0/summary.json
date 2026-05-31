@@ -1,0 +1,17 @@
+{
+  "component_id": 0,
+  "vertex_count": 309689,
+  "edge_count": 331803,
+  "nodes_csv": "/Users/konan/Desktop/d19/results/gephi_comp0/nodes.csv",
+  "edges_csv": "/Users/konan/Desktop/d19/results/gephi_comp0/edges.csv",
+  "degree_histogram": {
+    "1": 197488,
+    "3": 81386,
+    "6": 23777,
+    "10": 5642,
+    "15": 1132,
+    "21": 218,
+    "28": 42,
+    "36": 4
+  }
+}

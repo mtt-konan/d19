@@ -1,0 +1,195 @@
+加载 338225 G_M 顶点
+workers=10, chunksize=50
+
+并行扫描 k_real ...
+  [5s] 11801/338225 (2334/s, ETA 140s), k>=9 found=0
+  [10s] 18601/338225 (1848/s, ETA 173s), k>=9 found=0
+  [15s] 24301/338225 (1613/s, ETA 195s), k>=9 found=0
+  [20s] 29251/338225 (1454/s, ETA 213s), k>=9 found=0
+  [25s] 33051/338225 (1314/s, ETA 232s), k>=9 found=0
+  [30s] 37501/338225 (1237/s, ETA 243s), k>=9 found=0
+  [35s] 41601/338225 (1174/s, ETA 253s), k>=9 found=0
+  [40s] 45651/338225 (1129/s, ETA 259s), k>=9 found=0
+  [45s] 49351/338225 (1086/s, ETA 266s), k>=9 found=0
+  [50s] 53201/338225 (1054/s, ETA 270s), k>=9 found=0
+  [56s] 56751/338225 (1022/s, ETA 275s), k>=9 found=0
+  [61s] 60051/338225 (992/s, ETA 281s), k>=9 found=0
+  [66s] 63301/338225 (965/s, ETA 285s), k>=9 found=0
+  [71s] 66501/338225 (941/s, ETA 289s), k>=9 found=0
+  [76s] 69851/338225 (923/s, ETA 291s), k>=9 found=0
+  [81s] 72901/338225 (902/s, ETA 294s), k>=9 found=0
+  [86s] 76051/338225 (885/s, ETA 296s), k>=9 found=0
+  [91s] 79051/338225 (868/s, ETA 298s), k>=9 found=0
+  [96s] 82101/338225 (854/s, ETA 300s), k>=9 found=0
+  [101s] 84951/338225 (840/s, ETA 302s), k>=9 found=0
+  [106s] 87801/338225 (827/s, ETA 303s), k>=9 found=1
+  [111s] 90601/338225 (814/s, ETA 304s), k>=9 found=1
+  [116s] 93551/338225 (804/s, ETA 304s), k>=9 found=1
+  [121s] 96401/338225 (794/s, ETA 305s), k>=9 found=1
+  [127s] 99151/338225 (782/s, ETA 306s), k>=9 found=1
+  [132s] 101901/338225 (773/s, ETA 306s), k>=9 found=1
+  [137s] 104551/338225 (764/s, ETA 306s), k>=9 found=1
+  [142s] 107051/338225 (754/s, ETA 307s), k>=9 found=1
+  [147s] 109651/338225 (746/s, ETA 307s), k>=9 found=2
+  [152s] 112401/338225 (739/s, ETA 306s), k>=9 found=2
+  [157s] 115001/338225 (732/s, ETA 305s), k>=9 found=2
+  [162s] 117551/338225 (724/s, ETA 305s), k>=9 found=2
+  [167s] 120001/338225 (717/s, ETA 304s), k>=9 found=2
+  [172s] 122651/338225 (711/s, ETA 303s), k>=9 found=2
+  [177s] 125151/338225 (705/s, ETA 302s), k>=9 found=3
+  [182s] 127751/338225 (700/s, ETA 301s), k>=9 found=3
+  [188s] 130201/338225 (694/s, ETA 300s), k>=9 found=3
+  [193s] 132701/338225 (688/s, ETA 299s), k>=9 found=4
+  [198s] 135301/338225 (683/s, ETA 297s), k>=9 found=4
+  [203s] 137701/338225 (678/s, ETA 296s), k>=9 found=5
+  [208s] 140201/338225 (673/s, ETA 294s), k>=9 found=5
+  [213s] 142651/338225 (669/s, ETA 293s), k>=9 found=5
+  [218s] 144951/338225 (664/s, ETA 291s), k>=9 found=5
+  [223s] 147201/338225 (659/s, ETA 290s), k>=9 found=6
+  [229s] 149701/338225 (655/s, ETA 288s), k>=9 found=7
+  [234s] 151951/338225 (650/s, ETA 286s), k>=9 found=7
+  [239s] 154201/338225 (646/s, ETA 285s), k>=9 found=7
+  [244s] 156501/338225 (642/s, ETA 283s), k>=9 found=7
+  [249s] 158751/338225 (638/s, ETA 281s), k>=9 found=7
+  [254s] 161001/338225 (634/s, ETA 279s), k>=9 found=7
+  [259s] 163251/338225 (630/s, ETA 278s), k>=9 found=8
+  [264s] 165451/338225 (626/s, ETA 276s), k>=9 found=10
+  [269s] 167501/338225 (622/s, ETA 274s), k>=9 found=10
+  [274s] 169651/338225 (618/s, ETA 273s), k>=9 found=10
+  [280s] 171851/338225 (615/s, ETA 271s), k>=9 found=10
+  [285s] 173951/338225 (611/s, ETA 269s), k>=9 found=10
+  [290s] 176101/338225 (607/s, ETA 267s), k>=9 found=10
+  [295s] 178151/338225 (604/s, ETA 265s), k>=9 found=10
+  [300s] 180351/338225 (601/s, ETA 263s), k>=9 found=10
+  [305s] 182301/338225 (598/s, ETA 261s), k>=9 found=10
+  [310s] 184451/338225 (595/s, ETA 259s), k>=9 found=10
+  [315s] 186501/338225 (591/s, ETA 257s), k>=9 found=10
+  [320s] 188551/338225 (588/s, ETA 254s), k>=9 found=11
+  [326s] 190601/338225 (585/s, ETA 252s), k>=9 found=12
+  [331s] 192551/338225 (582/s, ETA 250s), k>=9 found=12
+  [336s] 194501/338225 (579/s, ETA 248s), k>=9 found=13
+  [341s] 196501/338225 (577/s, ETA 246s), k>=9 found=13
+  [346s] 198401/338225 (574/s, ETA 244s), k>=9 found=13
+  [351s] 200301/338225 (571/s, ETA 242s), k>=9 found=13
+  [356s] 202401/338225 (568/s, ETA 239s), k>=9 found=13
+  [361s] 204351/338225 (566/s, ETA 237s), k>=9 found=13
+  [366s] 206401/338225 (564/s, ETA 234s), k>=9 found=15
+  [371s] 208151/338225 (561/s, ETA 232s), k>=9 found=16
+  [376s] 209651/338225 (557/s, ETA 231s), k>=9 found=16
+  [382s] 211251/338225 (553/s, ETA 229s), k>=9 found=16
+  [387s] 212901/338225 (551/s, ETA 228s), k>=9 found=16
+  [392s] 214601/338225 (548/s, ETA 226s), k>=9 found=16
+  [397s] 216051/338225 (544/s, ETA 225s), k>=9 found=16
+  [402s] 217351/338225 (540/s, ETA 224s), k>=9 found=16
+  [407s] 219351/338225 (539/s, ETA 221s), k>=9 found=17
+  [412s] 221151/338225 (536/s, ETA 218s), k>=9 found=17
+  [417s] 223001/338225 (534/s, ETA 216s), k>=9 found=17
+  [422s] 224701/338225 (532/s, ETA 213s), k>=9 found=17
+  [427s] 226551/338225 (530/s, ETA 211s), k>=9 found=17
+  [432s] 228251/338225 (528/s, ETA 208s), k>=9 found=17
+  [438s] 229951/338225 (525/s, ETA 206s), k>=9 found=17
+  [443s] 231651/338225 (523/s, ETA 204s), k>=9 found=17
+  [448s] 233301/338225 (521/s, ETA 201s), k>=9 found=20
+  [453s] 234951/338225 (519/s, ETA 199s), k>=9 found=21
+  [458s] 236751/338225 (517/s, ETA 196s), k>=9 found=21
+  [463s] 238401/338225 (515/s, ETA 194s), k>=9 found=21
+  [468s] 240101/338225 (513/s, ETA 191s), k>=9 found=22
+  [473s] 241751/338225 (511/s, ETA 189s), k>=9 found=22
+  [478s] 243451/338225 (509/s, ETA 186s), k>=9 found=22
+  [483s] 245051/338225 (507/s, ETA 184s), k>=9 found=23
+  [489s] 246601/338225 (505/s, ETA 182s), k>=9 found=23
+  [494s] 248251/338225 (503/s, ETA 179s), k>=9 found=24
+  [499s] 249701/338225 (501/s, ETA 177s), k>=9 found=24
+  [504s] 251401/338225 (499/s, ETA 174s), k>=9 found=25
+  [509s] 252801/338225 (497/s, ETA 172s), k>=9 found=25
+  [514s] 254351/338225 (495/s, ETA 169s), k>=9 found=25
+  [519s] 255951/338225 (493/s, ETA 167s), k>=9 found=27
+  [524s] 257551/338225 (491/s, ETA 164s), k>=9 found=27
+  [529s] 259251/338225 (490/s, ETA 161s), k>=9 found=28
+  [534s] 260801/338225 (488/s, ETA 159s), k>=9 found=29
+  [539s] 262451/338225 (486/s, ETA 156s), k>=9 found=29
+  [545s] 263951/338225 (485/s, ETA 153s), k>=9 found=30
+  [550s] 265551/338225 (483/s, ETA 150s), k>=9 found=30
+  [555s] 267151/338225 (482/s, ETA 148s), k>=9 found=30
+  [560s] 268651/338225 (480/s, ETA 145s), k>=9 found=32
+  [565s] 270251/338225 (478/s, ETA 142s), k>=9 found=33
+  [570s] 271851/338225 (477/s, ETA 139s), k>=9 found=33
+  [575s] 273401/338225 (475/s, ETA 136s), k>=9 found=34
+  [580s] 274851/338225 (474/s, ETA 134s), k>=9 found=35
+  [585s] 276301/338225 (472/s, ETA 131s), k>=9 found=36
+  [591s] 277651/338225 (470/s, ETA 129s), k>=9 found=37
+  [596s] 279051/338225 (468/s, ETA 126s), k>=9 found=37
+  [601s] 280501/338225 (467/s, ETA 124s), k>=9 found=37
+  [606s] 281901/338225 (465/s, ETA 121s), k>=9 found=37
+  [611s] 283401/338225 (464/s, ETA 118s), k>=9 found=37
+  [616s] 284901/338225 (462/s, ETA 115s), k>=9 found=38
+  [621s] 286351/338225 (461/s, ETA 113s), k>=9 found=38
+  [626s] 287601/338225 (459/s, ETA 110s), k>=9 found=39
+  [631s] 289151/338225 (458/s, ETA 107s), k>=9 found=39
+  [637s] 290651/338225 (456/s, ETA 104s), k>=9 found=39
+  [642s] 292251/338225 (455/s, ETA 101s), k>=9 found=39
+  [647s] 293801/338225 (454/s, ETA 98s), k>=9 found=39
+  [652s] 295301/338225 (453/s, ETA 95s), k>=9 found=40
+  [658s] 296851/338225 (451/s, ETA 92s), k>=9 found=40
+  [663s] 298351/338225 (450/s, ETA 89s), k>=9 found=42
+  [668s] 299951/338225 (449/s, ETA 85s), k>=9 found=42
+  [674s] 301451/338225 (447/s, ETA 82s), k>=9 found=42
+  [679s] 303001/338225 (446/s, ETA 79s), k>=9 found=44
+  [684s] 304351/338225 (445/s, ETA 76s), k>=9 found=46
+  [689s] 305751/338225 (444/s, ETA 73s), k>=9 found=48
+  [694s] 307201/338225 (442/s, ETA 70s), k>=9 found=48
+  [699s] 308801/338225 (442/s, ETA 67s), k>=9 found=48
+  [704s] 310701/338225 (441/s, ETA 62s), k>=9 found=48
+  [709s] 313701/338225 (442/s, ETA 55s), k>=9 found=48
+  [714s] 317901/338225 (445/s, ETA 46s), k>=9 found=48
+  [719s] 324001/338225 (450/s, ETA 32s), k>=9 found=48
+  [724s] 332551/338225 (459/s, ETA 12s), k>=9 found=48
+
+[727.6s] 扫描完成: 48 个 k>=9 顶点
+  k=10: 6
+  k=9 : 42
+
+准备跑 ellrank: 16 pairs (K_10 全, K_9 sample=10)
+
+class pair                    k   rank          deficit sha2  #gens time      
+--------------------------------------------------------------------------------------------------------------
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (554400,  926640)  10  3             7       0     3        0.1s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (369600,  617760)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (301665,  960960)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (224400,  816816)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (184800,  308880)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  ( 76440,  831600)  10  4             6       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 39600,  144144)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 50960,  554400)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 61200,  222768)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 65520,  712800)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 69615,  221760)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 79200,  288288)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 91728,  997920)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 92400,  154440)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 92400,  336336)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (117600,  196560)  9   3             6       0     3        0.0s ⚠ high deficit
+
+聚合统计:
+  K_10:  rank min=3 max=4 avg=3.17  deficit min=6 max=7 avg=6.83  count=6
+         rank > 4: 0 / 6
+  K_9:  rank min=3 max=4 avg=3.30  deficit min=5 max=6 avg=5.70  count=10
+         rank > 4: 0 / 10
+
+result: /Users/konan/Desktop/d19/results/k10_ellrank_wl063.jsonl

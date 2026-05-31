@@ -1,0 +1,28 @@
+{"pair": [264, 420], "depth": 0, "parent": null, "k": 4, "concordant_N": [77, 315, 352, 1440], "gcd": 12}
+{"pair": [77, 315], "depth": 1, "parent": [264, 420], "k": 2, "concordant_N": [264, 420], "gcd": 7}
+{"pair": [77, 352], "depth": 1, "parent": [264, 420], "k": 2, "concordant_N": [264, 420], "gcd": 11}
+{"pair": [77, 1440], "depth": 1, "parent": [264, 420], "k": 2, "concordant_N": [264, 420], "gcd": 1}
+{"pair": [315, 352], "depth": 1, "parent": [264, 420], "k": 2, "concordant_N": [264, 420], "gcd": 1}
+{"pair": [315, 1440], "depth": 1, "parent": [264, 420], "k": 3, "concordant_N": [264, 420, 1080], "gcd": 45}
+{"pair": [352, 1440], "depth": 1, "parent": [264, 420], "k": 3, "concordant_N": [264, 420, 1920], "gcd": 32}
+{"pair": [264, 1080], "depth": 2, "parent": [315, 1440], "k": 3, "concordant_N": [198, 315, 1440], "gcd": 24}
+{"pair": [420, 1080], "depth": 2, "parent": [315, 1440], "k": 2, "concordant_N": [315, 1440], "gcd": 60}
+{"pair": [264, 1920], "depth": 2, "parent": [352, 1440], "k": 2, "concordant_N": [352, 1440], "gcd": 24}
+{"pair": [420, 1920], "depth": 2, "parent": [352, 1440], "k": 3, "concordant_N": [352, 560, 1440], "gcd": 60}
+{"pair": [198, 315], "depth": 3, "parent": [264, 1080], "k": 2, "concordant_N": [264, 1080], "gcd": 9}
+{"pair": [198, 1440], "depth": 3, "parent": [264, 1080], "k": 2, "concordant_N": [264, 1080], "gcd": 18}
+{"pair": [352, 560], "depth": 3, "parent": [420, 1920], "k": 2, "concordant_N": [420, 1920], "gcd": 16}
+{"pair": [560, 1440], "depth": 3, "parent": [420, 1920], "k": 3, "concordant_N": [420, 702, 1920], "gcd": 80}
+{"pair": [420, 702], "depth": 4, "parent": [560, 1440], "k": 2, "concordant_N": [560, 1440], "gcd": 6}
+{"pair": [702, 1920], "depth": 4, "parent": [560, 1440], "k": 3, "concordant_N": [560, 936, 1440], "gcd": 6}
+{"pair": [560, 936], "depth": 5, "parent": [702, 1920], "k": 4, "concordant_N": [75, 273, 702, 1920], "gcd": 8}
+{"pair": [936, 1440], "depth": 5, "parent": [702, 1920], "k": 2, "concordant_N": [702, 1920], "gcd": 72}
+{"pair": [75, 273], "depth": 6, "parent": [560, 936], "k": 3, "concordant_N": [180, 560, 936], "gcd": 3}
+{"pair": [75, 702], "depth": 6, "parent": [560, 936], "k": 2, "concordant_N": [560, 936], "gcd": 3}
+{"pair": [75, 1920], "depth": 6, "parent": [560, 936], "k": 2, "concordant_N": [560, 936], "gcd": 15}
+{"pair": [273, 702], "depth": 6, "parent": [560, 936], "k": 2, "concordant_N": [560, 936], "gcd": 39}
+{"pair": [273, 1920], "depth": 6, "parent": [560, 936], "k": 2, "concordant_N": [560, 936], "gcd": 3}
+{"pair": [180, 560], "depth": 7, "parent": [75, 273], "k": 3, "concordant_N": [75, 273, 1344], "gcd": 20}
+{"pair": [180, 936], "depth": 7, "parent": [75, 273], "k": 2, "concordant_N": [75, 273], "gcd": 36}
+{"pair": [75, 1344], "depth": 8, "parent": [180, 560], "k": 2, "concordant_N": [180, 560], "gcd": 3}
+{"pair": [273, 1344], "depth": 8, "parent": [180, 560], "k": 2, "concordant_N": [180, 560], "gcd": 21}

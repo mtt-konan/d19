@@ -1,0 +1,11 @@
+[
+  {
+    "name": "multi_n",
+    "max_hyp": 50000,
+    "pair_count": 4968,
+    "elapsed_s": 26.32745291601168,
+    "carries_concordant_n": true,
+    "min_n_count": 2,
+    "max_n_count": 4
+  }
+]

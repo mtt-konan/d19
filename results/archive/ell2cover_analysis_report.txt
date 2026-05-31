@@ -1,0 +1,80 @@
+Loaded 156 rows from /Users/konan/Desktop/d19/results/ell2cover_sha2_cases.jsonl
+
+========================================================================
+Joint distribution of (n_covers, n_without_pt)
+========================================================================
+  n_covers=5  n_without_pt=2:   39
+  n_covers=5  n_without_pt=3:   87
+  n_covers=6  n_without_pt=2:    7
+  n_covers=6  n_without_pt=3:   14
+  n_covers=6  n_without_pt=4:    8
+  n_covers=7  n_without_pt=5:    1
+
+========================================================================
+Outlier cases (n_without_pt >= 4)
+========================================================================
+  (12383, 299925) n_covers=7 n_without_pt=5 sha2_lower_in=2
+     A={7: 1, 29: 1, 61: 1}  B={3: 2, 5: 2, 31: 1, 43: 1}
+  (  549,  29435) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={3: 2, 61: 1}  B={5: 1, 7: 1, 29: 2}
+  ( 3995, 104377) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={5: 1, 17: 1, 47: 1}  B={7: 1, 13: 1, 31: 1, 37: 1}
+  ( 7567,  11505) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={7: 1, 23: 1, 47: 1}  B={3: 1, 5: 1, 13: 1, 59: 1}
+  (12943,  78705) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={7: 1, 43: 2}  B={3: 3, 5: 1, 11: 1, 53: 1}
+  (14535, 462241) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={3: 2, 5: 1, 17: 1, 19: 1}  B={13: 1, 31: 2, 37: 1}
+  (22919, 174825) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={13: 1, 41: 1, 43: 1}  B={3: 3, 5: 2, 7: 1, 37: 1}
+  (27999,  84721) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={3: 3, 17: 1, 61: 1}  B={7: 3, 13: 1, 19: 1}
+  (220571, 294525) n_covers=6 n_without_pt=4 sha2_lower_in=2
+     A={13: 1, 19: 2, 47: 1}  B={3: 2, 5: 2, 7: 1, 11: 1, 17: 1}
+
+========================================================================
+Feature distribution by n_without_pt class
+========================================================================
+  n_without_pt=2  n= 46  A_sf=43%  B_sf=35%  max_exp(B)>=4: 30%  max_exp(A)>=3: 13%
+  n_without_pt=3  n=101  A_sf=41%  B_sf=27%  max_exp(B)>=4: 19%  max_exp(A)>=3: 25%
+  n_without_pt=4  n=  8  A_sf=38%  B_sf=25%  max_exp(B)>=4: 0%  max_exp(A)>=3: 12%
+  n_without_pt=5  n=  1  A_sf=100%  B_sf=0%  max_exp(B)>=4: 0%  max_exp(A)>=3: 0%
+
+========================================================================
+chi^2: n_without_pt >= 3 vs n_without_pt = 2
+========================================================================
+  max_exp(B) >= 4         high>=3: 17%  base=2: 30%  chi^2=  2.63  p= 1.05e-01  
+  max_exp(B) >= 3         high>=3: 33%  base=2: 33%  chi^2=  0.03  p= 8.63e-01  
+  A_sf                    high>=3: 41%  base=2: 43%  chi^2=  0.01  p= 9.05e-01  
+  B_sf                    high>=3: 26%  base=2: 35%  chi^2=  0.75  p= 3.87e-01  
+  max_exp(A) >= 3         high>=3: 24%  base=2: 13%  chi^2=  1.63  p= 2.02e-01  
+  3 | A                   high>=3: 36%  base=2: 26%  chi^2=  1.11  p= 2.91e-01  
+  3 | B                   high>=3: 51%  base=2: 46%  chi^2=  0.18  p= 6.72e-01  
+
+========================================================================
+First 5 sample (A, B) for each n_without_pt class, with cover obstruction signature
+========================================================================
+
+--- n_without_pt = 2 ---
+  (  169,    235)  cover signature: 00101  (0=hasPt, 1=noPt, len=5)
+  ( 1197,   1219)  cover signature: 00011  (0=hasPt, 1=noPt, len=5)
+  ( 1295,   1333)  cover signature: 00011  (0=hasPt, 1=noPt, len=5)
+  ( 1239,   1705)  cover signature: 00110  (0=hasPt, 1=noPt, len=5)
+  ( 2665,   2703)  cover signature: 00110  (0=hasPt, 1=noPt, len=5)
+
+--- n_without_pt = 3 ---
+  (  195,    901)  cover signature: 00111  (0=hasPt, 1=noPt, len=5)
+  (   63,    989)  cover signature: 00111  (0=hasPt, 1=noPt, len=5)
+  (  243,   1085)  cover signature: 00111  (0=hasPt, 1=noPt, len=5)
+  (  455,   1121)  cover signature: 00111  (0=hasPt, 1=noPt, len=5)
+  (  845,   1647)  cover signature: 00111  (0=hasPt, 1=noPt, len=5)
+
+--- n_without_pt = 4 ---
+  ( 7567,  11505)  cover signature: 001111  (0=hasPt, 1=noPt, len=6)
+  (  549,  29435)  cover signature: 001111  (0=hasPt, 1=noPt, len=6)
+  (12943,  78705)  cover signature: 001111  (0=hasPt, 1=noPt, len=6)
+  (27999,  84721)  cover signature: 001111  (0=hasPt, 1=noPt, len=6)
+  ( 3995, 104377)  cover signature: 001111  (0=hasPt, 1=noPt, len=6)
+
+--- n_without_pt = 5 ---
+  (12383, 299925)  cover signature: 0011111  (0=hasPt, 1=noPt, len=7)

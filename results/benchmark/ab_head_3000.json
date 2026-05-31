@@ -1,0 +1,351 @@
+{
+  "best_core_order": [
+    "safe_sieve",
+    "multi_n_sieve",
+    "concordant_search",
+    "chain_closure_mod_sieve"
+  ],
+  "core": [
+    {
+      "category": "head",
+      "final_status_counts": {
+        "no_solution": 223037
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 223037,
+          "elapsed_s": 0.035607600410003215,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9162829485690716,
+          "kills": 204365,
+          "mean_elapsed_ms": 0.00015964884933891336,
+          "method": "safe_sieve",
+          "passes": 18672,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9162829485690716
+        },
+        {
+          "attempts": 18672,
+          "elapsed_s": 139.88504496210953,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9926628106255355,
+          "kills": 18535,
+          "mean_elapsed_ms": 7.491701208339199,
+          "method": "multi_n_sieve",
+          "passes": 137,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9926628106255355
+        },
+        {
+          "attempts": 137,
+          "elapsed_s": 3.370095510035753e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.00024599237299531047,
+          "method": "concordant_search",
+          "passes": 137,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 137,
+          "elapsed_s": 0.2984916309360415,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 137,
+          "mean_elapsed_ms": 2.1787710287302295,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        }
+      ],
+      "n_pairs": 223037,
+      "name": "head__safe_sieve__multi_n_sieve__concordant_search__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 140.88358720298856,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 137,
+        "multi_n_sieve": 18535,
+        "safe_sieve": 204365
+      },
+      "wall_elapsed_s": 14.469155375030823
+    },
+    {
+      "category": "head",
+      "final_status_counts": {
+        "no_solution": 223037
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 223037,
+          "elapsed_s": 449.5309665702516,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9958975416634908,
+          "kills": 222122,
+          "mean_elapsed_ms": 2.015499520573948,
+          "method": "chain_closure_mod_sieve",
+          "passes": 915,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9958975416634908
+        },
+        {
+          "attempts": 915,
+          "elapsed_s": 10.448117203894071,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9781420765027322,
+          "kills": 895,
+          "mean_elapsed_ms": 11.418707326660186,
+          "method": "multi_n_sieve",
+          "passes": 20,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9781420765027322
+        },
+        {
+          "attempts": 20,
+          "elapsed_s": 4.291883669793606e-06,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0002145941834896803,
+          "method": "concordant_search",
+          "passes": 20,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 20,
+          "elapsed_s": 1.658411929383874e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 20,
+          "mean_elapsed_ms": 0.000829205964691937,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        }
+      ],
+      "n_pairs": 223037,
+      "name": "head__chain_closure_mod_sieve__multi_n_sieve__concordant_search__safe_sieve",
+      "sum_pair_elapsed_s": 462.2569327703677,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 222122,
+        "multi_n_sieve": 895,
+        "safe_sieve": 20
+      },
+      "wall_elapsed_s": 46.758748207997996
+    },
+    {
+      "category": "head",
+      "final_status_counts": {
+        "no_solution": 223037
+      },
+      "method_names": [
+        "concordant_search",
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 223037,
+          "elapsed_s": 4586.199920571293,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.2958432905751064,
+          "kills": 65984,
+          "mean_elapsed_ms": 20.562507209885773,
+          "method": "concordant_search",
+          "passes": 157053,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.2958432905751064
+        },
+        {
+          "attempts": 157053,
+          "elapsed_s": 0.10733438929310068,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9324559225229699,
+          "kills": 146445,
+          "mean_elapsed_ms": 0.0006834278192272715,
+          "method": "safe_sieve",
+          "passes": 10608,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9324559225229699
+        },
+        {
+          "attempts": 10608,
+          "elapsed_s": 0.0022544379462487996,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9870852187028658,
+          "kills": 10471,
+          "mean_elapsed_ms": 0.00021252243083039212,
+          "method": "multi_n_sieve",
+          "passes": 137,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9870852187028658
+        },
+        {
+          "attempts": 137,
+          "elapsed_s": 0.2831043325131759,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 137,
+          "mean_elapsed_ms": 2.066454981847999,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        }
+      ],
+      "n_pairs": 223037,
+      "name": "head__concordant_search__safe_sieve__multi_n_sieve__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 4589.17616510822,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 137,
+        "concordant_search": 65984,
+        "multi_n_sieve": 10471,
+        "safe_sieve": 146445
+      },
+      "wall_elapsed_s": 507.53306824999163
+    },
+    {
+      "category": "head",
+      "final_status_counts": {
+        "no_solution": 223037
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "safe_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 223037,
+          "elapsed_s": 4557.866022483213,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.8497334522971525,
+          "kills": 189522,
+          "mean_elapsed_ms": 20.435470448774026,
+          "method": "multi_n_sieve",
+          "passes": 33515,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.8497334522971525
+        },
+        {
+          "attempts": 33515,
+          "elapsed_s": 0.03158962773159146,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9959122780844398,
+          "kills": 33378,
+          "mean_elapsed_ms": 0.0009425519239621502,
+          "method": "safe_sieve",
+          "passes": 137,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9959122780844398
+        },
+        {
+          "attempts": 137,
+          "elapsed_s": 3.1251751352101564e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.00022811497337300412,
+          "method": "concordant_search",
+          "passes": 137,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 137,
+          "elapsed_s": 0.30569654726423323,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 137,
+          "mean_elapsed_ms": 2.2313616588630163,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        }
+      ],
+      "n_pairs": 223037,
+      "name": "head__multi_n_sieve__safe_sieve__concordant_search__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 4560.565174553252,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 137,
+        "multi_n_sieve": 189522,
+        "safe_sieve": 33378
+      },
+      "wall_elapsed_s": 503.8070692909532
+    }
+  ],
+  "core_order_count": 4,
+  "extra": [],
+  "extra_order_count": 0,
+  "head_only": true,
+  "max_hyp": 3000,
+  "pair_count": 223037,
+  "safe_first_only": false,
+  "skip_extra": false
+}

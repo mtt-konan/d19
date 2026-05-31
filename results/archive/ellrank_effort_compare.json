@@ -1,0 +1,387 @@
+[
+  {
+    "A": 240331,
+    "B": 66585,
+    "label": "wl033 #574 ac",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0356,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0366,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.1328,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 262031,
+    "B": 39721,
+    "label": "wl033 #470 ac",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0174,
+        "certified": true
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0389,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0737,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 331917,
+    "B": 61215,
+    "label": "wl033 #95 ac",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0192,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0286,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0865,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 22345,
+    "B": 678503,
+    "label": "wl033 #51 bd",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 0,
+        "time_s": 0.0492,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 2,
+        "time_s": 0.0493,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 2,
+        "time_s": 0.0509,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 713687,
+    "B": 683865,
+    "label": "wl033 #94 ac",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0174,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0262,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0847,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 1384320,
+    "B": 13232,
+    "label": "wl033 #94 bd",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 0,
+        "time_s": 0.0402,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 1,
+        "time_s": 0.0521,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 2,
+        "n_gens": 1,
+        "time_s": 0.1204,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 959180,
+    "B": 194040,
+    "label": "wl033 #382 ac",
+    "kind": "hard",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0199,
+        "certified": false
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0333,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0877,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 3,
+    "B": 4,
+    "label": "smallest non-trivial",
+    "kind": "small",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 0,
+        "rank_upper": 0,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0005,
+        "certified": true
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 0,
+        "rank_upper": 0,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0004,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 0,
+        "rank_upper": 0,
+        "sha2_lower": 0,
+        "n_gens": 0,
+        "time_s": 0.0004,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 7,
+    "B": 45,
+    "label": "wl035 chain (7,24,45,28) on E_{a,c}",
+    "kind": "small",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0008,
+        "certified": true
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0008,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0009,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 264,
+    "B": 420,
+    "label": "test_concordant.py canonical (rank 2)",
+    "kind": "small",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 2,
+        "time_s": 0.0011,
+        "certified": true
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 2,
+        "time_s": 0.0018,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 2,
+        "rank_upper": 2,
+        "sha2_lower": 0,
+        "n_gens": 2,
+        "time_s": 0.0015,
+        "certified": true
+      }
+    }
+  },
+  {
+    "A": 105,
+    "B": 480,
+    "label": "CURRENT_FINDINGS half-solution",
+    "kind": "small",
+    "results": {
+      "0": {
+        "effort": 0,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0009,
+        "certified": true
+      },
+      "1": {
+        "effort": 1,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0008,
+        "certified": true
+      },
+      "2": {
+        "effort": 2,
+        "rank_lower": 1,
+        "rank_upper": 1,
+        "sha2_lower": 0,
+        "n_gens": 1,
+        "time_s": 0.0009,
+        "certified": true
+      }
+    }
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "name": "all_coprime",
+    "max_hyp": 20000,
+    "pair_count": 121590395,
+    "elapsed_s": 13.998094124952331,
+    "carries_concordant_n": false,
+    "min_n_count": null,
+    "max_n_count": null
+  },
+  {
+    "name": "safe_coprime",
+    "max_hyp": 20000,
+    "pair_count": 20264681,
+    "elapsed_s": 21.552178082987666,
+    "carries_concordant_n": false,
+    "min_n_count": null,
+    "max_n_count": null
+  },
+  {
+    "name": "multi_n",
+    "max_hyp": 20000,
+    "pair_count": 1848,
+    "elapsed_s": 4.112810667022131,
+    "carries_concordant_n": true,
+    "min_n_count": 2,
+    "max_n_count": 4
+  }
+]

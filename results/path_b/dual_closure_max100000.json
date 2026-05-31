@@ -1,0 +1,28 @@
+{
+  "dual_killed": 0,
+  "max_hyp": 100000,
+  "moduli": [
+    9,
+    25,
+    49,
+    121,
+    169,
+    289,
+    361,
+    529,
+    841,
+    961,
+    1369,
+    1681,
+    2209,
+    2809
+  ],
+  "moduli_name": "standard",
+  "multi_n_elapsed_s": 2.341160584008321,
+  "multi_n_pair_count": 10333,
+  "primary_killed": 280,
+  "safe_sieve_killed": 10053,
+  "sieve_elapsed_s": 0.0016073749866336584,
+  "survivor_count": 0,
+  "survivors": []
+}

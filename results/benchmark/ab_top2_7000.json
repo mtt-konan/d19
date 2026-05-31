@@ -1,0 +1,190 @@
+{
+  "best_core_order": [
+    "safe_sieve",
+    "chain_closure_mod_sieve",
+    "concordant_search",
+    "multi_n_sieve"
+  ],
+  "core": [
+    {
+      "category": "safe_top2",
+      "final_status_counts": {
+        "hard_case": 1,
+        "no_solution": 1226837
+      },
+      "method_names": [
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 1226838,
+          "elapsed_s": 0.27261263236869127,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9169694776327437,
+          "kills": 1124973,
+          "mean_elapsed_ms": 0.0002222075224020541,
+          "method": "safe_sieve",
+          "passes": 101865,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9169694776327437
+        },
+        {
+          "attempts": 101865,
+          "elapsed_s": 235.35050895356108,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9963284739606342,
+          "kills": 101491,
+          "mean_elapsed_ms": 2.310415834227272,
+          "method": "chain_closure_mod_sieve",
+          "passes": 374,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9963284739606342
+        },
+        {
+          "attempts": 374,
+          "elapsed_s": 9.42879628308583,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9973262032085561,
+          "kills": 373,
+          "mean_elapsed_ms": 25.210685248892595,
+          "method": "multi_n_sieve",
+          "passes": 1,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9973262032085561
+        },
+        {
+          "attempts": 1,
+          "elapsed_s": 6.660120561718941e-07,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0006660120561718941,
+          "method": "concordant_search",
+          "passes": 1,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 1226838,
+      "name": "safe_top2__safe_sieve__chain_closure_mod_sieve__multi_n_sieve__concordant_search",
+      "sum_pair_elapsed_s": 249.41148779256037,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 101491,
+        "exhausted": 1,
+        "multi_n_sieve": 373,
+        "safe_sieve": 1124973
+      },
+      "wall_elapsed_s": 26.092574165959377
+    },
+    {
+      "category": "safe_top2",
+      "final_status_counts": {
+        "hard_case": 1,
+        "no_solution": 1226837
+      },
+      "method_names": [
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 1226838,
+          "elapsed_s": 0.24718756199581549,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9169694776327437,
+          "kills": 1124973,
+          "mean_elapsed_ms": 0.00020148345747019207,
+          "method": "safe_sieve",
+          "passes": 101865,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9169694776327437
+        },
+        {
+          "attempts": 101865,
+          "elapsed_s": 233.85207319422625,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9963284739606342,
+          "kills": 101491,
+          "mean_elapsed_ms": 2.2957058184285697,
+          "method": "chain_closure_mod_sieve",
+          "passes": 374,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9963284739606342
+        },
+        {
+          "attempts": 374,
+          "elapsed_s": 9.686067121219821,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.5775401069518716,
+          "kills": 216,
+          "mean_elapsed_ms": 25.89857519042733,
+          "method": "concordant_search",
+          "passes": 158,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.5775401069518716
+        },
+        {
+          "attempts": 158,
+          "elapsed_s": 3.824505256488919e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.9936708860759493,
+          "kills": 157,
+          "mean_elapsed_ms": 0.00024205729471448855,
+          "method": "multi_n_sieve",
+          "passes": 1,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.9936708860759493
+        }
+      ],
+      "n_pairs": 1226838,
+      "name": "safe_top2__safe_sieve__chain_closure_mod_sieve__concordant_search__multi_n_sieve",
+      "sum_pair_elapsed_s": 248.2045589465415,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 101491,
+        "concordant_search": 216,
+        "exhausted": 1,
+        "multi_n_sieve": 157,
+        "safe_sieve": 1124973
+      },
+      "wall_elapsed_s": 25.945338917023037
+    }
+  ],
+  "core_order_count": 2,
+  "extra": [],
+  "extra_order_count": 0,
+  "head_only": false,
+  "max_hyp": 7000,
+  "pair_count": 1226838,
+  "safe_first_only": false,
+  "safe_top2_only": true,
+  "skip_extra": false
+}

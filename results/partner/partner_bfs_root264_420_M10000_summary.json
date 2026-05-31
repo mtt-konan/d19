@@ -1,0 +1,113 @@
+{
+  "root": [
+    264,
+    420
+  ],
+  "max_value": 10000,
+  "max_visited": 5000,
+  "visited_count": 28,
+  "edge_count": 54,
+  "expansions": 28,
+  "leaves_k1": 0,
+  "out_of_range_neighbors": 0,
+  "truncated_by_max_visited": false,
+  "elapsed_s": 0.0,
+  "depth_distribution": {
+    "0": 1,
+    "1": 6,
+    "2": 4,
+    "3": 4,
+    "4": 2,
+    "5": 2,
+    "6": 5,
+    "7": 2,
+    "8": 2
+  },
+  "k_distribution": {
+    "2": 18,
+    "3": 8,
+    "4": 2
+  },
+  "top_high_k": [
+    {
+      "pair": [
+        264,
+        420
+      ],
+      "k": 4,
+      "depth": 0
+    },
+    {
+      "pair": [
+        560,
+        936
+      ],
+      "k": 4,
+      "depth": 5
+    },
+    {
+      "pair": [
+        315,
+        1440
+      ],
+      "k": 3,
+      "depth": 1
+    },
+    {
+      "pair": [
+        352,
+        1440
+      ],
+      "k": 3,
+      "depth": 1
+    },
+    {
+      "pair": [
+        264,
+        1080
+      ],
+      "k": 3,
+      "depth": 2
+    },
+    {
+      "pair": [
+        420,
+        1920
+      ],
+      "k": 3,
+      "depth": 2
+    },
+    {
+      "pair": [
+        560,
+        1440
+      ],
+      "k": 3,
+      "depth": 3
+    },
+    {
+      "pair": [
+        702,
+        1920
+      ],
+      "k": 3,
+      "depth": 4
+    },
+    {
+      "pair": [
+        75,
+        273
+      ],
+      "k": 3,
+      "depth": 6
+    },
+    {
+      "pair": [
+        180,
+        560
+      ],
+      "k": 3,
+      "depth": 7
+    }
+  ]
+}

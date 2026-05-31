@@ -1,0 +1,66 @@
+Total hard_case: 4653  done: 0  todo: 4653
+Effort=1  timeout=20.0s  out=results/sha2_scan_hard_cases.jsonl
+
+[  100/4653]     6s  15.47/s  ETA   294s  sha2>0: 0  timeout: 0  err: 0
+[  200/4653]    12s  16.78/s  ETA   265s  sha2>0: 3  timeout: 0  err: 0
+[  300/4653]    38s   7.98/s  ETA   546s  sha2>0: 6  timeout: 1  err: 0
+[  400/4653]    43s   9.31/s  ETA   457s  sha2>0: 9  timeout: 1  err: 0
+[  500/4653]    49s  10.26/s  ETA   405s  sha2>0: 9  timeout: 1  err: 0
+[  600/4653]    75s   8.04/s  ETA   504s  sha2>0: 9  timeout: 2  err: 0
+[  700/4653]    82s   8.56/s  ETA   462s  sha2>0: 12  timeout: 2  err: 0
+[  800/4653]    90s   8.89/s  ETA   434s  sha2>0: 14  timeout: 2  err: 0
+[  900/4653]    96s   9.42/s  ETA   399s  sha2>0: 16  timeout: 2  err: 0
+[ 1000/4653]   102s   9.78/s  ETA   373s  sha2>0: 19  timeout: 2  err: 0
+[ 1100/4653]   108s  10.18/s  ETA   349s  sha2>0: 23  timeout: 2  err: 0
+[ 1200/4653]   114s  10.52/s  ETA   328s  sha2>0: 25  timeout: 2  err: 0
+[ 1300/4653]   120s  10.86/s  ETA   309s  sha2>0: 29  timeout: 2  err: 0
+[ 1400/4653]   126s  11.14/s  ETA   292s  sha2>0: 34  timeout: 2  err: 0
+[ 1500/4653]   132s  11.39/s  ETA   277s  sha2>0: 37  timeout: 2  err: 0
+[ 1600/4653]   139s  11.52/s  ETA   265s  sha2>0: 42  timeout: 2  err: 0
+[ 1700/4653]   145s  11.71/s  ETA   252s  sha2>0: 46  timeout: 2  err: 0
+[ 1800/4653]   151s  11.90/s  ETA   240s  sha2>0: 51  timeout: 2  err: 0
+[ 1900/4653]   158s  12.03/s  ETA   229s  sha2>0: 55  timeout: 2  err: 0
+[ 2000/4653]   164s  12.21/s  ETA   217s  sha2>0: 58  timeout: 2  err: 0
+[ 2100/4653]   170s  12.37/s  ETA   206s  sha2>0: 61  timeout: 2  err: 0
+[ 2200/4653]   176s  12.51/s  ETA   196s  sha2>0: 64  timeout: 2  err: 0
+[ 2300/4653]   182s  12.62/s  ETA   187s  sha2>0: 68  timeout: 2  err: 0
+[ 2400/4653]   189s  12.68/s  ETA   178s  sha2>0: 73  timeout: 2  err: 0
+[ 2500/4653]   195s  12.81/s  ETA   168s  sha2>0: 77  timeout: 2  err: 0
+[ 2600/4653]   201s  12.91/s  ETA   159s  sha2>0: 79  timeout: 2  err: 0
+[ 2700/4653]   208s  12.97/s  ETA   151s  sha2>0: 82  timeout: 2  err: 0
+[ 2800/4653]   214s  13.06/s  ETA   142s  sha2>0: 87  timeout: 2  err: 0
+[ 2900/4653]   223s  13.02/s  ETA   135s  sha2>0: 90  timeout: 2  err: 0
+[ 3000/4653]   231s  12.98/s  ETA   127s  sha2>0: 94  timeout: 2  err: 0
+[ 3100/4653]   237s  13.10/s  ETA   119s  sha2>0: 96  timeout: 2  err: 0
+[ 3200/4653]   243s  13.16/s  ETA   110s  sha2>0: 99  timeout: 2  err: 0
+[ 3300/4653]   249s  13.24/s  ETA   102s  sha2>0: 102  timeout: 2  err: 0
+[ 3400/4653]   276s  12.34/s  ETA   102s  sha2>0: 107  timeout: 3  err: 0
+[ 3500/4653]   302s  11.59/s  ETA    99s  sha2>0: 110  timeout: 4  err: 0
+[ 3600/4653]   308s  11.70/s  ETA    90s  sha2>0: 112  timeout: 4  err: 0
+[ 3700/4653]   313s  11.81/s  ETA    81s  sha2>0: 114  timeout: 4  err: 0
+[ 3800/4653]   319s  11.93/s  ETA    72s  sha2>0: 119  timeout: 4  err: 0
+[ 3900/4653]   324s  12.04/s  ETA    63s  sha2>0: 123  timeout: 4  err: 0
+[ 4000/4653]   329s  12.14/s  ETA    54s  sha2>0: 127  timeout: 4  err: 0
+[ 4100/4653]   335s  12.25/s  ETA    45s  sha2>0: 132  timeout: 4  err: 0
+[ 4200/4653]   340s  12.36/s  ETA    37s  sha2>0: 133  timeout: 4  err: 0
+[ 4300/4653]   345s  12.45/s  ETA    28s  sha2>0: 143  timeout: 4  err: 0
+[ 4400/4653]   351s  12.55/s  ETA    20s  sha2>0: 145  timeout: 4  err: 0
+[ 4500/4653]   356s  12.65/s  ETA    12s  sha2>0: 148  timeout: 4  err: 0
+[ 4600/4653]   361s  12.74/s  ETA     4s  sha2>0: 149  timeout: 4  err: 0
+[ 4653/4653]   364s  12.77/s  ETA     0s  sha2>0: 156  timeout: 4  err: 0
+
+========================================================================
+Done. 4653 pairs in 364s.
+  rank_lower distribution:
+    rank= 1:  1410
+    rank= 2:  2175
+    rank= 3:   939
+    rank= 4:   122
+    rank= 5:     3
+  sha2_lower distribution:
+    sha2= 0:  4493
+    sha2= 2:   156
+  TIMEOUT: 4
+  ERROR:   0
+  sha2>=2: 156
+Wrote results/sha2_scan_hard_cases.jsonl

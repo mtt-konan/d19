@@ -1,0 +1,13 @@
+Found 9 outlier cases (n_without_pt >= 4 at h=10000)
+
+  (   549,  29435)  h=10k -> 6/4  h=100k -> 6/4  ( 1.30s)  STAY (4) -- robust Sha[2] evidence
+  (  3995, 104377)  h=10k -> 6/4  h=100k -> 6/4  ( 1.30s)  STAY (4) -- robust Sha[2] evidence
+  (  7567,  11505)  h=10k -> 6/4  h=100k -> 6/4  ( 0.86s)  STAY (4) -- robust Sha[2] evidence
+  ( 12383, 299925)  h=10k -> 7/5  h=100k -> 7/5  ( 1.35s)  STAY (5) -- robust Sha[2] evidence
+  ( 12943,  78705)  h=10k -> 6/4  h=100k -> 6/4  ( 1.03s)  STAY (4) -- robust Sha[2] evidence
+  ( 14535, 462241)  h=10k -> 6/4  h=100k -> 6/4  ( 1.11s)  STAY (4) -- robust Sha[2] evidence
+  ( 22919, 174825)  h=10k -> 6/4  h=100k -> 6/4  ( 1.52s)  STAY (4) -- robust Sha[2] evidence
+  ( 27999,  84721)  h=10k -> 6/4  h=100k -> 6/4  ( 1.07s)  STAY (4) -- robust Sha[2] evidence
+  (220571, 294525)  h=10k -> 6/4  h=100k -> 6/4  ( 0.91s)  STAY (4) -- robust Sha[2] evidence
+
+Done in 10s. Wrote /Users/konan/Desktop/d19/results/ell2cover_outliers_h100k.jsonl

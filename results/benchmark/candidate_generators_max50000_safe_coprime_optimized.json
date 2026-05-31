@@ -1,0 +1,11 @@
+[
+  {
+    "name": "safe_coprime",
+    "max_hyp": 50000,
+    "pair_count": 126652918,
+    "elapsed_s": 23.473373832996003,
+    "carries_concordant_n": false,
+    "min_n_count": null,
+    "max_n_count": null
+  }
+]

@@ -1,0 +1,27 @@
+sha2 pairs (>= 2): 156  done: 0  todo: 156
+h=10000  timeout=60.0s  out=results/ell2cover_sha2_cases.jsonl
+
+[  25/156]     2s  14.77/s  ETA     9s  obstr: 25  all_pt: 0  timeout: 0  err: 0
+[  50/156]     4s  14.26/s  ETA     7s  obstr: 50  all_pt: 0  timeout: 0  err: 0
+[  75/156]     5s  14.13/s  ETA     6s  obstr: 75  all_pt: 0  timeout: 0  err: 0
+[ 100/156]     7s  14.14/s  ETA     4s  obstr: 100  all_pt: 0  timeout: 0  err: 0
+[ 125/156]     9s  14.07/s  ETA     2s  obstr: 125  all_pt: 0  timeout: 0  err: 0
+[ 150/156]    11s  14.05/s  ETA     0s  obstr: 150  all_pt: 0  timeout: 0  err: 0
+[ 156/156]    11s  13.98/s  ETA     0s  obstr: 156  all_pt: 0  timeout: 0  err: 0
+
+========================================================================
+Done. 156 pairs in 11s.
+  with >=1 cover-without-pt (Sha[2] candidate): 156
+  all covers have a rat pt (h<=10000):  0
+  TIMEOUT: 0
+  ERROR:   0
+  n_covers distribution:
+    n_covers= 5:  126
+    n_covers= 6:   29
+    n_covers= 7:    1
+  n_without_pt distribution:
+    n_without_pt= 2:   46
+    n_without_pt= 3:  101
+    n_without_pt= 4:    8
+    n_without_pt= 5:    1
+Wrote results/ell2cover_sha2_cases.jsonl

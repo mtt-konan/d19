@@ -1,0 +1,3196 @@
+{
+  "best_core_order": [
+    "safe_sieve",
+    "multi_n_sieve",
+    "chain_closure_mod_sieve",
+    "concordant_search"
+  ],
+  "core": [
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 2.8085836675018072e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 0.00014042918337509036,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.04212858696701005,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 1.1702385268613904,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__chain_closure_mod_sieve__concordant_search__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.04259458027081564,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.042967666988261044
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 2.5533372536301613e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 0.00012766686268150806,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.03994483081623912,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 1.10957863378442,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__chain_closure_mod_sieve__multi_n_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.04038454219698906,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.040738250012509525
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.6922655049711466e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 8.461327524855733e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.0002290819538757205,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.8611111111111112,
+          "kills": 31,
+          "mean_elapsed_ms": 0.006363387607658903,
+          "method": "concordant_search",
+          "passes": 5,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.8611111111111112
+        },
+        {
+          "attempts": 5,
+          "elapsed_s": 0.0049802089924924076,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 5,
+          "mean_elapsed_ms": 0.9960417984984815,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__concordant_search__chain_closure_mod_sieve__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.005439789150841534,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 5,
+        "concordant_search": 31,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.005662625015247613
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "concordant_search",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.6029051039367914e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 8.014525519683957e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00014316418673843145,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.8611111111111112,
+          "kills": 31,
+          "mean_elapsed_ms": 0.003976782964956429,
+          "method": "concordant_search",
+          "passes": 5,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.8611111111111112
+        },
+        {
+          "attempts": 5,
+          "elapsed_s": 5.830079317092896e-07,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 5,
+          "mean_elapsed_ms": 0.00011660158634185791,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__concordant_search__multi_n_sieve__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.0003557898453436792,
+      "terminal_method_counts": {
+        "concordant_search": 31,
+        "multi_n_sieve": 5,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005602090386673808
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.521664671599865e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.608323357999325e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00014058308443054557,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.003905085678626266,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.0003472909447737038,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.000541832996532321
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.920544309541583e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 9.602721547707915e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.0001689630444161594,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.004693417900448872,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__safe_sieve__multi_n_sieve__concordant_search__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.00045871268957853317,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.000739875016734004
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "safe_sieve",
+        "concordant_search",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.2080229189596139,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 1.0401145947980694,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__safe_sieve__concordant_search__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.2087846648064442,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.2092079579597339
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "safe_sieve",
+        "multi_n_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.19842365971999243,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.9921182985999621,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__safe_sieve__multi_n_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.1988349593593739,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.19913887500297278
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "safe_sieve",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.19875262444838881,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.9937631222419441,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__concordant_search__safe_sieve__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.19916245236527175,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.19946537498617545
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "multi_n_sieve",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.2614189548185095,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 1.3070947740925476,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__concordant_search__multi_n_sieve__safe_sieve",
+      "sum_pair_elapsed_s": 0.2624233764363453,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.26285875000758097
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "safe_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.1990726240328513,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.9953631201642565,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__multi_n_sieve__safe_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.19949911773437634,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.19984024995937943
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "concordant_search",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.20035837724572048,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 1.0017918862286024,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__chain_closure_mod_sieve__multi_n_sieve__concordant_search__safe_sieve",
+      "sum_pair_elapsed_s": 0.20084791880799457,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 200
+      },
+      "wall_elapsed_s": 0.2011857909965329
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006556183216162026,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.003278091608081013,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 2.5830231606960297e-06,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.7368421052631579,
+          "kills": 14,
+          "mean_elapsed_ms": 0.0001359485874050542,
+          "method": "safe_sieve",
+          "passes": 5,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.7368421052631579
+        },
+        {
+          "attempts": 5,
+          "elapsed_s": 0.0049516670405864716,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 5,
+          "mean_elapsed_ms": 0.9903334081172943,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__safe_sieve__chain_closure_mod_sieve__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.005811372946482152,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 5,
+        "concordant_search": 181,
+        "safe_sieve": 14
+      },
+      "wall_elapsed_s": 0.006028084026183933
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006213202141225338,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.003106601070612669,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 1.5830155462026596e-06,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.7368421052631579,
+          "kills": 14,
+          "mean_elapsed_ms": 8.331660769487683e-05,
+          "method": "safe_sieve",
+          "passes": 5,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.7368421052631579
+        },
+        {
+          "attempts": 5,
+          "elapsed_s": 4.1694147512316704e-07,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 5,
+          "mean_elapsed_ms": 8.338829502463341e-05,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__safe_sieve__multi_n_sieve__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.0008070878684520721,
+      "terminal_method_counts": {
+        "concordant_search": 181,
+        "multi_n_sieve": 5,
+        "safe_sieve": 14
+      },
+      "wall_elapsed_s": 0.0009970000246539712
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "chain_closure_mod_sieve",
+        "safe_sieve",
+        "multi_n_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006670319708064198,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.0033351598540320992,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 0.018779915932100266,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 19,
+          "mean_elapsed_ms": 0.9884166280052772,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__chain_closure_mod_sieve__safe_sieve__multi_n_sieve",
+      "sum_pair_elapsed_s": 0.0196569511317648,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 19,
+        "concordant_search": 181
+      },
+      "wall_elapsed_s": 0.01986416697036475
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "chain_closure_mod_sieve",
+        "multi_n_sieve",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006481976015493274,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.003240988007746637,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 0.018889582017436624,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 19,
+          "mean_elapsed_ms": 0.9941885272335065,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__chain_closure_mod_sieve__multi_n_sieve__safe_sieve",
+      "sum_pair_elapsed_s": 0.019747613521758467,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 19,
+        "concordant_search": 181
+      },
+      "wall_elapsed_s": 0.019970666035078466
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "multi_n_sieve",
+        "safe_sieve",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006415302632376552,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.003207651316188276,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 1.2509990483522415e-06,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 19,
+          "mean_elapsed_ms": 6.584205517643376e-05,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__multi_n_sieve__safe_sieve__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.0008303350768983364,
+      "terminal_method_counts": {
+        "concordant_search": 181,
+        "multi_n_sieve": 19
+      },
+      "wall_elapsed_s": 0.0010262500145472586
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "concordant_search",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006987363449297845,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.905,
+          "kills": 181,
+          "mean_elapsed_ms": 0.0034936817246489227,
+          "method": "concordant_search",
+          "passes": 19,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.905
+        },
+        {
+          "attempts": 19,
+          "elapsed_s": 1.2111268006265163e-06,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 19,
+          "mean_elapsed_ms": 6.374351582244823e-05,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__concordant_search__multi_n_sieve__chain_closure_mod_sieve__safe_sieve",
+      "sum_pair_elapsed_s": 0.0009366939775645733,
+      "terminal_method_counts": {
+        "concordant_search": 181,
+        "multi_n_sieve": 19
+      },
+      "wall_elapsed_s": 0.0011714160209521651
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006227075937204063,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.0031135379686020315,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__safe_sieve__chain_closure_mod_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.0008074953802861273,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.0009984169737435877
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "safe_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006064941990189254,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.003032470995094627,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__safe_sieve__concordant_search__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.0007814106065779924,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.0009591249981895089
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "safe_sieve",
+        "concordant_search"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.000635698321275413,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.003178491606377065,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__chain_closure_mod_sieve__safe_sieve__concordant_search",
+      "sum_pair_elapsed_s": 0.0008221700554713607,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.0010081669897772372
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006289505981840193,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.0031447529909200966,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__chain_closure_mod_sieve__concordant_search__safe_sieve",
+      "sum_pair_elapsed_s": 0.0008137901313602924,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.0009981250041164458
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "concordant_search",
+        "safe_sieve",
+        "chain_closure_mod_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006171112763695419,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.0030855563818477094,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__concordant_search__safe_sieve__chain_closure_mod_sieve",
+      "sum_pair_elapsed_s": 0.0007977112545631826,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.000978416996076703
+    },
+    {
+      "category": "core",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "multi_n_sieve",
+        "concordant_search",
+        "chain_closure_mod_sieve",
+        "safe_sieve"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 0.0006367780733853579,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 200,
+          "mean_elapsed_ms": 0.0031838903669267893,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "safe_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "core__multi_n_sieve__concordant_search__chain_closure_mod_sieve__safe_sieve",
+      "sum_pair_elapsed_s": 0.0008218448492698371,
+      "terminal_method_counts": {
+        "multi_n_sieve": 200
+      },
+      "wall_elapsed_s": 0.0010103330132551491
+    }
+  ],
+  "core_order_count": 24,
+  "extra": [
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "f2_rank",
+        "rank_zero",
+        "heegner"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.6848440282046795e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 8.424220141023397e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00014091620687395334,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.003914339079832037,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__f2_rank__rank_zero__heegner",
+      "sum_pair_elapsed_s": 0.0003646637196652591,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005527909961529076
+    },
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "f2_rank",
+        "heegner",
+        "rank_zero"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.4966761227697134e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.483380613848567e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013766472693532705,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0038240201926479736,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__f2_rank__heegner__rank_zero",
+      "sum_pair_elapsed_s": 0.00038232747465372086,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005725829978473485
+    },
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "rank_zero",
+        "f2_rank",
+        "heegner"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.4481134712696075e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.240567356348038e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013366603525355458,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0037129454237098494,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__rank_zero__f2_rank__heegner",
+      "sum_pair_elapsed_s": 0.00035059108631685376,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005342079675756395
+    },
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "rank_zero",
+        "heegner",
+        "f2_rank"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.4186953194439411e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.093476597219706e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013370602391660213,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.003714056219905615,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__rank_zero__heegner__f2_rank",
+      "sum_pair_elapsed_s": 0.00034650095039978623,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005291250417940319
+    },
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "heegner",
+        "f2_rank",
+        "rank_zero"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.3772747479379177e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 6.886373739689589e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013503682566806674,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0037510229352240763,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__heegner__f2_rank__rank_zero",
+      "sum_pair_elapsed_s": 0.0003612076980061829,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005466250004246831
+    },
+    {
+      "category": "tail",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "heegner",
+        "rank_zero",
+        "f2_rank"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.473067095503211e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.365335477516055e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013712194049730897,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0038089427915919158,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "tail__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__heegner__rank_zero__f2_rank",
+      "sum_pair_elapsed_s": 0.0003586700768209994,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005489169852808118
+    },
+    {
+      "category": "incremental",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "f2_rank"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.5345343854278326e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.672671927139163e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013712880900129676,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0038091335833693543,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "incremental__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__f2_rank",
+      "sum_pair_elapsed_s": 0.0003466677153483033,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005343329976312816
+    },
+    {
+      "category": "incremental",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "rank_zero"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.5746336430311203e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.873168215155602e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013483298243954778,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.0037453606233207714,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "incremental__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__rank_zero",
+      "sum_pair_elapsed_s": 0.00034942536149173975,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005370840081013739
+    },
+    {
+      "category": "incremental",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "multi_n_sieve",
+        "chain_closure_mod_sieve",
+        "concordant_search",
+        "heegner"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.5383819118142128e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 7.691909559071064e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.00013400078751146793,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.003722244097540776,
+          "method": "multi_n_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "concordant_search",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "incremental__safe_sieve__multi_n_sieve__chain_closure_mod_sieve__concordant_search__heegner",
+      "sum_pair_elapsed_s": 0.0003395418170839548,
+      "terminal_method_counts": {
+        "multi_n_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.0005257080192677677
+    },
+    {
+      "category": "legacy",
+      "final_status_counts": {
+        "no_solution": 200
+      },
+      "method_names": [
+        "safe_sieve",
+        "chain_closure_mod_sieve",
+        "factor_concordant",
+        "f2_rank",
+        "rank_zero",
+        "heegner",
+        "chabauty",
+        "brauer_manin"
+      ],
+      "method_report": [
+        {
+          "attempts": 200,
+          "elapsed_s": 1.6437144950032234e-05,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 0.82,
+          "kills": 164,
+          "mean_elapsed_ms": 8.218572475016117e-05,
+          "method": "safe_sieve",
+          "passes": 36,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.82
+        },
+        {
+          "attempts": 36,
+          "elapsed_s": 0.035759623919148,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": false,
+          "kill_rate": 1.0,
+          "kills": 36,
+          "mean_elapsed_ms": 0.993322886643,
+          "method": "chain_closure_mod_sieve",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 1.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "factor_concordant",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "f2_rank",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "rank_zero",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "heegner",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "chabauty",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        },
+        {
+          "attempts": 0,
+          "elapsed_s": 0.0,
+          "errors": 0,
+          "inconclusive": 0,
+          "is_empty": true,
+          "kill_rate": 0.0,
+          "kills": 0,
+          "mean_elapsed_ms": 0.0,
+          "method": "brauer_manin",
+          "passes": 0,
+          "skipped": 0,
+          "solutions": 0,
+          "terminal_rate": 0.0
+        }
+      ],
+      "n_pairs": 200,
+      "name": "legacy_default_pipeline",
+      "sum_pair_elapsed_s": 0.03603217442287132,
+      "terminal_method_counts": {
+        "chain_closure_mod_sieve": 36,
+        "safe_sieve": 164
+      },
+      "wall_elapsed_s": 0.036247999989427626
+    }
+  ],
+  "extra_order_count": 10,
+  "max_hyp": 500,
+  "pair_count": 200
+}

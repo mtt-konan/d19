@@ -1,0 +1,46 @@
+{"pair": [153, 560], "depth": 0, "parent": null, "k": 3, "concordant_N": [204, 420, 3900], "gcd": 1}
+{"pair": [204, 420], "depth": 1, "parent": [153, 560], "k": 2, "concordant_N": [153, 560], "gcd": 12}
+{"pair": [204, 3900], "depth": 1, "parent": [153, 560], "k": 3, "concordant_N": [153, 560, 5200], "gcd": 12}
+{"pair": [420, 3900], "depth": 1, "parent": [153, 560], "k": 3, "concordant_N": [153, 560, 2925], "gcd": 60}
+{"pair": [153, 5200], "depth": 2, "parent": [204, 3900], "k": 2, "concordant_N": [204, 3900], "gcd": 1}
+{"pair": [560, 5200], "depth": 2, "parent": [204, 3900], "k": 2, "concordant_N": [204, 3900], "gcd": 80}
+{"pair": [153, 2925], "depth": 2, "parent": [420, 3900], "k": 2, "concordant_N": [420, 3900], "gcd": 9}
+{"pair": [560, 2925], "depth": 2, "parent": [420, 3900], "k": 3, "concordant_N": [420, 1344, 3900], "gcd": 5}
+{"pair": [420, 1344], "depth": 3, "parent": [560, 2925], "k": 3, "concordant_N": [560, 1008, 2925], "gcd": 84}
+{"pair": [1344, 3900], "depth": 3, "parent": [560, 2925], "k": 5, "concordant_N": [560, 1792, 2925, 7105, 9360], "gcd": 12}
+{"pair": [560, 1008], "depth": 4, "parent": [420, 1344], "k": 2, "concordant_N": [420, 1344], "gcd": 112}
+{"pair": [1008, 2925], "depth": 4, "parent": [420, 1344], "k": 4, "concordant_N": [420, 1100, 1344, 7020], "gcd": 9}
+{"pair": [560, 1792], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 112}
+{"pair": [560, 7105], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 35}
+{"pair": [560, 9360], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 80}
+{"pair": [1792, 2925], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 1}
+{"pair": [1792, 7105], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 7}
+{"pair": [1792, 9360], "depth": 4, "parent": [1344, 3900], "k": 3, "concordant_N": [1344, 3900, 12480], "gcd": 16}
+{"pair": [2925, 7105], "depth": 4, "parent": [1344, 3900], "k": 2, "concordant_N": [1344, 3900], "gcd": 5}
+{"pair": [2925, 9360], "depth": 4, "parent": [1344, 3900], "k": 3, "concordant_N": [1344, 3900, 7020], "gcd": 585}
+{"pair": [7105, 9360], "depth": 4, "parent": [1344, 3900], "k": 3, "concordant_N": [1344, 3900, 17052], "gcd": 5}
+{"pair": [420, 1100], "depth": 5, "parent": [1008, 2925], "k": 2, "concordant_N": [1008, 2925], "gcd": 20}
+{"pair": [420, 7020], "depth": 5, "parent": [1008, 2925], "k": 2, "concordant_N": [1008, 2925], "gcd": 60}
+{"pair": [1100, 1344], "depth": 5, "parent": [1008, 2925], "k": 2, "concordant_N": [1008, 2925], "gcd": 4}
+{"pair": [1100, 7020], "depth": 5, "parent": [1008, 2925], "k": 3, "concordant_N": [1008, 2640, 2925], "gcd": 20}
+{"pair": [1344, 7020], "depth": 5, "parent": [1008, 2925], "k": 4, "concordant_N": [1008, 2925, 6992, 9360], "gcd": 12}
+{"pair": [3900, 7020], "depth": 5, "parent": [2925, 9360], "k": 2, "concordant_N": [2925, 9360], "gcd": 780}
+{"pair": [1008, 2640], "depth": 6, "parent": [1100, 7020], "k": 4, "concordant_N": [594, 1100, 4480, 7020], "gcd": 48}
+{"pair": [2640, 2925], "depth": 6, "parent": [1100, 7020], "k": 2, "concordant_N": [1100, 7020], "gcd": 15}
+{"pair": [1008, 6992], "depth": 6, "parent": [1344, 7020], "k": 3, "concordant_N": [1344, 5244, 7020], "gcd": 16}
+{"pair": [1008, 9360], "depth": 6, "parent": [1344, 7020], "k": 2, "concordant_N": [1344, 7020], "gcd": 144}
+{"pair": [2925, 6992], "depth": 6, "parent": [1344, 7020], "k": 2, "concordant_N": [1344, 7020], "gcd": 1}
+{"pair": [6992, 9360], "depth": 6, "parent": [1344, 7020], "k": 2, "concordant_N": [1344, 7020], "gcd": 16}
+{"pair": [594, 1100], "depth": 7, "parent": [1008, 2640], "k": 2, "concordant_N": [1008, 2640], "gcd": 22}
+{"pair": [594, 4480], "depth": 7, "parent": [1008, 2640], "k": 2, "concordant_N": [1008, 2640], "gcd": 2}
+{"pair": [594, 7020], "depth": 7, "parent": [1008, 2640], "k": 2, "concordant_N": [1008, 2640], "gcd": 54}
+{"pair": [1100, 4480], "depth": 7, "parent": [1008, 2640], "k": 2, "concordant_N": [1008, 2640], "gcd": 20}
+{"pair": [4480, 7020], "depth": 7, "parent": [1008, 2640], "k": 3, "concordant_N": [1008, 2640, 31200], "gcd": 20}
+{"pair": [1344, 5244], "depth": 7, "parent": [1008, 6992], "k": 2, "concordant_N": [1008, 6992], "gcd": 12}
+{"pair": [5244, 7020], "depth": 7, "parent": [1008, 6992], "k": 3, "concordant_N": [1008, 5265, 6992], "gcd": 12}
+{"pair": [1008, 5265], "depth": 8, "parent": [5244, 7020], "k": 3, "concordant_N": [756, 5244, 7020], "gcd": 9}
+{"pair": [5265, 6992], "depth": 8, "parent": [5244, 7020], "k": 2, "concordant_N": [5244, 7020], "gcd": 1}
+{"pair": [756, 5244], "depth": 9, "parent": [1008, 5265], "k": 3, "concordant_N": [1008, 3933, 5265], "gcd": 12}
+{"pair": [756, 7020], "depth": 9, "parent": [1008, 5265], "k": 2, "concordant_N": [1008, 5265], "gcd": 108}
+{"pair": [1008, 3933], "depth": 10, "parent": [756, 5244], "k": 2, "concordant_N": [756, 5244], "gcd": 9}
+{"pair": [3933, 5265], "depth": 10, "parent": [756, 5244], "k": 2, "concordant_N": [756, 5244], "gcd": 9}

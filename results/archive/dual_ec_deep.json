@@ -1,0 +1,177 @@
+[
+  {
+    "id": 574,
+    "side": "ac",
+    "A": 240331,
+    "B": 66585,
+    "abcd": [
+      240331,
+      145908,
+      66585,
+      161008
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": null,
+      "analytic_error": "the PARI stack overflows (current size: 134217728; maximum size: 134217728)\nYou can use pari.allocatemem() to change the stack size and try again",
+      "time_rank_s": 0.107,
+      "time_ana_s": 0.038
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 470,
+    "side": "ac",
+    "A": 262031,
+    "B": 39721,
+    "abcd": [
+      262031,
+      19680,
+      39721,
+      282072
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": 2,
+      "analytic_error": null,
+      "time_rank_s": 0.097,
+      "time_ana_s": 906.698
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 95,
+    "side": "ac",
+    "A": 331917,
+    "B": 61215,
+    "abcd": [
+      331917,
+      151156,
+      61215,
+      241976
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": 2,
+      "analytic_error": null,
+      "time_rank_s": 0.197,
+      "time_ana_s": 1336.476
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 51,
+    "side": "bd",
+    "A": 22345,
+    "B": 678503,
+    "abcd": [
+      243048,
+      22345,
+      457800,
+      678503
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": null,
+      "analytic_error": "the PARI stack overflows (current size: 134217728; maximum size: 134217728)\nYou can use pari.allocatemem() to change the stack size and try again",
+      "time_rank_s": 0.055,
+      "time_ana_s": 0.054
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 94,
+    "side": "ac",
+    "A": 713687,
+    "B": 683865,
+    "abcd": [
+      713687,
+      1384320,
+      683865,
+      13232
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": 2,
+      "analytic_error": null,
+      "time_rank_s": 0.058,
+      "time_ana_s": 5253.571
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 94,
+    "side": "bd",
+    "A": 1384320,
+    "B": 13232,
+    "abcd": [
+      713687,
+      1384320,
+      683865,
+      13232
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": 2,
+      "analytic_error": null,
+      "time_rank_s": 0.149,
+      "time_ana_s": 6929.237
+    },
+    "status": "CERTIFIED rank=2"
+  },
+  {
+    "id": 382,
+    "side": "ac",
+    "A": 959180,
+    "B": 194040,
+    "abcd": [
+      959180,
+      1007139,
+      194040,
+      146081
+    ],
+    "old_bounds": [
+      0,
+      2
+    ],
+    "deep": {
+      "rank_lower": 2,
+      "rank_upper": 2,
+      "analytic_rank": 2,
+      "analytic_error": null,
+      "time_rank_s": 0.085,
+      "time_ana_s": 1073.516
+    },
+    "status": "CERTIFIED rank=2"
+  }
+]

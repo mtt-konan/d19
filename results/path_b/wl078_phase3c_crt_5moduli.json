@@ -1,0 +1,52 @@
+{
+  "moduli": [
+    9,
+    25,
+    49,
+    121,
+    169
+  ],
+  "M_full": 901800900,
+  "safe_4": 2,
+  "per_modulus": [
+    {
+      "m": 9,
+      "total_pairs": 81,
+      "survived": 27,
+      "killed": 54,
+      "survival_fraction": 0.3333333333333333
+    },
+    {
+      "m": 25,
+      "total_pairs": 625,
+      "survived": 185,
+      "killed": 440,
+      "survival_fraction": 0.296
+    },
+    {
+      "m": 49,
+      "total_pairs": 2401,
+      "survived": 1225,
+      "killed": 1176,
+      "survival_fraction": 0.5102040816326531
+    },
+    {
+      "m": 121,
+      "total_pairs": 14641,
+      "survived": 4961,
+      "killed": 9680,
+      "survival_fraction": 0.33884297520661155
+    },
+    {
+      "m": 169,
+      "total_pairs": 28561,
+      "survived": 14521,
+      "killed": 14040,
+      "survival_fraction": 0.5084205735093309
+    }
+  ],
+  "surviving_total": 881591368407750,
+  "safe_pass_total": 101655607905101250,
+  "surviving_fraction_of_safe_pass": 0.008672333839474392,
+  "samples": []
+}

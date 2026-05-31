@@ -1,0 +1,204 @@
+{
+  "component_id": 0,
+  "size": 309689,
+  "edges_inside": 331803,
+  "circuit_rank": 22115,
+  "degree_max": 36,
+  "degree_mean": 2.143,
+  "degree_histogram": {
+    "1": 197488,
+    "3": 81386,
+    "6": 23777,
+    "10": 5642,
+    "15": 1132,
+    "21": 218,
+    "28": 42,
+    "36": 4
+  },
+  "top_hubs": [
+    {
+      "a": 61200,
+      "b": 222768,
+      "degree": 36,
+      "in_catalog": false
+    },
+    {
+      "a": 76440,
+      "b": 831600,
+      "degree": 36,
+      "in_catalog": false
+    },
+    {
+      "a": 184800,
+      "b": 308880,
+      "degree": 36,
+      "in_catalog": false
+    },
+    {
+      "a": 69615,
+      "b": 221760,
+      "degree": 36,
+      "in_catalog": false
+    },
+    {
+      "a": 116025,
+      "b": 369600,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 30800,
+      "b": 51480,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 285600,
+      "b": 477360,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 68400,
+      "b": 248976,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 30576,
+      "b": 332640,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 92820,
+      "b": 295680,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 30600,
+      "b": 111384,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 67200,
+      "b": 112320,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 44352,
+      "b": 128700,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 23205,
+      "b": 73920,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 208845,
+      "b": 665280,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 39600,
+      "b": 144144,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 25480,
+      "b": 277200,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 50400,
+      "b": 183456,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 79200,
+      "b": 288288,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 32760,
+      "b": 356400,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 92400,
+      "b": 154440,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 50400,
+      "b": 84240,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 133056,
+      "b": 386100,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 75600,
+      "b": 275184,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 46410,
+      "b": 147840,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 55440,
+      "b": 445536,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 278460,
+      "b": 887040,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 55440,
+      "b": 122400,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 71400,
+      "b": 259896,
+      "degree": 28,
+      "in_catalog": false
+    },
+    {
+      "a": 122400,
+      "b": 445536,
+      "degree": 28,
+      "in_catalog": false
+    }
+  ],
+  "catalog_vertices_in_comp0": 550,
+  "partner_only_vertices_in_comp0": 309139,
+  "catalog_avg_degree": 1.185,
+  "partner_only_avg_degree": 2.145
+}
