@@ -162,6 +162,13 @@ def write_run(
         """,
         pair_rows,
     )
+    # Clear any prior survivor_n rows for the pairs we just (re)wrote, so a
+    # repeated write neither duplicates rows nor leaves stale concordant-N
+    # entries behind for a pair that has since been killed.
+    conn.executemany(
+        "DELETE FROM survivor_n WHERE A = ? AND B = ?",
+        {(a, b) for (a, b, *_rest) in pair_rows},
+    )
     if survivor_n_rows:
         conn.executemany(
             "INSERT INTO survivor_n (A, B, n) VALUES (?, ?, ?)",
