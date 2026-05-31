@@ -22,6 +22,7 @@ from rational_distance.proof_status.types import MethodResult
 class PairEvalContext:
     concordant_n: list[int] | None = None
     factor_search_calls: int = 0
+    f2_rank: int | None = None
 
 
 ContextMethod = Callable[[int, int, PairEvalContext], MethodResult]
@@ -94,11 +95,18 @@ def run_multi_n_sieve_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
 
 
 def run_f2_rank_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
-    return run_f2_rank(A, B, concordant_n=_get_concordant_n(A, B, ctx))
+    result = run_f2_rank(A, B, concordant_n=_get_concordant_n(A, B, ctx))
+    f2 = result.details.get("f2_rank")
+    if isinstance(f2, int):
+        ctx.f2_rank = f2
+    return result
 
 
-def run_rank_zero_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_rank_zero(A, B)
+def run_rank_zero_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
+    # C.3: if an earlier f2_rank established rank >= 1, PARI ellrank can only
+    # return inconclusive, so skip the expensive call (see run_rank_zero).
+    hint = None if ctx.f2_rank is None else max(0, ctx.f2_rank - 2)
+    return run_rank_zero(A, B, rank_lower_hint=hint)
 
 
 def run_heegner_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:

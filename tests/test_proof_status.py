@@ -25,6 +25,7 @@ def test_default_method_pipeline_names_are_stable() -> None:
         "safe_sieve",
         "chain_closure_mod_sieve",
         "factor_concordant",
+        "multi_n_sieve",
         "f2_rank",
         "rank_zero",
         "heegner",
@@ -98,9 +99,7 @@ class TestChainClosureModSieve:
         assert isinstance(killer_moduli, list)
         assert 9 in killer_moduli  # smallest known killer for (7, 45)
 
-    def test_stops_after_first_killer_modulus(
-        self, monkeypatch: pytest.MonkeyPatch
-    ) -> None:
+    def test_stops_after_first_killer_modulus(self, monkeypatch: pytest.MonkeyPatch) -> None:
         import rational_distance.concordant.chain_closure_sieve as chain_closure_sieve
         import rational_distance.proof_status.methods as methods
 
@@ -221,6 +220,33 @@ class TestFactorConcordantMethod:
         assert result.details["concordant_n_count"] == 0
 
 
+class TestMultiNSieveMethod:
+    """multi_n_sieve rejects pairs with fewer than two concordant N (wl073, C.2)."""
+
+    def test_rejects_single_concordant_n(self):
+        from rational_distance.proof_status.methods import run_multi_n_sieve
+
+        # (7, 45) has exactly one concordant N; closure needs >= 2.
+        result = run_multi_n_sieve(7, 45)
+        assert result.method == "multi_n_sieve"
+        assert result.outcome == "no_solution"
+        assert result.details["k"] == 1
+
+    def test_passes_multi_n_pair(self):
+        from rational_distance.proof_status.methods import run_multi_n_sieve
+
+        # (153, 560) has three concordant N.
+        result = run_multi_n_sieve(153, 560)
+        assert result.outcome == "pass"
+        assert result.details["k"] == 3
+
+    def test_is_in_default_pipeline_after_factor_concordant(self):
+        from rational_distance.proof_status.methods import DEFAULT_METHOD_PIPELINE
+
+        names = [name for name, _ in DEFAULT_METHOD_PIPELINE]
+        assert names.index("multi_n_sieve") == names.index("factor_concordant") + 1
+
+
 class TestF2RankMethod:
     """The f2_rank method records a PARI-free Mordell-Weil lower bound."""
 
@@ -292,6 +318,50 @@ class TestRankZeroMethod:
         # If PARI is available, expect inconclusive (264,420 has rank 2 ≥ 1).
         # If not available, expect skipped.
         assert result.outcome in {"skipped", "inconclusive", "no_solution", "error"}
+
+    def test_short_circuits_on_rank_lower_hint(self):
+        """C.3: a rank_lower >= 1 hint skips the PARI call entirely."""
+        from rational_distance.proof_status.methods import run_rank_zero
+
+        # No _get_cached_pari needed: the hint forces an early inconclusive,
+        # so this passes even when cypari2 is unavailable.
+        result = run_rank_zero(11776, 17199, rank_lower_hint=1)
+        assert result.outcome == "inconclusive"
+        assert result.details["short_circuit"] == "f2_rank"
+        assert result.details["rank_lower"] == 1
+
+    def test_rank_lower_hint_zero_does_not_short_circuit(self):
+        from rational_distance.proof_status.methods import run_rank_zero
+
+        result = run_rank_zero(11776, 17199, rank_lower_hint=0)
+        # rank_lower 0 is not enough to rule out rank == 0, so no short circuit.
+        assert result.details.get("short_circuit") is None
+
+
+class TestF2RankSchemaColumn:
+    """C.4: the f2_rank lower bound is persisted on pair_proof_status."""
+
+    def test_upsert_and_read_back_f2_rank(self, tmp_path):
+        from rational_distance.proof_status import schema
+
+        conn = schema.connect_db(tmp_path / "proof.sqlite3")
+        try:
+            schema.init_schema(conn)
+            schema.upsert_pair_status(
+                conn,
+                A=153,
+                B=560,
+                status="hard_case",
+                method="exhausted",
+                rank_lower=1,
+                f2_rank=3,
+                notes="t",
+            )
+            row = schema.get_pair_status(conn, 153, 560)
+            assert row is not None
+            assert row.f2_rank == 3
+        finally:
+            conn.close()
 
 
 class TestAdvancedMethods:
@@ -632,15 +702,12 @@ class TestWorkflow:
         attempt_methods = [
             row["method"]
             for row in conn.execute(
-                "SELECT method FROM pair_method_attempts "
-                "WHERE A=9269 AND B=24255 ORDER BY id"
+                "SELECT method FROM pair_method_attempts WHERE A=9269 AND B=24255 ORDER BY id"
             ).fetchall()
         ]
         assert "f2_rank" in attempt_methods
         # Order is preserved: safe_sieve, factor_concordant, f2_rank.
-        assert attempt_methods.index("f2_rank") > attempt_methods.index(
-            "factor_concordant"
-        )
+        assert attempt_methods.index("f2_rank") > attempt_methods.index("factor_concordant")
 
     def test_status_counts_aggregate(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow

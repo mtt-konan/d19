@@ -302,34 +302,15 @@ benchmark run.
 
 ---
 
-### C.2 `multi_n_sieve` 接入 DEFAULT_METHOD_PIPELINE ⭐⭐⭐
+### ~~C.2 / C.3 / C.4 工程小项~~ ✅ 已完成 (wl088)
 
-**出处**: wl073 §后续
+- **C.2** `multi_n_sieve` 接入 `DEFAULT_METHOD_PIPELINE` (factor_concordant 之后),
+  k<2 ⇒ 严格 no_solution。
+- **C.3** `rank_zero` 加 `rank_lower_hint`: F₂-rank ≥ 3 时短路, 跳过 PARI ellrank
+  (主路 + ab_sieve ctx 路均接入)。
+- **C.4** `pair_proof_status` 加 `f2_rank` 列 (schema v2), thread 过 workflow 两条路。
 
-**思路**: multi_n_sieve 是 k≥2 必要条件, 现在还没接入主 pipeline.
-
-**工作量**: 1-2 天
-
----
-
-### C.3 `rank_zero` 加 F₂-rank short-circuit ⭐⭐⭐
-
-**出处**: wl051 §后续
-
-**思路**: F₂-rank ≥ 3 时直接返回 inconclusive 并 skip PARI, 节省 PARI
-调用. 需要给方法间传递状态.
-
-**工作量**: 1 天
-
----
-
-### C.4 `proof_status` schema 加 `f2_rank` 列 ⭐⭐⭐
-
-**出处**: wl051 §后续
-
-**思路**: 给 hard_case 按 F₂-rank 分层查询.
-
-**工作量**: 半天
+全套 319 测试通过。详见 wl088。
 
 ---
 
@@ -384,13 +365,15 @@ benchmark run.
 
 ## D. 数据 / 实证 — 未实施
 
-### D.1 110 个 F₂-rank ≥ 3 pair 跑 PARI ellrank ⭐⭐⭐
+### D.1 F₂-rank ≥ 3 pair 跑 PARI ellrank ✅ 已完成 (wl050 / wl052 / wl087)
 
-**出处**: wl049 §后续, wl050
+**状态**: 已完整。审计在两个尺度都跑完且全 certified:
+- max_hyp=50000: 110 候选 (wl050), `results/multi_n/multi_concordant_N_max50000_pari_rank.jsonl`
+- max_hyp=100000: 190 候选 (wl052), `results/multi_n/multi_concordant_N_max100000_pari_rank.jsonl`
 
-**当前**: wl050 跑了一部分但没完整 110 pair audit.
-
-**工作量**: 1-2 天
+wl087 对 190 个 max100000 候选**从头独立复现** (0 disagreements, 0 uncertified)。
+结构允许 (rank≥4) 候选: 13 @ 50k / 34 @ 100k；Sha[2]≥2: `(36225,40592)`,
+`(34307,74000)`；全部 closure_pairs 为空。脚本 `scripts/theory/pari_rank_high_f2.py`。
 
 ---
 
@@ -572,20 +555,18 @@ K_11+ 是否出现.
 2. ~~**A.2 cycle linear relation 追踪**~~ ✅ 已实现 wl086 — 结论: cycle 关系 = Q_N 的 2-可除性, **不构成 closure 障碍** (与 E.3 代数半部分一起解决)
 3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 现在用 A.7 输出做 sample 源)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
-5. **D.1 110 个 F₂-rank ≥ 3 pair PARI ellrank** ⭐⭐⭐ (低成本数据)
+5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
 6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
-7. **C.2-C.4 工程小项** ⭐⭐⭐ (低成本工程)
+7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
 8. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
 9. **A.6 K_n vs 4-chain 严格关系** ⭐⭐ (纸面工作)
 
 按"工作量低 + 立即可做"排序:
 
-1. **C.4** proof_status schema (半天)
-2. **C.3** rank_zero F₂-rank short-circuit (1 天)
-3. **C.2** multi_n_sieve 接入 pipeline (1-2 天)
-4. **D.1** 110 pair PARI ellrank (1-2 天)
-5. **E.1** max_value 推到 10M (几小时, BFS 并行已 ready)
-6. **E.2** K_9/K_10 ellrank (1 天)
+1. ~~**C.2-C.4** pipeline 工程小项~~ ✅ 已完成 (wl088)
+2. ~~**D.1** 110 pair PARI ellrank~~ ✅ 已完成 (wl050/wl052/wl087)
+3. **E.1** max_value 推到 10M (几小时, BFS 并行已 ready)
+4. **E.2** K_9/K_10 ellrank (1 天)
 
 ---
 
