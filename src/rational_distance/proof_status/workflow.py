@@ -88,10 +88,11 @@ def _aggregate_details(
     rank_upper: int | None,
     concordant_n_count: int | None,
     chain_compatible_count: int | None,
+    f2_rank: int | None,
 ) -> dict[str, int | None]:
     """Fold one method's details into the running pair-level summary.
 
-    The four named arguments carry the values that previous methods in the
+    The named arguments carry the values that previous methods in the
     pipeline have already accumulated. Each method only updates the columns
     it owns; missing fields fall through unchanged.
     """
@@ -106,10 +107,9 @@ def _aggregate_details(
         candidate = _coerce_int(details.get("rank_lower"), None)
         if candidate is not None and (rank_lower is None or candidate > rank_lower):
             rank_lower = candidate
+        f2_rank = _coerce_int(details.get("f2_rank"), f2_rank)
     if method == "factor_concordant":
-        concordant_n_count = _coerce_int(
-            details.get("concordant_n_count"), concordant_n_count
-        )
+        concordant_n_count = _coerce_int(details.get("concordant_n_count"), concordant_n_count)
         chain_compatible_count = _coerce_int(
             details.get("chain_compatible_count"), chain_compatible_count
         )
@@ -119,6 +119,7 @@ def _aggregate_details(
         "rank_upper": rank_upper,
         "concordant_n_count": concordant_n_count,
         "chain_compatible_count": chain_compatible_count,
+        "f2_rank": f2_rank,
     }
 
 
@@ -127,9 +128,16 @@ def _run_method_with_concordant_cache(
     A: int,
     B: int,
     get_concordant_n: Callable[[], list[int]],
+    rank_lower: int | None = None,
 ) -> MethodResult:
     if method_fn is proof_methods.run_factor_concordant:
         return proof_methods.run_factor_concordant(
+            A,
+            B,
+            concordant_n=get_concordant_n(),
+        )
+    if method_fn is proof_methods.run_multi_n_sieve:
+        return proof_methods.run_multi_n_sieve(
             A,
             B,
             concordant_n=get_concordant_n(),
@@ -140,6 +148,8 @@ def _run_method_with_concordant_cache(
             B,
             concordant_n=get_concordant_n(),
         )
+    if method_fn is proof_methods.run_rank_zero:
+        return proof_methods.run_rank_zero(A, B, rank_lower_hint=rank_lower)
     return method_fn(A, B)
 
 
@@ -169,6 +179,7 @@ def process_pair(
     rank_upper = existing.rank_upper if existing else None
     concordant_n_count = existing.concordant_n_count if existing else None
     chain_compatible_count = existing.chain_compatible_count if existing else None
+    f2_rank = existing.f2_rank if existing else None
     concordant_n_cache: list[int] | None = None
 
     terminal_status: str | None = None
@@ -182,7 +193,9 @@ def process_pair(
         return concordant_n_cache
 
     for method_name, method_fn in config.methods:
-        result = _run_method_with_concordant_cache(method_fn, A, B, _get_concordant_n)
+        result = _run_method_with_concordant_cache(
+            method_fn, A, B, _get_concordant_n, rank_lower=rank_lower
+        )
         # Defensive: methods may forget to set the name; trust the registry.
         if result.method != method_name:
             result = MethodResult(
@@ -205,11 +218,13 @@ def process_pair(
             rank_upper=rank_upper,
             concordant_n_count=concordant_n_count,
             chain_compatible_count=chain_compatible_count,
+            f2_rank=f2_rank,
         )
         rank_lower = agg["rank_lower"]
         rank_upper = agg["rank_upper"]
         concordant_n_count = agg["concordant_n_count"]
         chain_compatible_count = agg["chain_compatible_count"]
+        f2_rank = agg["f2_rank"]
 
         if result.outcome == "no_solution":
             terminal_status = "no_solution"
@@ -238,6 +253,7 @@ def process_pair(
         rank_upper=rank_upper,
         concordant_n_count=concordant_n_count,
         chain_compatible_count=chain_compatible_count,
+        f2_rank=f2_rank,
         notes=final_notes,
     )
 
@@ -290,11 +306,14 @@ class PairComputeResult:
     rank_upper: int | None
     concordant_n_count: int | None
     chain_compatible_count: int | None
+    f2_rank: int | None
     method_results: tuple[MethodResult, ...]
 
 
 def compute_pair_status(
-    A: int, B: int, methods: tuple[tuple[str, MethodFn], ...] = DEFAULT_METHOD_PIPELINE,
+    A: int,
+    B: int,
+    methods: tuple[tuple[str, MethodFn], ...] = DEFAULT_METHOD_PIPELINE,
 ) -> PairComputeResult:
     """Pure compute path: run the configured method pipeline on one pair
     and return all results. Does NOT touch any database.
@@ -306,6 +325,7 @@ def compute_pair_status(
     rank_upper: int | None = None
     concordant_n_count: int | None = None
     chain_compatible_count: int | None = None
+    f2_rank: int | None = None
     concordant_n_cache: list[int] | None = None
 
     method_results: list[MethodResult] = []
@@ -321,7 +341,9 @@ def compute_pair_status(
         return concordant_n_cache
 
     for method_name, method_fn in methods:
-        result = _run_method_with_concordant_cache(method_fn, A, B, _get_concordant_n)
+        result = _run_method_with_concordant_cache(
+            method_fn, A, B, _get_concordant_n, rank_lower=rank_lower
+        )
         # Defensive: methods may forget to set the name; trust the registry.
         if result.method != method_name:
             result = MethodResult(
@@ -341,11 +363,13 @@ def compute_pair_status(
             rank_upper=rank_upper,
             concordant_n_count=concordant_n_count,
             chain_compatible_count=chain_compatible_count,
+            f2_rank=f2_rank,
         )
         rank_lower = agg["rank_lower"]
         rank_upper = agg["rank_upper"]
         concordant_n_count = agg["concordant_n_count"]
         chain_compatible_count = agg["chain_compatible_count"]
+        f2_rank = agg["f2_rank"]
 
         if result.outcome == "no_solution":
             terminal_status = "no_solution"
@@ -374,19 +398,16 @@ def compute_pair_status(
         rank_upper=rank_upper,
         concordant_n_count=concordant_n_count,
         chain_compatible_count=chain_compatible_count,
+        f2_rank=f2_rank,
         method_results=tuple(method_results),
     )
 
 
-def _persist_compute_result(
-    conn: sqlite3.Connection, result: PairComputeResult
-) -> None:
+def _persist_compute_result(conn: sqlite3.Connection, result: PairComputeResult) -> None:
     """Write a worker's PairComputeResult into the database WITHOUT
     committing. The caller is expected to commit periodically."""
     for r in result.method_results:
-        schema.record_method_attempt(
-            conn, A=result.A, B=result.B, result=r, commit=False
-        )
+        schema.record_method_attempt(conn, A=result.A, B=result.B, result=r, commit=False)
 
     schema.upsert_pair_status(
         conn,
@@ -398,6 +419,7 @@ def _persist_compute_result(
         rank_upper=result.rank_upper,
         concordant_n_count=result.concordant_n_count,
         chain_compatible_count=result.chain_compatible_count,
+        f2_rank=result.f2_rank,
         notes=result.final_notes,
         commit=False,
     )
@@ -448,8 +470,7 @@ def process_pairs_parallel(
     pairs_iter = pairs
     if skip_terminal:
         has_existing_rows = (
-            conn.execute("SELECT 1 FROM pair_proof_status LIMIT 1").fetchone()
-            is not None
+            conn.execute("SELECT 1 FROM pair_proof_status LIMIT 1").fetchone() is not None
         )
         if has_existing_rows:
             # Must materialize to a list: the generator would be consumed in
