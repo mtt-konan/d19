@@ -171,10 +171,7 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
             outcome="no_solution",
             details=details,
             elapsed_s=elapsed,
-            notes=(
-                f"Chain closure obstructed mod {smallest}: "
-                "T ∩ ((A+B)-T) = ∅."
-            ),
+            notes=(f"Chain closure obstructed mod {smallest}: T ∩ ((A+B)-T) = ∅."),
         )
 
     return MethodResult(
@@ -182,10 +179,7 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
         outcome="pass",
         details=details,
         elapsed_s=elapsed,
-        notes=(
-            "Chain-closure mod p² sieve survived all tested moduli; "
-            "deeper methods required."
-        ),
+        notes=("Chain-closure mod p² sieve survived all tested moduli; deeper methods required."),
     )
 
 
@@ -257,6 +251,50 @@ def run_factor_concordant(
 
 
 # ---------------------------------------------------------------------------
+# Method 2.5: multi_n_sieve  (closure needs >= 2 distinct concordant N; see wl073)
+# ---------------------------------------------------------------------------
+
+
+def run_multi_n_sieve(
+    A: int,
+    B: int,
+    *,
+    concordant_n: list[int] | None = None,
+) -> MethodResult:
+    """Reject pairs with fewer than two concordant N.
+
+    A full 4-chain closes two right triangles that share the candidate
+    point, so it needs at least two *distinct* concordant integers N
+    (wl073 §). Hence ``k = #concordant_n < 2`` is a rigorous
+    ``no_solution`` (a single concordant N — or none — can never close
+    the 4-cycle). For ``k >= 2`` the method only passes the pair on.
+    """
+    started = time.perf_counter()
+    Ns = concordant_n if concordant_n is not None else find_concordant_by_factorization(A, B)
+    elapsed = time.perf_counter() - started
+    details: dict[str, object] = {
+        "k": len(Ns),
+        "concordant_n_count": len(Ns),
+        "sample_concordant_n": Ns[:16],
+    }
+    if len(Ns) < 2:
+        return MethodResult(
+            method="multi_n_sieve",
+            outcome="no_solution",
+            details=details,
+            elapsed_s=elapsed,
+            notes=f"Only {len(Ns)} concordant N; chain closure needs >= 2.",
+        )
+    return MethodResult(
+        method="multi_n_sieve",
+        outcome="pass",
+        details=details,
+        elapsed_s=elapsed,
+        notes=f"Multi-N pair (k={len(Ns)}); needs deeper analysis.",
+    )
+
+
+# ---------------------------------------------------------------------------
 # Method 3: rank_zero  (PARI ellrank; proven rank == 0 ⇒ no_solution)
 # ---------------------------------------------------------------------------
 
@@ -289,7 +327,7 @@ def _reset_pari_cache() -> None:
     _pari_cache = None
 
 
-def run_rank_zero(A: int, B: int) -> MethodResult:
+def run_rank_zero(A: int, B: int, *, rank_lower_hint: int | None = None) -> MethodResult:
     """Call PARI ellrank on E: Y^2 = X(X+A^2)(X+B^2).
 
     If the *upper* bound on rank is 0, the curve has only torsion points.
@@ -302,8 +340,28 @@ def run_rank_zero(A: int, B: int) -> MethodResult:
     sanity check (does NOT imply solution existence — only that concordant
     rational points exist, which the chain closure layer still has to
     reject).
+
+    ``rank_lower_hint`` lets the workflow pass a rank lower bound already
+    established by an earlier method (e.g. ``f2_rank``). When it is ``>= 1``
+    the curve provably has positive rank, so this method can only ever
+    return ``inconclusive``; we then short-circuit and skip the expensive
+    PARI ``ellrank`` call entirely (wl051 / C.3).
     """
     started = time.perf_counter()
+    if rank_lower_hint is not None and rank_lower_hint >= 1:
+        return MethodResult(
+            method="rank_zero",
+            outcome="inconclusive",
+            details={
+                "rank_lower": rank_lower_hint,
+                "short_circuit": "f2_rank",
+            },
+            elapsed_s=time.perf_counter() - started,
+            notes=(
+                f"Skipped PARI ellrank: rank >= {rank_lower_hint} already "
+                "established (rank != 0, so this method cannot decide)."
+            ),
+        )
     pari = _get_cached_pari()
     if pari is None:
         return MethodResult(
@@ -532,9 +590,7 @@ def run_f2_rank(
                 "concordant_n_count": len(Ns),
             },
             elapsed_s=time.perf_counter() - started,
-            notes=(
-                f"Skipped: only {len(Ns)} concordant N (need >=2 for F₂-rank)."
-            ),
+            notes=(f"Skipped: only {len(Ns)} concordant N (need >=2 for F₂-rank)."),
         )
 
     from rational_distance.concordant.two_descent_rank import (
@@ -613,6 +669,7 @@ DEFAULT_METHOD_PIPELINE: tuple[tuple[str, MethodFn], ...] = (
     ("safe_sieve", run_safe_sieve),
     ("chain_closure_mod_sieve", run_chain_closure_mod_sieve),
     ("factor_concordant", run_factor_concordant),
+    ("multi_n_sieve", run_multi_n_sieve),
     ("f2_rank", run_f2_rank),
     ("rank_zero", run_rank_zero),
     ("heegner", run_heegner_stub),
@@ -631,6 +688,7 @@ __all__ = [
     "run_factor_concordant",
     "run_heegner_height",
     "run_heegner_stub",
+    "run_multi_n_sieve",
     "run_rank_zero",
     "run_safe_sieve",
 ]
