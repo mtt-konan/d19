@@ -77,21 +77,24 @@ multi-N. wl080 提到"看 K4/K5 的 partner identity 能否 push 类似 path A
 
 ---
 
-### A.2 cycle linear relation 追踪 ⭐⭐⭐
+### A.2 cycle linear relation 追踪 ✅ 已实现 (wl086) — 不构成障碍
 
-**出处**: wl058 §未做的事, wl059 §五
+**状态**: wl086 落地。模块 `src/rational_distance/concordant/cycle_relations.py`,
+CLI `scripts/multi_n/cycle_relations.py`, 测试 `tests/test_cycle_relations.py`,
+结果 `results/multi_n/cycle_relations_wl058.jsonl`。见
+`docs/work-logs/086-cycle-linear-relations-A2.md`。
 
-**思路**: wl058 在 (153, 560) BFS 中发现 1 个 6-cycle. wl059 找到
-"cycle 与 rank deficit 高度相关". 但具体 linear relation
-`c₁ Q_{N_1} + c₂ Q_{N_2} + c₃ Q_{N_3} = 0 ∈ E(ℚ)` 没追.
+**结论 (negative but informative)**: 把 8 个 wl058 6-cycle pair 的 Q_N 全部
+表成 generator 整数组合并逐条精确验证。发现:
+1. **每个 Q_N ∈ 2·E(ℚ)** (ellisdivisible 确认, 8/8 普遍) —— 因为
+   `(x, x+A², x+B²)=(N²,□,□)` 是 concordant 定义, descent class 恒为 (1,1)。
+2. 所有 cycle 关系被 2-可除性 + 坐标秩亏**完全解释** (#relations == k − coord_rank, 8/8)。
+3. 真正的 deficit 是 k − coord_rank (非 k − MW_rank); (153,560) 的 deficit=0
+   仍有关系。
 
-**为何没做**: 当时方向转向 wl060+ 的 K_8 audit, cycle 算法被搁置.
-
-**怎么做**: 对 (420, 1344) (deficit=2 的 sample), 用 PARI ellgens 算
-Mordell-Weil generators, 把 3 个 Q_{N_i} 作为 generators 的整数线性组合
-表达, 找 c_i 系数. 如果有 universal pattern, 可能给 closure obstruction.
-
-**工作量**: 几天 (PARI 直接做)
+因为 2-可除性对**任何** concordant 点都成立 (无关 closure), cycle 关系**不能
+区分反例**, 故 A.2 作为"找新必要条件"的路线关闭。它在 MW 格层面重新确认了
+wl035 / CURRENT_FINDINGS §5.2 的 2-descent 平凡性。
 
 ---
 
@@ -466,14 +469,16 @@ K_11+ 是否出现.
 
 ---
 
-### E.3 cycle 的代数解释 ⭐⭐⭐ ★ 与 A.2 联动
+### E.3 cycle 的代数解释 — 代数半部分已解决 (wl086)
 
 **出处**: wl058 §下一步 3, wl059 §下一步
 
-**思路**: (153, 560) 的 6-cycle 经过 K_5 hub. 是否所有 G_M cycle 都
-经过某个 K_n hub? cycle 与 rank deficit 的相关性是否严格?
+**状态**: 代数半部分由 wl086 (A.2) 解决: cycle 的 rank deficit = Q_N 坐标矩阵
+的秩亏, 而每个 Q_N ∈ 2·E(ℚ) (descent-trivial)。"cycle ↔ rank deficit"
+相关性的精确机制由此给出, 但**不构成 closure 障碍** (见 A.2)。
 
-**工作量**: 1-2 周 (与 A.2 一起做)
+**剩余 (纯图论, 与代数独立)**: "是否所有 G_M cycle 都经过某个 K_n hub?"
+这部分未做, 可在 E.1/E.2 跑 BFS 时顺带统计。
 
 ---
 
@@ -564,7 +569,7 @@ K_11+ 是否出现.
 按"真正可推动证明 + 可行性高"排序:
 
 1. ~~**A.7 D-scaling K_n 快速生成器**~~ ✅ 已实现 wl085 (3 个 K_10 完美 reproduce + K_11/K_12/K_13 新发现)
-2. **A.2 cycle linear relation 追踪** ⭐⭐⭐ (与 E.3 联动)
+2. ~~**A.2 cycle linear relation 追踪**~~ ✅ 已实现 wl086 — 结论: cycle 关系 = Q_N 的 2-可除性, **不构成 closure 障碍** (与 E.3 代数半部分一起解决)
 3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 现在用 A.7 输出做 sample 源)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
 5. **D.1 110 个 F₂-rank ≥ 3 pair PARI ellrank** ⭐⭐⭐ (低成本数据)

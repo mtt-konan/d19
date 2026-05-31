@@ -341,6 +341,22 @@ Chabauty / Brauer-Manin）。它们不再淹没在大量"还能用简单 mod 砍
 
 从差值近似按批次数线性增长这一点看，收益主要来自**消掉每批固定的建池/收池成本**，不是数学计算本身突然变快。
 
+### 10. concordant 点恒在 $2\,E(\mathbb{Q})$ 内，cycle 关系不构成障碍（worklog 086）
+
+把 8 个 wl058 6-cycle pair 的每个 concordant 点 $Q_N=(N^2,\,N\sqrt{N^2+A^2}\sqrt{N^2+B^2})$
+表成 Mordell-Weil generator 的整数线性组合（mod torsion），并用 PARI 点运算逐条精确验证：
+
+- **$Q_N \in 2\,E(\mathbb{Q})$ 普遍成立（8/8，`ellisdivisible` 精确确认）**：因为
+  $(x,\,x+A^2,\,x+B^2)=(N^2,\Box,\Box)$ 全是平方，descent class 恒为平凡，这是上面
+  §五.2 在 Mordell-Weil 格层面的再确认。
+- **所有 cycle 线性关系被 2-可除性 + 坐标矩阵秩亏完全解释**（`#relations == k − coord_rank`，8/8）。
+  wl059 “cycle ↔ rank deficit” 的精确机制：$Q_N$ 坐标恒落在 $2\cdot$（MW 格）内，秩亏频繁出现。
+- 真正的 deficit 是 $k-\text{coord\_rank}$ 而非 $k-\text{MW\_rank}$；(153,560) 的 $k-\text{MW\_rank}=0$ 仍有 1 条关系。
+
+**结论**：cycle 关系真实可验证，但对任何 concordant 点都成立（与 4-chain 是否闭合无关），
+故**不能区分反例**，A.2 作为“找新必要条件”的路线关闭。模块见
+`src/rational_distance/concordant/cycle_relations.py`。
+
 ---
 
 ## 六、补充阅读（更工程向的细节）
