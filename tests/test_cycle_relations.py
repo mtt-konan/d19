@@ -82,3 +82,15 @@ class TestCycleRelations:
         for rel in res.relations:
             assert rel.verified
             assert rel.residual_torsion_order in (1, 2, 4)
+
+    def test_rational_generator_coords_do_not_raise(self):
+        # Regression (wl089): PARI ellrank returns a generator with rational
+        # coordinates for (425, 1001) (e.g. [-5504345/9, 8661181760/27]). The
+        # old int-truncating extraction corrupted the point -> ellheight
+        # "point not on E". With exact points the analysis must succeed.
+        res = analyze_cycle_relations(425, 1001, [168, 660])
+        assert res.skipped_reason is None
+        assert res.rank is not None and res.rank >= 3
+        assert res.all_two_divisible
+        # generators are recorded as exact coordinate strings (may be fractions)
+        assert any("/" in gx or "/" in gy for gx, gy in res.generators)

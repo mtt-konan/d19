@@ -31,7 +31,7 @@ from typing import Any
 
 from rational_distance.concordant.analysis import (
     _ensure_pari,
-    compute_rank,
+    compute_rank_exact_points,
     find_concordant_integers,
 )
 
@@ -78,7 +78,8 @@ class CycleRelationResult:
     concordant_n: list[int]
     rank: int | None
     rank_bounds: tuple[int, int] | None
-    generators: list[tuple[int, int]]
+    generators: list[tuple[str, str]]
+    """Exact generator coordinates as decimal/rational strings (may be fractions)."""
     point_coords: list[CyclePointCoord] = field(default_factory=list)
     relations: list[CycleRelation] = field(default_factory=list)
     coord_matrix_rank: int | None = None
@@ -203,9 +204,12 @@ def mw_coordinates(
         pari = _ensure_pari()
     a2, b2 = A * A, B * B
     E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
-    rank, bounds, _sha2, gen_coords = compute_rank(A, B, pari, effort=effort)
-    gens = [pari([gx, gy]) for gx, gy in gen_coords]
+    # Exact PARI generator points: ellrank can return generators with rational
+    # coordinates, which int-truncation would corrupt (-> "point not on E").
+    rank, bounds, _sha2, gens = compute_rank_exact_points(A, B, pari, effort=effort)
     r = len(gens)
+    # Faithful string record of the (possibly rational) generator coordinates.
+    gen_coords = [(str(pt[0]), str(pt[1])) for pt in gens]
 
     result = CycleRelationResult(
         A=A,
