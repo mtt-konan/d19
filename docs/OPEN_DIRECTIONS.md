@@ -102,6 +102,12 @@ wl035 / CURRENT_FINDINGS §5.2 的 2-descent 平凡性。
 
 **出处**: wl039 §下一步 (高优先), wl040 §下一步 3
 
+> ⚠️ wl092 注：步骤 3（“generator + height bound 枚举所有 N candidate”）**不必做**。
+> `factor_concordant`（`factor_search.find_concordant_by_factorization`）已穷尽枚举
+> 全部 concordant 整数 N（全 rank、无 height bound），rank=1 有界扫描是其严格子集；
+> height 上界本身又已被 B.6/wl077 判不通。若要处理 9 个 outlier，直接用 `factor_concordant`
+> 判定即可，无需 Heegner/height。
+
 **思路**: wl039 发现 9 个 outlier "PARI 找到 gen 但 hyperellratpoints
 找不到 cover-lift". 这些是 closure 失败的最弱 case. Heegner point 在
 rank=1 上 effective (PARI ellheegner 直接可调).
@@ -280,6 +286,18 @@ algebraic. path B 关闭.
 **出处**: wl077
 
 **状态**: 实证 1879/1879 fail, `min ĥ > 2 log(A+B)` 路径不通.
+
+### B.8 “Heegner 升级成判定器（补 height bound）” 🛑
+
+**出处**: wl092
+
+**状态**: 判为**冗余**。`factor_concordant`（在 pipeline 里排在 `heegner` 之前）
+已穷尽枚举全部 concordant 整数 N（由 `B²−A²` 的 divisor pair，自证完整、无上界、
+全 rank），rank=1 有界 MW 扫描只是其严格子集。实测（max_hyp=500，24.8 ms 全判完）：
+7 个残余 inconclusive hard_case **全 rank≥2**（heegner 仅 rank=1，全 skipped），且因子法找到
+的 N（如 260820）远超任何有界扫描窗口。需要的 height 上界又被 B.6 判不成立。
+残余 `inconclusive` 的真正 gap 是 **closure-necessity（闭合 4-chain 是否必要）**，
+与 Heegner/height 无关；script: `scripts/theory/heegner_vs_factor_decider.py`.
 
 ### B.7 hypotenuse identity / blocker prime 🛑
 
