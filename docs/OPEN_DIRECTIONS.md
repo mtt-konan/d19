@@ -51,29 +51,25 @@ A.7 (D-scaling 快速生成器) 仍值得做, 但理由是:
 
 ## A. 理论方向 — 真正没尝试过 (新角度)
 
-### A.1 K_n hub partner identity 推广 ⭐⭐ ★ HIGH-ROI
+### A.1 K_n hub partner identity 推广 ✅ 已实现 (wl089) — 不构成障碍
 
-**出处**: wl080 §六, wl062, wl059
+**状态**: wl089 落地。脚本 `scripts/partner/kn_partner_identity.py`,
+结果 `results/partner/kn_partner_identity.jsonl`,
+回归测试 `tests/test_cycle_relations.py::test_rational_generator_coords_do_not_raise`。
+见 `docs/work-logs/089-kn-hub-partner-identity-A1-A6.md`。
 
-**思路**: K_n hub 是 G_M (partner graph) 中 n 个 vertex 共享一组
-multi-N. wl080 提到"看 K4/K5 的 partner identity 能否 push 类似 path A
-的论证到更高 k". 核心想法: K_n hub 中 n vertex 的 (A_i, B_i) 共享 N
-们, 它们的 half-points 在 Mordell-Weil lattice 上有特殊代数关系
-(类似 wl059 的 cycle deficit).
+**结论 (negative but informative)**: 对 28 个 K_n hub 的全部 49 条边复用 wl086
+machinery，检查 shared concordant 点 Q_N 是否落在 2·E(ℚ)：**49/49 全部 2-可除**。
+每个点在它**自己那条曲线**上就 2-可除 (同 A.2/wl086)，与 hub 是否 "共享" 无关。
+K_n hub 的 sharing 只是不同曲线 (j-invariant 一般不同) 之间 N 值的巧合，**不是
+代数 linkage**，不提供跨边 closure 障碍。A.1 撞上和 A.2 同一堵墙：推到更高 k 需要
+**新的**代数恒等式，而非 hub 巧合。
 
-**为何没做**: wl080 关闭 path B 后直接进入 path A k=2 严格化, 没回头
-做这个. wl062 找到 K_9, K_10 hubs 但没做代数分析.
-
-**怎么做**:
-1. 取一个 K_4 hub (如 catalog 中找), 列出 4 个 vertex 的 (A_i, B_i, N_i set)
-2. 对每对 vertex 算 partner identity 关系
-3. 找 4 vertex 共同满足的代数 invariant
-4. 看是否给 closure 失败的代数 obstruction
-
-**风险**: K_n hub 在 reduced coprime safe-pass 中**没有 K≥5** (max_hyp=2M),
-推广可能仅适用 partner-only (非互素) vertex.
-
-**工作量**: 1-2 周
+**副产物 (bug fix)**: 发现并修复 `analysis.compute_rank` 把 PARI ellrank 返回的
+**有理坐标** generator 用 `int()` 截断 (例如 (425,1001) 的 gen
+`[-5504345/9, ...]`)，导致 ~40% 曲线报 "point not on E"。新增
+`compute_rank_exact_points` 保留精确点，`cycle_relations` 改用之；`compute_rank`
+对外行为不变 (向后兼容)。
 
 ---
 
@@ -130,24 +126,24 @@ rank=1 上 effective (PARI ellheegner 直接可调).
 
 ---
 
-### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 ⭐⭐
+### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 🛑 关闭 (wl091)
 
 **出处**: wl036 §五, wl037
 
-**思路**: 现 safe_sieve 用 mod 1680 (~5 primes). Peschmann §7(2) 用
-45 primes < 200. 扩到这个规模可能让 sieve 提前 kill 更多 pair.
+**结论 (wl091)**: **不值得做**，三条理由（全实测支撑，见
+`docs/work-logs/091-f4-peschmann-sieve-vs-mod-p2-closure.md`）：
+1. "45-prime 参数 sieve" 在 d19 **早已实现**——`chain_closure_mod_sieve`(wl040) 用
+   mod-p² 到 p=97，`finite_descent_hard_cases`(wl037) N-only 已检 p<200；单 mod-p²
+   筛在 max_hyp=2000 就砍 99.6% hard_case。A.5 的"现仅 ~5 primes mod 1680"前提已过时。
+2. A.5 把 Peschmann §7(2) 当"45-prime 参数 sieve"是 **category error**：§7(2) 是
+   per-point 平方检测（类比方向五 Heegner-height），真正对应 safe_sieve 的是 §7(3)
+   blocker prime，而 §7(3) 明说**无 universal prime**（同 wl078-079）。
+3. **实测**：d19 的筛力 100% 来自 closure reflection `T∩((A+B)−T)=∅`（pure `T=∅` 砍 0
+   个），且 90% killer 是 **p≡3 (mod 4)**（p=3 占 88%）。若照 Peschmann 的纯平方 /
+   Gaussian blocker 思路扩 sieve，会**恰好丢掉**这些承担 90% 筛力的素数 ⟹ 严格更弱。
 
-**为何没做**: wl037 提到是 wl037 目标, 但实际 wl037 转向 finite descent.
-
-**怎么做**:
-1. 给每个 prime p < 200 算 quadratic residue table
-2. 对 (A, B) 在 mod p² 看 closure 局部 obstruction
-3. CRT 合并到一个 combined sieve
-
-**风险**: wl078-079 path B 已经验证 (a, b) mod p² CRT 不能 universal kill.
-但 Peschmann 的 sieve 不一定是 mod p²-style.
-
-**工作量**: 1-2 周
+⟹ 不重走 path B；维持现 mod-p² closure sieve。**注意**: 别因 Gaussian-范数论证去删
+p≡3 (mod 4) 模数（如 p=3）——它们在 closure reflection 里恰恰最关键。
 
 ---
 
@@ -223,18 +219,19 @@ K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70
 
 ---
 
-### A.6 K_n 与 4-chain 反例的关系厘清 ⭐⭐
+### A.6 K_n 与 4-chain 反例的关系厘清 ✅ 已厘清 (wl089)
 
-**出处**: wl055 §下一步 3
+**状态**: wl089 与 A.1 一起做掉。见
+`docs/work-logs/089-kn-hub-partner-identity-A1-A6.md`。
 
-**思路**: K_n 是"n 个 a 两两 multi-N", 反例是 4-chain (K_4 closure).
-两者关系尚未严格梳理.
-
-**为何没做**: wl055 之后转去其他方向.
-
-**怎么做**: 形式化 K_n 与 4-chain closure 的精确数学等价 / 包含关系.
-
-**工作量**: 几天纸面工作
+**结论**:
+1. **shared_partner 对偶**: shared_partner K_n（n 节点共享 partner pair
+   (P_a,P_b)）⟺ (P_a,P_b) 自身是 k≥n 的 multi-N pair 且其 N 集含这 n 个节点
+   ——(A,B)↔N 对偶。17/17 shared_partner hub 验证成立。
+2. **general K_n 上限**: general K_n 要求 C(n,2) 条边全 multi-N；max100000 互素
+   catalog 中只有 11 个 K_3、**0 个 K_4+**。
+3. 这两点说明 "K_n 给比单 multi-N pair 更强的 closure 障碍" 不成立（A.1 已验证
+   每条边的 Q_N 仍只是 2-可除）；K_n 与 4-chain closure 没有提供新的代数包含关系。
 
 ---
 
@@ -431,14 +428,19 @@ case 的手动 deep-dive.
 
 ## E. 图论 / partner network — 未实施
 
-### E.1 max_value = 10M / 100M G_M BFS ⭐⭐
+### E.1 max_value = 10M / 100M G_M BFS ⭐ (长跑, 暂缓; 科学问题已被 wl085 回答)
 
 **出处**: wl063 §下一步, wl056
 
-**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看
-K_11+ 是否出现.
+**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看 K_11+ 是否出现.
 
-**工作量**: 几小时 (BFS 已并行化)
+**状态 (wl090 复审)**: **暂缓——这是唯一剩下的长跑项**。既有 full BFS 已在
+`max_value=1M` 跑过 (738s / 350868 边, `results/partner/partner_full_bfs_summary.json`),
+推到 10M 工程上是小时级长跑，与"避免长跑"约束冲突。更关键：它要回答的科学问题
+("K_11+ 是否存在") **已被 wl085 的 D-scaling 生成器构造性回答**——wl085 完美 reproduce
+3 个 K_10 并新发现 K_11/K_12/K_13。因此 10M 经验扫描的边际价值低。若将来要给 paper
+配经验表格再跑，否则不优先。现有范围 (max100000 catalog / 1M BFS) 的 clique 结构已由
+`partner_kn_subgraphs` + wl089 充分刻画 (general 上限 K_3, shared_partner 上限 K_5)。
 
 ---
 
@@ -507,22 +509,29 @@ K_11+ 是否出现.
 
 ## F. 文献 / 形式化 — 未实施
 
-### F.1 LaTeX 形式化 paper ⭐ (依赖 A1 严格)
+### F.1 conditional / empirical paper 骨架 ✅ 骨架已写 (wl090)
 
 **出处**: wl083 §状态
 
-**状态**: A1 现在不严格 (wl084), 暂不可写. 只能写 conditional paper
-("假设 A1, ...").
+**状态**: A1 不严格 (wl084), 但 conditional/empirical paper **不依赖** A1 严格,
+现在就能写。骨架落地于 `docs/paper/CONDITIONAL_PAPER_OUTLINE.md`：proven 部分
+(恒等式 A/C、2-adic + mod-p² 必要条件、N≤10⁸ finite descent、2-可除性定理 wl086)
++ 可复现 no-solution census + 仅 §7 conditional on A1。后续把骨架填成 LaTeX 即可
+(census 表用既有 certified range, 不长跑)。
 
 ---
 
-### F.2 Stoll-Bruin Chabauty 工具调研 ⭐
+### F.2 Stoll-Bruin Chabauty 工具调研 ✅ 已调研 (wl090)
 
 **出处**: wl080 §六, wl079 §五
 
-**思路**: Stoll/Bruin 的 Chabauty 工具是否能用 (替代 Magma).
-
-**工作量**: 1 周调研
+**结论**: 见 `docs/work-logs/090-f2-chabauty-tooling-survey.md`。Stoll–Bruin 一系
+**部分可替代、整体尚不可替代** Magma：经典 Chabauty–Coleman 的 Coleman 积分在 Sage
+成熟 (BBK)，奇数次超椭圆 + rank 0/1 有成体系 Sage 实现 (arXiv:1909.04808)，
+Bruin–Stoll two-cover descent 有开源版 (`twocover-descent`)；但让结论性的
+**Mordell–Weil sieve** 与高亏格 `Jac` 的 rank 计算至今主要是 Stoll 的 Magma 代码
+(QCMod 等)。**B.1 降级措辞**: 不是全程要 Magma, 而是 MW-sieve + 高亏格 rank 两步要。
+最低成本 PoC: 挑一个 rank<g 的 hard_case fiber 写成超椭圆模型用 Sage 跑经典 CC。
 
 ---
 
@@ -536,14 +545,17 @@ K_11+ 是否出现.
 
 ---
 
-### F.4 Peschmann §7(2) 文献深读 + modular search 实施 ⭐⭐
+### F.4 Peschmann §7(2) 文献深读 + modular search 实施 ✅ 已读懂 (wl091)
 
 **出处**: wl036 §五
 
-**思路**: Peschmann arXiv 2604.09328 §7(2) 的 modular search (45 primes < 200)
-是否能直接迁移.
-
-**工作量**: 1-2 周
+**结论 (wl091)**: 见 `docs/work-logs/091-f4-peschmann-sieve-vs-mod-p2-closure.md`。
+Peschmann §7(2) 是 **per-point 平方检测**（对 5 个 hard 曲线在 height box 内枚举
+有理点 P，用 45 primes<200 判 `f(P)∈ℚ*²`），类比 d19 的**方向五 Heegner-height
+有界枚举 + 多素数平方过滤**，**不是** safe_sieve 类的参数 sieve。真正对应 safe_sieve
+的是 §7(3) blocker prime（无 universal prime，同 wl078-079）。Peschmann Remark 6.5
+(Gaussian 范数 ⟹ p≡3 mod4 不能当 blocker) 不直接迁移，因为 d19 的筛力在 closure
+reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 
 ---
 
@@ -553,19 +565,21 @@ K_11+ 是否出现.
 
 1. ~~**A.7 D-scaling K_n 快速生成器**~~ ✅ 已实现 wl085 (3 个 K_10 完美 reproduce + K_11/K_12/K_13 新发现)
 2. ~~**A.2 cycle linear relation 追踪**~~ ✅ 已实现 wl086 — 结论: cycle 关系 = Q_N 的 2-可除性, **不构成 closure 障碍** (与 E.3 代数半部分一起解决)
-3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 现在用 A.7 输出做 sample 源)
+3. ~~**A.1 K_n hub partner identity 推广**~~ ✅ 已实现 wl089 — 结论: hub 边的 Q_N 仍只 2-可除, **不构成跨边 closure 障碍** (与 A.6 一起解决; 附带修复 compute_rank 有理 generator bug)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
 5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
-6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
+6. ~~**A.5 扩 safe_sieve 到 Peschmann 规模**~~ 🛑 关闭 wl091 (已实现 + 会丢掉 p≡3 mod4 主力素数; F.4 同步读懂)
 7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
-8. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
-9. **A.6 K_n vs 4-chain 严格关系** ⭐⭐ (纸面工作)
+8. **E.2 K_9/K_10 ellrank** ⭐⭐ (E.1 见下: 暂缓长跑)
+9. ~~**A.6 K_n vs 4-chain 严格关系**~~ ✅ 已厘清 wl089 (shared_partner 对偶 + general K_n 上限 K_3)
+10. ~~**F.2 Stoll-Bruin Chabauty 调研**~~ ✅ 已调研 wl090 (部分可替代 Magma; MW-sieve 仍 Magma)
+11. ~~**F.1 conditional paper 骨架**~~ ✅ 骨架已写 wl090 (`docs/paper/CONDITIONAL_PAPER_OUTLINE.md`, 不依赖 A1 严格)
 
 按"工作量低 + 立即可做"排序:
 
 1. ~~**C.2-C.4** pipeline 工程小项~~ ✅ 已完成 (wl088)
 2. ~~**D.1** 110 pair PARI ellrank~~ ✅ 已完成 (wl050/wl052/wl087)
-3. **E.1** max_value 推到 10M (几小时, BFS 并行已 ready)
+3. ~~**E.1** max_value 推到 10M~~ ⏸️ 暂缓 (唯一长跑项; K_11+ 已被 wl085 构造性回答, 见 E.1)
 4. **E.2** K_9/K_10 ellrank (1 天)
 
 ---

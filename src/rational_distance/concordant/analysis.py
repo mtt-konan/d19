@@ -149,31 +149,60 @@ def compute_rank(
             profile.time_rank_s += time.perf_counter() - started
         return result
 
-    a2, b2 = A * A, B * B
-    E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
-    if effort == 0:
-        # Preserve PARI's "no effort argument" call form: identical to
-        # ``ellrank(E)`` in older PARI/GP scripts.
-        pari_result = pari.ellrank(E)
-    else:
-        pari_result = pari.ellrank(E, effort)
-
-    lower = int(pari_result[0])
-    upper = int(pari_result[1])
-    sha2_lower = int(pari_result[2]) if len(pari_result) > 2 else 0
-    rank = lower
-
-    gens: list = []
-    if len(pari_result) > 3:
-        gen_list = pari_result[3]
-        for i in range(len(gen_list)):
-            pt = gen_list[i]
-            gens.append((int(pt[0]), int(pt[1])))
+    rank, bounds, sha2_lower, gen_points = _ellrank_raw(A, B, pari, effort)
+    # Integer-truncated (x, y) tuples for backward compatibility. Note this
+    # floors rational generator coordinates; callers needing exact arithmetic
+    # must use ``compute_rank_exact_points`` instead (see worklog 089).
+    gens: list = [(int(pt[0]), int(pt[1])) for pt in gen_points]
 
     if profile is not None:
         profile.time_rank_s += time.perf_counter() - started
 
-    return rank, (lower, upper), sha2_lower, gens
+    return rank, bounds, sha2_lower, gens
+
+
+def _ellrank_raw(A: int, B: int, pari, effort: int):
+    """Run PARI ``ellrank`` once; return ``(rank, (lo, hi), sha2, gen_points)``.
+
+    ``gen_points`` are the raw PARI point objects, so rational coordinates are
+    preserved exactly (PARI may return generators with fractional X/Y).
+    """
+    a2, b2 = A * A, B * B
+    E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
+    # effort == 0 preserves PARI's "no effort argument" call form: identical to
+    # ``ellrank(E)`` in older PARI/GP scripts.
+    pari_result = pari.ellrank(E) if effort == 0 else pari.ellrank(E, effort)
+
+    lower = int(pari_result[0])
+    upper = int(pari_result[1])
+    sha2_lower = int(pari_result[2]) if len(pari_result) > 2 else 0
+
+    gen_points: list = []
+    if len(pari_result) > 3:
+        gen_list = pari_result[3]
+        gen_points = [gen_list[i] for i in range(len(gen_list))]
+
+    return lower, (lower, upper), sha2_lower, gen_points
+
+
+def compute_rank_exact_points(A: int, B: int, pari=None, *, effort: int = 1):
+    """Like :func:`compute_rank` but return exact PARI generator point objects.
+
+    ``compute_rank`` truncates generator coordinates to ``int`` for backward
+    compatibility, which corrupts the (not uncommon) generators with rational
+    coordinates — feeding such a point to ``ellheight``/``elladd`` raises
+    "point not on E". Use this variant wherever the generators are needed for
+    exact point arithmetic (e.g. the cycle/K_n height-pairing analysis).
+
+    Returns ``(rank, (lower, upper), sha2_lower, gen_points)`` where
+    ``gen_points`` is a list of PARI point objects on
+    ``E: Y^2 = X(X+A^2)(X+B^2)``.
+    """
+    if pari is None:
+        pari = _ensure_pari()
+    if A == B:
+        return -1, (-1, -1), 0, []
+    return _ellrank_raw(A, B, pari, effort)
 
 
 def find_concordant_integers(
@@ -313,9 +342,7 @@ def analyze_pair(
     )
 
 
-def enumerate_multiples(
-    A: int, B: int, max_depth: int = 10, pari=None
-) -> list[int]:
+def enumerate_multiples(A: int, B: int, max_depth: int = 10, pari=None) -> list[int]:
     """Search for concordant integers by enumerating multiples of generators."""
     if pari is None:
         pari = _ensure_pari()
