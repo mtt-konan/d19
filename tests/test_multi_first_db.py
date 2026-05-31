@@ -93,5 +93,46 @@ def test_pair_verdict_upsert_is_idempotent(tmp_path: Path) -> None:
     try:
         assert conn.execute("SELECT count(*) FROM pair_verdict").fetchone()[0] == 4
         assert conn.execute("SELECT count(*) FROM run_meta").fetchone()[0] == 2
+        # survivor_n must not accumulate duplicates across repeated writes.
+        assert conn.execute("SELECT count(*) FROM survivor_n").fetchone()[0] == 2
+    finally:
+        conn.close()
+
+
+def test_survivor_n_cleared_when_pair_later_killed(tmp_path: Path) -> None:
+    db = tmp_path / "mf.db"
+    _write_sample(db)  # (100, 200) is a survivor with two concordant N
+
+    # Re-run: the same pair is now killed, so it carries no survivor_n rows.
+    conn = mfdb.connect_db(db)
+    try:
+        mfdb.write_run(
+            conn,
+            max_hyp=2000,
+            moduli_name="standard",
+            moduli=(9, 25, 49),
+            multi_n_pair_count=1,
+            safe_sieve_killed=0,
+            primary_killed=0,
+            dual_killed=1,
+            survivor_count=0,
+            multi_n_elapsed_s=0.1,
+            sieve_elapsed_s=0.1,
+            pair_rows=[(100, 200, 3, mfdb.VERDICT_DUAL, None)],
+            survivor_n_rows=[],
+        )
+        # Stale survivor_n rows for the now-killed pair must be gone.
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM survivor_n WHERE A = 100 AND B = 200"
+            ).fetchone()[0]
+            == 0
+        )
+        assert (
+            conn.execute(
+                "SELECT verdict FROM pair_verdict WHERE A = 100 AND B = 200"
+            ).fetchone()[0]
+            == mfdb.VERDICT_DUAL
+        )
     finally:
         conn.close()
