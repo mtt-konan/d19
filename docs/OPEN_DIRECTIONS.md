@@ -428,14 +428,19 @@ case 的手动 deep-dive.
 
 ## E. 图论 / partner network — 未实施
 
-### E.1 max_value = 10M / 100M G_M BFS ⭐⭐
+### E.1 max_value = 10M / 100M G_M BFS ⭐ (长跑, 暂缓; 科学问题已被 wl085 回答)
 
 **出处**: wl063 §下一步, wl056
 
-**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看
-K_11+ 是否出现.
+**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看 K_11+ 是否出现.
 
-**工作量**: 几小时 (BFS 已并行化)
+**状态 (wl090 复审)**: **暂缓——这是唯一剩下的长跑项**。既有 full BFS 已在
+`max_value=1M` 跑过 (738s / 350868 边, `results/partner/partner_full_bfs_summary.json`),
+推到 10M 工程上是小时级长跑，与"避免长跑"约束冲突。更关键：它要回答的科学问题
+("K_11+ 是否存在") **已被 wl085 的 D-scaling 生成器构造性回答**——wl085 完美 reproduce
+3 个 K_10 并新发现 K_11/K_12/K_13。因此 10M 经验扫描的边际价值低。若将来要给 paper
+配经验表格再跑，否则不优先。现有范围 (max100000 catalog / 1M BFS) 的 clique 结构已由
+`partner_kn_subgraphs` + wl089 充分刻画 (general 上限 K_3, shared_partner 上限 K_5)。
 
 ---
 
@@ -504,22 +509,29 @@ K_11+ 是否出现.
 
 ## F. 文献 / 形式化 — 未实施
 
-### F.1 LaTeX 形式化 paper ⭐ (依赖 A1 严格)
+### F.1 conditional / empirical paper 骨架 ✅ 骨架已写 (wl090)
 
 **出处**: wl083 §状态
 
-**状态**: A1 现在不严格 (wl084), 暂不可写. 只能写 conditional paper
-("假设 A1, ...").
+**状态**: A1 不严格 (wl084), 但 conditional/empirical paper **不依赖** A1 严格,
+现在就能写。骨架落地于 `docs/paper/CONDITIONAL_PAPER_OUTLINE.md`：proven 部分
+(恒等式 A/C、2-adic + mod-p² 必要条件、N≤10⁸ finite descent、2-可除性定理 wl086)
++ 可复现 no-solution census + 仅 §7 conditional on A1。后续把骨架填成 LaTeX 即可
+(census 表用既有 certified range, 不长跑)。
 
 ---
 
-### F.2 Stoll-Bruin Chabauty 工具调研 ⭐
+### F.2 Stoll-Bruin Chabauty 工具调研 ✅ 已调研 (wl090)
 
 **出处**: wl080 §六, wl079 §五
 
-**思路**: Stoll/Bruin 的 Chabauty 工具是否能用 (替代 Magma).
-
-**工作量**: 1 周调研
+**结论**: 见 `docs/work-logs/090-f2-chabauty-tooling-survey.md`。Stoll–Bruin 一系
+**部分可替代、整体尚不可替代** Magma：经典 Chabauty–Coleman 的 Coleman 积分在 Sage
+成熟 (BBK)，奇数次超椭圆 + rank 0/1 有成体系 Sage 实现 (arXiv:1909.04808)，
+Bruin–Stoll two-cover descent 有开源版 (`twocover-descent`)；但让结论性的
+**Mordell–Weil sieve** 与高亏格 `Jac` 的 rank 计算至今主要是 Stoll 的 Magma 代码
+(QCMod 等)。**B.1 降级措辞**: 不是全程要 Magma, 而是 MW-sieve + 高亏格 rank 两步要。
+最低成本 PoC: 挑一个 rank<g 的 hard_case fiber 写成超椭圆模型用 Sage 跑经典 CC。
 
 ---
 
@@ -555,14 +567,16 @@ K_11+ 是否出现.
 5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
 6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
 7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
-8. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
+8. **E.2 K_9/K_10 ellrank** ⭐⭐ (E.1 见下: 暂缓长跑)
 9. ~~**A.6 K_n vs 4-chain 严格关系**~~ ✅ 已厘清 wl089 (shared_partner 对偶 + general K_n 上限 K_3)
+10. ~~**F.2 Stoll-Bruin Chabauty 调研**~~ ✅ 已调研 wl090 (部分可替代 Magma; MW-sieve 仍 Magma)
+11. ~~**F.1 conditional paper 骨架**~~ ✅ 骨架已写 wl090 (`docs/paper/CONDITIONAL_PAPER_OUTLINE.md`, 不依赖 A1 严格)
 
 按"工作量低 + 立即可做"排序:
 
 1. ~~**C.2-C.4** pipeline 工程小项~~ ✅ 已完成 (wl088)
 2. ~~**D.1** 110 pair PARI ellrank~~ ✅ 已完成 (wl050/wl052/wl087)
-3. **E.1** max_value 推到 10M (几小时, BFS 并行已 ready)
+3. ~~**E.1** max_value 推到 10M~~ ⏸️ 暂缓 (唯一长跑项; K_11+ 已被 wl085 构造性回答, 见 E.1)
 4. **E.2** K_9/K_10 ellrank (1 天)
 
 ---
