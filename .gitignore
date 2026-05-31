@@ -22,3 +22,6 @@ wheels/
 /tmp.txt
 .cache/
 *.sqlite3
+
+# Strictly local large database files - NEVER track or push to GitHub
+results/proof_status_10k_local.sqlite3
