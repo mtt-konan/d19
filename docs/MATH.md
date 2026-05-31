@@ -249,6 +249,13 @@ canonical_xy(x, y) = min(d4_images(x, y))   # 字典序比较 Fraction 二元组
 
 本节记录将四顶点 chain 搜索从"四元组枚举"化简为"本源三元组对枚举"的完整推导。
 
+> ⚠️ **隐含前提：反例在正方形内部**（wl093 / OPEN_DIRECTIONS A.9）。本节要求
+> $a,b,c,d$ 全为**正**整数且满足**和闭合** $a+c=b+d$。几何上 $(a,b,c,d)\propto(x,y,1-x,1-y)$，
+> 全正 $\Leftrightarrow 0<x<1,\,0<y<1$，即反例点落在单位正方形内部，此时和闭合自动成立。
+> 落在正方形**外**的反例满足的是**差关系**（如 $|N_1-N_2|=A+B$），本节的 chain 模型与
+> 现有闭合判据（`check_chain_compatibility` 的 `b=A+B-N`）都**不覆盖**。全平面的充要必要
+> 条件是 $\{N_1+N_2,|N_1-N_2|\}\cap\{A+B,|A-B|\}\neq\varnothing$（GEN-CLOSURE，见 wl093）。
+
 ### 7.1 建模
 
 设四个正整数 $a, b, c, d$ 互不相同且 $ac \neq bd$，满足：

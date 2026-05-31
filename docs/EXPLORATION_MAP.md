@@ -7,7 +7,7 @@
 > （高级理论方向）一起读。
 >
 > 维护规则：新 worklog 落地后，在对应「脉络」补一行；方向关闭时把节点标 🛑 并写
-> 一句墙的原因。**最后更新：2026-05-31（wl092 后）**。
+> 一句墙的原因。**最后更新：2026-05-31（wl093 后）**。
 
 ## 图例
 
@@ -211,17 +211,25 @@ multi-N 目录 (wl046, wl048 pivot-on-N)
 
 ---
 
-### 脉络 ⑦ 真正的开放杠杆 — closure-necessity 🔵（wl092 指认）
+### 脉络 ⑦ 真正的开放杠杆 — closure-necessity 🟡（wl092 指认 → wl093 部分解决）
 
 > 这不是某个 worklog 的副产品，而是 wl092 把脉络 ⑥ 证伪后**反推出的核心问题**，
-> 且 MULTI_CONCORDANT_N_STRATEGY 早就独立提出过。
+> 且 MULTI_CONCORDANT_N_STRATEGY 早就独立提出过。wl093 已厘清几何内容。
 
 ```
 观察：inconclusive hard_case 卡住 ≠ integer-N 没枚举全（factor_search 已穷尽）
    ⟹ 是几何问题：Harborth 反例是否【必须】对应一个闭合 4-chain？
-        └─ 🔵 A.9 closure-necessity 引理（纸面，先从 K_{2,2} ⟺ 4-chain 精确刻画入手）
+        └─ 🟡 A.9 / wl093  几何已厘清：
+             · 现判据只查【和关系】N₁+N₂=A+B，几何=反例落在【正方形内部】
+             · 项目归约（MATH §7 要求 a,b,c,d>0）一直默认反例在正方形内，从未论证
+               （D4 把外部映到外部，WLOG-inside 不免费）
+             · 全平面充要条件 = GEN-CLOSURE：{N₁+N₂,|N₁−N₂|} ∩ {A+B,|A−B|} ≠ ∅
+               （内部=和、左右/上下/四角外各=一个差关系）
+             · 仍只用 factor_search 有限集、全 rank、无 Magma；实测全平面 0 反例至
+               max_hyp=2000（脚本 closure_necessity_relations.py）
         └─ 配套：closure 局部无解已有 mod p² 联立筛 99.6% 实证（脉络 ④）
-        └─ 若证 closure 必要 + closure 局部无解 ⟹ 整类 pair 判死，且【不依赖 Magma】
+        └─ 仍开放：(a) §8.6 gcd-scaling 覆盖（reduced 对只见互素腿）；
+                   (b) 落地升级把判据扩成 4 关系（改 no_solution 语义，待单独 PR）
 ```
 
 **为何是最高杠杆**：它是少数能把 `inconclusive → no_solution` 且不需要外部重型工具
@@ -271,7 +279,7 @@ graph TD
   PB -.无 algebraic.-> PBwall["🛑 B.5/B.6 + A.5 关闭<br/>wl091"]
 
   FC --> HEEG["🛑 方向五 Heegner height-bound<br/>wl092 冗余"]
-  HEEG --> CN["🔵 A.9 closure-necessity<br/>真正杠杆"]
+  HEEG --> CN["🟡 A.9 closure-necessity<br/>wl093 几何厘清·真正杠杆"]
   CCMS --> CN
   EC --> CHAB["🔵 B.1 Chabauty + F.2 工具<br/>rank≥2 主路 · 需 Magma"]
   EC --> BM["🔵 A.4 Brauer-Manin<br/>长期 · 合作者"]
@@ -299,7 +307,7 @@ graph TD
 
 | # | 方向 | 脉络 | OPEN_DIRECTIONS | 杠杆 | 依赖 |
 |---|---|---|---|---|---|
-| 1 | closure-necessity 引理 | ⑦ | A.9 | ⭐⭐⭐ 能判死整类、不需 Magma | 纸面 |
+| 1 | A.9 closure-necessity 落地升级 + §8.6 覆盖 | ⑦ | A.9 🟡 | ⭐⭐⭐ 能判死整类、不需 Magma（几何已 wl093 厘清；升级判据查 GEN-CLOSURE 4 关系 + 处理 gcd-scaling） | 半天 + 纸面 |
 | 2 | F.1 conditional paper 正文 | ⑧ | F.1 | ⭐⭐ 现在就能变现 | 写作 |
 | 3 | B.1 Chabauty (rank≥2 主流~48%) | ⑥ | B.1 + F.2 | ⭐⭐ 覆盖最大 | Magma（两步） |
 | 4 | A.8 Cassels-Tate (sha2≥2 子类) | ② | A.8 | ⭐⭐ 清最弱 case | PARI |

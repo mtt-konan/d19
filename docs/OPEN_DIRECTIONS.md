@@ -292,24 +292,34 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 
 ---
 
-### A.9 closure-necessity 引理：闭合 4-chain 是否反例必要 ⭐⭐⭐ ★ 新整理 (2026-05-31)
+### A.9 closure-necessity 引理：闭合 4-chain 是否反例必要 🟡 部分解决 (wl093)
 
 **出处**: wl092 §二, MULTI_CONCORDANT_N_STRATEGY §（结尾 402 行）, wl048 §后续 5
 
-**思路**: 这是 wl092 指认的**真正开放杠杆**。残余 `inconclusive` hard_case 卡住
-**不是**因为 integer-N 没枚举全（`factor_concordant` 已穷尽），而是一个几何问题：
-Harborth 反例是否**必须**对应一个闭合 4-chain（`N_1+N_2=A+B` 且四边都是平方）？
-MULTI_CONCORDANT_N_STRATEGY 也独立提出「把 closure 条件从实验检查提升为可证明的
-局部 / Mordell-Weil 障碍」。若能证 closure 必要 + closure 局部无解（已有 mod p²
-联立筛 99.6% 实证），则整类 pair 可判死。
+**结论 (wl093)**: 几何内容已厘清。现判据（`check_chain_compatibility` 的 `b=A+B−N`、
+`chain_closure_sieve` 按 `A+B` 反射）只检验**和关系** `N₁+N₂=A+B`，几何上恰对应反例点
+**落在单位正方形内部**——项目归约（MATH §7 要求 `a,b,c,d>0`）一直**默认反例在正方形内**，
+此前从未论证（`D4` 对称把外部映到外部，WLOG-inside 不是免费的）。全平面的**充要必要
+条件**是四个线性关系合写：
 
-**为何没做**: 纯数论 / 几何推导，难度未知；wl092 之前一直被「找 integer-N 判定器」
-的表象掩盖。
+```
+{N₁+N₂, |N₁−N₂|} ∩ {A+B, |A−B|} ≠ ∅      (GEN-CLOSURE)
+```
 
-**风险**: 可能证不出（closure 与反例的等价/包含关系本身就是开放命题）。但方向正确，
-是少数能把 `inconclusive → no_solution` 的路径之一，且不依赖 Magma。
+（内部=和关系，左右/上下/四角外各对应一个差关系。）它仍只用 factor_search 穷尽出的
+有限 concordant 集、全 rank、毫秒级、无 Magma。实测把判据升级到全平面后，
+`max_hyp≤2000`（8220 pair，67 multi-N）**0 个**满足任一关系——把无反例证据从正方形内
+扩到全平面。脚本 `scripts/theory/closure_necessity_relations.py`。
 
-**工作量**: 不确定（纸面，先从 K_{2,2} ⟺ 4-chain 的精确几何刻画入手）
+**可立即落地的升级（建议，未在本 PR 改生产判据）**: 把闭合判据扩成查 GEN-CLOSURE 四关系，
+即可把残余 inconclusive hard_case 在**全平面（互素腿）**下判 `no_solution`。因改 `no_solution`
+语义、牵动既有结果/测试，留单独 PR + 用户确认。
+
+**仍开放**: (a) §8.6 **gcd-scaling 覆盖**——`generate_ab_pairs` 只产互素对，非互素腿的反例在
+约化对上不可见（对原 sum-only 与升级后判据同样存在）；(b) rank≥2 的结论性工具
+Chabauty（B.1，需 Magma）/ Brauer–Manin（A.4）。GEN-CLOSURE 不依赖这些，但彻底证明仍需 (a)(b)。
+
+**工作量**: 几何引理已完成（wl093）；落地升级半天；(a)(b) 仍是独立大方向。
 
 ---
 
@@ -672,7 +682,8 @@ K_11+ 是否出现.
 
 1. **A.3 Heegner sieve on outliers** ⭐⭐（⚠️ wl092：步骤3不必做，直接用 factor_concordant 判 9 个 outlier）
 2. **A.4 Brauer-Manin** ⭐（数月 + 合作者）
-3. **closure-necessity 引理**（wl092 指出的真正杠杆：闭合 4-chain 是否反例必要；纯推导）
+3. **A.9 closure-necessity 引理** 🟡 部分解决（wl093：和关系=正方形内；全平面充要条件是
+   GEN-CLOSURE 四关系，实测全平面 0 反例至 max_hyp=2000；落地升级 + §8.6 gcd 覆盖待做）
 4. **B.1 Chabauty**（wl090 后降级为「两步要 Magma」，配 F.2）
 5. **F.1 正文**（把骨架写成 conditional paper，现在就能变现）
 
