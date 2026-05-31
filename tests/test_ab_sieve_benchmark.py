@@ -116,6 +116,7 @@ def test_legacy_baseline_matches_default_pipeline() -> None:
         "safe_sieve",
         "chain_closure_mod_sieve",
         "factor_concordant",
+        "multi_n_sieve",
         "f2_rank",
         "rank_zero",
         "heegner",
