@@ -41,6 +41,7 @@ from rational_distance.concordant.dual_closure_sieve import find_surviving_n_pai
 from rational_distance.concordant.fast_multi_n import fast_multi_concordant_pairs
 from rational_distance.concordant.safe_pair_sieve import allow_reduced_pair
 from rational_distance.parallel import parallel_map
+from rational_distance.proof_status import multi_first_db
 
 MODULI_PRESETS: dict[str, tuple[int, ...]] = {
     "minimal": MINIMAL_MODULI,
@@ -76,6 +77,9 @@ class Summary:
     survivors: list[PairVerdict] = field(default_factory=list)
     multi_n_elapsed_s: float = 0.0
     sieve_elapsed_s: float = 0.0
+    # Populated only when run(collect_pairs=True), for compact SQLite output.
+    safe_killed_pairs: list[tuple[int, int, int]] = field(default_factory=list)
+    nonsafe_verdicts: list[PairVerdict] = field(default_factory=list)
 
 
 def _evaluate_pair_with_moduli(
@@ -107,7 +111,12 @@ def _evaluate_pair_with_moduli(
     )
 
 
-def run(max_hyp: int, moduli_name: str, workers: int) -> Summary:
+def run(
+    max_hyp: int,
+    moduli_name: str,
+    workers: int,
+    collect_pairs: bool = False,
+) -> Summary:
     moduli = MODULI_PRESETS[moduli_name]
 
     print(f"[phase] generating multi-N candidates for max_hyp={max_hyp}", flush=True)
@@ -122,9 +131,12 @@ def run(max_hyp: int, moduli_name: str, workers: int) -> Summary:
 
     items: list[tuple[int, int, tuple[int, ...]]] = []
     safe_killed = 0
+    safe_killed_pairs: list[tuple[int, int, int]] = []
     for (a, b), ns in multi_n_pairs.items():
         if not allow_reduced_pair(a, b):
             safe_killed += 1
+            if collect_pairs:
+                safe_killed_pairs.append((a, b, len(ns)))
             continue
         items.append((a, b, tuple(ns)))
 
@@ -162,6 +174,10 @@ def run(max_hyp: int, moduli_name: str, workers: int) -> Summary:
                 summary.dual_killed += 1
         else:
             summary.survivors.append(verdict)
+
+    if collect_pairs:
+        summary.safe_killed_pairs = safe_killed_pairs
+        summary.nonsafe_verdicts = verdicts
 
     return summary
 
@@ -207,6 +223,49 @@ def _summary_to_dict(summary: Summary) -> dict[str, object]:
     }
 
 
+def _write_sqlite(summary: Summary, path: Path) -> None:
+    """Persist a run + per-pair verdicts to the compact multi-first SQLite DB."""
+    pair_rows: list[tuple[int, int, int, int, int | None]] = [
+        (a, b, k, multi_first_db.VERDICT_SAFE_SIEVE, None)
+        for (a, b, k) in summary.safe_killed_pairs
+    ]
+    survivor_n_rows: list[tuple[int, int, int]] = []
+    for v in summary.nonsafe_verdicts:
+        if v.is_killed:
+            if v.primary_killer is not None:
+                verdict = multi_first_db.VERDICT_CHAIN_CLOSURE
+                killer: int | None = v.primary_killer
+            else:
+                verdict = multi_first_db.VERDICT_DUAL
+                killer = None
+        else:
+            verdict = multi_first_db.VERDICT_SURVIVOR
+            killer = None
+            survivor_n_rows.extend((v.A, v.B, int(n)) for n in v.ns)
+        pair_rows.append((v.A, v.B, len(v.ns), verdict, killer))
+
+    conn = multi_first_db.connect_db(path)
+    try:
+        multi_first_db.init_schema(conn)
+        multi_first_db.write_run(
+            conn,
+            max_hyp=summary.max_hyp,
+            moduli_name=summary.moduli_name,
+            moduli=summary.moduli,
+            multi_n_pair_count=summary.multi_n_pair_count,
+            safe_sieve_killed=summary.safe_sieve_killed,
+            primary_killed=summary.primary_killed,
+            dual_killed=summary.dual_killed,
+            survivor_count=len(summary.survivors),
+            multi_n_elapsed_s=summary.multi_n_elapsed_s,
+            sieve_elapsed_s=summary.sieve_elapsed_s,
+            pair_rows=pair_rows,
+            survivor_n_rows=survivor_n_rows,
+        )
+    finally:
+        conn.close()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
@@ -226,9 +285,23 @@ def main() -> None:
         default=None,
         help="Write summary JSON here (includes survivors).",
     )
+    parser.add_argument(
+        "--sqlite-out",
+        type=Path,
+        default=None,
+        help=(
+            "Write a compact SQLite DB here (run_meta + per-pair verdict enum + "
+            "survivor N lists). Much smaller than the legacy proof_status DB."
+        ),
+    )
     args = parser.parse_args()
 
-    summary = run(args.max_hyp, args.moduli, args.workers)
+    summary = run(
+        args.max_hyp,
+        args.moduli,
+        args.workers,
+        collect_pairs=args.sqlite_out is not None,
+    )
 
     print("=" * 72)
     print(f"max_hyp:            {summary.max_hyp}")
@@ -253,6 +326,10 @@ def main() -> None:
                 f"  ({verdict.A}, {verdict.B}) ns={list(verdict.ns)} "
                 f"surviving_n_pair={verdict.surviving_n_pair}"
             )
+
+    if args.sqlite_out is not None:
+        _write_sqlite(summary, args.sqlite_out)
+        print(f"sqlite summary written to {args.sqlite_out}")
 
     if args.json_out is not None:
         args.json_out.parent.mkdir(parents=True, exist_ok=True)
