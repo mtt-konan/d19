@@ -126,24 +126,24 @@ rank=1 上 effective (PARI ellheegner 直接可调).
 
 ---
 
-### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 ⭐⭐
+### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 🛑 关闭 (wl091)
 
 **出处**: wl036 §五, wl037
 
-**思路**: 现 safe_sieve 用 mod 1680 (~5 primes). Peschmann §7(2) 用
-45 primes < 200. 扩到这个规模可能让 sieve 提前 kill 更多 pair.
+**结论 (wl091)**: **不值得做**，三条理由（全实测支撑，见
+`docs/work-logs/091-f4-peschmann-sieve-vs-mod-p2-closure.md`）：
+1. "45-prime 参数 sieve" 在 d19 **早已实现**——`chain_closure_mod_sieve`(wl040) 用
+   mod-p² 到 p=97，`finite_descent_hard_cases`(wl037) N-only 已检 p<200；单 mod-p²
+   筛在 max_hyp=2000 就砍 99.6% hard_case。A.5 的"现仅 ~5 primes mod 1680"前提已过时。
+2. A.5 把 Peschmann §7(2) 当"45-prime 参数 sieve"是 **category error**：§7(2) 是
+   per-point 平方检测（类比方向五 Heegner-height），真正对应 safe_sieve 的是 §7(3)
+   blocker prime，而 §7(3) 明说**无 universal prime**（同 wl078-079）。
+3. **实测**：d19 的筛力 100% 来自 closure reflection `T∩((A+B)−T)=∅`（pure `T=∅` 砍 0
+   个），且 90% killer 是 **p≡3 (mod 4)**（p=3 占 88%）。若照 Peschmann 的纯平方 /
+   Gaussian blocker 思路扩 sieve，会**恰好丢掉**这些承担 90% 筛力的素数 ⟹ 严格更弱。
 
-**为何没做**: wl037 提到是 wl037 目标, 但实际 wl037 转向 finite descent.
-
-**怎么做**:
-1. 给每个 prime p < 200 算 quadratic residue table
-2. 对 (A, B) 在 mod p² 看 closure 局部 obstruction
-3. CRT 合并到一个 combined sieve
-
-**风险**: wl078-079 path B 已经验证 (a, b) mod p² CRT 不能 universal kill.
-但 Peschmann 的 sieve 不一定是 mod p²-style.
-
-**工作量**: 1-2 周
+⟹ 不重走 path B；维持现 mod-p² closure sieve。**注意**: 别因 Gaussian-范数论证去删
+p≡3 (mod 4) 模数（如 p=3）——它们在 closure reflection 里恰恰最关键。
 
 ---
 
@@ -545,14 +545,17 @@ Bruin–Stoll two-cover descent 有开源版 (`twocover-descent`)；但让结论
 
 ---
 
-### F.4 Peschmann §7(2) 文献深读 + modular search 实施 ⭐⭐
+### F.4 Peschmann §7(2) 文献深读 + modular search 实施 ✅ 已读懂 (wl091)
 
 **出处**: wl036 §五
 
-**思路**: Peschmann arXiv 2604.09328 §7(2) 的 modular search (45 primes < 200)
-是否能直接迁移.
-
-**工作量**: 1-2 周
+**结论 (wl091)**: 见 `docs/work-logs/091-f4-peschmann-sieve-vs-mod-p2-closure.md`。
+Peschmann §7(2) 是 **per-point 平方检测**（对 5 个 hard 曲线在 height box 内枚举
+有理点 P，用 45 primes<200 判 `f(P)∈ℚ*²`），类比 d19 的**方向五 Heegner-height
+有界枚举 + 多素数平方过滤**，**不是** safe_sieve 类的参数 sieve。真正对应 safe_sieve
+的是 §7(3) blocker prime（无 universal prime，同 wl078-079）。Peschmann Remark 6.5
+(Gaussian 范数 ⟹ p≡3 mod4 不能当 blocker) 不直接迁移，因为 d19 的筛力在 closure
+reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 
 ---
 
@@ -565,7 +568,7 @@ Bruin–Stoll two-cover descent 有开源版 (`twocover-descent`)；但让结论
 3. ~~**A.1 K_n hub partner identity 推广**~~ ✅ 已实现 wl089 — 结论: hub 边的 Q_N 仍只 2-可除, **不构成跨边 closure 障碍** (与 A.6 一起解决; 附带修复 compute_rank 有理 generator bug)
 4. **A.3 Heegner sieve on outliers** ⭐⭐
 5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
-6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
+6. ~~**A.5 扩 safe_sieve 到 Peschmann 规模**~~ 🛑 关闭 wl091 (已实现 + 会丢掉 p≡3 mod4 主力素数; F.4 同步读懂)
 7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
 8. **E.2 K_9/K_10 ellrank** ⭐⭐ (E.1 见下: 暂缓长跑)
 9. ~~**A.6 K_n vs 4-chain 严格关系**~~ ✅ 已厘清 wl089 (shared_partner 对偶 + general K_n 上限 K_3)
