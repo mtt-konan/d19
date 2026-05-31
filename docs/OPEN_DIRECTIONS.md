@@ -1,10 +1,13 @@
 # Open Directions — 可做但未实施的方向汇总
 
-本文件系统收录从 wl001 到 wl084 中提到的"下一步 / 后续 / 待做 / 候选"
+本文件系统收录从 wl001 到 wl092 中提到的"下一步 / 后续 / 待做 / 候选"
 方向，按可行性 + ROI 分类。每条标注 **出处 wl**, **可行性**, **预估工作量**。
 
-更新时间: wl084 之后. 维护原则: 落地一项就从本文件移除, 添加新发现的
-方向时直接 append 到对应分类下.
+更新时间: wl092 之后. 维护原则: 落地一项就把状态标 ✅/🛑（保留作记录），
+添加新发现的方向时直接 append 到对应分类下.
+
+> 📍 想看「所有方向如何彼此衍生、各自为何关闭」的叙事/脉络视图，见
+> [`EXPLORATION_MAP.md`](./EXPLORATION_MAP.md)（探索脉络图）。本文件是逐条可执行清单。
 
 ---
 
@@ -51,7 +54,16 @@ A.7 (D-scaling 快速生成器) 仍值得做, 但理由是:
 
 ## A. 理论方向 — 真正没尝试过 (新角度)
 
-### A.1 K_n hub partner identity 推广 ⭐⭐ ★ HIGH-ROI
+### A.1 K_n hub partner identity 推广 ✅ 已实现 (wl089) — informative negative
+
+**结论 (wl089)**: 28 个 hub / 49 条边的 shared concordant 点 Q_N 在各自曲线上
+**49/49 全 2-可除**（同 A.2 的墙）——hub「共享」不带来跨边代数障碍，无法区分反例。
+配套 A.6：shared_partner K_n ⟺ partner pair 本身是 k≥n multi-N（17/17 对偶成立），
+general K_n 上限仅到 K_3。顺手修了 wl086 `compute_rank` 把 PARI 有理坐标 generator
+`int()` 截断的真 bug（约 40% 曲线误报 "point not on E"），新增 `compute_rank_exact_points`
++ 回归测试。脚本 `scripts/partner/kn_partner_identity.py`。**作为「找新必要条件」关闭。**
+
+下面保留原始设计记录作 reference。
 
 **出处**: wl080 §六, wl062, wl059
 
@@ -136,7 +148,16 @@ rank=1 上 effective (PARI ellheegner 直接可调).
 
 ---
 
-### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 ⭐⭐
+### A.5 扩 safe_sieve 到 Peschmann §7(2) 规模 🛑 关闭 (wl091)
+
+**结论 (wl091)**: 不值得做，三条实测支撑：(1) Peschmann §7(2) 是 per-point 平方检测
+（类比方向五 Heegner-height），真正对应 safe_sieve 的是 §7(3) blocker prime，而 §7(3)
+明说无 universal prime（同 wl078-079 的 mod p² 结论）；(2) d19 早已超 45-prime 规模
+（mod-p² 筛到 p=97，finite-descent N-only 已检 p<200）；(3) 实测 d19 筛力 100% 来自
+closure reflection，90% killer 是 p≡3 mod4（p=3 占 88%），与 Peschmann「blocker 从不
+p≡3 mod4」正相反——照其思路扩会丢掉主力素数。脚本 `scripts/modular/sieve_killer_prime_class.py`。
+
+下面保留原始设计记录作 reference。
 
 **出处**: wl036 §五, wl037
 
@@ -229,7 +250,13 @@ K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70
 
 ---
 
-### A.6 K_n 与 4-chain 反例的关系厘清 ⭐⭐
+### A.6 K_n 与 4-chain 反例的关系厘清 ✅ 已实现 (wl089) — 与 A.1 合并解决
+
+**结论 (wl089)**: shared_partner K_n ⟺ partner pair 本身是 k≥n multi-N（17/17 对偶成立）；
+general K_n 上限 K_3。K_n hub 与 4-chain closure 的关系已厘清为 partner/multi-N 等价，
+不提供 closure 的额外代数 obstruction。详见 A.1 / wl089。
+
+下面保留原始设计记录作 reference。
 
 **出处**: wl055 §下一步 3
 
@@ -241,6 +268,48 @@ K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70
 **怎么做**: 形式化 K_n 与 4-chain closure 的精确数学等价 / 包含关系.
 
 **工作量**: 几天纸面工作
+
+---
+
+### A.8 Cassels-Tate pairing 把 sha2_lower 升级为严格 Sha[2] 证书 ⭐⭐ ★ 新整理 (2026-05-31)
+
+**出处**: wl036 §五C, wl044 §十 (C1), PROJECT_STATUS §9.9, CURRENT_FINDINGS §（4-tuple bug 段）
+
+**思路**: 现在 PARI `ellrank` 给的 `sha2_lower > 0` 只是下界估计；要把
+「sha2≥2 hard_case 的非平凡 Sha[2] 元素」变成**严格证书**，需要对 quartic cover
+做 Cassels-Tate pairing（PARI `elltatepairing`）+ 逐处局部可解性验证。156 个 sha2≥2
+hard_case 的 `Sha[E][2] dim` 实测稳定 = 2（PROJECT_STATUS §9.9），是个干净的小样本。
+具体可先做 (169,235) 的 cover quartic `-5279x⁴-17626x³+25673x²+27418x-2831`
+的 everywhere-local-solubility（= D.5 重叠）。
+
+**为何没做**: 多个 wl（036/044）都列为「后续不在本 wl 内做」，一直没启动。
+需要先从 quartic cover 拿到 Sha[2] 代表。
+
+**风险/收益**: 即便严格化，也只对 sha2≥2 子类（约 320 hard_case 中的少数）有效；
+rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」而非主线突破。
+
+**工作量**: 半天–几天（PARI 直接做）
+
+---
+
+### A.9 closure-necessity 引理：闭合 4-chain 是否反例必要 ⭐⭐⭐ ★ 新整理 (2026-05-31)
+
+**出处**: wl092 §二, MULTI_CONCORDANT_N_STRATEGY §（结尾 402 行）, wl048 §后续 5
+
+**思路**: 这是 wl092 指认的**真正开放杠杆**。残余 `inconclusive` hard_case 卡住
+**不是**因为 integer-N 没枚举全（`factor_concordant` 已穷尽），而是一个几何问题：
+Harborth 反例是否**必须**对应一个闭合 4-chain（`N_1+N_2=A+B` 且四边都是平方）？
+MULTI_CONCORDANT_N_STRATEGY 也独立提出「把 closure 条件从实验检查提升为可证明的
+局部 / Mordell-Weil 障碍」。若能证 closure 必要 + closure 局部无解（已有 mod p²
+联立筛 99.6% 实证），则整类 pair 可判死。
+
+**为何没做**: 纯数论 / 几何推导，难度未知；wl092 之前一直被「找 integer-N 判定器」
+的表象掩盖。
+
+**风险**: 可能证不出（closure 与反例的等价/包含关系本身就是开放命题）。但方向正确，
+是少数能把 `inconclusive → no_solution` 的路径之一，且不依赖 Magma。
+
+**工作量**: 不确定（纸面，先从 K_{2,2} ⟺ 4-chain 的精确几何刻画入手）
 
 ---
 
@@ -267,12 +336,16 @@ K_9/K_10 需要 max_hyp ≥ 100k, 实际**4 个 primitive 底型** ((25,91), (70
 **状态**: 工作量大, 修需要 c² 的所有表示如何与 Pythagorean 参数关联,
 不打算做.
 
-### B.4 A1 严格证明 🛑 (vacuous truth)
+### B.4 A1 严格证明 🛑 (vacuous truth) — 但**猜想本身仍开放**
 
 **出处**: wl084
 
-**状态**: wl081-083 chain 在 k=2 sample 上 vacuously hold, algebraic
-论证 invalid.
+**状态**: wl081-083 的 algebraic chain 在 k=2 sample 上 vacuously hold，证明
+invalid（wl082 在 c composite 时失效）。⚠️ 注意区分：**被否定的是那条具体证明路径**，
+而命题「k=2 ⟹ rank(E_{A,B}) ≥ 2」**实证 1879/1879 universal (max_hyp=1M)、仍是
+开放猜想**，并且是 path A 最有希望的代数突破点（只是现有 Gaussian-integer 工具不够）。
+若要重启，需要「c² 的所有两平方和表示如何与 Pythagorean 参数关联」的更细分析
+（wl084 §九判为工作量大、暂不做）。
 
 ### B.5 path B uniform mod p² 严格证明 🛑
 
@@ -525,22 +598,24 @@ K_11+ 是否出现.
 
 ## F. 文献 / 形式化 — 未实施
 
-### F.1 LaTeX 形式化 paper ⭐ (依赖 A1 严格)
+### F.1 conditional paper 骨架 ✅ 已实现 (wl090) — 正文待写
 
 **出处**: wl083 §状态
 
-**状态**: A1 现在不严格 (wl084), 暂不可写. 只能写 conditional paper
-("假设 A1, ...").
+**状态 (wl090)**: 已写 conditional paper 骨架 `docs/paper/CONDITIONAL_PAPER_OUTLINE.md`，
+只用已证结果（恒等式 A/C 100% 验证 + 无解 census）+ 可复现数据，**不依赖 A1 严格**。
+下一步是把骨架扩成正文（仍属开放，工作量 = 写作，非数学突破）。原「依赖 A1 严格」的前提
+已纠正：conditional paper 恰恰不需要 A1 严格。
 
 ---
 
-### F.2 Stoll-Bruin Chabauty 工具调研 ⭐
+### F.2 Stoll-Bruin Chabauty 工具调研 ✅ 已完成 (wl090)
 
 **出处**: wl080 §六, wl079 §五
 
-**思路**: Stoll/Bruin 的 Chabauty 工具是否能用 (替代 Magma).
-
-**工作量**: 1 周调研
+**结论 (wl090)**: Stoll/Bruin 工具**部分**可替代 Magma——Sage 有 Coleman 积分 /
+经典 Chabauty–Coleman / two-cover descent，但结论性的 **MW-sieve + 高亏格 rank 计算
+仍主要靠 Magma**。B.1 因此从「全程要 Magma」降级为「两步要 Magma」。详见 wl090。
 
 ---
 
@@ -554,12 +629,17 @@ K_11+ 是否出现.
 
 ---
 
-### F.4 Peschmann §7(2) 文献深读 + modular search 实施 ⭐⭐
+### F.4 Peschmann §7(2) 文献深读 ✅ 已完成 (wl091) — 导致 A.5 关闭
 
 **出处**: wl036 §五
 
-**思路**: Peschmann arXiv 2604.09328 §7(2) 的 modular search (45 primes < 200)
-是否能直接迁移.
+**结论 (wl091)**: §7(2) 是 per-point 平方检测，不是参数 sieve；对应 safe_sieve 的是
+§7(3) blocker prime，且 §7(3) 明说无 universal prime。modular search 迁移（= A.5）
+据此**关闭**（见 A.5 / wl091）。
+
+下面保留原始调研记录作 reference。
+
+**出处**: wl036 §五
 
 **工作量**: 1-2 周
 
@@ -567,24 +647,41 @@ K_11+ 是否出现.
 
 ## 优先级汇总
 
-按"真正可推动证明 + 可行性高"排序:
+> 📌 2026-05-31 回填（wl086–092）：A.1/A.2/A.6/A.7/D.1/C.2–C.4/E.3/F.1/F.2/F.4
+> 已完成；A.5 与方向五 Heegner 判定器（B.8）已 🛑 关闭；E.1 暂缓。详见各 section
+> 与「探索脉络图」`docs/EXPLORATION_MAP.md`。
 
-1. ~~**A.7 D-scaling K_n 快速生成器**~~ ✅ 已实现 wl085 (3 个 K_10 完美 reproduce + K_11/K_12/K_13 新发现)
-2. ~~**A.2 cycle linear relation 追踪**~~ ✅ 已实现 wl086 — 结论: cycle 关系 = Q_N 的 2-可除性, **不构成 closure 障碍** (与 E.3 代数半部分一起解决)
-3. **A.1 K_n hub partner identity 推广** ⭐⭐ (有突破性, 现在用 A.7 输出做 sample 源)
-4. **A.3 Heegner sieve on outliers** ⭐⭐
-5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
-6. **A.5 扩 safe_sieve 到 Peschmann 规模** ⭐⭐
-7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
-8. **E.1-E.2 G_M BFS 扩展 + K_9/K_10 ellrank** ⭐⭐
-9. **A.6 K_n vs 4-chain 严格关系** ⭐⭐ (纸面工作)
+**A–F 类已完成 / 关闭一览**
+
+| 条目 | 状态 | wl | 一句话结论 |
+|------|------|----|-----------|
+| A.1 K_n hub identity | ✅ negative | wl089 | shared Q_N 全 2-可除，无跨边障碍 |
+| A.2 cycle linear relation | ✅ negative | wl086 | cycle = 2-可除性，不区分反例 |
+| A.6 K_n vs 4-chain | ✅ | wl089 | K_n ⟺ multi-N，上限 K_3 |
+| A.7 D-scaling K_n 生成器 | ✅ | wl085 | K_11/12/13 新发现 |
+| D.1 F₂-rank≥3 ellrank | ✅ | wl050/052/087 | 110@50k+190@100k 全 certified |
+| C.2–C.4 pipeline 工程 | ✅ | wl088 | multi_n_sieve 入主线 |
+| E.3 cycle 代数解释 | ✅ | wl086 | 与 A.2 同 |
+| F.1 conditional paper 骨架 | ✅ 骨架 | wl090 | 不依赖 A1，正文待写 |
+| F.2 Stoll-Bruin 调研 | ✅ | wl090 | 部分替代 Magma，MW-sieve 仍要 |
+| F.4 Peschmann §7(2) 深读 | ✅ | wl091 | §7(2) per-point，非 sieve |
+| A.5 扩 safe_sieve | 🛑 | wl091 | 与 mod p² 同坑，丢主力素数 |
+| B.8 Heegner 升级判定器 | 🛑 | wl092 | factor_search 已穷尽，冗余 |
+
+**剩余真正开放（按"可推动证明 + 可行性"排序）**
+
+1. **A.3 Heegner sieve on outliers** ⭐⭐（⚠️ wl092：步骤3不必做，直接用 factor_concordant 判 9 个 outlier）
+2. **A.4 Brauer-Manin** ⭐（数月 + 合作者）
+3. **closure-necessity 引理**（wl092 指出的真正杠杆：闭合 4-chain 是否反例必要；纯推导）
+4. **B.1 Chabauty**（wl090 后降级为「两步要 Magma」，配 F.2）
+5. **F.1 正文**（把骨架写成 conditional paper，现在就能变现）
 
 按"工作量低 + 立即可做"排序:
 
-1. ~~**C.2-C.4** pipeline 工程小项~~ ✅ 已完成 (wl088)
-2. ~~**D.1** 110 pair PARI ellrank~~ ✅ 已完成 (wl050/wl052/wl087)
-3. **E.1** max_value 推到 10M (几小时, BFS 并行已 ready)
-4. **E.2** K_9/K_10 ellrank (1 天)
+1. **E.2** K_9/K_10 ellrank (1 天)
+2. **D.2–D.6** 个案审计 / sha2 扩样本
+3. **C.1 / C.5–C.8** 工程优化（与证明无关，想做随时）
+4. **E.1** max_value 推到 10M（⚠️ 已暂缓：1M BFS 已 738s，10M 小时级，且 K_11+ 已被 wl085 构造性回答）
 
 ---
 
