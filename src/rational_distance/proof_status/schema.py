@@ -26,7 +26,7 @@ from pathlib import Path
 
 from rational_distance.proof_status.types import MethodResult, PairProofStatus
 
-PROOF_DB_SCHEMA_VERSION = 1
+PROOF_DB_SCHEMA_VERSION = 2
 
 
 def _utc_now() -> str:
@@ -97,6 +97,7 @@ def init_schema(conn: sqlite3.Connection) -> None:
             rank_upper               INTEGER,
             concordant_n_count       INTEGER,
             chain_compatible_count   INTEGER,
+            f2_rank                  INTEGER,
             notes                    TEXT    NOT NULL DEFAULT '',
             updated_at               TEXT    NOT NULL,
             UNIQUE(A, B)
@@ -149,6 +150,7 @@ def get_pair_status(conn: sqlite3.Connection, A: int, B: int) -> PairProofStatus
         rank_upper=row["rank_upper"],
         concordant_n_count=row["concordant_n_count"],
         chain_compatible_count=row["chain_compatible_count"],
+        f2_rank=row["f2_rank"],
         notes=row["notes"] or "",
         updated_at=row["updated_at"],
     )
@@ -165,6 +167,7 @@ def upsert_pair_status(
     rank_upper: int | None = None,
     concordant_n_count: int | None = None,
     chain_compatible_count: int | None = None,
+    f2_rank: int | None = None,
     notes: str = "",
     commit: bool = True,
 ) -> None:
@@ -179,9 +182,9 @@ def upsert_pair_status(
             A, B, status, method,
             rank_lower, rank_upper,
             concordant_n_count, chain_compatible_count,
-            notes, updated_at
+            f2_rank, notes, updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(A, B) DO UPDATE SET
             status                 = excluded.status,
             method                 = excluded.method,
@@ -193,6 +196,7 @@ def upsert_pair_status(
             chain_compatible_count = COALESCE(
                 excluded.chain_compatible_count, pair_proof_status.chain_compatible_count
             ),
+            f2_rank                = COALESCE(excluded.f2_rank, pair_proof_status.f2_rank),
             notes                  = excluded.notes,
             updated_at             = excluded.updated_at
         """,
@@ -205,6 +209,7 @@ def upsert_pair_status(
             rank_upper,
             concordant_n_count,
             chain_compatible_count,
+            f2_rank,
             notes,
             _utc_now(),
         ),

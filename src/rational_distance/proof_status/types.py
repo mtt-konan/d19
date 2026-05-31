@@ -54,6 +54,7 @@ class PairProofStatus:
     chain_compatible_count: int | None
     notes: str
     updated_at: str
+    f2_rank: int | None = None
 
 
 __all__ = [

@@ -76,6 +76,7 @@ def test_cli_fast_core_audits_only_survivors(
                 rank_upper=None,
                 concordant_n_count=None,
                 chain_compatible_count=None,
+                f2_rank=None,
                 method_results=(),
             )
         )
