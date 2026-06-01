@@ -442,6 +442,42 @@ $4\mid(N_i+N_j)$ ⟹ 闭合需 $A+B$ 偶且 $4\mid(A+B)$）**逐字就是** `saf
 **仅对互素腿**成立（实证：hyp $\le 2\times10^6$ 内被它拒掉的 222,922 个互素多-N 对，真有 closure 的为 0）。
 非互素腿上它失去依据：both-even 对直接 `pass`，且 mod-12 已塌。
 
+### 8.5.2 非互素腿 concordant $N$ 的 gcd-aware mod-12 定理 (wl098)
+
+§8.5.1 的互素定理只是 $g=1$ 的特例。把同一套 mod-3 / mod-8 论证按「$\gcd(A,B)$ 是否含
+因子 $3$、是否含因子 $4$」重做一遍，得到**适用于任意 $(A,B)$** 的推广。
+
+**定理**：设 $g=\gcd(A,B)$，$N$ 为 $(A,B)$ 的 concordant 值（$N^2+A^2=\square$、$N^2+B^2=\square$）。则
+- 若 $3\nmid g$，则 $3\mid N$；
+- 若 $4\nmid g$，则 $4\mid N$。
+
+特别地 $3\nmid g$ 且 $4\nmid g$ $\Rightarrow$ $12\mid N$；$g=1$ 即 §8.5.1 的互素定理。
+
+**证明**。
+*(a) 3-部分.* 平方数模 $3\in\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$ 则和 $\equiv 2$（✗），
+故 $3\mid N$ 或 $3\mid A$；同理 $3\mid N$ 或 $3\mid B$。若 $3\nmid N$ 则 $3\mid A$ 且 $3\mid B$，即 $3\mid g$。
+逆否即 $3\nmid g\Rightarrow 3\mid N$。
+
+*(b) 4-部分.* 设 $4\nmid g$，即 $v_2(g)=\min(v_2(A),v_2(B))\le 1$，故存在一条腿 $C$ 使 $v_2(C)\le 1$。
+- $v_2(C)=0$（$C$ 奇）：$C^2\equiv 1\pmod 8$；平方数模 $8\in\{0,1,4\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv2$（✗），
+  $N\equiv2\pmod4\to$ 和 $\equiv5$（✗），仅 $N\equiv0\pmod4$ 时和 $\equiv1$ 可行 $\Rightarrow 4\mid N$。
+- $v_2(C)=1$（$C\equiv2\pmod4$）：$C=2C'$（$C'$ 奇），$C'^2\equiv1\pmod8\Rightarrow C^2=4C'^2\equiv4\pmod{16}$；
+  平方数模 $16\in\{0,1,4,9\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv5,13$（✗），$N\equiv2\pmod4\to N^2\equiv4$、和 $\equiv8$（✗），
+  仅 $N\equiv0\pmod4$ 时和 $\equiv4$ 可行 $\Rightarrow 4\mid N$。
+
+两种情形皆得 $4\mid N$。$\blacksquare$
+
+**边界**：$3\mid g$ 时 (a) 失效（例 $(6,15)$，$g=3$，$N=8$，$3\nmid8$）；$4\mid g$ 时 (b) 失效
+（例 $(8,20)$，$g=4$，$N=15$，$4\nmid15$）。
+
+**推论（非互素腿按 $g$ 二分）**：当 $\gcd(A,B)$ 与 $12$ 互素（含 $g=2,5,7,10,11,\dots$）时 $12\mid N$ 仍成立，
+故闭合仍需 $12\mid(A+B)$ 或 $12\mid|A-B|$——这一大类非互素腿与互素腿享有**同样的 mod-12 障碍**。
+真正放松约束的只有 $3\mid g$ 或 $4\mid g$ 的子类。于是 §8.6 的硬区被精确缩小到「$g$ 含 $3$ 或 $4$」那部分。
+
+**实证**：wl056 的 $1{,}802$ 个非互素对（$3{,}779$ 个 $N$）+ 独立 brute 重扫 $A<B\le 1200$
+（$8{,}371$ 对 / $9{,}277$ 个 $N$）逐 $N$ 断言，**零反例**；非互素对的实际 GEN-CLOSURE（完整 concordant 集）
+$0$ 命中、`chain_closure` 模 $p^2$ sound-杀 $1645/1802$（wl098）。
+
 ### 8.6 gcd 归约 与「coprime-$(A,B)$ 并非 WLOG」警告
 
 $E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），

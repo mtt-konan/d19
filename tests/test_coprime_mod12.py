@@ -51,6 +51,34 @@ def test_no_coprime_concordant_N_pair_for_coprime_leg() -> None:
                 assert gcd(ni, nj) % 12 == 0
 
 
+def test_gcd_aware_mod12_law() -> None:
+    """gcd-aware mod-12 theorem (MATH §8.5.2 / wl098): for g = gcd(A,B),
+    3 | N whenever 3 ∤ g, and 4 | N whenever 4 ∤ g. Exhaustive small range,
+    including (and especially) non-coprime pairs.
+    """
+    checked = 0
+    for a in range(2, 240):
+        for b in range(a + 1, 240):
+            g = gcd(a, b)
+            for n in exact_concordant_pair(a, b):
+                if g % 3 != 0:
+                    assert n % 3 == 0, f"({a},{b}) g={g}: 3∤g but 3∤N={n}"
+                if g % 4 != 0:
+                    assert n % 4 == 0, f"({a},{b}) g={g}: 4∤g but 4∤N={n}"
+                checked += 1
+    assert checked > 0
+
+
+def test_gcd_aware_recovers_coprime_special_case() -> None:
+    """g=1 special case must reproduce 12 | N (consistency with §8.5.1)."""
+    for a in range(2, 200):
+        for b in range(a + 1, 200):
+            if gcd(a, b) != 1:
+                continue
+            for n in exact_concordant_pair(a, b):
+                assert n % 12 == 0
+
+
 def test_boundary_noncoprime_counterexamples() -> None:
     """Coprimality is necessary: documented failures of each proof step."""
     # (6,15): gcd=3, both multiples of 3 -> step (a) fails, N=8 with 3 ∤ 8
