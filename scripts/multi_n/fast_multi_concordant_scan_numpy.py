@@ -228,8 +228,7 @@ def _parallel_worker(args: tuple) -> dict[tuple[int, int], list[int]]:
     its (small) pair->N dict. Shards partition by ai, so dicts never collide."""
     from multiprocessing import shared_memory
 
-    (shard, nshards, factor, maxbucket, n_name, a_name, ms_name, me_name,
-     nlen, mlen) = args
+    (shard, nshards, factor, maxbucket, n_name, a_name, ms_name, me_name, nlen, mlen) = args
     sys.path.insert(0, str(Path(__file__).parent))
     import _concordant_gen as cy  # type: ignore[import-not-found]
 
@@ -280,19 +279,21 @@ def scan_numpy_parallel(max_hyp: int, workers: int) -> dict[tuple[int, int], lis
         blocks.append(shm)
         return shm.name
 
-    n_name = _publish(n_arr)
-    a_name = _publish(a_arr)
-    ms_name = _publish(ms)
-    me_name = _publish(me)
-    # parent's private copies no longer needed; workers read shared memory
-    del n_arr, a_arr, ms, me
-
-    args = [
-        (r, workers, factor, maxbucket, n_name, a_name, ms_name, me_name, nlen, mlen)
-        for r in range(workers)
-    ]
+    # publish + pool inside the try so a failure partway through _publish (e.g.
+    # /dev/shm full) still unlinks the blocks already created in the finally.
     result: dict[tuple[int, int], list[int]] = {}
     try:
+        n_name = _publish(n_arr)
+        a_name = _publish(a_arr)
+        ms_name = _publish(ms)
+        me_name = _publish(me)
+        # parent's private copies no longer needed; workers read shared memory
+        del n_arr, a_arr, ms, me
+
+        args = [
+            (r, workers, factor, maxbucket, n_name, a_name, ms_name, me_name, nlen, mlen)
+            for r in range(workers)
+        ]
         ctx = mp.get_context("spawn")
         with ctx.Pool(workers) as pool:
             for d in pool.map(_parallel_worker, args):
@@ -311,7 +312,9 @@ def parse_args() -> argparse.Namespace:
         "--shards", type=int, default=1, help="split pair-emit by ai%%shards to bound RAM"
     )
     _ = parser.add_argument(
-        "--workers", type=int, default=1,
+        "--workers",
+        type=int,
+        default=1,
         help="parallel processes over ai-shards (step 3); >1 overrides --shards",
     )
     _ = parser.add_argument("--out", type=Path, default=None)
@@ -362,11 +365,22 @@ def main() -> int:
     out_path = cast("Path | None", args.out)
     if out_path is not None:
         import json
+
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as fh:
             for (a, b), ns in sorted(pairs.items()):
-                _ = fh.write(json.dumps({"A": a, "B": b, "n_concordant": len(ns),
-                                         "concordant_N": ns, "A_plus_B": a + b}) + "\n")
+                _ = fh.write(
+                    json.dumps(
+                        {
+                            "A": a,
+                            "B": b,
+                            "n_concordant": len(ns),
+                            "concordant_N": ns,
+                            "A_plus_B": a + b,
+                        }
+                    )
+                    + "\n"
+                )
     return 0
 
 
