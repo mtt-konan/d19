@@ -1,0 +1,40 @@
+读到 11 个唯一 K_11+ hub (来源: dscale_kn_smoke.jsonl)
+
+class pair (scaled)             k   rank      deficit sha2  prim        prim_rk match  time     
+------------------------------------------------------------------------------------------------------------------------
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_13  (  458640,   4989600)  13  4         9       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_12  (  152880,   1663200)  12  4         8       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_12  (  305760,   3326400)  12  4         8       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_12  (  611520,   6652800)  12  4         8       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_12  (  764400,   8316000)  12  4         8       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  (  229320,   2494800)  11  4         7       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  (  687960,   7484400)  11  4         7       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  (  742560,   8078400)  11  4         7       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  (  840840,   9147600)  11  4         7       0     (91,990)4       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  (  904995,   2882880)  11  3         8       0     (221,704)3       yes       0.0s
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_11  ( 1809990,   5765760)  11  3         8       0     (221,704)3       yes       0.0s
+
+聚合:
+  K_13: n=1  rank 分布={4: 1}  rank>4=0
+  K_12: n=4  rank 分布={4: 4}  rank>4=0
+  K_11: n=6  rank 分布={3: 2, 4: 4}  rank>4=0
+
+  certified (lo==hi):        11/11
+  rank == primitive rank:    11/11
+  rank > 4:                  0/11
+  closure hits:              0/11
+
+result: /home/ubuntu/repos/d19/results/partner/k11_k13_ellrank.jsonl

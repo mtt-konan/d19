@@ -450,11 +450,13 @@ case 的手动 deep-dive.
 
 **思路**: 测 wl060 "rank ≤ 4 在 catalog" 假设是否在 K_9/K_10 hub 上仍 hold.
 
-**结论 (wl094)**: 全部 48 个高阶 hub (42 K_9 + 6 K_10) ellrank, **0 个 rank > 4**
-(rank ∈ {3,4}, 全 certified, sha2[2]=0)。rank ≤ 4 假设从 k=6–8 (wl060) 延伸到
-k=9–10 无一例外; deficit 随 k 单调升 (k=10 avg 6.83)。
+**结论 (wl094)**: 全部 48 个 K_9/K_10 hub + 11 个 K_11–K_13 hub (wl085 D-scaling)
+ellrank, **0 个 rank > 4** (rank ∈ {3,4}, 全 certified, sha2[2]=0)。rank ≤ 4 假设
+从 k=6–8 (wl060) 延伸到 k=9–13 无一例外 (合计 70 hub); K_11–13 放大 hub 的 rank
+精确等于 primitive rank (11/11, 算术验证 D-scaling rank 不变性); deficit 随 k 单调
+升 (K_13 deficit=9)。
 
-**剩余钩子**: K_11–K_13 (wl085 D-scaling 已造出) 的 ellrank。
+**剩余钩子**: 跑全 primitive 库 (854 个) 看 K_14+; 对 rank=4 hub 找共同 2-descent 像。
 
 ---
 
@@ -574,7 +576,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 5. ~~**D.1 F₂-rank ≥ 3 pair PARI ellrank**~~ ✅ 已完成 wl050/wl052/wl087 (110@50k + 190@100k 全 certified)
 6. ~~**A.5 扩 safe_sieve 到 Peschmann 规模**~~ 🛑 关闭 wl091 (已实现 + 会丢掉 p≡3 mod4 主力素数; F.4 同步读懂)
 7. ~~**C.2-C.4 工程小项**~~ ✅ 已完成 (wl088)
-8. **E.1 G_M BFS 扩展** ⭐⭐ — ~~E.2 K_9/K_10 ellrank~~ ✅ 已完成 (wl094: 48 hub 全 rank ≤ 4)
+8. **E.1 G_M BFS 扩展** ⭐⭐ — ~~E.2 K_9/K_10 ellrank~~ ✅ 已完成 (wl094: 70 hub k=6→13 全 rank ≤ 4)
 9. ~~**A.6 K_n vs 4-chain 严格关系**~~ ✅ 已厘清 wl089 (shared_partner 对偶 + general K_n 上限 K_3)
 10. ~~**F.2 Stoll-Bruin Chabauty 调研**~~ ✅ 已调研 wl090 (部分可替代 Magma; MW-sieve 仍 Magma)
 11. ~~**F.1 conditional paper 骨架**~~ ✅ 骨架已写 wl090 (`docs/paper/CONDITIONAL_PAPER_OUTLINE.md`, 不依赖 A1 严格)
