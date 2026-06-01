@@ -16,7 +16,7 @@
 
 | 方向 | 实现状态 | 入口 |
 |------|---------|------|
-| 方向五（Heegner + height） | 🟡 部分实现（rank=1 generator + canonical-height 有界扫描；暂不证明 no_solution） | `proof_status/methods.py::run_heegner_height` / `concordant/heegner_height.py` |
+| 方向五（Heegner + height） | 🛑 height-bound 升级判为**冗余**（wl092）：integer-N 穷尽判定已由 `factor_concordant` 完成（全 rank、无 height bound）；rank=1 有界扫描保留为正向 witness finder | `proof_status/methods.py::run_factor_concordant`（判定器）/ `run_heegner_height`（witness） |
 | 方向六（L-函数高阶导数 / BSD 精细化） | 🔴 未开始 | — |
 | 方向七（Chabauty / QC） | 🟡 stub | `proof_status/methods.py::run_chabauty_stub` |
 | 方向八（Brauer–Manin） | 🟡 stub | `proof_status/methods.py::run_brauer_manin_stub` |
@@ -142,12 +142,18 @@ uv run python scripts/prove_no_solution.py --pair 7,45 \
   --db .cache/proofs.sqlite3 --heegner-height-bound 100
 ```
 
-为什么还不能直接 `no_solution`：
+为什么还不能直接 `no_solution`（以及为什么 height bound 不是答案，wl092）：
 
 - 有界枚举 `|n| <= M` 只说明这个范围里没见到 chain-compatible point。
-- 要升级成严格无解，还需要证明“若存在解，其 canonical height 必 ≤ H”，
-  或者证明所有可能的 square-X coset 已被覆盖。
-- 这正是后续 height theory 工作，而不是纯工程接线。
+- 「证明所有 square-X coset 已被覆盖」这条**已经由 `factor_search.find_concordant_by_factorization`
+  完成**：它从 `B²−A²` 的 divisor pair 穷尽恢复**全部** concordant 整数 N（无上界、全 rank，
+  自证完整）。pipeline 里 `factor_concordant` 排在 `heegner` 之前，所以到 heegner 时所有
+  concordant N 已枚举完、且验证无一 chain-compatible——rank=1 有界扫描只是其严格子集。
+- 「证明若存在解 ĥ ≤ H」这条方向也不通：wl077/B.6 实证 `min ĥ > 2 log(A+B)` 1879/1879
+  violated（margin 方向反了）。
+- 所以 `inconclusive` 残留**不是**搜索不完整，而是一个几何问题：**闭合 4-chain 对反例是否
+  必要**？证明它需要 closure-necessity 引理（纯数论/几何）或 rank≥2 的 Chabauty/Brauer–Manin，
+  **与 Heegner 点 / canonical height 无关**。详见 wl092。
 
 ### 原始工程化路径
 
