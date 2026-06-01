@@ -47,7 +47,7 @@
 {"primitive_a": 175, "primitive_b": 384, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 663, "a": 116025, "b": 254592, "concordant_N": [14560, 128520, 154700, 190944, 229840, 2028780]}
 {"primitive_a": 175, "primitive_b": 7344, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 1276, "a": 223300, "b": 9370944, "concordant_N": [535920, 2844933, 3904560]}
 {"primitive_a": 175, "primitive_b": 7488, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 3828, "a": 669900, "b": 28664064, "concordant_N": [2296800, 8360352, 17801875]}
-{"primitive_a": 185, "primitive_b": 8208, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 185, "primitive_b": 8208, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 189, "primitive_b": 800, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 23188, "a": 4382532, "b": 18550400, "concordant_N": [2822085, 4173840, 9209376, 12384624, 19477920, 28807680]}
 {"primitive_a": 187, "primitive_b": 8640, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 14105, "a": 2637635, "b": 121867200, "concordant_N": [11879868, 14387100, 22342320, 185464320]}
 {"primitive_a": 189, "primitive_b": 7936, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 4367, "a": 825363, "b": 34656512, "concordant_N": [1100484, 7779816, 25992384, 95327640]}
@@ -114,7 +114,7 @@
 {"primitive_a": 377, "primitive_b": 9405, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 6832, "a": 2575664, "b": 64254960, "concordant_N": [1368900, 2295552, 4436652, 37302720, 72095595]}
 {"primitive_a": 385, "primitive_b": 432, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 13260, "a": 5105100, "b": 5728320, "concordant_N": [2386800, 3955952, 4928256, 9378135, 12252240]}
 {"primitive_a": 385, "primitive_b": 1152, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 1825, "a": 702625, "b": 2102400, "concordant_N": [613200, 814752, 2409000]}
-{"primitive_a": 387, "primitive_b": 3680, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 387, "primitive_b": 3680, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 400, "primitive_b": 1547, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 9, "best_d": 27720, "a": 11088000, "b": 42882840, "concordant_N": [1716000, 2960958, 9228450, 11642400, 16615200, 40840800, 84116175, 99484000, 277089120]}
 {"primitive_a": 400, "primitive_b": 1863, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 3311, "a": 1324400, "b": 6168393, "concordant_N": [993300, 1824576, 8224524, 14206500]}
 {"primitive_a": 400, "primitive_b": 2079, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 1547, "a": 618800, "b": 3216213, "concordant_N": [649740, 3063060, 4142016, 5898816]}
@@ -194,7 +194,7 @@
 {"primitive_a": 675, "primitive_b": 3136, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 46189, "a": 31177575, "b": 144848704, "concordant_N": [19399380, 37761360, 46426728, 57585528, 119593980, 232792560]}
 {"primitive_a": 675, "primitive_b": 1088, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 3003, "a": 2027025, "b": 3267264, "concordant_N": [449680, 1698840, 2450448, 2702700, 3898440, 54009000]}
 {"primitive_a": 675, "primitive_b": 8096, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 6148, "a": 4149900, "b": 49774208, "concordant_N": [2151435, 2213280, 93326640]}
-{"primitive_a": 688, "primitive_b": 5535, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 688, "primitive_b": 5535, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 693, "primitive_b": 2432, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 7, "best_d": 15249, "a": 10567557, "b": 37085568, "concordant_N": [2249676, 7755876, 10816624, 11070176, 27049176, 36231624, 174204576]}
 {"primitive_a": 693, "primitive_b": 1768, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 8520, "a": 5904360, "b": 15063360, "concordant_N": [913770, 2999395, 4089600, 21747726, 29652480, 97332480]}
 {"primitive_a": 693, "primitive_b": 2080, "rank_lower": 4, "rank_upper": 4, "n_pool": 728, "best_k": 12, "best_d": 36540, "a": 25322220, "b": 76003200, "concordant_N": [1178415, 8316000, 10618608, 19752096, 31668000, 33762960, 57002400, 60773328, 91512400, 168251040, 206022960, 231429744]}
@@ -229,7 +229,7 @@
 {"primitive_a": 832, "primitive_b": 2295, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 812, "a": 675584, "b": 1863540, "concordant_N": [993888, 1266720, 10425675]}
 {"primitive_a": 837, "primitive_b": 1760, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 483, "a": 404271, "b": 850080, "concordant_N": [93440, 539028, 637560]}
 {"primitive_a": 837, "primitive_b": 9635, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 2024, "a": 1694088, "b": 19501240, "concordant_N": [419430, 2671680, 12365559, 78765984]}
-{"primitive_a": 845, "primitive_b": 6048, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 845, "primitive_b": 6048, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 847, "primitive_b": 2160, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 608, "a": 514976, "b": 1313280, "concordant_N": [240768, 544425, 2808960]}
 {"primitive_a": 848, "primitive_b": 8415, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 16692, "a": 14154816, "b": 140463180, "concordant_N": [10616112, 21548475, 42123760, 187284240]}
 {"primitive_a": 847, "primitive_b": 5472, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 7, "best_d": 5460, "a": 4624620, "b": 29877120, "concordant_N": [776160, 3468465, 10410400, 13272336, 30727840, 39836160, 178017840]}
@@ -376,7 +376,7 @@
 {"primitive_a": 1485, "primitive_b": 5888, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 1769, "a": 2626965, "b": 10415872, "concordant_N": [1026996, 3502620, 7811904, 26642880]}
 {"primitive_a": 1485, "primitive_b": 1568, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 37895, "a": 56274075, "b": 59419360, "concordant_N": [30231432, 35014980, 95495400, 174000372]}
 {"primitive_a": 1495, "primitive_b": 2464, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 9, "best_d": 26775, "a": 40028625, "b": 65973600, "concordant_N": [5747700, 19941000, 21057764, 49480200, 53371500, 67353660, 97877500, 132432300, 459459000]}
-{"primitive_a": 1504, "primitive_b": 6579, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 1504, "primitive_b": 6579, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 1513, "primitive_b": 5088, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 5, "best_d": 6105, "a": 9236865, "b": 31062240, "concordant_N": [698116, 12315820, 23296680, 97703320, 410988600]}
 {"primitive_a": 1520, "primitive_b": 4257, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 1335, "a": 2029200, "b": 5683095, "concordant_N": [1521900, 1868288, 7577460, 45126900]}
 {"primitive_a": 1520, "primitive_b": 7497, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 3432, "a": 5216640, "b": 25729704, "concordant_N": [5477472, 17094775, 24504480]}
@@ -446,7 +446,7 @@
 {"primitive_a": 1904, "primitive_b": 3321, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 241, "a": 458864, "b": 800361, "concordant_N": [344148, 351360, 1067148]}
 {"primitive_a": 1917, "primitive_b": 9920, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 4292, "a": 8227764, "b": 42576640, "concordant_N": [5323227, 10970352, 22968000, 31932480]}
 {"primitive_a": 1925, "primitive_b": 6624, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 4161, "a": 8009925, "b": 27562464, "concordant_N": [6433020, 11484360, 19223820, 34318760]}
-{"primitive_a": 1935, "primitive_b": 3248, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 1935, "primitive_b": 3248, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 1943, "primitive_b": 4693, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 17952, "a": 34880736, "b": 84248736, "concordant_N": [2515448, 32744448, 89745227, 1168244352]}
 {"primitive_a": 1984, "primitive_b": 2691, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 205, "a": 406720, "b": 551655, "concordant_N": [213192, 305040, 735540]}
 {"primitive_a": 1984, "primitive_b": 4085, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 5, "best_d": 4485, "a": 8898240, "b": 18321225, "concordant_N": [3256064, 9771320, 10130800, 16092180, 16684200]}
@@ -531,7 +531,7 @@
 {"primitive_a": 2475, "primitive_b": 4256, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 3417, "a": 8457075, "b": 14542752, "concordant_N": [3095936, 4510440, 8696520, 27267660]}
 {"primitive_a": 2475, "primitive_b": 5824, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 3857, "a": 9546075, "b": 22463168, "concordant_N": [3008460, 5772624, 37146900, 71277360]}
 {"primitive_a": 2480, "primitive_b": 2583, "rank_lower": 2, "rank_upper": 2, "n_pool": 30, "best_k": 4, "best_d": 780, "a": 1934400, "b": 2014740, "concordant_N": [1136464, 1450800, 2686320, 4485195]}
-{"primitive_a": 2530, "primitive_b": 9017, "rank_lower": 0, "rank_upper": 2, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 2530, "primitive_b": 9017, "rank_lower": 0, "rank_upper": 2, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 2560, "primitive_b": 9207, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 7, "best_d": 43225, "a": 110656000, "b": 397972575, "concordant_N": [24897600, 51150000, 192224340, 306477600, 419895000, 860959008, 1768767000]}
 {"primitive_a": 2565, "primitive_b": 3328, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 5965, "a": 15300225, "b": 19851520, "concordant_N": [2733192, 14888640, 20400300]}
 {"primitive_a": 2565, "primitive_b": 4928, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 1595, "a": 4091175, "b": 7860160, "concordant_N": [1150488, 2545620, 12632400, 27951000]}
@@ -582,7 +582,7 @@
 {"primitive_a": 2925, "primitive_b": 6992, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 6, "best_d": 32956, "a": 96396300, "b": 230428352, "concordant_N": [44292864, 60810240, 231351120, 501490275, 536670960, 1564956855]}
 {"primitive_a": 2944, "primitive_b": 6975, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 1155, "a": 3400320, "b": 8056125, "concordant_N": [4296600, 6375600, 28751012]}
 {"primitive_a": 2944, "primitive_b": 9405, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 1785, "a": 5255040, "b": 16787925, "concordant_N": [2106720, 6021400, 10151856, 14651280, 41876100]}
-{"primitive_a": 2960, "primitive_b": 3807, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 2960, "primitive_b": 3807, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 2961, "primitive_b": 3536, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 15444, "a": 45729684, "b": 54609984, "concordant_N": [40957488, 60972912, 206197488, 250482505]}
 {"primitive_a": 2975, "primitive_b": 5616, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 6320, "a": 18802000, "b": 35493120, "concordant_N": [14788800, 45124800, 45672081]}
 {"primitive_a": 2975, "primitive_b": 9568, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 6, "best_d": 3885, "a": 11557875, "b": 37171680, "concordant_N": [4568760, 6164200, 16377088, 69696900, 94035500, 299237400]}
@@ -592,7 +592,7 @@
 {"primitive_a": 3008, "primitive_b": 8325, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 44473, "a": 133774784, "b": 370237725, "concordant_N": [129798960, 201080880, 381578340, 780234312]}
 {"primitive_a": 3008, "primitive_b": 4725, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 6, "best_d": 2436, "a": 7327488, "b": 11510100, "concordant_N": [981360, 8632575, 9769984, 10745280, 20900880, 85942080]}
 {"primitive_a": 3008, "primitive_b": 6435, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 212, "a": 637696, "b": 1364220, "concordant_N": [478272, 751275, 1818960, 2217072]}
-{"primitive_a": 3015, "primitive_b": 8528, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 3015, "primitive_b": 8528, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 3024, "primitive_b": 3895, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 5612, "a": 16970688, "b": 21858740, "concordant_N": [4201680, 18519600, 28848555, 88287984]}
 {"primitive_a": 3024, "primitive_b": 4199, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 1105, "a": 3341520, "b": 4639895, "concordant_N": [517140, 14718528, 29980860]}
 {"primitive_a": 3040, "primitive_b": 3213, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 6, "best_d": 26565, "a": 80757600, "b": 85353345, "concordant_N": [18170460, 33649000, 121205700, 204848028, 379348200, 484876800]}
@@ -617,7 +617,7 @@
 {"primitive_a": 3366, "primitive_b": 4991, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 1560, "a": 5250960, "b": 7785960, "concordant_N": [956970, 2358720, 3522519, 11606400, 17333030]}
 {"primitive_a": 3366, "primitive_b": 7475, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 504, "a": 1696464, "b": 3767400, "concordant_N": [147798, 1372410, 4656960, 5427695, 43243200]}
 {"primitive_a": 3375, "primitive_b": 8624, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 532, "a": 1795500, "b": 4587968, "concordant_N": [1117200, 2772165, 7373520]}
-{"primitive_a": 3392, "primitive_b": 8235, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 3392, "primitive_b": 8235, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 3393, "primitive_b": 7616, "rank_lower": 4, "rank_upper": 4, "n_pool": 728, "best_k": 8, "best_d": 21945, "a": 74459385, "b": 167133120, "concordant_N": [2660112, 22383900, 32561100, 59397800, 209513304, 555963408, 2210816972, 4678235100]}
 {"primitive_a": 3440, "primitive_b": 5247, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 9745, "a": 33522800, "b": 51132015, "concordant_N": [21143808, 25142100, 68176020]}
 {"primitive_a": 3451, "primitive_b": 6624, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 7, "best_d": 13860, "a": 47830860, "b": 91808640, "concordant_N": [4272480, 21827575, 26777520, 111236895, 163991520, 201180672, 443210400]}
@@ -662,7 +662,7 @@
 {"primitive_a": 3933, "primitive_b": 5440, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 9445, "a": 37147185, "b": 51380800, "concordant_N": [5426568, 38535600, 49529580]}
 {"primitive_a": 3933, "primitive_b": 8800, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 6, "best_d": 4620, "a": 18170460, "b": 40656000, "concordant_N": [3216928, 24227280, 30492000, 50965200, 119624400, 258610275]}
 {"primitive_a": 3969, "primitive_b": 6800, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 29848, "a": 118466712, "b": 202966400, "concordant_N": [99916830, 112825440, 213114720, 495359991]}
-{"primitive_a": 4000, "primitive_b": 5589, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 4000, "primitive_b": 5589, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 4025, "primitive_b": 4176, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 10033, "a": 40382825, "b": 41897808, "concordant_N": [17457420, 36629340, 86958144, 96918780]}
 {"primitive_a": 4032, "primitive_b": 7475, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 49045, "a": 197749440, "b": 366611375, "concordant_N": [30604080, 1166250312, 2368873500]}
 {"primitive_a": 4032, "primitive_b": 7843, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 7, "best_d": 5655, "a": 22800960, "b": 44352165, "concordant_N": [10373220, 13436280, 22610952, 35762220, 75264280, 97488720, 306575280]}
@@ -713,7 +713,7 @@
 {"primitive_a": 4725, "primitive_b": 7904, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 1032, "a": 4876200, "b": 8156928, "concordant_N": [1010880, 2600640, 15294240, 26870571, 39346720]}
 {"primitive_a": 4725, "primitive_b": 8569, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 520, "a": 2457000, "b": 4455880, "concordant_N": [1002573, 1420650, 7706400, 10920000]}
 {"primitive_a": 4752, "primitive_b": 7105, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 13192, "a": 62688384, "b": 93729160, "concordant_N": [32135712, 78785025, 182841120]}
-{"primitive_a": 4779, "primitive_b": 5504, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 4779, "primitive_b": 5504, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 4784, "primitive_b": 5841, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 457, "a": 2186288, "b": 2669337, "concordant_N": [955584, 1639716, 3559116]}
 {"primitive_a": 4784, "primitive_b": 8991, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 5, "best_d": 29140, "a": 139405760, "b": 261997740, "concordant_N": [83923200, 216811179, 226942320, 435207357, 1340977680]}
 {"primitive_a": 4807, "primitive_b": 5040, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 3536, "a": 16997552, "b": 17821440, "concordant_N": [3267264, 92713920, 106957125]}
@@ -729,7 +729,7 @@
 {"primitive_a": 4941, "primitive_b": 5984, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 26255, "a": 129725955, "b": 157109920, "concordant_N": [27446328, 74127744, 117832440, 172967940]}
 {"primitive_a": 4960, "primitive_b": 8613, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 5365, "a": 26610400, "b": 46208745, "concordant_N": [5987340, 10009368, 205372200]}
 {"primitive_a": 4991, "primitive_b": 5184, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 5, "best_d": 2135, "a": 10655785, "b": 11067840, "concordant_N": [3228120, 5050800, 23350068, 36534120, 98146620]}
-{"primitive_a": 4995, "primitive_b": 5152, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 4995, "primitive_b": 5152, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 5005, "primitive_b": 8816, "rank_lower": 4, "rank_upper": 4, "n_pool": 728, "best_k": 9, "best_d": 17112, "a": 85645560, "b": 150859392, "concordant_N": [35283456, 44285670, 62858080, 97670144, 132286455, 139748000, 205549344, 366189670, 4373621856]}
 {"primitive_a": 5049, "primitive_b": 5824, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 1505, "a": 7598745, "b": 8765120, "concordant_N": [5165160, 7236900, 9203376, 12894840, 28329840]}
 {"primitive_a": 5104, "primitive_b": 9729, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 589, "a": 3006256, "b": 5730381, "concordant_N": [2254692, 7640508, 40186692]}
@@ -748,7 +748,7 @@
 {"primitive_a": 5355, "primitive_b": 6448, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 5, "best_d": 665, "a": 3561075, "b": 4287920, "concordant_N": [758100, 1562028, 9775500, 13545600, 20141940]}
 {"primitive_a": 5375, "primitive_b": 7344, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 16081, "a": 86435375, "b": 118098864, "concordant_N": [49207860, 78523200, 207444900]}
 {"primitive_a": 5400, "primitive_b": 6409, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 280, "a": 1512000, "b": 1794520, "concordant_N": [403767, 5543550, 6720000, 34003200]}
-{"primitive_a": 5425, "primitive_b": 5616, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 5425, "primitive_b": 5616, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 5427, "primitive_b": 7520, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 13045, "a": 70795215, "b": 98098400, "concordant_N": [10275048, 73573800, 94393620]}
 {"primitive_a": 5427, "primitive_b": 9823, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 1160, "a": 6295320, "b": 11394680, "concordant_N": [3117510, 6542400, 10964349, 23009760]}
 {"primitive_a": 5472, "primitive_b": 7595, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 1479, "a": 8093088, "b": 11233005, "concordant_N": [3851316, 6808840, 13351716, 23604840]}
@@ -800,7 +800,7 @@
 {"primitive_a": 6417, "primitive_b": 7600, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 1276, "a": 8188092, "b": 9697600, "concordant_N": [5512755, 7273200, 10917456, 14403840]}
 {"primitive_a": 6435, "primitive_b": 7378, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 5, "best_d": 33040, "a": 212612400, "b": 243769120, "concordant_N": [26923050, 118837446, 155420160, 333472425, 436128000]}
 {"primitive_a": 6448, "primitive_b": 7973, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 6, "best_d": 21252, "a": 137032896, "b": 169442196, "concordant_N": [53882928, 87615297, 102774672, 225922928, 312404400, 590110885]}
-{"primitive_a": 6475, "primitive_b": 8928, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": -1, "best_d": null, "a": null, "b": null, "concordant_N": []}
+{"primitive_a": 6475, "primitive_b": 8928, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 6496, "primitive_b": 9675, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 4, "best_d": 7137, "a": 46361952, "b": 69050475, "concordant_N": [24640200, 36826920, 86928660, 129922436]}
 {"primitive_a": 6525, "primitive_b": 9568, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 2604, "a": 16991100, "b": 24915072, "concordant_N": [8951715, 18686304, 22654800, 47290880]}
 {"primitive_a": 6608, "primitive_b": 9855, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 18385, "a": 121488080, "b": 181184175, "concordant_N": [74048832, 91116060, 241578900]}
@@ -849,6 +849,6 @@
 {"primitive_a": 9072, "primitive_b": 9425, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 4, "best_d": 41921, "a": 380307312, "b": 395105425, "concordant_N": [58857084, 232591716, 646031100, 2552988900]}
 {"primitive_a": 9207, "primitive_b": 9520, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 48985, "a": 451004895, "b": 466337200, "concordant_N": [91112100, 1108605888, 2308369140]}
 {"primitive_a": 9243, "primitive_b": 9440, "rank_lower": 2, "rank_upper": 2, "n_pool": 76, "best_k": 3, "best_d": 193, "a": 1783899, "b": 1821920, "concordant_N": [368940, 1366440, 2378532]}
-{"primitive_a": 9275, "primitive_b": 9504, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "concordant_N": []}
+{"primitive_a": 9275, "primitive_b": 9504, "rank_lower": 1, "rank_upper": 1, "n_pool": 0, "best_k": 0, "best_d": null, "a": null, "b": null, "concordant_N": []}
 {"primitive_a": 9728, "primitive_b": 9945, "rank_lower": 1, "rank_upper": 1, "n_pool": 30, "best_k": 3, "best_d": 23545, "a": 229045760, "b": 234155025, "concordant_N": [124882680, 152282592, 429460800]}
 {"primitive_a": 9760, "primitive_b": 9963, "rank_lower": 3, "rank_upper": 3, "n_pool": 202, "best_k": 4, "best_d": 21571, "a": 210532960, "b": 214911873, "concordant_N": [129693564, 157899720, 286549164, 2330256300]}

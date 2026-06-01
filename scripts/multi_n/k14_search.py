@@ -22,7 +22,8 @@ factorizations of ``d``, ``a0`` and ``b0`` -- no Pollard-rho needed.
 D-scaling rank-invariance (E_{a0,b0} ~= E_{d*a0,d*b0} over Q, wl065/wl085) means
 the rank of every scaled hub equals the primitive rank, so the "rank <= 4"
 hypothesis is inherited; we re-certify it directly with ``ellrank`` on the
-representative K_14+ hubs found (see ``--ellrank-min-k``).
+representative high-order hubs found (a separate certification pass over the
+largest-k rows of the output, see wl095).
 
 Output: one JSONL line per primitive with its best (largest-k) hub within
 ``d_max``, plus a console ladder of the smallest hub reaching each k.
@@ -99,13 +100,15 @@ def search_primitive(
             "n_pool": 0,
             "best_k": 0,
             "best_d": None,
+            "a": None,
+            "b": None,
             "concordant_N": [],
         }
     fa0 = _factor(a0)
     fb0 = _factor(b0)
     cand_ds = _best_ds_by_pool(pool.rational_ns, d_max, top_d)
 
-    best_k = -1
+    best_k = 0
     best_d = None
     best_N: list[int] = []
     for d in cand_ds:

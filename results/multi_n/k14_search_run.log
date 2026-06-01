@@ -100,7 +100,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
   48       (175,7488)    1    30      3    3828  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
-  49       (185,8208)    2    76     -1    None  
+  49       (185,8208)    2    76      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
   50        (189,800)    2    76      6   23188  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -234,7 +234,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  115       (385,1152)    1    30      3    1825  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 116       (387,3680)    2    76     -1    None  
+ 116       (387,3680)    2    76      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  117       (400,1547)    3   202      9   27720  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -464,7 +464,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  230       (837,9635)    3   202      4    2024  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 231       (845,6048)    2    76     -1    None  
+ 231       (845,6048)    2    76      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  232       (847,2160)    1    30      3     608  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -758,7 +758,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  377      (1495,2464)    3   202      9   26775  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 378      (1504,6579)    3   202     -1    None  
+ 378      (1504,6579)    3   202      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  379      (1513,5088)    3   202      5    6105  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -898,7 +898,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  447      (1925,6624)    2    76      4    4161  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 448      (1935,3248)    2    76     -1    None  
+ 448      (1935,3248)    2    76      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  449      (1943,4693)    2    76      4   17952  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -1464,7 +1464,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  730      (4991,5184)    3   202      5    2135  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 731      (4995,5152)    3   202     -1    None  
+ 731      (4995,5152)    3   202      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  732      (5005,8816)    4   728      9   17112  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -1606,7 +1606,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  801      (6448,7973)    3   202      6   21252  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
- 802      (6475,8928)    2    76     -1    None  
+ 802      (6475,8928)    2    76      0    None  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  803      (6496,9675)    1    30      4    7137  
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
@@ -1710,7 +1710,7 @@ PARI stack size set to 67108864 bytes, maximum size set to 67108864
 PARI stack size set to 67108864 bytes, maximum size set to 67108864
  853      (9760,9963)    3   202      4   21571  
 
-Done 854 primitives in 627.7s. global max k = 16
+Done 854 primitives in 705.5s. global max k = 16
 
 === smallest hub reaching each k (ladder) ===
 K_4   via prim(32,45) d=1785  (a,b)=(57120,80325)  rank=[1, 1]  [primitive max k=4]
