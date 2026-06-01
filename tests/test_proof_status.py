@@ -34,14 +34,20 @@ def test_default_method_pipeline_names_are_stable() -> None:
     )
 
 
-def test_legacy_factor_concordant_still_checks_chain_closure() -> None:
+def test_factor_concordant_gen_closure_decides_no_solution() -> None:
+    # wl094: factor_concordant now applies the full-plane GEN-CLOSURE test over
+    # the exhaustive concordant set. (264, 420) has 4 concordant N, none of
+    # which satisfy any of the four relations {N1±N2} = {A+B, |A-B|}, so the
+    # pair is decided no_solution (previously reported inconclusive when only
+    # the sum relation N1+N2 = A+B was checked).
     from rational_distance.proof_status.methods import run_factor_concordant
 
     result = run_factor_concordant(264, 420)
     assert result.method == "factor_concordant"
     assert result.details["concordant_n_count"] == 4
-    assert result.details["chain_compatible_count"] == 0
-    assert result.outcome == "inconclusive"
+    assert result.details["chain_compatible_count"] == 0  # no inside-square closer
+    assert result.details["gen_closure_hit"] is None  # no full-plane closer either
+    assert result.outcome == "no_solution"
 
 
 class TestSafeSieveMethod:
@@ -105,8 +111,9 @@ class TestChainClosureModSieve:
 
         calls: list[int] = []
 
-        def fake_killed_at_modulus(A: int, B: int, M: int) -> bool:
+        def fake_killed_at_modulus(A: int, B: int, M: int, *, full_plane: bool = False) -> bool:
             assert (A, B) == (7, 45)
+            assert full_plane is True  # pipeline now requests full-plane GEN-CLOSURE
             calls.append(M)
             if M == 9:
                 return True
@@ -204,9 +211,11 @@ class TestFactorConcordantMethod:
         sample = result.details["sample_concordant_n"]
         assert isinstance(sample, list)
         assert {77, 315, 352}.issubset(set(sample))
-        # None of them close the chain (well-known empirical fact).
+        # None of them close the chain (well-known empirical fact), and none
+        # satisfy the wider GEN-CLOSURE relations either ⇒ no_solution (wl094).
         assert result.details["chain_compatible_count"] == 0
-        assert result.outcome == "inconclusive"
+        assert result.details["gen_closure_hit"] is None
+        assert result.outcome == "no_solution"
 
     def test_no_concordant_returns_no_solution(self):
         """When B^2 - A^2 has no compatible factorisation, prove no_solution."""
@@ -516,7 +525,15 @@ def pari_free_pipeline():
 
 @pytest.fixture
 def f2_rank_pipeline():
-    """PARI-free pipeline that also records the f2_rank step."""
+    """PARI-free pipeline that also records the f2_rank step.
+
+    NOTE (wl094): factor_concordant now applies the full-plane GEN-CLOSURE
+    decider and is terminal (no_solution / solution_found) for every pair it
+    sees, so in the *default* order it short-circuits before f2_rank ever runs.
+    To keep exercising the f2_rank step and the shared concordant-N cache, this
+    test pipeline deliberately orders f2_rank *before* the terminal
+    factor_concordant decider.
+    """
     from rational_distance.proof_status.methods import (
         run_f2_rank,
         run_factor_concordant,
@@ -525,8 +542,8 @@ def f2_rank_pipeline():
 
     return (
         ("safe_sieve", run_safe_sieve),
-        ("factor_concordant", run_factor_concordant),
         ("f2_rank", run_f2_rank),
+        ("factor_concordant", run_factor_concordant),
     )
 
 
@@ -570,7 +587,7 @@ class TestWorkflow:
         assert status.status == "no_solution"
         assert status.method == "factor_concordant"
 
-    def test_inconclusive_pair_becomes_hard_case(self, tmp_path: Path, pari_free_pipeline):
+    def test_gen_closure_pair_becomes_no_solution(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow
 
         db = tmp_path / "p.sqlite3"
@@ -579,17 +596,18 @@ class TestWorkflow:
 
         cfg = workflow.WorkflowConfig(methods=pari_free_pipeline)
         # (7, 45): both odd, (7+45) % 4 == 0, so safe_sieve passes.
-        # factor_concordant finds at least one concordant N but none closes the
-        # chain ⇒ inconclusive. With this PARI-free pipeline that means hard_case.
+        # factor_concordant enumerates the concordant N exhaustively; none
+        # satisfy any GEN-CLOSURE relation ⇒ no_solution (wl094). Previously
+        # this was reported inconclusive (sum relation only) ⇒ hard_case.
         status = workflow.process_pair(conn, 7, 45, cfg)
-        assert status.status == "hard_case"
-        # factor_concordant should still have recorded its inconclusive attempt.
+        assert status.status == "no_solution"
+        assert status.method == "factor_concordant"
         outcomes = conn.execute(
             "SELECT method, outcome FROM pair_method_attempts WHERE A=7 AND B=45"
         ).fetchall()
         method_outcomes = {(r[0], r[1]) for r in outcomes}
         assert ("safe_sieve", "pass") in method_outcomes
-        assert ("factor_concordant", "inconclusive") in method_outcomes
+        assert ("factor_concordant", "no_solution") in method_outcomes
 
     def test_terminal_pair_not_reprocessed(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow
@@ -659,7 +677,10 @@ class TestWorkflow:
             workflow.WorkflowConfig(methods=f2_rank_pipeline),
         )
 
-        assert status.status == "hard_case"
+        # f2_rank then factor_concordant both consume the shared concordant-N
+        # cache, so the exhaustive factor search runs exactly once. The pair is
+        # decided no_solution by the terminal GEN-CLOSURE factor step (wl094).
+        assert status.status == "no_solution"
         assert observed["calls"] == 1
 
     def test_compute_pair_status_reuses_factor_search_between_factor_and_f2(
@@ -680,7 +701,7 @@ class TestWorkflow:
 
         result = workflow.compute_pair_status(9269, 24255, f2_rank_pipeline)
 
-        assert result.final_status == "hard_case"
+        assert result.final_status == "no_solution"
         assert observed["calls"] == 1
 
     def test_f2_rank_pipeline_records_rank_lower_for_multi_n(
@@ -694,10 +715,12 @@ class TestWorkflow:
 
         cfg = workflow.WorkflowConfig(methods=f2_rank_pipeline)
         # (9269, 24255): odd-odd with (A+B) % 4 == 0 (passes safe_sieve),
-        # has 3 concordant N and F2-rank=3 saturated ⇒ rank_lower=1.
+        # has 3 concordant N and F2-rank=3 saturated ⇒ rank_lower=1. The
+        # f2_rank step runs (and records rank_lower) before the terminal
+        # GEN-CLOSURE factor_concordant decider closes the pair no_solution.
         status = workflow.process_pair(conn, 9269, 24255, cfg)
 
-        assert status.status == "hard_case"
+        assert status.status == "no_solution"
         assert status.rank_lower == 1
         attempt_methods = [
             row["method"]
@@ -706,8 +729,8 @@ class TestWorkflow:
             ).fetchall()
         ]
         assert "f2_rank" in attempt_methods
-        # Order is preserved: safe_sieve, factor_concordant, f2_rank.
-        assert attempt_methods.index("f2_rank") > attempt_methods.index("factor_concordant")
+        # This test pipeline orders f2_rank before factor_concordant (see fixture).
+        assert attempt_methods.index("f2_rank") < attempt_methods.index("factor_concordant")
 
     def test_status_counts_aggregate(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow
@@ -718,12 +741,12 @@ class TestWorkflow:
 
         cfg = workflow.WorkflowConfig(methods=pari_free_pipeline)
         workflow.process_pair(conn, 1, 5, cfg)  # no_solution via safe_sieve
-        workflow.process_pair(conn, 1, 3, cfg)  # no_solution via factor_concordant
-        workflow.process_pair(conn, 7, 45, cfg)  # hard_case
+        workflow.process_pair(conn, 1, 3, cfg)  # no_solution via factor_concordant (no N)
+        workflow.process_pair(conn, 7, 45, cfg)  # no_solution via factor_concordant (GEN-CLOSURE)
 
         counts = schema.status_counts(conn)
-        assert counts["no_solution"] == 2
-        assert counts["hard_case"] == 1
+        assert counts["no_solution"] == 3
+        assert counts.get("hard_case", 0) == 0
 
     def test_parallel_path_disables_result_collection(
         self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch

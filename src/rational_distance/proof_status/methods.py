@@ -8,17 +8,24 @@ workflow layer is responsible for persistence.
 Methods are listed in increasing order of cost and mathematical depth:
 
 1. ``safe_sieve``       — instantaneous 2-adic necessary conditions
-2. ``factor_concordant``— enumerate concordant N via h4^2 - h3^2 = B^2 - A^2
-                          and check chain closure
-3. ``rank_zero``        — call PARI ellrank; if proven rank == 0 ⇒ no_solution
-4. ``heegner``          — rank-one generator + canonical-height diagnostics
-5. ``chabauty_stub``    — placeholder for Quadratic Chabauty
-6. ``brauer_manin_stub``— placeholder for Brauer–Manin obstruction
+2. ``chain_closure_mod_sieve`` — mod-p² GEN-CLOSURE sieve (full-plane)
+3. ``factor_concordant``— enumerate concordant N via h4^2 - h3^2 = B^2 - A^2
+                          and apply the full-plane GEN-CLOSURE decider
+4. ``rank_zero``        — call PARI ellrank; if proven rank == 0 ⇒ no_solution
+5. ``heegner``          — rank-one generator + canonical-height diagnostics
+6. ``chabauty_stub``    — placeholder for Quadratic Chabauty
+7. ``brauer_manin_stub``— placeholder for Brauer–Manin obstruction
 
-The Heegner/height method is deliberately conservative: it can record rank-one
-generator/height evidence and can prove a positive witness if a chain-compatible
-point is found, but it does not mark ``no_solution`` until a future global height
-bound is implemented.
+Since wl094, ``factor_concordant`` is an exhaustive, all-ranks, Magma-free
+decider over the reduced (coprime) legs: it enumerates *every* concordant N and
+tests the full-plane GEN-CLOSURE condition
+``{N₁+N₂, |N₁-N₂|} ∩ {A+B, |A-B|} ≠ ∅``. It therefore returns a terminal
+``no_solution`` (or ``solution_found``) for every coprime pair it sees and, in
+the default pipeline order, short-circuits the later PARI/EC methods. Those
+methods are retained for explicit/research pipelines and for the gcd-scaling
+sub-problem (MATH §8.6 — non-coprime legs, not covered by the reduced-pair
+decider). The Heegner/height method remains conservative (records rank-one
+height evidence, positive witnesses only) and never returns ``no_solution``.
 """
 
 from __future__ import annotations
@@ -27,6 +34,7 @@ import time
 from collections.abc import Callable
 from math import isqrt
 
+from rational_distance.concordant.analysis import gen_closure_hit
 from rational_distance.concordant.chain_closure_sieve import (
     BALANCED_MODULI,
     DEFAULT_PRIME_SQUARE_MODULI,
@@ -127,27 +135,38 @@ def run_safe_sieve(A: int, B: int) -> MethodResult:
 
 
 def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
-    """Joint mod-p² sieve enforcing both ``N ∈ T`` and ``b = A+B-N ∈ T``.
+    """Joint mod-p² GEN-CLOSURE sieve over the four full-plane closure relations.
 
     Define ``T(A, B, M) = {n mod M : n²+A² and n²+B² are squares mod M}``.
 
-    Any chain-closing integer ``N`` satisfies ``N mod M ∈ T`` (from the
-    concordant conditions on ``N``) AND ``(A+B-N) mod M ∈ T`` (from the
-    concordant conditions on the apex partner ``b``).
+    A Harborth counterexample with horizontal legs ``(A, B)`` and vertical legs
+    ``(N₁, N₂)`` (both concordant, hence in ``T``) requires the full-plane
+    **GEN-CLOSURE** condition (wl093)
 
-    Equivalently ``N mod M ∈ T ∩ ((A+B) - T)``. If this intersection is empty
-    for *any* modulus ``M``, no chain solution can exist — ``no_solution``.
+        {N₁+N₂, |N₁-N₂|} ∩ {A+B, |A-B|} ≠ ∅,
 
-    Soundness is immediate: any concrete chain solution reduces mod ``M`` to
-    a point in the intersection. So this method never raises false negatives.
+    so mod ``M`` at least one of the four relations must be satisfiable in
+    ``T``: ``N₁+N₂ ≡ A+B``, ``N₁+N₂ ≡ |A-B|``, ``N₁-N₂ ≡ A+B`` or
+    ``N₁-N₂ ≡ |A-B|``. If **all four** are impossible for *any* modulus ``M``,
+    no counterexample (inside *or* outside the unit square) can exist —
+    ``no_solution``.
 
-    Empirically: at ``max_hyp = 2000`` (4,653 hard_case pairs surviving the
-    earlier methods), this single sieve over prime squares ``p² < 53²``
-    kills **~99.6%** of those hard_case pairs in well under a second total.
+    Soundness is immediate: any concrete solution reduces mod ``M`` to a point
+    satisfying one of the relations. So this method never raises false
+    negatives over the whole plane. (The earlier sum-only sieve only ruled out
+    *inside-square* points; this full-plane version is what makes the pipeline
+    ``no_solution`` rigorous for the whole plane — see wl094.)
+
+    Cost of rigor: the full-plane kill rate is strictly lower than the
+    sum-only one (~97.0% vs ~99.4% at ``max_hyp = 2000``). The ~2.4% that now
+    survive the sieve are decided downstream — almost all by ``multi_n_sieve``
+    (fewer than two concordant N) and the remainder by the exhaustive
+    ``factor_concordant`` GEN-CLOSURE test — so pipeline ``no_solution``
+    coverage is preserved.
     """
     started = time.perf_counter()
     moduli = get_current_moduli()
-    killer = find_killer_modulus(A, B, moduli)
+    killer = find_killer_modulus(A, B, moduli, full_plane=True)
     elapsed = time.perf_counter() - started
 
     moduli_tested = list(moduli)
@@ -171,7 +190,10 @@ def run_chain_closure_mod_sieve(A: int, B: int) -> MethodResult:
             outcome="no_solution",
             details=details,
             elapsed_s=elapsed,
-            notes=(f"Chain closure obstructed mod {smallest}: T ∩ ((A+B)-T) = ∅."),
+            notes=(
+                f"GEN-CLOSURE obstructed mod {smallest}: all four relations "
+                "{N₁±N₂} ≡ {A+B,|A-B|} impossible (full-plane)."
+            ),
         )
 
     return MethodResult(
@@ -194,22 +216,31 @@ def run_factor_concordant(
     *,
     concordant_n: list[int] | None = None,
 ) -> MethodResult:
-    """Enumerate every concordant N via factor decomposition and test chain closure.
+    """Enumerate every concordant N via factor decomposition and test GEN-CLOSURE.
 
     The factor enumeration is provably exhaustive (see
     ``concordant.factor_search``): every concordant integer N is recovered
-    from some divisor pair of ``B^2 - A^2``. Therefore:
+    from some divisor pair of ``B^2 - A^2``. Combined with the full-plane
+    GEN-CLOSURE condition (wl093/wl094) — a counterexample with legs
+    ``(A, B)`` and ``(N₁, N₂)`` requires
+    ``{N₁+N₂, |N₁-N₂|} ∩ {A+B, |A-B|} ≠ ∅`` — this method is an exhaustive,
+    all-ranks, Magma-free decider over the reduced (coprime) legs:
 
     - If the enumeration returns an empty list, no concordant integer N exists
-      at all ⇒ no full chain solution can exist ⇒ ``no_solution``.
-    - If at least one N satisfies the full chain closure, that pair has a
-      full solution ⇒ ``solution_found`` (would refute Harborth).
-    - Otherwise, all N fail closure ⇒ ``inconclusive`` (concordant exists
-      but never closes into a 4-cycle; a deeper method must decide whether
-      that gap is necessary).
+      at all ⇒ ``no_solution``.
+    - If some pair of concordant N satisfies any of the four GEN-CLOSURE
+      relations, that pair has a full solution ⇒ ``solution_found`` (would
+      refute Harborth).
+    - Otherwise no pair of the *exhaustively enumerated* concordant N satisfies
+      GEN-CLOSURE ⇒ ``no_solution`` for the reduced legs. (Earlier this was
+      reported ``inconclusive`` because only the sum relation ``N₁+N₂=A+B``
+      was checked. The gcd-scaling gap of MATH §8.6, which concerns non-coprime
+      legs invisible on the reduced pair, is unchanged by this upgrade.)
     """
     started = time.perf_counter()
     Ns = concordant_n if concordant_n is not None else find_concordant_by_factorization(A, B)
+    hit = gen_closure_hit(A, B, Ns)
+    # Back-compat diagnostic: the classical inside-square (sum) closers.
     chain_ok = [N for N in Ns if _check_chain_compatibility(A, B, N)]
     elapsed = time.perf_counter() - started
 
@@ -218,6 +249,7 @@ def run_factor_concordant(
         "chain_compatible_count": len(chain_ok),
         "chain_compatible_n": chain_ok[:16],  # cap to keep JSON small
         "sample_concordant_n": Ns[:16],
+        "gen_closure_hit": hit,
     }
 
     if not Ns:
@@ -229,23 +261,28 @@ def run_factor_concordant(
             notes="No concordant N exists (exhaustive factor enumeration).",
         )
 
-    if chain_ok:
+    if hit is not None:
+        ni, nj, rel = hit
         return MethodResult(
             method="factor_concordant",
             outcome="solution_found",
             details=details,
             elapsed_s=elapsed,
-            notes=f"Chain-compatible N found: {chain_ok[:4]} (would refute Harborth).",
+            notes=(
+                f"GEN-CLOSURE satisfied: N=({ni},{nj}) via {rel} "
+                "(would refute Harborth)."
+            ),
         )
 
     return MethodResult(
         method="factor_concordant",
-        outcome="inconclusive",
+        outcome="no_solution",
         details=details,
         elapsed_s=elapsed,
         notes=(
-            f"Concordant N exist ({len(Ns)} total) but none close the 4-cycle. "
-            "Need deeper EC / Heegner / Chabauty analysis."
+            f"Exhaustive: {len(Ns)} concordant N, none satisfy GEN-CLOSURE "
+            "(no inside/outside-square closure for the reduced coprime legs; "
+            "MATH §8.6 gcd-scaling gap aside)."
         ),
     )
 

@@ -265,7 +265,7 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 
 ---
 
-### A.9 closure-necessity 引理：闭合 4-chain 是否反例必要 🟡 部分解决 (wl093)
+### A.9 closure-necessity 引理：闭合 4-chain 是否反例必要 ✅ 已落地 (wl093 引理 + wl094 落地)
 
 **出处**: wl092 §二, MULTI_CONCORDANT_N_STRATEGY §（结尾 402 行）, wl048 §后续 5
 
@@ -296,9 +296,13 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 （822,108 多-N pair、closure 仍 0、k≤5 仍无 k=6，5.56 GiB）；10M OOM——瓶颈是关系 `argsort`
 索引+重排翻倍（分片只压下游 emit），故先前估的 10–12M 高估，≥8M 需外部排序或大内存机。
 
-**可立即落地的升级（建议，未在本 PR 改生产判据）**: 把闭合判据扩成查 GEN-CLOSURE 四关系，
-即可把残余 inconclusive hard_case 在**全平面（互素腿）**下判 `no_solution`。因改 `no_solution`
-语义、牵动既有结果/测试，留单独 PR + 用户确认。
+**落地完成 (wl094)**: 已把生产判据扩成查 GEN-CLOSURE 四关系。`chain_closure_sieve.killed_at_modulus`
+加 `full_plane=` 参数（`run_chain_closure_mod_sieve` 传 `True`）；新增 `analysis.gen_closure_hit`
+在穷尽 concordant 集上做四关系测试；`run_factor_concordant` 改用它，穷尽枚举无命中 ⇒ `no_solution`
+（旧 `inconclusive`），成为**穷尽、全 rank、无 Magma** 的互素腿判定器。实测默认 pipeline：
+max_hyp=2000 的 **99,311 个互素约化对全部 `no_solution`、0 hard_case**（safe_sieve 91,091 +
+全平面 chain_closure 7,975 + GEN-CLOSURE factor 245），全程不调 PARI、1.6s。322 测试全过
+（8 个语义相关测试按新语义更新）。
 
 **仍开放**: (a) §8.6 **gcd-scaling 覆盖**——`generate_ab_pairs` 只产互素对，非互素腿的反例在
 约化对上不可见（对原 sum-only 与升级后判据同样存在）；(b) rank≥2 的结论性工具
@@ -670,13 +674,14 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 | F.4 Peschmann §7(2) 深读 | ✅ | wl091 | §7(2) per-point，非 sieve |
 | A.5 扩 safe_sieve | 🛑 | wl091 | 与 mod p² 同坑，丢主力素数 |
 | B.8 Heegner 升级判定器 | 🛑 | wl092 | factor_search 已穷尽，冗余 |
+| A.9 GEN-CLOSURE 落地 | ✅ | wl093/wl094 | 全平面四关系判据；max_hyp=2000 全 no_solution，0 hard_case |
 
 **剩余真正开放（按"可推动证明 + 可行性"排序）**
 
 1. **A.3 Heegner sieve on outliers** ⭐⭐（⚠️ wl092：步骤3不必做，直接用 factor_concordant 判 9 个 outlier）
 2. **A.4 Brauer-Manin** ⭐（数月 + 合作者）
-3. **A.9 closure-necessity 引理** 🟡 部分解决（wl093：和关系=正方形内；全平面充要条件是
-   GEN-CLOSURE 四关系，实测全平面 0 反例至 max_hyp=2000；落地升级 + §8.6 gcd 覆盖待做）
+3. **A.9 §8.6 gcd-scaling 覆盖** ⭐⭐（wl094 后，GEN-CLOSURE 已把**互素腿**做成判定器；
+   唯一剩的 gap 是非互素腿 `(gA',gB')` 的反例在约化对上不可见——彻底证明 Harborth 的最后一块）
 4. **B.1 Chabauty**（wl090 后降级为「两步要 Magma」，配 F.2）
 5. **F.1 正文**（把骨架写成 conditional paper，现在就能变现）
 

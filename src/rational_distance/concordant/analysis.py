@@ -282,12 +282,55 @@ def find_concordant_integers(
 
 
 def check_chain_compatibility(A: int, B: int, N: int) -> bool:
-    """Check if concordant N satisfies the chain constraint."""
+    """Check if concordant N satisfies the *sum* (inside-square) chain constraint.
+
+    This is the ``N₁+N₂ = A+B`` relation only (partner ``b = A+B-N`` also
+    concordant). See :func:`gen_closure_hit` for the full-plane GEN-CLOSURE
+    condition over the whole concordant set.
+    """
     b = A + B - N
     if b <= 0:
         return False
 
     return _is_perfect_square(B * B + b * b) and _is_perfect_square(b * b + A * A)
+
+
+def gen_closure_hit(A: int, B: int, concordant_n: list[int]) -> tuple[int, int, str] | None:
+    """Full-plane GEN-CLOSURE test over the (exhaustive) concordant set.
+
+    A Harborth counterexample with horizontal legs ``(A, B)`` and vertical legs
+    ``(N₁, N₂)`` — both concordant for ``(A, B)`` — requires (wl093)
+
+        {N₁+N₂, |N₁-N₂|} ∩ {A+B, |A-B|} ≠ ∅            (GEN-CLOSURE)
+
+    The four relations correspond to the four plane regions: inside the unit
+    square (``N₁+N₂ = A+B``, the classical sum closure), left/right outside
+    (``N₁+N₂ = |A-B|``), top/bottom outside (``|N₁-N₂| = A+B``) and the four
+    corners (``|N₁-N₂| = |A-B|``).
+
+    Returns the first witnessing ``(Nᵢ, Nⱼ, relation)`` or ``None`` if no pair
+    of concordant N satisfies any relation. Since ``concordant_n`` is the
+    *exhaustive* factor-search enumeration, ``None`` means no counterexample
+    exists for the reduced (coprime) legs ``(A, B)`` (modulo the gcd-scaling
+    gap of MATH §8.6, which is unchanged by this test).
+    """
+    ab_sum = A + B
+    ab_diff = abs(A - B)
+    targets = {ab_sum, ab_diff}
+    ns = concordant_n
+    m = len(ns)
+    for i in range(m):
+        ni = ns[i]
+        for j in range(i, m):
+            nj = ns[j]
+            s = ni + nj
+            if s in targets:
+                return (ni, nj, "sum=A+B" if s == ab_sum else "sum=|A-B|")
+            if i != j:
+                d = abs(ni - nj)
+                if d > 0 and d in targets:
+                    return (ni, nj, "diff=A+B" if d == ab_sum else "diff=|A-B|")
+    return None
 
 
 def analyze_pair(
