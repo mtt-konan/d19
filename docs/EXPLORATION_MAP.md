@@ -227,9 +227,9 @@ multi-N 目录 (wl046, wl048 pivot-on-N)
                （内部=和、左右/上下/四角外各=一个差关系）
              · 仍只用 factor_search 有限集、全 rank、无 Magma；实测全平面 0 反例至
                max_hyp=2000（脚本 closure_necessity_relations.py）
-             · 【和关系】单独用生成式扫描推到 max_hyp=2,000,000（226,120 多-N pair，
-               首现 k=5）：N₁+N₂=A+B 仍 0（fast_multi_concordant_scan_lowmem.py，
-               原实现 2M OOM → 分片变体，1M 精确复现 111,090）
+             · 【和关系】单独用生成式扫描推到 max_hyp=5,000,000（580,828 多-N pair，
+               k≤5）：N₁+N₂=A+B 仍 0（fast_multi_concordant_scan_numpy.py，
+               原 dict 实现 2M OOM → numpy 排序-分组，1M/2M 精确复现，5M 峰值 5.92 GiB）
         └─ 配套：closure 局部无解已有 mod p² 联立筛 99.6% 实证（脉络 ④）
         └─ 仍开放：(a) §8.6 gcd-scaling 覆盖（reduced 对只见互素腿）；
                    (b) 落地升级把判据扩成 4 关系（改 no_solution 语义，待单独 PR）
