@@ -316,6 +316,10 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 原 dict 实现 2M OOM（8 GiB），新增 numpy 排序-分组变体
 `scripts/multi_n/fast_multi_concordant_scan_numpy.py`（1M/2M 精确复现 111,090/226,120，
 5M 峰值 5.92 GiB；≥8M 需外部排序）。全平面四关系 GEN-CLOSURE 的扩尺度仍只到 max_hyp=2000。
+该扫描器随后做了三轴优化（wl093 §四之三，每步对拍精确）：`--shards` ai 分片把 5M 峰值降到
+3.83 GiB；Cython 内核 `_concordant_gen`（生成+桶内出对下沉 C，`_build_gen.py` 现场编译、
+`.so` 不入库、缺则自动回退 Python）把 5M 总时 270→76s；`--workers` 并行（共享内存 + ai 分片）
+2 核再到 56s。综合 5M 270→56s（4.8×）、计数精确不变。
 
 **可立即落地的升级（建议，未在本 PR 改生产判据）**: 把闭合判据扩成查 GEN-CLOSURE 四关系，
 即可把残余 inconclusive hard_case 在**全平面（互素腿）**下判 `no_solution`。因改 `no_solution`

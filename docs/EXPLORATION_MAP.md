@@ -230,6 +230,8 @@ multi-N 目录 (wl046, wl048 pivot-on-N)
              · 【和关系】单独用生成式扫描推到 max_hyp=5,000,000（580,828 多-N pair，
                k≤5）：N₁+N₂=A+B 仍 0（fast_multi_concordant_scan_numpy.py，
                原 dict 实现 2M OOM → numpy 排序-分组，1M/2M 精确复现，5M 峰值 5.92 GiB）
+               · 三轴优化（wl093 §四之三，每步对拍精确）：ai 分片 5M 5.92→3.83 GiB；
+                 Cython 内核（生成+出对下沉 C）5M 270→76s（~75× 生成）；并行 2 核 76→56s
         └─ 配套：closure 局部无解已有 mod p² 联立筛 99.6% 实证（脉络 ④）
         └─ 仍开放：(a) §8.6 gcd-scaling 覆盖（reduced 对只见互素腿）；
                    (b) 落地升级把判据扩成 4 关系（改 no_solution 语义，待单独 PR）

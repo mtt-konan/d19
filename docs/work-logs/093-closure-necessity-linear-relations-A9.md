@@ -168,6 +168,49 @@ max_hyp=2000（§四），因 `closure_necessity_relations.py` 另需 safe-pass 
 ≥8–10M 需 disk（**外部排序**：定长记录顺序写盘、分片排序——非「磁盘当 swap 的随机访问」，
 顺序 IO 可控，盘量小，5M 级仅 ~1–3 GB）。本仓库当前需求未到此规模，未实现。
 
+## 四之三、扫描器三轴优化（省内存 + Cython + 并行，每步实测）
+
+把 §四之二 的 numpy 扫描器沿三条**正交**轴优化，每步用 1M/2M 对拍（计数必须仍是
+111,090 / 226,120）并实测时间/峰值 RSS。机器：8 GiB RAM、2 CPU。所有计数全程精确一致。
+
+**相位剖析（Cython 前，5M）**：生成 `iter_concordant_a_n` ≈ 190s（~80%），numpy 排序 +
+桶内出对 + 去重 ≈ 50s。Cython 化生成后瓶颈转移——**桶内「出对」嵌套循环**（gcd+奇偶+打包，
+发 8650 万对）成了 5M 的 ~52s 大头，生成只剩 2.5s。故两段纯整数循环都 Cython 化。
+
+| 版本 | 1M 时间 | 1M 峰值 | 2M 时间 | 2M 峰值 | 5M 时间 | 5M 峰值 |
+|---|---|---|---|---|---|---|
+| 基线 numpy（§四之二） | 40s | 0.88 | 90s | 2.00 | 270s | 5.92 |
+| 步骤1 省内存（ai 分片 s4 + quicksort + numpy 边界） | 35s | 0.88 | 104s | **1.41** | 179s | **3.86** |
+| 步骤2 Cython（生成+出对内核） s1 | **9.8s** | 0.87 | **25s** | 1.99 | **76s** | 5.89 |
+| 步骤2 Cython s4（分片省内存） | — | — | 62s | **1.39** | 85s | **3.83** |
+| 步骤3 并行 workers=2（含 Cython） | **7.2s** | 0.97† | **17.5s** | 2.17† | **56s** | 6.34† |
+
+（†并行峰值为**最大子进程** RSS；共享内存把已排序关系映射进每个 worker，故子进程驻留更高。）
+
+**步骤1 — 省内存（结构）**。`ai % K` 分片出对把 pair 缓冲降到 1/K；argsort 由稳定
+mergesort 改 **quicksort**（introsort，省 O(n) scratch）；桶边界全程保持 **numpy 整型数组**
+（不 `.tolist()` 出百万级 Python int）；末片前显式释放关系数组再做 pair 排序。
+5M 峰值 5.92→3.86 GiB（−35%），把纯内存天花板从 ~7M 抬到 ~10–11M。
+（N 秩压缩用 `np.unique` 试过但 `np.unique` 自身的 argsort+inverse 反而抬内存，已回退。）
+
+**步骤2 — Cython（提速）**。`scripts/multi_n/_concordant_gen.pyx`：把 SPF 线性筛、每个 A
+的 `A²` 除子枚举、(A,N) 发射，以及桶内出对（含 C 版 Euclid gcd + `qsort`）全部下沉到 C，
+直接写进 numpy 数组（均 ≤ int64）。**两遍**设计（先计数、再按精确大小分配并填充），峰值仅
+输出数组、无 malloc/realloc/memcpy 翻倍。实测：5M 生成 190s→**2.5s**（~75×）、出对
+96s（Python）→52s（Cython 两遍）。总时间 270→76s（s1）。`.so` 平台相关、**不入库**，用
+`uv run python scripts/multi_n/_build_gen.py build_ext --inplace` 现场编译；缺 `.so` 时
+扫描器自动回退纯 Python 路径（已验证 100k 计数一致）。
+
+**步骤3 — 并行（提速）**。`scan_numpy_parallel`：父进程**串行**生成+排序关系一次，经
+`multiprocessing.shared_memory` 发布只读数组；K 个 spawn worker 各跑一个 ai-分片的
+`emit_pairs`（Cython 已内建 shard/nshards 过滤）+ 局部排序去重，返回各自小结果 dict（分片
+按 ai 划分、键不碰撞，父进程直接合并）。2 核实测 5M 76→56s（1.35×）；加速被 Amdahl
+下界（串行 gen+sort ~15s 不可并行）+ 共享内存复制的内存开销限制。子进程峰值偏高（6.34 GiB）
+使**并行=提速档、分片 s4=省内存档**；更多核 / 出对更重的区间并行收益更大。
+
+**总结**：1M 40→7.2s（5.6×）、2M 90→17.5s（5.1×）、5M 270→56s（4.8×），计数精确不变；
+省内存档 5M 5.92→3.83 GiB。三轴正交可叠加，外部排序仍只在 >12M 才需要。
+
 ## 五、结论 / 建议
 
 - **A.9 部分解决**：closure-necessity 的几何内容已厘清。`N₁+N₂=A+B` 是**正方形内**的
