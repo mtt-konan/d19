@@ -12,6 +12,10 @@ wheels/
 # Virtual environments
 .venv
 
+# Cython build artifacts (platform-specific; rebuild via scripts/multi_n/_build_gen.py)
+*.so
+scripts/multi_n/_concordant_gen.c
+
 # Generated visualizations
 *.html
 *.gephi
