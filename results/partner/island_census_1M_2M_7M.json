@@ -1,0 +1,53 @@
+{
+  "reference_window": 1000000,
+  "windows": [
+    {
+      "window": 1000000,
+      "giant_size": 309689,
+      "giant_pct": 91.56,
+      "branches_truncated": 620,
+      "islands": 8959,
+      "island_k_hist": {
+        "2": 7930,
+        "3": 865,
+        "4": 140,
+        "5": 24
+      }
+    },
+    {
+      "window": 2000000,
+      "giant_size": 661861,
+      "giant_pct": 95.98,
+      "branches_truncated": 341,
+      "islands": 9192,
+      "island_k_hist": {
+        "2": 8055,
+        "3": 940,
+        "4": 162,
+        "5": 35
+      },
+      "ref_islands_reappearing_identically": 8959,
+      "ref_islands_total": 8959,
+      "new_islands_brand_new_coord_gt_ref": 233,
+      "new_islands_newly_closed": 0
+    },
+    {
+      "window": 7000000,
+      "giant_size": 2503583,
+      "giant_pct": 98.93,
+      "branches_truncated": 128,
+      "islands": 9364,
+      "island_k_hist": {
+        "2": 8119,
+        "3": 1015,
+        "4": 186,
+        "5": 41,
+        "6": 3
+      },
+      "ref_islands_reappearing_identically": 8959,
+      "ref_islands_total": 8959,
+      "new_islands_brand_new_coord_gt_ref": 405,
+      "new_islands_newly_closed": 0
+    }
+  ]
+}

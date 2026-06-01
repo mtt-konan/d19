@@ -138,6 +138,33 @@ islands tested (unbounded BFS, NO window cap): 8959
 `results/partner/island_unbounded_bfs.json`。（注：这只断言**已发现的**孤岛封闭；更大窗口仍会
 出现**新的、更大的**孤岛，那是另一回事。）
 
+## 跨窗口孤岛普查 1M / 2M / 7M（回应"改成 2M / 7M 有没有冒出新孤岛 / 凭什么说是孤岛"）
+
+另跑了一个干净的 **2M BFS**（`partner_full_bfs.py --max-value 2000000`，278s，689,604 顶点），
+连同已有的 1M / 7M dump 用 `scripts/partner/island_census.py` 统一普查（以 1M 孤岛为参照集）：
+
+| 窗口 | giant 占比 | 断枝(truncated) | 孤岛 | 孤岛 max_k 分布 | 1M 孤岛原样重现 | 新孤岛(坐标>1M) | 旧断枝转孤岛 |
+|---|---|---|---|---|---|---|---|
+| 1M | 91.56% | 620 | 8959 | {2:7930,3:865,4:140,5:24} | — | — | — |
+| 2M | 95.98% | 341 | 9192 | {2:8055,3:940,4:162,5:35} | **8959/8959** | 233 | 0 |
+| 7M | 98.93% | 128 | 9364 | {2:8119,3:1015,4:186,5:41,**6:3**} | **8959/8959** | 405 | 0 |
+
+三条关键结论：
+
+1. **8959 个 1M 孤岛在 2M 和 7M 两次独立运行里 100% 原样重现**（8959/8959，0 缺失，且 0 并入
+   giant）。这两次 BFS 用的是 `find_concordant_by_factorization`，**不是**我分类用的
+   `exact_concordant_pair` —— 两个独立 concordant 实现 + 三个窗口互相印证 ⟹ 这就是"凭什么说
+   它们是孤岛"的最强证据（解析封闭 + 无上限 BFS + 双核三窗口交叉）。
+
+2. **新孤岛确实会冒出**：2M 新增 233 个、7M 新增 405 个，全部含坐标 >1M 的顶点（1M 窗口里根本
+   不可能出现），且 7M 下出现 **3 个 K_6 孤岛**（1M/2M 孤岛最高只到 K_5）。所以孤岛**不是固定有限
+   集**——数量随窗口单调增（8959→9192→9364），孤岛 max_k 也会爬（5→5→6）。但每个被发现的孤岛
+   一旦判定封闭就**永久封闭**（§无上限 BFS 已证）。
+
+3. **断枝从不"转化"成孤岛**（newly-closed 恒 0）：1M 的 620 个断枝，到 2M/7M 要么仍是断枝
+   （341→128，桥接坐标更远）、要么并入 giant，**没有一个**变成自闭合孤岛。branch↔island 的
+   二分在放大窗口下稳定，断枝的归宿只有"并入 comp0"。
+
 ## 对"剔除 comp0 缩小反例搜索"策略的判断
 
 - ✅ **可行的部分**：永久孤岛集**可按 pair 廉价识别**（给定 (A,B) 算精确 concordant 集、
@@ -155,9 +182,12 @@ islands tested (unbounded BFS, NO window cap): 8959
 - `scripts/partner/comp0_island_analysis.py` — 单窗口三层分类 + closure 检查
 - `scripts/partner/verify_window_merge.py` — 两窗口对比（断枝并入 / 孤岛持存 / 按 k 并入率）
 - `scripts/partner/verify_islands_unbounded.py` — 无上限 BFS 验证孤岛恰好闭合（与窗口无关）
+- `scripts/partner/island_census.py` — 跨窗口（1M/2M/7M）孤岛普查 + 1M 孤岛重现交叉核对
 - `results/partner/comp0_island_analysis_1M.jsonl` / `_summary.json`
 - `results/partner/window_merge_1M_7M.json`
 - `results/partner/island_unbounded_bfs.json`
+- `results/partner/island_census_1M_2M_7M.json`
+- `results/partner/partner_full_bfs_2M_summary.json` / `_run.log`（2M raw dumps 体积大，gitignore）
 - `results/partner/partner_full_bfs_7M_summary.json` / `_run.log` /
   `_components_trimmed.jsonl`（giant 的 250 万顶点列表已剔除，仅留 metadata + 全部小分量；
   完整 `_components.jsonl`(48MB)/`_edges.jsonl`(132MB) 因体积过大不入库）
