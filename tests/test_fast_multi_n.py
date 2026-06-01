@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import sys
-from collections.abc import Iterator
 from math import gcd, isqrt
 from pathlib import Path
 
@@ -102,3 +101,66 @@ def test_fast_multi_concordant_pairs_matches_brute_force_at_small_max_hyp() -> N
     assert set(fast.keys()) == set(slow.keys())
     for key, expected_ns in slow.items():
         assert sorted(fast[key]) == expected_ns
+
+
+def _brute_concordant_n_for_leg(a: int, n_cap: int) -> set[int]:
+    out: set[int] = set()
+    for n in range(1, n_cap + 1):
+        total = a * a + n * n
+        root = isqrt(total)
+        if root * root == total:
+            out.add(n)
+    return out
+
+
+def test_concordant_n_for_leg_matches_brute_force() -> None:
+    from rational_distance.concordant.fast_multi_n import concordant_n_for_leg
+
+    for a in range(2, 80):
+        # every concordant N is <= (a^2 - 1) / 2, so this cap is exhaustive
+        n_cap = (a * a) // 2
+        assert concordant_n_for_leg(a) == _brute_concordant_n_for_leg(a, n_cap)
+
+
+def test_exact_concordant_pair_matches_canonical_factor_search() -> None:
+    """``exact_concordant_pair`` (divisor-intersection) must agree with the
+    canonical ``find_concordant_by_factorization`` on assorted pairs, including
+    a scaled (non-coprime) hub far outside any bounded scan range."""
+    from rational_distance.concordant.factor_search import (
+        find_concordant_by_factorization,
+    )
+    from rational_distance.concordant.fast_multi_n import exact_concordant_pair
+
+    pairs = [(27, 160), (25, 91), (153, 560), (264, 420), (300, 1092)]
+    for a, b in pairs:
+        assert exact_concordant_pair(a, b) == sorted(find_concordant_by_factorization(a, b))
+
+    # K_14 scaled hub (prim (91, 990), d = 28560): 14 concordant N, coords ~1e8.
+    a, b = 2598960, 28274400
+    got = exact_concordant_pair(a, b)
+    assert got == sorted(find_concordant_by_factorization(a, b))
+    assert len(got) == 14
+
+
+def test_exact_concordant_pair_factor_hint_matches_plain() -> None:
+    """Supplying precomputed factorizations must not change the result."""
+    from rational_distance.concordant.fast_multi_n import (
+        _factor,
+        exact_concordant_pair,
+    )
+
+    a0, b0, d = 91, 990, 5040
+    a, b = d * a0, d * b0
+    # merge factor hints the way k14_search does
+    from collections import Counter
+
+    def merge(*facts):
+        c: Counter[int] = Counter()
+        for f in facts:
+            for p, e in f:
+                c[p] += e
+        return tuple(sorted(c.items()))
+
+    fa = merge(_factor(d), _factor(a0))
+    fb = merge(_factor(d), _factor(b0))
+    assert exact_concordant_pair(a, b, fa, fb) == exact_concordant_pair(a, b)

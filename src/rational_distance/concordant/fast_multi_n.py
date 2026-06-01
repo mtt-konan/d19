@@ -95,7 +95,7 @@ def _smaller_divisors_from_factors(
     """
     divisors: list[int] = [1]
     for prime, exponent in factor_items:
-        powers = [prime ** k for k in range(2 * exponent + 1)]
+        powers = [prime**k for k in range(2 * exponent + 1)]
         divisors = [d * p for d in divisors for p in powers]
     return [d for d in divisors if d < root]
 
@@ -109,6 +109,50 @@ def iter_square_divisors(square: int) -> Iterator[int]:
     if root * root != square:
         raise ValueError("square must be a perfect square")
     yield from _smaller_divisors_from_factors(_factor(root), root)
+
+
+def concordant_n_for_leg(
+    a: int, factor_items: tuple[tuple[int, int], ...] | None = None
+) -> set[int]:
+    """Return every positive ``N`` with ``a**2 + N**2`` a perfect square.
+
+    ``N`` ranges over ``(q - p) / 2`` for each divisor pair ``p < q`` of
+    ``a**2`` with ``p ≡ q (mod 2)``. This enumeration is exhaustive and exact
+    (no range cap on ``N``), so it gives the *true* concordant set of a single
+    leg regardless of magnitude.
+
+    ``factor_items`` (the factorization of ``a`` as ``{prime: exponent}.items()``)
+    may be supplied to skip trial division; useful when ``a = d * a0`` and the
+    factorizations of ``d`` and ``a0`` are already known and merged.
+    """
+    if a < 2:
+        return set()
+    if factor_items is None:
+        factor_items = _factor(a)
+    a_sq = a * a
+    out: set[int] = set()
+    for p in _smaller_divisors_from_factors(factor_items, a):
+        q = a_sq // p
+        if (p + q) & 1:
+            continue
+        out.add((q - p) >> 1)
+    return out
+
+
+def exact_concordant_pair(
+    a: int,
+    b: int,
+    a_factor_items: tuple[tuple[int, int], ...] | None = None,
+    b_factor_items: tuple[tuple[int, int], ...] | None = None,
+) -> list[int]:
+    """Return every positive ``N`` concordant for *both* ``a`` and ``b``.
+
+    This is the exact integer concordant set of the pair ``(a, b)`` (the count
+    is the hub order ``k``), computed by intersecting the per-leg divisor
+    enumerations. Exhaustive and complete; no dependence on elliptic-curve
+    rational-point sampling.
+    """
+    return sorted(concordant_n_for_leg(a, a_factor_items) & concordant_n_for_leg(b, b_factor_items))
 
 
 def iter_concordant_a_n(max_leg: int) -> Iterator[tuple[int, int]]:
@@ -177,4 +221,10 @@ def fast_multi_concordant_pairs(max_hyp: int) -> dict[tuple[int, int], list[int]
     return {key: sorted(ns) for key, ns in pairs_with_n.items() if len(ns) >= 2}
 
 
-__all__ = ["fast_multi_concordant_pairs", "iter_concordant_a_n", "iter_square_divisors"]
+__all__ = [
+    "concordant_n_for_leg",
+    "exact_concordant_pair",
+    "fast_multi_concordant_pairs",
+    "iter_concordant_a_n",
+    "iter_square_divisors",
+]
