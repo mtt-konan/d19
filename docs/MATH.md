@@ -405,6 +405,37 @@ $$4 + 1 = 5 \quad \text{(不是平方数)} \quad \times$$
 
 所有 concordant $N$ 值均无法同时满足 chain 约束。
 
+### 8.5.1 互素腿 concordant $N$ 的 mod-12 定理 (wl097)
+
+**定理**：设 $\gcd(A,B)=1$，且存在整数使 $N^2+A^2=\square$ 与 $N^2+B^2=\square$（即 $N$ 是 $(A,B)$
+的一个 concordant 值），则 $12 \mid N$。
+
+**证明**。分别证 $3\mid N$ 与 $4\mid N$。
+
+*(a) $3\mid N$.* 平方数模 $3$ 属于 $\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$，则
+$N^2+A^2\equiv 1+1=2\pmod 3$，非平方数，矛盾；故 $3\mid N$ 或 $3\mid A$。同理由 $N^2+B^2=\square$ 得
+$3\mid N$ 或 $3\mid B$。若 $3\nmid N$，则必同时 $3\mid A$ 且 $3\mid B$，与 $\gcd(A,B)=1$ 矛盾。故 $3\mid N$。
+
+*(b) $4\mid N$.* $\gcd(A,B)=1$ 蕴含 $A,B$ 不全为偶，取其中的奇数 $C$，则 $C^2\equiv 1\pmod 8$。平方数模
+$8$ 属于 $\{0,1,4\}$。考查 $N^2+C^2=\square$：$N$ 奇时 $N^2\equiv1$，和 $\equiv2\pmod8$（✗）；$N\equiv2\pmod4$
+时 $N^2\equiv4$，和 $\equiv5\pmod8$（✗）；仅 $N\equiv0\pmod4$ 时 $N^2\equiv0$，和 $\equiv1\pmod8$ 可行。
+故 $4\mid N$。
+
+合并 $(a)(b)$ 得 $12\mid N$。$\blacksquare$
+
+**互素是必要的（边界 = §8.6）**：两步都用到了 $\gcd(A,B)=1$——(a) 阻止 $3$ 同时整除 $A,B$，(b) 保证
+存在奇腿。去掉互素则两步皆塌，定理失效：
+- $(A,B)=(6,15)$（$\gcd=3$，两者皆 $3$ 的倍数）有 concordant $N=8$，$3\nmid 8$（$8^2+6^2=10^2$，$8^2+15^2=17^2$）——(a) 失效；
+- $(A,B)=(8,20)$（$\gcd=4$，两者皆偶）有 concordant $N=15$，$15$ 为奇（$15^2+8^2=17^2$，$15^2+20^2=25^2$）——(b) 失效。
+
+这正是 §8.6 gcd-scaling 漏洞的算术根源：判定器在约化（互素）腿上享有 $12\mid N$，而非互素腿
+$(gA',gB')$ 不受此律约束，其 concordant $N$ 可不被 $12$ 整除、约化后不可见。
+
+**推论（闭合的模障碍）**：互素腿下任意两个 concordant 值满足 $12\mid(N_i\pm N_j)$，故 GEN-CLOSURE
+四关系（§7 注 / wl093）要成立必须 $12\mid(A+B)$ 或 $12\mid|A-B|$。实证：catalog 的 10,333 个互素对里仅
+$30$ 个满足 $12\mid(A+B)$，且这 $30$ 个 closure 仍为 $0$——mod 12 一步排除约 99.7% 的互素对。经验面见
+wl096（>$1.16\times10^6$ 个 concordant $N$ 跨 hyp $\le 5\times10^6$ 与 7M BFS，零例外）。
+
 ### 8.6 gcd 归约
 
 $E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），
