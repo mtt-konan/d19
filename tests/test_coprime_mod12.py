@@ -16,6 +16,18 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.concordant.fast_multi_n import exact_concordant_pair
+from rational_distance.concordant.safe_pair_sieve import (
+    gcd_aware_kills,
+    guaranteed_divisor,
+)
+
+
+def _v(n: int, p: int) -> int:
+    k = 0
+    while n % p == 0:
+        n //= p
+        k += 1
+    return k
 
 
 def _is_square(n: int) -> bool:
@@ -77,6 +89,58 @@ def test_gcd_aware_recovers_coprime_special_case() -> None:
                 continue
             for n in exact_concordant_pair(a, b):
                 assert n % 12 == 0
+
+
+def test_guaranteed_divisor_soundness() -> None:
+    """D_g = guaranteed_divisor(A,B) must divide EVERY concordant N (MATH §8.5.2,
+    wl099), including the 2-adic refinement v2(g)=1 => 8|N. Exhaustive small range.
+    """
+    checked = 0
+    for a in range(2, 240):
+        for b in range(a + 1, 240):
+            d = guaranteed_divisor(a, b)
+            for n in exact_concordant_pair(a, b):
+                assert n % d == 0, f"({a},{b}) D_g={d} but N={n} not divisible"
+                checked += 1
+    assert checked > 0
+
+
+def test_guaranteed_divisor_values() -> None:
+    """D_g formula: P2(v2(g)) * P3(v3(g)); coprime -> 12, g=2 -> 24."""
+    assert guaranteed_divisor(3, 4) == 12   # g=1
+    assert guaranteed_divisor(7, 17) == 12  # g=1, both odd
+    assert guaranteed_divisor(6, 8) == 24   # g=2: v2=1 -> 8, v3=0 -> 3
+    assert guaranteed_divisor(6, 15) == 4   # g=3: v2=0 -> 4, v3=1 -> 1
+    assert guaranteed_divisor(8, 20) == 3   # g=4: v2=2 -> 1, v3=0 -> 3
+    assert guaranteed_divisor(12, 24) == 1  # g=12: v2>=2, v3>=1
+
+
+def test_v2g_eq1_forces_8_divides_N() -> None:
+    """Refinement: v2(gcd(A,B))=1 => 8 | N for every concordant N."""
+    seen = 0
+    for a in range(2, 300):
+        for b in range(a + 1, 300):
+            if _v(gcd(a, b), 2) != 1:
+                continue
+            for n in exact_concordant_pair(a, b):
+                assert n % 8 == 0, f"v2(g)=1 ({a},{b}) has N={n} not divisible by 8"
+                seen += 1
+    assert seen > 0
+
+
+def test_gcd_aware_kills_is_sound() -> None:
+    """If gcd_aware_kills(A,B) is True, the pair must have NO closure: assert
+    its complete concordant set has no N_i±N_j hitting {A+B,|A-B|}."""
+    for a in range(2, 200):
+        for b in range(a + 1, 200):
+            if not gcd_aware_kills(a, b):
+                continue
+            S = exact_concordant_pair(a, b)
+            targets = {a + b, abs(a - b)}
+            for i in range(len(S)):
+                for j in range(i + 1, len(S)):
+                    assert (S[i] + S[j]) not in targets
+                    assert abs(S[i] - S[j]) not in targets
 
 
 def test_boundary_noncoprime_counterexamples() -> None:

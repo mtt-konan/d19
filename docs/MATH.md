@@ -478,6 +478,23 @@ $4\mid(N_i+N_j)$ ⟹ 闭合需 $A+B$ 偶且 $4\mid(A+B)$）**逐字就是** `saf
 （$8{,}371$ 对 / $9{,}277$ 个 $N$）逐 $N$ 断言，**零反例**；非互素对的实际 GEN-CLOSURE（完整 concordant 集）
 $0$ 命中、`chain_closure` 模 $p^2$ sound-杀 $1645/1802$（wl098）。
 
+**2-adic 精化（wl099）**：当 $v_2(g)=1$（即 $A,B$ 同含恰好一个因子 $2$，最小腿 $\equiv2\pmod4$）时，
+不仅 $4\mid N$，实际 $8\mid N$。证明：取最小腿 $C=2C'$（$C'$ 奇），由主定理 $4\mid N$，写 $N=4m$；
+$N^2+C^2=h^2\Rightarrow 16m^2+4C'^2=h^2\Rightarrow h=2h'$，$h'^2=4m^2+C'^2$。$C'$ 奇 $\Rightarrow C'^2\equiv1\pmod8$；
+若 $m$ 奇则 $4m^2\equiv4\pmod8$，$h'^2\equiv5\pmod8$（非 QR ✗）$\Rightarrow m$ 偶 $\Rightarrow 8\mid N$。$\blacksquare$
+（$v_2(g)=0$ 时为 $4\mid N$ 且紧；$v_2(g)\ge2$ 时 $N$ 可为奇 — 实测各层 $\min v_2(N)$ 恰为 $2,3$，$\ge2$ 层有奇 $N$。
+mod 9 / mod 27 也无法在 $3\mid g$ 层补回 $3\mid N$：$v_3(g)=1$ 层仅 $\approx45\%$ 仍 $3\mid N$。**故 prime-level 律到顶**。）
+
+**保证除数 $D_g$ 与 sound 的 gcd-aware 闭合筛（wl099）**：综合上述，每个 concordant $N$ 被
+$$D_g=P_2(g)\cdot P_3(g),\quad P_2(g)=\begin{cases}4&v_2(g)=0\\8&v_2(g)=1\\1&v_2(g)\ge2\end{cases},\quad P_3(g)=\begin{cases}3&v_3(g)=0\\1&v_3(g)\ge1\end{cases}$$
+整除（$g=1\Rightarrow D_g=12$，回到 §8.5.1；$g=2\Rightarrow D_g=24$）。于是任意闭合值 $N_i\pm N_j$ 被 $D_g$ 整除，
+闭合**必须** $D_g\mid(A+B)$（正方形内 sum）或 $D_g\mid|A-B|$（全平面）。这给出一条**对任意 $(A,B)$ sound**
+的筛 `safe_pair_sieve.gcd_aware_kills`（互素时即旧 `safe_sieve`）。
+
+实证（1,802 非互素对）：$D_g\mid N$ **零反例**（+ brute $A<B\le1200$ 零反例）；$D_g$ 筛（$O(1)$）杀 $1138$，
+其中 **$73$ 个是 `chain_closure` 模 $p^2$ 漏掉的**（互补）；二者并联后仅 $84$ 个落到穷尽 GEN-CLOSURE（$0$ 闭合）。
+$D_g$ 取值杀数：$\{3{:}408,\,4{:}367,\,8{:}132,\,12{:}133,\,24{:}98\}$。
+
 ### 8.6 gcd 归约 与「coprime-$(A,B)$ 并非 WLOG」警告
 
 $E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），
