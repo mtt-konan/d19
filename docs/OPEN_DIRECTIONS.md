@@ -311,6 +311,12 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 `max_hyp≤2000`（8220 pair，67 multi-N）**0 个**满足任一关系——把无反例证据从正方形内
 扩到全平面。脚本 `scripts/theory/closure_necessity_relations.py`。
 
+**sum 关系大尺度实证 (wl093 §四之二)**: 用 pivot-on-N 生成式扫描器把**和关系** `N₁+N₂=A+B`
+（正方形内）推到 `max_hyp=2,000,000`（226,120 约化互素多-N pair，**首现 k=5**）——`closure=0`
+依旧。2M 原实现 OOM（8 GiB 机器），新增内存受限分片变体
+`scripts/multi_n/fast_multi_concordant_scan_lowmem.py`（1M 精确复现 111,090）。全平面四关系
+GEN-CLOSURE 的扩尺度仍只到 max_hyp=2000。
+
 **可立即落地的升级（建议，未在本 PR 改生产判据）**: 把闭合判据扩成查 GEN-CLOSURE 四关系，
 即可把残余 inconclusive hard_case 在**全平面（互素腿）**下判 `no_solution`。因改 `no_solution`
 语义、牵动既有结果/测试，留单独 PR + 用户确认。
