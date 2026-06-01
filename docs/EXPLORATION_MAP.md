@@ -7,7 +7,7 @@
 > （高级理论方向）一起读。
 >
 > 维护规则：新 worklog 落地后，在对应「脉络」补一行；方向关闭时把节点标 🛑 并写
-> 一句墙的原因。**最后更新：2026-05-31（wl093 后）**。
+> 一句墙的原因。**最后更新：2026-05-31（wl094 后）**。
 
 ## 图例
 
@@ -211,10 +211,10 @@ multi-N 目录 (wl046, wl048 pivot-on-N)
 
 ---
 
-### 脉络 ⑦ 真正的开放杠杆 — closure-necessity 🟡（wl092 指认 → wl093 部分解决）
+### 脉络 ⑦ 真正的开放杠杆 — closure-necessity ✅ 已落地（wl092 指认 → wl093 引理 → wl094 落地）
 
 > 这不是某个 worklog 的副产品，而是 wl092 把脉络 ⑥ 证伪后**反推出的核心问题**，
-> 且 MULTI_CONCORDANT_N_STRATEGY 早就独立提出过。wl093 已厘清几何内容。
+> 且 MULTI_CONCORDANT_N_STRATEGY 早就独立提出过。wl093 厘清几何、wl094 落地进生产判据。
 
 ```
 观察：inconclusive hard_case 卡住 ≠ integer-N 没枚举全（factor_search 已穷尽）
@@ -235,12 +235,20 @@ multi-N 目录 (wl046, wl048 pivot-on-N)
                  · 纯内存封顶实测 ≈ 7M（822,108 pair，closure 仍 0，仍无 k=6）；10M OOM
                    （关系 argsort 翻倍，非 pair 缓冲），≥8M 需外部排序
         └─ 配套：closure 局部无解已有 mod p² 联立筛 99.6% 实证（脉络 ④）
-        └─ 仍开放：(a) §8.6 gcd-scaling 覆盖（reduced 对只见互素腿）；
-                   (b) 落地升级把判据扩成 4 关系（改 no_solution 语义，待单独 PR）
+        └─ ✅ A.9 落地 (wl094)：判据已扩成 4 关系
+             · chain_closure_sieve.killed_at_modulus 加 full_plane=（sieve 传 True）
+             · analysis.gen_closure_hit 在穷尽 concordant 集上查 4 关系
+             · run_factor_concordant 穷尽无命中 ⇒ no_solution（旧 inconclusive）
+               ⟹ 成为穷尽、全 rank、无 Magma 的【互素腿】判定器
+             · 实测默认 pipeline：max_hyp=2000 的 99,311 个互素约化对【全部 no_solution、
+               0 hard_case】（safe 91,091 + 全平面 chain_closure 7,975 + GEN-CLOSURE factor 245），
+               不调 PARI、1.6s；322 测试全过（8 个语义测试按新语义更新）
+        └─ 仍开放：(a) §8.6 gcd-scaling 覆盖（reduced 对只见互素腿，彻底证明的最后一块）
 ```
 
-**为何是最高杠杆**：它是少数能把 `inconclusive → no_solution` 且不需要外部重型工具
-（Magma）的路径。风险是 closure 与反例的等价/包含关系本身可能就是开放命题。
+**为何是最高杠杆**：它把 `inconclusive → no_solution` 做成了判定器，且不需要外部重型工具
+（Magma）。wl094 落地后，**互素腿**子问题已被完全判定（max_hyp=2000 实测 0 hard_case）；
+彻底证明 Harborth 唯一剩的 gap 是 §8.6 的 gcd-scaling 覆盖（非互素腿）。
 
 ---
 
@@ -314,7 +322,7 @@ graph TD
 
 | # | 方向 | 脉络 | OPEN_DIRECTIONS | 杠杆 | 依赖 |
 |---|---|---|---|---|---|
-| 1 | A.9 closure-necessity 落地升级 + §8.6 覆盖 | ⑦ | A.9 🟡 | ⭐⭐⭐ 能判死整类、不需 Magma（几何已 wl093 厘清；升级判据查 GEN-CLOSURE 4 关系 + 处理 gcd-scaling） | 半天 + 纸面 |
+| 1 | A.9 §8.6 gcd-scaling 覆盖（互素腿已判定，wl094 落地） | ⑦ | A.9 ✅ + §8.6 | ⭐⭐⭐ GEN-CLOSURE 已把互素腿做成判定器（max_hyp=2000 全 no_solution、0 hard_case）；唯一剩非互素腿覆盖、不需 Magma | 纸面 |
 | 2 | F.1 conditional paper 正文 | ⑧ | F.1 | ⭐⭐ 现在就能变现 | 写作 |
 | 3 | B.1 Chabauty (rank≥2 主流~48%) | ⑥ | B.1 + F.2 | ⭐⭐ 覆盖最大 | Magma（两步） |
 | 4 | A.8 Cassels-Tate (sha2≥2 子类) | ② | A.8 | ⭐⭐ 清最弱 case | PARI |

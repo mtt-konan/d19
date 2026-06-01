@@ -255,6 +255,10 @@ canonical_xy(x, y) = min(d4_images(x, y))   # 字典序比较 Fraction 二元组
 > 落在正方形**外**的反例满足的是**差关系**（如 $|N_1-N_2|=A+B$），本节的 chain 模型与
 > 现有闭合判据（`check_chain_compatibility` 的 `b=A+B-N`）都**不覆盖**。全平面的充要必要
 > 条件是 $\{N_1+N_2,|N_1-N_2|\}\cap\{A+B,|A-B|\}\neq\varnothing$（GEN-CLOSURE，见 wl093）。
+> **wl094 已落地**：生产判据已升级为查全平面四关系（`chain_closure_sieve` 的
+> `full_plane=` 参数 + `analysis.gen_closure_hit`），`run_factor_concordant` 据此对**互素腿**
+> 做穷尽判定（max_hyp=2000 全部 `no_solution`、0 hard_case）；仅 §8.6 gcd-scaling（非互素腿）
+> 仍是 gap。
 
 ### 7.1 建模
 

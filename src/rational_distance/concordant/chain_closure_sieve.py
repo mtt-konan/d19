@@ -143,41 +143,73 @@ def allowed_n_mod(A: int, B: int, M: int) -> frozenset[int]:
     return frozenset(out)
 
 
-def killed_at_modulus(A: int, B: int, M: int) -> bool:
-    """Return True iff ``T(A, B, M) ∩ ((A+B) - T(A, B, M))`` is empty (mod M).
+def killed_at_modulus(A: int, B: int, M: int, *, full_plane: bool = False) -> bool:
+    """Return True iff the chain-closure relations are impossible mod ``M``.
 
-    Empty intersection implies no integer N can satisfy all four concordant
-    conditions plus the chain closure ``b = A+B-N``. Hence no chain
-    solution can exist.
+    ``full_plane=False`` (default, *inside-square* sum relation only):
+    True iff ``T(A, B, M) ∩ ((A+B) - T(A, B, M))`` is empty, i.e. no
+    ``N`` can satisfy ``N₁+N₂ = A+B`` mod ``M``.
+
+    ``full_plane=True`` (the **GEN-CLOSURE** condition, wl093): a Harborth
+    counterexample requires ``{N₁+N₂, |N₁-N₂|} ∩ {A+B, |A-B|} ≠ ∅`` — the
+    sum relation only covers points *inside* the unit square; points outside
+    satisfy one of three other linear relations. So the sound full-plane kill
+    requires **all four** relations to be impossible mod ``M``:
+
+        N₁+N₂ ≡ A+B,   N₁+N₂ ≡ |A-B|,   N₁-N₂ ≡ A+B,   N₁-N₂ ≡ |A-B|.
+
+    Sum relation ``s``: ``T ∩ (s - T)``; difference relation ``d``:
+    ``T ∩ (T + d)``. Killed iff none of the four is satisfiable. This is the
+    strictly weaker (fewer kills, ~97% vs ~99.4% at max_hyp=2000) but
+    *full-plane sound* obstruction. Pairs that fall through are decided
+    downstream by the exhaustive ``factor_concordant`` GEN-CLOSURE test.
     """
     T = allowed_n_mod(A, B, M)
     if not T:
         return True
-    ab = (A + B) % M
-    reflected = frozenset((ab - n) % M for n in T)
-    return not (T & reflected)
+    s_sum = (A + B) % M
+    if not full_plane:
+        reflected = frozenset((s_sum - n) % M for n in T)
+        return not (T & reflected)
+    s_diff = abs(A - B) % M
+    for target in (s_sum, s_diff):
+        # sum relation N₁+N₂ ≡ target:  T ∩ (target - T)
+        if T & frozenset((target - n) % M for n in T):
+            return False
+        # difference relation N₁-N₂ ≡ target:  T ∩ (T + target)
+        if T & frozenset((n + target) % M for n in T):
+            return False
+    return True
 
 
 def find_killer_modulus(
-    A: int, B: int, moduli: tuple[int, ...] = DEFAULT_PRIME_SQUARE_MODULI
+    A: int,
+    B: int,
+    moduli: tuple[int, ...] = DEFAULT_PRIME_SQUARE_MODULI,
+    *,
+    full_plane: bool = False,
 ) -> int | None:
     """Return the first modulus M in ``moduli`` that proves no chain solution,
     or None if every M leaves a non-empty intersection."""
     for M in moduli:
-        if killed_at_modulus(A, B, M):
+        if killed_at_modulus(A, B, M, full_plane=full_plane):
             return M
     return None
 
 
 def all_killer_moduli(
-    A: int, B: int, moduli: tuple[int, ...] = DEFAULT_PRIME_SQUARE_MODULI
+    A: int,
+    B: int,
+    moduli: tuple[int, ...] = DEFAULT_PRIME_SQUARE_MODULI,
+    *,
+    full_plane: bool = False,
 ) -> list[int]:
     """Return every modulus M in ``moduli`` that proves no chain solution.
 
     Useful for diagnostics: a pair killed at many moduli is "obviously"
     obstructed; a pair killed only at e.g. M = 961 is more delicate.
     """
-    return [M for M in moduli if killed_at_modulus(A, B, M)]
+    return [M for M in moduli if killed_at_modulus(A, B, M, full_plane=full_plane)]
 
 
 __all__ = [
