@@ -1,0 +1,56 @@
+{
+  "components_file": "results/partner/partner_full_bfs_components.jsonl",
+  "window": 1000000,
+  "giant_size": 309689,
+  "branch_components": 620,
+  "branch_vertices": 5647,
+  "island_components": 8959,
+  "island_vertices": 22889,
+  "closure_hits_total": 0,
+  "by_layer_max_k": {
+    "branch/K_2": {
+      "components": 307,
+      "vertices": 307
+    },
+    "branch/K_3": {
+      "components": 150,
+      "vertices": 420
+    },
+    "branch/K_4": {
+      "components": 99,
+      "vertices": 1292
+    },
+    "branch/K_5": {
+      "components": 44,
+      "vertices": 1172
+    },
+    "branch/K_6": {
+      "components": 14,
+      "vertices": 1311
+    },
+    "branch/K_7": {
+      "components": 5,
+      "vertices": 1110
+    },
+    "branch/K_8": {
+      "components": 1,
+      "vertices": 35
+    },
+    "island/K_2": {
+      "components": 7930,
+      "vertices": 15860
+    },
+    "island/K_3": {
+      "components": 865,
+      "vertices": 4380
+    },
+    "island/K_4": {
+      "components": 140,
+      "vertices": 2033
+    },
+    "island/K_5": {
+      "components": 24,
+      "vertices": 616
+    }
+  }
+}

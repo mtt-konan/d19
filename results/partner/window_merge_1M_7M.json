@@ -1,0 +1,163 @@
+{
+  "small_window": 1000000,
+  "small_giant_size": 309689,
+  "large_giant_size": 2503583,
+  "by_layer_max_k": {
+    "branch/K_2": {
+      "components": 307,
+      "fully_merged": 11,
+      "vertices": 307,
+      "vertices_in_large_giant": 11
+    },
+    "branch/K_3": {
+      "components": 150,
+      "fully_merged": 10,
+      "vertices": 420,
+      "vertices_in_large_giant": 38
+    },
+    "branch/K_4": {
+      "components": 99,
+      "fully_merged": 33,
+      "vertices": 1292,
+      "vertices_in_large_giant": 520
+    },
+    "branch/K_5": {
+      "components": 44,
+      "fully_merged": 18,
+      "vertices": 1172,
+      "vertices_in_large_giant": 616
+    },
+    "branch/K_6": {
+      "components": 14,
+      "fully_merged": 8,
+      "vertices": 1311,
+      "vertices_in_large_giant": 1056
+    },
+    "branch/K_7": {
+      "components": 5,
+      "fully_merged": 5,
+      "vertices": 1110,
+      "vertices_in_large_giant": 1110
+    },
+    "branch/K_8": {
+      "components": 1,
+      "fully_merged": 1,
+      "vertices": 35,
+      "vertices_in_large_giant": 35
+    },
+    "island/K_2": {
+      "components": 7930,
+      "fully_merged": 0,
+      "vertices": 15860,
+      "vertices_in_large_giant": 0
+    },
+    "island/K_3": {
+      "components": 865,
+      "fully_merged": 0,
+      "vertices": 4380,
+      "vertices_in_large_giant": 0
+    },
+    "island/K_4": {
+      "components": 140,
+      "fully_merged": 0,
+      "vertices": 2033,
+      "vertices_in_large_giant": 0
+    },
+    "island/K_5": {
+      "components": 24,
+      "fully_merged": 0,
+      "vertices": 616,
+      "vertices_in_large_giant": 0
+    }
+  },
+  "large_components": [
+    {
+      "id": 1,
+      "size": 473,
+      "max_k": 6,
+      "layer": "branch",
+      "in_large_giant": 473,
+      "fully_merged": true
+    },
+    {
+      "id": 2,
+      "size": 471,
+      "max_k": 7,
+      "layer": "branch",
+      "in_large_giant": 471,
+      "fully_merged": true
+    },
+    {
+      "id": 3,
+      "size": 393,
+      "max_k": 7,
+      "layer": "branch",
+      "in_large_giant": 393,
+      "fully_merged": true
+    },
+    {
+      "id": 4,
+      "size": 155,
+      "max_k": 6,
+      "layer": "branch",
+      "in_large_giant": 155,
+      "fully_merged": true
+    },
+    {
+      "id": 5,
+      "size": 143,
+      "max_k": 6,
+      "layer": "branch",
+      "in_large_giant": 143,
+      "fully_merged": true
+    },
+    {
+      "id": 6,
+      "size": 121,
+      "max_k": 6,
+      "layer": "branch",
+      "in_large_giant": 0,
+      "fully_merged": false
+    },
+    {
+      "id": 7,
+      "size": 113,
+      "max_k": 7,
+      "layer": "branch",
+      "in_large_giant": 113,
+      "fully_merged": true
+    },
+    {
+      "id": 8,
+      "size": 109,
+      "max_k": 6,
+      "layer": "branch",
+      "in_large_giant": 109,
+      "fully_merged": true
+    },
+    {
+      "id": 9,
+      "size": 104,
+      "max_k": 5,
+      "layer": "branch",
+      "in_large_giant": 104,
+      "fully_merged": true
+    },
+    {
+      "id": 10,
+      "size": 102,
+      "max_k": 5,
+      "layer": "branch",
+      "in_large_giant": 102,
+      "fully_merged": true
+    },
+    {
+      "id": 11,
+      "size": 95,
+      "max_k": 7,
+      "layer": "branch",
+      "in_large_giant": 95,
+      "fully_merged": true
+    }
+  ]
+}

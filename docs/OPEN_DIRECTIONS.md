@@ -521,19 +521,25 @@ case 的手动 deep-dive.
 
 ## E. 图论 / partner network — 未实施
 
-### E.1 max_value = 10M / 100M G_M BFS ⭐ (长跑, 暂缓; 科学问题已被 wl085 回答)
+### E.1 max_value = 7M / 10M G_M BFS ⭐ (7M 已跑, wl096; 更大窗口仍暂缓)
 
 **出处**: wl063 §下一步, wl056
 
-**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看 K_11+ 是否出现.
+**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到更大窗口看 comp0 如何生长.
 
-**状态 (wl090 复审)**: **暂缓——这是唯一剩下的长跑项**。既有 full BFS 已在
-`max_value=1M` 跑过 (738s / 350868 边, `results/partner/partner_full_bfs_summary.json`),
-推到 10M 工程上是小时级长跑，与"避免长跑"约束冲突。更关键：它要回答的科学问题
-("K_11+ 是否存在") **已被 wl085 的 D-scaling 生成器构造性回答**——wl085 完美 reproduce
-3 个 K_10 并新发现 K_11/K_12/K_13。因此 10M 经验扫描的边际价值低。若将来要给 paper
-配经验表格再跑，否则不优先。现有范围 (max100000 catalog / 1M BFS) 的 clique 结构已由
-`partner_kn_subgraphs` + wl089 充分刻画 (general 上限 K_3, shared_partner 上限 K_5)。
+**状态 (wl096 更新)**: **7M 已跑完** (2 worker, 1348.6s, 2,530,620 顶点 / 2,719,386 边,
+`results/partner/partner_full_bfs_7M_summary.json`)，用来验证 comp0 的结构（见下方
+「G_M 三层分解」）。10M/100M 仍暂缓：要回答的科学问题 ("K_11+ 是否存在") **已被 wl085 的
+D-scaling 生成器构造性回答**，更大经验扫描边际价值低。
+
+**G_M 三层分解 (wl096)**: 用 wl095 精确因子核（对 N 不设上界）给每个非 comp0 分量贴标签——
+*branch*(被窗口截断，伙伴坐标>W) vs *island*(partner 封闭，永久独立)。1M 数据：comp0
+(309689, 92%) + 620 断枝 (5647 v, max_k 3→8) + **8959 永久孤岛** (22889 v, max_k≤5,
+含 1029 个 K_3/K_4/K_5 自闭合孤岛, 非仅 K_2)。7M 验证：comp0→2,503,583 (98.9%);
+所有 k≥6 非 comp0 分量都是断枝, 最大 11 个里 10 个在 7M 并入 comp0 (K_7/K_8 全并);
+**8959 孤岛 0 顶点泄漏进 7M giant** (untruncated ⟺ 永久独立, 100% 验证)。closure 在
+孤岛+comp0 上恒 0。结论：高 k 被 comp0 垄断；"剔除 comp0"作工程筛选可行、作证明分解才有
+真价值，但不改 closure 恒 0。脚本 `comp0_island_analysis.py` / `verify_window_merge.py`。
 
 ---
 
@@ -684,6 +690,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 | C.2–C.4 pipeline 工程 | ✅ | wl088 | multi_n_sieve 入主线 |
 | E.3 cycle 代数解释 | ✅ | wl086 | 与 A.2 同 |
 | E.2 K_9–K_16 ellrank | ✅ | wl094/095 | k=6→16 全 rank ≤ 4，0 反例；K_16 hub rank=4 |
+| E.1 7M BFS + G_M 三层分解 | ✅ | wl096 | comp0 92%→98.9%；断枝并入、8959 孤岛永久独立(0泄漏)；closure 恒0 |
 | F.1 conditional paper 骨架 | ✅ 骨架 | wl090 | 不依赖 A1，正文待写 |
 | F.2 Stoll-Bruin 调研 | ✅ | wl090 | 部分替代 Magma，MW-sieve 仍要 |
 | F.4 Peschmann §7(2) 深读 | ✅ | wl091 | §7(2) per-point，非 sieve |
@@ -705,7 +712,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 1. ~~**E.2** K_9/K_10 ellrank~~ ✅ 已完成 (wl094: 70 hub k=6→13 全 rank ≤ 4)
 2. **D.2–D.6** 个案审计 / sha2 扩样本
 3. **C.1 / C.5–C.8** 工程优化（与证明无关，想做随时）
-4. **E.1** max_value 推到 10M（⚠️ 已暂缓：1M BFS 已 738s，10M 小时级，且 K_11+ 已被 wl085 构造性回答）
+4. ~~**E.1** max_value 推到 7M~~ ✅ 7M 已跑 (wl096: comp0 92%→98.9%, 三层分解验证); 10M+ 仍暂缓
 
 ---
 

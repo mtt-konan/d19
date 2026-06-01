@@ -1,0 +1,188 @@
+nohup: ignoring input
+[0.0s] Seeds (catalog): 10333 pairs
+  workers=2, chunksize=50, max_value=7000000
+[0.5s] round 1: processed 10333, edges=10729, visited=10333, next_frontier=10500, compute=0.5s
+[3.5s] round 2: processed 10500, edges=17292, visited=20833, next_frontier=6481, compute=2.9s
+[4.6s] round 3: processed 6480, edges=23479, visited=27313, next_frontier=6002, compute=1.1s
+[6.8s] round 4: processed 5995, edges=36753, visited=33308, next_frontier=12530, compute=2.1s
+[10.1s] round 5: processed 12503, edges=56664, visited=45811, next_frontier=18390, compute=3.3s
+[18.4s] round 6: processed 18283, edges=98080, visited=64094, next_frontier=38220, compute=8.1s
+[33.1s] round 7: processed 37916, edges=164919, visited=102010, next_frontier=60693, compute=14.5s
+[64.1s] round 8: processed 59875, edges=286299, visited=161885, next_frontier=110541, compute=30.6s
+[116.0s] round 9: processed 108569, edges=463055, visited=270454, next_frontier=160636, compute=51.3s
+[203.0s] round 10: processed 156653, edges=712244, visited=427107, next_frontier=229615, compute=86.0s
+[317.2s] round 11: processed 223328, edges=992864, visited=650435, next_frontier=260684, compute=113.1s
+[457.3s] round 12: processed 252664, edges=1287494, visited=903099, next_frontier=277706, compute=138.7s
+[596.8s] round 13: processed 269771, edges=1543882, visited=1172870, next_frontier=243651, compute=138.1s
+[726.8s] round 14: processed 237596, edges=1766200, visited=1410466, next_frontier=213206, compute=128.7s
+[833.2s] round 15: processed 209021, edges=1939471, visited=1619487, next_frontier=166546, compute=105.4s
+[921.4s] round 16: processed 163830, edges=2079972, visited=1783317, next_frontier=135662, compute=87.2s
+[989.0s] round 17: processed 133882, edges=2186807, visited=1917199, next_frontier=103287, compute=67.0s
+[1042.8s] round 18: processed 102171, edges=2271997, visited=2019370, next_frontier=82492, compute=53.3s
+[1082.9s] round 19: processed 81696, edges=2338097, visited=2101066, next_frontier=63913, compute=39.7s
+[1115.0s] round 20: processed 63344, edges=2391746, visited=2164410, next_frontier=51976, compute=31.8s
+[1139.4s] round 21: processed 51631, edges=2433643, visited=2216041, next_frontier=40571, compute=24.1s
+[1158.6s] round 22: processed 40319, edges=2469200, visited=2256360, next_frontier=34402, compute=19.0s
+[1174.1s] round 23: processed 34218, edges=2498782, visited=2290578, next_frontier=28512, compute=15.4s
+[1187.2s] round 24: processed 28354, edges=2523748, visited=2318932, next_frontier=24113, compute=12.9s
+[1197.8s] round 25: processed 23984, edges=2545521, visited=2342916, next_frontier=20959, compute=10.5s
+[1207.0s] round 26: processed 20831, edges=2564677, visited=2363747, next_frontier=18405, compute=9.1s
+[1214.9s] round 27: processed 18301, edges=2581148, visited=2382048, next_frontier=15852, compute=7.9s
+[1221.7s] round 28: processed 15755, edges=2595499, visited=2397803, next_frontier=13862, compute=6.7s
+[1227.4s] round 29: processed 13801, edges=2607899, visited=2411604, next_frontier=11955, compute=5.6s
+[1232.3s] round 30: processed 11899, edges=2618588, visited=2423503, next_frontier=10304, compute=4.9s
+[1237.4s] round 31: processed 10273, edges=2628066, visited=2433776, next_frontier=9131, compute=5.1s
+[1241.1s] round 32: processed 9102, edges=2636844, visited=2442878, next_frontier=8430, compute=3.7s
+[1244.5s] round 33: processed 8399, edges=2644738, visited=2451277, next_frontier=7584, compute=3.3s
+[1247.5s] round 34: processed 7561, edges=2651801, visited=2458838, next_frontier=6806, compute=3.0s
+[1250.3s] round 35: processed 6782, edges=2658108, visited=2465620, next_frontier=6075, compute=2.7s
+[1252.7s] round 36: processed 6051, edges=2663506, visited=2471671, next_frontier=5232, compute=2.4s
+[1254.8s] round 37: processed 5209, edges=2668297, visited=2476880, next_frontier=4646, compute=2.1s
+[1256.6s] round 38: processed 4637, edges=2672656, visited=2481517, next_frontier=4201, compute=1.7s
+[1258.1s] round 39: processed 4191, edges=2676578, visited=2485708, next_frontier=3767, compute=1.5s
+[1259.5s] round 40: processed 3759, edges=2680108, visited=2489467, next_frontier=3410, compute=1.4s
+[1260.7s] round 41: processed 3403, edges=2683245, visited=2492870, next_frontier=3020, compute=1.2s
+[1261.8s] round 42: processed 3014, edges=2686255, visited=2495884, next_frontier=2920, compute=1.1s
+[1262.9s] round 43: processed 2910, edges=2688910, visited=2498794, next_frontier=2555, compute=1.1s
+[1263.8s] round 44: processed 2549, edges=2691468, visited=2501343, next_frontier=2452, compute=0.9s
+[1264.7s] round 45: processed 2448, edges=2693675, visited=2503791, next_frontier=2112, compute=0.8s
+[1265.4s] round 46: processed 2108, edges=2695663, visited=2505899, next_frontier=1916, compute=0.7s
+[1266.1s] round 47: processed 1908, edges=2697418, visited=2507807, next_frontier=1702, compute=0.7s
+[1266.7s] round 48: processed 1698, edges=2699013, visited=2509505, next_frontier=1534, compute=0.6s
+[1267.3s] round 49: processed 1529, edges=2700517, visited=2511034, next_frontier=1457, compute=0.6s
+[1267.8s] round 50: processed 1456, edges=2701827, visited=2512490, next_frontier=1260, compute=0.5s
+[1268.3s] round 51: processed 1257, edges=2703011, visited=2513747, next_frontier=1142, compute=0.5s
+[1268.7s] round 52: processed 1142, edges=2703940, visited=2514889, next_frontier=892, compute=0.4s
+[1269.0s] round 53: processed 889, edges=2704856, visited=2515778, next_frontier=890, compute=0.3s
+[1269.4s] round 54: processed 890, edges=2705689, visited=2516668, next_frontier=803, compute=0.3s
+[1269.7s] round 55: processed 803, edges=2706533, visited=2517471, next_frontier=809, compute=0.3s
+[1270.0s] round 56: processed 809, edges=2707319, visited=2518280, next_frontier=759, compute=0.3s
+[1270.3s] round 57: processed 758, edges=2708056, visited=2519038, next_frontier=710, compute=0.3s
+[1270.5s] round 58: processed 708, edges=2708719, visited=2519746, next_frontier=638, compute=0.2s
+[1270.7s] round 59: processed 637, edges=2709382, visited=2520383, next_frontier=632, compute=0.2s
+[1270.9s] round 60: processed 631, edges=2709967, visited=2521014, next_frontier=560, compute=0.2s
+[1271.1s] round 61: processed 558, edges=2710534, visited=2521572, next_frontier=556, compute=0.2s
+[1271.3s] round 62: processed 552, edges=2711068, visited=2522124, next_frontier=509, compute=0.1s
+[1271.5s] round 63: processed 506, edges=2711546, visited=2522630, next_frontier=463, compute=0.2s
+[1271.6s] round 64: processed 462, edges=2711978, visited=2523092, next_frontier=412, compute=0.2s
+[1271.7s] round 65: processed 410, edges=2712386, visited=2523502, next_frontier=396, compute=0.1s
+[1271.9s] round 66: processed 395, edges=2712771, visited=2523897, next_frontier=372, compute=0.1s
+[1272.0s] round 67: processed 370, edges=2713164, visited=2524267, next_frontier=382, compute=0.1s
+[1272.1s] round 68: processed 382, edges=2713506, visited=2524649, next_frontier=322, compute=0.1s
+[1272.2s] round 69: processed 322, edges=2713857, visited=2524971, next_frontier=332, compute=0.1s
+[1272.3s] round 70: processed 332, edges=2714147, visited=2525303, next_frontier=282, compute=0.1s
+[1272.4s] round 71: processed 282, edges=2714412, visited=2525585, next_frontier=257, compute=0.1s
+[1272.5s] round 72: processed 257, edges=2714583, visited=2525842, next_frontier=165, compute=0.1s
+[1272.5s] round 73: processed 165, edges=2714724, visited=2526007, next_frontier=136, compute=0.1s
+[1272.6s] round 74: processed 136, edges=2714878, visited=2526143, next_frontier=148, compute=0.0s
+[1272.6s] round 75: processed 148, edges=2715003, visited=2526291, next_frontier=121, compute=0.0s
+[1272.7s] round 76: processed 121, edges=2715115, visited=2526412, next_frontier=108, compute=0.0s
+[1272.7s] round 77: processed 108, edges=2715215, visited=2526520, next_frontier=97, compute=0.0s
+[1272.7s] round 78: processed 97, edges=2715277, visited=2526617, next_frontier=57, compute=0.0s
+[1272.8s] round 79: processed 57, edges=2715335, visited=2526674, next_frontier=55, compute=0.0s
+[1272.8s] round 80: processed 55, edges=2715393, visited=2526729, next_frontier=56, compute=0.0s
+[1272.8s] round 81: processed 56, edges=2715458, visited=2526785, next_frontier=64, compute=0.0s
+[1272.8s] round 82: processed 64, edges=2715509, visited=2526849, next_frontier=50, compute=0.0s
+[1272.9s] round 83: processed 50, edges=2715557, visited=2526899, next_frontier=47, compute=0.0s
+[1272.9s] round 84: processed 47, edges=2715604, visited=2526946, next_frontier=47, compute=0.0s
+[1272.9s] round 85: processed 47, edges=2715667, visited=2526993, next_frontier=57, compute=0.0s
+[1272.9s] round 86: processed 57, edges=2715765, visited=2527050, next_frontier=96, compute=0.0s
+[1273.0s] round 87: processed 96, edges=2715863, visited=2527146, next_frontier=92, compute=0.0s
+[1273.0s] round 88: processed 92, edges=2716024, visited=2527238, next_frontier=151, compute=0.0s
+[1273.0s] round 89: processed 151, edges=2716187, visited=2527389, next_frontier=154, compute=0.0s
+[1273.1s] round 90: processed 154, edges=2716385, visited=2527543, next_frontier=189, compute=0.1s
+[1273.2s] round 91: processed 189, edges=2716596, visited=2527732, next_frontier=200, compute=0.1s
+[1273.2s] round 92: processed 200, edges=2716772, visited=2527932, next_frontier=175, compute=0.1s
+[1273.3s] round 93: processed 175, edges=2716944, visited=2528107, next_frontier=166, compute=0.1s
+[1273.4s] round 94: processed 166, edges=2717102, visited=2528273, next_frontier=156, compute=0.0s
+[1273.4s] round 95: processed 156, edges=2717262, visited=2528429, next_frontier=156, compute=0.1s
+[1273.5s] round 96: processed 156, edges=2717394, visited=2528585, next_frontier=126, compute=0.0s
+[1273.5s] round 97: processed 126, edges=2717552, visited=2528711, next_frontier=151, compute=0.0s
+[1273.5s] round 98: processed 151, edges=2717685, visited=2528862, next_frontier=129, compute=0.0s
+[1273.6s] round 99: processed 129, edges=2717834, visited=2528991, next_frontier=142, compute=0.0s
+[1273.6s] round 100: processed 142, edges=2717978, visited=2529133, next_frontier=137, compute=0.1s
+[1273.7s] round 101: processed 137, edges=2718128, visited=2529270, next_frontier=146, compute=0.0s
+[1273.7s] round 102: processed 146, edges=2718251, visited=2529416, next_frontier=121, compute=0.0s
+[1273.8s] round 103: processed 121, edges=2718402, visited=2529537, next_frontier=140, compute=0.0s
+[1273.8s] round 104: processed 140, edges=2718583, visited=2529677, next_frontier=174, compute=0.0s
+[1273.9s] round 105: processed 173, edges=2718740, visited=2529850, next_frontier=149, compute=0.0s
+[1273.9s] round 106: processed 146, edges=2718908, visited=2529996, next_frontier=165, compute=0.1s
+[1274.0s] round 107: processed 164, edges=2719000, visited=2530160, next_frontier=91, compute=0.1s
+[1274.0s] round 108: processed 89, edges=2719079, visited=2530249, next_frontier=73, compute=0.0s
+[1274.1s] round 109: processed 72, edges=2719128, visited=2530321, next_frontier=49, compute=0.0s
+[1274.1s] round 110: processed 49, edges=2719185, visited=2530370, next_frontier=56, compute=0.0s
+[1274.1s] round 111: processed 56, edges=2719226, visited=2530426, next_frontier=39, compute=0.0s
+[1274.2s] round 112: processed 39, edges=2719262, visited=2530465, next_frontier=34, compute=0.0s
+[1274.2s] round 113: processed 34, edges=2719280, visited=2530499, next_frontier=18, compute=0.0s
+[1274.2s] round 114: processed 18, edges=2719297, visited=2530517, next_frontier=16, compute=0.0s
+[1274.2s] round 115: processed 16, edges=2719323, visited=2530533, next_frontier=26, compute=0.0s
+[1274.2s] round 116: processed 26, edges=2719346, visited=2530559, next_frontier=22, compute=0.0s
+[1274.2s] round 117: processed 22, edges=2719370, visited=2530581, next_frontier=24, compute=0.0s
+[1274.3s] round 118: processed 24, edges=2719383, visited=2530605, next_frontier=12, compute=0.0s
+[1274.3s] round 119: processed 12, edges=2719386, visited=2530617, next_frontier=3, compute=0.0s
+[1274.3s] round 120: processed 3, edges=2719386, visited=2530620, next_frontier=0, compute=0.0s
+[1274.3s] BFS 完成: 2530620 顶点, 2719386 边
+[1296.4s] union-find 完成: 9493 components
+
+顶部 20 components:
+  rank size  edges  cycle  in_cat 代表顶点                  
+  ------------------------------------------------------------
+  1    25035832701786198204 644    (2100735, 2830464)
+  2    144   145    2      1      (571200, 1553760)
+  3    131   137    7      3      (166782, 866400)
+  4    86    85     0      1      (149568, 5579280)
+  5    85    86     2      1      (45570, 541632)
+  6    83    85     3      2      (15120, 20400)
+  7    71    71     1      5      (560, 1792)
+  8    69    70     2      1      (136800, 497097)
+  9    66    66     1      1      (250240, 920000)
+  10   64    63     0      2      (5376, 50160)
+  11   62    63     2      1      (12285, 24000)
+  12   58    57     0      1      (79800, 957600)
+  13   56    55     0      1      (1056286, 6049638)
+  14   56    58     3      1      (46512, 94720)
+  15   55    54     0      1      (109296, 2064480)
+  16   52    53     2      1      (15555, 246000)
+  17   51    52     2      2      (17442, 83391)
+  18   51    52     2      1      (6048, 7452)
+  19   49    49     1      1      (61845, 71280)
+  20   48    47     0      2      (222528, 994422)
+
+Size 分布（>= 3 或 size <= 4）:
+  size = 1       count = 31
+  size = 2       count = 8146
+  size = 4       count = 757
+  size = 6       count = 87
+  size = 7       count = 51
+  size = 8       count = 128
+  size = 9       count = 25
+  size = 10      count = 32
+  size = 11      count = 44
+  size = 12      count = 17
+  size = 13      count = 24
+  size = 14      count = 12
+  size = 15      count = 20
+  size = 16      count = 8
+  size = 17      count = 6
+  size = 18      count = 10
+  size = 19      count = 8
+  size = 20      count = 10
+  size = 21      count = 7
+  size = 22      count = 6
+  size = 24      count = 4
+  size = 25      count = 5
+  size = 27      count = 3
+  size = 28      count = 4
+  size = 32      count = 3
+  size = 35      count = 4
+  size = 36      count = 3
+  size = 41      count = 3
+
+Circuit rank 总览:
+  总 circuit rank (= E - V + components) = 198259
+  sum of per-component circuit ranks    = 198259
+  pure-tree components: 9461 / 9493 = 99.7%
+  非 tree components:  32
+
+[1348.6s] 总耗时
+summary: results/partner/partner_full_bfs_7M_summary.json
