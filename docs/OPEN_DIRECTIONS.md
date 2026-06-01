@@ -319,7 +319,9 @@ rank≥2 主流仍要 Chabauty。属于「清理最弱 case + 增强证据库」
 该扫描器随后做了三轴优化（wl093 §四之三，每步对拍精确）：`--shards` ai 分片把 5M 峰值降到
 3.83 GiB；Cython 内核 `_concordant_gen`（生成+桶内出对下沉 C，`_build_gen.py` 现场编译、
 `.so` 不入库、缺则自动回退 Python）把 5M 总时 270→76s；`--workers` 并行（共享内存 + ai 分片）
-2 核再到 56s。综合 5M 270→56s（4.8×）、计数精确不变。
+2 核再到 56s。综合 5M 270→56s（4.8×）、计数精确不变。用省内存档实测**纯内存封顶 ≈ 7M**
+（822,108 多-N pair、closure 仍 0、k≤5 仍无 k=6，5.56 GiB）；10M OOM——瓶颈是关系 `argsort`
+索引+重排翻倍（分片只压下游 emit），故先前估的 10–12M 高估，≥8M 需外部排序或大内存机。
 
 **可立即落地的升级（建议，未在本 PR 改生产判据）**: 把闭合判据扩成查 GEN-CLOSURE 四关系，
 即可把残余 inconclusive hard_case 在**全平面（互素腿）**下判 `no_solution`。因改 `no_solution`
