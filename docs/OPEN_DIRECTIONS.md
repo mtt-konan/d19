@@ -309,10 +309,20 @@ max_hyp=2000 的 **99,311 个互素约化对全部 `no_solution`、0 hard_case**
 经验面 >1.16M 个 N 跨 hyp≤5M + 7M BFS 零例外（wl096）。这把"互素腿 GEN-CLOSURE 跑到 2000 无命中"
 往**闭式**推了一步，也精确解释了 (a) 为何只在非互素腿失效（互素性是定理两步的必要前提）。
 
-**仍开放**: (a) §8.6 **gcd-scaling 覆盖**——`generate_ab_pairs` 只产互素对，非互素腿的反例在
-约化对上不可见（对原 sum-only 与升级后判据同样存在；mod-12 定理在此腿失效，例 `(6,15)→N=8`、
-`(8,20)→N=15`）；(b) rank≥2 的结论性工具
-Chabauty（B.1，需 Magma）/ Brauer–Manin（A.4）。GEN-CLOSURE 不依赖这些，但彻底证明仍需 (a)(b)。
+**⚠️ 框架级澄清（coprime-`(A,B)` 并非 WLOG，wl097 后补记）**: 整条 `(A,B)`-first 筛线
+（`safe_sieve → chain_closure 模 p² → factor_concordant → multi_n`）**只筛过互素 `(A,B)`**，且其
+soundness **全部挂在互素前提上**——`safe_sieve` 的两条规则就是 mod-12 定理的 mod-2/4 推论（MATH §8.5.1），
+非互素腿上 mod-12 塌、规则失依据。而把搜索限制在 `gcd(A,B)=1` **不是 WLOG**：反例整体放缩只保证
+`gcd(A,B,N₁,N₂)=1`，完全可能 `gcd(A,B)>1` 而四数整体互素（§7 中 `A=q₁q₂,B=p₁p₂` 是本原三元组腿积，
+跨三元组公因子天然出现）。故非互素 `(A,B)` 半空间是**结构性盲区**，不是罕见 edge case。**覆盖全的是
+multi-N 生成线**（partner 图 / 扫描，wl058–wl096）：它天然含非互素顶点（7M comp0 即 99.5% 非互素），
+closure 经验扫描已覆盖非互素到 7M、仍 0 命中——所以缺口是**证明**、不是搜索。§8.6 应视为与互素腿
+**同级的主目标**。
+
+**仍开放**: (a) §8.6 **gcd-scaling 覆盖（升级为主目标）**——给非互素腿一个独立的解析障碍（刻画
+`gcd=g` 时 concordant `N` 的剩余类，看能否凑出类 mod-12 的闭式障碍），或证明任何非互素反例可约化到
+互素反例（即真的把 coprime-`(A,B)` 做成 WLOG）。二选一即补齐彻底证明的最后结构缺口。
+(b) rank≥2 的结论性工具 Chabauty（B.1，需 Magma）/ Brauer–Manin（A.4）。GEN-CLOSURE 不依赖这些，但彻底证明仍需 (a)(b)。
 
 **工作量**: 几何引理已完成（wl093）；落地升级半天；互素腿 mod-12 定理已证（wl097）；(a)(b) 仍是独立大方向。
 
