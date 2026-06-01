@@ -97,7 +97,7 @@ def main() -> int:
             flag += f" !! CLOSURE {closure}"
         print(
             f"K_{k:<4}({a:>8}, {b:>9})  {k:<4}{rank_str:<10}{deficit:<8}{sha2:<6}"
-            f"({pa},{pb})".ljust(12)
+            + f"({pa},{pb})".ljust(12)
             + f"{prk:<8}{match:<7}{dt:>6.1f}s{flag}"
         )
         rows.append(
@@ -143,10 +143,7 @@ def main() -> int:
         ranks = by_cls[cls]
         rc = Counter(ranks)
         rgt4 = sum(1 for x in ranks if x > 4)
-        print(
-            f"  {cls}: n={len(ranks)}  rank 分布={dict(sorted(rc.items()))}  "
-            f"rank>4={rgt4}"
-        )
+        print(f"  {cls}: n={len(ranks)}  rank 分布={dict(sorted(rc.items()))}  rank>4={rgt4}")
     n_total = len(rows)
     n_cert = sum(1 for r in rows if r["rank_certified"])
     n_match = sum(1 for r in rows if r["rank_matches_primitive"])
