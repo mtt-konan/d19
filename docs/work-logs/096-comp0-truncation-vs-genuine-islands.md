@@ -116,6 +116,28 @@ id=6 size=121 K_6 -> 0/121 (bridge 坐标 > 7M，仍待并)
    直接确认（而**有限 BFS 永远证不了"无限"**——只能看趋势；G_M 顶点集无限性已由 wl085
    D-scaling 解析给出，无需 BFS）。
 
+## 无上限 BFS 直接验证孤岛封闭（回应"即使窗口极大"）
+
+前面的 island 判据是**逐顶点**检查（每个顶点的完整伙伴对坐标都 ≤ W）。为把它升级成**与窗口
+无关的直接证明**，`scripts/partner/verify_islands_unbounded.py` 对每个 island **不设任何
+max_value 上限**做 BFS：从其顶点集出发，用完备因子核 `exact_concordant_pair`（完全分解
+A²/B²，每个顶点的 concordant 集是**整个有限集**，无上界）扩展，确认 BFS **恰好收敛回原顶点集**、
+绝不外溢（设 `len(S)*20+200` 的防爆上限，超出即记为泄漏）。
+
+```
+islands tested (unbounded BFS, NO window cap): 8959
+  closed to EXACTLY original vertex set: 8959
+  leaked / grew beyond original:         0
+  global max coordinate ever reached:    997101  (< window 1,000,000)
+```
+
+**全部 8959 个孤岛在无上限 BFS 下都恰好闭合回自己**，0 外溢；所有孤岛 BFS 触及过的**全局最大
+坐标仅 997,101 < 1M**。这给出确定性回答：孤岛不是"≤7M 的观察"，而是无限图 G_M 的真正有限
+连通分量——从任何孤岛顶点出发、用**任意上限（含 ∞）**做 BFS 都走不出去，因为每个顶点的伙伴集
+固定且有限、早被完备核枚举完，"窗口极大"不会冒出新伙伴。结果存
+`results/partner/island_unbounded_bfs.json`。（注：这只断言**已发现的**孤岛封闭；更大窗口仍会
+出现**新的、更大的**孤岛，那是另一回事。）
+
 ## 对"剔除 comp0 缩小反例搜索"策略的判断
 
 - ✅ **可行的部分**：永久孤岛集**可按 pair 廉价识别**（给定 (A,B) 算精确 concordant 集、
@@ -132,8 +154,10 @@ id=6 size=121 K_6 -> 0/121 (bridge 坐标 > 7M，仍待并)
 
 - `scripts/partner/comp0_island_analysis.py` — 单窗口三层分类 + closure 检查
 - `scripts/partner/verify_window_merge.py` — 两窗口对比（断枝并入 / 孤岛持存 / 按 k 并入率）
+- `scripts/partner/verify_islands_unbounded.py` — 无上限 BFS 验证孤岛恰好闭合（与窗口无关）
 - `results/partner/comp0_island_analysis_1M.jsonl` / `_summary.json`
 - `results/partner/window_merge_1M_7M.json`
+- `results/partner/island_unbounded_bfs.json`
 - `results/partner/partner_full_bfs_7M_summary.json` / `_run.log` /
   `_components_trimmed.jsonl`（giant 的 250 万顶点列表已剔除，仅留 metadata + 全部小分量；
   完整 `_components.jsonl`(48MB)/`_edges.jsonl`(132MB) 因体积过大不入库）
