@@ -165,6 +165,34 @@ islands tested (unbounded BFS, NO window cap): 8959
    （341→128，桥接坐标更远）、要么并入 giant，**没有一个**变成自闭合孤岛。branch↔island 的
    二分在放大窗口下稳定，断枝的归宿只有"并入 comp0"。
 
+## 8959 个孤岛的性质刻画（`island_properties.py`）
+
+只针对永久孤岛集（8959 分量 / 22,889 顶点）做系统刻画，全部用完备因子核：
+
+**结构**
+- **几乎全是树/星**：circuit_rank 直方图 `{0:8943, 1:10, 2:2, 3:2, 4:1, 5:1}` —— 8943/8959 无圈；
+  仅 16 个带圈（最多 5 个独立圈）。
+- **96% 是单 hub 星形**：8622/8959 满足 `size == 1 + C(max_k,2)`（一个 K_k hub + C(k,2) 个度-1 叶子）；
+  其余 337 个是多 hub（>1 个 k≥3 顶点），但仍多为树。最大孤岛 size=83。
+- **度数律 deg = C(k,2) 在孤岛内 100% 成立**（8959/8959，∑C(k,2)=2·边数 逐分量核对），与 wl062 一致。
+- **K 谱**：max_k 直方图 `{2:7930, 3:865, 4:140, 5:24}`（1M 窗口下 ≤5）。
+- **closure 恒 0**（复核全部顶点 N_i+N_j==A+B）。
+
+**算术（接 A.9 §8.6 非互素腿）—— 最有信息量的发现**
+- hub 互素性：互素 3157 / 非互素 5802。
+- **互素孤岛 hub 只出现在低 k**：`coprime × max_k = {2:3099, 3:58}` —— **k≥4 没有任何互素 hub**。
+- 反过来：**所有 K_4（140）、K_5（24）孤岛 hub 全部非互素**（gcd>1），这是一条干净的经验律。
+- gcd 取值以 **12 为主**（K_2 里 2536 个、K_3 里 172 个 …），k≥4 的 164 个 hub 里 150 个（≈91%）
+  gcd 整除 12；但**不是定律**——有 14 个 k≥4 hub 的 gcd 是 5/7/15/16/65/66/160/225… 等非 12 倍数。
+- **孤岛不是 comp0 hub 的缩放影子**：非互素 hub 约化掉 gcd 后，5802 个里只有 **35 个**约化对本身还是
+  multi-N pair，**0 个**约化对落在 comp0 内。约化对通常 k≤1（甚至非 multi-N），说明孤岛的多-N 结构是
+  **缩放因子"制造"出来的**（D-scaling 把有理 concordant 值凑成整数），而非继承自某个更小的整数 multi-N
+  原型。这正落在 A.9 §8.6 关注的"非互素腿、约化对上不可见"的图像里。
+
+一句话：**孤岛 = 低 k、几乎全树状的单星形碎片；高 k（≥4）孤岛清一色非互素（gcd 多为 12 的倍数）、且不是
+comp0 的缩放影子，而是缩放因子制造的独立非互素 multi-N 配置。** 它们小、有界、自闭合、closure=0，是"有界
+论证可一次性 KO"的部分，与 comp0（无限、高 k、互素主导）形成对照。
+
 ## 对"剔除 comp0 缩小反例搜索"策略的判断
 
 - ✅ **可行的部分**：永久孤岛集**可按 pair 廉价识别**（给定 (A,B) 算精确 concordant 集、
@@ -183,6 +211,8 @@ islands tested (unbounded BFS, NO window cap): 8959
 - `scripts/partner/verify_window_merge.py` — 两窗口对比（断枝并入 / 孤岛持存 / 按 k 并入率）
 - `scripts/partner/verify_islands_unbounded.py` — 无上限 BFS 验证孤岛恰好闭合（与窗口无关）
 - `scripts/partner/island_census.py` — 跨窗口（1M/2M/7M）孤岛普查 + 1M 孤岛重现交叉核对
+- `scripts/partner/island_properties.py` — 8959 孤岛性质刻画（结构 / closure / gcd 互素性）
+- `results/partner/island_properties_1M.json`
 - `results/partner/comp0_island_analysis_1M.jsonl` / `_summary.json`
 - `results/partner/window_merge_1M_7M.json`
 - `results/partner/island_unbounded_bfs.json`
