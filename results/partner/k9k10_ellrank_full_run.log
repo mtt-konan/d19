@@ -1,0 +1,136 @@
+加载 338225 G_M 顶点
+workers=2, chunksize=50
+
+并行扫描 k_real ...
+  [5s] 27551/338225 (5503/s, ETA 56s), k>=9 found=0
+  [10s] 49151/338225 (4908/s, ETA 59s), k>=9 found=0
+  [15s] 68101/338225 (4532/s, ETA 60s), k>=9 found=0
+  [20s] 87051/338225 (4320/s, ETA 58s), k>=9 found=0
+  [25s] 104851/338225 (4169/s, ETA 56s), k>=9 found=1
+  [30s] 122301/338225 (4043/s, ETA 53s), k>=9 found=2
+  [35s] 138801/338225 (3935/s, ETA 51s), k>=9 found=5
+  [40s] 155901/338225 (3866/s, ETA 47s), k>=9 found=7
+  [45s] 171651/338225 (3787/s, ETA 44s), k>=9 found=10
+  [51s] 187601/338225 (3710/s, ETA 41s), k>=9 found=10
+  [56s] 203251/338225 (3656/s, ETA 37s), k>=9 found=13
+  [61s] 218101/338225 (3596/s, ETA 33s), k>=9 found=17
+  [66s] 233251/338225 (3550/s, ETA 30s), k>=9 found=20
+  [71s] 247601/338225 (3500/s, ETA 26s), k>=9 found=24
+  [76s] 261801/338225 (3453/s, ETA 22s), k>=9 found=29
+  [81s] 276001/338225 (3412/s, ETA 18s), k>=9 found=36
+  [86s] 289601/338225 (3371/s, ETA 14s), k>=9 found=39
+  [91s] 303151/338225 (3326/s, ETA 11s), k>=9 found=44
+  [96s] 324751/338225 (3376/s, ETA 4s), k>=9 found=48
+
+[98.1s] 扫描完成: 48 个 k>=9 顶点
+  k=10: 6
+  k=9 : 42
+
+准备跑 ellrank: 48 pairs (K_10 全, K_9 全)
+
+class pair                    k   rank          deficit sha2  #gens time      
+--------------------------------------------------------------------------------------------------------------
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (554400,  926640)  10  3             7       0     3        0.1s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (369600,  617760)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (301665,  960960)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (224400,  816816)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  (184800,  308880)  10  3             7       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_10  ( 76440,  831600)  10  4             6       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 39600,  144144)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 50960,  554400)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 61200,  222768)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 65520,  712800)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 69615,  221760)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 79200,  288288)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 91728,  997920)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 92400,  154440)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   ( 92400,  336336)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (117600,  196560)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (118800,  432432)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (122400,  445536)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (138600,  504504)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (139230,  443520)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (142800,  519792)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (158400,  576576)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (183600,  668304)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (184800,  672672)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (185640,  926640)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (198000,  720720)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (208845,  665280)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (214200,  779688)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (235200,  393120)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (237600,  864864)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (244800,  891072)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (250800,  912912)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (263120,  687960)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (277200,  463320)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (278460,  887040)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (285600,  477360)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (294525,  782496)  9   4             5       0     4        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (310464,  900900)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (319200,  533520)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (352800,  589680)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (425040,  938400)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (462000,  772200)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (470400,  786240)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (520800,  870480)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (523600,  875160)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (571200,  954720)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (585200,  978120)  9   3             6       0     3        0.0s ⚠ high deficit
+PARI stack size set to 67108864 bytes, maximum size set to 67108864
+K_9   (588000,  982800)  9   3             6       0     3        0.0s ⚠ high deficit
+
+聚合统计:
+  K_10:  rank min=3 max=4 avg=3.17  deficit min=6 max=7 avg=6.83  count=6
+         rank > 4: 0 / 6
+  K_9:  rank min=3 max=4 avg=3.12  deficit min=5 max=6 avg=5.88  count=42
+         rank > 4: 0 / 42
+
+result: /home/ubuntu/repos/d19/results/partner/k9k10_ellrank_full.jsonl

@@ -42,12 +42,19 @@ def main() -> int:
     )
 
     parser = argparse.ArgumentParser(description=__doc__)
+    _ = parser.add_argument(
+        "--k9-limit",
+        type=int,
+        default=0,
+        help="K_9 hub 上限 (0 = 全部 42 个; >0 取前 N 个 sample)",
+    )
     add_parallel_args(parser)
     args = parser.parse_args()
     cfg = get_parallel_config_from_args(args)
+    k9_limit = int(args.k9_limit)
 
     # 1. 加载 wl061 components 全部顶点
-    comps_path = ROOT / "results/partner_full_bfs_components.jsonl"
+    comps_path = ROOT / "results/partner/partner_full_bfs_components.jsonl"
     all_pairs: list[tuple[int, int]] = []
     with comps_path.open() as f:
         for line in f:
@@ -88,13 +95,15 @@ def main() -> int:
     print(f"  k=10: {len(k10)}")
     print(f"  k=9 : {len(k9)}")
 
-    # K_9 取 sample 10
-    k9_sample = sorted(k9)[:10]
+    # K_9: 默认全跑 (k9_limit=0); 否则取前 k9_limit 个
+    k9_sorted = sorted(k9)
+    k9_targets = k9_sorted if k9_limit <= 0 else k9_sorted[:k9_limit]
 
     targets: list[tuple[str, tuple[int, int]]] = (
-        [("K_10", p) for p in k10] + [("K_9", p) for p in k9_sample]
+        [("K_10", p) for p in k10] + [("K_9", p) for p in k9_targets]
     )
-    print(f"\n准备跑 ellrank: {len(targets)} pairs (K_10 全, K_9 sample={len(k9_sample)})")
+    k9_desc = "全" if k9_limit <= 0 else f"sample={len(k9_targets)}"
+    print(f"\n准备跑 ellrank: {len(targets)} pairs (K_10 全, K_9 {k9_desc})")
     print()
 
     # 3. 跑 ellrank
@@ -134,7 +143,7 @@ def main() -> int:
             "elapsed_s": round(dt, 2),
         })
 
-    out_path = ROOT / "results/k10_ellrank_wl063.jsonl"
+    out_path = ROOT / "results/partner/k9k10_ellrank_full.jsonl"
     with out_path.open("w") as f:
         for r in rows:
             _ = f.write(json.dumps(r, ensure_ascii=False) + "\n")

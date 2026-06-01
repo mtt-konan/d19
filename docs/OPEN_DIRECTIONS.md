@@ -537,13 +537,19 @@ case 的手动 deep-dive.
 
 ---
 
-### E.2 K_9 / K_10 实例 ellrank ⭐⭐
+### E.2 K_9 / K_10 实例 ellrank — ✅ 已完成 (wl094)
 
 **出处**: wl063 §下一步 2, wl062
 
 **思路**: 测 wl060 "rank ≤ 4 在 catalog" 假设是否在 K_9/K_10 hub 上仍 hold.
 
-**工作量**: 1 天 (PARI ellrank)
+**结论 (wl094)**: 全部 48 个 K_9/K_10 hub + 11 个 K_11–K_13 hub (wl085 D-scaling)
+ellrank, **0 个 rank > 4** (rank ∈ {3,4}, 全 certified, sha2[2]=0)。rank ≤ 4 假设
+从 k=6–8 (wl060) 延伸到 k=9–13 无一例外 (合计 70 hub); K_11–13 放大 hub 的 rank
+精确等于 primitive rank (11/11, 算术验证 D-scaling rank 不变性); deficit 随 k 单调
+升 (K_13 deficit=9)。
+
+**剩余钩子**: 跑全 primitive 库 (854 个) 看 K_14+; 对 rank=4 hub 找共同 2-descent 像。
 
 ---
 
@@ -669,6 +675,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 | D.1 F₂-rank≥3 ellrank | ✅ | wl050/052/087 | 110@50k+190@100k 全 certified |
 | C.2–C.4 pipeline 工程 | ✅ | wl088 | multi_n_sieve 入主线 |
 | E.3 cycle 代数解释 | ✅ | wl086 | 与 A.2 同 |
+| E.2 K_9–K_13 ellrank | ✅ | wl094 | 70 hub (k=6→13) 全 rank ≤ 4，0 反例 |
 | F.1 conditional paper 骨架 | ✅ 骨架 | wl090 | 不依赖 A1，正文待写 |
 | F.2 Stoll-Bruin 调研 | ✅ | wl090 | 部分替代 Magma，MW-sieve 仍要 |
 | F.4 Peschmann §7(2) 深读 | ✅ | wl091 | §7(2) per-point，非 sieve |
@@ -687,7 +694,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 
 按"工作量低 + 立即可做"排序:
 
-1. **E.2** K_9/K_10 ellrank (1 天)
+1. ~~**E.2** K_9/K_10 ellrank~~ ✅ 已完成 (wl094: 70 hub k=6→13 全 rank ≤ 4)
 2. **D.2–D.6** 个案审计 / sha2 扩样本
 3. **C.1 / C.5–C.8** 工程优化（与证明无关，想做随时）
 4. **E.1** max_value 推到 10M（⚠️ 已暂缓：1M BFS 已 738s，10M 小时级，且 K_11+ 已被 wl085 构造性回答）
