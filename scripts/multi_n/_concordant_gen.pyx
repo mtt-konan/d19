@@ -150,9 +150,14 @@ def emit_pairs(cnp.ndarray[cnp.int64_t, ndim=1] n_sorted,
                cnp.ndarray[cnp.int64_t, ndim=1] me,
                long long factor,
                long long maxbucket,
-               int shard=0, int nshards=1):
+               int shard=0, int nshards=1,
+               bint coprime_only=True):
     """For every multi-bucket [ms[k], me[k]) of N-sorted relations, emit each
-    coprime, not-both-even A-pair (ai<aj) as (pkey=ai*factor+aj, N).
+    A-pair (ai<aj) as (pkey=ai*factor+aj, N).
+
+    By default only coprime, not-both-even pairs are emitted (the search
+    normalization). Pass ``coprime_only=False`` to emit EVERY pair (covers the
+    non-coprime half-space, wl101/wl102).
 
     Relations are sorted by N only, so each bucket's A-values are re-sorted in C.
     With nshards>1, only pairs whose smaller leg ai % nshards == shard are emitted
@@ -196,10 +201,11 @@ def emit_pairs(cnp.ndarray[cnp.int64_t, ndim=1] n_sorted,
                         continue
                     for j in range(i + 1, m):
                         aj = buf[j]
-                        if (ai & 1) == 0 and (aj & 1) == 0:
-                            continue
-                        if _gcd(ai, aj) != 1:
-                            continue
+                        if coprime_only:
+                            if (ai & 1) == 0 and (aj & 1) == 0:
+                                continue
+                            if _gcd(ai, aj) != 1:
+                                continue
                         if pass_id == 1:
                             opk[cnt] = ai * factor + aj
                             onn[cnt] = nval
