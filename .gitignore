@@ -29,3 +29,11 @@ scripts/multi_n/_concordant_gen.c
 
 # Strictly local large database files - NEVER track or push to GitHub
 results/proof_status_10k_local.sqlite3
+
+# wl096: 7M BFS raw dumps too large for git (use *_trimmed + summary)
+results/partner/partner_full_bfs_7M_components.jsonl
+results/partner/partner_full_bfs_7M_edges.jsonl
+
+# wl096: 2M BFS raw dumps too large for git (summary + census kept)
+results/partner/partner_full_bfs_2M_components.jsonl
+results/partner/partner_full_bfs_2M_edges.jsonl

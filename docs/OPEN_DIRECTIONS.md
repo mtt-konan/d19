@@ -304,11 +304,27 @@ max_hyp=2000 的 **99,311 个互素约化对全部 `no_solution`、0 hard_case**
 全平面 chain_closure 7,975 + GEN-CLOSURE factor 245），全程不调 PARI、1.6s。322 测试全过
 （8 个语义相关测试按新语义更新）。
 
-**仍开放**: (a) §8.6 **gcd-scaling 覆盖**——`generate_ab_pairs` 只产互素对，非互素腿的反例在
-约化对上不可见（对原 sum-only 与升级后判据同样存在）；(b) rank≥2 的结论性工具
-Chabauty（B.1，需 Magma）/ Brauer–Manin（A.4）。GEN-CLOSURE 不依赖这些，但彻底证明仍需 (a)(b)。
+**互素腿 mod-12 定理 (wl097，MATH §8.5.1)**: 已证 `gcd(A,B)=1 ⟹ 12|N`（每个 concordant N），
+初等 mod 3 + mod 8。推论：互素腿闭合需 `12|(A+B)` 或 `12||A−B|`（mod 12 一步排除约 99.7% 互素对）。
+经验面 >1.16M 个 N 跨 hyp≤5M + 7M BFS 零例外（wl096）。这把"互素腿 GEN-CLOSURE 跑到 2000 无命中"
+往**闭式**推了一步，也精确解释了 (a) 为何只在非互素腿失效（互素性是定理两步的必要前提）。
 
-**工作量**: 几何引理已完成（wl093）；落地升级半天；(a)(b) 仍是独立大方向。
+**⚠️ 框架级澄清（coprime-`(A,B)` 并非 WLOG，wl097 后补记）**: 整条 `(A,B)`-first 筛线
+（`safe_sieve → chain_closure 模 p² → factor_concordant → multi_n`）**只筛过互素 `(A,B)`**，且其
+soundness **全部挂在互素前提上**——`safe_sieve` 的两条规则就是 mod-12 定理的 mod-2/4 推论（MATH §8.5.1），
+非互素腿上 mod-12 塌、规则失依据。而把搜索限制在 `gcd(A,B)=1` **不是 WLOG**：反例整体放缩只保证
+`gcd(A,B,N₁,N₂)=1`，完全可能 `gcd(A,B)>1` 而四数整体互素（§7 中 `A=q₁q₂,B=p₁p₂` 是本原三元组腿积，
+跨三元组公因子天然出现）。故非互素 `(A,B)` 半空间是**结构性盲区**，不是罕见 edge case。**覆盖全的是
+multi-N 生成线**（partner 图 / 扫描，wl058–wl096）：它天然含非互素顶点（7M comp0 即 99.5% 非互素），
+closure 经验扫描已覆盖非互素到 7M、仍 0 命中——所以缺口是**证明**、不是搜索。§8.6 应视为与互素腿
+**同级的主目标**。
+
+**仍开放**: (a) §8.6 **gcd-scaling 覆盖（升级为主目标）**——给非互素腿一个独立的解析障碍（刻画
+`gcd=g` 时 concordant `N` 的剩余类，看能否凑出类 mod-12 的闭式障碍），或证明任何非互素反例可约化到
+互素反例（即真的把 coprime-`(A,B)` 做成 WLOG）。二选一即补齐彻底证明的最后结构缺口。
+(b) rank≥2 的结论性工具 Chabauty（B.1，需 Magma）/ Brauer–Manin（A.4）。GEN-CLOSURE 不依赖这些，但彻底证明仍需 (a)(b)。
+
+**工作量**: 几何引理已完成（wl093）；落地升级半天；互素腿 mod-12 定理已证（wl097）；(a)(b) 仍是独立大方向。
 
 ---
 
@@ -521,19 +537,25 @@ case 的手动 deep-dive.
 
 ## E. 图论 / partner network — 未实施
 
-### E.1 max_value = 10M / 100M G_M BFS ⭐ (长跑, 暂缓; 科学问题已被 wl085 回答)
+### E.1 max_value = 7M / 10M G_M BFS ⭐ (7M 已跑, wl096; 更大窗口仍暂缓)
 
 **出处**: wl063 §下一步, wl056
 
-**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到 10M 看 K_11+ 是否出现.
+**思路**: 当前 G_M comp 0 在 max_value=1M 找到 K_10. 推到更大窗口看 comp0 如何生长.
 
-**状态 (wl090 复审)**: **暂缓——这是唯一剩下的长跑项**。既有 full BFS 已在
-`max_value=1M` 跑过 (738s / 350868 边, `results/partner/partner_full_bfs_summary.json`),
-推到 10M 工程上是小时级长跑，与"避免长跑"约束冲突。更关键：它要回答的科学问题
-("K_11+ 是否存在") **已被 wl085 的 D-scaling 生成器构造性回答**——wl085 完美 reproduce
-3 个 K_10 并新发现 K_11/K_12/K_13。因此 10M 经验扫描的边际价值低。若将来要给 paper
-配经验表格再跑，否则不优先。现有范围 (max100000 catalog / 1M BFS) 的 clique 结构已由
-`partner_kn_subgraphs` + wl089 充分刻画 (general 上限 K_3, shared_partner 上限 K_5)。
+**状态 (wl096 更新)**: **7M 已跑完** (2 worker, 1348.6s, 2,530,620 顶点 / 2,719,386 边,
+`results/partner/partner_full_bfs_7M_summary.json`)，用来验证 comp0 的结构（见下方
+「G_M 三层分解」）。10M/100M 仍暂缓：要回答的科学问题 ("K_11+ 是否存在") **已被 wl085 的
+D-scaling 生成器构造性回答**，更大经验扫描边际价值低。
+
+**G_M 三层分解 (wl096)**: 用 wl095 精确因子核（对 N 不设上界）给每个非 comp0 分量贴标签——
+*branch*(被窗口截断，伙伴坐标>W) vs *island*(partner 封闭，永久独立)。1M 数据：comp0
+(309689, 92%) + 620 断枝 (5647 v, max_k 3→8) + **8959 永久孤岛** (22889 v, max_k≤5,
+含 1029 个 K_3/K_4/K_5 自闭合孤岛, 非仅 K_2)。7M 验证：comp0→2,503,583 (98.9%);
+所有 k≥6 非 comp0 分量都是断枝, 最大 11 个里 10 个在 7M 并入 comp0 (K_7/K_8 全并);
+**8959 孤岛 0 顶点泄漏进 7M giant** (untruncated ⟺ 永久独立, 100% 验证)。closure 在
+孤岛+comp0 上恒 0。结论：高 k 被 comp0 垄断；"剔除 comp0"作工程筛选可行、作证明分解才有
+真价值，但不改 closure 恒 0。脚本 `comp0_island_analysis.py` / `verify_window_merge.py`。
 
 ---
 
@@ -684,6 +706,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 | C.2–C.4 pipeline 工程 | ✅ | wl088 | multi_n_sieve 入主线 |
 | E.3 cycle 代数解释 | ✅ | wl086 | 与 A.2 同 |
 | E.2 K_9–K_16 ellrank | ✅ | wl094/095 | k=6→16 全 rank ≤ 4，0 反例；K_16 hub rank=4 |
+| E.1 7M BFS + G_M 三层分解 | ✅ | wl096 | comp0 92%→98.9%；断枝并入、8959 孤岛永久独立(0泄漏)；closure 恒0 |
 | F.1 conditional paper 骨架 | ✅ 骨架 | wl090 | 不依赖 A1，正文待写 |
 | F.2 Stoll-Bruin 调研 | ✅ | wl090 | 部分替代 Magma，MW-sieve 仍要 |
 | F.4 Peschmann §7(2) 深读 | ✅ | wl091 | §7(2) per-point，非 sieve |
@@ -705,7 +728,7 @@ reflection（实测 90% killer 是 p≡3 mod4）。→ 连带关闭 A.5。
 1. ~~**E.2** K_9/K_10 ellrank~~ ✅ 已完成 (wl094: 70 hub k=6→13 全 rank ≤ 4)
 2. **D.2–D.6** 个案审计 / sha2 扩样本
 3. **C.1 / C.5–C.8** 工程优化（与证明无关，想做随时）
-4. **E.1** max_value 推到 10M（⚠️ 已暂缓：1M BFS 已 738s，10M 小时级，且 K_11+ 已被 wl085 构造性回答）
+4. ~~**E.1** max_value 推到 7M~~ ✅ 7M 已跑 (wl096: comp0 92%→98.9%, 三层分解验证); 10M+ 仍暂缓
 
 ---
 

@@ -405,11 +405,121 @@ $$4 + 1 = 5 \quad \text{(不是平方数)} \quad \times$$
 
 所有 concordant $N$ 值均无法同时满足 chain 约束。
 
-### 8.6 gcd 归约
+### 8.5.1 互素腿 concordant $N$ 的 mod-12 定理 (wl097)
+
+**定理**：设 $\gcd(A,B)=1$，且存在整数使 $N^2+A^2=\square$ 与 $N^2+B^2=\square$（即 $N$ 是 $(A,B)$
+的一个 concordant 值），则 $12 \mid N$。
+
+**证明**。分别证 $3\mid N$ 与 $4\mid N$。
+
+*(a) $3\mid N$.* 平方数模 $3$ 属于 $\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$，则
+$N^2+A^2\equiv 1+1=2\pmod 3$，非平方数，矛盾；故 $3\mid N$ 或 $3\mid A$。同理由 $N^2+B^2=\square$ 得
+$3\mid N$ 或 $3\mid B$。若 $3\nmid N$，则必同时 $3\mid A$ 且 $3\mid B$，与 $\gcd(A,B)=1$ 矛盾。故 $3\mid N$。
+
+*(b) $4\mid N$.* $\gcd(A,B)=1$ 蕴含 $A,B$ 不全为偶，取其中的奇数 $C$，则 $C^2\equiv 1\pmod 8$。平方数模
+$8$ 属于 $\{0,1,4\}$。考查 $N^2+C^2=\square$：$N$ 奇时 $N^2\equiv1$，和 $\equiv2\pmod8$（✗）；$N\equiv2\pmod4$
+时 $N^2\equiv4$，和 $\equiv5\pmod8$（✗）；仅 $N\equiv0\pmod4$ 时 $N^2\equiv0$，和 $\equiv1\pmod8$ 可行。
+故 $4\mid N$。
+
+合并 $(a)(b)$ 得 $12\mid N$。$\blacksquare$
+
+**互素是必要的（边界 = §8.6）**：两步都用到了 $\gcd(A,B)=1$——(a) 阻止 $3$ 同时整除 $A,B$，(b) 保证
+存在奇腿。去掉互素则两步皆塌，定理失效：
+- $(A,B)=(6,15)$（$\gcd=3$，两者皆 $3$ 的倍数）有 concordant $N=8$，$3\nmid 8$（$8^2+6^2=10^2$，$8^2+15^2=17^2$）——(a) 失效；
+- $(A,B)=(8,20)$（$\gcd=4$，两者皆偶）有 concordant $N=15$，$15$ 为奇（$15^2+8^2=17^2$，$15^2+20^2=25^2$）——(b) 失效。
+
+这正是 §8.6 gcd-scaling 漏洞的算术根源：判定器在约化（互素）腿上享有 $12\mid N$，而非互素腿
+$(gA',gB')$ 不受此律约束，其 concordant $N$ 可不被 $12$ 整除、约化后不可见。
+
+**推论（闭合的模障碍）**：互素腿下任意两个 concordant 值满足 $12\mid(N_i\pm N_j)$，故 GEN-CLOSURE
+四关系（§7 注 / wl093）要成立必须 $12\mid(A+B)$ 或 $12\mid|A-B|$。实证：catalog 的 10,333 个互素对里仅
+$30$ 个满足 $12\mid(A+B)$，且这 $30$ 个 closure 仍为 $0$——mod 12 一步排除约 99.7% 的互素对。经验面见
+wl096（>$1.16\times10^6$ 个 concordant $N$ 跨 hyp $\le 5\times10^6$ 与 7M BFS，零例外）。
+
+**与 `safe_sieve` 的关系**：上述推论的 mod-2 / mod-4 部分（$12\mid N_i,N_j$ ⟹ $N_i+N_j$ 必偶且
+$4\mid(N_i+N_j)$ ⟹ 闭合需 $A+B$ 偶且 $4\mid(A+B)$）**逐字就是** `safe_pair_sieve.classify_reduced_pair`
+的两条拒绝规则（`mixed_parity`、`odd_odd_wrong_mod4`）。所以 `safe_sieve` 是本定理的推论，其 soundness
+**仅对互素腿**成立（实证：hyp $\le 2\times10^6$ 内被它拒掉的 222,922 个互素多-N 对，真有 closure 的为 0）。
+非互素腿上它失去依据：both-even 对直接 `pass`，且 mod-12 已塌。
+
+### 8.5.2 非互素腿 concordant $N$ 的 gcd-aware mod-12 定理 (wl098)
+
+§8.5.1 的互素定理只是 $g=1$ 的特例。把同一套 mod-3 / mod-8 论证按「$\gcd(A,B)$ 是否含
+因子 $3$、是否含因子 $4$」重做一遍，得到**适用于任意 $(A,B)$** 的推广。
+
+**定理**：设 $g=\gcd(A,B)$，$N$ 为 $(A,B)$ 的 concordant 值（$N^2+A^2=\square$、$N^2+B^2=\square$）。则
+- 若 $3\nmid g$，则 $3\mid N$；
+- 若 $4\nmid g$，则 $4\mid N$。
+
+特别地 $3\nmid g$ 且 $4\nmid g$ $\Rightarrow$ $12\mid N$；$g=1$ 即 §8.5.1 的互素定理。
+
+**证明**。
+*(a) 3-部分.* 平方数模 $3\in\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$ 则和 $\equiv 2$（✗），
+故 $3\mid N$ 或 $3\mid A$；同理 $3\mid N$ 或 $3\mid B$。若 $3\nmid N$ 则 $3\mid A$ 且 $3\mid B$，即 $3\mid g$。
+逆否即 $3\nmid g\Rightarrow 3\mid N$。
+
+*(b) 4-部分.* 设 $4\nmid g$，即 $v_2(g)=\min(v_2(A),v_2(B))\le 1$，故存在一条腿 $C$ 使 $v_2(C)\le 1$。
+- $v_2(C)=0$（$C$ 奇）：$C^2\equiv 1\pmod 8$；平方数模 $8\in\{0,1,4\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv2$（✗），
+  $N\equiv2\pmod4\to$ 和 $\equiv5$（✗），仅 $N\equiv0\pmod4$ 时和 $\equiv1$ 可行 $\Rightarrow 4\mid N$。
+- $v_2(C)=1$（$C\equiv2\pmod4$）：$C=2C'$（$C'$ 奇），$C'^2\equiv1\pmod8\Rightarrow C^2=4C'^2\equiv4\pmod{16}$；
+  平方数模 $16\in\{0,1,4,9\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv5,13$（✗），$N\equiv2\pmod4\to N^2\equiv4$、和 $\equiv8$（✗），
+  仅 $N\equiv0\pmod4$ 时和 $\equiv4$ 可行 $\Rightarrow 4\mid N$。
+
+两种情形皆得 $4\mid N$。$\blacksquare$
+
+**边界**：$3\mid g$ 时 (a) 失效（例 $(6,15)$，$g=3$，$N=8$，$3\nmid8$）；$4\mid g$ 时 (b) 失效
+（例 $(8,20)$，$g=4$，$N=15$，$4\nmid15$）。
+
+**推论（非互素腿按 $g$ 二分）**：当 $\gcd(A,B)$ 与 $12$ 互素（含 $g=2,5,7,10,11,\dots$）时 $12\mid N$ 仍成立，
+故闭合仍需 $12\mid(A+B)$ 或 $12\mid|A-B|$——这一大类非互素腿与互素腿享有**同样的 mod-12 障碍**。
+真正放松约束的只有 $3\mid g$ 或 $4\mid g$ 的子类。于是 §8.6 的硬区被精确缩小到「$g$ 含 $3$ 或 $4$」那部分。
+
+**实证**：wl056 的 $1{,}802$ 个非互素对（$3{,}779$ 个 $N$）+ 独立 brute 重扫 $A<B\le 1200$
+（$8{,}371$ 对 / $9{,}277$ 个 $N$）逐 $N$ 断言，**零反例**；非互素对的实际 GEN-CLOSURE（完整 concordant 集）
+$0$ 命中、`chain_closure` 模 $p^2$ sound-杀 $1645/1802$（wl098）。
+
+**2-adic 精化（wl099）**：当 $v_2(g)=1$（即 $A,B$ 同含恰好一个因子 $2$，最小腿 $\equiv2\pmod4$）时，
+不仅 $4\mid N$，实际 $8\mid N$。证明：取最小腿 $C=2C'$（$C'$ 奇），由主定理 $4\mid N$，写 $N=4m$；
+$N^2+C^2=h^2\Rightarrow 16m^2+4C'^2=h^2\Rightarrow h=2h'$，$h'^2=4m^2+C'^2$。$C'$ 奇 $\Rightarrow C'^2\equiv1\pmod8$；
+若 $m$ 奇则 $4m^2\equiv4\pmod8$，$h'^2\equiv5\pmod8$（非 QR ✗）$\Rightarrow m$ 偶 $\Rightarrow 8\mid N$。$\blacksquare$
+（$v_2(g)=0$ 时为 $4\mid N$ 且紧；$v_2(g)\ge2$ 时 $N$ 可为奇 — 实测各层 $\min v_2(N)$ 恰为 $2,3$，$\ge2$ 层有奇 $N$。
+mod 9 / mod 27 也无法在 $3\mid g$ 层补回 $3\mid N$：$v_3(g)=1$ 层仅 $\approx45\%$ 仍 $3\mid N$。**故 prime-level 律到顶**。）
+
+**保证除数 $D_g$ 与 sound 的 gcd-aware 闭合筛（wl099）**：综合上述，每个 concordant $N$ 被
+$$D_g=P_2(g)\cdot P_3(g),\quad P_2(g)=\begin{cases}4&v_2(g)=0\\8&v_2(g)=1\\1&v_2(g)\ge2\end{cases},\quad P_3(g)=\begin{cases}3&v_3(g)=0\\1&v_3(g)\ge1\end{cases}$$
+整除（$g=1\Rightarrow D_g=12$，回到 §8.5.1；$g=2\Rightarrow D_g=24$）。于是任意闭合值 $N_i\pm N_j$ 被 $D_g$ 整除，
+闭合**必须** $D_g\mid(A+B)$（正方形内 sum）或 $D_g\mid|A-B|$（全平面）。这给出一条**对任意 $(A,B)$ sound**
+的筛 `safe_pair_sieve.gcd_aware_kills`（互素时即旧 `safe_sieve`）。
+
+实证（1,802 非互素对）：$D_g\mid N$ **零反例**（+ brute $A<B\le1200$ 零反例）；$D_g$ 筛（$O(1)$）杀 $1138$，
+其中 **$73$ 个是 `chain_closure` 模 $p^2$ 漏掉的**（互补）；二者并联后仅 $84$ 个落到穷尽 GEN-CLOSURE（$0$ 闭合）。
+$D_g$ 取值杀数：$\{3{:}408,\,4{:}367,\,8{:}132,\,12{:}133,\,24{:}98\}$。
+
+### 8.6 gcd 归约 与「coprime-$(A,B)$ 并非 WLOG」警告
 
 $E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），
 因此**秩**不变。但 concordant $N$ 值依赖于具体的 $(A, B)$：
 $(kA, kB)$ 的 concordant $N$ 不是 $k$ 的倍数时，在归约后的曲线上不可见。
+
+**⚠️ 由此推出一个必须显式记录的限制：把搜索 / 筛限制在 $\gcd(A,B)=1$ 上「并非 WLOG」。**
+反例是整数方形配置，整体放缩时四个量同乘一个因子，故**最小**反例只保证四数整体互素
+$\gcd(A,B,N_1,N_2)=1$，**推不出** $\gcd(A,B)=1$。§7 中 $A=q_1q_2$、$B=p_1p_2$ 是两个本原三元组的腿积，
+跨三元组的公因子可让 $\gcd(A,B)>1$ 同时仍 $\gcd(A,B,N_1,N_2)=1$（例：$A,B$ 皆偶而某 $N$ 为奇）。
+因此 $\gcd(A,B)=1$ 是**搜索空间的归一化选择**，不是无损归约；非互素 $(A,B)$ 半空间未被
+「先枚举互素 $(A,B)$ 再筛」（`generate_ab_pairs` / `fast_multi_concordant_pairs` 只产约化互素对）这条线
+覆盖——这正是 §8.6 漏洞，与 §8.5.1 的 mod-12 定理只在互素腿成立、`safe_sieve` 只在互素腿 sound 是**同一件事**。
+**覆盖全的方向是直接生成 multi-N pair**（partner 图 / 穷举扫描，wl058–wl096）：它天然把非互素 $(A,B)$
+收入顶点集（7M BFS 的 comp0 即 99.5% 为非互素），故 closure 经验扫描其实覆盖了非互素半空间（到 7M 仍 0 命中）；
+缺的只是一个**覆盖非互素腿的解析证明**。
+
+**§8.6 残余的结构（wl100）**：在 1,802 个非互素多-N 对上跑 sound 三段筛
+`gcd_aware_kills (D_g) → chain_closure 模 p² → GEN-CLOSURE`：$D_g$ 筛 + STANDARD 模筛后剩 $84$，
+其中 $64$ 个被**任何模数都杀不掉**（$p^2\le300$ + 素数幂共 $74$ 个模），即闭合同余在**每个模下都局部可解**——
+这是真正的**局部-整体（local-global）gap**，故任何 mod-$p^k$ 筛都无法清掉它，与模方法的能力上限有关，不是筛没调好。
+但这批残余的完整 concordant 集极小（$57$ 个恰 $2$ 个 $N$、$6$ 个 $3$ 个、$1$ 个 $4$ 个；$39/64$ 满足 $12\mid g$，
+此时 $D_g=1$ 整除性失效），故 **GEN-CLOSURE（完整整数枚举）开箱即用、sound、$0.05$ ms/对、$0$ 闭合**。
+**结论**：模筛只是 $O(1)$/$O(\text{素数})$ 的预筛（杀 $1718/1802$），GEN-CLOSURE 才是 sound 完备判定器，
+且因残余 concordant 集极小而廉价——这正是大规模扫描应采用的三段管线。
 
 ### 8.7 实现
 

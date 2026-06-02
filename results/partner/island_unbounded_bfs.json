@@ -1,0 +1,8 @@
+{
+  "window": 1000000,
+  "islands_tested": 8959,
+  "closed_to_exact_original_set": 8959,
+  "leaked_beyond_original": 0,
+  "global_max_coord_reached": 997101,
+  "leaks": []
+}

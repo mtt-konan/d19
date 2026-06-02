@@ -1,0 +1,25 @@
+{
+  "coprime_pairs_checked": 580828,
+  "max_coordinate": 4999995,
+  "total_concordant_N": 1165393,
+  "modulus": 12,
+  "N_not_divisible_by_12": 0,
+  "violation_examples": [],
+  "coprime_concordant_N_pairs": 0,
+  "coprime_N_pair_examples": [],
+  "gcd_Ni_Nj_top": {
+    "12": 259609,
+    "60": 75146,
+    "24": 43694,
+    "84": 26915,
+    "120": 20346,
+    "36": 15847,
+    "420": 11286,
+    "48": 9359,
+    "168": 9235,
+    "132": 8746,
+    "180": 6998,
+    "156": 6208
+  },
+  "law_holds": true
+}
