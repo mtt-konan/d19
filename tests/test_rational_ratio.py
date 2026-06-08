@@ -124,6 +124,32 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert not is_rational_ratio_member(lam, s)
 
 
+def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        is_pythagorean_leg_ratio,
+        sum_ab_point_from_slopes,
+    )
+
+    point = sum_ab_point_from_slopes(Fraction(3, 4), Fraction(4, 3))
+
+    assert point is not None
+    assert point.lambda_ratio == Fraction(12, 13)
+    assert point.r1 == Fraction(9, 13)
+    assert point.r2 == Fraction(16, 13)
+    assert point.closes_sum_ab
+    assert is_pythagorean_leg_ratio(point.slope1)
+    assert is_pythagorean_leg_ratio(point.slope2)
+    assert not point.true_member_pair
+
+
+def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
+    from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
+
+    slopes = (Fraction(3, 4), Fraction(4, 3), Fraction(5, 12), Fraction(12, 5))
+
+    assert scan_sum_ab_slope_pairs(slopes, include_false_members=False) == ()
+
+
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
     from rational_distance.concordant.rational_ratio import square_rectangle_terms
 

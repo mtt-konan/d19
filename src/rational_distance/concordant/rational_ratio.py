@@ -62,6 +62,24 @@ class ReciprocalClosureRoot:
     true_member: bool
 
 
+@dataclass(frozen=True, order=True)
+class SumAbSlopePoint:
+    """A sum=A+B candidate expressed by scaled Pythagorean slopes."""
+
+    lambda_ratio: Fraction
+    r1: Fraction
+    r2: Fraction
+    slope1: Fraction
+    slope2: Fraction
+    product: Fraction
+    reciprocal_pair: bool
+    true_member_pair: bool
+
+    @property
+    def closes_sum_ab(self) -> bool:
+        return self.r1 + self.r2 == self.lambda_ratio + 1
+
+
 def _as_fraction(value: Fraction | int) -> Fraction:
     return value if isinstance(value, Fraction) else Fraction(value)
 
@@ -104,6 +122,13 @@ def is_rational_ratio_member(lambda_ratio: Fraction | int, r: Fraction | int) ->
     return _is_rational_square(ratio * ratio + 1) and _is_rational_square(
         ratio * ratio + lam * lam
     )
+
+
+def is_pythagorean_leg_ratio(ratio: Fraction | int) -> bool:
+    """Return True iff ``ratio`` has rational distance to a unit leg."""
+    value = _as_fraction(ratio)
+    _validate_positive("ratio", value)
+    return _is_rational_square(value * value + 1)
 
 
 def reciprocal_ratio(lambda_ratio: Fraction | int, r: Fraction | int) -> Fraction:
@@ -159,6 +184,63 @@ def find_rational_ratio_hits(
                 if ratio_diff == target:
                     hits.append(RationalRatioHit(r1, r2, relation, False))
     return tuple(sorted(hits))
+
+
+def sum_ab_point_from_slopes(
+    slope1: Fraction | int,
+    slope2: Fraction | int,
+) -> SumAbSlopePoint | None:
+    """Return the ``sum=A+B`` rational-ratio candidate from scaled slopes.
+
+    If ``x = r/lambda`` and ``y = s/lambda``, then ``r+s=lambda+1`` forces
+    ``lambda = 1 / (x+y-1)``.  True membership additionally requires both
+    ``x,y`` and ``lambda*x, lambda*y`` to be Pythagorean leg ratios.
+    """
+    x = _as_fraction(slope1)
+    y = _as_fraction(slope2)
+    _validate_positive("slope1", x)
+    _validate_positive("slope2", y)
+    denominator = x + y - 1
+    if denominator <= 0:
+        return None
+    lam = 1 / denominator
+    r1 = lam * x
+    r2 = lam * y
+    return SumAbSlopePoint(
+        lambda_ratio=lam,
+        r1=r1,
+        r2=r2,
+        slope1=x,
+        slope2=y,
+        product=r1 * r2,
+        reciprocal_pair=r1 * r2 == lam,
+        true_member_pair=is_rational_ratio_member(lam, r1)
+        and is_rational_ratio_member(lam, r2),
+    )
+
+
+def scan_sum_ab_slope_pairs(
+    slopes: tuple[Fraction, ...],
+    *,
+    include_false_members: bool = False,
+) -> tuple[SumAbSlopePoint, ...]:
+    """Scan scaled slopes for ``sum=A+B`` rational-ratio candidates."""
+    sorted_slopes = tuple(sorted(set(slopes)))
+    points: list[SumAbSlopePoint] = []
+    for i, slope1 in enumerate(sorted_slopes):
+        _validate_positive("slope", slope1)
+        if not is_pythagorean_leg_ratio(slope1):
+            continue
+        for slope2 in sorted_slopes[i:]:
+            _validate_positive("slope", slope2)
+            if not is_pythagorean_leg_ratio(slope2):
+                continue
+            point = sum_ab_point_from_slopes(slope1, slope2)
+            if point is None:
+                continue
+            if point.true_member_pair or include_false_members:
+                points.append(point)
+    return tuple(sorted(points))
 
 
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
@@ -332,13 +414,17 @@ __all__ = [
     "RationalRatioHit",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
+    "SumAbSlopePoint",
     "closure_product_identity_terms",
     "find_rational_ratio_hits",
+    "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
     "product_identity_terms",
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
+    "scan_sum_ab_slope_pairs",
     "square_rectangle_terms",
+    "sum_ab_point_from_slopes",
     "true_reciprocal_sum_ab_roots",
 ]
