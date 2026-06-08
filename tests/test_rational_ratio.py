@@ -2,10 +2,17 @@ from __future__ import annotations
 
 import sys
 from fractions import Fraction
+from math import isqrt
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
+
+
+def _is_rational_square(value: Fraction) -> bool:
+    num = isqrt(value.numerator)
+    den = isqrt(value.denominator)
+    return num * num == value.numerator and den * den == value.denominator
 
 
 def test_rational_ratio_membership_uses_both_square_conditions() -> None:
@@ -87,6 +94,34 @@ def test_closure_product_identity_uses_difference_sign() -> None:
     assert diff_terms.b_minus_lambda_sq_a == (
         (lam * lam - 1) * (lam * lam - product * product)
     )
+
+
+def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_SUM_AB,
+        closure_product_identity_terms,
+        is_rational_ratio_member,
+    )
+
+    lam = Fraction(535, 161)
+    r = Fraction(14, 23)
+    s = Fraction(26, 7)
+    product = r * s
+    target = lam + 1
+
+    terms = closure_product_identity_terms(lam, target, product, REL_SUM_AB)
+    discriminant = target * target - 4 * product
+
+    assert r + s == target
+    assert product != lam
+    assert terms.a_term == Fraction(525625, 25921)
+    assert terms.b_term == Fraction(190463289241, 671898241)
+    assert discriminant == Fraction(250000, 25921)
+    assert _is_rational_square(terms.a_term)
+    assert _is_rational_square(terms.b_term)
+    assert _is_rational_square(discriminant)
+    assert not is_rational_ratio_member(lam, r)
+    assert not is_rational_ratio_member(lam, s)
 
 
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
