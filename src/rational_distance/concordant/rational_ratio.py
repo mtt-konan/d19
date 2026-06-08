@@ -121,6 +121,19 @@ class SumAbSlopeObstruction:
         return self.pass_count == 3 and self.failure_count == 1
 
 
+@dataclass(frozen=True, order=True)
+class SumAbRatioShadowOrbit:
+    """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
+
+    key: tuple[Fraction, ...]
+    members: tuple[SumAbSlopeObstruction, ...]
+    failed_squareclasses: tuple[int, ...]
+
+    @property
+    def member_count(self) -> int:
+        return len(self.members)
+
+
 def _as_fraction(value: Fraction | int) -> Fraction:
     return value if isinstance(value, Fraction) else Fraction(value)
 
@@ -354,6 +367,53 @@ def sum_ab_slope_obstruction(
     )
 
 
+def _obstruction_ratios(obstruction: SumAbSlopeObstruction) -> tuple[Fraction, ...]:
+    return (
+        obstruction.slope1,
+        obstruction.slope2,
+        obstruction.r1,
+        obstruction.r2,
+    )
+
+
+def sum_ab_ratio_shadow_key(obstruction: SumAbSlopeObstruction) -> tuple[Fraction, ...]:
+    """Return a conservative key under swaps and simultaneous reciprocals.
+
+    This is not a full D4 action.  It only forgets the order of ``x,y,r,s`` and
+    identifies that multiset with the multiset of reciprocal ratios.
+    """
+    ratios = _obstruction_ratios(obstruction)
+    direct = tuple(sorted(ratios))
+    reciprocal = tuple(sorted(1 / ratio for ratio in ratios))
+    return min(direct, reciprocal)
+
+
+def _failed_squareclasses(obstruction: SumAbSlopeObstruction) -> tuple[int, ...]:
+    by_name = dict(obstruction.term_squareclasses)
+    return tuple(sorted(by_name[name] for name in obstruction.failed_terms))
+
+
+def group_sum_ab_ratio_shadow_orbits(
+    obstructions: tuple[SumAbSlopeObstruction, ...],
+) -> tuple[SumAbRatioShadowOrbit, ...]:
+    """Group obstructions by the conservative ratio-shadow key."""
+    buckets: dict[tuple[Fraction, ...], list[SumAbSlopeObstruction]] = {}
+    squareclasses: dict[tuple[Fraction, ...], set[int]] = {}
+    for obstruction in obstructions:
+        key = sum_ab_ratio_shadow_key(obstruction)
+        buckets.setdefault(key, []).append(obstruction)
+        squareclasses.setdefault(key, set()).update(_failed_squareclasses(obstruction))
+    orbits = [
+        SumAbRatioShadowOrbit(
+            key=key,
+            members=tuple(sorted(buckets[key])),
+            failed_squareclasses=tuple(sorted(squareclasses[key])),
+        )
+        for key in sorted(buckets)
+    ]
+    return tuple(sorted(orbits, key=lambda orbit: (orbit.member_count, orbit.key)))
+
+
 def scan_sum_ab_slope_obstructions(
     slopes: tuple[Fraction, ...],
     *,
@@ -575,10 +635,12 @@ __all__ = [
     "RationalRatioHit",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
+    "SumAbRatioShadowOrbit",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
     "closure_product_identity_terms",
     "find_rational_ratio_hits",
+    "group_sum_ab_ratio_shadow_orbits",
     "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
     "leg_ratio_squareclass",
@@ -591,6 +653,7 @@ __all__ = [
     "scan_sum_ab_slope_pairs",
     "square_rectangle_terms",
     "sum_ab_point_from_slopes",
+    "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
     "true_reciprocal_sum_ab_roots",
 ]

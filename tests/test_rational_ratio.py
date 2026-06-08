@@ -224,6 +224,42 @@ def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None
     assert near_misses[0].passed_terms == ("slope1", "slope2", "r2")
 
 
+def test_sum_ab_ratio_shadow_key_identifies_reciprocal_near_misses() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_ratio_shadow_key,
+        sum_ab_slope_obstruction,
+    )
+
+    first = sum_ab_slope_obstruction(Fraction(7, 24), Fraction(15, 8))
+    reciprocal_shadow = sum_ab_slope_obstruction(Fraction(8, 15), Fraction(28, 45))
+
+    assert first is not None
+    assert reciprocal_shadow is not None
+    assert first.three_pass_near_miss
+    assert reciprocal_shadow.three_pass_near_miss
+    assert sum_ab_ratio_shadow_key(first) == sum_ab_ratio_shadow_key(reciprocal_shadow)
+
+
+def test_group_sum_ab_ratio_shadow_orbits_merges_reciprocal_pair() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        group_sum_ab_ratio_shadow_orbits,
+        sum_ab_slope_obstruction,
+    )
+
+    first = sum_ab_slope_obstruction(Fraction(7, 24), Fraction(15, 8))
+    reciprocal_shadow = sum_ab_slope_obstruction(Fraction(8, 15), Fraction(28, 45))
+    unrelated = sum_ab_slope_obstruction(Fraction(3, 4), Fraction(4, 3))
+
+    assert first is not None
+    assert reciprocal_shadow is not None
+    assert unrelated is not None
+
+    orbits = group_sum_ab_ratio_shadow_orbits((first, reciprocal_shadow, unrelated))
+
+    assert [orbit.member_count for orbit in orbits] == [1, 2]
+    assert [orbit.failed_squareclasses for orbit in orbits] == [(10, 17), (17,)]
+
+
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
     from rational_distance.concordant.rational_ratio import square_rectangle_terms
 
