@@ -103,16 +103,19 @@ Recommended action:
 Plain-language explanation:
 这像一本旧账本：账本格式还在，但里面的判定规则已经换代。不能拿旧账本代表今天的状态。
 
-## H2: Coprime-Only `safe_sieve` 缺少边界保护
+## H2: Coprime-Only `safe_sieve` 边界保护
 
-Severity: high for manual/non-coprime use; medium inside current reduced pipeline.
+Severity: mitigated high for manual/non-coprime use; medium residual wording/API risk.
 
 Claim:
-`run_safe_sieve` wraps `classify_reduced_pair` but does not assert `gcd(A,B)==1`; manual `scripts/prove_no_solution.py --pair A,B` input can therefore enter a coprime-only proof step without the reduced-pair generator's protection.
+Pre-fix, `run_safe_sieve` wrapped `classify_reduced_pair` without asserting `gcd(A,B)==1`; manual `scripts/prove_no_solution.py --pair A,B` input could therefore enter a coprime-only proof step without the reduced-pair generator's protection.
+
+Fix status:
+As of 2026-06-09, `run_safe_sieve` checks `gcd(A,B)` first. If `gcd(A,B)>1`, it returns non-terminal `outcome="skipped"` with `classification="not_reduced_coprime"` and the workflow continues to later methods.
 
 Where it appears:
 - `src/rational_distance/concordant/safe_pair_sieve.py:1-23`
-- `src/rational_distance/proof_status/methods.py:103-128`
+- `src/rational_distance/proof_status/methods.py:103-143`
 - `scripts/prove_no_solution.py:45-57`
 - `scripts/prove_no_solution.py:137-149`
 
@@ -123,18 +126,20 @@ Evidence:
 - `(6,15)` has concordant `N=8`, but `classify_reduced_pair(6,15)` returns `mixed_parity`.
 - `gcd_aware_kills` exists as the arbitrary-pair replacement.
 - Normal batch generation is safer because `generate_ab_pairs()` reduces by `gcd(A,B)` before yielding pairs.
-- The `--pair` path only checks parsing, positivity, and ordering, then can let `run_safe_sieve` store terminal `outcome="no_solution"` for a method whose own helper says it is reduced/coprime-only.
+- Pre-fix, the `--pair` path only checked parsing, positivity, and ordering, then could let `run_safe_sieve` store terminal `outcome="no_solution"` for a method whose own helper says it is reduced/coprime-only.
+- Post-fix test coverage checks `run_safe_sieve(6,15)` returns `skipped`, and workflow records `safe_sieve=skipped` before continuing to `chain_closure_mod_sieve`.
 - Safe-filters subagent sampled non-coprime examples such as `(51,975)` and `(75,495)` where old `safe_sieve` rejects but `gcd_aware_kills` does not. No concrete false GEN-CLOSURE closure was found, so this is a certificate/precondition risk rather than proof that the current headline result is false.
 
 Reproduction or check:
 - `PYTHONPATH=src uv run python - <<'PY' ... safe_pair_sieve ... PY`
+- `uv run pytest tests/test_proof_status.py::TestSafeSieveMethod::test_skips_noncoprime_pair_instead_of_certifying_no_solution tests/test_proof_status.py::TestWorkflow::test_noncoprime_safe_sieve_skip_does_not_terminate_pipeline -q`
 
 Affected top-level conclusions:
-- Any future non-coprime proof_status run if it reuses `run_safe_sieve` directly.
+- Residual risk is now wording/API drift: future code must not remove the guard or reinterpret `skipped` as a proof. Arbitrary-pair proof should use gcd-aware/full-plane methods.
 
 Recommended action:
-- Add a guard or rename wrapper to `run_reduced_safe_sieve`.
-- For `scripts/prove_no_solution.py --pair`, either reject non-coprime pairs before `safe_sieve`, skip `safe_sieve`, or record a weaker/non-terminal diagnostic until a gcd-aware/full-plane method runs.
+- Keep the `run_safe_sieve` gcd guard and regression tests.
+- For arbitrary-pair tools, prefer an explicit gcd-aware first stage or make the `safe_sieve=skipped` reason visible in output.
 - Use `gcd_aware_kills` for full-space scans.
 
 Plain-language explanation:

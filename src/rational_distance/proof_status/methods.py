@@ -30,9 +30,10 @@ height evidence, positive witnesses only) and never returns ``no_solution``.
 
 from __future__ import annotations
 
+import os
 import time
 from collections.abc import Callable
-from math import isqrt
+from math import gcd, isqrt
 
 from rational_distance.concordant.analysis import gen_closure_hit
 from rational_distance.concordant.chain_closure_sieve import (
@@ -43,8 +44,9 @@ from rational_distance.concordant.chain_closure_sieve import (
     STANDARD_MODULI,
     find_killer_modulus,
 )
-
-import os
+from rational_distance.concordant.factor_search import find_concordant_by_factorization
+from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
+from rational_distance.proof_status.types import MethodResult
 
 # 模数档位映射，供 CLI 使用
 MODULI_PRESETS: dict[str, tuple[int, ...]] = {
@@ -69,11 +71,6 @@ def get_current_moduli() -> tuple[int, ...]:
     """获取当前使用的模数（从环境变量读取，支持 worker 进程）。"""
     name = os.environ.get(_MODULI_ENV_VAR, "standard")
     return MODULI_PRESETS.get(name, DEFAULT_PRIME_SQUARE_MODULI)
-
-
-from rational_distance.concordant.factor_search import find_concordant_by_factorization
-from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
-from rational_distance.proof_status.types import MethodResult
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -101,8 +98,31 @@ def _check_chain_compatibility(A: int, B: int, N: int) -> bool:
 
 
 def run_safe_sieve(A: int, B: int) -> MethodResult:
-    """Apply the proven 2-adic necessary conditions on reduced ``(A, B)``."""
+    """Apply coprime-only 2-adic necessary conditions on reduced ``(A, B)``.
+
+    Non-coprime pairs are deliberately skipped here.  The underlying theorem
+    is not valid on that domain; later gcd-aware/full-plane methods must decide
+    those pairs.
+    """
     started = time.perf_counter()
+    pair_gcd = gcd(A, B)
+    if pair_gcd != 1:
+        elapsed = time.perf_counter() - started
+        return MethodResult(
+            method="safe_sieve",
+            outcome="skipped",
+            details={
+                "classification": "not_reduced_coprime",
+                "gcd": pair_gcd,
+                "precondition": "gcd(A,B)=1",
+            },
+            elapsed_s=elapsed,
+            notes=(
+                "Skipped coprime-only safe_sieve because gcd(A,B)>1; "
+                "use gcd-aware/full-plane methods for non-coprime pairs."
+            ),
+        )
+
     classification = classify_reduced_pair(A, B)
     elapsed = time.perf_counter() - started
 
@@ -117,8 +137,8 @@ def run_safe_sieve(A: int, B: int) -> MethodResult:
             notes="2-adic necessary conditions satisfied; deeper methods required.",
         )
 
-    # mixed_parity and odd_odd_wrong_mod4 are both rigorous obstructions
-    # for the full chain (not just for concordant existence).
+    # For reduced coprime input, mixed_parity and odd_odd_wrong_mod4 are both
+    # rigorous obstructions for the full chain, not just concordant existence.
     return MethodResult(
         method="safe_sieve",
         outcome="no_solution",

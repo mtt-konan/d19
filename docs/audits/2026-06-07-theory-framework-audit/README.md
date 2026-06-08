@@ -8,6 +8,10 @@ Scope: audit the repository's theory framework for fatal or near-fatal errors th
 
 补审了 wl107-wl116 的 fixed-ratio / rational-ratio 分支。结论没有推翻 2026-06-07 的主审查：项目仍未声称全局证明，主线仍要区分证明、有限实验和路线猜想。
 
+工程安全补丁：
+
+- H2 `safe_sieve` 边界保护已补：`run_safe_sieve` 现在对 `gcd(A,B)>1` 返回 `skipped`，不会再把 coprime-only 分类写成 terminal `no_solution`；workflow 会继续跑后续 gcd-aware/full-plane 方法。
+
 新增边界是：
 
 - 整数固定比例 `A=kB` 是有效的低维理论切片，但它不能覆盖全局候选。归一化后的比例是 `λ=A/B∈Q_{>0}`，不一定是整数。
@@ -36,7 +40,7 @@ Scope: audit the repository's theory framework for fatal or near-fatal errors th
 | fatal if cited | Sum-only closure is not full-plane closure. | Current `proof_status` fixed; older docs/scripts need labels or updates. |
 | fatal if cited | Coprime reduced `(A,B)` is not WLOG. | Current docs mostly warn correctly; global proof still absent. |
 | high | Existing `results/proof_status.db` is stale after wl094. | Do not cite existing hard_case counts as current. |
-| high | `safe_sieve` wrapper has no coprime guard. | Safe in generated reduced stream; unsafe for manual/full-space use. |
+| mitigated high | `safe_sieve` wrapper originally had no coprime guard. | Guard added 2026-06-09: non-coprime input is skipped, not certified by coprime-only safe_sieve. |
 | high | `dual_closure_sieve` remains sum-only. | Treat as legacy inside-square tool. |
 | high | Default `concordant` CLI is diagnostic/bounded. | Use factor/proof_status for proof-producing reduced-pair decisions. |
 
@@ -120,7 +124,7 @@ The `safe-filters` slice was first completed locally in `safe-filters-controller
 
 1. Update or label `docs/MULTI_CONCORDANT_N_STRATEGY.md` as historical inside-square/sum-only unless rewritten around GEN-CLOSURE.
 2. Rebuild or relabel `results/proof_status.db` and `results/chain.db`; add semantic/version provenance to `results/catalog.json`.
-3. Add a coprime-domain guard or rename around `run_safe_sieve`; in particular, keep manual `--pair` inputs from storing coprime-only `safe_sieve` results as strong `no_solution` certificates unless `gcd(A,B)==1` is verified.
+3. H2 mitigated 2026-06-09: `run_safe_sieve` now skips non-coprime input. Keep this guard, and keep arbitrary-pair/full-space methods separate from coprime-only safe_sieve.
 4. Mark `dual_closure_sieve` and `prove_no_solution_multi_first.py` as legacy sum-only, or upgrade to full-plane and rerun.
 5. Clarify CLI output: `chain_compatible` means inside-square/sum diagnostic unless full GEN-CLOSURE is reported.
 6. Keep full-space scans in the "strong empirical evidence" bucket until there is a theorem that closure never occurs.

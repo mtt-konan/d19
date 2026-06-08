@@ -78,6 +78,19 @@ class TestSafeSieveMethod:
         assert result.outcome == "pass"
         assert result.details["classification"] == "pass"
 
+    def test_skips_noncoprime_pair_instead_of_certifying_no_solution(self):
+        from rational_distance.proof_status.methods import run_safe_sieve
+
+        # H2 audit guard: classify_reduced_pair(6,15) would say mixed_parity,
+        # but that coprime-only theorem is not applicable when gcd(A,B)>1.
+        result = run_safe_sieve(6, 15)
+
+        assert result.method == "safe_sieve"
+        assert result.outcome == "skipped"
+        assert result.details["classification"] == "not_reduced_coprime"
+        assert result.details["gcd"] == 3
+        assert "coprime" in result.notes
+
 
 class TestChainClosureModSieve:
     """Joint mod-p² sieve: T ∩ ((A+B) - T) = ∅ ⇒ no_solution.
@@ -572,6 +585,36 @@ class TestWorkflow:
             ).fetchall()
         ]
         assert attempt_methods == ["safe_sieve"]
+
+    def test_noncoprime_safe_sieve_skip_does_not_terminate_pipeline(self, tmp_path: Path):
+        from rational_distance.proof_status import schema, workflow
+        from rational_distance.proof_status.methods import (
+            run_chain_closure_mod_sieve,
+            run_safe_sieve,
+        )
+
+        db = tmp_path / "p.sqlite3"
+        conn = schema.connect_db(db)
+        schema.init_schema(conn)
+
+        cfg = workflow.WorkflowConfig(
+            methods=(
+                ("safe_sieve", run_safe_sieve),
+                ("chain_closure_mod_sieve", run_chain_closure_mod_sieve),
+            )
+        )
+        status = workflow.process_pair(conn, 6, 15, cfg)
+
+        assert status.status == "no_solution"
+        assert status.method == "chain_closure_mod_sieve"
+        outcomes = conn.execute(
+            "SELECT method, outcome FROM pair_method_attempts WHERE A=? AND B=? ORDER BY id",
+            (6, 15),
+        ).fetchall()
+        assert [(row[0], row[1]) for row in outcomes] == [
+            ("safe_sieve", "skipped"),
+            ("chain_closure_mod_sieve", "no_solution"),
+        ]
 
     def test_factor_concordant_terminates_when_no_n(self, tmp_path: Path, pari_free_pipeline):
         from rational_distance.proof_status import schema, workflow
