@@ -105,7 +105,20 @@ class SumAbSlopeObstruction:
     r1: Fraction
     r2: Fraction
     failed_terms: tuple[str, ...]
+    passed_terms: tuple[str, ...]
     term_squareclasses: tuple[tuple[str, int], ...]
+
+    @property
+    def pass_count(self) -> int:
+        return len(self.passed_terms)
+
+    @property
+    def failure_count(self) -> int:
+        return len(self.failed_terms)
+
+    @property
+    def three_pass_near_miss(self) -> bool:
+        return self.pass_count == 3 and self.failure_count == 1
 
 
 def _as_fraction(value: Fraction | int) -> Fraction:
@@ -334,10 +347,36 @@ def sum_ab_slope_obstruction(
         r1=point.r1,
         r2=point.r2,
         failed_terms=tuple(name for name, diagnostic in diagnostics if not diagnostic.is_square),
+        passed_terms=tuple(name for name, diagnostic in diagnostics if diagnostic.is_square),
         term_squareclasses=tuple(
             (name, diagnostic.squarefree_part) for name, diagnostic in diagnostics
         ),
     )
+
+
+def scan_sum_ab_slope_obstructions(
+    slopes: tuple[Fraction, ...],
+    *,
+    pass_count: int | None = None,
+) -> tuple[SumAbSlopeObstruction, ...]:
+    """Scan ``sum=A+B`` slope pairs and return squareclass diagnostics."""
+    sorted_slopes = tuple(sorted(set(slopes)))
+    obstructions: list[SumAbSlopeObstruction] = []
+    for i, slope1 in enumerate(sorted_slopes):
+        _validate_positive("slope", slope1)
+        if not is_pythagorean_leg_ratio(slope1):
+            continue
+        for slope2 in sorted_slopes[i:]:
+            _validate_positive("slope", slope2)
+            if not is_pythagorean_leg_ratio(slope2):
+                continue
+            obstruction = sum_ab_slope_obstruction(slope1, slope2)
+            if obstruction is None:
+                continue
+            if pass_count is not None and obstruction.pass_count != pass_count:
+                continue
+            obstructions.append(obstruction)
+    return tuple(obstructions)
 
 
 def scan_sum_ab_slope_pairs(
@@ -548,6 +587,7 @@ __all__ = [
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
+    "scan_sum_ab_slope_obstructions",
     "scan_sum_ab_slope_pairs",
     "square_rectangle_terms",
     "sum_ab_point_from_slopes",

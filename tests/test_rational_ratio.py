@@ -194,6 +194,36 @@ def test_sum_ab_slope_obstruction_identifies_scaled_leg_failures() -> None:
     )
 
 
+def test_sum_ab_slope_obstruction_counts_three_pass_near_miss() -> None:
+    from rational_distance.concordant.rational_ratio import sum_ab_slope_obstruction
+
+    obstruction = sum_ab_slope_obstruction(Fraction(15, 8), Fraction(7, 24))
+
+    assert obstruction is not None
+    assert obstruction.lambda_ratio == Fraction(6, 7)
+    assert obstruction.r1 == Fraction(45, 28)
+    assert obstruction.r2 == Fraction(1, 4)
+    assert obstruction.failed_terms == ("r2",)
+    assert obstruction.passed_terms == ("slope1", "slope2", "r1")
+    assert obstruction.pass_count == 3
+    assert obstruction.failure_count == 1
+    assert obstruction.three_pass_near_miss
+
+
+def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None:
+    from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_obstructions
+
+    slopes = (Fraction(3, 4), Fraction(4, 3), Fraction(15, 8), Fraction(7, 24))
+
+    near_misses = scan_sum_ab_slope_obstructions(slopes, pass_count=3)
+
+    assert len(near_misses) == 1
+    assert near_misses[0].slope1 == Fraction(7, 24)
+    assert near_misses[0].slope2 == Fraction(15, 8)
+    assert near_misses[0].failed_terms == ("r1",)
+    assert near_misses[0].passed_terms == ("slope1", "slope2", "r2")
+
+
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
     from rational_distance.concordant.rational_ratio import square_rectangle_terms
 
