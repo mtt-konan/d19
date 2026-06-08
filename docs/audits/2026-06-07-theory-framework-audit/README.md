@@ -66,6 +66,22 @@ Details live in `risk-register.md`.
 
 Full matrix: `branch-status.md`.
 
+## Claim Ledger Summary
+
+`claim-ledger.md` 覆盖控制计划列出的 12 条高层结论，并在 2026-06-09 增补 fixed-ratio / rational-ratio 分支作为 C13。
+
+简表：
+
+| Bucket | Claims |
+|---|---|
+| proved / scoped proof | C5 coprime safe conditions, C6 GEN-CLOSURE replacement, C8 rank scope warning, C12 no global proof status |
+| engineering baseline | C1 concordant main line, C2 chain-fast bounded baseline, C3 legacy routes paused, C9 proof_status / fast-core |
+| empirical / finite evidence | C4 mod1680 empty runtime value, C7 multi-N no observed closure, C10 partner graph finite structure |
+| conjectural / open | C11 long-term advanced routes, C13 fixed-ratio requires rational-ratio theorem |
+| obsolete / historical guard | Sum-only closure and dual-closure wording, stale DB result semantics |
+
+普通话说，ledger 没有把“没搜到”写成“证明不存在”。它把证明、工程基线、有限实验、旧结论和开放猜想分开。
+
 ## Artifacts
 
 - `claim-ledger.md`: major claims, status, dependencies, and failure modes.
@@ -108,7 +124,24 @@ The `safe-filters` slice was first completed locally in `safe-filters-controller
 4. Mark `dual_closure_sieve` and `prove_no_solution_multi_first.py` as legacy sum-only, or upgrade to full-plane and rerun.
 5. Clarify CLI output: `chain_compatible` means inside-square/sum diagnostic unless full GEN-CLOSURE is reported.
 6. Keep full-space scans in the "strong empirical evidence" bucket until there is a theorem that closure never occurs.
+7. For fixed-ratio work, use rational `λ=A/B` as the global language. Do not promote integer `A=kB` progress into a full-space claim unless the `R_λ` translation theorem is proved.
 
 ## Residual Uncertainty
 
 This audit did not independently rederive all external papers or rerun huge scans. It checked repo-internal claims, source code, tests, schemas, and representative result summaries. The biggest unresolved mathematical issue remains the project-level one: no global proof that full-space GEN-CLOSURE can never occur.
+
+## Completion Audit
+
+| Required by control plan | Evidence |
+|---|---|
+| Claim ledger exists | `claim-ledger.md` |
+| Every high-level conclusion has a status | C1-C12 in `claim-ledger.md`; C13 addendum for later fixed-ratio work |
+| Every active/baseline/paused branch has a justification | `branch-status.md` |
+| Fatal/high-risk issues have evidence and actions | `risk-register.md` F1-F2, H1-H7 |
+| Proof / experiment / conjecture / obsolete history are separated | `claim-ledger.md` status labels and experiment/proof boundary table |
+| Verification commands are listed with outcomes | `commands-run.md` |
+| Subagent notes are saved | `subagent-notes/` contains reduction, safe filters, concordant multi-N, chain-fast, partner graph, legacy routes, advanced directions, fixed-ratio addendum |
+| Controller rechecked serious findings | `risk-register.md`, `safe-filters-controller.md`, `advanced-directions-controller.md`, `fixed-ratio-addendum.md` |
+| Final report names created files | This README lists the artifact set above |
+
+No current fatal issue was found in production code. The audit records fatal-if-cited and high-risk documentation/scope problems that could mislead future work if someone treats old, finite, coprime-only, sum-only, or integer-ratio statements as global proof.

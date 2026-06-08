@@ -60,3 +60,14 @@
 Addendum notes:
 - Source code was added before this addendum commit; this audit update only records the branch status and proof boundary.
 - The addendum does not claim `A=λB` is impossible. It records that integer `A=kB` cannot be promoted to global coverage without a rational-ratio theorem.
+
+## 2026-06-09 Completion Audit
+
+| Command | Outcome | Notes |
+|---|---|---|
+| `find docs/audits/2026-06-07-theory-framework-audit -maxdepth 3 -type f | sort` | pass | Confirmed README, claim ledger, risk register, branch status, commands log, and all subagent/addendum notes exist. |
+| `rg -n "Completion Criteria|Recommended files" docs/superpowers/plans/2026-06-07-theory-framework-audit-goal.md` | pass | Used the control plan requirements for completion audit. |
+| `git status --short --branch` | pass | Branch `main` is ahead of origin; no uncommitted files before this completion-audit edit. |
+
+Completion-audit note:
+- The README now contains a completion-audit table mapping each control-plan requirement to the file evidence.
