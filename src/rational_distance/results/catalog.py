@@ -32,13 +32,13 @@ class CuratedArtifact:
 
 CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
     CuratedArtifact(
-        path="multi_concordant_N_max10000.jsonl",
+        path="multi_n/multi_concordant_N_max10000.jsonl",
         category="multi-concordant",
         description="Ground-truth reduced pairs with >= 2 concordant N for max_hyp=10000.",
         authoritative=True,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max20000_fast.jsonl",
+        path="multi_n/multi_concordant_N_max20000_fast.jsonl",
         category="multi-concordant",
         description=(
             "Pivot-on-N fast scanner output for max_hyp=20000 "
@@ -47,7 +47,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max50000_fast.jsonl",
+        path="multi_n/multi_concordant_N_max50000_fast.jsonl",
         category="multi-concordant",
         description=(
             "Pivot-on-N fast scanner output for max_hyp=50000 "
@@ -56,7 +56,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max10000_classified.jsonl",
+        path="multi_n/multi_concordant_N_max10000_classified.jsonl",
         category="multi-concordant",
         description=(
             "max_hyp=10000 multi-N pairs annotated with F₂-rank "
@@ -65,7 +65,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max20000_classified.jsonl",
+        path="multi_n/multi_concordant_N_max20000_classified.jsonl",
         category="multi-concordant",
         description=(
             "max_hyp=20000 multi-N pairs annotated with F₂-rank "
@@ -74,7 +74,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max50000_classified.jsonl",
+        path="multi_n/multi_concordant_N_max50000_classified.jsonl",
         category="multi-concordant",
         description=(
             "max_hyp=50000 multi-N pairs annotated with F₂-rank "
@@ -83,7 +83,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max50000_pari_rank.jsonl",
+        path="multi_n/multi_concordant_N_max50000_pari_rank.jsonl",
         category="multi-concordant",
         description=(
             "Subset of max_hyp=50000 F₂-rank>=3 multi-N pairs with "
@@ -92,7 +92,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max100000_fast.jsonl",
+        path="multi_n/multi_concordant_N_max100000_fast.jsonl",
         category="multi-concordant",
         description=(
             "Pivot-on-N fast scanner output for max_hyp=100000 (wl052)."
@@ -100,7 +100,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max100000_classified.jsonl",
+        path="multi_n/multi_concordant_N_max100000_classified.jsonl",
         category="multi-concordant",
         description=(
             "max_hyp=100000 multi-N pairs annotated with F₂-rank (wl052)."
@@ -108,7 +108,7 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
         authoritative=False,
     ),
     CuratedArtifact(
-        path="multi_concordant_N_max100000_pari_rank.jsonl",
+        path="multi_n/multi_concordant_N_max100000_pari_rank.jsonl",
         category="multi-concordant",
         description=(
             "Subset of max_hyp=100000 F₂-rank>=3 multi-N pairs with "
@@ -119,8 +119,11 @@ CURATED_ARTIFACTS: tuple[CuratedArtifact, ...] = (
     CuratedArtifact(
         path="proof_status.db",
         category="proof-status",
-        description="SQLite database for proof workflow state.",
-        authoritative=True,
+        description=(
+            "Stale local proof-status workflow snapshot; historical only unless rebuilt "
+            "with current full-plane/gcd-aware semantics."
+        ),
+        authoritative=False,
     ),
 )
 

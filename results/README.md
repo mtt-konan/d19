@@ -1,15 +1,25 @@
-# results/ — 输出索引
+# results/ — 输出索引与可信度说明
 
 按主题分目录. 顶层只放主索引 (catalog) + 数据库 + 子目录入口.
+
+## 先读这个：哪些结果能当证据？
+
+这里的文件大多是“实验记录”或“本机快照”，不是数学证明。最容易误读的规则是：
+
+- `authoritative=true` 只表示“这个文件是某个有限范围实验的原始/基准数据”，不表示已经证明全空间无解。
+- `proof_status.db` 是本机旧 workflow 快照；当前审计认为它相对 wl094 full-plane closure 和后续 gcd-aware 语义已经 stale。除非重新生成并写明版本，否则不要引用它的 `hard_case/no_solution` 计数当当前结论。
+- `chain.db` 是 legacy chain-fast SQLite 库，和当前 chain-fast schema 不匹配；保留作历史线索，不是当前代码可直接复用的权威结果库。
+- `catalog.json` 是机器可读目录；如果它和这里冲突，以带有 stale/legacy 说明的新文字为准，并优先重新运行 `scripts/multi_n/build_results_catalog.py`。
 
 ## 顶层
 
 | 文件 | 用途 |
 |------|------|
 | `catalog.json` | 主结果目录 (机器可读索引) |
-| `chain.db` | chain-fast SQLite 结果库 |
-| `proof_status.db` (+ shm/wal) | proof-status workflow 状态 |
-| `proof_status_10k.sqlite3` | 10k 范围 proof status snapshot |
+| `chain.db` | legacy chain-fast SQLite 结果库；历史线索，不是当前 schema 证据 |
+| `proof_status.db` (+ shm/wal) | stale proof-status workflow 快照；历史线索，不是当前结论 |
+| `proof_status_multi_1m.db` | non-coprime/full-space 相关旧快照；引用前必须核对生成脚本和语义 |
+| `proof_status_10k.sqlite3` | 10k 范围 proof status snapshot；若本机存在，按 snapshot/historical 处理 |
 
 ## 子目录
 
@@ -17,7 +27,7 @@
 
 | 文件类 | 来源 |
 |--------|------|
-| `multi_concordant_N_max{N}.jsonl` | wl046 ground truth (max_hyp=10000 是 authoritative) |
+| `multi_concordant_N_max{N}.jsonl` | wl046 ground truth (max_hyp=10000 是有限范围 authoritative) |
 | `multi_concordant_N_max{N}_fast.jsonl` | fast pivot-on-N 扫描 (wl048+) |
 | `multi_concordant_N_max{N}_classified.jsonl` | F₂-rank 分类 (wl049) |
 | `multi_concordant_N_max{N}_pari_rank.jsonl` | PARI ellrank audit (wl050) |
@@ -115,7 +125,12 @@ F₂-rank 数据再加:
 
 ## .gitignore
 
-整个 `results/` 内容**不入 git** (除 README.md 与 .gitignore). 所有数据可通过
-`scripts/` 中对应入口重新生成.
+大体原则是：大型运行产物和本机 DB 不进 git；README、catalog、少量归档/基准小文件可能已经被跟踪，用于说明 provenance。判断一个文件是否跟踪，用：
+
+```bash
+git ls-files results
+```
+
+所有可复现实验数据应能通过 `scripts/` 中对应入口重新生成。
 
 需要分享 / 跨机器复现时, 用 rsync / Zenodo / S3, 不要进 git.
