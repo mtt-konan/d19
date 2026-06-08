@@ -62,6 +62,33 @@ def test_product_identity_holds_for_rational_lambda() -> None:
     assert terms.b_minus_lambda_sq_a == (lam * lam - 1) * (lam * lam - product * product)
 
 
+def test_closure_product_identity_uses_difference_sign() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_DIFF_AB,
+        REL_SUM_AB,
+        closure_product_identity_terms,
+    )
+
+    lam = Fraction(7, 3)
+    target = Fraction(5)
+    product = Fraction(2)
+
+    sum_terms = closure_product_identity_terms(lam, target, product, REL_SUM_AB)
+    diff_terms = closure_product_identity_terms(lam, target, product, REL_DIFF_AB)
+
+    assert sum_terms.a_term == product * product - 2 * product + target * target + 1
+    assert diff_terms.a_term == product * product + 2 * product + target * target + 1
+    assert diff_terms.b_term == (
+        product * product
+        + 2 * lam * lam * product
+        + lam * lam * target * target
+        + lam**4
+    )
+    assert diff_terms.b_minus_lambda_sq_a == (
+        (lam * lam - 1) * (lam * lam - product * product)
+    )
+
+
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
     from rational_distance.concordant.rational_ratio import square_rectangle_terms
 

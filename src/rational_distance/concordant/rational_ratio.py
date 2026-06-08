@@ -214,6 +214,40 @@ def product_identity_terms(
     )
 
 
+def closure_product_identity_terms(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ProductIdentityTerms:
+    """Return product-identity terms for a sum or difference closure relation."""
+    lam = _as_fraction(lambda_ratio)
+    t = _as_fraction(target)
+    p = _as_fraction(product)
+    _validate_positive("lambda_ratio", lam)
+    if t <= 0:
+        raise ValueError("target must be positive")
+
+    if relation.startswith("sum="):
+        sign = -1
+    elif relation.startswith("diff="):
+        sign = 1
+    else:
+        raise ValueError(f"unknown closure relation: {relation}")
+
+    lam_sq = lam * lam
+    a_term = p * p + sign * 2 * p + t * t + 1
+    b_term = p * p + sign * 2 * lam_sq * p + lam_sq * t * t + lam_sq * lam_sq
+    return ProductIdentityTerms(
+        lambda_ratio=lam,
+        target=t,
+        product=p,
+        a_term=a_term,
+        b_term=b_term,
+        b_minus_lambda_sq_a=b_term - lam_sq * a_term,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -298,6 +332,7 @@ __all__ = [
     "RationalRatioHit",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
+    "closure_product_identity_terms",
     "find_rational_ratio_hits",
     "is_rational_ratio_member",
     "product_identity_terms",
