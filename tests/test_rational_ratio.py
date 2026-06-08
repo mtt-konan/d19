@@ -150,6 +150,50 @@ def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     assert scan_sum_ab_slope_pairs(slopes, include_false_members=False) == ()
 
 
+def test_pythagorean_leg_ratios_generate_bounded_slope_pool() -> None:
+    from rational_distance.concordant.rational_ratio import pythagorean_leg_ratios
+
+    assert pythagorean_leg_ratios(3) == (
+        Fraction(3, 4),
+        Fraction(4, 3),
+        Fraction(5, 12),
+        Fraction(12, 5),
+    )
+
+
+def test_leg_ratio_squareclass_explains_pythagorean_failure() -> None:
+    from rational_distance.concordant.rational_ratio import leg_ratio_squareclass
+
+    passing = leg_ratio_squareclass(Fraction(3, 4))
+    failing = leg_ratio_squareclass(Fraction(9, 13))
+
+    assert passing.is_square
+    assert passing.squarefree_part == 1
+    assert passing.squareclass_primes == ()
+
+    assert not failing.is_square
+    assert failing.value == Fraction(250, 169)
+    assert failing.squarefree_part == 10
+    assert failing.squareclass_primes == (2, 5)
+    assert failing.three_mod_four_primes == ()
+
+
+def test_sum_ab_slope_obstruction_identifies_scaled_leg_failures() -> None:
+    from rational_distance.concordant.rational_ratio import sum_ab_slope_obstruction
+
+    obstruction = sum_ab_slope_obstruction(Fraction(3, 4), Fraction(4, 3))
+
+    assert obstruction is not None
+    assert obstruction.lambda_ratio == Fraction(12, 13)
+    assert obstruction.failed_terms == ("r1", "r2")
+    assert obstruction.term_squareclasses == (
+        ("slope1", 1),
+        ("slope2", 1),
+        ("r1", 10),
+        ("r2", 17),
+    )
+
+
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
     from rational_distance.concordant.rational_ratio import square_rectangle_terms
 

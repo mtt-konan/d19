@@ -10,7 +10,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from fractions import Fraction
+from math import gcd as _gcd
 from math import isqrt
+
+from sympy import factorint
 
 REL_SUM_AB = "sum=A+B"
 REL_SUM_DIFF = "sum=|A-B|"
@@ -80,6 +83,31 @@ class SumAbSlopePoint:
         return self.r1 + self.r2 == self.lambda_ratio + 1
 
 
+@dataclass(frozen=True, order=True)
+class LegRatioSquareclass:
+    """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
+
+    ratio: Fraction
+    value: Fraction
+    is_square: bool
+    squarefree_part: int
+    squareclass_primes: tuple[int, ...]
+    three_mod_four_primes: tuple[int, ...]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSlopeObstruction:
+    """Four-term squareclass diagnostic for one ``sum=A+B`` slope candidate."""
+
+    lambda_ratio: Fraction
+    slope1: Fraction
+    slope2: Fraction
+    r1: Fraction
+    r2: Fraction
+    failed_terms: tuple[str, ...]
+    term_squareclasses: tuple[tuple[str, int], ...]
+
+
 def _as_fraction(value: Fraction | int) -> Fraction:
     return value if isinstance(value, Fraction) else Fraction(value)
 
@@ -107,6 +135,27 @@ def _rational_sqrt(value: Fraction) -> Fraction | None:
     return None
 
 
+def _factorize_positive(value: int) -> dict[int, int]:
+    if value <= 0:
+        raise ValueError("value must be positive")
+    return {int(prime): int(exponent) for prime, exponent in factorint(value).items()}
+
+
+def _rational_squareclass(value: Fraction) -> tuple[int, tuple[int, ...]]:
+    """Return the positive squarefree representative of a rational squareclass."""
+    if value <= 0:
+        raise ValueError("value must be positive")
+    parity: dict[int, int] = {}
+    for part in (value.numerator, value.denominator):
+        for prime, exponent in _factorize_positive(part).items():
+            parity[prime] = (parity.get(prime, 0) + exponent) % 2
+    primes = tuple(sorted(prime for prime, exponent in parity.items() if exponent))
+    squarefree = 1
+    for prime in primes:
+        squarefree *= prime
+    return squarefree, primes
+
+
 def is_rational_ratio_member(lambda_ratio: Fraction | int, r: Fraction | int) -> bool:
     """Return True iff ``r`` lies in ``R_lambda``.
 
@@ -129,6 +178,50 @@ def is_pythagorean_leg_ratio(ratio: Fraction | int) -> bool:
     value = _as_fraction(ratio)
     _validate_positive("ratio", value)
     return _is_rational_square(value * value + 1)
+
+
+def leg_ratio_squareclass(ratio: Fraction | int) -> LegRatioSquareclass:
+    """Explain the ``z^2+1`` square test by its rational squareclass.
+
+    This is a diagnostic helper, not a high-throughput sieve.
+    """
+    value = _as_fraction(ratio)
+    _validate_positive("ratio", value)
+    square_candidate = value * value + 1
+    squarefree, primes = _rational_squareclass(square_candidate)
+    return LegRatioSquareclass(
+        ratio=value,
+        value=square_candidate,
+        is_square=squarefree == 1,
+        squarefree_part=squarefree,
+        squareclass_primes=primes,
+        three_mod_four_primes=tuple(prime for prime in primes if prime % 4 == 3),
+    )
+
+
+def pythagorean_leg_ratios(max_m: int) -> tuple[Fraction, ...]:
+    """Generate primitive Pythagorean leg ratios from Euclid parameters ``m <= max_m``.
+
+    Both leg orientations are included.  The bound is on the Euclid parameter,
+    not on denominator, numerator, or hypotenuse.
+    """
+    if max_m < 2:
+        return ()
+    ratios: list[Fraction] = []
+    seen: set[Fraction] = set()
+    for m in range(2, max_m + 1):
+        for n in range(1, m):
+            if (m - n) % 2 == 0:
+                continue
+            if _gcd(m, n) != 1:
+                continue
+            legs = (m * m - n * n, 2 * m * n)
+            for numerator, denominator in (legs, (legs[1], legs[0])):
+                ratio = Fraction(numerator, denominator)
+                if ratio not in seen:
+                    seen.add(ratio)
+                    ratios.append(ratio)
+    return tuple(ratios)
 
 
 def reciprocal_ratio(lambda_ratio: Fraction | int, r: Fraction | int) -> Fraction:
@@ -216,6 +309,34 @@ def sum_ab_point_from_slopes(
         reciprocal_pair=r1 * r2 == lam,
         true_member_pair=is_rational_ratio_member(lam, r1)
         and is_rational_ratio_member(lam, r2),
+    )
+
+
+def sum_ab_slope_obstruction(
+    slope1: Fraction | int,
+    slope2: Fraction | int,
+) -> SumAbSlopeObstruction | None:
+    """Return four-term squareclass diagnostics for a ``sum=A+B`` slope pair."""
+    point = sum_ab_point_from_slopes(slope1, slope2)
+    if point is None:
+        return None
+    terms = (
+        ("slope1", point.slope1),
+        ("slope2", point.slope2),
+        ("r1", point.r1),
+        ("r2", point.r2),
+    )
+    diagnostics = tuple((name, leg_ratio_squareclass(value)) for name, value in terms)
+    return SumAbSlopeObstruction(
+        lambda_ratio=point.lambda_ratio,
+        slope1=point.slope1,
+        slope2=point.slope2,
+        r1=point.r1,
+        r2=point.r2,
+        failed_terms=tuple(name for name, diagnostic in diagnostics if not diagnostic.is_square),
+        term_squareclasses=tuple(
+            (name, diagnostic.squarefree_part) for name, diagnostic in diagnostics
+        ),
     )
 
 
@@ -410,21 +531,26 @@ def reciprocal_closure_roots(
 
 
 __all__ = [
+    "LegRatioSquareclass",
     "ProductIdentityTerms",
     "RationalRatioHit",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
+    "SumAbSlopeObstruction",
     "SumAbSlopePoint",
     "closure_product_identity_terms",
     "find_rational_ratio_hits",
     "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
+    "leg_ratio_squareclass",
     "product_identity_terms",
+    "pythagorean_leg_ratios",
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
     "scan_sum_ab_slope_pairs",
     "square_rectangle_terms",
     "sum_ab_point_from_slopes",
+    "sum_ab_slope_obstruction",
     "true_reciprocal_sum_ab_roots",
 ]
