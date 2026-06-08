@@ -224,6 +224,27 @@ def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None
     assert near_misses[0].passed_terms == ("slope1", "slope2", "r2")
 
 
+def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
+    import rational_distance.concordant.rational_ratio as rr
+
+    calls: dict[Fraction, int] = {}
+    original = rr.leg_ratio_squareclass
+
+    def tracking_squareclass(ratio: Fraction):
+        calls[ratio] = calls.get(ratio, 0) + 1
+        return original(ratio)
+
+    monkeypatch.setattr(rr, "leg_ratio_squareclass", tracking_squareclass)
+
+    slopes = (Fraction(3, 4), Fraction(4, 3), Fraction(5, 12), Fraction(12, 5))
+
+    obstructions = rr.scan_sum_ab_slope_obstructions(slopes)
+
+    assert len(obstructions) == 9
+    assert calls
+    assert max(calls.values()) == 1
+
+
 def test_sum_ab_ratio_shadow_key_identifies_reciprocal_near_misses() -> None:
     from rational_distance.concordant.rational_ratio import (
         sum_ab_ratio_shadow_key,

@@ -343,6 +343,14 @@ def sum_ab_slope_obstruction(
     slope2: Fraction | int,
 ) -> SumAbSlopeObstruction | None:
     """Return four-term squareclass diagnostics for a ``sum=A+B`` slope pair."""
+    return _sum_ab_slope_obstruction_with_squareclass_cache(slope1, slope2, {})
+
+
+def _sum_ab_slope_obstruction_with_squareclass_cache(
+    slope1: Fraction | int,
+    slope2: Fraction | int,
+    squareclass_cache: dict[Fraction, LegRatioSquareclass],
+) -> SumAbSlopeObstruction | None:
     point = sum_ab_point_from_slopes(slope1, slope2)
     if point is None:
         return None
@@ -352,7 +360,9 @@ def sum_ab_slope_obstruction(
         ("r1", point.r1),
         ("r2", point.r2),
     )
-    diagnostics = tuple((name, leg_ratio_squareclass(value)) for name, value in terms)
+    diagnostics = tuple(
+        (name, _cached_leg_ratio_squareclass(value, squareclass_cache)) for name, value in terms
+    )
     return SumAbSlopeObstruction(
         lambda_ratio=point.lambda_ratio,
         slope1=point.slope1,
@@ -365,6 +375,15 @@ def sum_ab_slope_obstruction(
             (name, diagnostic.squarefree_part) for name, diagnostic in diagnostics
         ),
     )
+
+
+def _cached_leg_ratio_squareclass(
+    ratio: Fraction,
+    squareclass_cache: dict[Fraction, LegRatioSquareclass],
+) -> LegRatioSquareclass:
+    if ratio not in squareclass_cache:
+        squareclass_cache[ratio] = leg_ratio_squareclass(ratio)
+    return squareclass_cache[ratio]
 
 
 def _obstruction_ratios(obstruction: SumAbSlopeObstruction) -> tuple[Fraction, ...]:
@@ -422,6 +441,7 @@ def scan_sum_ab_slope_obstructions(
     """Scan ``sum=A+B`` slope pairs and return squareclass diagnostics."""
     sorted_slopes = tuple(sorted(set(slopes)))
     obstructions: list[SumAbSlopeObstruction] = []
+    squareclass_cache: dict[Fraction, LegRatioSquareclass] = {}
     for i, slope1 in enumerate(sorted_slopes):
         _validate_positive("slope", slope1)
         if not is_pythagorean_leg_ratio(slope1):
@@ -430,7 +450,11 @@ def scan_sum_ab_slope_obstructions(
             _validate_positive("slope", slope2)
             if not is_pythagorean_leg_ratio(slope2):
                 continue
-            obstruction = sum_ab_slope_obstruction(slope1, slope2)
+            obstruction = _sum_ab_slope_obstruction_with_squareclass_cache(
+                slope1,
+                slope2,
+                squareclass_cache,
+            )
             if obstruction is None:
                 continue
             if pass_count is not None and obstruction.pass_count != pass_count:
