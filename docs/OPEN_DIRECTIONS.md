@@ -1,13 +1,37 @@
 # Open Directions — 可做但未实施的方向汇总
 
-本文件系统收录从 wl001 到 wl092 中提到的"下一步 / 后续 / 待做 / 候选"
+本文件系统收录从 wl001 到 wl117 中提到的"下一步 / 后续 / 待做 / 候选"
 方向，按可行性 + ROI 分类。每条标注 **出处 wl**, **可行性**, **预估工作量**。
 
-更新时间: wl092 之后. 维护原则: 落地一项就把状态标 ✅/🛑（保留作记录），
+更新时间: wl117 之后. 维护原则: 落地一项就把状态标 ✅/🛑（保留作记录），
 添加新发现的方向时直接 append 到对应分类下.
 
 > 📍 想看「所有方向如何彼此衍生、各自为何关闭」的叙事/脉络视图，见
 > [`EXPLORATION_MAP.md`](./EXPLORATION_MAP.md)（探索脉络图）。本文件是逐条可执行清单。
+
+## 2026-06-09 审查后路线 addendum
+
+理论框架审查已经收束，见
+[`docs/audits/2026-06-07-theory-framework-audit/README.md`](./audits/2026-06-07-theory-framework-audit/README.md)。
+
+新的下一阶段路线图见
+[`docs/work-logs/117-post-audit-next-theory-roadmap.md`](./work-logs/117-post-audit-next-theory-roadmap.md)。
+
+当前建议的主线不再是单纯扩大搜索，也不是只证明整数 `A=kB`。优先级改成：
+
+```text
+P0: 有理比例 R_λ translation theorem
+P1: Yang Ji / 固定线推广、closure-first near-miss 方程化、D4 对称变量重写
+P1/P2: 非互素 full-space 缺口
+P2: 工程安全清理和特殊线 proof note
+```
+
+关键边界：
+
+```text
+整数 A=kB 只是切片；
+全局候选需要有理比例 λ=A/B。
+```
 
 ---
 
