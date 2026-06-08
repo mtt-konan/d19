@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Probe: 验证 chain closure 在 mod p^k 上的联立筛是否能砍 hard_case。
+"""Probe: 验证 chain closure 在 mod p^k 上的联立筛是否能砍 archived hard_case。
+
+Provenance note: default ``results/proof_status.db`` is a stale/historical
+workflow snapshot. Do not use its hard_case counts as current proof-status
+evidence unless the DB has been rebuilt under current full-plane/gcd-aware
+semantics.
 
 数学逻辑
 ========
@@ -55,6 +60,12 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.proof_status import schema  # noqa: E402
 
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
+
 
 def squares_mod_M(M: int) -> set[int]:
     """Return the set of residues x mod M with x ≡ □ (mod M)."""
@@ -91,7 +102,11 @@ def chain_closure_kills(A: int, B: int, M: int) -> tuple[bool, int, int]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--db", default="results/proof_status.db")
+    ap.add_argument(
+        "--db",
+        default="results/proof_status.db",
+        help=STALE_PROOF_STATUS_DB_HELP,
+    )
     ap.add_argument("--limit", type=int, default=None, help="Limit hard_case count")
     ap.add_argument(
         "--moduli",

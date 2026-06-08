@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Finite-descent / modular obstruction search on hard_case (A, B) pairs.
+"""Finite-descent / modular obstruction search on archived hard_case pairs.
+
+Provenance note: the default ``results/proof_status.db`` input is a
+stale/historical workflow snapshot. Do not use its hard_case counts as
+current proof-status evidence unless the DB has been rebuilt under the
+current full-plane/gcd-aware semantics.
 
 This is the d19 analog of Peschmann 2026 §7(2): for each hard_case we ask
 whether there exists any integer ``N`` such that both ``N²+A²`` and
@@ -41,6 +46,12 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.proof_status import schema  # noqa: E402
 
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
+
 
 def primes_up_to(limit: int) -> list[int]:
     """Sieve of Eratosthenes."""
@@ -77,7 +88,7 @@ def main() -> int:
     ap.add_argument(
         "--db",
         default="results/proof_status.db",
-        help="proof_status SQLite database (default: results/proof_status.db)",
+        help=STALE_PROOF_STATUS_DB_HELP,
     )
     ap.add_argument(
         "--out",

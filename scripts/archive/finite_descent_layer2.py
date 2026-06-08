@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """Layer-2 finite-descent: enumerate N candidates via CRT-merged mod-p sieve.
 
-Layer 1 (finite_descent_hard_cases.py) showed that no hard_case has a
+Provenance note: the default ``results/proof_status.db`` input is a
+stale/historical workflow snapshot. Do not use its hard_case counts as
+current proof-status evidence unless the DB has been rebuilt under the
+current full-plane/gcd-aware semantics.
+
+Layer 1 (finite_descent_hard_cases.py) showed that no archived hard_case has a
 *universal* blocker prime — every per-prime mod-p allowed-residue set is
 non-empty. That rules out the cheapest finite-descent obstruction.
 
@@ -40,6 +45,12 @@ ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.proof_status import schema  # noqa: E402
+
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
 
 
 def primes_up_to(limit: int) -> list[int]:
@@ -90,7 +101,11 @@ def build_allowed_residues_mod_M(
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--db", default="results/proof_status.db")
+    ap.add_argument(
+        "--db",
+        default="results/proof_status.db",
+        help=STALE_PROOF_STATUS_DB_HELP,
+    )
     ap.add_argument("--out", default="results/finite_descent_layer2.jsonl")
     ap.add_argument(
         "--small-prime-bound",

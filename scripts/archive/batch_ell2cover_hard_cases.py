@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-"""Batch-run PARI ``ell2cover`` (and ``ellrank`` for sha2) on every hard_case
-``(A, B)`` pair in ``results/proof_status.db``.
+"""Batch-run PARI ``ell2cover`` (and ``ellrank`` for sha2) on every archived
+hard_case ``(A, B)`` pair in ``results/proof_status.db``.
+
+Provenance note: the default DB is a stale/historical workflow snapshot. Do
+not treat its hard_case counts as current proof-status evidence unless the DB
+has been rebuilt under the current full-plane/gcd-aware semantics.
 
 For each pair we record:
 - ``rank_lower / rank_upper / sha2_lower`` from ``ellrank(E, 1)``
@@ -34,6 +38,12 @@ import cypari2  # noqa: E402
 
 from rational_distance.proof_status import schema  # noqa: E402
 
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
+
 
 def parse_quartic(quartic) -> list:
     """Convert a PARI polynomial of degree <= 4 into a list of coefficients
@@ -58,7 +68,7 @@ def main() -> int:
     ap.add_argument(
         "--db",
         default="results/proof_status.db",
-        help="proof_status SQLite database (default: results/proof_status.db)",
+        help=STALE_PROOF_STATUS_DB_HELP,
     )
     ap.add_argument(
         "--out",

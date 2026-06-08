@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Pattern hunt on hard_case (A, B) pairs.
+"""Pattern hunt on archived hard_case (A, B) pairs.
 
 Loads the proof_status DB, builds a feature matrix for every pair, then
 compares the distribution between status=hard_case and status=no_solution.
+
+Provenance note: the default ``results/proof_status.db`` input is a
+stale/historical workflow snapshot. Do not use its hard_case counts as
+current proof-status evidence unless the DB has been rebuilt under the
+current full-plane/gcd-aware semantics.
 
 Goals (in order of decreasing ambition):
 1. Find a closed-form predicate `(A, B) -> bool` that is true on every
@@ -30,6 +35,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT))
+
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
 
 
 def is_perfect_square(n: int) -> bool:
@@ -189,7 +200,11 @@ def chi_square_test(
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--db", default="results/proof_status.db")
+    ap.add_argument(
+        "--db",
+        default="results/proof_status.db",
+        help=STALE_PROOF_STATUS_DB_HELP,
+    )
     ap.add_argument(
         "--summary-out", default="results/pattern_hunt_summary.txt"
     )

@@ -3,6 +3,28 @@
 这些脚本对应已经结束或转入 baseline 的实验阶段，不在当前 multi-N / proof_status 主线上。
 保留是为了能复现历史结果、回看实验选型理由。
 
+## stale `proof_status.db` 边界
+
+多个 archive 脚本默认读取：
+
+```text
+results/proof_status.db
+```
+
+这个 DB 是旧 workflow 快照。它能复现 wl036-wl041 一带的历史 hard_case 分析，但不能直接当当前 proof-status 结论。当前语义已经经过 wl094 full-plane closure 和后续 gcd-aware 修正。
+
+如果继续用这些脚本，请把输出写成：
+
+```text
+基于 stale/historical proof_status.db 的历史分析
+```
+
+不要写成：
+
+```text
+当前 hard_case / no_solution 计数
+```
+
 当前主线脚本仍在 `scripts/` 根目录：
 
 ```text

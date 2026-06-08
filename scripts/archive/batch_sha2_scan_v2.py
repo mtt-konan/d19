@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """Resumable, timeout-safe batch sha2 scanner.
 
-For each hard_case (A, B) in proof_status.db, spawn a fresh
+For each archived hard_case (A, B) in proof_status.db, spawn a fresh
 ``sha2_worker.py`` subprocess running PARI ``ellrank``. The parent
 enforces a hard timeout (default 15s) via ``subprocess.run(timeout=...)``
 so a single pathological pair cannot block the whole sweep.
+
+Provenance note: the default ``results/proof_status.db`` input is a
+stale/historical workflow snapshot. Do not use its hard_case counts as
+current proof-status evidence unless the DB has been rebuilt under the
+current full-plane/gcd-aware semantics.
 
 Results stream into a JSONL file with per-line flush. Reruns skip
 pairs that already appear in the output, so the scan is fully
@@ -22,6 +27,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent.parent
 WORKER = ROOT / "scripts" / "sha2_worker.py"
+
+STALE_PROOF_STATUS_DB_HELP = (
+    "Stale/historical proof_status SQLite database "
+    "(default: results/proof_status.db); use only for archived hard_case "
+    "analysis unless rebuilt under current full-plane/gcd-aware semantics."
+)
 
 
 def load_done(out_path: Path) -> set[tuple[int, int]]:
@@ -44,7 +55,11 @@ def load_done(out_path: Path) -> set[tuple[int, int]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--db", default="results/proof_status.db")
+    ap.add_argument(
+        "--db",
+        default="results/proof_status.db",
+        help=STALE_PROOF_STATUS_DB_HELP,
+    )
     ap.add_argument("--out", default="results/sha2_scan_hard_cases.jsonl")
     ap.add_argument("--effort", type=int, default=1)
     ap.add_argument("--timeout", type=float, default=15.0,
