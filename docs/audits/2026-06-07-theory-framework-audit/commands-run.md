@@ -48,3 +48,15 @@
 - Several large result files were not bulk-read. The audit used summaries, schemas, tests, and small representative samples.
 - No source code was modified.
 - Audit files under `docs/audits/2026-06-07-theory-framework-audit/` were created in this run.
+
+## 2026-06-09 Fixed-Ratio Addendum
+
+| Command | Outcome | Notes |
+|---|---|---|
+| `uv run ruff check src/rational_distance/concordant/fixed_ratio_exact.py src/rational_distance/concordant/fixed_ratio_sieve.py src/rational_distance/concordant/rational_ratio.py scripts/theory/scan_fixed_ratio_exact.py tests/test_fixed_ratio_exact.py tests/test_fixed_ratio_sieve.py tests/test_rational_ratio.py tests/test_scan_fixed_ratio_exact.py` | pass | Targeted lint for the new fixed-ratio / rational-ratio code and tests. |
+| `uv run pytest tests/test_rational_ratio.py tests/test_fixed_ratio_exact.py tests/test_fixed_ratio_sieve.py tests/test_scan_fixed_ratio_exact.py -q` | pass | `19 passed`; covers exact fixed-ratio scans, residue-sieve boundary, rational-ratio identities, and scan JSON helpers. |
+| `uv run pytest -q` | pass | `365 passed, 2 warnings`; warnings are the existing unregistered `pytest.mark.slow` markers in `tests/test_parallel.py`. |
+
+Addendum notes:
+- Source code was added before this addendum commit; this audit update only records the branch status and proof boundary.
+- The addendum does not claim `A=λB` is impossible. It records that integer `A=kB` cannot be promoted to global coverage without a rational-ratio theorem.

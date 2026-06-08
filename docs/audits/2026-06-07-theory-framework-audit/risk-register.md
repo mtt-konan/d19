@@ -294,3 +294,69 @@ Finite zero-hit scans support strategy, not global proof.
 
 Recommended action:
 - Always attach bounds: `max_hyp`, `window W`, catalog seed, coprime/full-space scope.
+
+## H6: Fixed Integer Ratio `A=kB` Can Be Overstated As Global Coverage
+
+Severity: high if used as a global route claim; medium as current branch wording risk.
+
+Claim:
+The fixed-ratio route studies `A=kB` with integer `k`. This is a useful slice, but it does not cover every normalized square candidate.
+
+Where it appears:
+- `docs/work-logs/107-theory-transfer-routes-and-fixed-ratio.md`
+- `docs/work-logs/110-fixed-ratio-reciprocal-orbit-proof-boundary.md`
+- `docs/work-logs/111-fixed-ratio-cross-orbit-line-problem.md`
+- `docs/work-logs/115-rational-ratio-upgrade-strategy.md:11-27`
+- `docs/work-logs/116-rational-ratio-module-and-proof-boundary.md:5-19`
+- `src/rational_distance/concordant/rational_ratio.py:1-6`
+
+Why it matters:
+普通话说，`A=kB` 只看某些斜率。真正候选归一化后给的是 `λ=A/B`，它是有理数，不一定是整数。即使整数 `k` 全部关闭，也不能直接推出所有有理比例关闭。
+
+Evidence:
+- wl115 明确写出 `λ=A/B∈Q_{>0}`，并说整数 `k` 只能覆盖稀疏切片。
+- wl116 把有理比例模型写成 `R_λ`，并强调模块不证明 `A=λB` 全部不行。
+- `rational_ratio.py` 只记录 `Fraction` 级恒等式、closure hit 检查、reciprocal roots、product identity 和 square-rectangle terms。
+
+Reproduction or check:
+- `uv run pytest tests/test_rational_ratio.py tests/test_fixed_ratio_exact.py tests/test_fixed_ratio_sieve.py tests/test_scan_fixed_ratio_exact.py -q`
+- `uv run ruff check` on the fixed-ratio / rational-ratio files.
+
+Affected top-level conclusions:
+- Fixed-line / center-line generalization.
+- Any future report that tries to promote fixed-ratio progress into a global proof.
+
+Recommended action:
+- Keep fixed integer `k` as a theorem-target generator and sample slice.
+- Use rational `λ` as the global fixed-ratio language.
+- State the next theorem target explicitly: for `λ∈Q_{>0}`, if `r,s∈R_λ` satisfy full-plane closure, prove or refute that `s=λ/r`.
+
+Plain-language explanation:
+证明所有整数斜率还不够。正方形里的点不会只给整数斜率，它会给有理斜率。要接近全局证明，必须处理有理比例。
+
+## H7: Integer Fixed-Ratio Proof Tricks Do Not Automatically Survive Rational `λ`
+
+Severity: high for proof transfer; low for current code because wl115-wl116 already warn about it.
+
+Claim:
+Some integer `k` arguments use facts such as `k^2+1` not being a rational square. That fact fails for rational `λ`.
+
+Where it appears:
+- `docs/work-logs/115-rational-ratio-upgrade-strategy.md:105-142`
+- `docs/work-logs/116-rational-ratio-module-and-proof-boundary.md:134-173`
+- `src/rational_distance/concordant/rational_ratio.py:254-293`
+
+Why it matters:
+A proof can look valid on integer `k` and break the moment `k` is replaced by rational `λ`. This is exactly the kind of hidden narrowing that can make a branch look closed too early.
+
+Evidence:
+- wl115 gives `λ=3/4`, where `λ^2+1=25/16`.
+- wl116 records dangerous same-orbit examples: the quadratic can have rational roots, but those roots still fail true `R_λ` membership.
+- `reciprocal_closure_roots()` reports roots together with `true_member`, so the code keeps "quadratic root" and "real candidate" separate.
+
+Recommended action:
+- Do not reuse integer `k` closure proofs in rational `λ` without rechecking both square conditions in `R_λ`.
+- Treat `rational_ratio.py` as proof scaffolding, not a completed theorem.
+
+Plain-language explanation:
+整数里夹在两个平方之间的数，到有理数里可能就是平方。这个小变化足够弄坏一整段证明。

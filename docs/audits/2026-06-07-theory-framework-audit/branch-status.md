@@ -9,6 +9,7 @@
 | `proof_status` | engineering proof/diagnosis tool | Current methods can prove pair-level `no_solution` in their stated domain. Fast-core is useful for large reduced-pair diagnosis. | Existing `results/proof_status.db` is stale; domain is reduced pairs unless full-space pipeline is explicit. |
 | safe-pair / modular / gcd-aware sieves | active supporting tools | `safe_sieve` is sound for coprime reduced input; `gcd_aware_kills` generalizes to arbitrary `(A,B)` as a necessary filter; full-plane mod p^2 is implemented. | Keep coprime-only and arbitrary-pair filters separate. |
 | multi-`N` / high-rank concordant curves | active experimental/theory support | Multi-N pairs are real and exactly enumerable; observed full-space scans have 0 closure to high finite bounds. | Multi-N is necessary half-solution layer, not a complete solution. |
+| fixed-ratio / rational-ratio | open theory slice | Integer `A=kB` reduces variables and gives useful identities, but global normalized candidates require rational `λ=A/B`. wl115-wl116 upgraded the language to `R_λ` and recorded exact identities. | Do not claim integer `k` coverage proves all rational ratios. Do not treat residue survivors or quadratic roots as true candidates. |
 | partner graph / `G_M` / islands | experimental structure + some exact subclaims | Partner identity is algebraic; finite-window BFS and no-closure scans are empirical; discovered islands have stronger exact closure checks. | `K_n` is a star/hub in `G_M`, not necessarily a clique; finite graph is not infinite `G_M`. |
 | `parametric` | paused | Three-vertex baseline and seed tool; retained with tests. | Not mathematically dead; old GPU bugs are not a route proof. |
 | `ec` | paused | Three-vertex seed/orbit route; retained with tests and compatibility layer. | Do not confuse paused `ec` CLI route with concordant EC/proof_status tools. |
@@ -27,6 +28,8 @@
 `concordant` 是“拆成 `(A,B,N)` 后再看数论结构”的主线。它现在最强的一步是：对 reduced/coprime pair，可以穷尽所有整数 `N`，再用全平面的 GEN-CLOSURE 判定是否闭合。
 
 非互素 pair 是单独战场。项目已经有 `gcd_aware_kills` 和 full-space finite scans，但还没有一个全局数学证明说闭合永远不会发生。
+
+固定比例 `A=kB` 是另一种低维切法。它能减少变量，帮我们找结构；但全局候选给的是有理比例 `λ=A/B`。所以这条线的下一步不是继续只扫整数 `k`，而是证明或否定 `R_λ` 上的 full-plane closure 交点只能来自 `r <-> λ/r`。
 
 旧路线没有被判死。它们只是现在不在主战场：`parametric` / `ec` 帮三顶点和种子；`chain` 帮结构理解；`chain-fast` 接过了直接四顶点 baseline 的角色。
 

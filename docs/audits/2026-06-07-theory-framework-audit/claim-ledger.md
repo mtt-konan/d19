@@ -24,6 +24,7 @@
 | C10 | Partner graph / island/component results are experimental graph structure unless exact closure is stated. | `PARTNER_GRAPH_THEORY.md`, partner subagent | mixed: identity proved, graph scans empirical | partner identity, finite BFS window | Graph strategy | Tests pass; result summaries match | If finite `G_M` window is treated as infinite graph proof. |
 | C11 | Heegner, Chabauty, Brauer-Manin, finite descent, K3 are not dead merely due to early negative experiments. | `THEORY_DIRECTIONS_ADVANCED.md:17-24`, `OPEN_DIRECTIONS.md:14-24` | conjectural/open | external tools/theorems | Long-term research | Stubs conservative | If "low ROI now" becomes "mathematically impossible." |
 | C12 | The repo has not found a four-vertex square solution and does not prove Harborth globally. | `MATH.md:24-29`, `README.md:57`, wl104 `仍开放` | proved as project status | All above scope boundaries | Final headline | Full tests pass; no solution_found in smoke | If reduced/fullspace finite scans are overstated. |
+| C13 | Fixed integer ratio `A=kB` is an open low-dimensional theory slice; it is not a global route unless upgraded to rational `λ=A/B`. | `wl115:11-27`, `wl116:5-19`, fixed-ratio addendum | conjectural/open with proof-side tooling | normalized square coordinates, rational `A/B`, true concordant `N` | fixed-line strategy, center-line generalization | `rational_ratio.py`; fixed-ratio focused tests pass | If "all integer k closed" is cited as "all rational ratios closed." |
 
 ## Reduction Chain Ledger
 
@@ -47,6 +48,8 @@
 | S4 | `factor_concordant + gen_closure_hit` | terminal reduced-pair decider | `methods.py:213-287`, `analysis.py:298-315` | reduced/coprime legs; gcd gap remains |
 | S5 | `dual_closure_sieve` | obsolete/inside-square | `dual_closure_sieve.py:10-27`, `:66-69` | do not cite as full-plane |
 | S6 | `proof_status.fast_core` | engineering core summary | `fast_core.py:20-33`, `PROOF_STATUS_FAST_MODE.md:164-193` | reduced pair stream |
+| S7 | fixed-ratio pure congruence sieve | negative result / boundary certificate | `fixed_ratio_sieve.py:1-13`, fixed-ratio addendum | cannot kill fixed-ratio branch by finite residue survivor exhaustion alone |
+| S8 | rational-ratio identities | proof-side exact algebra, not a decider | `rational_ratio.py:1-6`, `rational_ratio.py:92-161`, `rational_ratio.py:181-293` | records `R_λ`, full-plane relations, product and rectangle identities |
 
 ## Experiment / Proof Boundary Ledger
 
@@ -58,6 +61,8 @@
 | 8,959 islands closed | proved for discovered islands | partner subagent / wl096 | Say discovered 1M islands only. |
 | A1 `k=2 => rank>=2` | empirical/open | wl084 | Do not cite wl083 as current theorem. |
 | Heegner height scan | diagnostic | `heegner_height.py:10-16`, `methods.py:503-571` | Never `no_solution` today. |
+| fixed integer `A=kB` scans | empirical / theorem-target generator | wl109, wl115-wl116 | Say integer `k`, finite `B` bound, and not all rational `λ`. |
+| rational-ratio `R_λ` module | exact algebra support | `rational_ratio.py`, `tests/test_rational_ratio.py` | Say it records identities; it does not prove non-existence. |
 
 ## Data Provenance Ledger
 
