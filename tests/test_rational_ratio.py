@@ -45,6 +45,26 @@ def test_rational_ratio_hits_check_full_plane_targets() -> None:
     ]
 
 
+def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        rational_ratio_hit_product_diagnostics,
+    )
+
+    diagnostics = rational_ratio_hit_product_diagnostics(
+        Fraction(6),
+        (Fraction(2), Fraction(3)),
+    )
+
+    assert len(diagnostics) == 1
+    diagnostic = diagnostics[0]
+    assert diagnostic.r1 == Fraction(2)
+    assert diagnostic.r2 == Fraction(3)
+    assert diagnostic.relation == "sum=|A-B|"
+    assert diagnostic.product == Fraction(6)
+    assert diagnostic.product_equals_lambda
+    assert diagnostic.reciprocal_pair
+
+
 def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda() -> None:
     from rational_distance.concordant.rational_ratio import (
         reciprocal_sum_ab_roots,

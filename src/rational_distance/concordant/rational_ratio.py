@@ -61,6 +61,19 @@ class RationalRatioHit:
     centerline: bool
 
 
+@dataclass(frozen=True, order=True)
+class RationalRatioHitProductDiagnostic:
+    """Product-side diagnostic for a ratio-level full-plane closure hit."""
+
+    lambda_ratio: Fraction
+    r1: Fraction
+    r2: Fraction
+    relation: str
+    product: Fraction
+    product_equals_lambda: bool
+    reciprocal_pair: bool
+
+
 @dataclass(frozen=True)
 class ProductIdentityTerms:
     """Terms in the ``p = rs`` product identity for a closure target."""
@@ -728,6 +741,40 @@ def find_rational_ratio_hits(
                 if ratio_diff == target:
                     hits.append(RationalRatioHit(r1, r2, relation, False))
     return tuple(sorted(hits))
+
+
+def rational_ratio_hit_product_diagnostics(
+    lambda_ratio: Fraction | int,
+    ratios: tuple[Fraction, ...],
+    *,
+    include_centerline: bool = False,
+) -> tuple[RationalRatioHitProductDiagnostic, ...]:
+    """Annotate ratio-level closure hits with the product target ``p=λ``.
+
+    This is a diagnostic for the ``R_λ`` translation theorem.  It does not
+    prove that every possible closure hit has ``p=λ``; it only reports whether
+    the hits found in the supplied finite ratio pool are reciprocal pairs.
+    """
+    lam = _as_fraction(lambda_ratio)
+    diagnostics: list[RationalRatioHitProductDiagnostic] = []
+    for hit in find_rational_ratio_hits(
+        lam,
+        ratios,
+        include_centerline=include_centerline,
+    ):
+        product = hit.r1 * hit.r2
+        diagnostics.append(
+            RationalRatioHitProductDiagnostic(
+                lambda_ratio=lam,
+                r1=hit.r1,
+                r2=hit.r2,
+                relation=hit.relation,
+                product=product,
+                product_equals_lambda=product == lam,
+                reciprocal_pair=hit.r2 == reciprocal_ratio(lam, hit.r1),
+            )
+        )
+    return tuple(sorted(diagnostics))
 
 
 def sum_ab_point_from_slopes(
@@ -1848,6 +1895,7 @@ __all__ = [
     "ProductIdentityTerms",
     "PythagoreanLegParam",
     "RationalRatioHit",
+    "RationalRatioHitProductDiagnostic",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
     "SumAbRatioShadowOrbit",
@@ -1864,6 +1912,7 @@ __all__ = [
     "product_identity_terms",
     "pythagorean_leg_ratios",
     "pythagorean_leg_ratio_from_param",
+    "rational_ratio_hit_product_diagnostics",
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
