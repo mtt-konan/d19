@@ -2054,6 +2054,45 @@ def sum_ab_true_closure_relation(
     )
 
 
+def scan_sum_ab_true_closure_relations(
+    *,
+    lambda_ratios: tuple[Fraction, ...],
+    max_numerator: int,
+    max_denominator: int,
+    branches: tuple[str, ...] | None = None,
+) -> tuple[SumAbTrueClosureRelation, ...]:
+    """Scan a finite rational root pool for ``sum=A+B`` closure branches."""
+    ratios = positive_rational_ratios(max_numerator, max_denominator)
+    ratio_set = set(ratios)
+    branch_filter = set(branches) if branches is not None else None
+    relations: set[SumAbTrueClosureRelation] = set()
+
+    for lambda_ratio in lambda_ratios:
+        lam = _as_fraction(lambda_ratio)
+        _validate_positive("lambda_ratio", lam)
+        target = lam + 1
+        for r in ratios:
+            s = target - r
+            if s <= 0 or s not in ratio_set:
+                continue
+            root1, root2 = sorted((r, s))
+            relation = sum_ab_true_closure_relation(
+                lambda_ratio=lam,
+                r=root1,
+                s=root2,
+            )
+            if branch_filter is not None and relation.branch not in branch_filter:
+                continue
+            relations.add(relation)
+
+    return tuple(
+        sorted(
+            relations,
+            key=lambda item: (item.lambda_ratio, item.branch, item.r, item.s),
+        )
+    )
+
+
 def sum_ab_root_grid_residual_summary(
     *,
     max_numerator: int,
@@ -2462,6 +2501,7 @@ __all__ = [
     "reciprocal_sum_ab_roots",
     "scan_sum_ab_slope_obstructions",
     "scan_sum_ab_slope_pairs",
+    "scan_sum_ab_true_closure_relations",
     "square_rectangle_terms",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",

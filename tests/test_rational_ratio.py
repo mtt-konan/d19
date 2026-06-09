@@ -492,6 +492,35 @@ def test_sum_ab_true_closure_relation_classifies_proof_branches() -> None:
     assert centerline.branch == "false-centerline"
 
 
+def test_scan_sum_ab_true_closure_relations_monitors_nonreciprocal_branch() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        scan_sum_ab_true_closure_relations,
+    )
+
+    relations = scan_sum_ab_true_closure_relations(
+        lambda_ratios=(Fraction(7),),
+        max_numerator=7,
+        max_denominator=1,
+    )
+
+    assert [(item.r, item.s, item.branch) for item in relations] == [
+        (Fraction(4), Fraction(4), "false-centerline"),
+        (Fraction(1), Fraction(7), "false-reciprocal"),
+        (Fraction(2), Fraction(6), "false-residual"),
+        (Fraction(3), Fraction(5), "false-residual"),
+    ]
+    assert not any(item.branch == "true-nonreciprocal" for item in relations)
+
+    true_only = scan_sum_ab_true_closure_relations(
+        lambda_ratios=(Fraction(1),),
+        max_numerator=4,
+        max_denominator=4,
+        branches=("true-nonreciprocal",),
+    )
+
+    assert true_only == ()
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 
