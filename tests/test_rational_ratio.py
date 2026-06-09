@@ -303,6 +303,9 @@ def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     }
     assert summary.true_member_counts == {}
     assert summary.examples_by_bucket["residual"] == residual_guard
+    assert summary.squareclass_pair_counts_by_bucket["centerline"][(2, 2)] == 20
+    assert summary.squareclass_pair_counts_by_bucket["reciprocal"][(2, 2)] == 40
+    assert summary.squareclass_pair_counts_by_bucket["residual"][(29, 29)] == 1
 
 
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:

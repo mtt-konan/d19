@@ -120,6 +120,7 @@ class ProductSquareBucketSummary:
 
     bucket_counts: dict[str, int]
     true_member_counts: dict[str, int]
+    squareclass_pair_counts_by_bucket: dict[str, dict[tuple[int, int], int]]
     examples_by_bucket: dict[str, ClosureProductSquareConditions]
 
 
@@ -1775,6 +1776,7 @@ def sum_ab_product_square_bucket_summary(
 
     bucket_counts: Counter[str] = Counter()
     true_member_counts: Counter[str] = Counter()
+    pair_counts_by_bucket: dict[str, Counter[tuple[int, int]]] = {}
     examples: dict[str, ClosureProductSquareConditions] = {}
 
     def record(condition: ClosureProductSquareConditions) -> None:
@@ -1788,6 +1790,10 @@ def sum_ab_product_square_bucket_summary(
         bucket_counts[bucket] += 1
         if condition.true_member_pair:
             true_member_counts[bucket] += 1
+        if len(condition.member_squareclass_pair) == 2:
+            pair_counts_by_bucket.setdefault(bucket, Counter())[
+                condition.member_squareclass_pair
+            ] += 1
         examples.setdefault(bucket, condition)
 
     for lambda_ratio in lambda_ratios:
@@ -1816,6 +1822,10 @@ def sum_ab_product_square_bucket_summary(
     return ProductSquareBucketSummary(
         bucket_counts=dict(sorted(bucket_counts.items())),
         true_member_counts=dict(sorted(true_member_counts.items())),
+        squareclass_pair_counts_by_bucket={
+            bucket: dict(sorted(pair_counts.items()))
+            for bucket, pair_counts in sorted(pair_counts_by_bucket.items())
+        },
         examples_by_bucket=dict(sorted(examples.items())),
     )
 
