@@ -34,14 +34,19 @@ class PythagoreanLegParam:
     orientation: str = "odd"
 
     def ratio(self) -> Fraction:
+        numerator, denominator = self.leg_terms()
+        return Fraction(numerator, denominator)
+
+    def leg_terms(self) -> tuple[int, int]:
+        """Return the unreduced numerator/denominator leg terms."""
         if self.m <= self.n or self.n <= 0:
             raise ValueError("Euclid parameters must satisfy m > n > 0")
         odd_leg = self.m * self.m - self.n * self.n
         even_leg = 2 * self.m * self.n
         if self.orientation == "odd":
-            return Fraction(odd_leg, even_leg)
+            return odd_leg, even_leg
         if self.orientation == "even":
-            return Fraction(even_leg, odd_leg)
+            return even_leg, odd_leg
         raise ValueError("orientation must be 'odd' or 'even'")
 
 
@@ -197,6 +202,8 @@ class SumAbThreePassEuclidModel:
     failed_square_equation: tuple[Fraction, Fraction | None]
     other_slope_integer_equation: tuple[int, int, int | None]
     failed_integer_equation: tuple[int, int, int | None]
+    other_slope_polynomial_terms: tuple[int, int]
+    failed_polynomial_terms: tuple[int, int]
 
     @property
     def failed_squareclass(self) -> int:
@@ -484,12 +491,38 @@ def _integer_square_equation_for_leg_ratio(ratio: Fraction) -> tuple[int, int, i
     return numerator, denominator, hypotenuse
 
 
+def _sum_ab_mobius_polynomial_terms_from_legs(
+    slope_terms: tuple[int, int],
+    scaled_term_terms: tuple[int, int],
+) -> tuple[tuple[int, int], tuple[int, int]]:
+    """Return unreduced integer numerator/denominator terms for ``y`` and ``s``.
+
+    For ``x=a/b`` and ``r=c/d``:
+
+        y = 1 - x + x/r = (bc - ac + ad) / bc
+        s = 1 - r + r/x = (ad - ac + bc) / ad
+
+    Keeping these unreduced terms preserves the polynomial shape needed for
+    later Euclid-parameter expansion.
+    """
+    a, b = slope_terms
+    c, d = scaled_term_terms
+    return (
+        (b * c - a * c + a * d, b * c),
+        (a * d - a * c + b * c, a * d),
+    )
+
+
 def sum_ab_three_pass_mobius_model_from_params(
     slope: PythagoreanLegParam,
     scaled_term: PythagoreanLegParam,
 ) -> SumAbThreePassEuclidModel:
     """Build the three-pass Möbius model from two Euclid-parameterized legs."""
     model = sum_ab_three_pass_mobius_model(slope.ratio(), scaled_term.ratio())
+    other_terms, failed_terms = _sum_ab_mobius_polynomial_terms_from_legs(
+        slope.leg_terms(),
+        scaled_term.leg_terms(),
+    )
     return SumAbThreePassEuclidModel(
         slope_param=slope,
         scaled_term_param=scaled_term,
@@ -502,6 +535,8 @@ def sum_ab_three_pass_mobius_model_from_params(
         failed_integer_equation=_integer_square_equation_for_leg_ratio(
             model.failed_scaled_term
         ),
+        other_slope_polynomial_terms=other_terms,
+        failed_polynomial_terms=failed_terms,
     )
 
 
