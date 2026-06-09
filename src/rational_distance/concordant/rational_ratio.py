@@ -482,6 +482,22 @@ class SumAbSquareclassFamilyEdge:
     target_uses_source_failed_leg: bool
     target_uses_source_shared_leg: bool
 
+    @property
+    def source_max(self) -> int:
+        return max(self.source)
+
+    @property
+    def target_max(self) -> int:
+        return max(self.target)
+
+    @property
+    def target_max_delta(self) -> int:
+        return self.target_max - self.source_max
+
+    @property
+    def target_n_delta(self) -> int:
+        return self.target[0] - self.source[0]
+
 
 @dataclass(frozen=True)
 class SumAbNormalizedNearMissSummary:
