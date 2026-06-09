@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Multi-N-first driver: prove no Harborth counterexample using dual-closure sieve.
+"""Historical multi-N-first driver using a sum-only dual-closure sieve.
+
+Provenance note: this script is a historical **sum-only / inside-square**
+route. It does not prove the full-plane GEN-CLOSURE target, because it keeps
+only ``N1+N2=A+B`` and does not require the four full-plane relations
+``{N1+N2, |N1-N2|} ∩ {A+B, |A-B|}``. Use the current proof-status full-plane
+pipeline for current conclusions.
 
 Pipeline (all sieves are unconditional 2-adic / mod p² necessary conditions):
 
@@ -11,9 +17,10 @@ Pipeline (all sieves are unconditional 2-adic / mod p² necessary conditions):
         ↓ kills (A, B) when every reduced (N_i, N_j) is killed by some mod p²
     survivors → deeper analysis (PARI / Heegner / Selmer)
 
-Rationale: Harborth counterexample requires k ≥ 2 (closure pair N_1+N_2=A+B).
-So we skip the 30M-pair brute-force enumeration and start directly from the
-multi-N candidate set, which is small (854 at max_hyp=10000, ~10k at 100k).
+Rationale in the old inside-square model: Harborth candidate requires k ≥ 2
+and a closure pair ``N_1+N_2=A+B``. So the historical route skipped the
+30M-pair brute-force enumeration and started directly from the multi-N
+candidate set, which is small (854 at max_hyp=10000, ~10k at 100k).
 """
 
 from __future__ import annotations
@@ -269,7 +276,8 @@ def _write_sqlite(summary: Summary, path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Multi-N-first Harborth no-solution prover using dual-closure sieve."
+            "Historical sum-only / inside-square multi-N-first driver; "
+            "not a full-plane GEN-CLOSURE proof tool."
         )
     )
     parser.add_argument("--max-hyp", type=int, required=True)

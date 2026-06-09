@@ -1,4 +1,14 @@
-"""Dual-side chain-closure mod p² sieve.
+"""Historical dual-side chain-closure mod p² sieve.
+
+Provenance note
+===============
+
+This module uses the old **sum-only / inside-square** closure model
+``N_i + N_j = A + B`` through ``killed_at_modulus(..., full_plane=False)``.
+It is not a full-plane GEN-CLOSURE proof tool. Current full-plane work must
+keep all four relations
+``{N_i+N_j, |N_i-N_j|} ∩ {A+B, |A-B|} != ∅`` or call the modern
+``chain_closure_mod_sieve`` / exact GEN-CLOSURE path.
 
 Mathematical foundation
 =======================
@@ -7,7 +17,8 @@ Partner identity (see ``docs/PARTNER_GRAPH_THEORY.md`` §2.5): if ``(A, B)``
 is a multi-N pair with ``concordant_N(A, B) ⊇ {N_i, N_j}``, then the pair
 ``(N_i, N_j)`` is itself a multi-N pair, with ``A, B ∈ concordant_N(N_i, N_j)``.
 
-For a Harborth 4-chain counterexample we additionally need
+For an inside-square Harborth 4-chain candidate this historical route
+additionally assumes
 
     N_i + N_j = A + B   (closure)
 
@@ -19,8 +30,8 @@ must pass ``chain_closure_mod_sieve``.
 
 If for **every** pair ``(N_i, N_j) ∈ concordant_N(A, B)`` (after reduction)
 ``chain_closure_mod_sieve`` proves no chain solution, then no Harborth
-counterexample can use ``(A, B)`` — regardless of which two concordant N's
-are chosen as the closure pair.
+inside-square counterexample can use ``(A, B)`` — regardless of which two
+concordant N's are chosen as the closure pair.
 
 This module provides that test, reusing
 ``chain_closure_sieve.killed_at_modulus`` for the per-pair check.

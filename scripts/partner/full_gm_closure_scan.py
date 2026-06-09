@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""全 G_M closure 扫描：把"反例搜索"从 catalog (10,333) 升级到 G_M (338,225)。
+"""Historical full G_M sum-only closure scan.
+
+Provenance note: this script checks only the **sum-only / inside-square**
+relation ``N_i + N_j = A + B``. It is not a full-plane GEN-CLOSURE scan. For
+current Harborth work, use the later full-plane delta scanner that tracks all
+four relations ``{N_i+N_j, |N_i-N_j|} ∩ {A+B, |A-B|}``.
+
+全 G_M closure 扫描：把"反例搜索"从 catalog (10,333) 升级到 G_M (338,225)。
 
 对 wl061 BFS 找到的全部 338,225 multi-N pair 检查 closure (N_i + N_j == A + B)。
 之前所有 closure 扫描都限制在 catalog 互素行；本次第一次跑遍 G_M 全顶点
@@ -41,7 +48,12 @@ def _check_closure(p: tuple[int, int]) -> tuple[tuple[int, int], int, list[tuple
 def main() -> int:
     from rational_distance.parallel import add_parallel_args, get_parallel_config_from_args
 
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=(
+            "Historical sum-only / inside-square G_M closure scan; "
+            "not a full-plane GEN-CLOSURE scan."
+        )
+    )
     _ = parser.add_argument(
         "--components",
         type=Path,
