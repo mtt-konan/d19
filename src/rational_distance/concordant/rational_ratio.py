@@ -200,6 +200,19 @@ class SumAbTrueClosureRelation:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbReciprocalObstruction:
+    """Proof ledger showing why ``sum=A+B`` reciprocal roots are not true."""
+
+    lambda_ratio: Fraction
+    roots: tuple[Fraction, Fraction]
+    forced_unit_root: Fraction
+    unit_leg_value: Fraction
+    unit_leg_is_square: bool
+    true_roots: tuple[Fraction, ...]
+    branch_closed: bool
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2162,6 +2175,25 @@ def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fra
     return (Fraction(1), lam)
 
 
+def sum_ab_reciprocal_obstruction(
+    lambda_ratio: Fraction | int,
+) -> SumAbReciprocalObstruction:
+    """Return the closed-form obstruction for the ``sum=A+B`` reciprocal branch."""
+    lam = _as_fraction(lambda_ratio)
+    roots = reciprocal_sum_ab_roots(lam)
+    unit_leg_value = Fraction(2)
+    true_roots = true_reciprocal_sum_ab_roots(lam)
+    return SumAbReciprocalObstruction(
+        lambda_ratio=lam,
+        roots=roots,
+        forced_unit_root=Fraction(1),
+        unit_leg_value=unit_leg_value,
+        unit_leg_is_square=_is_rational_square(unit_leg_value),
+        true_roots=true_roots,
+        branch_closed=true_roots == (),
+    )
+
+
 def true_reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, ...]:
     """Return the ``sum=A+B`` same-orbit roots that are true ``R_lambda`` points."""
     lam = _as_fraction(lambda_ratio)
@@ -2479,6 +2511,7 @@ __all__ = [
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbRatioShadowOrbit",
+    "SumAbReciprocalObstruction",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
     "SumAbThreePassEuclidModel",
@@ -2510,6 +2543,7 @@ __all__ = [
     "sum_ab_product_square_residuals_from_grid",
     "sum_ab_product_square_residuals_from_root_grid",
     "sum_ab_ratio_shadow_key",
+    "sum_ab_reciprocal_obstruction",
     "sum_ab_residual_squareclass_equations",
     "sum_ab_root_grid_residual_summary",
     "sum_ab_root_grid_residual_watchlist",

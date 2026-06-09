@@ -69,6 +69,7 @@ def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> No
 def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda() -> None:
     from rational_distance.concordant.rational_ratio import (
         reciprocal_sum_ab_roots,
+        sum_ab_reciprocal_obstruction,
         true_reciprocal_sum_ab_roots,
     )
 
@@ -76,6 +77,16 @@ def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda(
 
     assert reciprocal_sum_ab_roots(lam) == (Fraction(1), Fraction(3, 4))
     assert true_reciprocal_sum_ab_roots(lam) == ()
+
+    obstruction = sum_ab_reciprocal_obstruction(lam)
+
+    assert obstruction.lambda_ratio == lam
+    assert obstruction.roots == (Fraction(1), lam)
+    assert obstruction.forced_unit_root == Fraction(1)
+    assert obstruction.unit_leg_value == Fraction(2)
+    assert not obstruction.unit_leg_is_square
+    assert obstruction.true_roots == ()
+    assert obstruction.branch_closed
 
 
 def test_product_identity_holds_for_rational_lambda() -> None:
