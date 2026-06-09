@@ -26,11 +26,20 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
         "leg2": 24,
         "hypotenuse": 25,
         "primitive": [7, 24, 25],
+        "euclid": {"m": 4, "n": 3, "odd_leg": 7, "even_leg": 24},
         "scale": 1,
     }
     assert summary["edges"]["B-N1"]["triple"]["primitive"] == [8, 15, 17]
     assert summary["edges"]["B-N1"]["triple"]["scale"] == 3
+    assert summary["edges"]["B-N1"]["triple"]["euclid"] == {
+        "m": 4,
+        "n": 1,
+        "odd_leg": 15,
+        "even_leg": 8,
+    }
     assert summary["edges"]["B-N2"]["triple"]["primitive"] == [28, 45, 53]
+    assert summary["edges"]["B-N2"]["triple"]["euclid"]["m"] == 7
+    assert summary["edges"]["B-N2"]["triple"]["euclid"]["n"] == 2
     assert summary["edges"]["A-N2"]["nearest_delta"] == 8
     assert summary["edges"]["A-N2"]["signed_delta"] == -8
 

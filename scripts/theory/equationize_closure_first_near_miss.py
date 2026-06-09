@@ -38,8 +38,24 @@ def _triple_for(leg1: int, leg2: int, hypotenuse: int) -> dict[str, Any]:
         "leg2": leg2,
         "hypotenuse": hypotenuse,
         "primitive": primitive,
+        "euclid": _euclid_parameters(primitive),
         "scale": scale,
     }
+
+
+def _euclid_parameters(primitive: list[int]) -> dict[str, int]:
+    leg_a, leg_b, hypotenuse = primitive
+    odd_leg, even_leg = (leg_a, leg_b) if leg_a % 2 else (leg_b, leg_a)
+    m = isqrt((hypotenuse + odd_leg) // 2)
+    n = isqrt((hypotenuse - odd_leg) // 2)
+    if (
+        m <= n
+        or m * m + n * n != hypotenuse
+        or 2 * m * n != even_leg
+        or m * m - n * n != odd_leg
+    ):
+        raise ValueError(f"not a primitive Euclid triple: {primitive}")
+    return {"m": m, "n": n, "odd_leg": odd_leg, "even_leg": even_leg}
 
 
 def _edge_summary(name: str, leg1: int, leg2: int) -> dict[str, Any]:
