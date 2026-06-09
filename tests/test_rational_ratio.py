@@ -385,6 +385,10 @@ def test_sum_ab_same_orientation_shared_leg_terms_expose_square_difference() -> 
     assert terms.denominator_square_difference == 360 * 360 - 420 * 420
     assert terms.other_hypotenuse_factor_pair == (15, 735)
     assert terms.failed_hypotenuse_factor_pair is None
+    assert terms.other_factor_pair_gcd == 15
+    assert terms.other_reduced_factor_pair == (1, 49)
+    assert terms.failed_factor_pair_gcd is None
+    assert terms.failed_reduced_factor_pair is None
 
 
 def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> None:

@@ -284,6 +284,22 @@ class SumAbSameOrientationSharedLegTerms:
     def failed_hypotenuse_factor_pair(self) -> tuple[int, int] | None:
         return _hypotenuse_factor_pair(self.failed_square_equation)
 
+    @property
+    def other_factor_pair_gcd(self) -> int | None:
+        return _factor_pair_gcd(self.other_hypotenuse_factor_pair)
+
+    @property
+    def failed_factor_pair_gcd(self) -> int | None:
+        return _factor_pair_gcd(self.failed_hypotenuse_factor_pair)
+
+    @property
+    def other_reduced_factor_pair(self) -> tuple[int, int] | None:
+        return _reduced_factor_pair(self.other_hypotenuse_factor_pair)
+
+    @property
+    def failed_reduced_factor_pair(self) -> tuple[int, int] | None:
+        return _reduced_factor_pair(self.failed_hypotenuse_factor_pair)
+
 
 @dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
@@ -583,6 +599,21 @@ def _hypotenuse_factor_pair(
     if hypotenuse is None:
         return None
     return hypotenuse - denominator, hypotenuse + denominator
+
+
+def _factor_pair_gcd(pair: tuple[int, int] | None) -> int | None:
+    if pair is None:
+        return None
+    left, right = pair
+    return _gcd(left, right)
+
+
+def _reduced_factor_pair(pair: tuple[int, int] | None) -> tuple[int, int] | None:
+    common = _factor_pair_gcd(pair)
+    if pair is None or common is None:
+        return None
+    left, right = pair
+    return left // common, right // common
 
 
 def _sum_ab_mobius_polynomial_terms_from_legs(
