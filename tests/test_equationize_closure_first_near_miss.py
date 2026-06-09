@@ -99,6 +99,12 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
                     "A = u*(p^2-q^2)",
                     "N1 = u*(2*p*q)",
                 ],
+                "side_conditions": [
+                    {"condition": "p > q > 0", "holds": True},
+                    {"condition": "gcd(p,q) = 1", "holds": True},
+                    {"condition": "p and q have opposite parity", "holds": True},
+                    {"condition": "u > 0", "holds": True},
+                ],
             },
             {
                 "edge": "B-N1",
@@ -114,6 +120,12 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
                     "B = v*(r^2-s^2)",
                     "N1 = v*(2*r*s)",
                 ],
+                "side_conditions": [
+                    {"condition": "r > s > 0", "holds": True},
+                    {"condition": "gcd(r,s) = 1", "holds": True},
+                    {"condition": "r and s have opposite parity", "holds": True},
+                    {"condition": "v > 0", "holds": True},
+                ],
             },
             {
                 "edge": "B-N2",
@@ -128,6 +140,12 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
                 "constraints": [
                     "B = w*(x^2-y^2)",
                     "N2 = w*(2*x*y)",
+                ],
+                "side_conditions": [
+                    {"condition": "x > y > 0", "holds": True},
+                    {"condition": "gcd(x,y) = 1", "holds": True},
+                    {"condition": "x and y have opposite parity", "holds": True},
+                    {"condition": "w > 0", "holds": True},
                 ],
             },
         ],

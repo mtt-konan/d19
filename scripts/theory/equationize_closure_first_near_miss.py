@@ -307,20 +307,24 @@ def _role_slug(role: str) -> str:
 def _passed_edge_template(edge_name: str, edge: dict[str, Any]) -> dict[str, Any]:
     scale_symbol, m_symbol, n_symbol = EDGE_SYMBOLS[edge_name]
     triple = edge["triple"]
+    scale = triple["scale"]
+    m = triple["euclid"]["m"]
+    n = triple["euclid"]["n"]
     return {
         "edge": edge_name,
         "scale_symbol": scale_symbol,
         "m_symbol": m_symbol,
         "n_symbol": n_symbol,
         "assignments": {
-            scale_symbol: triple["scale"],
-            m_symbol: triple["euclid"]["m"],
-            n_symbol: triple["euclid"]["n"],
+            scale_symbol: scale,
+            m_symbol: m,
+            n_symbol: n,
         },
         "constraints": [
             _leg_constraint(label, leg, scale_symbol, m_symbol, n_symbol)
             for label, leg in triple["generated_legs"].items()
         ],
+        "side_conditions": _side_conditions(scale_symbol, m_symbol, n_symbol, scale, m, n),
     }
 
 
@@ -343,6 +347,34 @@ def _role_template_rhs(
     if role == "odd_leg":
         return f"{scale_symbol}*({m_symbol}^2-{n_symbol}^2)"
     return f"{scale_symbol}*(2*{m_symbol}*{n_symbol})"
+
+
+def _side_conditions(
+    scale_symbol: str,
+    m_symbol: str,
+    n_symbol: str,
+    scale: int,
+    m: int,
+    n: int,
+) -> list[dict[str, bool | str]]:
+    return [
+        {
+            "condition": f"{m_symbol} > {n_symbol} > 0",
+            "holds": m > n > 0,
+        },
+        {
+            "condition": f"gcd({m_symbol},{n_symbol}) = 1",
+            "holds": gcd(m, n) == 1,
+        },
+        {
+            "condition": f"{m_symbol} and {n_symbol} have opposite parity",
+            "holds": (m + n) % 2 == 1,
+        },
+        {
+            "condition": f"{scale_symbol} > 0",
+            "holds": scale > 0,
+        },
+    ]
 
 
 def _shared_constraints(shared_variables: dict[str, list[dict[str, Any]]]) -> list[str]:
