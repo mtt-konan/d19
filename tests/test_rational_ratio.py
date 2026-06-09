@@ -168,6 +168,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert conditions.roots == (r, s)
     assert not conditions.centerline
     assert not conditions.reciprocal_pair
+    assert conditions.product_square_bucket == "residual"
     assert conditions.product_terms_are_squares
     assert not conditions.true_member_pair
     assert conditions.member_square_flags == (False, False, False, False)
@@ -189,6 +190,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert mixed_conditions.product_terms_are_squares
     assert mixed_conditions.centerline
     assert not mixed_conditions.reciprocal_pair
+    assert mixed_conditions.product_square_bucket == "centerline"
     assert mixed_conditions.member_squareclasses == (13, 13, 1, 1)
     assert mixed_conditions.member_squareclass_pair == (13, 1)
     assert mixed_conditions.member_squareclasses_pairwise_equal
@@ -220,6 +222,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert reciprocal_conditions.roots == (Fraction(1), Fraction(7))
     assert not reciprocal_conditions.centerline
     assert reciprocal_conditions.reciprocal_pair
+    assert reciprocal_conditions.product_square_bucket == "reciprocal"
     assert reciprocal_conditions.member_squareclass_pair == (2, 2)
     assert not reciprocal_conditions.true_member_pair
 

@@ -101,6 +101,7 @@ class ClosureProductSquareConditions:
     roots: tuple[Fraction, ...]
     centerline: bool
     reciprocal_pair: bool
+    product_square_bucket: str
     product_terms_are_squares: bool
     member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
     member_squareclasses: tuple[int, int, int, int] | tuple[()]
@@ -1926,6 +1927,14 @@ def closure_product_square_conditions(
     )
     centerline = len(positive_roots) == 2 and positive_roots[0] == positive_roots[1]
     reciprocal_pair = len(positive_roots) == 2 and positive_roots[0] * positive_roots[1] == lam
+    if not product_terms_are_squares or len(positive_roots) != 2:
+        product_square_bucket = "none"
+    elif centerline:
+        product_square_bucket = "centerline"
+    elif reciprocal_pair:
+        product_square_bucket = "reciprocal"
+    else:
+        product_square_bucket = "residual"
     centerline_obstruction = None
     if centerline:
         unit_leg_fails = (
@@ -1951,6 +1960,7 @@ def closure_product_square_conditions(
         roots=positive_roots,
         centerline=centerline,
         reciprocal_pair=reciprocal_pair,
+        product_square_bucket=product_square_bucket,
         product_terms_are_squares=product_terms_are_squares,
         member_square_flags=member_square_flags,
         member_squareclasses=member_squareclasses,
