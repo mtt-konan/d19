@@ -183,11 +183,16 @@ class ReciprocalClosureDiscriminantLedger:
     """Discriminant ledger for the reciprocal branches that have a quadratic."""
 
     lambda_ratio: Fraction
+    lambda_numerator: int
+    lambda_denominator: int
     relation: str
     target: Fraction
     discriminant: Fraction
+    discriminant_numerator: int
+    discriminant_denominator: int
     discriminant_is_square: bool
     discriminant_squareclass: int | None
+    discriminant_integer_squareclass: int | None
     roots: tuple[ReciprocalClosureSquareclassRoot, ...]
     true_roots: tuple[Fraction, ...]
     branch_closed: bool
@@ -3666,11 +3671,20 @@ def reciprocal_closure_discriminant_ledger(
     )
     return ReciprocalClosureDiscriminantLedger(
         lambda_ratio=lam,
+        lambda_numerator=lam.numerator,
+        lambda_denominator=lam.denominator,
         relation=relation,
         target=target,
         discriminant=discriminant,
+        discriminant_numerator=discriminant.numerator,
+        discriminant_denominator=discriminant.denominator,
         discriminant_is_square=_is_rational_square(discriminant),
         discriminant_squareclass=discriminant_squareclass,
+        discriminant_integer_squareclass=(
+            _integer_squareclass(discriminant.numerator * discriminant.denominator)
+            if discriminant > 0
+            else None
+        ),
         roots=roots,
         true_roots=true_roots,
         branch_closed=true_roots == (),

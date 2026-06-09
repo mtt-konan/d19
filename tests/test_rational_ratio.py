@@ -1537,10 +1537,15 @@ def test_reciprocal_closure_discriminant_ledger_explains_failed_roots() -> None:
 
     ledger = reciprocal_closure_discriminant_ledger(Fraction(6), "sum=|A-B|")
 
+    assert ledger.lambda_numerator == 6
+    assert ledger.lambda_denominator == 1
     assert ledger.target == Fraction(5)
     assert ledger.discriminant == Fraction(1)
+    assert ledger.discriminant_numerator == 1
+    assert ledger.discriminant_denominator == 1
     assert ledger.discriminant_is_square
     assert ledger.discriminant_squareclass == 1
+    assert ledger.discriminant_integer_squareclass == 1
     assert [(row.r, row.unit_squareclass, row.lambda_squareclass) for row in ledger.roots] == [
         (Fraction(2), 5, 10),
         (Fraction(3), 10, 5),
@@ -1556,10 +1561,15 @@ def test_reciprocal_closure_discriminant_ledger_handles_single_positive_root() -
 
     ledger = reciprocal_closure_discriminant_ledger(Fraction(3, 2), "diff=A+B")
 
+    assert ledger.lambda_numerator == 3
+    assert ledger.lambda_denominator == 2
     assert ledger.target == Fraction(5, 2)
     assert ledger.discriminant == Fraction(49, 4)
+    assert ledger.discriminant_numerator == 49
+    assert ledger.discriminant_denominator == 4
     assert ledger.discriminant_is_square
     assert ledger.discriminant_squareclass == 1
+    assert ledger.discriminant_integer_squareclass == 1
     assert [(row.r, row.unit_squareclass, row.lambda_squareclass) for row in ledger.roots] == [
         (Fraction(3), 10, 5),
     ]

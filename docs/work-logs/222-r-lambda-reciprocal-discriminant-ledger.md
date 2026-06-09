@@ -46,10 +46,15 @@ ReciprocalClosureDiscriminantLedger
 记录：
 
 ```text
+lambda_numerator
+lambda_denominator
 target
 discriminant
+discriminant_numerator
+discriminant_denominator
 discriminant_is_square
 discriminant_squareclass
+discriminant_integer_squareclass
 roots
 true_roots
 branch_closed
@@ -120,19 +125,29 @@ PY
 
 ```text
 lambda 6 relation sum=|A-B|
+ lambda_numerator 6
+ lambda_denominator 1
  target 5
  discriminant 1
+ discriminant_numerator 1
+ discriminant_denominator 1
  is_square True
  squareclass 1
+ integer_squareclass 1
  roots [(2, 5, 10, False), (3, 10, 5, False)]
  true_roots ()
  branch_closed True
 
 lambda 3/2 relation diff=A+B
+ lambda_numerator 3
+ lambda_denominator 2
  target 5/2
  discriminant 49/4
+ discriminant_numerator 49
+ discriminant_denominator 4
  is_square True
  squareclass 1
+ integer_squareclass 1
  roots [(3, 10, 5, False)]
  true_roots ()
  branch_closed True
@@ -153,6 +168,15 @@ lambda 3/2 relation diff=A+B
 sum=|A-B| 的根 2/3 互换出 (5,10)/(10,5)
 diff=A+B 的根 3 也是 (10,5)
 ```
+
+现在还能顺手把分子分母记下来，方便后面写整数版 proof note：
+
+```text
+lambda = a/b
+discriminant = m/n
+```
+
+而不是每次都手动把 Fraction 还原成整数形式。
 
 也就是：
 
