@@ -68,6 +68,7 @@ def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> No
 
 def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda() -> None:
     from rational_distance.concordant.rational_ratio import (
+        full_plane_reciprocal_obstruction,
         reciprocal_sum_ab_roots,
         sum_ab_reciprocal_obstruction,
         true_reciprocal_sum_ab_roots,
@@ -87,6 +88,13 @@ def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda(
     assert not obstruction.unit_leg_is_square
     assert obstruction.true_roots == ()
     assert obstruction.branch_closed
+
+    full_plane = full_plane_reciprocal_obstruction(lam)
+
+    assert full_plane.lambda_ratio == lam
+    assert full_plane.all_branches_closed
+    assert full_plane.by_relation["sum=A+B"].roots == (lam, Fraction(1))
+    assert full_plane.by_relation["sum=A+B"].true_roots == ()
 
 
 def test_product_identity_holds_for_rational_lambda() -> None:
@@ -1482,7 +1490,10 @@ def test_square_rectangle_terms_match_sum_branch_distances() -> None:
 
 
 def test_reciprocal_orbit_dangerous_discriminant_roots_are_not_members() -> None:
-    from rational_distance.concordant.rational_ratio import reciprocal_closure_roots
+    from rational_distance.concordant.rational_ratio import (
+        full_plane_reciprocal_obstruction,
+        reciprocal_closure_roots,
+    )
 
     sum_diff_roots = reciprocal_closure_roots(Fraction(6), "sum=|A-B|")
     diff_ab_roots = reciprocal_closure_roots(Fraction(3, 2), "diff=A+B")
@@ -1494,3 +1505,12 @@ def test_reciprocal_orbit_dangerous_discriminant_roots_are_not_members() -> None
     assert [(root.r, root.true_member) for root in diff_ab_roots] == [
         (Fraction(3), False),
     ]
+
+    summary = full_plane_reciprocal_obstruction(Fraction(6))
+
+    assert summary.all_branches_closed
+    assert summary.by_relation["sum=A+B"].roots == (Fraction(1), Fraction(6))
+    assert summary.by_relation["sum=|A-B|"].roots == (Fraction(2), Fraction(3))
+    assert summary.by_relation["diff=A+B"].roots == ()
+    assert summary.by_relation["diff=|A-B|"].roots == (Fraction(1), Fraction(6))
+    assert all(row.true_roots == () for row in summary.by_relation.values())

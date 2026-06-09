@@ -165,6 +165,25 @@ class ReciprocalClosureRoot:
     true_member: bool
 
 
+@dataclass(frozen=True)
+class ReciprocalClosureObstruction:
+    """One full-plane reciprocal closure branch and whether true roots remain."""
+
+    relation: str
+    roots: tuple[Fraction, ...]
+    true_roots: tuple[Fraction, ...]
+    branch_closed: bool
+
+
+@dataclass(frozen=True)
+class FullPlaneReciprocalObstruction:
+    """Proof ledger for reciprocal/mirror branches across all full-plane relations."""
+
+    lambda_ratio: Fraction
+    by_relation: dict[str, ReciprocalClosureObstruction]
+    all_branches_closed: bool
+
+
 @dataclass(frozen=True, order=True)
 class SumAbSlopePoint:
     """A sum=A+B candidate expressed by scaled Pythagorean slopes."""
@@ -3569,10 +3588,34 @@ def reciprocal_closure_roots(
     return tuple(out)
 
 
+def full_plane_reciprocal_obstruction(
+    lambda_ratio: Fraction | int,
+) -> FullPlaneReciprocalObstruction:
+    """Return the reciprocal/mirror obstruction ledger for all full-plane relations."""
+    lam = _as_fraction(lambda_ratio)
+    _validate_positive("lambda_ratio", lam)
+    by_relation: dict[str, ReciprocalClosureObstruction] = {}
+    for relation in (REL_SUM_AB, REL_SUM_DIFF, REL_DIFF_AB, REL_DIFF_DIFF):
+        roots = reciprocal_closure_roots(lam, relation)
+        true_roots = tuple(root.r for root in roots if root.true_member)
+        by_relation[relation] = ReciprocalClosureObstruction(
+            relation=relation,
+            roots=tuple(root.r for root in roots),
+            true_roots=true_roots,
+            branch_closed=true_roots == (),
+        )
+    return FullPlaneReciprocalObstruction(
+        lambda_ratio=lam,
+        by_relation=by_relation,
+        all_branches_closed=all(row.branch_closed for row in by_relation.values()),
+    )
+
+
 __all__ = [
     "ClosureProductSquareConditions",
     "FullPlaneClosureProductLedger",
     "FullPlaneClosureProductSummary",
+    "FullPlaneReciprocalObstruction",
     "FullPlaneTrueClosureRelation",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
@@ -3580,6 +3623,7 @@ __all__ = [
     "PythagoreanLegParam",
     "RationalRatioHit",
     "RationalRatioHitProductDiagnostic",
+    "ReciprocalClosureObstruction",
     "ReciprocalClosureRoot",
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
@@ -3607,6 +3651,7 @@ __all__ = [
     "find_rational_ratio_hits",
     "full_plane_closure_product_ledger",
     "full_plane_closure_product_summary",
+    "full_plane_reciprocal_obstruction",
     "full_plane_true_closure_relation",
     "group_sum_ab_ratio_shadow_orbits",
     "is_pythagorean_leg_ratio",
