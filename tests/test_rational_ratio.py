@@ -300,6 +300,35 @@ def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> Non
     assert lambda_leg_conditions.centerline_obstruction == "unit-leg"
 
 
+def test_sum_ab_centerline_equations_expose_two_square_conditions() -> None:
+    from rational_distance.concordant.rational_ratio import sum_ab_centerline_equations
+
+    equations = sum_ab_centerline_equations(Fraction(3))
+
+    assert equations.lambda_ratio == Fraction(3)
+    assert equations.center == Fraction(2)
+    assert equations.unit_value == Fraction(5)
+    assert equations.lambda_value == Fraction(13)
+    assert not equations.unit_is_square
+    assert not equations.lambda_is_square
+    assert equations.unit_squareclass == 5
+    assert equations.lambda_squareclass == 13
+    assert not equations.true_member
+    assert equations.obstruction == "both-legs"
+
+    lambda_leg = sum_ab_centerline_equations(Fraction(15))
+
+    assert lambda_leg.center == Fraction(8)
+    assert lambda_leg.unit_value == Fraction(65)
+    assert lambda_leg.lambda_value == Fraction(289)
+    assert not lambda_leg.unit_is_square
+    assert lambda_leg.lambda_is_square
+    assert lambda_leg.unit_squareclass == 65
+    assert lambda_leg.lambda_squareclass == 1
+    assert not lambda_leg.true_member
+    assert lambda_leg.obstruction == "unit-leg"
+
+
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     from rational_distance.concordant.rational_ratio import (
         REL_SUM_AB,

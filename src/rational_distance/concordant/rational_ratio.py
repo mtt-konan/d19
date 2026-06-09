@@ -213,6 +213,22 @@ class SumAbReciprocalObstruction:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineEquations:
+    """Equation ledger for the ``sum=A+B`` centerline ``r=s=(lambda+1)/2``."""
+
+    lambda_ratio: Fraction
+    center: Fraction
+    unit_value: Fraction
+    lambda_value: Fraction
+    unit_is_square: bool
+    lambda_is_square: bool
+    unit_squareclass: int
+    lambda_squareclass: int
+    true_member: bool
+    obstruction: str | None
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2420,6 +2436,37 @@ def sum_ab_centerline_squareclass_conditions(
     )
 
 
+def sum_ab_centerline_equations(lambda_ratio: Fraction | int) -> SumAbCenterlineEquations:
+    """Return the two square equations for a ``sum=A+B`` centerline point."""
+    lam = _as_fraction(lambda_ratio)
+    _validate_positive("lambda_ratio", lam)
+    center = (lam + 1) / 2
+    unit_value = center * center + 1
+    lambda_value = center * center + lam * lam
+    unit_is_square = _is_rational_square(unit_value)
+    lambda_is_square = _is_rational_square(lambda_value)
+    if unit_is_square and lambda_is_square:
+        obstruction = None
+    elif unit_is_square:
+        obstruction = "lambda-leg"
+    elif lambda_is_square:
+        obstruction = "unit-leg"
+    else:
+        obstruction = "both-legs"
+    return SumAbCenterlineEquations(
+        lambda_ratio=lam,
+        center=center,
+        unit_value=unit_value,
+        lambda_value=lambda_value,
+        unit_is_square=unit_is_square,
+        lambda_is_square=lambda_is_square,
+        unit_squareclass=_rational_squareclass(unit_value)[0],
+        lambda_squareclass=_rational_squareclass(lambda_value)[0],
+        true_member=unit_is_square and lambda_is_square,
+        obstruction=obstruction,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2510,6 +2557,7 @@ __all__ = [
     "ReciprocalClosureRoot",
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
+    "SumAbCenterlineEquations",
     "SumAbRatioShadowOrbit",
     "SumAbReciprocalObstruction",
     "SumAbSlopeObstruction",
@@ -2536,6 +2584,7 @@ __all__ = [
     "scan_sum_ab_slope_pairs",
     "scan_sum_ab_true_closure_relations",
     "square_rectangle_terms",
+    "sum_ab_centerline_equations",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
     "sum_ab_product_square_bucket_summary",
