@@ -166,6 +166,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
 
     assert conditions.discriminant == discriminant
     assert conditions.roots == (r, s)
+    assert not conditions.centerline
     assert conditions.product_terms_are_squares
     assert not conditions.true_member_pair
     assert conditions.member_square_flags == (False, False, False, False)
@@ -235,6 +236,7 @@ def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> Non
 
     assert conditions.relation == REL_SUM_AB
     assert conditions.roots == (Fraction(2), Fraction(2))
+    assert conditions.centerline
     assert conditions.product == Fraction(4)
     assert conditions.product_terms_are_squares
     assert conditions.member_squareclasses == (5, 5, 13, 13)
