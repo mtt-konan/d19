@@ -195,6 +195,8 @@ class SumAbThreePassEuclidModel:
     mobius: SumAbThreePassMobiusModel
     other_slope_square_equation: tuple[Fraction, Fraction | None]
     failed_square_equation: tuple[Fraction, Fraction | None]
+    other_slope_integer_equation: tuple[int, int, int | None]
+    failed_integer_equation: tuple[int, int, int | None]
 
     @property
     def failed_squareclass(self) -> int:
@@ -473,6 +475,15 @@ def _square_equation_for_leg_ratio(ratio: Fraction) -> tuple[Fraction, Fraction 
     return value, root * root if root is not None else None
 
 
+def _integer_square_equation_for_leg_ratio(ratio: Fraction) -> tuple[int, int, int | None]:
+    numerator = ratio.numerator
+    denominator = ratio.denominator
+    square_sum = numerator * numerator + denominator * denominator
+    root = isqrt(square_sum)
+    hypotenuse = root if root * root == square_sum else None
+    return numerator, denominator, hypotenuse
+
+
 def sum_ab_three_pass_mobius_model_from_params(
     slope: PythagoreanLegParam,
     scaled_term: PythagoreanLegParam,
@@ -485,6 +496,12 @@ def sum_ab_three_pass_mobius_model_from_params(
         mobius=model,
         other_slope_square_equation=_square_equation_for_leg_ratio(model.other_slope),
         failed_square_equation=_square_equation_for_leg_ratio(model.failed_scaled_term),
+        other_slope_integer_equation=_integer_square_equation_for_leg_ratio(
+            model.other_slope
+        ),
+        failed_integer_equation=_integer_square_equation_for_leg_ratio(
+            model.failed_scaled_term
+        ),
     )
 
 
