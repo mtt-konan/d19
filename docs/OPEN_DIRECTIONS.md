@@ -26,6 +26,15 @@ P1/P2: 非互素 full-space 缺口
 P2: 工程安全清理和特殊线 proof note
 ```
 
+Special-line update:
+
+```text
+Center-line proof note is now recorded in
+docs/explorations/2026-06-07-next-step-hard-layer/center-line-impossibility.md.
+The first A=kB Yang Ji prime-pair coverage table is in
+docs/work-logs/203-a-kb-yang-ji-prime-pair-coverage.md.
+```
+
 关键边界：
 
 ```text

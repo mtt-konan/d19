@@ -308,5 +308,11 @@ make an A=kB coverage table:
 k, inside n=k+1, outside n=k-1, Yang Ji prime-pair covered?, open residue classes
 ```
 
+That first table is recorded in:
+
+```text
+docs/work-logs/203-a-kb-yang-ji-prime-pair-coverage.md
+```
+
 This turns the center-line proof note into a template instead of a new search
 branch.
