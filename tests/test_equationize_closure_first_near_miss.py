@@ -21,6 +21,44 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
     }
     assert summary["square_count"] == 3
     assert summary["missing_edges"] == ["A-N2"]
+    assert summary["shared_variables"] == {
+        "B": [
+            {
+                "edge": "B-N1",
+                "value": 45,
+                "scale": 3,
+                "euclid": {"m": 4, "n": 1},
+                "role": "odd_leg",
+                "formula": "scale*(m^2-n^2)",
+            },
+            {
+                "edge": "B-N2",
+                "value": 45,
+                "scale": 1,
+                "euclid": {"m": 7, "n": 2},
+                "role": "odd_leg",
+                "formula": "scale*(m^2-n^2)",
+            },
+        ],
+        "N1": [
+            {
+                "edge": "A-N1",
+                "value": 24,
+                "scale": 1,
+                "euclid": {"m": 4, "n": 3},
+                "role": "even_leg",
+                "formula": "scale*(2*m*n)",
+            },
+            {
+                "edge": "B-N1",
+                "value": 24,
+                "scale": 3,
+                "euclid": {"m": 4, "n": 1},
+                "role": "even_leg",
+                "formula": "scale*(2*m*n)",
+            },
+        ],
+    }
     assert summary["edges"]["A-N1"]["triple"] == {
         "leg1": 7,
         "leg2": 24,

@@ -131,6 +131,33 @@ def _edge_summary(name: str, leg1: int, leg2: int) -> dict[str, Any]:
     return out
 
 
+def _shared_variables(edges: dict[str, dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    seen: dict[str, list[dict[str, Any]]] = {}
+    for edge_name, edge in edges.items():
+        triple = edge.get("triple")
+        if triple is None:
+            continue
+        for label, leg in triple["generated_legs"].items():
+            seen.setdefault(label, []).append(
+                {
+                    "edge": edge_name,
+                    "value": leg["value"],
+                    "scale": triple["scale"],
+                    "euclid": {
+                        "m": triple["euclid"]["m"],
+                        "n": triple["euclid"]["n"],
+                    },
+                    "role": leg["role"],
+                    "formula": leg["formula"],
+                }
+            )
+    return {
+        label: entries
+        for label, entries in seen.items()
+        if len(entries) > 1
+    }
+
+
 def _closure_left(a: int, b: int, n1: int, n2: int, relation: str) -> tuple[int, int]:
     if relation == "sum=A+B":
         return n1 + n2, a + b
@@ -165,6 +192,7 @@ def equationize_sample(a: int, b: int, n1: int, n2: int, relation: str) -> dict[
         },
         "square_count": len(edges) - len(missing_edges),
         "missing_edges": missing_edges,
+        "shared_variables": _shared_variables(edges),
         "edges": edges,
     }
 
