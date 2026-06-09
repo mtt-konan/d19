@@ -170,6 +170,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert not conditions.true_member_pair
     assert conditions.member_square_flags == (False, False, False, False)
     assert conditions.member_squareclasses == (29, 29, 29, 29)
+    assert conditions.member_squareclass_pair == (29, 29)
     assert len(set(conditions.member_squareclasses)) == 1
     assert conditions.member_squareclasses_pairwise_equal
     assert conditions.product_square_explained_by_pairwise_squareclasses
@@ -185,6 +186,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
 
     assert mixed_conditions.product_terms_are_squares
     assert mixed_conditions.member_squareclasses == (13, 13, 1, 1)
+    assert mixed_conditions.member_squareclass_pair == (13, 1)
     assert mixed_conditions.member_squareclasses_pairwise_equal
     assert mixed_conditions.product_square_explained_by_pairwise_squareclasses
     assert not mixed_conditions.member_squareclasses_all_equal
@@ -198,6 +200,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
 
     assert true_conditions.true_member_pair
     assert true_conditions.roots == (Fraction(3, 4), Fraction(4, 3))
+    assert true_conditions.member_squareclass_pair == (1, 1)
     assert true_conditions.member_squareclasses_pairwise_equal
     assert true_conditions.product_square_explained_by_pairwise_squareclasses
     assert true_conditions.member_squareclasses_all_equal

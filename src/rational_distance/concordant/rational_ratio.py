@@ -102,6 +102,7 @@ class ClosureProductSquareConditions:
     product_terms_are_squares: bool
     member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
     member_squareclasses: tuple[int, int, int, int] | tuple[()]
+    member_squareclass_pair: tuple[int, int] | tuple[()]
     member_squareclasses_pairwise_equal: bool
     product_square_explained_by_pairwise_squareclasses: bool
     member_squareclasses_all_equal: bool
@@ -1905,6 +1906,11 @@ def closure_product_square_conditions(
         and member_squareclasses[0] == member_squareclasses[1]
         and member_squareclasses[2] == member_squareclasses[3]
     )
+    member_squareclass_pair: tuple[int, int] | tuple[()] = (
+        (member_squareclasses[0], member_squareclasses[2])
+        if member_squareclasses_pairwise_equal
+        else ()
+    )
     product_square_explained_by_pairwise_squareclasses = (
         len(member_squareclasses) == 4
         and product_terms_are_squares == member_squareclasses_pairwise_equal
@@ -1927,6 +1933,7 @@ def closure_product_square_conditions(
         product_terms_are_squares=product_terms_are_squares,
         member_square_flags=member_square_flags,
         member_squareclasses=member_squareclasses,
+        member_squareclass_pair=member_squareclass_pair,
         member_squareclasses_pairwise_equal=member_squareclasses_pairwise_equal,
         product_square_explained_by_pairwise_squareclasses=(
             product_square_explained_by_pairwise_squareclasses
