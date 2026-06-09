@@ -556,6 +556,8 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
     assert summary.family_edges_by_failing_squareclass[17][1].target_n_delta == -21
     assert summary.family_edges_by_failing_squareclass[17][1].decreases_n
     assert summary.family_edges_by_failing_squareclass[17][1].decreases_max
+    assert summary.n_descending_edge_count == 1
+    assert summary.n_descending_continuation_count == 0
     assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
     assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
     assert summary.examples_by_abs_difference[1][0].orientation == "odd"

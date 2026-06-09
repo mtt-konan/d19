@@ -526,6 +526,8 @@ class SumAbNormalizedNearMissSummary:
     family_edges_by_failing_squareclass: dict[
         int, tuple[SumAbSquareclassFamilyEdge, ...]
     ]
+    n_descending_edge_count: int
+    n_descending_continuation_count: int
 
 
 @dataclass(frozen=True, order=True)
@@ -1221,6 +1223,14 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                 if len(squareclass_bucket) < max_examples_per_bucket:
                     squareclass_bucket.append(example)
 
+    family_edges_by_squareclass = {
+        key: _squareclass_family_edges(tuple(sorted(value)))
+        for key, value in sorted(canonical_triples.items())
+    }
+    n_descending_edge_count, n_descending_continuation_count = (
+        _n_descending_edge_stats(family_edges_by_squareclass)
+    )
+
     return SumAbNormalizedNearMissSummary(
         max_m=max_m,
         total_near_misses=total,
@@ -1236,11 +1246,26 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
         canonical_triples_by_failing_squareclass={
             key: tuple(sorted(value)) for key, value in sorted(canonical_triples.items())
         },
-        family_edges_by_failing_squareclass={
-            key: _squareclass_family_edges(tuple(sorted(value)))
-            for key, value in sorted(canonical_triples.items())
-        },
+        family_edges_by_failing_squareclass=family_edges_by_squareclass,
+        n_descending_edge_count=n_descending_edge_count,
+        n_descending_continuation_count=n_descending_continuation_count,
     )
+
+
+def _n_descending_edge_stats(
+    family_edges_by_squareclass: dict[int, tuple[SumAbSquareclassFamilyEdge, ...]],
+) -> tuple[int, int]:
+    descending_edges = [
+        edge
+        for edges in family_edges_by_squareclass.values()
+        for edge in edges
+        if edge.decreases_n
+    ]
+    sources_with_descending_edge = {edge.source for edge in descending_edges}
+    continuations = sum(
+        1 for edge in descending_edges if edge.target in sources_with_descending_edge
+    )
+    return len(descending_edges), continuations
 
 
 def _squareclass_family_edges(
