@@ -45,6 +45,7 @@ Documents:
 - `commands-run.md`: commands and verification.
 - `../../work-logs/106-d4-point-plot-and-centerline-branch.md`: D4 point plot and center-line theorem note.
 - `../../work-logs/204-d4-invariant-coordinate-summary.md`: D4 invariant table follow-up for the 480 point orbits.
+- `../../work-logs/205-closure-first-near-miss-equationization.md`: equation ledger for three low-delta / high-repeat near-miss templates.
 
 Code/results:
 
@@ -53,6 +54,7 @@ Code/results:
 - `scripts/theory/closure_first_three_square_search.py`: closure-first full-plane `3/4` square near-miss probe.
 - `scripts/theory/plot_closure_first_d4_points.py`: plot D4-distinct coordinate representatives from the closure-first run.
 - `scripts/theory/summarize_closure_first_d4_invariants.py`: summarize `x(1-x)`, `y(1-y)` and closure-scale invariants for D4 point records.
+- `scripts/theory/equationize_closure_first_near_miss.py`: write square-equation ledgers for selected `3/4` near-miss samples.
 - `results/partner/full_gm_full_plane_delta_summary.json`
 - `results/partner/full_gm_full_plane_delta_top.jsonl`
 - `results/partner/full_gm_full_plane_closure_hits.jsonl`
