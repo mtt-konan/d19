@@ -67,8 +67,10 @@ a + b = 2n
 Yang Ji's Theorem 2 in "Several special cases of a square problem"
 (`arXiv:2105.05250`) proves that no point on a square midline has four rational
 distances to the vertices, and the paper states that this special case extends
-to the whole plane. Treat this branch as closed, pending a local proof note that
-rewrites the infinite descent in our variables.
+to the whole plane. Treat this branch as closed. The local d19 translation is
+now recorded in `center-line-impossibility.md`; it identifies `A=B`, `N1=N2`,
+`a+b=2n`, `|a-b|=2n`, and the `R_lambda` `r=s` sum branch as the same geometric
+midline written in different variables.
 
 ## Deprioritized
 

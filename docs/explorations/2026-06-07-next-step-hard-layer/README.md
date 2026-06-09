@@ -41,6 +41,7 @@ Documents:
 - `partner-full-plane-scan.md`: new exhaustive `G_M @ 1M` full-plane scan result.
 - `closure-first-3of4.md`: closure-first full-plane search for exact `3/4` square near-misses.
 - `theorem-targets.md`: the next proof targets that survived this follow-up.
+- `center-line-impossibility.md`: local d19 translation of Yang Ji's midline theorem.
 - `commands-run.md`: commands and verification.
 - `../../work-logs/106-d4-point-plot-and-centerline-branch.md`: D4 point plot and center-line theorem note.
 
