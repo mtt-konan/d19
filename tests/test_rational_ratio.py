@@ -353,6 +353,26 @@ def test_sum_ab_product_square_residuals_from_root_grid_finds_known_residual() -
     assert all(condition.product_square_bucket == "residual" for condition in residuals)
 
 
+def test_sum_ab_root_grid_residual_summary_counts_squareclass_pairs() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_root_grid_residual_summary,
+    )
+
+    summary = sum_ab_root_grid_residual_summary(
+        max_numerator=26,
+        max_denominator=23,
+    )
+
+    assert summary.bucket_counts == {"residual": 1}
+    assert summary.true_member_counts == {}
+    assert summary.squareclass_pair_counts_by_bucket == {"residual": {(29, 29): 1}}
+    assert summary.examples_by_bucket["residual"].lambda_ratio == Fraction(535, 161)
+    assert summary.examples_by_bucket["residual"].roots == (
+        Fraction(14, 23),
+        Fraction(26, 7),
+    )
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

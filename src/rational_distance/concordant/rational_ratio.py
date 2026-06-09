@@ -1924,6 +1924,42 @@ def sum_ab_product_square_residuals_from_root_grid(
     return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
 
 
+def sum_ab_root_grid_residual_summary(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+) -> ProductSquareBucketSummary:
+    """Summarize finite root-grid residuals and their squareclass pairs."""
+    bucket_counts: Counter[str] = Counter()
+    true_member_counts: Counter[str] = Counter()
+    pair_counts_by_bucket: dict[str, Counter[tuple[int, int]]] = {}
+    examples: dict[str, ClosureProductSquareConditions] = {}
+
+    for condition in sum_ab_product_square_residuals_from_root_grid(
+        max_numerator=max_numerator,
+        max_denominator=max_denominator,
+    ):
+        bucket = condition.product_square_bucket
+        bucket_counts[bucket] += 1
+        if condition.true_member_pair:
+            true_member_counts[bucket] += 1
+        if len(condition.member_squareclass_pair) == 2:
+            pair_counts_by_bucket.setdefault(bucket, Counter())[
+                condition.member_squareclass_pair
+            ] += 1
+        examples.setdefault(bucket, condition)
+
+    return ProductSquareBucketSummary(
+        bucket_counts=dict(sorted(bucket_counts.items())),
+        true_member_counts=dict(sorted(true_member_counts.items())),
+        squareclass_pair_counts_by_bucket={
+            bucket: dict(sorted(pair_counts.items()))
+            for bucket, pair_counts in sorted(pair_counts_by_bucket.items())
+        },
+        examples_by_bucket=dict(sorted(examples.items())),
+    )
+
+
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
     """Return roots forced by ``r + lambda/r = lambda + 1``.
 
@@ -2280,6 +2316,7 @@ __all__ = [
     "sum_ab_product_square_residuals_from_grid",
     "sum_ab_product_square_residuals_from_root_grid",
     "sum_ab_ratio_shadow_key",
+    "sum_ab_root_grid_residual_summary",
     "sum_ab_slope_obstruction",
     "sum_ab_three_pass_mobius_model",
     "sum_ab_three_pass_mobius_model_from_params",
