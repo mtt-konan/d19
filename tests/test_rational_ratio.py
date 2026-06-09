@@ -350,6 +350,7 @@ def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
 
 def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_quartic_self_similarity,
         sum_ab_centerline_remaining_quartic,
     )
 
@@ -363,6 +364,31 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     assert quartic.lambda_value == quartic.quartic_value / quartic.denominator_square
     assert quartic.squareclass == 709
     assert not quartic.is_square
+
+    self_similarity = sum_ab_centerline_quartic_self_similarity(Fraction(3, 5))
+
+    assert self_similarity.parameter == Fraction(3, 5)
+    assert self_similarity.quartic_value == Fraction(2836, 625)
+    assert self_similarity.first_square_term == Fraction(44, 25)
+    assert self_similarity.second_square_term == Fraction(6, 5)
+    assert (
+        self_similarity.quartic_value
+        == self_similarity.first_square_term**2
+        + self_similarity.second_square_term**2
+    )
+    assert self_similarity.quadratic_coefficients == (
+        Fraction(3, 5),
+        Fraction(44, 25),
+        Fraction(-3, 5),
+    )
+    assert self_similarity.quadratic_discriminant == self_similarity.quartic_value
+    assert not self_similarity.has_rational_lift
+
+    base = sum_ab_centerline_quartic_self_similarity(Fraction(0))
+
+    assert base.quartic_value == 1
+    assert base.has_rational_lift
+    assert base.lift_roots == (Fraction(0),)
 
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:

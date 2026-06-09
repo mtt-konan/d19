@@ -255,6 +255,20 @@ class SumAbCenterlineRemainingQuartic:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticSelfSimilarity:
+    """Self-similarity ledger for the centerline quartic square condition."""
+
+    parameter: Fraction
+    quartic_value: Fraction
+    first_square_term: Fraction
+    second_square_term: Fraction
+    quadratic_coefficients: tuple[Fraction, Fraction, Fraction]
+    quadratic_discriminant: Fraction
+    has_rational_lift: bool
+    lift_roots: tuple[Fraction, ...]
+
+
+@dataclass(frozen=True, order=True)
 class SumAbCenterlineQuarticIntegerEquation:
     """Integer form of the centerline quartic for ``t=u/v``."""
 
@@ -2632,6 +2646,49 @@ def sum_ab_centerline_remaining_quartic(
     )
 
 
+def sum_ab_centerline_quartic_self_similarity(
+    parameter: Fraction | int,
+) -> SumAbCenterlineQuarticSelfSimilarity:
+    """Return the self-similar quadratic ledger for the centerline quartic."""
+    q = _as_fraction(parameter)
+    first_square_term = q * q + 4 * q - 1
+    second_square_term = 2 * q
+    quartic_value = first_square_term * first_square_term + second_square_term * second_square_term
+    coefficients = (
+        q,
+        first_square_term,
+        -q,
+    )
+    discriminant = first_square_term * first_square_term + 4 * q * q
+    if q == 0:
+        roots = (Fraction(0),)
+    elif _is_rational_square(discriminant):
+        sqrt_discriminant = Fraction(
+            isqrt(discriminant.numerator),
+            isqrt(discriminant.denominator),
+        )
+        roots = tuple(
+            sorted(
+                {
+                    (-first_square_term - sqrt_discriminant) / (2 * q),
+                    (-first_square_term + sqrt_discriminant) / (2 * q),
+                }
+            )
+        )
+    else:
+        roots = ()
+    return SumAbCenterlineQuarticSelfSimilarity(
+        parameter=q,
+        quartic_value=quartic_value,
+        first_square_term=first_square_term,
+        second_square_term=second_square_term,
+        quadratic_coefficients=coefficients,
+        quadratic_discriminant=discriminant,
+        has_rational_lift=bool(roots),
+        lift_roots=roots,
+    )
+
+
 def sum_ab_centerline_quartic_integer_equation(
     u: int,
     v: int,
@@ -2972,6 +3029,7 @@ __all__ = [
     "SumAbCenterlineQuarticLiveResidueClass",
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
+    "SumAbCenterlineQuarticSelfSimilarity",
     "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
     "SumAbRatioShadowOrbit",
@@ -3008,6 +3066,7 @@ __all__ = [
     "sum_ab_centerline_quartic_live_residue_classes",
     "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
+    "sum_ab_centerline_quartic_self_similarity",
     "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
