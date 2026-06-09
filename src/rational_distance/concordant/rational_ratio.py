@@ -101,6 +101,7 @@ class ClosureProductSquareConditions:
     roots: tuple[Fraction, ...]
     product_terms_are_squares: bool
     member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
+    member_squareclasses: tuple[int, int, int, int] | tuple[()]
     true_member_pair: bool
 
 
@@ -1870,14 +1871,27 @@ def closure_product_square_conditions(
     positive_roots = tuple(root for root in roots if root > 0)
     if len(positive_roots) == 2:
         r, s = positive_roots
+        member_values = (
+            r * r + 1,
+            s * s + 1,
+            r * r + lam * lam,
+            s * s + lam * lam,
+        )
         member_square_flags: tuple[bool, bool, bool, bool] | tuple[()] = (
-            _is_rational_square(r * r + 1),
-            _is_rational_square(s * s + 1),
-            _is_rational_square(r * r + lam * lam),
-            _is_rational_square(s * s + lam * lam),
+            _is_rational_square(member_values[0]),
+            _is_rational_square(member_values[1]),
+            _is_rational_square(member_values[2]),
+            _is_rational_square(member_values[3]),
+        )
+        member_squareclasses: tuple[int, int, int, int] | tuple[()] = (
+            _rational_squareclass(member_values[0])[0],
+            _rational_squareclass(member_values[1])[0],
+            _rational_squareclass(member_values[2])[0],
+            _rational_squareclass(member_values[3])[0],
         )
     else:
         member_square_flags = ()
+        member_squareclasses = ()
 
     product_terms_are_squares = _is_rational_square(
         terms.a_term
@@ -1893,6 +1907,7 @@ def closure_product_square_conditions(
         roots=positive_roots,
         product_terms_are_squares=product_terms_are_squares,
         member_square_flags=member_square_flags,
+        member_squareclasses=member_squareclasses,
         true_member_pair=all(member_square_flags) if member_square_flags else False,
     )
 

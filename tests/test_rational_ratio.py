@@ -169,6 +169,8 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert conditions.product_terms_are_squares
     assert not conditions.true_member_pair
     assert conditions.member_square_flags == (False, False, False, False)
+    assert conditions.member_squareclasses == (29, 29, 29, 29)
+    assert len(set(conditions.member_squareclasses)) == 1
 
 
 def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
