@@ -291,6 +291,25 @@ class SumAbCenterlineQuarticNegativeReciprocalQuotient:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuotientWParameterization:
+    """Parameterize ``W^2=u^2+4`` in the centerline quotient model."""
+
+    parameter: Fraction
+    quotient_variable: Fraction
+    w_value: Fraction
+    w_condition_holds: bool
+    remaining_quartic_value: Fraction
+    z_square_value: Fraction
+    z_square_value_is_square: bool
+    negative_reciprocal_parameter: Fraction
+    negative_reciprocal_remaining_quartic_value: Fraction
+    negative_reciprocal_symmetry_holds: bool
+    second_quotient_variable: Fraction
+    second_quotient_quadratic_value: Fraction
+    remaining_quartic_over_parameter_square: Fraction
+
+
+@dataclass(frozen=True, order=True)
 class SumAbCenterlineQuarticIntegerEquation:
     """Integer form of the centerline quartic for ``t=u/v``."""
 
@@ -2792,6 +2811,61 @@ def sum_ab_centerline_quartic_negative_reciprocal_quotient(
     )
 
 
+def sum_ab_centerline_quotient_w_parameterization(
+    parameter: Fraction | int,
+) -> SumAbCenterlineQuotientWParameterization:
+    """Parameterize ``W²=u²+4`` and record the remaining quotient condition."""
+    a = _as_fraction(parameter)
+    if a == 0:
+        raise ValueError("parameter must be nonzero")
+    denominator = 1 - a * a
+    if denominator == 0:
+        raise ValueError("parameter must not be ±1")
+    quotient_variable = 4 * a / denominator
+    w_value = 2 * (1 + a * a) / denominator
+    remaining_quartic_value = (
+        5 * a**4
+        - 8 * a**3
+        - 6 * a * a
+        + 8 * a
+        + 5
+    )
+    z_square_value = 4 * remaining_quartic_value / (denominator * denominator)
+    negative_reciprocal = -1 / a
+    negative_reciprocal_remaining_quartic_value = (
+        5 * negative_reciprocal**4
+        - 8 * negative_reciprocal**3
+        - 6 * negative_reciprocal * negative_reciprocal
+        + 8 * negative_reciprocal
+        + 5
+    )
+    second_quotient_variable = a - 1 / a
+    second_quotient_quadratic_value = (
+        5 * second_quotient_variable * second_quotient_variable
+        - 8 * second_quotient_variable
+        + 4
+    )
+    remaining_over_square = remaining_quartic_value / (a * a)
+    return SumAbCenterlineQuotientWParameterization(
+        parameter=a,
+        quotient_variable=quotient_variable,
+        w_value=w_value,
+        w_condition_holds=w_value * w_value == quotient_variable * quotient_variable + 4,
+        remaining_quartic_value=remaining_quartic_value,
+        z_square_value=z_square_value,
+        z_square_value_is_square=_is_rational_square(z_square_value),
+        negative_reciprocal_parameter=negative_reciprocal,
+        negative_reciprocal_remaining_quartic_value=negative_reciprocal_remaining_quartic_value,
+        negative_reciprocal_symmetry_holds=(
+            negative_reciprocal_remaining_quartic_value
+            == remaining_quartic_value / a**4
+        ),
+        second_quotient_variable=second_quotient_variable,
+        second_quotient_quadratic_value=second_quotient_quadratic_value,
+        remaining_quartic_over_parameter_square=remaining_over_square,
+    )
+
+
 def sum_ab_centerline_quartic_integer_equation(
     u: int,
     v: int,
@@ -3134,6 +3208,7 @@ __all__ = [
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineQuarticSelfSimilarity",
+    "SumAbCenterlineQuotientWParameterization",
     "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
     "SumAbRatioShadowOrbit",
@@ -3172,6 +3247,7 @@ __all__ = [
     "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_quartic_self_similarity",
+    "sum_ab_centerline_quotient_w_parameterization",
     "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",

@@ -352,6 +352,7 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     from rational_distance.concordant.rational_ratio import (
         sum_ab_centerline_quartic_negative_reciprocal_quotient,
         sum_ab_centerline_quartic_self_similarity,
+        sum_ab_centerline_quotient_w_parameterization,
         sum_ab_centerline_remaining_quartic,
     )
 
@@ -431,6 +432,22 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     assert quotient_base.quotient_variable == 0
     assert quotient_base.reconstruction_discriminant == 4
     assert quotient_base.reconstruction_roots == (Fraction(-1), Fraction(1))
+
+    w_param = sum_ab_centerline_quotient_w_parameterization(Fraction(3, 5))
+
+    assert w_param.parameter == Fraction(3, 5)
+    assert w_param.quotient_variable == Fraction(15, 4)
+    assert w_param.w_value == Fraction(17, 4)
+    assert w_param.w_condition_holds
+    assert w_param.remaining_quartic_value == Fraction(164, 25)
+    assert w_param.z_square_value == Fraction(1025, 16)
+    assert not w_param.z_square_value_is_square
+    assert w_param.negative_reciprocal_parameter == Fraction(-5, 3)
+    assert w_param.negative_reciprocal_remaining_quartic_value == Fraction(4100, 81)
+    assert w_param.negative_reciprocal_symmetry_holds
+    assert w_param.second_quotient_variable == Fraction(-16, 15)
+    assert w_param.second_quotient_quadratic_value == Fraction(164, 9)
+    assert w_param.remaining_quartic_over_parameter_square == Fraction(164, 9)
 
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
