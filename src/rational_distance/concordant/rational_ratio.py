@@ -22,6 +22,30 @@ REL_DIFF_DIFF = "diff=|A-B|"
 
 
 @dataclass(frozen=True, order=True)
+class PythagoreanLegParam:
+    """Euclid parameters for one rational Pythagorean leg ratio.
+
+    ``orientation="odd"`` returns ``(m²-n²)/(2mn)``.
+    ``orientation="even"`` returns ``(2mn)/(m²-n²)``.
+    """
+
+    m: int
+    n: int
+    orientation: str = "odd"
+
+    def ratio(self) -> Fraction:
+        if self.m <= self.n or self.n <= 0:
+            raise ValueError("Euclid parameters must satisfy m > n > 0")
+        odd_leg = self.m * self.m - self.n * self.n
+        even_leg = 2 * self.m * self.n
+        if self.orientation == "odd":
+            return Fraction(odd_leg, even_leg)
+        if self.orientation == "even":
+            return Fraction(even_leg, odd_leg)
+        raise ValueError("orientation must be 'odd' or 'even'")
+
+
+@dataclass(frozen=True, order=True)
 class RationalRatioHit:
     """A ratio-level full-plane closure hit for rational ``A/B``."""
 
@@ -163,6 +187,21 @@ class SumAbThreePassMobiusModel:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbThreePassEuclidModel:
+    """Euclid-parameter view of the ``sum=A+B`` Möbius model."""
+
+    slope_param: PythagoreanLegParam
+    scaled_term_param: PythagoreanLegParam
+    mobius: SumAbThreePassMobiusModel
+    other_slope_square_equation: tuple[Fraction, Fraction | None]
+    failed_square_equation: tuple[Fraction, Fraction | None]
+
+    @property
+    def failed_squareclass(self) -> int:
+        return self.mobius.failed_squareclass
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -289,6 +328,11 @@ def pythagorean_leg_ratios(max_m: int) -> tuple[Fraction, ...]:
                     seen.add(ratio)
                     ratios.append(ratio)
     return tuple(ratios)
+
+
+def pythagorean_leg_ratio_from_param(param: PythagoreanLegParam) -> Fraction:
+    """Return the rational leg ratio represented by Euclid parameters."""
+    return param.ratio()
 
 
 def reciprocal_ratio(lambda_ratio: Fraction | int, r: Fraction | int) -> Fraction:
@@ -420,6 +464,27 @@ def sum_ab_three_pass_mobius_model(
         other_slope_squareclass=other_slope_diag.squarefree_part,
         scaled_term_squareclass=scaled_diag.squarefree_part,
         failed_squareclass=failed_diag.squarefree_part,
+    )
+
+
+def _square_equation_for_leg_ratio(ratio: Fraction) -> tuple[Fraction, Fraction | None]:
+    value = ratio * ratio + 1
+    root = _rational_sqrt(value)
+    return value, root * root if root is not None else None
+
+
+def sum_ab_three_pass_mobius_model_from_params(
+    slope: PythagoreanLegParam,
+    scaled_term: PythagoreanLegParam,
+) -> SumAbThreePassEuclidModel:
+    """Build the three-pass Möbius model from two Euclid-parameterized legs."""
+    model = sum_ab_three_pass_mobius_model(slope.ratio(), scaled_term.ratio())
+    return SumAbThreePassEuclidModel(
+        slope_param=slope,
+        scaled_term_param=scaled_term,
+        mobius=model,
+        other_slope_square_equation=_square_equation_for_leg_ratio(model.other_slope),
+        failed_square_equation=_square_equation_for_leg_ratio(model.failed_scaled_term),
     )
 
 
@@ -733,10 +798,12 @@ def reciprocal_closure_roots(
 __all__ = [
     "LegRatioSquareclass",
     "ProductIdentityTerms",
+    "PythagoreanLegParam",
     "RationalRatioHit",
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
     "SumAbRatioShadowOrbit",
+    "SumAbThreePassEuclidModel",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
     "SumAbThreePassMobiusModel",
@@ -748,6 +815,7 @@ __all__ = [
     "leg_ratio_squareclass",
     "product_identity_terms",
     "pythagorean_leg_ratios",
+    "pythagorean_leg_ratio_from_param",
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
@@ -757,6 +825,7 @@ __all__ = [
     "sum_ab_point_from_slopes",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
+    "sum_ab_three_pass_mobius_model_from_params",
     "sum_ab_three_pass_mobius_model",
     "true_reciprocal_sum_ab_roots",
 ]

@@ -243,6 +243,32 @@ def test_sum_ab_three_pass_mobius_model_reconstructs_missing_term() -> None:
     assert model.failed_squareclass == 17
 
 
+def test_sum_ab_mobius_model_from_euclid_params_exposes_square_equations() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        PythagoreanLegParam,
+        sum_ab_three_pass_mobius_model_from_params,
+    )
+
+    model = sum_ab_three_pass_mobius_model_from_params(
+        slope=PythagoreanLegParam(m=4, n=1, orientation="odd"),
+        scaled_term=PythagoreanLegParam(m=7, n=2, orientation="odd"),
+    )
+
+    assert model.mobius.slope == Fraction(15, 8)
+    assert model.mobius.scaled_term == Fraction(45, 28)
+    assert model.mobius.other_slope == Fraction(7, 24)
+    assert model.mobius.failed_scaled_term == Fraction(1, 4)
+    assert model.other_slope_square_equation == (
+        Fraction(7, 24) * Fraction(7, 24) + 1,
+        Fraction(25, 24) * Fraction(25, 24),
+    )
+    assert model.failed_square_equation == (
+        Fraction(1, 4) * Fraction(1, 4) + 1,
+        None,
+    )
+    assert model.failed_squareclass == 17
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 
