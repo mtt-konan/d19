@@ -224,6 +224,25 @@ def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None
     assert near_misses[0].passed_terms == ("slope1", "slope2", "r2")
 
 
+def test_sum_ab_three_pass_mobius_model_reconstructs_missing_term() -> None:
+    from rational_distance.concordant.rational_ratio import sum_ab_three_pass_mobius_model
+
+    model = sum_ab_three_pass_mobius_model(
+        slope=Fraction(15, 8),
+        scaled_term=Fraction(45, 28),
+    )
+
+    assert model.lambda_ratio == Fraction(6, 7)
+    assert model.slope == Fraction(15, 8)
+    assert model.other_slope == Fraction(7, 24)
+    assert model.scaled_term == Fraction(45, 28)
+    assert model.failed_scaled_term == Fraction(1, 4)
+    assert model.closes_sum_ab
+    assert model.three_terms_are_pythagorean
+    assert not model.failed_term_is_pythagorean
+    assert model.failed_squareclass == 17
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 

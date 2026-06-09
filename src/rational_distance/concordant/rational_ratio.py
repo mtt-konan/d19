@@ -122,6 +122,47 @@ class SumAbSlopeObstruction:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbThreePassMobiusModel:
+    """Möbius reconstruction for a ``sum=A+B`` three-pass near-miss.
+
+    Given one slope ``x`` and its scaled mate ``r = lambda*x``, closure forces:
+
+        lambda = r/x
+        y = 1 - x + x/r
+        s = lambda*y = 1 - r + r/x
+
+    If ``x``, ``r``, and ``y`` are Pythagorean leg ratios but ``s`` is not,
+    this is the three-pass near-miss layer in equation form.
+    """
+
+    lambda_ratio: Fraction
+    slope: Fraction
+    other_slope: Fraction
+    scaled_term: Fraction
+    failed_scaled_term: Fraction
+    slope_squareclass: int
+    other_slope_squareclass: int
+    scaled_term_squareclass: int
+    failed_squareclass: int
+
+    @property
+    def closes_sum_ab(self) -> bool:
+        return self.scaled_term + self.failed_scaled_term == self.lambda_ratio + 1
+
+    @property
+    def three_terms_are_pythagorean(self) -> bool:
+        return (
+            self.slope_squareclass == 1
+            and self.other_slope_squareclass == 1
+            and self.scaled_term_squareclass == 1
+        )
+
+    @property
+    def failed_term_is_pythagorean(self) -> bool:
+        return self.failed_squareclass == 1
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -344,6 +385,42 @@ def sum_ab_slope_obstruction(
 ) -> SumAbSlopeObstruction | None:
     """Return four-term squareclass diagnostics for a ``sum=A+B`` slope pair."""
     return _sum_ab_slope_obstruction_with_squareclass_cache(slope1, slope2, {})
+
+
+def sum_ab_three_pass_mobius_model(
+    slope: Fraction | int,
+    scaled_term: Fraction | int,
+) -> SumAbThreePassMobiusModel:
+    """Return the Möbius equation model for one ``sum=A+B`` three-pass branch.
+
+    This helper parameterizes the case where ``x`` and ``r=lambda*x`` are the
+    two known passing terms.  It does not assume that the reconstructed ``y``
+    passes; the returned squareclasses say exactly which terms do.
+    """
+    x = _as_fraction(slope)
+    r = _as_fraction(scaled_term)
+    _validate_positive("slope", x)
+    _validate_positive("scaled_term", r)
+    lam = r / x
+    y = 1 - x + x / r
+    s = lam * y
+    if y <= 0 or s <= 0:
+        raise ValueError("reconstructed terms must be positive")
+    slope_diag = leg_ratio_squareclass(x)
+    other_slope_diag = leg_ratio_squareclass(y)
+    scaled_diag = leg_ratio_squareclass(r)
+    failed_diag = leg_ratio_squareclass(s)
+    return SumAbThreePassMobiusModel(
+        lambda_ratio=lam,
+        slope=x,
+        other_slope=y,
+        scaled_term=r,
+        failed_scaled_term=s,
+        slope_squareclass=slope_diag.squarefree_part,
+        other_slope_squareclass=other_slope_diag.squarefree_part,
+        scaled_term_squareclass=scaled_diag.squarefree_part,
+        failed_squareclass=failed_diag.squarefree_part,
+    )
 
 
 def _sum_ab_slope_obstruction_with_squareclass_cache(
@@ -662,6 +739,7 @@ __all__ = [
     "SumAbRatioShadowOrbit",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
+    "SumAbThreePassMobiusModel",
     "closure_product_identity_terms",
     "find_rational_ratio_hits",
     "group_sum_ab_ratio_shadow_orbits",
@@ -679,5 +757,6 @@ __all__ = [
     "sum_ab_point_from_slopes",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
+    "sum_ab_three_pass_mobius_model",
     "true_reciprocal_sum_ab_roots",
 ]
