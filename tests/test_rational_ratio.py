@@ -338,7 +338,20 @@ def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
 
 
 def test_pythagorean_leg_ratios_generate_bounded_slope_pool() -> None:
-    from rational_distance.concordant.rational_ratio import pythagorean_leg_ratios
+    from rational_distance.concordant.rational_ratio import (
+        positive_rational_ratios,
+        pythagorean_leg_ratios,
+    )
+
+    assert positive_rational_ratios(3, 3) == (
+        Fraction(1, 3),
+        Fraction(1, 2),
+        Fraction(2, 3),
+        Fraction(1),
+        Fraction(3, 2),
+        Fraction(2),
+        Fraction(3),
+    )
 
     assert pythagorean_leg_ratios(3) == (
         Fraction(3, 4),

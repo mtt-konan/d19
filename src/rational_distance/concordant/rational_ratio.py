@@ -677,6 +677,23 @@ def is_pythagorean_leg_ratio(ratio: Fraction | int) -> bool:
     return _is_rational_square(value * value + 1)
 
 
+def positive_rational_ratios(
+    max_numerator: int,
+    max_denominator: int,
+) -> tuple[Fraction, ...]:
+    """Return reduced positive rationals with bounded numerator and denominator."""
+    if max_numerator < 1:
+        raise ValueError("max_numerator must be positive")
+    if max_denominator < 1:
+        raise ValueError("max_denominator must be positive")
+    ratios = {
+        Fraction(numerator, denominator)
+        for numerator in range(1, max_numerator + 1)
+        for denominator in range(1, max_denominator + 1)
+    }
+    return tuple(sorted(ratios))
+
+
 def leg_ratio_squareclass(ratio: Fraction | int) -> LegRatioSquareclass:
     """Explain the ``z^2+1`` square test by its rational squareclass.
 
@@ -2216,6 +2233,7 @@ __all__ = [
     "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
     "leg_ratio_squareclass",
+    "positive_rational_ratios",
     "product_identity_terms",
     "pythagorean_leg_ratios",
     "pythagorean_leg_ratio_from_param",
