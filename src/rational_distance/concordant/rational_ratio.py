@@ -462,7 +462,9 @@ class SumAbNormalizedNearMissExample:
     other_denominator: int
     failed_denominator: int
     gcd_p_q: int
+    gcd_n_p_q: int
     normalized_denominator_pair: tuple[int, int]
+    normalized_shared_leg_triple: tuple[int, int, int]
     denominator_difference_over_gcd: int
     denominator_sum_over_gcd: int
     other_square_passes: bool
@@ -1105,6 +1107,10 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                 abs_difference = abs(difference_over_gcd)
                 abs_difference_counts[abs_difference] += 1
                 normalized_pair_counts[(normalized_pair, orientation)] += 1
+                gcd_n_p_q = _gcd(
+                    shared_terms.shared_numerator,
+                    _gcd(shared_terms.other_denominator, shared_terms.failed_denominator),
+                )
                 bucket = examples.setdefault(abs_difference, [])
                 if len(bucket) < max_examples_per_bucket:
                     bucket.append(
@@ -1116,7 +1122,13 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                             other_denominator=shared_terms.other_denominator,
                             failed_denominator=shared_terms.failed_denominator,
                             gcd_p_q=cross_terms.gcd_p_q,
+                            gcd_n_p_q=gcd_n_p_q,
                             normalized_denominator_pair=normalized_pair,
+                            normalized_shared_leg_triple=(
+                                shared_terms.shared_numerator // gcd_n_p_q,
+                                shared_terms.other_denominator // gcd_n_p_q,
+                                shared_terms.failed_denominator // gcd_n_p_q,
+                            ),
                             denominator_difference_over_gcd=difference_over_gcd,
                             denominator_sum_over_gcd=sum_over_gcd,
                             other_square_passes=other_passes,

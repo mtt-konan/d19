@@ -532,6 +532,15 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
     assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
     assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
     assert summary.examples_by_abs_difference[1][0].orientation == "odd"
+    assert summary.examples_by_abs_difference[1][0].shared_numerator == 105
+    assert summary.examples_by_abs_difference[1][0].other_denominator == 360
+    assert summary.examples_by_abs_difference[1][0].failed_denominator == 420
+    assert summary.examples_by_abs_difference[1][0].gcd_n_p_q == 15
+    assert summary.examples_by_abs_difference[1][0].normalized_shared_leg_triple == (
+        7,
+        24,
+        28,
+    )
     assert summary.examples_by_abs_difference[1][0].normalized_denominator_pair == (
         6,
         7,
@@ -541,6 +550,11 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
     assert summary.examples_by_abs_difference[1][1].normalized_denominator_pair == (
         7,
         6,
+    )
+    assert summary.examples_by_abs_difference[1][1].normalized_shared_leg_triple == (
+        7,
+        28,
+        24,
     )
     assert not summary.examples_by_abs_difference[1][1].other_square_passes
     assert summary.examples_by_abs_difference[1][1].failed_square_passes
