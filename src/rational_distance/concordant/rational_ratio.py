@@ -292,6 +292,20 @@ class SumAbCenterlineQuarticResidueSummary:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticPrimitiveResidueSummary:
+    """Residue counts after primitive and nonzero-denominator filters."""
+
+    modulus: int
+    primitive_classes: int
+    degenerate_denominator_classes: int
+    total_classes: int
+    square_residue_classes: int
+    non_square_residue_classes: int
+    zero_residue_classes: int
+    square_residues: tuple[int, ...]
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2651,6 +2665,50 @@ def sum_ab_centerline_quartic_residue_summary(
     )
 
 
+def sum_ab_centerline_quartic_primitive_residue_summary(
+    modulus: int,
+) -> SumAbCenterlineQuarticPrimitiveResidueSummary:
+    """Summarize quartic residues for primitive classes with nonzero denominator."""
+    if modulus <= 0:
+        raise ValueError("modulus must be positive")
+    square_residues = tuple(sorted({value * value % modulus for value in range(modulus)}))
+    square_residue_set = set(square_residues)
+    primitive_classes = 0
+    degenerate_classes = 0
+    square_classes = 0
+    zero_classes = 0
+    for u in range(modulus):
+        for v in range(modulus):
+            if _gcd(_gcd(u, v), modulus) != 1:
+                continue
+            primitive_classes += 1
+            if (v * v - u * u) % modulus == 0:
+                degenerate_classes += 1
+                continue
+            value = (
+                u**4
+                + 8 * u**3 * v
+                + 18 * u * u * v * v
+                - 8 * u * v**3
+                + v**4
+            ) % modulus
+            if value in square_residue_set:
+                square_classes += 1
+            if value == 0:
+                zero_classes += 1
+    total = primitive_classes - degenerate_classes
+    return SumAbCenterlineQuarticPrimitiveResidueSummary(
+        modulus=modulus,
+        primitive_classes=primitive_classes,
+        degenerate_denominator_classes=degenerate_classes,
+        total_classes=total,
+        square_residue_classes=square_classes,
+        non_square_residue_classes=total - square_classes,
+        zero_residue_classes=zero_classes,
+        square_residues=square_residues,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2743,6 +2801,7 @@ __all__ = [
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
     "SumAbCenterlineQuarticIntegerEquation",
+    "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
@@ -2775,6 +2834,7 @@ __all__ = [
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
     "sum_ab_centerline_quartic_integer_equation",
+    "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
