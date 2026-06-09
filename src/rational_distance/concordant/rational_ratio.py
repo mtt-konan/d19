@@ -125,6 +125,25 @@ class ProductSquareBucketSummary:
 
 
 @dataclass(frozen=True)
+class ResidualSquareclassEquations:
+    """Squareclass equation ledger for one ``sum=A+B`` root pair."""
+
+    lambda_ratio: Fraction
+    r: Fraction
+    s: Fraction
+    unit_values: tuple[Fraction, Fraction]
+    lambda_values: tuple[Fraction, Fraction]
+    unit_squareclasses: tuple[int, int]
+    lambda_squareclasses: tuple[int, int]
+    unit_product_is_square: bool
+    lambda_product_is_square: bool
+    closes_sum_ab: bool
+    reciprocal_pair: bool
+    all_terms_are_squares: bool
+    squareclasses_all_trivial: bool
+
+
+@dataclass(frozen=True)
 class SquareRectangleTerms:
     """Four square-candidate corners after a closure linear relation."""
 
@@ -1924,6 +1943,52 @@ def sum_ab_product_square_residuals_from_root_grid(
     return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
 
 
+def sum_ab_residual_squareclass_equations(
+    *,
+    lambda_ratio: Fraction | int,
+    r: Fraction | int,
+    s: Fraction | int,
+) -> ResidualSquareclassEquations:
+    """Explain product-square checks as pairwise squareclass equations."""
+    lam = _as_fraction(lambda_ratio)
+    root1 = _as_fraction(r)
+    root2 = _as_fraction(s)
+    _validate_positive("lambda_ratio", lam)
+    _validate_positive("r", root1)
+    _validate_positive("s", root2)
+
+    unit_values = (root1 * root1 + 1, root2 * root2 + 1)
+    lambda_values = (root1 * root1 + lam * lam, root2 * root2 + lam * lam)
+    unit_squareclasses = (
+        _rational_squareclass(unit_values[0])[0],
+        _rational_squareclass(unit_values[1])[0],
+    )
+    lambda_squareclasses = (
+        _rational_squareclass(lambda_values[0])[0],
+        _rational_squareclass(lambda_values[1])[0],
+    )
+
+    return ResidualSquareclassEquations(
+        lambda_ratio=lam,
+        r=root1,
+        s=root2,
+        unit_values=unit_values,
+        lambda_values=lambda_values,
+        unit_squareclasses=unit_squareclasses,
+        lambda_squareclasses=lambda_squareclasses,
+        unit_product_is_square=_is_rational_square(unit_values[0] * unit_values[1]),
+        lambda_product_is_square=_is_rational_square(
+            lambda_values[0] * lambda_values[1]
+        ),
+        closes_sum_ab=root1 + root2 == lam + 1,
+        reciprocal_pair=root1 * root2 == lam,
+        all_terms_are_squares=all(
+            _is_rational_square(value) for value in (*unit_values, *lambda_values)
+        ),
+        squareclasses_all_trivial={*unit_squareclasses, *lambda_squareclasses} == {1},
+    )
+
+
 def sum_ab_root_grid_residual_summary(
     *,
     max_numerator: int,
@@ -2307,6 +2372,7 @@ __all__ = [
     "RationalRatioHit",
     "RationalRatioHitProductDiagnostic",
     "ReciprocalClosureRoot",
+    "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbRatioShadowOrbit",
     "SumAbSlopeObstruction",
@@ -2338,6 +2404,7 @@ __all__ = [
     "sum_ab_product_square_residuals_from_grid",
     "sum_ab_product_square_residuals_from_root_grid",
     "sum_ab_ratio_shadow_key",
+    "sum_ab_residual_squareclass_equations",
     "sum_ab_root_grid_residual_summary",
     "sum_ab_root_grid_residual_watchlist",
     "sum_ab_slope_obstruction",

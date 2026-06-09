@@ -402,6 +402,47 @@ def test_sum_ab_root_grid_residual_watchlist_flags_true_or_trivial_pairs() -> No
     ) == (true_condition,)
 
 
+def test_sum_ab_residual_squareclass_equations_explain_product_square() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_residual_squareclass_equations,
+    )
+
+    equations = sum_ab_residual_squareclass_equations(
+        lambda_ratio=Fraction(535, 161),
+        r=Fraction(14, 23),
+        s=Fraction(26, 7),
+    )
+
+    assert equations.closes_sum_ab
+    assert not equations.reciprocal_pair
+    assert equations.unit_values == (
+        Fraction(725, 529),
+        Fraction(725, 49),
+    )
+    assert equations.lambda_values == (
+        Fraction(295829, 25921),
+        Fraction(643829, 25921),
+    )
+    assert equations.unit_squareclasses == (29, 29)
+    assert equations.lambda_squareclasses == (29, 29)
+    assert equations.unit_product_is_square
+    assert equations.lambda_product_is_square
+    assert not equations.all_terms_are_squares
+    assert not equations.squareclasses_all_trivial
+
+    true_equations = sum_ab_residual_squareclass_equations(
+        lambda_ratio=Fraction(1),
+        r=Fraction(3, 4),
+        s=Fraction(4, 3),
+    )
+
+    assert true_equations.reciprocal_pair
+    assert true_equations.unit_squareclasses == (1, 1)
+    assert true_equations.lambda_squareclasses == (1, 1)
+    assert true_equations.all_terms_are_squares
+    assert true_equations.squareclasses_all_trivial
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 
