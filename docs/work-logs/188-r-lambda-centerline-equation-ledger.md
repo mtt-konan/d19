@@ -2,6 +2,15 @@
 
 日期：2026-06-09
 
+读法提醒：
+
+```text
+本 wl 里的 centerline 指几何中线在 R_lambda 账本里的 r=s 写法。
+它和 A=B、N1=N2、a+b=2n 是同一分支的不同变量表达。
+几何正方形中线已由 Yang Ji 关闭；本 wl 只补本地方程账本。
+术语边界见 wl201。
+```
+
 ## 1. 本轮目标
 
 wl187 关闭了：
@@ -20,8 +29,8 @@ sum=A+B centerline
 
 ```text
 镜像门已经关了；
-中心线门还没全局证明关上，
-但我们可以把门锁长什么样写清楚。
+中心线几何结论也已经由 Yang Ji 关了；
+这里是在把本地 R_lambda 门锁长什么样写清楚。
 ```
 
 ---
@@ -145,8 +154,8 @@ lambda=3、lambda=15 样本的坏法可精确解释。
 不能说：
 
 ```text
-centerline 对所有 lambda 都不可能。
-true-centerline 已经全局排除。
+仅凭本 wl 就证明 centerline 对所有 lambda 都不可能。
+仅凭本 wl 就全局排除 true-centerline。
 有理比例主定理已经证明。
 ```
 
