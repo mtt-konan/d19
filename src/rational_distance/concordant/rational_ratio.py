@@ -229,6 +229,19 @@ class SumAbCenterlineEquations:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineUnitLegParam:
+    """Centerline model after parameterizing ``center^2+1`` as a square."""
+
+    parameter: Fraction
+    center: Fraction
+    lambda_ratio: Fraction
+    unit_hypotenuse: Fraction
+    equations: SumAbCenterlineEquations
+    remaining_squareclass: int
+    true_member: bool
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2467,6 +2480,34 @@ def sum_ab_centerline_equations(lambda_ratio: Fraction | int) -> SumAbCenterline
     )
 
 
+def sum_ab_centerline_from_unit_leg_param(
+    parameter: Fraction | int,
+) -> SumAbCenterlineUnitLegParam:
+    """Parameterize the centerline after forcing ``center^2+1`` to be square."""
+    t = _as_fraction(parameter)
+    _validate_positive("parameter", t)
+    denominator = 1 - t * t
+    if denominator == 0:
+        raise ValueError("parameter must not be 1")
+    center = 2 * t / denominator
+    if center <= 0:
+        raise ValueError("parameter must produce a positive center")
+    lam = 2 * center - 1
+    if lam <= 0:
+        raise ValueError("parameter must produce a positive lambda_ratio")
+    unit_hypotenuse = (1 + t * t) / denominator
+    equations = sum_ab_centerline_equations(lam)
+    return SumAbCenterlineUnitLegParam(
+        parameter=t,
+        center=center,
+        lambda_ratio=lam,
+        unit_hypotenuse=unit_hypotenuse,
+        equations=equations,
+        remaining_squareclass=equations.lambda_squareclass,
+        true_member=equations.true_member,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2558,6 +2599,7 @@ __all__ = [
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
+    "SumAbCenterlineUnitLegParam",
     "SumAbRatioShadowOrbit",
     "SumAbReciprocalObstruction",
     "SumAbSlopeObstruction",
@@ -2585,6 +2627,7 @@ __all__ = [
     "scan_sum_ab_true_closure_relations",
     "square_rectangle_terms",
     "sum_ab_centerline_equations",
+    "sum_ab_centerline_from_unit_leg_param",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
     "sum_ab_product_square_bucket_summary",

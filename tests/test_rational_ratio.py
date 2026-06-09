@@ -329,6 +329,25 @@ def test_sum_ab_centerline_equations_expose_two_square_conditions() -> None:
     assert lambda_leg.obstruction == "unit-leg"
 
 
+def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_from_unit_leg_param,
+    )
+
+    model = sum_ab_centerline_from_unit_leg_param(Fraction(3, 5))
+
+    assert model.parameter == Fraction(3, 5)
+    assert model.center == Fraction(15, 8)
+    assert model.lambda_ratio == Fraction(11, 4)
+    assert model.unit_hypotenuse == Fraction(17, 8)
+    assert model.equations.unit_is_square
+    assert model.equations.unit_value == Fraction(289, 64)
+    assert not model.equations.lambda_is_square
+    assert model.equations.lambda_value == Fraction(709, 64)
+    assert model.remaining_squareclass == 709
+    assert not model.true_member
+
+
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     from rational_distance.concordant.rational_ratio import (
         REL_SUM_AB,
