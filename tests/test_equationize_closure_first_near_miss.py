@@ -21,6 +21,67 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
     }
     assert summary["square_count"] == 3
     assert summary["missing_edges"] == ["A-N2"]
+    assert summary["equation_network"] == {
+        "shared_equations": {
+            "B": {
+                "value": 45,
+                "forms": [
+                    {
+                        "edge": "B-N1",
+                        "scale": 3,
+                        "m": 4,
+                        "n": 1,
+                        "role": "odd_leg",
+                        "readable": "45 = 3*(4^2-1^2)",
+                    },
+                    {
+                        "edge": "B-N2",
+                        "scale": 1,
+                        "m": 7,
+                        "n": 2,
+                        "role": "odd_leg",
+                        "readable": "45 = 1*(7^2-2^2)",
+                    },
+                ],
+                "readable": "B = 45 = 3*(4^2-1^2) = 1*(7^2-2^2)",
+            },
+            "N1": {
+                "value": 24,
+                "forms": [
+                    {
+                        "edge": "A-N1",
+                        "scale": 1,
+                        "m": 4,
+                        "n": 3,
+                        "role": "even_leg",
+                        "readable": "24 = 1*(2*4*3)",
+                    },
+                    {
+                        "edge": "B-N1",
+                        "scale": 3,
+                        "m": 4,
+                        "n": 1,
+                        "role": "even_leg",
+                        "readable": "24 = 3*(2*4*1)",
+                    },
+                ],
+                "readable": "N1 = 24 = 1*(2*4*3) = 3*(2*4*1)",
+            },
+        },
+        "closure_equation": {
+            "relation": "sum=A+B",
+            "readable": "N1 + N2 = A + B = 52",
+            "holds": True,
+        },
+        "missing_square_questions": [
+            {
+                "edge": "A-N2",
+                "readable": "A^2 + N2^2 = 7^2 + 28^2 = 833",
+                "nearest_square": "29^2 = 841",
+                "signed_delta": -8,
+            }
+        ],
+    }
     assert summary["shared_variables"] == {
         "B": [
             {

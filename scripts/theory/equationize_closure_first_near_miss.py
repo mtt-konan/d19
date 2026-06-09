@@ -158,6 +158,96 @@ def _shared_variables(edges: dict[str, dict[str, Any]]) -> dict[str, list[dict[s
     }
 
 
+def _equation_network(
+    values: dict[str, int],
+    relation: str,
+    closure: dict[str, Any],
+    missing_edges: list[str],
+    shared_variables: dict[str, list[dict[str, Any]]],
+    edges: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    return {
+        "shared_equations": _shared_equations(shared_variables),
+        "closure_equation": {
+            "relation": relation,
+            "readable": _closure_readable(values, relation, closure),
+            "holds": closure["holds"],
+        },
+        "missing_square_questions": [
+            _missing_square_question(edge_name, values, edges[edge_name])
+            for edge_name in missing_edges
+        ],
+    }
+
+
+def _shared_equations(
+    shared_variables: dict[str, list[dict[str, Any]]]
+) -> dict[str, dict[str, Any]]:
+    equations: dict[str, dict[str, Any]] = {}
+    for label, entries in shared_variables.items():
+        forms = [_shared_form(entry) for entry in entries]
+        value = entries[0]["value"]
+        equations[label] = {
+            "value": value,
+            "forms": forms,
+            "readable": f"{label} = {value} = " + " = ".join(
+                _form_rhs(form) for form in forms
+            ),
+        }
+    return equations
+
+
+def _shared_form(entry: dict[str, Any]) -> dict[str, Any]:
+    form = {
+        "edge": entry["edge"],
+        "scale": entry["scale"],
+        "m": entry["euclid"]["m"],
+        "n": entry["euclid"]["n"],
+        "role": entry["role"],
+    }
+    form["readable"] = f"{entry['value']} = {_form_rhs(form)}"
+    return form
+
+
+def _form_rhs(form: dict[str, Any]) -> str:
+    scale = form["scale"]
+    m = form["m"]
+    n = form["n"]
+    if form["role"] == "odd_leg":
+        return f"{scale}*({m}^2-{n}^2)"
+    return f"{scale}*(2*{m}*{n})"
+
+
+def _closure_readable(values: dict[str, int], relation: str, closure: dict[str, Any]) -> str:
+    if relation == "sum=A+B":
+        return f"N1 + N2 = A + B = {closure['target']}"
+    if relation == "sum=|A-B|":
+        return f"N1 + N2 = |A - B| = {closure['target']}"
+    if relation == "diff=A+B":
+        return f"|N1 - N2| = A + B = {closure['target']}"
+    if relation == "diff=|A-B|":
+        return f"|N1 - N2| = |A - B| = {closure['target']}"
+    raise ValueError(f"unknown relation: {relation}")
+
+
+def _missing_square_question(
+    edge_name: str,
+    values: dict[str, int],
+    edge: dict[str, Any],
+) -> dict[str, Any]:
+    left_label, right_label = edge_name.split("-", 1)
+    nearest_root = edge["nearest_root"]
+    return {
+        "edge": edge_name,
+        "readable": (
+            f"{left_label}^2 + {right_label}^2 = "
+            f"{values[left_label]}^2 + {values[right_label]}^2 = {edge['value']}"
+        ),
+        "nearest_square": f"{nearest_root}^2 = {edge['nearest_square']}",
+        "signed_delta": edge["signed_delta"],
+    }
+
+
 def _closure_left(a: int, b: int, n1: int, n2: int, relation: str) -> tuple[int, int]:
     if relation == "sum=A+B":
         return n1 + n2, a + b
@@ -178,21 +268,31 @@ def equationize_sample(a: int, b: int, n1: int, n2: int, relation: str) -> dict[
     }
     missing_edges = [name for name, edge in edges.items() if not edge["is_square"]]
     left, target = _closure_left(a, b, n1, n2, relation)
+    closure = {
+        "relation": relation,
+        "left": left,
+        "target": target,
+        "holds": left == target,
+    }
+    shared_variables = _shared_variables(edges)
     return {
         "A": a,
         "B": b,
         "N1": n1,
         "N2": n2,
         "relation": relation,
-        "closure": {
-            "relation": relation,
-            "left": left,
-            "target": target,
-            "holds": left == target,
-        },
+        "closure": closure,
         "square_count": len(edges) - len(missing_edges),
         "missing_edges": missing_edges,
-        "shared_variables": _shared_variables(edges),
+        "shared_variables": shared_variables,
+        "equation_network": _equation_network(
+            values,
+            relation,
+            closure,
+            missing_edges,
+            shared_variables,
+            edges,
+        ),
         "edges": edges,
     }
 
