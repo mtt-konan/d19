@@ -142,6 +142,52 @@ def _top_groups(
     )[:limit]
 
 
+def _top_shared_role_pattern_groups(
+    groups: dict[str, list[dict[str, Any]]], limit: int
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for pattern, records in groups.items():
+        best = min(
+            records,
+            key=lambda record: (
+                record["best_failed_nearest_delta"],
+                -record["raw_count"],
+                record["side_n"],
+                record["x"],
+                record["y"],
+            ),
+        )
+        relation_counts = Counter(record["best_relation"] for record in records)
+        missing_counts = Counter(
+            edge for record in records for edge in record["best_missing_edges"]
+        )
+        rows.append(
+            {
+                "shared_role_pattern": pattern,
+                "d4_points": len(records),
+                "raw_count": sum(record["raw_count"] for record in records),
+                "relation_counts": _counter_to_json(relation_counts),
+                "missing_edge_counts": _counter_to_json(missing_counts),
+                "best_failed_nearest_delta": best["best_failed_nearest_delta"],
+                "example": {
+                    "x": best["x"],
+                    "y": best["y"],
+                    "side_n": best["side_n"],
+                    "best_sample": best["best_sample"],
+                },
+            }
+        )
+    return sorted(
+        rows,
+        key=lambda row: (
+            -row["raw_count"],
+            -row["d4_points"],
+            row["best_failed_nearest_delta"],
+            row["shared_role_pattern"],
+        ),
+    )[:limit]
+
+
 def summarize_records(
     records: list[dict[str, Any]],
     *,
@@ -154,8 +200,10 @@ def summarize_records(
     missing_counts = Counter(edge for record in invariants for edge in record["best_missing_edges"])
     shared_pattern_counts = Counter(record["shared_role_pattern"] for record in invariants)
     uv_groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    shared_pattern_groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in invariants:
         uv_groups[tuple(record["uv_pair"])].append(record)
+        shared_pattern_groups[record["shared_role_pattern"]].append(record)
 
     low_records = [
         record for record in invariants if record["best_failed_nearest_delta"] <= low_delta
@@ -186,6 +234,9 @@ def summarize_records(
         "relation_counts": _counter_to_json(relation_counts),
         "missing_edge_counts": _counter_to_json(missing_counts),
         "shared_role_pattern_counts": _counter_to_json(shared_pattern_counts),
+        "shared_role_pattern_groups_top": _top_shared_role_pattern_groups(
+            shared_pattern_groups, top_groups
+        ),
         "uv_pair_groups_top": _top_groups(uv_groups, top_groups),
         "low_delta_threshold": low_delta,
         "low_delta_records": low_records,

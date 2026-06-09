@@ -109,6 +109,54 @@ def test_summarize_records_groups_by_invariant_pair_and_tracks_low_delta() -> No
         "B:odd_leg+odd_leg|N1:even_leg+even_leg": 1,
         "none": 1,
     }
+    assert summary["shared_role_pattern_groups_top"] == [
+        {
+            "shared_role_pattern": "none",
+            "d4_points": 1,
+            "raw_count": 3,
+            "relation_counts": {"sum=A+B": 1},
+            "missing_edge_counts": {"B-N1": 1},
+            "best_failed_nearest_delta": 11,
+            "example": {
+                "x": "2/5",
+                "y": "1/3",
+                "side_n": 30,
+                "best_sample": {
+                    "A": 12,
+                    "B": 18,
+                    "N1": 10,
+                    "N2": 20,
+                    "relation": "sum=A+B",
+                    "missing_edges": ["B-N1"],
+                    "failed_nearest_delta": 11,
+                    "side_n": 30,
+                },
+            },
+        },
+        {
+            "shared_role_pattern": "B:odd_leg+odd_leg|N1:even_leg+even_leg",
+            "d4_points": 1,
+            "raw_count": 2,
+            "relation_counts": {"sum=A+B": 1},
+            "missing_edge_counts": {"A-N2": 1},
+            "best_failed_nearest_delta": 7,
+            "example": {
+                "x": "1/3",
+                "y": "2/5",
+                "side_n": 30,
+                "best_sample": {
+                    "A": 7,
+                    "B": 45,
+                    "N1": 24,
+                    "N2": 28,
+                    "relation": "sum=A+B",
+                    "missing_edges": ["A-N2"],
+                    "failed_nearest_delta": 7,
+                    "side_n": 30,
+                },
+            },
+        },
+    ]
 
 
 def test_cli_writes_summary_json(tmp_path) -> None:
