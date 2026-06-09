@@ -300,6 +300,30 @@ class SumAbSameOrientationSharedLegTerms:
     def failed_reduced_factor_pair(self) -> tuple[int, int] | None:
         return _reduced_factor_pair(self.failed_hypotenuse_factor_pair)
 
+    @property
+    def other_reduced_factor_pair_gcd(self) -> int | None:
+        return _factor_pair_gcd(self.other_reduced_factor_pair)
+
+    @property
+    def failed_reduced_factor_pair_gcd(self) -> int | None:
+        return _factor_pair_gcd(self.failed_reduced_factor_pair)
+
+    @property
+    def other_reduced_factor_pair_square_roots(self) -> tuple[int, int] | None:
+        return _factor_pair_square_roots(self.other_reduced_factor_pair)
+
+    @property
+    def failed_reduced_factor_pair_square_roots(self) -> tuple[int, int] | None:
+        return _factor_pair_square_roots(self.failed_reduced_factor_pair)
+
+    @property
+    def other_reduced_factor_pair_is_square_pair(self) -> bool:
+        return self.other_reduced_factor_pair_square_roots is not None
+
+    @property
+    def failed_reduced_factor_pair_is_square_pair(self) -> bool:
+        return self.failed_reduced_factor_pair_square_roots is not None
+
 
 @dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
@@ -614,6 +638,17 @@ def _reduced_factor_pair(pair: tuple[int, int] | None) -> tuple[int, int] | None
         return None
     left, right = pair
     return left // common, right // common
+
+
+def _factor_pair_square_roots(pair: tuple[int, int] | None) -> tuple[int, int] | None:
+    if pair is None:
+        return None
+    left, right = pair
+    left_root = isqrt(left)
+    right_root = isqrt(right)
+    if left_root * left_root != left or right_root * right_root != right:
+        return None
+    return left_root, right_root
 
 
 def _sum_ab_mobius_polynomial_terms_from_legs(
