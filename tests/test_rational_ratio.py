@@ -368,6 +368,7 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
     from rational_distance.concordant.rational_ratio import (
         sum_ab_centerline_quartic_integer_equation,
+        sum_ab_centerline_quartic_live_residue_classes,
         sum_ab_centerline_quartic_primitive_residue_summary,
         sum_ab_centerline_quartic_residue_summary,
     )
@@ -413,6 +414,23 @@ def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
     assert composite_summary.square_residue_classes == 3600
     assert composite_summary.non_square_residue_classes == 16080
     assert composite_summary.zero_residue_classes == 0
+
+    live_classes = sum_ab_centerline_quartic_live_residue_classes(5)
+
+    assert [(item.u, item.v, item.residue) for item in live_classes] == [
+        (0, 1, 1),
+        (0, 2, 1),
+        (0, 3, 1),
+        (0, 4, 1),
+        (1, 0, 1),
+        (1, 2, 1),
+        (2, 0, 1),
+        (2, 4, 1),
+        (3, 0, 1),
+        (3, 1, 1),
+        (4, 0, 1),
+        (4, 3, 1),
+    ]
 
 
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:

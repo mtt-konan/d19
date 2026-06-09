@@ -306,6 +306,15 @@ class SumAbCenterlineQuarticPrimitiveResidueSummary:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticLiveResidueClass:
+    """One primitive nondegenerate class where the quartic is a square residue."""
+
+    u: int
+    v: int
+    residue: int
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2709,6 +2718,38 @@ def sum_ab_centerline_quartic_primitive_residue_summary(
     )
 
 
+def sum_ab_centerline_quartic_live_residue_classes(
+    modulus: int,
+) -> tuple[SumAbCenterlineQuarticLiveResidueClass, ...]:
+    """Return primitive nondegenerate classes where the quartic is a square residue."""
+    if modulus <= 0:
+        raise ValueError("modulus must be positive")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    live: list[SumAbCenterlineQuarticLiveResidueClass] = []
+    for u in range(modulus):
+        for v in range(modulus):
+            if _gcd(_gcd(u, v), modulus) != 1:
+                continue
+            if (v * v - u * u) % modulus == 0:
+                continue
+            residue = (
+                u**4
+                + 8 * u**3 * v
+                + 18 * u * u * v * v
+                - 8 * u * v**3
+                + v**4
+            ) % modulus
+            if residue in square_residues:
+                live.append(
+                    SumAbCenterlineQuarticLiveResidueClass(
+                        u=u,
+                        v=v,
+                        residue=residue,
+                    )
+                )
+    return tuple(live)
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2801,6 +2842,7 @@ __all__ = [
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
     "SumAbCenterlineQuarticIntegerEquation",
+    "SumAbCenterlineQuarticLiveResidueClass",
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineRemainingQuartic",
@@ -2834,6 +2876,7 @@ __all__ = [
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
     "sum_ab_centerline_quartic_integer_equation",
+    "sum_ab_centerline_quartic_live_residue_classes",
     "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_remaining_quartic",
