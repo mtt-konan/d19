@@ -16,6 +16,13 @@ EDGES: tuple[tuple[str, str, str], ...] = (
     ("B-N2", "B", "N2"),
     ("A-N2", "A", "N2"),
 )
+EDGE_SYMBOLS: dict[str, tuple[str, str, str]] = {
+    "A-N1": ("u", "p", "q"),
+    "B-N1": ("v", "r", "s"),
+    "B-N2": ("w", "x", "y"),
+    "A-N2": ("t", "i", "j"),
+}
+LABEL_ORDER: tuple[str, ...] = ("A", "B", "N1", "N2")
 
 
 def _nearest_square(value: int) -> tuple[bool, int | None, int, int, int]:
@@ -248,6 +255,134 @@ def _missing_square_question(
     }
 
 
+def _template_constraints(
+    relation: str,
+    missing_edges: list[str],
+    shared_variables: dict[str, list[dict[str, Any]]],
+    edges: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    return {
+        "scope": _template_scope(relation, shared_variables),
+        "passed_edge_templates": [
+            _passed_edge_template(edge_name, edge)
+            for edge_name, edge in edges.items()
+            if edge["is_square"]
+        ],
+        "shared_constraints": _shared_constraints(shared_variables),
+        "closure_constraint": _closure_constraint_template(relation),
+        "missing_square_constraint": _missing_square_constraint_template(missing_edges),
+    }
+
+
+def _template_scope(
+    relation: str,
+    shared_variables: dict[str, list[dict[str, Any]]],
+) -> str:
+    parts = ["focus_bucket", _relation_slug(relation)]
+    for label in LABEL_ORDER:
+        entries = shared_variables.get(label)
+        if not entries:
+            continue
+        parts.append(label)
+        parts.extend(_role_slug(str(entry["role"])) for entry in entries)
+    return "_".join(parts)
+
+
+def _relation_slug(relation: str) -> str:
+    return {
+        "sum=A+B": "sum_ab",
+        "sum=|A-B|": "sum_abs_ab",
+        "diff=A+B": "diff_ab",
+        "diff=|A-B|": "diff_abs_ab",
+    }[relation]
+
+
+def _role_slug(role: str) -> str:
+    return {
+        "odd_leg": "odd",
+        "even_leg": "even",
+    }[role]
+
+
+def _passed_edge_template(edge_name: str, edge: dict[str, Any]) -> dict[str, Any]:
+    scale_symbol, m_symbol, n_symbol = EDGE_SYMBOLS[edge_name]
+    triple = edge["triple"]
+    return {
+        "edge": edge_name,
+        "scale_symbol": scale_symbol,
+        "m_symbol": m_symbol,
+        "n_symbol": n_symbol,
+        "assignments": {
+            scale_symbol: triple["scale"],
+            m_symbol: triple["euclid"]["m"],
+            n_symbol: triple["euclid"]["n"],
+        },
+        "constraints": [
+            _leg_constraint(label, leg, scale_symbol, m_symbol, n_symbol)
+            for label, leg in triple["generated_legs"].items()
+        ],
+    }
+
+
+def _leg_constraint(
+    label: str,
+    leg: dict[str, int | str],
+    scale_symbol: str,
+    m_symbol: str,
+    n_symbol: str,
+) -> str:
+    return f"{label} = {_role_template_rhs(str(leg['role']), scale_symbol, m_symbol, n_symbol)}"
+
+
+def _role_template_rhs(
+    role: str,
+    scale_symbol: str,
+    m_symbol: str,
+    n_symbol: str,
+) -> str:
+    if role == "odd_leg":
+        return f"{scale_symbol}*({m_symbol}^2-{n_symbol}^2)"
+    return f"{scale_symbol}*(2*{m_symbol}*{n_symbol})"
+
+
+def _shared_constraints(shared_variables: dict[str, list[dict[str, Any]]]) -> list[str]:
+    constraints: list[str] = []
+    for label in LABEL_ORDER:
+        entries = shared_variables.get(label)
+        if not entries:
+            continue
+        constraints.append(" = ".join(_shared_template_rhs(entry) for entry in entries))
+    return constraints
+
+
+def _shared_template_rhs(entry: dict[str, Any]) -> str:
+    scale_symbol, m_symbol, n_symbol = EDGE_SYMBOLS[str(entry["edge"])]
+    return _role_template_rhs(str(entry["role"]), scale_symbol, m_symbol, n_symbol)
+
+
+def _closure_constraint_template(relation: str) -> str:
+    if relation == "sum=A+B":
+        return "N1 + N2 = A + B"
+    if relation == "sum=|A-B|":
+        return "N1 + N2 = |A - B|"
+    if relation == "diff=A+B":
+        return "|N1 - N2| = A + B"
+    if relation == "diff=|A-B|":
+        return "|N1 - N2| = |A - B|"
+    raise ValueError(f"unknown relation: {relation}")
+
+
+def _missing_square_constraint_template(missing_edges: list[str]) -> str:
+    if len(missing_edges) != 1:
+        return " and ".join(_missing_edge_square_template(edge_name) for edge_name in missing_edges)
+    return _missing_edge_square_template(missing_edges[0])
+
+
+def _missing_edge_square_template(edge_name: str) -> str:
+    left_label, right_label = edge_name.split("-", 1)
+    return f"{left_label}^2 + {right_label}^2 = square?"
+
+
 def _closure_left(a: int, b: int, n1: int, n2: int, relation: str) -> tuple[int, int]:
     if relation == "sum=A+B":
         return n1 + n2, a + b
@@ -289,6 +424,12 @@ def equationize_sample(a: int, b: int, n1: int, n2: int, relation: str) -> dict[
             values,
             relation,
             closure,
+            missing_edges,
+            shared_variables,
+            edges,
+        ),
+        "template_constraints": _template_constraints(
+            relation,
             missing_edges,
             shared_variables,
             edges,

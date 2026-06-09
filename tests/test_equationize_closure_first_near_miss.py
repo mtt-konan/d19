@@ -82,6 +82,62 @@ def test_equationize_high_repetition_inside_sum_sample() -> None:
             }
         ],
     }
+    assert summary["template_constraints"] == {
+        "scope": "focus_bucket_sum_ab_B_odd_odd_N1_even_even",
+        "passed_edge_templates": [
+            {
+                "edge": "A-N1",
+                "scale_symbol": "u",
+                "m_symbol": "p",
+                "n_symbol": "q",
+                "assignments": {
+                    "u": 1,
+                    "p": 4,
+                    "q": 3,
+                },
+                "constraints": [
+                    "A = u*(p^2-q^2)",
+                    "N1 = u*(2*p*q)",
+                ],
+            },
+            {
+                "edge": "B-N1",
+                "scale_symbol": "v",
+                "m_symbol": "r",
+                "n_symbol": "s",
+                "assignments": {
+                    "v": 3,
+                    "r": 4,
+                    "s": 1,
+                },
+                "constraints": [
+                    "B = v*(r^2-s^2)",
+                    "N1 = v*(2*r*s)",
+                ],
+            },
+            {
+                "edge": "B-N2",
+                "scale_symbol": "w",
+                "m_symbol": "x",
+                "n_symbol": "y",
+                "assignments": {
+                    "w": 1,
+                    "x": 7,
+                    "y": 2,
+                },
+                "constraints": [
+                    "B = w*(x^2-y^2)",
+                    "N2 = w*(2*x*y)",
+                ],
+            },
+        ],
+        "shared_constraints": [
+            "v*(r^2-s^2) = w*(x^2-y^2)",
+            "u*(2*p*q) = v*(2*r*s)",
+        ],
+        "closure_constraint": "N1 + N2 = A + B",
+        "missing_square_constraint": "A^2 + N2^2 = square?",
+    }
     assert summary["shared_variables"] == {
         "B": [
             {
