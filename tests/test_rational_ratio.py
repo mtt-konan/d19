@@ -63,6 +63,7 @@ def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> No
     assert diagnostic.product == Fraction(6)
     assert diagnostic.product_equals_lambda
     assert diagnostic.reciprocal_pair
+    assert not diagnostic.true_member_pair
 
 
 def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda() -> None:

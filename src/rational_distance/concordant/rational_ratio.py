@@ -72,6 +72,7 @@ class RationalRatioHitProductDiagnostic:
     product: Fraction
     product_equals_lambda: bool
     reciprocal_pair: bool
+    true_member_pair: bool
 
 
 @dataclass(frozen=True)
@@ -772,6 +773,8 @@ def rational_ratio_hit_product_diagnostics(
                 product=product,
                 product_equals_lambda=product == lam,
                 reciprocal_pair=hit.r2 == reciprocal_ratio(lam, hit.r1),
+                true_member_pair=is_rational_ratio_member(lam, hit.r1)
+                and is_rational_ratio_member(lam, hit.r2),
             )
         )
     return tuple(sorted(diagnostics))
