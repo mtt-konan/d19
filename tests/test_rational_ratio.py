@@ -231,6 +231,7 @@ def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
     from rational_distance.concordant.rational_ratio import (
         is_pythagorean_leg_ratio,
         sum_ab_point_from_slopes,
+        sum_ab_product_square_condition_from_slopes,
     )
 
     point = sum_ab_point_from_slopes(Fraction(3, 4), Fraction(4, 3))
@@ -243,6 +244,17 @@ def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
     assert is_pythagorean_leg_ratio(point.slope1)
     assert is_pythagorean_leg_ratio(point.slope2)
     assert not point.true_member_pair
+
+    residual_condition = sum_ab_product_square_condition_from_slopes(
+        Fraction(14, 23) / Fraction(535, 161),
+        Fraction(26, 7) / Fraction(535, 161),
+    )
+
+    assert residual_condition is not None
+    assert residual_condition.lambda_ratio == Fraction(535, 161)
+    assert residual_condition.roots == (Fraction(14, 23), Fraction(26, 7))
+    assert residual_condition.product_square_bucket == "residual"
+    assert residual_condition.member_squareclass_pair == (29, 29)
 
 
 def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> None:

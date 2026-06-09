@@ -850,6 +850,22 @@ def sum_ab_point_from_slopes(
     )
 
 
+def sum_ab_product_square_condition_from_slopes(
+    slope1: Fraction | int,
+    slope2: Fraction | int,
+) -> ClosureProductSquareConditions | None:
+    """Return the ``sum=A+B`` product-square ledger induced by scaled slopes."""
+    point = sum_ab_point_from_slopes(slope1, slope2)
+    if point is None:
+        return None
+    return closure_product_square_conditions(
+        point.lambda_ratio,
+        point.lambda_ratio + 1,
+        point.product,
+        REL_SUM_AB,
+    )
+
+
 def sum_ab_slope_obstruction(
     slope1: Fraction | int,
     slope2: Fraction | int,
@@ -2180,6 +2196,7 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
+    "sum_ab_product_square_condition_from_slopes",
     "sum_ab_product_square_bucket_summary",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
