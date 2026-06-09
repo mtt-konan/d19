@@ -186,6 +186,8 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     )
 
     assert mixed_conditions.product_terms_are_squares
+    assert mixed_conditions.centerline
+    assert not mixed_conditions.reciprocal_pair
     assert mixed_conditions.member_squareclasses == (13, 13, 1, 1)
     assert mixed_conditions.member_squareclass_pair == (13, 1)
     assert mixed_conditions.member_squareclasses_pairwise_equal
@@ -206,6 +208,19 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert true_conditions.product_square_explained_by_pairwise_squareclasses
     assert true_conditions.member_squareclasses_all_equal
     assert true_conditions.member_squareclasses_all_trivial
+
+    reciprocal_conditions = closure_product_square_conditions(
+        Fraction(7),
+        Fraction(8),
+        Fraction(7),
+        REL_SUM_AB,
+    )
+
+    assert reciprocal_conditions.roots == (Fraction(1), Fraction(7))
+    assert not reciprocal_conditions.centerline
+    assert reciprocal_conditions.reciprocal_pair
+    assert reciprocal_conditions.member_squareclass_pair == (2, 2)
+    assert not reciprocal_conditions.true_member_pair
 
 
 def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:

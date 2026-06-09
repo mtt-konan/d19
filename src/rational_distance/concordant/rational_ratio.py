@@ -100,6 +100,7 @@ class ClosureProductSquareConditions:
     discriminant_is_square: bool
     roots: tuple[Fraction, ...]
     centerline: bool
+    reciprocal_pair: bool
     product_terms_are_squares: bool
     member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
     member_squareclasses: tuple[int, int, int, int] | tuple[()]
@@ -1924,6 +1925,7 @@ def closure_product_square_conditions(
         len(member_squareclasses) == 4 and set(member_squareclasses) == {1}
     )
     centerline = len(positive_roots) == 2 and positive_roots[0] == positive_roots[1]
+    reciprocal_pair = len(positive_roots) == 2 and positive_roots[0] * positive_roots[1] == lam
     centerline_obstruction = None
     if centerline:
         unit_leg_fails = (
@@ -1948,6 +1950,7 @@ def closure_product_square_conditions(
         discriminant_is_square=sqrt_disc is not None,
         roots=positive_roots,
         centerline=centerline,
+        reciprocal_pair=reciprocal_pair,
         product_terms_are_squares=product_terms_are_squares,
         member_square_flags=member_square_flags,
         member_squareclasses=member_squareclasses,
