@@ -159,6 +159,78 @@ def test_summarize_records_groups_by_invariant_pair_and_tracks_low_delta() -> No
     ]
 
 
+def test_summarize_records_can_focus_pattern_and_relation() -> None:
+    records = [
+        {
+            "x": "1/3",
+            "y": "2/5",
+            "x_float": 1 / 3,
+            "y_float": 2 / 5,
+            "raw_count": 2,
+            "best_failed_nearest_delta": 7,
+            "best_relation": "sum=A+B",
+            "best_missing_edges": ["A-N2"],
+            "best_sample": {
+                "A": 7,
+                "B": 45,
+                "N1": 24,
+                "N2": 28,
+                "relation": "sum=A+B",
+                "failed_nearest_delta": 7,
+                "missing_edges": ["A-N2"],
+                "square_coordinate": {"x": "1/3", "y": "2/5", "side_n": 30},
+            },
+        },
+        {
+            "x": "2/5",
+            "y": "1/3",
+            "x_float": 2 / 5,
+            "y_float": 1 / 3,
+            "raw_count": 3,
+            "best_failed_nearest_delta": 11,
+            "best_relation": "sum=A+B",
+            "best_missing_edges": ["B-N1"],
+            "best_sample": {
+                "A": 12,
+                "B": 18,
+                "N1": 10,
+                "N2": 20,
+                "relation": "sum=A+B",
+                "failed_nearest_delta": 11,
+                "missing_edges": ["B-N1"],
+                "square_coordinate": {"x": "2/5", "y": "1/3", "side_n": 30},
+            },
+        },
+    ]
+
+    summary = d4_inv.summarize_records(
+        records,
+        focus_pattern="B:odd_leg+odd_leg|N1:even_leg+even_leg",
+        focus_relation="sum=A+B",
+    )
+
+    assert summary["focus"] == {
+        "pattern": "B:odd_leg+odd_leg|N1:even_leg+even_leg",
+        "relation": "sum=A+B",
+        "record_count": 1,
+        "raw_count": 2,
+    }
+    assert len(summary["focus_records"]) == 1
+    focus = summary["focus_records"][0]
+    assert focus["shared_role_pattern"] == "B:odd_leg+odd_leg|N1:even_leg+even_leg"
+    assert focus["best_relation"] == "sum=A+B"
+    assert focus["best_sample"] == {
+        "A": 7,
+        "B": 45,
+        "N1": 24,
+        "N2": 28,
+        "relation": "sum=A+B",
+        "missing_edges": ["A-N2"],
+        "failed_nearest_delta": 7,
+        "side_n": 30,
+    }
+
+
 def test_cli_writes_summary_json(tmp_path) -> None:
     input_path = tmp_path / "points.json"
     output_path = tmp_path / "summary.json"
@@ -236,6 +308,10 @@ def test_script_path_cli_can_run_from_repo_root(tmp_path) -> None:
             str(input_path),
             "--out",
             str(output_path),
+            "--focus-pattern",
+            "B:odd_leg+odd_leg|N1:even_leg+even_leg",
+            "--focus-relation",
+            "sum=A+B",
         ],
         cwd=ROOT,
         capture_output=True,
@@ -247,4 +323,10 @@ def test_script_path_cli_can_run_from_repo_root(tmp_path) -> None:
     written = json.loads(output_path.read_text(encoding="utf-8"))
     assert written["shared_role_pattern_counts"] == {
         "B:odd_leg+odd_leg|N1:even_leg+even_leg": 1
+    }
+    assert written["focus"] == {
+        "pattern": "B:odd_leg+odd_leg|N1:even_leg+even_leg",
+        "relation": "sum=A+B",
+        "record_count": 1,
+        "raw_count": 2,
     }

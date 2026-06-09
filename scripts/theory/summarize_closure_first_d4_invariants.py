@@ -194,6 +194,8 @@ def summarize_records(
     low_delta: int = 10,
     top_groups: int = 20,
     top_records: int = 20,
+    focus_pattern: str | None = None,
+    focus_relation: str | None = None,
 ) -> dict[str, Any]:
     invariants = [invariant_record(record) for record in records]
     relation_counts = Counter(record["best_relation"] for record in invariants)
@@ -227,7 +229,7 @@ def summarize_records(
         ),
     )[:top_records]
 
-    return {
+    summary = {
         "record_count": len(invariants),
         "raw_count_total": sum(record["raw_count"] for record in invariants),
         "uv_pair_group_count": len(uv_groups),
@@ -242,6 +244,44 @@ def summarize_records(
         "low_delta_records": low_records,
         "top_invariant_records": top_invariant_records,
     }
+    if focus_pattern is not None or focus_relation is not None:
+        focus_records = _focus_records(
+            invariants,
+            focus_pattern=focus_pattern,
+            focus_relation=focus_relation,
+        )
+        summary["focus"] = {
+            "pattern": focus_pattern,
+            "relation": focus_relation,
+            "record_count": len(focus_records),
+            "raw_count": sum(record["raw_count"] for record in focus_records),
+        }
+        summary["focus_records"] = focus_records
+    return summary
+
+
+def _focus_records(
+    records: list[dict[str, Any]],
+    *,
+    focus_pattern: str | None,
+    focus_relation: str | None,
+) -> list[dict[str, Any]]:
+    focused = [
+        record
+        for record in records
+        if (focus_pattern is None or record["shared_role_pattern"] == focus_pattern)
+        and (focus_relation is None or record["best_relation"] == focus_relation)
+    ]
+    return sorted(
+        focused,
+        key=lambda record: (
+            record["best_failed_nearest_delta"],
+            -record["raw_count"],
+            record["side_n"],
+            record["x"],
+            record["y"],
+        ),
+    )
 
 
 def load_records(path: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
@@ -258,6 +298,8 @@ def build_summary(
     low_delta: int = 10,
     top_groups: int = 20,
     top_records: int = 20,
+    focus_pattern: str | None = None,
+    focus_relation: str | None = None,
 ) -> dict[str, Any]:
     payload, records = load_records(input_path)
     summary = summarize_records(
@@ -265,6 +307,8 @@ def build_summary(
         low_delta=low_delta,
         top_groups=top_groups,
         top_records=top_records,
+        focus_pattern=focus_pattern,
+        focus_relation=focus_relation,
     )
     summary["source"] = {
         "path": str(input_path),
@@ -283,6 +327,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--low-delta", type=int, default=10)
     parser.add_argument("--top-groups", type=int, default=20)
     parser.add_argument("--top-records", type=int, default=20)
+    parser.add_argument("--focus-pattern", default=None)
+    parser.add_argument("--focus-relation", default=None)
     args = parser.parse_args(argv)
 
     summary = build_summary(
@@ -290,6 +336,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         low_delta=args.low_delta,
         top_groups=args.top_groups,
         top_records=args.top_records,
+        focus_pattern=args.focus_pattern,
+        focus_relation=args.focus_relation,
     )
     out = args.out or args.input.with_name(args.input.stem + "_d4_invariants.json")
     out.parent.mkdir(parents=True, exist_ok=True)
