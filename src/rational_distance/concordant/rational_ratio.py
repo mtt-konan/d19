@@ -165,6 +165,19 @@ class ReciprocalClosureRoot:
     true_member: bool
 
 
+@dataclass(frozen=True, order=True)
+class ReciprocalClosureSquareclassRoot:
+    """Squareclass diagnostics for one reciprocal closure root."""
+
+    r: Fraction
+    relation: str
+    unit_value: Fraction
+    lambda_value: Fraction
+    unit_squareclass: int
+    lambda_squareclass: int
+    true_member: bool
+
+
 @dataclass(frozen=True)
 class ReciprocalClosureObstruction:
     """One full-plane reciprocal closure branch and whether true roots remain."""
@@ -3588,6 +3601,31 @@ def reciprocal_closure_roots(
     return tuple(out)
 
 
+def reciprocal_closure_squareclass_ledger(
+    lambda_ratio: Fraction | int,
+    relation: str,
+) -> tuple[ReciprocalClosureSquareclassRoot, ...]:
+    """Return squareclass diagnostics for reciprocal/mirror closure roots."""
+    lam = _as_fraction(lambda_ratio)
+    _validate_positive("lambda_ratio", lam)
+    rows: list[ReciprocalClosureSquareclassRoot] = []
+    for root in reciprocal_closure_roots(lam, relation):
+        unit_value = root.r * root.r + 1
+        lambda_value = root.r * root.r + lam * lam
+        rows.append(
+            ReciprocalClosureSquareclassRoot(
+                r=root.r,
+                relation=root.relation,
+                unit_value=unit_value,
+                lambda_value=lambda_value,
+                unit_squareclass=_rational_squareclass(unit_value)[0],
+                lambda_squareclass=_rational_squareclass(lambda_value)[0],
+                true_member=root.true_member,
+            )
+        )
+    return tuple(rows)
+
+
 def full_plane_reciprocal_obstruction(
     lambda_ratio: Fraction | int,
 ) -> FullPlaneReciprocalObstruction:
@@ -3625,6 +3663,7 @@ __all__ = [
     "RationalRatioHitProductDiagnostic",
     "ReciprocalClosureObstruction",
     "ReciprocalClosureRoot",
+    "ReciprocalClosureSquareclassRoot",
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
@@ -3663,6 +3702,7 @@ __all__ = [
     "pythagorean_leg_ratios",
     "rational_ratio_hit_product_diagnostics",
     "reciprocal_closure_roots",
+    "reciprocal_closure_squareclass_ledger",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
     "scan_full_plane_true_closure_relations",

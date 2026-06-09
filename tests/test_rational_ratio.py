@@ -1514,3 +1514,17 @@ def test_reciprocal_orbit_dangerous_discriminant_roots_are_not_members() -> None
     assert summary.by_relation["diff=A+B"].roots == ()
     assert summary.by_relation["diff=|A-B|"].roots == (Fraction(1), Fraction(6))
     assert all(row.true_roots == () for row in summary.by_relation.values())
+
+
+def test_reciprocal_closure_squareclass_ledger_explains_failed_roots() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        reciprocal_closure_squareclass_ledger,
+    )
+
+    ledger = reciprocal_closure_squareclass_ledger(Fraction(6), "sum=|A-B|")
+
+    assert [(row.r, row.unit_squareclass, row.lambda_squareclass) for row in ledger] == [
+        (Fraction(2), 5, 10),
+        (Fraction(3), 10, 5),
+    ]
+    assert all(not row.true_member for row in ledger)
