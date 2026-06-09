@@ -455,6 +455,8 @@ def test_sum_ab_same_orientation_denominator_factorization_exposes_nu_minus_mv()
 
 
 def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> None:
+    from fractions import Fraction
+
     from rational_distance.concordant.rational_ratio import (
         PythagoreanLegParam,
         sum_ab_same_orientation_cross_gcd_terms,
@@ -480,7 +482,16 @@ def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> 
     assert terms.primitive_cross_gcd_product == 60
     assert terms.primitive_cross_gcd_identity_holds
     assert terms.denominator_difference == -60
+    assert terms.denominator_sum == 780
     assert terms.denominator_difference_over_gcd == -1
+    assert terms.denominator_sum_over_gcd == 13
+    assert terms.normalized_denominator_pair == (6, 7)
+    assert terms.difference_factorization_over_gcd == (
+        Fraction(1, 30),
+        30,
+        -1,
+    )
+    assert terms.sum_factorization_over_gcd == (Fraction(1, 30), 26, 15)
 
     even_terms = sum_ab_same_orientation_cross_gcd_terms(
         slope=PythagoreanLegParam(m=4, n=1, orientation="even"),
@@ -494,6 +505,14 @@ def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> 
     assert even_terms.gcd_p_q == 60
     assert even_terms.primitive_cross_gcd_product == 60
     assert even_terms.denominator_difference_over_gcd == 1
+    assert even_terms.denominator_sum_over_gcd == 13
+    assert even_terms.normalized_denominator_pair == (7, 6)
+    assert even_terms.difference_factorization_over_gcd == (
+        Fraction(-1, 30),
+        30,
+        -1,
+    )
+    assert even_terms.sum_factorization_over_gcd == (Fraction(1, 30), 26, 15)
 
 
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:

@@ -387,6 +387,7 @@ class SumAbSameOrientationCrossGcdTerms:
     other_denominator: int
     failed_denominator: int
     denominator_difference: int
+    denominator_sum: int
     gcd_a_b: int
     gcd_c_d: int
     gcd_a_c: int
@@ -394,6 +395,8 @@ class SumAbSameOrientationCrossGcdTerms:
     gcd_b_c: int
     gcd_b_d: int
     gcd_p_q: int
+    difference_factorization: tuple[int, int, int]
+    sum_factorization: tuple[int, int, int]
 
     @property
     def primitive_cross_gcd_product(self) -> int:
@@ -412,6 +415,39 @@ class SumAbSameOrientationCrossGcdTerms:
         if self.gcd_p_q == 0 or self.denominator_difference % self.gcd_p_q != 0:
             return None
         return self.denominator_difference // self.gcd_p_q
+
+    @property
+    def denominator_sum_over_gcd(self) -> int | None:
+        if self.gcd_p_q == 0 or self.denominator_sum % self.gcd_p_q != 0:
+            return None
+        return self.denominator_sum // self.gcd_p_q
+
+    @property
+    def normalized_denominator_pair(self) -> tuple[int, int] | None:
+        if (
+            self.gcd_p_q == 0
+            or self.other_denominator % self.gcd_p_q != 0
+            or self.failed_denominator % self.gcd_p_q != 0
+        ):
+            return None
+        return (
+            self.other_denominator // self.gcd_p_q,
+            self.failed_denominator // self.gcd_p_q,
+        )
+
+    @property
+    def difference_factorization_over_gcd(self) -> tuple[Fraction, int, int] | None:
+        if self.gcd_p_q == 0:
+            return None
+        coefficient, first_factor, second_factor = self.difference_factorization
+        return Fraction(coefficient, self.gcd_p_q), first_factor, second_factor
+
+    @property
+    def sum_factorization_over_gcd(self) -> tuple[Fraction, int, int] | None:
+        if self.gcd_p_q == 0:
+            return None
+        coefficient, first_factor, second_factor = self.sum_factorization
+        return Fraction(coefficient, self.gcd_p_q), first_factor, second_factor
 
 
 @dataclass(frozen=True, order=True)
@@ -959,6 +995,12 @@ def sum_ab_same_orientation_cross_gcd_terms(
     shared_terms = sum_ab_same_orientation_shared_leg_terms(slope, scaled_term)
     a, b = shared_terms.slope_terms
     c, d = shared_terms.scaled_term_terms
+    m = slope.m
+    n = slope.n
+    u = scaled_term.m
+    v = scaled_term.n
+    nu_minus_mv = n * u - m * v
+    difference_sign = 2 if slope.orientation == "odd" else -2
     return SumAbSameOrientationCrossGcdTerms(
         orientation=shared_terms.orientation,
         slope_terms=shared_terms.slope_terms,
@@ -967,6 +1009,7 @@ def sum_ab_same_orientation_cross_gcd_terms(
         failed_denominator=shared_terms.failed_denominator,
         denominator_difference=shared_terms.other_denominator
         - shared_terms.failed_denominator,
+        denominator_sum=shared_terms.other_denominator + shared_terms.failed_denominator,
         gcd_a_b=_gcd(a, b),
         gcd_c_d=_gcd(c, d),
         gcd_a_c=_gcd(a, c),
@@ -974,6 +1017,12 @@ def sum_ab_same_orientation_cross_gcd_terms(
         gcd_b_c=_gcd(b, c),
         gcd_b_d=_gcd(b, d),
         gcd_p_q=_gcd(shared_terms.other_denominator, shared_terms.failed_denominator),
+        difference_factorization=(
+            difference_sign,
+            m * u + n * v,
+            nu_minus_mv,
+        ),
+        sum_factorization=(2, m * u - n * v, m * v + n * u),
     )
 
 
