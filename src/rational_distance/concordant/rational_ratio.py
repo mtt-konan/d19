@@ -1846,6 +1846,38 @@ def sum_ab_product_square_bucket_summary(
     )
 
 
+def sum_ab_product_square_residuals_from_grid(
+    *,
+    lambda_ratios: tuple[Fraction, ...],
+    max_denominator: int,
+) -> tuple[ClosureProductSquareConditions, ...]:
+    """Return finite-grid ``sum=A+B`` residual product-square diagnostics."""
+    if max_denominator < 1:
+        raise ValueError("max_denominator must be positive")
+
+    residuals: set[ClosureProductSquareConditions] = set()
+    for lambda_ratio in lambda_ratios:
+        lam = _as_fraction(lambda_ratio)
+        _validate_positive("lambda_ratio", lam)
+        target = lam + 1
+        for denominator in range(1, max_denominator + 1):
+            max_numerator = int(target * denominator)
+            for numerator in range(1, max_numerator + 1):
+                r = Fraction(numerator, denominator)
+                s = target - r
+                if s <= 0:
+                    continue
+                condition = closure_product_square_conditions(
+                    lam,
+                    target,
+                    r * s,
+                    REL_SUM_AB,
+                )
+                if condition.product_square_bucket == "residual":
+                    residuals.add(condition)
+    return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
+
+
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
     """Return roots forced by ``r + lambda/r = lambda + 1``.
 
@@ -2198,6 +2230,7 @@ __all__ = [
     "sum_ab_point_from_slopes",
     "sum_ab_product_square_condition_from_slopes",
     "sum_ab_product_square_bucket_summary",
+    "sum_ab_product_square_residuals_from_grid",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
     "sum_ab_three_pass_mobius_model_from_params",

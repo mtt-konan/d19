@@ -294,6 +294,7 @@ def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
         REL_SUM_AB,
         closure_product_square_conditions,
         sum_ab_product_square_bucket_summary,
+        sum_ab_product_square_residuals_from_grid,
     )
 
     residual_guard = closure_product_square_conditions(
@@ -318,6 +319,14 @@ def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     assert summary.squareclass_pair_counts_by_bucket["centerline"][(2, 2)] == 20
     assert summary.squareclass_pair_counts_by_bucket["reciprocal"][(2, 2)] == 40
     assert summary.squareclass_pair_counts_by_bucket["residual"][(29, 29)] == 1
+
+    residuals = sum_ab_product_square_residuals_from_grid(
+        lambda_ratios=(Fraction(535, 161),),
+        max_denominator=23,
+    )
+
+    assert residual_guard in residuals
+    assert all(condition.product_square_bucket == "residual" for condition in residuals)
 
 
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
