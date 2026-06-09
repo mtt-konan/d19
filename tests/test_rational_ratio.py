@@ -390,11 +390,16 @@ def test_sum_ab_same_orientation_shared_leg_terms_expose_square_difference() -> 
     assert terms.other_reduced_factor_pair_gcd == 1
     assert terms.other_reduced_factor_pair_square_roots == (1, 7)
     assert terms.other_reduced_factor_pair_is_square_pair
+    assert terms.other_factor_pair_parameterization == (15, 1, 7)
+    assert terms.other_parameterized_shared_numerator == 105
+    assert terms.other_parameterized_denominator == 360
+    assert terms.other_parameterized_hypotenuse == 375
     assert terms.failed_factor_pair_gcd is None
     assert terms.failed_reduced_factor_pair is None
     assert terms.failed_reduced_factor_pair_gcd is None
     assert terms.failed_reduced_factor_pair_square_roots is None
     assert not terms.failed_reduced_factor_pair_is_square_pair
+    assert terms.failed_factor_pair_parameterization is None
 
 
 def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> None:

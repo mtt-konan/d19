@@ -324,6 +324,44 @@ class SumAbSameOrientationSharedLegTerms:
     def failed_reduced_factor_pair_is_square_pair(self) -> bool:
         return self.failed_reduced_factor_pair_square_roots is not None
 
+    @property
+    def other_factor_pair_parameterization(self) -> tuple[int, int, int] | None:
+        return _factor_pair_parameterization(
+            self.other_factor_pair_gcd,
+            self.other_reduced_factor_pair_square_roots,
+        )
+
+    @property
+    def failed_factor_pair_parameterization(self) -> tuple[int, int, int] | None:
+        return _factor_pair_parameterization(
+            self.failed_factor_pair_gcd,
+            self.failed_reduced_factor_pair_square_roots,
+        )
+
+    @property
+    def other_parameterized_shared_numerator(self) -> int | None:
+        return _parameterized_shared_numerator(self.other_factor_pair_parameterization)
+
+    @property
+    def failed_parameterized_shared_numerator(self) -> int | None:
+        return _parameterized_shared_numerator(self.failed_factor_pair_parameterization)
+
+    @property
+    def other_parameterized_denominator(self) -> int | None:
+        return _parameterized_denominator(self.other_factor_pair_parameterization)
+
+    @property
+    def failed_parameterized_denominator(self) -> int | None:
+        return _parameterized_denominator(self.failed_factor_pair_parameterization)
+
+    @property
+    def other_parameterized_hypotenuse(self) -> int | None:
+        return _parameterized_hypotenuse(self.other_factor_pair_parameterization)
+
+    @property
+    def failed_parameterized_hypotenuse(self) -> int | None:
+        return _parameterized_hypotenuse(self.failed_factor_pair_parameterization)
+
 
 @dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
@@ -649,6 +687,42 @@ def _factor_pair_square_roots(pair: tuple[int, int] | None) -> tuple[int, int] |
     if left_root * left_root != left or right_root * right_root != right:
         return None
     return left_root, right_root
+
+
+def _factor_pair_parameterization(
+    common: int | None,
+    square_roots: tuple[int, int] | None,
+) -> tuple[int, int, int] | None:
+    if common is None or square_roots is None:
+        return None
+    return common, square_roots[0], square_roots[1]
+
+
+def _parameterized_shared_numerator(
+    parameterization: tuple[int, int, int] | None,
+) -> int | None:
+    if parameterization is None:
+        return None
+    common, left_root, right_root = parameterization
+    return common * left_root * right_root
+
+
+def _parameterized_denominator(
+    parameterization: tuple[int, int, int] | None,
+) -> int | None:
+    if parameterization is None:
+        return None
+    common, left_root, right_root = parameterization
+    return common * (right_root * right_root - left_root * left_root) // 2
+
+
+def _parameterized_hypotenuse(
+    parameterization: tuple[int, int, int] | None,
+) -> int | None:
+    if parameterization is None:
+        return None
+    common, left_root, right_root = parameterization
+    return common * (right_root * right_root + left_root * left_root) // 2
 
 
 def _sum_ab_mobius_polynomial_terms_from_legs(
