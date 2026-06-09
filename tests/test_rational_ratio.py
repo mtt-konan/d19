@@ -167,6 +167,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert conditions.discriminant == discriminant
     assert conditions.roots == (r, s)
     assert not conditions.centerline
+    assert not conditions.reciprocal_pair
     assert conditions.product_terms_are_squares
     assert not conditions.true_member_pair
     assert conditions.member_square_flags == (False, False, False, False)
