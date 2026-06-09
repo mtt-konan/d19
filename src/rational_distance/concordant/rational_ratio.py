@@ -102,6 +102,9 @@ class ClosureProductSquareConditions:
     product_terms_are_squares: bool
     member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
     member_squareclasses: tuple[int, int, int, int] | tuple[()]
+    member_squareclasses_pairwise_equal: bool
+    member_squareclasses_all_equal: bool
+    member_squareclasses_all_trivial: bool
     true_member_pair: bool
 
 
@@ -1896,6 +1899,17 @@ def closure_product_square_conditions(
     product_terms_are_squares = _is_rational_square(
         terms.a_term
     ) and _is_rational_square(terms.b_term)
+    member_squareclasses_pairwise_equal = (
+        len(member_squareclasses) == 4
+        and member_squareclasses[0] == member_squareclasses[1]
+        and member_squareclasses[2] == member_squareclasses[3]
+    )
+    member_squareclasses_all_equal = (
+        len(member_squareclasses) == 4 and len(set(member_squareclasses)) == 1
+    )
+    member_squareclasses_all_trivial = (
+        len(member_squareclasses) == 4 and set(member_squareclasses) == {1}
+    )
     return ClosureProductSquareConditions(
         lambda_ratio=lam,
         target=t,
@@ -1908,6 +1922,9 @@ def closure_product_square_conditions(
         product_terms_are_squares=product_terms_are_squares,
         member_square_flags=member_square_flags,
         member_squareclasses=member_squareclasses,
+        member_squareclasses_pairwise_equal=member_squareclasses_pairwise_equal,
+        member_squareclasses_all_equal=member_squareclasses_all_equal,
+        member_squareclasses_all_trivial=member_squareclasses_all_trivial,
         true_member_pair=all(member_square_flags) if member_square_flags else False,
     )
 

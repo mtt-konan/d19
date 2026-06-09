@@ -171,6 +171,34 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert conditions.member_square_flags == (False, False, False, False)
     assert conditions.member_squareclasses == (29, 29, 29, 29)
     assert len(set(conditions.member_squareclasses)) == 1
+    assert conditions.member_squareclasses_pairwise_equal
+    assert conditions.member_squareclasses_all_equal
+    assert not conditions.member_squareclasses_all_trivial
+
+    mixed_conditions = closure_product_square_conditions(
+        Fraction(2),
+        Fraction(3),
+        Fraction(9, 4),
+        REL_SUM_AB,
+    )
+
+    assert mixed_conditions.product_terms_are_squares
+    assert mixed_conditions.member_squareclasses == (13, 13, 1, 1)
+    assert mixed_conditions.member_squareclasses_pairwise_equal
+    assert not mixed_conditions.member_squareclasses_all_equal
+
+    true_conditions = closure_product_square_conditions(
+        Fraction(1),
+        Fraction(25, 12),
+        Fraction(1),
+        REL_SUM_AB,
+    )
+
+    assert true_conditions.true_member_pair
+    assert true_conditions.roots == (Fraction(3, 4), Fraction(4, 3))
+    assert true_conditions.member_squareclasses_pairwise_equal
+    assert true_conditions.member_squareclasses_all_equal
+    assert true_conditions.member_squareclasses_all_trivial
 
 
 def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
