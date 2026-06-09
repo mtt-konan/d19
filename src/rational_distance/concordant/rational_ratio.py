@@ -310,6 +310,27 @@ class SumAbCenterlineQuotientWParameterization:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticPARIDiagnostics:
+    """PARI elliptic-curve diagnostics for centerline quartic models."""
+
+    available: bool
+    centerline_model: tuple[int, int, int, int, int] | tuple[()]
+    centerline_rank_bounds: tuple[int, int] | tuple[()]
+    centerline_sha2_lower: int | None
+    centerline_generators: tuple[tuple[str, str], ...]
+    centerline_torsion_order: int | None
+    centerline_small_points: tuple[tuple[int, int], ...]
+    w_parameterized_model: tuple[int, int, int, int, int] | tuple[()]
+    w_parameterized_rank_bounds: tuple[int, int] | tuple[()]
+    w_parameterized_sha2_lower: int | None
+    w_parameterized_generators: tuple[tuple[str, str], ...]
+    w_parameterized_torsion_order: int | None
+    w_parameterized_small_points: tuple[tuple[int, int], ...]
+    proof_status: str
+    notes: str
+
+
+@dataclass(frozen=True, order=True)
 class SumAbCenterlineQuarticIntegerEquation:
     """Integer form of the centerline quartic for ``t=u/v``."""
 
@@ -2866,6 +2887,109 @@ def sum_ab_centerline_quotient_w_parameterization(
     )
 
 
+def _pari_point_strings(points) -> tuple[tuple[str, str], ...]:
+    return tuple(sorted((str(point[0]), str(point[1])) for point in points))
+
+
+def _pari_integral_points(points) -> tuple[tuple[int, int], ...]:
+    integral_points: list[tuple[int, int]] = []
+    for point in points:
+        x = point[0]
+        y = point[1]
+        if str(x).lstrip("-").isdigit() and str(y).lstrip("-").isdigit():
+            integral_points.append((int(x), int(y)))
+    return tuple(sorted(integral_points))
+
+
+def sum_ab_centerline_quartic_pari_diagnostics(
+    *,
+    point_height_bound: int = 100,
+) -> SumAbCenterlineQuarticPARIDiagnostics:
+    """Return PARI rank/torsion diagnostics for the centerline quartics."""
+    try:
+        import cypari2
+    except ImportError as exc:
+        return SumAbCenterlineQuarticPARIDiagnostics(
+            available=False,
+            centerline_model=(),
+            centerline_rank_bounds=(),
+            centerline_sha2_lower=None,
+            centerline_generators=(),
+            centerline_torsion_order=None,
+            centerline_small_points=(),
+            w_parameterized_model=(),
+            w_parameterized_rank_bounds=(),
+            w_parameterized_sha2_lower=None,
+            w_parameterized_generators=(),
+            w_parameterized_torsion_order=None,
+            w_parameterized_small_points=(),
+            proof_status="pari-unavailable",
+            notes=f"cypari2 unavailable: {exc}",
+        )
+    try:
+        pari = cypari2.Pari()
+        models: list[tuple[int, int, int, int, int]] = []
+        rank_bounds: list[tuple[int, int]] = []
+        sha2_lowers: list[int] = []
+        generators: list[tuple[tuple[str, str], ...]] = []
+        torsion_orders: list[int] = []
+        small_points: list[tuple[tuple[int, int], ...]] = []
+        polynomials = (
+            "x^4+8*x^3+18*x^2-8*x+1",
+            "5*x^4-8*x^3-6*x^2+8*x+5",
+        )
+        for polynomial in polynomials:
+            model = pari(f"ellfromeqn(y^2-({polynomial}))")
+            models.append(tuple(int(model[i]) for i in range(5)))
+            curve = pari.ellinit(model)
+            rank_result = pari.ellrank(curve, 1)
+            rank_bounds.append((int(rank_result[0]), int(rank_result[1])))
+            sha2_lowers.append(int(rank_result[2]))
+            generators.append(_pari_point_strings(rank_result[3]))
+            torsion = pari.elltors(curve)
+            torsion_orders.append(int(torsion[0]))
+            points = pari.ellratpoints(curve, point_height_bound)
+            small_points.append(_pari_integral_points(points))
+    except Exception as exc:
+        return SumAbCenterlineQuarticPARIDiagnostics(
+            available=False,
+            centerline_model=(),
+            centerline_rank_bounds=(),
+            centerline_sha2_lower=None,
+            centerline_generators=(),
+            centerline_torsion_order=None,
+            centerline_small_points=(),
+            w_parameterized_model=(),
+            w_parameterized_rank_bounds=(),
+            w_parameterized_sha2_lower=None,
+            w_parameterized_generators=(),
+            w_parameterized_torsion_order=None,
+            w_parameterized_small_points=(),
+            proof_status="pari-error",
+            notes=f"PARI diagnostics failed: {exc}",
+        )
+    return SumAbCenterlineQuarticPARIDiagnostics(
+        available=True,
+        centerline_model=models[0],
+        centerline_rank_bounds=rank_bounds[0],
+        centerline_sha2_lower=sha2_lowers[0],
+        centerline_generators=generators[0],
+        centerline_torsion_order=torsion_orders[0],
+        centerline_small_points=small_points[0],
+        w_parameterized_model=models[1],
+        w_parameterized_rank_bounds=rank_bounds[1],
+        w_parameterized_sha2_lower=sha2_lowers[1],
+        w_parameterized_generators=generators[1],
+        w_parameterized_torsion_order=torsion_orders[1],
+        w_parameterized_small_points=small_points[1],
+        proof_status="needs-birational-pullback",
+        notes=(
+            "PARI gives rank-zero elliptic models; proof still needs an explicit "
+            "birational pullback from torsion points to quartic points."
+        ),
+    )
+
+
 def sum_ab_centerline_quartic_integer_equation(
     u: int,
     v: int,
@@ -3205,6 +3329,7 @@ __all__ = [
     "SumAbCenterlineQuarticIntegerEquation",
     "SumAbCenterlineQuarticLiveResidueClass",
     "SumAbCenterlineQuarticNegativeReciprocalQuotient",
+    "SumAbCenterlineQuarticPARIDiagnostics",
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineQuarticSelfSimilarity",
@@ -3244,6 +3369,7 @@ __all__ = [
     "sum_ab_centerline_quartic_integer_equation",
     "sum_ab_centerline_quartic_live_residue_classes",
     "sum_ab_centerline_quartic_negative_reciprocal_quotient",
+    "sum_ab_centerline_quartic_pari_diagnostics",
     "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_quartic_self_similarity",

@@ -351,6 +351,7 @@ def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
 def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     from rational_distance.concordant.rational_ratio import (
         sum_ab_centerline_quartic_negative_reciprocal_quotient,
+        sum_ab_centerline_quartic_pari_diagnostics,
         sum_ab_centerline_quartic_self_similarity,
         sum_ab_centerline_quotient_w_parameterization,
         sum_ab_centerline_remaining_quartic,
@@ -448,6 +449,31 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     assert w_param.second_quotient_variable == Fraction(-16, 15)
     assert w_param.second_quotient_quadratic_value == Fraction(164, 9)
     assert w_param.remaining_quartic_over_parameter_square == Fraction(164, 9)
+
+    pari_diagnostics = sum_ab_centerline_quartic_pari_diagnostics()
+
+    if pari_diagnostics.available:
+        assert pari_diagnostics.centerline_model == (0, 18, 0, -68, 56)
+        assert pari_diagnostics.centerline_rank_bounds == (0, 0)
+        assert pari_diagnostics.centerline_sha2_lower == 0
+        assert pari_diagnostics.centerline_torsion_order == 4
+        assert pari_diagnostics.centerline_generators == ()
+        assert pari_diagnostics.centerline_small_points == (
+            (-2, -16),
+            (-2, 16),
+            (2, 0),
+        )
+        assert pari_diagnostics.w_parameterized_model == (0, -6, 0, -164, 1240)
+        assert pari_diagnostics.w_parameterized_rank_bounds == (0, 0)
+        assert pari_diagnostics.w_parameterized_sha2_lower == 0
+        assert pari_diagnostics.w_parameterized_torsion_order == 4
+        assert pari_diagnostics.w_parameterized_generators == ()
+        assert pari_diagnostics.w_parameterized_small_points == (
+            (6, -16),
+            (6, 16),
+            (10, 0),
+        )
+        assert pari_diagnostics.proof_status == "needs-birational-pullback"
 
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
