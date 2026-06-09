@@ -107,6 +107,7 @@ class ClosureProductSquareConditions:
     product_square_explained_by_pairwise_squareclasses: bool
     member_squareclasses_all_equal: bool
     member_squareclasses_all_trivial: bool
+    centerline_obstruction: str | None
     true_member_pair: bool
 
 
@@ -1921,6 +1922,20 @@ def closure_product_square_conditions(
     member_squareclasses_all_trivial = (
         len(member_squareclasses) == 4 and set(member_squareclasses) == {1}
     )
+    centerline_obstruction = None
+    if len(positive_roots) == 2 and positive_roots[0] == positive_roots[1]:
+        unit_leg_fails = (
+            len(member_squareclass_pair) == 2 and member_squareclass_pair[0] != 1
+        )
+        lambda_leg_fails = (
+            len(member_squareclass_pair) == 2 and member_squareclass_pair[1] != 1
+        )
+        if unit_leg_fails and lambda_leg_fails:
+            centerline_obstruction = "both-legs"
+        elif unit_leg_fails:
+            centerline_obstruction = "unit-leg"
+        elif lambda_leg_fails:
+            centerline_obstruction = "lambda-leg"
     return ClosureProductSquareConditions(
         lambda_ratio=lam,
         target=t,
@@ -1940,6 +1955,7 @@ def closure_product_square_conditions(
         ),
         member_squareclasses_all_equal=member_squareclasses_all_equal,
         member_squareclasses_all_trivial=member_squareclasses_all_trivial,
+        centerline_obstruction=centerline_obstruction,
         true_member_pair=all(member_square_flags) if member_square_flags else False,
     )
 

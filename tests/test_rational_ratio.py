@@ -241,12 +241,19 @@ def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> Non
     assert conditions.member_squareclass_pair == (5, 13)
     assert conditions.member_squareclasses_pairwise_equal
     assert not conditions.true_member_pair
+    assert conditions.centerline_obstruction == "both-legs"
 
     unit_conditions = sum_ab_centerline_squareclass_conditions(Fraction(1))
 
     assert unit_conditions.roots == (Fraction(1), Fraction(1))
     assert unit_conditions.member_squareclass_pair == (2, 2)
     assert not unit_conditions.true_member_pair
+    assert unit_conditions.centerline_obstruction == "both-legs"
+
+    lambda_leg_conditions = sum_ab_centerline_squareclass_conditions(Fraction(15))
+
+    assert lambda_leg_conditions.member_squareclass_pair == (65, 1)
+    assert lambda_leg_conditions.centerline_obstruction == "unit-leg"
 
 
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
