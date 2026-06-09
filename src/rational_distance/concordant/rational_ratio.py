@@ -255,6 +255,43 @@ class SumAbCenterlineRemainingQuartic:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticIntegerEquation:
+    """Integer form of the centerline quartic for ``t=u/v``."""
+
+    u: int
+    v: int
+    value: int
+    denominator_square: int
+    reduced_lambda_value: Fraction
+    squareclass: int
+    is_square: bool
+
+    def residue(self, modulus: int) -> int:
+        """Return the quartic value modulo ``modulus``."""
+        if modulus <= 0:
+            raise ValueError("modulus must be positive")
+        return self.value % modulus
+
+    def residue_is_square(self, modulus: int) -> bool:
+        """Return whether the quartic residue is a square modulo ``modulus``."""
+        residue = self.residue(modulus)
+        residues = {value * value % modulus for value in range(modulus)}
+        return residue in residues
+
+
+@dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticResidueSummary:
+    """Residue counts for the centerline quartic modulo one modulus."""
+
+    modulus: int
+    total_classes: int
+    square_residue_classes: int
+    non_square_residue_classes: int
+    zero_residue_classes: int
+    square_residues: tuple[int, ...]
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2551,6 +2588,69 @@ def sum_ab_centerline_remaining_quartic(
     )
 
 
+def sum_ab_centerline_quartic_integer_equation(
+    u: int,
+    v: int,
+) -> SumAbCenterlineQuarticIntegerEquation:
+    """Return the integer quartic for ``t=u/v`` in the centerline branch."""
+    if u <= 0:
+        raise ValueError("u must be positive")
+    if v <= 0:
+        raise ValueError("v must be positive")
+    value = (
+        u**4
+        + 8 * u**3 * v
+        + 18 * u * u * v * v
+        - 8 * u * v**3
+        + v**4
+    )
+    denominator_square = (v * v - u * u) ** 2
+    reduced_lambda_value = Fraction(value, denominator_square)
+    return SumAbCenterlineQuarticIntegerEquation(
+        u=u,
+        v=v,
+        value=value,
+        denominator_square=denominator_square,
+        reduced_lambda_value=reduced_lambda_value,
+        squareclass=_rational_squareclass(reduced_lambda_value)[0],
+        is_square=_is_rational_square(reduced_lambda_value),
+    )
+
+
+def sum_ab_centerline_quartic_residue_summary(
+    modulus: int,
+) -> SumAbCenterlineQuarticResidueSummary:
+    """Summarize square-residue hits of the centerline quartic modulo ``modulus``."""
+    if modulus <= 0:
+        raise ValueError("modulus must be positive")
+    square_residues = tuple(sorted({value * value % modulus for value in range(modulus)}))
+    square_residue_set = set(square_residues)
+    square_classes = 0
+    zero_classes = 0
+    for u in range(modulus):
+        for v in range(modulus):
+            value = (
+                u**4
+                + 8 * u**3 * v
+                + 18 * u * u * v * v
+                - 8 * u * v**3
+                + v**4
+            ) % modulus
+            if value in square_residue_set:
+                square_classes += 1
+            if value == 0:
+                zero_classes += 1
+    total = modulus * modulus
+    return SumAbCenterlineQuarticResidueSummary(
+        modulus=modulus,
+        total_classes=total,
+        square_residue_classes=square_classes,
+        non_square_residue_classes=total - square_classes,
+        zero_residue_classes=zero_classes,
+        square_residues=square_residues,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2642,6 +2742,8 @@ __all__ = [
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
+    "SumAbCenterlineQuarticIntegerEquation",
+    "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
     "SumAbRatioShadowOrbit",
@@ -2672,6 +2774,8 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
+    "sum_ab_centerline_quartic_integer_equation",
+    "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",

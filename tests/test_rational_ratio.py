@@ -365,6 +365,34 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     assert not quartic.is_square
 
 
+def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_quartic_integer_equation,
+        sum_ab_centerline_quartic_residue_summary,
+    )
+
+    equation = sum_ab_centerline_quartic_integer_equation(3, 5)
+
+    assert equation.u == 3
+    assert equation.v == 5
+    assert equation.value == 2836
+    assert equation.denominator_square == 256
+    assert equation.reduced_lambda_value == Fraction(709, 64)
+    assert equation.squareclass == 709
+    assert not equation.is_square
+    assert equation.residue(5) == 1
+    assert equation.residue_is_square(5)
+
+    summary = sum_ab_centerline_quartic_residue_summary(5)
+
+    assert summary.modulus == 5
+    assert summary.total_classes == 25
+    assert summary.square_residue_classes == 21
+    assert summary.non_square_residue_classes == 4
+    assert summary.zero_residue_classes == 9
+    assert summary.square_residues == (0, 1, 4)
+
+
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     from rational_distance.concordant.rational_ratio import (
         REL_SUM_AB,
