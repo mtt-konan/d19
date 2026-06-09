@@ -527,8 +527,15 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
     assert summary.abs_difference_over_gcd_counts[1] == 2
     assert summary.abs_difference_over_gcd_counts[17] == 2
     assert summary.abs_difference_over_gcd_counts[38] == 2
+    assert summary.failing_squareclass_counts[17] == 4
+    assert summary.failing_squareclass_counts[24634] == 2
     assert summary.normalized_pair_counts[((6, 7), "odd")] == 1
     assert summary.normalized_pair_counts[((7, 6), "odd")] == 1
+    assert len(summary.examples_by_failing_squareclass[17]) == 4
+    assert {
+        example.denominator_difference_over_gcd
+        for example in summary.examples_by_failing_squareclass[17]
+    } == {-38, -1, 1, 38}
     assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
     assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
     assert summary.examples_by_abs_difference[1][0].orientation == "odd"

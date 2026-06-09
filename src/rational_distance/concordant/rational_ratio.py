@@ -480,8 +480,12 @@ class SumAbNormalizedNearMissSummary:
     max_m: int
     total_near_misses: int
     abs_difference_over_gcd_counts: dict[int, int]
+    failing_squareclass_counts: dict[int, int]
     normalized_pair_counts: dict[tuple[tuple[int, int], str], int]
     examples_by_abs_difference: dict[int, tuple[SumAbNormalizedNearMissExample, ...]]
+    examples_by_failing_squareclass: dict[
+        int, tuple[SumAbNormalizedNearMissExample, ...]
+    ]
 
 
 @dataclass(frozen=True, order=True)
@@ -1087,8 +1091,10 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
         raise ValueError("max_examples_per_bucket must be positive")
 
     abs_difference_counts: Counter[int] = Counter()
+    failing_squareclass_counts: Counter[int] = Counter()
     normalized_pair_counts: Counter[tuple[tuple[int, int], str]] = Counter()
     examples: dict[int, list[SumAbNormalizedNearMissExample]] = {}
+    squareclass_examples: dict[int, list[SumAbNormalizedNearMissExample]] = {}
     total = 0
 
     primitive_params = tuple(_primitive_euclid_params(max_m))
@@ -1127,40 +1133,56 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                 normalized_n = shared_terms.shared_numerator // gcd_n_p_q
                 normalized_p = shared_terms.other_denominator // gcd_n_p_q
                 normalized_q = shared_terms.failed_denominator // gcd_n_p_q
+                normalized_other_squareclass = _integer_squareclass(
+                    normalized_n * normalized_n + normalized_p * normalized_p
+                )
+                normalized_failed_squareclass = _integer_squareclass(
+                    normalized_n * normalized_n + normalized_q * normalized_q
+                )
+                failing_squareclass = (
+                    normalized_failed_squareclass
+                    if other_passes
+                    else normalized_other_squareclass
+                )
+                failing_squareclass_counts[failing_squareclass] += 1
                 bucket = examples.setdefault(abs_difference, [])
+                squareclass_bucket = squareclass_examples.setdefault(
+                    failing_squareclass, []
+                )
+                example = SumAbNormalizedNearMissExample(
+                    orientation=orientation,
+                    slope_params=(slope_m, slope_n),
+                    scaled_term_params=(scaled_m, scaled_n),
+                    shared_numerator=shared_terms.shared_numerator,
+                    other_denominator=shared_terms.other_denominator,
+                    failed_denominator=shared_terms.failed_denominator,
+                    gcd_p_q=cross_terms.gcd_p_q,
+                    gcd_n_p_q=gcd_n_p_q,
+                    normalized_denominator_pair=normalized_pair,
+                    normalized_shared_leg_triple=(normalized_n, normalized_p, normalized_q),
+                    normalized_other_squareclass=normalized_other_squareclass,
+                    normalized_failed_squareclass=normalized_failed_squareclass,
+                    denominator_difference_over_gcd=difference_over_gcd,
+                    denominator_sum_over_gcd=sum_over_gcd,
+                    other_square_passes=other_passes,
+                    failed_square_passes=failed_passes,
+                )
                 if len(bucket) < max_examples_per_bucket:
-                    bucket.append(
-                        SumAbNormalizedNearMissExample(
-                            orientation=orientation,
-                            slope_params=(slope_m, slope_n),
-                            scaled_term_params=(scaled_m, scaled_n),
-                            shared_numerator=shared_terms.shared_numerator,
-                            other_denominator=shared_terms.other_denominator,
-                            failed_denominator=shared_terms.failed_denominator,
-                            gcd_p_q=cross_terms.gcd_p_q,
-                            gcd_n_p_q=gcd_n_p_q,
-                            normalized_denominator_pair=normalized_pair,
-                            normalized_shared_leg_triple=(normalized_n, normalized_p, normalized_q),
-                            normalized_other_squareclass=_integer_squareclass(
-                                normalized_n * normalized_n + normalized_p * normalized_p
-                            ),
-                            normalized_failed_squareclass=_integer_squareclass(
-                                normalized_n * normalized_n + normalized_q * normalized_q
-                            ),
-                            denominator_difference_over_gcd=difference_over_gcd,
-                            denominator_sum_over_gcd=sum_over_gcd,
-                            other_square_passes=other_passes,
-                            failed_square_passes=failed_passes,
-                        )
-                    )
+                    bucket.append(example)
+                if len(squareclass_bucket) < max_examples_per_bucket:
+                    squareclass_bucket.append(example)
 
     return SumAbNormalizedNearMissSummary(
         max_m=max_m,
         total_near_misses=total,
         abs_difference_over_gcd_counts=dict(sorted(abs_difference_counts.items())),
+        failing_squareclass_counts=dict(sorted(failing_squareclass_counts.items())),
         normalized_pair_counts=dict(sorted(normalized_pair_counts.items())),
         examples_by_abs_difference={
             key: tuple(value) for key, value in sorted(examples.items())
+        },
+        examples_by_failing_squareclass={
+            key: tuple(value) for key, value in sorted(squareclass_examples.items())
         },
     )
 
