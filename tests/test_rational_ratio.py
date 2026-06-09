@@ -305,6 +305,35 @@ def test_sum_ab_euclid_orientation_equations_expand_four_cases() -> None:
     ]
 
 
+def test_sum_ab_euclid_residue_summaries_count_square_residue_obstructions() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_euclid_residue_summaries,
+    )
+
+    summaries = sum_ab_euclid_residue_summaries(modulus=8)
+
+    assert [
+        (
+            summary.slope_orientation,
+            summary.scaled_term_orientation,
+            summary.total_classes,
+            summary.other_square_classes,
+            summary.failed_square_classes,
+            summary.both_square_classes,
+            summary.other_only_classes,
+            summary.failed_only_classes,
+            summary.neither_square_classes,
+            summary.other_square_forces_failed_square,
+        )
+        for summary in summaries
+    ] == [
+        ("odd", "odd", 4096, 4096, 4096, 4096, 0, 0, 0, True),
+        ("odd", "even", 4096, 4096, 3072, 3072, 1024, 0, 0, False),
+        ("even", "odd", 4096, 3072, 4096, 3072, 0, 1024, 0, True),
+        ("even", "even", 4096, 4096, 4096, 4096, 0, 0, 0, True),
+    ]
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 

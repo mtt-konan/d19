@@ -225,6 +225,26 @@ class SumAbEuclidOrientationEquation:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbEuclidResidueSummary:
+    """Residue-class counts for one ``sum=A+B`` Euclid orientation modulo M."""
+
+    modulus: int
+    slope_orientation: str
+    scaled_term_orientation: str
+    total_classes: int
+    other_square_classes: int
+    failed_square_classes: int
+    both_square_classes: int
+    other_only_classes: int
+    failed_only_classes: int
+    neither_square_classes: int
+
+    @property
+    def other_square_forces_failed_square(self) -> bool:
+        return self.other_only_classes == 0
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -609,6 +629,107 @@ def sum_ab_euclid_orientation_equations(
                 )
             )
     return tuple(cases)
+
+
+def _leg_terms_mod(
+    m: int,
+    n: int,
+    orientation: str,
+    modulus: int,
+) -> tuple[int, int]:
+    odd_leg = (m * m - n * n) % modulus
+    even_leg = (2 * m * n) % modulus
+    if orientation == "odd":
+        return odd_leg, even_leg
+    if orientation == "even":
+        return even_leg, odd_leg
+    raise ValueError("orientation must be 'odd' or 'even'")
+
+
+def _terms_square_sum_is_residue_mod(
+    terms: tuple[int, int],
+    square_residues: set[int],
+    modulus: int,
+) -> bool:
+    numerator, denominator = terms
+    square_sum = (numerator * numerator + denominator * denominator) % modulus
+    return square_sum in square_residues
+
+
+def sum_ab_euclid_residue_summaries(
+    *,
+    modulus: int,
+) -> tuple[SumAbEuclidResidueSummary, ...]:
+    """Count square-residue obstructions for the four orientation cases.
+
+    The enumeration is intentionally residue-only: it does not impose
+    primitivity, positivity, or ``m > n``.  That makes the result a conservative
+    modular diagnostic rather than a proof over the original integer domain.
+    """
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    summaries: list[SumAbEuclidResidueSummary] = []
+    for slope_orientation in ("odd", "even"):
+        for scaled_term_orientation in ("odd", "even"):
+            total_classes = 0
+            other_square_classes = 0
+            failed_square_classes = 0
+            both_square_classes = 0
+            other_only_classes = 0
+            failed_only_classes = 0
+            neither_square_classes = 0
+            for m in range(modulus):
+                for n in range(modulus):
+                    slope_terms = _leg_terms_mod(m, n, slope_orientation, modulus)
+                    for u in range(modulus):
+                        for v in range(modulus):
+                            scaled_term_terms = _leg_terms_mod(
+                                u,
+                                v,
+                                scaled_term_orientation,
+                                modulus,
+                            )
+                            other_terms, failed_terms = (
+                                _sum_ab_mobius_polynomial_terms_from_legs(
+                                    slope_terms,
+                                    scaled_term_terms,
+                                )
+                            )
+                            other_square = _terms_square_sum_is_residue_mod(
+                                other_terms,
+                                square_residues,
+                                modulus,
+                            )
+                            failed_square = _terms_square_sum_is_residue_mod(
+                                failed_terms,
+                                square_residues,
+                                modulus,
+                            )
+                            total_classes += 1
+                            other_square_classes += int(other_square)
+                            failed_square_classes += int(failed_square)
+                            both_square_classes += int(other_square and failed_square)
+                            other_only_classes += int(other_square and not failed_square)
+                            failed_only_classes += int(failed_square and not other_square)
+                            neither_square_classes += int(
+                                not other_square and not failed_square
+                            )
+            summaries.append(
+                SumAbEuclidResidueSummary(
+                    modulus=modulus,
+                    slope_orientation=slope_orientation,
+                    scaled_term_orientation=scaled_term_orientation,
+                    total_classes=total_classes,
+                    other_square_classes=other_square_classes,
+                    failed_square_classes=failed_square_classes,
+                    both_square_classes=both_square_classes,
+                    other_only_classes=other_only_classes,
+                    failed_only_classes=failed_only_classes,
+                    neither_square_classes=neither_square_classes,
+                )
+            )
+    return tuple(summaries)
 
 
 def _sum_ab_slope_obstruction_with_squareclass_cache(
