@@ -498,6 +498,14 @@ class SumAbSquareclassFamilyEdge:
     def target_n_delta(self) -> int:
         return self.target[0] - self.source[0]
 
+    @property
+    def decreases_n(self) -> bool:
+        return self.target_n_delta < 0
+
+    @property
+    def decreases_max(self) -> bool:
+        return self.target_max_delta < 0
+
 
 @dataclass(frozen=True)
 class SumAbNormalizedNearMissSummary:
