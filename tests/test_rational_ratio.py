@@ -536,6 +536,10 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
         example.denominator_difference_over_gcd
         for example in summary.examples_by_failing_squareclass[17]
     } == {-38, -1, 1, 38}
+    assert summary.canonical_triples_by_failing_squareclass[17] == (
+        (7, 24, 28),
+        (28, 7, 45),
+    )
     assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
     assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
     assert summary.examples_by_abs_difference[1][0].orientation == "odd"

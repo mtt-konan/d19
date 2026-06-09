@@ -486,6 +486,9 @@ class SumAbNormalizedNearMissSummary:
     examples_by_failing_squareclass: dict[
         int, tuple[SumAbNormalizedNearMissExample, ...]
     ]
+    canonical_triples_by_failing_squareclass: dict[
+        int, tuple[tuple[int, int, int], ...]
+    ]
 
 
 @dataclass(frozen=True, order=True)
@@ -1095,6 +1098,7 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
     normalized_pair_counts: Counter[tuple[tuple[int, int], str]] = Counter()
     examples: dict[int, list[SumAbNormalizedNearMissExample]] = {}
     squareclass_examples: dict[int, list[SumAbNormalizedNearMissExample]] = {}
+    canonical_triples: dict[int, set[tuple[int, int, int]]] = {}
     total = 0
 
     primitive_params = tuple(_primitive_euclid_params(max_m))
@@ -1149,6 +1153,14 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                 squareclass_bucket = squareclass_examples.setdefault(
                     failing_squareclass, []
                 )
+                canonical_bucket = canonical_triples.setdefault(failing_squareclass, set())
+                canonical_bucket.add(
+                    (
+                        normalized_n,
+                        min(normalized_p, normalized_q),
+                        max(normalized_p, normalized_q),
+                    )
+                )
                 example = SumAbNormalizedNearMissExample(
                     orientation=orientation,
                     slope_params=(slope_m, slope_n),
@@ -1183,6 +1195,9 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
         },
         examples_by_failing_squareclass={
             key: tuple(value) for key, value in sorted(squareclass_examples.items())
+        },
+        canonical_triples_by_failing_squareclass={
+            key: tuple(sorted(value)) for key, value in sorted(canonical_triples.items())
         },
     )
 
