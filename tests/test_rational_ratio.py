@@ -334,6 +334,34 @@ def test_sum_ab_euclid_residue_summaries_count_square_residue_obstructions() -> 
     ]
 
 
+def test_sum_ab_euclid_conditional_residue_summaries_apply_primitive_filters() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_euclid_conditional_residue_summaries,
+    )
+
+    summaries = sum_ab_euclid_conditional_residue_summaries(modulus=24)
+
+    assert [
+        (
+            summary.slope_orientation,
+            summary.scaled_term_orientation,
+            summary.total_classes,
+            summary.other_square_classes,
+            summary.failed_square_classes,
+            summary.both_square_classes,
+            summary.other_only_classes,
+            summary.failed_only_classes,
+            summary.neither_square_classes,
+        )
+        for summary in summaries
+    ] == [
+        ("odd", "odd", 24576, 16384, 16384, 8192, 8192, 8192, 0),
+        ("odd", "even", 16384, 0, 0, 0, 0, 0, 16384),
+        ("even", "odd", 16384, 0, 0, 0, 0, 0, 16384),
+        ("even", "even", 24576, 16384, 16384, 8192, 8192, 8192, 0),
+    ]
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 

@@ -646,6 +646,14 @@ def _leg_terms_mod(
     raise ValueError("orientation must be 'odd' or 'even'")
 
 
+def _euclid_param_residue_passes_primitive_filters(
+    m: int,
+    n: int,
+    modulus: int,
+) -> bool:
+    return _gcd(_gcd(m, n), modulus) == 1 and (m - n) % 2 != 0
+
+
 def _terms_square_sum_is_residue_mod(
     terms: tuple[int, int],
     square_residues: set[int],
@@ -654,6 +662,26 @@ def _terms_square_sum_is_residue_mod(
     numerator, denominator = terms
     square_sum = (numerator * numerator + denominator * denominator) % modulus
     return square_sum in square_residues
+
+
+def _empty_residue_summary(
+    *,
+    modulus: int,
+    slope_orientation: str,
+    scaled_term_orientation: str,
+) -> SumAbEuclidResidueSummary:
+    return SumAbEuclidResidueSummary(
+        modulus=modulus,
+        slope_orientation=slope_orientation,
+        scaled_term_orientation=scaled_term_orientation,
+        total_classes=0,
+        other_square_classes=0,
+        failed_square_classes=0,
+        both_square_classes=0,
+        other_only_classes=0,
+        failed_only_classes=0,
+        neither_square_classes=0,
+    )
 
 
 def sum_ab_euclid_residue_summaries(
@@ -720,6 +748,109 @@ def sum_ab_euclid_residue_summaries(
                     modulus=modulus,
                     slope_orientation=slope_orientation,
                     scaled_term_orientation=scaled_term_orientation,
+                    total_classes=total_classes,
+                    other_square_classes=other_square_classes,
+                    failed_square_classes=failed_square_classes,
+                    both_square_classes=both_square_classes,
+                    other_only_classes=other_only_classes,
+                    failed_only_classes=failed_only_classes,
+                    neither_square_classes=neither_square_classes,
+                )
+            )
+    return tuple(summaries)
+
+
+def sum_ab_euclid_conditional_residue_summaries(
+    *,
+    modulus: int,
+) -> tuple[SumAbEuclidResidueSummary, ...]:
+    """Count residue classes after primitive/parity/denominator filters.
+
+    This is a stricter diagnostic than :func:`sum_ab_euclid_residue_summaries`.
+    It keeps only residue classes with primitive-compatible Euclid parameters,
+    opposite parity, nonzero selected leg denominators, and nonzero reconstructed
+    polynomial denominators modulo ``modulus``.
+    """
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    summaries: list[SumAbEuclidResidueSummary] = []
+    for slope_orientation in ("odd", "even"):
+        for scaled_term_orientation in ("odd", "even"):
+            summary = _empty_residue_summary(
+                modulus=modulus,
+                slope_orientation=slope_orientation,
+                scaled_term_orientation=scaled_term_orientation,
+            )
+            total_classes = 0
+            other_square_classes = 0
+            failed_square_classes = 0
+            both_square_classes = 0
+            other_only_classes = 0
+            failed_only_classes = 0
+            neither_square_classes = 0
+            for m in range(modulus):
+                for n in range(modulus):
+                    if not _euclid_param_residue_passes_primitive_filters(m, n, modulus):
+                        continue
+                    slope_terms = _leg_terms_mod(m, n, slope_orientation, modulus)
+                    _, slope_denominator = slope_terms
+                    if slope_denominator == 0:
+                        continue
+                    for u in range(modulus):
+                        for v in range(modulus):
+                            if not _euclid_param_residue_passes_primitive_filters(
+                                u,
+                                v,
+                                modulus,
+                            ):
+                                continue
+                            scaled_term_terms = _leg_terms_mod(
+                                u,
+                                v,
+                                scaled_term_orientation,
+                                modulus,
+                            )
+                            _, scaled_term_denominator = scaled_term_terms
+                            if scaled_term_denominator == 0:
+                                continue
+                            other_terms, failed_terms = (
+                                _sum_ab_mobius_polynomial_terms_from_legs(
+                                    slope_terms,
+                                    scaled_term_terms,
+                                )
+                            )
+                            _, other_denominator = other_terms
+                            _, failed_denominator = failed_terms
+                            if (
+                                other_denominator % modulus == 0
+                                or failed_denominator % modulus == 0
+                            ):
+                                continue
+                            other_square = _terms_square_sum_is_residue_mod(
+                                other_terms,
+                                square_residues,
+                                modulus,
+                            )
+                            failed_square = _terms_square_sum_is_residue_mod(
+                                failed_terms,
+                                square_residues,
+                                modulus,
+                            )
+                            total_classes += 1
+                            other_square_classes += int(other_square)
+                            failed_square_classes += int(failed_square)
+                            both_square_classes += int(other_square and failed_square)
+                            other_only_classes += int(other_square and not failed_square)
+                            failed_only_classes += int(failed_square and not other_square)
+                            neither_square_classes += int(
+                                not other_square and not failed_square
+                            )
+            summaries.append(
+                SumAbEuclidResidueSummary(
+                    modulus=summary.modulus,
+                    slope_orientation=summary.slope_orientation,
+                    scaled_term_orientation=summary.scaled_term_orientation,
                     total_classes=total_classes,
                     other_square_classes=other_square_classes,
                     failed_square_classes=failed_square_classes,
