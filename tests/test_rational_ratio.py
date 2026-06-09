@@ -404,6 +404,16 @@ def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
     assert primitive_summary.zero_residue_classes == 0
     assert primitive_summary.square_residues == (0, 1, 4)
 
+    composite_summary = sum_ab_centerline_quartic_primitive_residue_summary(143)
+
+    assert composite_summary.modulus == 143
+    assert composite_summary.primitive_classes == 20160
+    assert composite_summary.degenerate_denominator_classes == 480
+    assert composite_summary.total_classes == 19680
+    assert composite_summary.square_residue_classes == 3600
+    assert composite_summary.non_square_residue_classes == 16080
+    assert composite_summary.zero_residue_classes == 0
+
 
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     from rational_distance.concordant.rational_ratio import (
