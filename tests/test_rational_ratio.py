@@ -443,6 +443,55 @@ def test_sum_ab_residual_squareclass_equations_explain_product_square() -> None:
     assert true_equations.squareclasses_all_trivial
 
 
+def test_sum_ab_true_closure_relation_classifies_proof_branches() -> None:
+    from rational_distance.concordant.rational_ratio import sum_ab_true_closure_relation
+
+    reciprocal = sum_ab_true_closure_relation(
+        lambda_ratio=Fraction(7),
+        r=Fraction(1),
+        s=Fraction(7),
+    )
+
+    assert reciprocal.closes_sum_ab
+    assert not reciprocal.both_true_members
+    assert reciprocal.reciprocal_pair
+    assert not reciprocal.centerline
+    assert reciprocal.branch == "false-reciprocal"
+
+    true_nonclosure = sum_ab_true_closure_relation(
+        lambda_ratio=Fraction(1),
+        r=Fraction(3, 4),
+        s=Fraction(4, 3),
+    )
+
+    assert not true_nonclosure.closes_sum_ab
+    assert true_nonclosure.both_true_members
+    assert true_nonclosure.reciprocal_pair
+    assert true_nonclosure.branch == "not-sum-ab"
+
+    residual = sum_ab_true_closure_relation(
+        lambda_ratio=Fraction(535, 161),
+        r=Fraction(14, 23),
+        s=Fraction(26, 7),
+    )
+
+    assert residual.closes_sum_ab
+    assert not residual.both_true_members
+    assert not residual.reciprocal_pair
+    assert residual.branch == "false-residual"
+
+    centerline = sum_ab_true_closure_relation(
+        lambda_ratio=Fraction(3),
+        r=Fraction(2),
+        s=Fraction(2),
+    )
+
+    assert centerline.closes_sum_ab
+    assert centerline.centerline
+    assert not centerline.both_true_members
+    assert centerline.branch == "false-centerline"
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

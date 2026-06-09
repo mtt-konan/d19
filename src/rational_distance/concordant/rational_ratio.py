@@ -184,6 +184,22 @@ class SumAbSlopePoint:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbTrueClosureRelation:
+    """Classify one ``sum=A+B`` closure pair against true ``R_lambda`` membership."""
+
+    lambda_ratio: Fraction
+    r: Fraction
+    s: Fraction
+    closes_sum_ab: bool
+    r_true_member: bool
+    s_true_member: bool
+    both_true_members: bool
+    reciprocal_pair: bool
+    centerline: bool
+    branch: str
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -1989,6 +2005,55 @@ def sum_ab_residual_squareclass_equations(
     )
 
 
+def sum_ab_true_closure_relation(
+    *,
+    lambda_ratio: Fraction | int,
+    r: Fraction | int,
+    s: Fraction | int,
+) -> SumAbTrueClosureRelation:
+    """Classify a ``sum=A+B`` pair for the reciprocal-closure proof target."""
+    lam = _as_fraction(lambda_ratio)
+    root1 = _as_fraction(r)
+    root2 = _as_fraction(s)
+    _validate_positive("lambda_ratio", lam)
+    _validate_positive("r", root1)
+    _validate_positive("s", root2)
+
+    closes_sum_ab = root1 + root2 == lam + 1
+    r_true = is_rational_ratio_member(lam, root1)
+    s_true = is_rational_ratio_member(lam, root2)
+    both_true = r_true and s_true
+    reciprocal_pair = root1 * root2 == lam
+    centerline = root1 == root2
+    if not closes_sum_ab:
+        branch = "not-sum-ab"
+    elif centerline and not both_true:
+        branch = "false-centerline"
+    elif centerline:
+        branch = "true-centerline"
+    elif reciprocal_pair and both_true:
+        branch = "true-reciprocal"
+    elif reciprocal_pair:
+        branch = "false-reciprocal"
+    elif both_true:
+        branch = "true-nonreciprocal"
+    else:
+        branch = "false-residual"
+
+    return SumAbTrueClosureRelation(
+        lambda_ratio=lam,
+        r=root1,
+        s=root2,
+        closes_sum_ab=closes_sum_ab,
+        r_true_member=r_true,
+        s_true_member=s_true,
+        both_true_members=both_true,
+        reciprocal_pair=reciprocal_pair,
+        centerline=centerline,
+        branch=branch,
+    )
+
+
 def sum_ab_root_grid_residual_summary(
     *,
     max_numerator: int,
@@ -2379,6 +2444,7 @@ __all__ = [
     "SumAbSlopePoint",
     "SumAbThreePassEuclidModel",
     "SumAbThreePassMobiusModel",
+    "SumAbTrueClosureRelation",
     "closure_product_identity_terms",
     "closure_product_square_conditions",
     "find_rational_ratio_hits",
@@ -2410,5 +2476,6 @@ __all__ = [
     "sum_ab_slope_obstruction",
     "sum_ab_three_pass_mobius_model",
     "sum_ab_three_pass_mobius_model_from_params",
+    "sum_ab_true_closure_relation",
     "true_reciprocal_sum_ab_roots",
 ]
