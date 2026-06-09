@@ -8,6 +8,7 @@ arbitrary positive rational ratio ``lambda``.
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from fractions import Fraction
 from math import gcd as _gcd
@@ -448,6 +449,35 @@ class SumAbSameOrientationCrossGcdTerms:
             return None
         coefficient, first_factor, second_factor = self.sum_factorization
         return Fraction(coefficient, self.gcd_p_q), first_factor, second_factor
+
+
+@dataclass(frozen=True, order=True)
+class SumAbNormalizedNearMissExample:
+    """One same-orientation near-miss with gcd-normalized denominators."""
+
+    orientation: str
+    slope_params: tuple[int, int]
+    scaled_term_params: tuple[int, int]
+    shared_numerator: int
+    other_denominator: int
+    failed_denominator: int
+    gcd_p_q: int
+    normalized_denominator_pair: tuple[int, int]
+    denominator_difference_over_gcd: int
+    denominator_sum_over_gcd: int
+    other_square_passes: bool
+    failed_square_passes: bool
+
+
+@dataclass(frozen=True)
+class SumAbNormalizedNearMissSummary:
+    """Small bounded scan summary for same-orientation normalized near-misses."""
+
+    max_m: int
+    total_near_misses: int
+    abs_difference_over_gcd_counts: dict[int, int]
+    normalized_pair_counts: dict[tuple[tuple[int, int], str], int]
+    examples_by_abs_difference: dict[int, tuple[SumAbNormalizedNearMissExample, ...]]
 
 
 @dataclass(frozen=True, order=True)
@@ -1024,6 +1054,97 @@ def sum_ab_same_orientation_cross_gcd_terms(
         ),
         sum_factorization=(2, m * u - n * v, m * v + n * u),
     )
+
+
+def sum_ab_same_orientation_normalized_near_miss_summary(
+    *,
+    max_m: int,
+    max_examples_per_bucket: int = 5,
+) -> SumAbNormalizedNearMissSummary:
+    """Scan bounded same-orientation three-pass near-misses by normalized ``P,Q``.
+
+    This is a diagnostic scan, not a proof.  It only counts positive primitive
+    Euclid parameter pairs where exactly one reconstructed term passes.
+    """
+    if max_m < 2:
+        raise ValueError("max_m must be at least 2")
+    if max_examples_per_bucket < 1:
+        raise ValueError("max_examples_per_bucket must be positive")
+
+    abs_difference_counts: Counter[int] = Counter()
+    normalized_pair_counts: Counter[tuple[tuple[int, int], str]] = Counter()
+    examples: dict[int, list[SumAbNormalizedNearMissExample]] = {}
+    total = 0
+
+    primitive_params = tuple(_primitive_euclid_params(max_m))
+    for orientation in ("odd", "even"):
+        for slope_m, slope_n in primitive_params:
+            slope = PythagoreanLegParam(slope_m, slope_n, orientation)
+            for scaled_m, scaled_n in primitive_params:
+                scaled = PythagoreanLegParam(scaled_m, scaled_n, orientation)
+                shared_terms = sum_ab_same_orientation_shared_leg_terms(slope, scaled)
+                if shared_terms.shared_numerator <= 0:
+                    continue
+                other_passes = shared_terms.other_square_equation[2] is not None
+                failed_passes = shared_terms.failed_square_equation[2] is not None
+                if other_passes == failed_passes:
+                    continue
+
+                cross_terms = sum_ab_same_orientation_cross_gcd_terms(slope, scaled)
+                normalized_pair = cross_terms.normalized_denominator_pair
+                difference_over_gcd = cross_terms.denominator_difference_over_gcd
+                sum_over_gcd = cross_terms.denominator_sum_over_gcd
+                if (
+                    normalized_pair is None
+                    or difference_over_gcd is None
+                    or sum_over_gcd is None
+                ):
+                    continue
+
+                total += 1
+                abs_difference = abs(difference_over_gcd)
+                abs_difference_counts[abs_difference] += 1
+                normalized_pair_counts[(normalized_pair, orientation)] += 1
+                bucket = examples.setdefault(abs_difference, [])
+                if len(bucket) < max_examples_per_bucket:
+                    bucket.append(
+                        SumAbNormalizedNearMissExample(
+                            orientation=orientation,
+                            slope_params=(slope_m, slope_n),
+                            scaled_term_params=(scaled_m, scaled_n),
+                            shared_numerator=shared_terms.shared_numerator,
+                            other_denominator=shared_terms.other_denominator,
+                            failed_denominator=shared_terms.failed_denominator,
+                            gcd_p_q=cross_terms.gcd_p_q,
+                            normalized_denominator_pair=normalized_pair,
+                            denominator_difference_over_gcd=difference_over_gcd,
+                            denominator_sum_over_gcd=sum_over_gcd,
+                            other_square_passes=other_passes,
+                            failed_square_passes=failed_passes,
+                        )
+                    )
+
+    return SumAbNormalizedNearMissSummary(
+        max_m=max_m,
+        total_near_misses=total,
+        abs_difference_over_gcd_counts=dict(sorted(abs_difference_counts.items())),
+        normalized_pair_counts=dict(sorted(normalized_pair_counts.items())),
+        examples_by_abs_difference={
+            key: tuple(value) for key, value in sorted(examples.items())
+        },
+    )
+
+
+def _primitive_euclid_params(max_m: int) -> tuple[tuple[int, int], ...]:
+    params: list[tuple[int, int]] = []
+    for m in range(2, max_m + 1):
+        for n in range(1, m):
+            if (m - n) % 2 == 0:
+                continue
+            if _gcd(m, n) != 1:
+                continue
+            params.append((m, n))
+    return tuple(params)
 
 
 def _leg_terms_mod(

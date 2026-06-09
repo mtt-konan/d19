@@ -515,6 +515,37 @@ def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> 
     assert even_terms.sum_factorization_over_gcd == (Fraction(1, 30), 26, 15)
 
 
+def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_same_orientation_normalized_near_miss_summary,
+    )
+
+    summary = sum_ab_same_orientation_normalized_near_miss_summary(max_m=8)
+
+    assert summary.max_m == 8
+    assert summary.total_near_misses == 6
+    assert summary.abs_difference_over_gcd_counts[1] == 2
+    assert summary.abs_difference_over_gcd_counts[17] == 2
+    assert summary.abs_difference_over_gcd_counts[38] == 2
+    assert summary.normalized_pair_counts[((6, 7), "odd")] == 1
+    assert summary.normalized_pair_counts[((7, 6), "odd")] == 1
+    assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
+    assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
+    assert summary.examples_by_abs_difference[1][0].orientation == "odd"
+    assert summary.examples_by_abs_difference[1][0].normalized_denominator_pair == (
+        6,
+        7,
+    )
+    assert summary.examples_by_abs_difference[1][0].other_square_passes
+    assert not summary.examples_by_abs_difference[1][0].failed_square_passes
+    assert summary.examples_by_abs_difference[1][1].normalized_denominator_pair == (
+        7,
+        6,
+    )
+    assert not summary.examples_by_abs_difference[1][1].other_square_passes
+    assert summary.examples_by_abs_difference[1][1].failed_square_passes
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 
