@@ -264,6 +264,10 @@ class SumAbCenterlineQuarticSelfSimilarity:
     second_square_term: Fraction
     quadratic_coefficients: tuple[Fraction, Fraction, Fraction]
     quadratic_discriminant: Fraction
+    quadratic_root_sum: Fraction | None
+    quadratic_root_product: Fraction | None
+    roots_are_negative_reciprocals: bool
+    direct_positive_descent_warning: str
     has_rational_lift: bool
     lift_roots: tuple[Fraction, ...]
 
@@ -2661,22 +2665,31 @@ def sum_ab_centerline_quartic_self_similarity(
     )
     discriminant = first_square_term * first_square_term + 4 * q * q
     if q == 0:
+        root_sum = None
+        root_product = None
+        roots_are_negative_reciprocals = False
+        descent_warning = "degenerate-linear-root"
         roots = (Fraction(0),)
-    elif _is_rational_square(discriminant):
-        sqrt_discriminant = Fraction(
-            isqrt(discriminant.numerator),
-            isqrt(discriminant.denominator),
-        )
-        roots = tuple(
-            sorted(
-                {
-                    (-first_square_term - sqrt_discriminant) / (2 * q),
-                    (-first_square_term + sqrt_discriminant) / (2 * q),
-                }
-            )
-        )
     else:
-        roots = ()
+        root_sum = -first_square_term / q
+        root_product = Fraction(-1)
+        roots_are_negative_reciprocals = True
+        descent_warning = "negative-reciprocal-roots"
+        if _is_rational_square(discriminant):
+            sqrt_discriminant = Fraction(
+                isqrt(discriminant.numerator),
+                isqrt(discriminant.denominator),
+            )
+            roots = tuple(
+                sorted(
+                    {
+                        (-first_square_term - sqrt_discriminant) / (2 * q),
+                        (-first_square_term + sqrt_discriminant) / (2 * q),
+                    }
+                )
+            )
+        else:
+            roots = ()
     return SumAbCenterlineQuarticSelfSimilarity(
         parameter=q,
         quartic_value=quartic_value,
@@ -2684,6 +2697,10 @@ def sum_ab_centerline_quartic_self_similarity(
         second_square_term=second_square_term,
         quadratic_coefficients=coefficients,
         quadratic_discriminant=discriminant,
+        quadratic_root_sum=root_sum,
+        quadratic_root_product=root_product,
+        roots_are_negative_reciprocals=roots_are_negative_reciprocals,
+        direct_positive_descent_warning=descent_warning,
         has_rational_lift=bool(roots),
         lift_roots=roots,
     )

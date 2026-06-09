@@ -381,12 +381,20 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
         Fraction(44, 25),
         Fraction(-3, 5),
     )
+    assert self_similarity.quadratic_root_sum == Fraction(-44, 15)
+    assert self_similarity.quadratic_root_product == Fraction(-1)
+    assert self_similarity.roots_are_negative_reciprocals
+    assert self_similarity.direct_positive_descent_warning == "negative-reciprocal-roots"
     assert self_similarity.quadratic_discriminant == self_similarity.quartic_value
     assert not self_similarity.has_rational_lift
 
     base = sum_ab_centerline_quartic_self_similarity(Fraction(0))
 
     assert base.quartic_value == 1
+    assert base.quadratic_root_sum is None
+    assert base.quadratic_root_product is None
+    assert not base.roots_are_negative_reciprocals
+    assert base.direct_positive_descent_warning == "degenerate-linear-root"
     assert base.has_rational_lift
     assert base.lift_roots == (Fraction(0),)
 
