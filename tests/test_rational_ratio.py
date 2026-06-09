@@ -802,6 +802,83 @@ def test_scan_sum_ab_true_closure_relations_monitors_nonreciprocal_branch() -> N
     assert true_only == ()
 
 
+def test_full_plane_true_closure_relation_handles_difference_branch() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_DIFF_AB,
+        full_plane_true_closure_relation,
+    )
+
+    relation = full_plane_true_closure_relation(
+        lambda_ratio=Fraction(7),
+        r=Fraction(2),
+        s=Fraction(10),
+        relation=REL_DIFF_AB,
+    )
+
+    assert relation.target == Fraction(8)
+    assert relation.closes_relation
+    assert not relation.closes_sum_ab
+    assert not relation.both_true_members
+    assert not relation.reciprocal_pair
+    assert relation.branch == "false-residual"
+
+
+def test_scan_full_plane_true_closure_relations_is_not_sum_only() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        scan_full_plane_true_closure_relations,
+    )
+
+    relations = scan_full_plane_true_closure_relations(
+        lambda_ratios=(Fraction(7),),
+        max_numerator=10,
+        max_denominator=1,
+        include_centerline=False,
+    )
+
+    assert ("sum=A+B", Fraction(2), Fraction(6), "false-residual") in {
+        (item.relation, item.r, item.s, item.branch) for item in relations
+    }
+    assert ("diff=A+B", Fraction(2), Fraction(10), "false-residual") in {
+        (item.relation, item.r, item.s, item.branch) for item in relations
+    }
+    assert not any(item.branch == "true-nonreciprocal" for item in relations)
+
+
+def test_scan_full_plane_true_closure_relations_covers_abs_difference_targets() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        scan_full_plane_true_closure_relations,
+    )
+
+    relations = scan_full_plane_true_closure_relations(
+        lambda_ratios=(Fraction(6),),
+        max_numerator=6,
+        max_denominator=1,
+        include_centerline=False,
+    )
+
+    relation_keys = {
+        (item.relation, item.r, item.s, item.branch) for item in relations
+    }
+
+    assert ("sum=|A-B|", Fraction(2), Fraction(3), "false-reciprocal") in relation_keys
+    assert ("diff=|A-B|", Fraction(1), Fraction(6), "false-reciprocal") in relation_keys
+
+
+def test_scan_full_plane_true_closure_relations_can_focus_on_danger_branch() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        scan_full_plane_true_closure_relations,
+    )
+
+    relations = scan_full_plane_true_closure_relations(
+        lambda_ratios=(Fraction(1), Fraction(7)),
+        max_numerator=10,
+        max_denominator=10,
+        branches=("true-nonreciprocal",),
+    )
+
+    assert relations == ()
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

@@ -200,6 +200,29 @@ class SumAbTrueClosureRelation:
 
 
 @dataclass(frozen=True, order=True)
+class FullPlaneTrueClosureRelation:
+    """Classify one full-plane closure relation against true ``R_lambda`` membership."""
+
+    lambda_ratio: Fraction
+    relation: str
+    target: Fraction
+    r: Fraction
+    s: Fraction
+    closure_value: Fraction
+    closes_relation: bool
+    closes_sum_ab: bool
+    closes_sum_diff: bool
+    closes_diff_ab: bool
+    closes_diff_diff: bool
+    r_true_member: bool
+    s_true_member: bool
+    both_true_members: bool
+    reciprocal_pair: bool
+    centerline: bool
+    branch: str
+
+
+@dataclass(frozen=True, order=True)
 class SumAbReciprocalObstruction:
     """Proof ledger showing why ``sum=A+B`` reciprocal roots are not true."""
 
@@ -2266,6 +2289,88 @@ def sum_ab_true_closure_relation(
     )
 
 
+def _full_plane_relation_target(lambda_ratio: Fraction, relation: str) -> Fraction:
+    if relation in (REL_SUM_AB, REL_DIFF_AB):
+        return lambda_ratio + 1
+    if relation in (REL_SUM_DIFF, REL_DIFF_DIFF):
+        target = abs(lambda_ratio - 1)
+        if target == 0:
+            raise ValueError("|A-B| target is zero when lambda_ratio = 1")
+        return target
+    raise ValueError(f"unknown relation: {relation}")
+
+
+def full_plane_true_closure_relation(
+    *,
+    lambda_ratio: Fraction | int,
+    r: Fraction | int,
+    s: Fraction | int,
+    relation: str,
+) -> FullPlaneTrueClosureRelation:
+    """Classify one full-plane closure pair for the reciprocal proof target.
+
+    This is the full-plane analogue of :func:`sum_ab_true_closure_relation`.
+    It records all four closure truth values so a later proof note cannot
+    accidentally treat the ``sum=A+B`` branch as the whole plane.
+    """
+    lam = _as_fraction(lambda_ratio)
+    root1, root2 = sorted((_as_fraction(r), _as_fraction(s)))
+    _validate_positive("lambda_ratio", lam)
+    _validate_positive("r", root1)
+    _validate_positive("s", root2)
+
+    target = _full_plane_relation_target(lam, relation)
+    sum_value = root1 + root2
+    diff_value = abs(root2 - root1)
+    closure_value = sum_value if relation.startswith("sum=") else diff_value
+    diff_target = abs(lam - 1)
+    closes_sum_ab = sum_value == lam + 1
+    closes_sum_diff = diff_target != 0 and sum_value == diff_target
+    closes_diff_ab = diff_value == lam + 1
+    closes_diff_diff = diff_target != 0 and diff_value == diff_target
+    closes_relation = closure_value == target
+
+    r_true = is_rational_ratio_member(lam, root1)
+    s_true = is_rational_ratio_member(lam, root2)
+    both_true = r_true and s_true
+    reciprocal_pair = root1 * root2 == lam
+    centerline = root1 == root2
+    if not closes_relation:
+        branch = "not-closure"
+    elif centerline and not both_true:
+        branch = "false-centerline"
+    elif centerline:
+        branch = "true-centerline"
+    elif reciprocal_pair and both_true:
+        branch = "true-reciprocal"
+    elif reciprocal_pair:
+        branch = "false-reciprocal"
+    elif both_true:
+        branch = "true-nonreciprocal"
+    else:
+        branch = "false-residual"
+
+    return FullPlaneTrueClosureRelation(
+        lambda_ratio=lam,
+        relation=relation,
+        target=target,
+        r=root1,
+        s=root2,
+        closure_value=closure_value,
+        closes_relation=closes_relation,
+        closes_sum_ab=closes_sum_ab,
+        closes_sum_diff=closes_sum_diff,
+        closes_diff_ab=closes_diff_ab,
+        closes_diff_diff=closes_diff_diff,
+        r_true_member=r_true,
+        s_true_member=s_true,
+        both_true_members=both_true,
+        reciprocal_pair=reciprocal_pair,
+        centerline=centerline,
+        branch=branch,
+    )
+
+
 def scan_sum_ab_true_closure_relations(
     *,
     lambda_ratios: tuple[Fraction, ...],
@@ -2301,6 +2406,51 @@ def scan_sum_ab_true_closure_relations(
         sorted(
             relations,
             key=lambda item: (item.lambda_ratio, item.branch, item.r, item.s),
+        )
+    )
+
+
+def scan_full_plane_true_closure_relations(
+    *,
+    lambda_ratios: tuple[Fraction, ...],
+    max_numerator: int,
+    max_denominator: int,
+    include_centerline: bool = False,
+    branches: tuple[str, ...] | None = None,
+) -> tuple[FullPlaneTrueClosureRelation, ...]:
+    """Scan a finite rational root pool for full-plane closure branches."""
+    ratios = positive_rational_ratios(max_numerator, max_denominator)
+    branch_filter = set(branches) if branches is not None else None
+    relations: set[FullPlaneTrueClosureRelation] = set()
+
+    for lambda_ratio in lambda_ratios:
+        lam = _as_fraction(lambda_ratio)
+        _validate_positive("lambda_ratio", lam)
+        for hit in find_rational_ratio_hits(
+            lam,
+            ratios,
+            include_centerline=include_centerline,
+        ):
+            relation = full_plane_true_closure_relation(
+                lambda_ratio=lam,
+                r=hit.r1,
+                s=hit.r2,
+                relation=hit.relation,
+            )
+            if branch_filter is not None and relation.branch not in branch_filter:
+                continue
+            relations.add(relation)
+
+    return tuple(
+        sorted(
+            relations,
+            key=lambda item: (
+                item.lambda_ratio,
+                item.relation,
+                item.branch,
+                item.r,
+                item.s,
+            ),
         )
     )
 
@@ -3315,6 +3465,7 @@ def reciprocal_closure_roots(
 
 __all__ = [
     "ClosureProductSquareConditions",
+    "FullPlaneTrueClosureRelation",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
     "ProductSquareBucketSummary",
@@ -3346,6 +3497,7 @@ __all__ = [
     "closure_product_identity_terms",
     "closure_product_square_conditions",
     "find_rational_ratio_hits",
+    "full_plane_true_closure_relation",
     "group_sum_ab_ratio_shadow_orbits",
     "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
@@ -3358,6 +3510,7 @@ __all__ = [
     "reciprocal_closure_roots",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
+    "scan_full_plane_true_closure_relations",
     "scan_sum_ab_slope_obstructions",
     "scan_sum_ab_slope_pairs",
     "scan_sum_ab_true_closure_relations",
