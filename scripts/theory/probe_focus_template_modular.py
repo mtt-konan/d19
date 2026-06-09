@@ -10,6 +10,7 @@ from math import gcd
 from typing import Any
 
 VARIABLES: tuple[str, ...] = ("u", "p", "q", "v", "r", "s", "w", "x", "y")
+MODES: tuple[str, ...] = ("residue", "strict_residue_units")
 
 
 def square_residues(modulus: int) -> set[int]:
@@ -22,7 +23,18 @@ def _opposite_parity(left: int, right: int, modulus: int) -> bool:
     return (left + right) % 2 == 1
 
 
-def _primitive_pair(m_value: int, n_value: int, modulus: int) -> bool:
+def residue_pair_can_lift_primitive(left: int, right: int, modulus: int) -> bool:
+    return gcd(left, right, modulus) == 1
+
+
+def _residue_primitive_pair(m_value: int, n_value: int, modulus: int) -> bool:
+    return (
+        residue_pair_can_lift_primitive(m_value, n_value, modulus)
+        and _opposite_parity(m_value, n_value, modulus)
+    )
+
+
+def _strict_primitive_pair(m_value: int, n_value: int, modulus: int) -> bool:
     return (
         m_value % modulus != 0
         and n_value % modulus != 0
@@ -31,14 +43,22 @@ def _primitive_pair(m_value: int, n_value: int, modulus: int) -> bool:
     )
 
 
-def _side_conditions(values: dict[str, int], modulus: int) -> bool:
+def _side_conditions(values: dict[str, int], modulus: int, mode: str) -> bool:
+    if mode == "residue":
+        return (
+            _residue_primitive_pair(values["p"], values["q"], modulus)
+            and _residue_primitive_pair(values["r"], values["s"], modulus)
+            and _residue_primitive_pair(values["x"], values["y"], modulus)
+        )
+    if mode != "strict_residue_units":
+        raise ValueError(f"unknown mode: {mode}")
     return (
         values["u"] % modulus != 0
         and values["v"] % modulus != 0
         and values["w"] % modulus != 0
-        and _primitive_pair(values["p"], values["q"], modulus)
-        and _primitive_pair(values["r"], values["s"], modulus)
-        and _primitive_pair(values["x"], values["y"], modulus)
+        and _strict_primitive_pair(values["p"], values["q"], modulus)
+        and _strict_primitive_pair(values["r"], values["s"], modulus)
+        and _strict_primitive_pair(values["x"], values["y"], modulus)
     )
 
 
@@ -84,7 +104,12 @@ def _assignments(modulus: int) -> Iterable[dict[str, int]]:
     yield from walk(0)
 
 
-def probe_modulus(modulus: int, *, sample_limit: int = 5) -> dict[str, Any]:
+def probe_modulus(
+    modulus: int,
+    *,
+    sample_limit: int = 5,
+    mode: str = "residue",
+) -> dict[str, Any]:
     residues = square_residues(modulus)
     total_assignments = modulus ** len(VARIABLES)
     side_condition_pass = 0
@@ -94,7 +119,7 @@ def probe_modulus(modulus: int, *, sample_limit: int = 5) -> dict[str, Any]:
     sample_survivors: list[dict[str, int]] = []
 
     for assignment in _assignments(modulus):
-        if not _side_conditions(assignment, modulus):
+        if not _side_conditions(assignment, modulus, mode):
             continue
         side_condition_pass += 1
         derived = _derived_values(assignment, modulus)
@@ -124,6 +149,7 @@ def probe_modulus(modulus: int, *, sample_limit: int = 5) -> dict[str, Any]:
 
     return {
         "modulus": modulus,
+        "mode": mode,
         "sample_limit": sample_limit,
         "total_assignments": total_assignments,
         "side_condition_pass": side_condition_pass,
@@ -135,11 +161,17 @@ def probe_modulus(modulus: int, *, sample_limit: int = 5) -> dict[str, Any]:
     }
 
 
-def probe_many(moduli: Sequence[int], *, sample_limit: int = 5) -> dict[str, Any]:
+def probe_many(
+    moduli: Sequence[int],
+    *,
+    sample_limit: int = 5,
+    mode: str = "residue",
+) -> dict[str, Any]:
     return {
         "template": "focus_bucket_sum_ab_B_odd_odd_N1_even_even",
+        "mode": mode,
         "moduli": [
-            probe_modulus(modulus, sample_limit=sample_limit)
+            probe_modulus(modulus, sample_limit=sample_limit, mode=mode)
             for modulus in moduli
         ],
     }
@@ -149,9 +181,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("moduli", type=int, nargs="+")
     parser.add_argument("--sample-limit", type=int, default=5)
+    parser.add_argument("--mode", choices=MODES, default="residue")
     args = parser.parse_args(argv)
 
-    payload = probe_many(args.moduli, sample_limit=args.sample_limit)
+    payload = probe_many(args.moduli, sample_limit=args.sample_limit, mode=args.mode)
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 
