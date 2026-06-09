@@ -277,6 +277,34 @@ def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> Non
     assert lambda_leg_conditions.centerline_obstruction == "unit-leg"
 
 
+def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_SUM_AB,
+        closure_product_square_conditions,
+        sum_ab_product_square_bucket_summary,
+    )
+
+    residual_guard = closure_product_square_conditions(
+        Fraction(535, 161),
+        Fraction(696, 161),
+        Fraction(364, 161),
+        REL_SUM_AB,
+    )
+    summary = sum_ab_product_square_bucket_summary(
+        lambda_ratios=tuple(Fraction(value) for value in range(1, 16)),
+        max_denominator=20,
+        extra_conditions=(residual_guard,),
+    )
+
+    assert summary.bucket_counts == {
+        "centerline": 230,
+        "reciprocal": 40,
+        "residual": 1,
+    }
+    assert summary.true_member_counts == {}
+    assert summary.examples_by_bucket["residual"] == residual_guard
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

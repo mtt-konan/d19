@@ -115,6 +115,15 @@ class ClosureProductSquareConditions:
 
 
 @dataclass(frozen=True)
+class ProductSquareBucketSummary:
+    """Bucket counts for finite ``sum=A+B`` product-square diagnostics."""
+
+    bucket_counts: dict[str, int]
+    true_member_counts: dict[str, int]
+    examples_by_bucket: dict[str, ClosureProductSquareConditions]
+
+
+@dataclass(frozen=True)
 class SquareRectangleTerms:
     """Four square-candidate corners after a closure linear relation."""
 
@@ -1754,6 +1763,63 @@ def scan_sum_ab_slope_pairs(
     return tuple(sorted(points))
 
 
+def sum_ab_product_square_bucket_summary(
+    *,
+    lambda_ratios: tuple[Fraction, ...],
+    max_denominator: int,
+    extra_conditions: tuple[ClosureProductSquareConditions, ...] = (),
+) -> ProductSquareBucketSummary:
+    """Summarize finite ``sum=A+B`` product-square hits by diagnostic bucket."""
+    if max_denominator < 1:
+        raise ValueError("max_denominator must be positive")
+
+    bucket_counts: Counter[str] = Counter()
+    true_member_counts: Counter[str] = Counter()
+    examples: dict[str, ClosureProductSquareConditions] = {}
+
+    def record(condition: ClosureProductSquareConditions) -> None:
+        if (
+            not condition.discriminant_is_square
+            or not condition.product_terms_are_squares
+            or len(condition.roots) != 2
+        ):
+            return
+        bucket = condition.product_square_bucket
+        bucket_counts[bucket] += 1
+        if condition.true_member_pair:
+            true_member_counts[bucket] += 1
+        examples.setdefault(bucket, condition)
+
+    for lambda_ratio in lambda_ratios:
+        lam = _as_fraction(lambda_ratio)
+        _validate_positive("lambda_ratio", lam)
+        target = lam + 1
+        for denominator in range(1, max_denominator + 1):
+            max_numerator = int(target * denominator)
+            for numerator in range(1, max_numerator + 1):
+                r = Fraction(numerator, denominator)
+                s = target - r
+                if s <= 0:
+                    continue
+                record(
+                    closure_product_square_conditions(
+                        lam,
+                        target,
+                        r * s,
+                        REL_SUM_AB,
+                    )
+                )
+
+    for condition in extra_conditions:
+        record(condition)
+
+    return ProductSquareBucketSummary(
+        bucket_counts=dict(sorted(bucket_counts.items())),
+        true_member_counts=dict(sorted(true_member_counts.items())),
+        examples_by_bucket=dict(sorted(examples.items())),
+    )
+
+
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
     """Return roots forced by ``r + lambda/r = lambda + 1``.
 
@@ -2074,6 +2140,7 @@ __all__ = [
     "ClosureProductSquareConditions",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
+    "ProductSquareBucketSummary",
     "PythagoreanLegParam",
     "RationalRatioHit",
     "RationalRatioHitProductDiagnostic",
@@ -2103,6 +2170,7 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
+    "sum_ab_product_square_bucket_summary",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
     "sum_ab_three_pass_mobius_model_from_params",
