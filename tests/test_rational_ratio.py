@@ -454,6 +454,48 @@ def test_sum_ab_same_orientation_denominator_factorization_exposes_nu_minus_mv()
     assert even_factorization.sum_factorization == (2, 26, 15)
 
 
+def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        PythagoreanLegParam,
+        sum_ab_same_orientation_cross_gcd_terms,
+    )
+
+    terms = sum_ab_same_orientation_cross_gcd_terms(
+        slope=PythagoreanLegParam(m=4, n=1, orientation="odd"),
+        scaled_term=PythagoreanLegParam(m=7, n=2, orientation="odd"),
+    )
+
+    assert terms.orientation == "odd"
+    assert terms.slope_terms == (15, 8)
+    assert terms.scaled_term_terms == (45, 28)
+    assert terms.other_denominator == 360
+    assert terms.failed_denominator == 420
+    assert terms.gcd_a_b == 1
+    assert terms.gcd_c_d == 1
+    assert terms.gcd_a_c == 15
+    assert terms.gcd_a_d == 1
+    assert terms.gcd_b_c == 1
+    assert terms.gcd_b_d == 4
+    assert terms.gcd_p_q == 60
+    assert terms.primitive_cross_gcd_product == 60
+    assert terms.primitive_cross_gcd_identity_holds
+    assert terms.denominator_difference == -60
+    assert terms.denominator_difference_over_gcd == -1
+
+    even_terms = sum_ab_same_orientation_cross_gcd_terms(
+        slope=PythagoreanLegParam(m=4, n=1, orientation="even"),
+        scaled_term=PythagoreanLegParam(m=7, n=2, orientation="even"),
+    )
+
+    assert even_terms.other_denominator == 420
+    assert even_terms.failed_denominator == 360
+    assert even_terms.gcd_a_c == 4
+    assert even_terms.gcd_b_d == 15
+    assert even_terms.gcd_p_q == 60
+    assert even_terms.primitive_cross_gcd_product == 60
+    assert even_terms.denominator_difference_over_gcd == 1
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 

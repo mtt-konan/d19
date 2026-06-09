@@ -378,6 +378,43 @@ class SumAbSameOrientationDenominatorFactorization:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbSameOrientationCrossGcdTerms:
+    """Cross-gcd diagnostics for ``P=bc`` and ``Q=ad`` denominators."""
+
+    orientation: str
+    slope_terms: tuple[int, int]
+    scaled_term_terms: tuple[int, int]
+    other_denominator: int
+    failed_denominator: int
+    denominator_difference: int
+    gcd_a_b: int
+    gcd_c_d: int
+    gcd_a_c: int
+    gcd_a_d: int
+    gcd_b_c: int
+    gcd_b_d: int
+    gcd_p_q: int
+
+    @property
+    def primitive_cross_gcd_product(self) -> int:
+        return self.gcd_a_c * self.gcd_b_d
+
+    @property
+    def primitive_cross_gcd_identity_holds(self) -> bool:
+        return (
+            self.gcd_a_b == 1
+            and self.gcd_c_d == 1
+            and self.gcd_p_q == self.primitive_cross_gcd_product
+        )
+
+    @property
+    def denominator_difference_over_gcd(self) -> int | None:
+        if self.gcd_p_q == 0 or self.denominator_difference % self.gcd_p_q != 0:
+            return None
+        return self.denominator_difference // self.gcd_p_q
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -904,6 +941,39 @@ def sum_ab_same_orientation_denominator_factorization(
             nu_minus_mv,
         ),
         sum_factorization=(2, first_sum_factor, second_sum_factor),
+    )
+
+
+def sum_ab_same_orientation_cross_gcd_terms(
+    slope: PythagoreanLegParam,
+    scaled_term: PythagoreanLegParam,
+) -> SumAbSameOrientationCrossGcdTerms:
+    """Expose gcd structure forced by the cross-products ``P=bc`` and ``Q=ad``.
+
+    For primitive leg ratios ``gcd(a,b)=gcd(c,d)=1``, the denominator gcd is:
+
+        gcd(bc, ad) = gcd(a, c) * gcd(b, d)
+
+    The helper records both sides instead of assuming primitivity silently.
+    """
+    shared_terms = sum_ab_same_orientation_shared_leg_terms(slope, scaled_term)
+    a, b = shared_terms.slope_terms
+    c, d = shared_terms.scaled_term_terms
+    return SumAbSameOrientationCrossGcdTerms(
+        orientation=shared_terms.orientation,
+        slope_terms=shared_terms.slope_terms,
+        scaled_term_terms=shared_terms.scaled_term_terms,
+        other_denominator=shared_terms.other_denominator,
+        failed_denominator=shared_terms.failed_denominator,
+        denominator_difference=shared_terms.other_denominator
+        - shared_terms.failed_denominator,
+        gcd_a_b=_gcd(a, b),
+        gcd_c_d=_gcd(c, d),
+        gcd_a_c=_gcd(a, c),
+        gcd_a_d=_gcd(a, d),
+        gcd_b_c=_gcd(b, c),
+        gcd_b_d=_gcd(b, d),
+        gcd_p_q=_gcd(shared_terms.other_denominator, shared_terms.failed_denominator),
     )
 
 
