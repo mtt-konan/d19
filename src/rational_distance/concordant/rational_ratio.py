@@ -315,6 +315,27 @@ class SumAbCenterlineQuarticLiveResidueClass:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticCRTLiveResidueSummary:
+    """CRT merge diagnostic for centerline quartic live residue classes."""
+
+    left_modulus: int
+    right_modulus: int
+    combined_modulus: int
+    left_square_primitive_classes: int
+    right_square_primitive_classes: int
+    left_live_classes: int
+    right_live_classes: int
+    left_degenerate_square_classes: int
+    right_degenerate_square_classes: int
+    live_live_pairs: int
+    one_sided_degenerate_pairs: int
+    both_degenerate_pairs: int
+    merged_live_classes: int
+    direct_live_classes: int
+    matches_direct: bool
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2718,6 +2739,35 @@ def sum_ab_centerline_quartic_primitive_residue_summary(
     )
 
 
+def _sum_ab_centerline_quartic_residue(u: int, v: int, modulus: int) -> int:
+    return (
+        u**4
+        + 8 * u**3 * v
+        + 18 * u * u * v * v
+        - 8 * u * v**3
+        + v**4
+    ) % modulus
+
+
+def _sum_ab_centerline_square_primitive_residue_classes(
+    modulus: int,
+) -> tuple[tuple[int, int, int, bool], ...]:
+    if modulus <= 0:
+        raise ValueError("modulus must be positive")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    classes: list[tuple[int, int, int, bool]] = []
+    for u in range(modulus):
+        for v in range(modulus):
+            if _gcd(_gcd(u, v), modulus) != 1:
+                continue
+            residue = _sum_ab_centerline_quartic_residue(u, v, modulus)
+            if residue not in square_residues:
+                continue
+            denominator_degenerate = (v * v - u * u) % modulus == 0
+            classes.append((u, v, residue, denominator_degenerate))
+    return tuple(classes)
+
+
 def sum_ab_centerline_quartic_live_residue_classes(
     modulus: int,
 ) -> tuple[SumAbCenterlineQuarticLiveResidueClass, ...]:
@@ -2732,13 +2782,7 @@ def sum_ab_centerline_quartic_live_residue_classes(
                 continue
             if (v * v - u * u) % modulus == 0:
                 continue
-            residue = (
-                u**4
-                + 8 * u**3 * v
-                + 18 * u * u * v * v
-                - 8 * u * v**3
-                + v**4
-            ) % modulus
+            residue = _sum_ab_centerline_quartic_residue(u, v, modulus)
             if residue in square_residues:
                 live.append(
                     SumAbCenterlineQuarticLiveResidueClass(
@@ -2748,6 +2792,88 @@ def sum_ab_centerline_quartic_live_residue_classes(
                     )
                 )
     return tuple(live)
+
+
+def _crt_pair(left_value: int, left_modulus: int, right_value: int, right_modulus: int) -> int:
+    right_inverse = pow(left_modulus, -1, right_modulus)
+    lift = ((right_value - left_value) * right_inverse) % right_modulus
+    return (left_value + left_modulus * lift) % (left_modulus * right_modulus)
+
+
+def sum_ab_centerline_quartic_crt_live_residue_classes(
+    left_modulus: int,
+    right_modulus: int,
+) -> tuple[SumAbCenterlineQuarticLiveResidueClass, ...]:
+    """Merge square primitive classes into live classes modulo ``mn`` by CRT."""
+    if left_modulus <= 0 or right_modulus <= 0:
+        raise ValueError("moduli must be positive")
+    if _gcd(left_modulus, right_modulus) != 1:
+        raise ValueError("moduli must be coprime")
+    left_classes = _sum_ab_centerline_square_primitive_residue_classes(left_modulus)
+    right_classes = _sum_ab_centerline_square_primitive_residue_classes(right_modulus)
+    combined_modulus = left_modulus * right_modulus
+    merged: set[SumAbCenterlineQuarticLiveResidueClass] = set()
+    for left_u, left_v, _, left_degenerate in left_classes:
+        for right_u, right_v, _, right_degenerate in right_classes:
+            if left_degenerate and right_degenerate:
+                continue
+            u = _crt_pair(left_u, left_modulus, right_u, right_modulus)
+            v = _crt_pair(left_v, left_modulus, right_v, right_modulus)
+            if _gcd(_gcd(u, v), combined_modulus) != 1:
+                continue
+            if (v * v - u * u) % combined_modulus == 0:
+                continue
+            residue = _sum_ab_centerline_quartic_residue(u, v, combined_modulus)
+            merged.add(
+                SumAbCenterlineQuarticLiveResidueClass(
+                    u=u,
+                    v=v,
+                    residue=residue,
+                )
+            )
+    return tuple(sorted(merged))
+
+
+def sum_ab_centerline_quartic_crt_live_residue_summary(
+    left_modulus: int,
+    right_modulus: int,
+) -> SumAbCenterlineQuarticCRTLiveResidueSummary:
+    """Summarize CRT propagation and compare it with direct enumeration."""
+    left_classes = _sum_ab_centerline_square_primitive_residue_classes(left_modulus)
+    right_classes = _sum_ab_centerline_square_primitive_residue_classes(right_modulus)
+    left_live_count = sum(not item[3] for item in left_classes)
+    right_live_count = sum(not item[3] for item in right_classes)
+    left_degenerate_count = len(left_classes) - left_live_count
+    right_degenerate_count = len(right_classes) - right_live_count
+    live_live_pairs = left_live_count * right_live_count
+    one_sided_degenerate_pairs = (
+        left_degenerate_count * right_live_count
+        + left_live_count * right_degenerate_count
+    )
+    both_degenerate_pairs = left_degenerate_count * right_degenerate_count
+    merged_live_classes = sum_ab_centerline_quartic_crt_live_residue_classes(
+        left_modulus,
+        right_modulus,
+    )
+    combined_modulus = left_modulus * right_modulus
+    direct_live_classes = sum_ab_centerline_quartic_live_residue_classes(combined_modulus)
+    return SumAbCenterlineQuarticCRTLiveResidueSummary(
+        left_modulus=left_modulus,
+        right_modulus=right_modulus,
+        combined_modulus=combined_modulus,
+        left_square_primitive_classes=len(left_classes),
+        right_square_primitive_classes=len(right_classes),
+        left_live_classes=left_live_count,
+        right_live_classes=right_live_count,
+        left_degenerate_square_classes=left_degenerate_count,
+        right_degenerate_square_classes=right_degenerate_count,
+        live_live_pairs=live_live_pairs,
+        one_sided_degenerate_pairs=one_sided_degenerate_pairs,
+        both_degenerate_pairs=both_degenerate_pairs,
+        merged_live_classes=len(merged_live_classes),
+        direct_live_classes=len(direct_live_classes),
+        matches_direct=merged_live_classes == direct_live_classes,
+    )
 
 
 def square_rectangle_terms(
@@ -2841,6 +2967,7 @@ __all__ = [
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
+    "SumAbCenterlineQuarticCRTLiveResidueSummary",
     "SumAbCenterlineQuarticIntegerEquation",
     "SumAbCenterlineQuarticLiveResidueClass",
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
@@ -2875,6 +3002,8 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
+    "sum_ab_centerline_quartic_crt_live_residue_classes",
+    "sum_ab_centerline_quartic_crt_live_residue_summary",
     "sum_ab_centerline_quartic_integer_equation",
     "sum_ab_centerline_quartic_live_residue_classes",
     "sum_ab_centerline_quartic_primitive_residue_summary",

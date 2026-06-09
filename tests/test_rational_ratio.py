@@ -367,6 +367,7 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
     from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_quartic_crt_live_residue_summary,
         sum_ab_centerline_quartic_integer_equation,
         sum_ab_centerline_quartic_live_residue_classes,
         sum_ab_centerline_quartic_primitive_residue_summary,
@@ -431,6 +432,31 @@ def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
         (4, 0, 1),
         (4, 3, 1),
     ]
+
+    crt_summary = sum_ab_centerline_quartic_crt_live_residue_summary(5, 7)
+
+    assert crt_summary.combined_modulus == 35
+    assert crt_summary.left_square_primitive_classes == 20
+    assert crt_summary.right_square_primitive_classes == 24
+    assert crt_summary.left_live_classes == 12
+    assert crt_summary.right_live_classes == 24
+    assert crt_summary.left_degenerate_square_classes == 8
+    assert crt_summary.right_degenerate_square_classes == 0
+    assert crt_summary.live_live_pairs == 288
+    assert crt_summary.one_sided_degenerate_pairs == 192
+    assert crt_summary.both_degenerate_pairs == 0
+    assert crt_summary.merged_live_classes == 480
+    assert crt_summary.direct_live_classes == 480
+    assert crt_summary.matches_direct
+
+    crt_143_summary = sum_ab_centerline_quartic_crt_live_residue_summary(11, 13)
+
+    assert crt_143_summary.combined_modulus == 143
+    assert crt_143_summary.live_live_pairs == 2400
+    assert crt_143_summary.one_sided_degenerate_pairs == 1200
+    assert crt_143_summary.merged_live_classes == 3600
+    assert crt_143_summary.direct_live_classes == 3600
+    assert crt_143_summary.matches_direct
 
 
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
