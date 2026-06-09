@@ -465,6 +465,8 @@ class SumAbNormalizedNearMissExample:
     gcd_n_p_q: int
     normalized_denominator_pair: tuple[int, int]
     normalized_shared_leg_triple: tuple[int, int, int]
+    normalized_other_squareclass: int
+    normalized_failed_squareclass: int
     denominator_difference_over_gcd: int
     denominator_sum_over_gcd: int
     other_square_passes: bool
@@ -541,6 +543,17 @@ def _rational_squareclass(value: Fraction) -> tuple[int, tuple[int, ...]]:
     for prime in primes:
         squarefree *= prime
     return squarefree, primes
+
+
+def _integer_squareclass(value: int) -> int:
+    """Return the positive squarefree representative of an integer squareclass."""
+    if value <= 0:
+        raise ValueError("value must be positive")
+    squarefree = 1
+    for prime, exponent in _factorize_positive(value).items():
+        if exponent % 2:
+            squarefree *= prime
+    return squarefree
 
 
 def is_rational_ratio_member(lambda_ratio: Fraction | int, r: Fraction | int) -> bool:
@@ -1111,6 +1124,9 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                     shared_terms.shared_numerator,
                     _gcd(shared_terms.other_denominator, shared_terms.failed_denominator),
                 )
+                normalized_n = shared_terms.shared_numerator // gcd_n_p_q
+                normalized_p = shared_terms.other_denominator // gcd_n_p_q
+                normalized_q = shared_terms.failed_denominator // gcd_n_p_q
                 bucket = examples.setdefault(abs_difference, [])
                 if len(bucket) < max_examples_per_bucket:
                     bucket.append(
@@ -1124,10 +1140,12 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
                             gcd_p_q=cross_terms.gcd_p_q,
                             gcd_n_p_q=gcd_n_p_q,
                             normalized_denominator_pair=normalized_pair,
-                            normalized_shared_leg_triple=(
-                                shared_terms.shared_numerator // gcd_n_p_q,
-                                shared_terms.other_denominator // gcd_n_p_q,
-                                shared_terms.failed_denominator // gcd_n_p_q,
+                            normalized_shared_leg_triple=(normalized_n, normalized_p, normalized_q),
+                            normalized_other_squareclass=_integer_squareclass(
+                                normalized_n * normalized_n + normalized_p * normalized_p
+                            ),
+                            normalized_failed_squareclass=_integer_squareclass(
+                                normalized_n * normalized_n + normalized_q * normalized_q
                             ),
                             denominator_difference_over_gcd=difference_over_gcd,
                             denominator_sum_over_gcd=sum_over_gcd,

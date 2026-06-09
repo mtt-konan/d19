@@ -541,6 +541,8 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
         24,
         28,
     )
+    assert summary.examples_by_abs_difference[1][0].normalized_other_squareclass == 1
+    assert summary.examples_by_abs_difference[1][0].normalized_failed_squareclass == 17
     assert summary.examples_by_abs_difference[1][0].normalized_denominator_pair == (
         6,
         7,
@@ -556,6 +558,8 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
         28,
         24,
     )
+    assert summary.examples_by_abs_difference[1][1].normalized_other_squareclass == 17
+    assert summary.examples_by_abs_difference[1][1].normalized_failed_squareclass == 1
     assert not summary.examples_by_abs_difference[1][1].other_square_passes
     assert summary.examples_by_abs_difference[1][1].failed_square_passes
 
