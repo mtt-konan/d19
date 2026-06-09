@@ -362,6 +362,44 @@ def test_sum_ab_euclid_conditional_residue_summaries_apply_primitive_filters() -
     ]
 
 
+def test_sum_ab_same_orientation_shared_leg_terms_expose_square_difference() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        PythagoreanLegParam,
+        sum_ab_same_orientation_shared_leg_terms,
+    )
+
+    terms = sum_ab_same_orientation_shared_leg_terms(
+        slope=PythagoreanLegParam(m=4, n=1, orientation="odd"),
+        scaled_term=PythagoreanLegParam(m=7, n=2, orientation="odd"),
+    )
+
+    assert terms.orientation == "odd"
+    assert terms.slope_terms == (15, 8)
+    assert terms.scaled_term_terms == (45, 28)
+    assert terms.shared_numerator == 105
+    assert terms.other_denominator == 360
+    assert terms.failed_denominator == 420
+    assert terms.other_square_equation == (105, 360, 375)
+    assert terms.failed_square_equation == (105, 420, None)
+    assert terms.square_difference == 105 * 105 + 360 * 360 - (105 * 105 + 420 * 420)
+    assert terms.denominator_square_difference == 360 * 360 - 420 * 420
+
+
+def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> None:
+    import pytest
+
+    from rational_distance.concordant.rational_ratio import (
+        PythagoreanLegParam,
+        sum_ab_same_orientation_shared_leg_terms,
+    )
+
+    with pytest.raises(ValueError, match="matching orientations"):
+        sum_ab_same_orientation_shared_leg_terms(
+            slope=PythagoreanLegParam(m=4, n=1, orientation="odd"),
+            scaled_term=PythagoreanLegParam(m=7, n=2, orientation="even"),
+        )
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 

@@ -245,6 +245,39 @@ class SumAbEuclidResidueSummary:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbSameOrientationSharedLegTerms:
+    """Shared-leg square equations for one same-orientation ``sum=A+B`` case."""
+
+    orientation: str
+    slope_terms: tuple[int, int]
+    scaled_term_terms: tuple[int, int]
+    shared_numerator: int
+    other_denominator: int
+    failed_denominator: int
+    other_square_equation: tuple[int, int, int | None]
+    failed_square_equation: tuple[int, int, int | None]
+
+    @property
+    def square_difference(self) -> int:
+        other_value = (
+            self.shared_numerator * self.shared_numerator
+            + self.other_denominator * self.other_denominator
+        )
+        failed_value = (
+            self.shared_numerator * self.shared_numerator
+            + self.failed_denominator * self.failed_denominator
+        )
+        return other_value - failed_value
+
+    @property
+    def denominator_square_difference(self) -> int:
+        return (
+            self.other_denominator * self.other_denominator
+            - self.failed_denominator * self.failed_denominator
+        )
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -629,6 +662,40 @@ def sum_ab_euclid_orientation_equations(
                 )
             )
     return tuple(cases)
+
+
+def sum_ab_same_orientation_shared_leg_terms(
+    slope: PythagoreanLegParam,
+    scaled_term: PythagoreanLegParam,
+) -> SumAbSameOrientationSharedLegTerms:
+    """Return the shared numerator and denominator square equations.
+
+    This helper is only for same-orientation cases.  It exposes the structure
+    ``N^2 + (bc)^2`` and ``N^2 + (ad)^2`` without claiming either equation is
+    impossible.
+    """
+    if slope.orientation != scaled_term.orientation:
+        raise ValueError("same-orientation shared-leg terms require matching orientations")
+    slope_terms = slope.leg_terms()
+    scaled_term_terms = scaled_term.leg_terms()
+    other_terms, failed_terms = _sum_ab_mobius_polynomial_terms_from_legs(
+        slope_terms,
+        scaled_term_terms,
+    )
+    shared_numerator, other_denominator = other_terms
+    failed_numerator, failed_denominator = failed_terms
+    if shared_numerator != failed_numerator:
+        raise ValueError("sum=A+B polynomial terms should share a numerator")
+    return SumAbSameOrientationSharedLegTerms(
+        orientation=slope.orientation,
+        slope_terms=slope_terms,
+        scaled_term_terms=scaled_term_terms,
+        shared_numerator=shared_numerator,
+        other_denominator=other_denominator,
+        failed_denominator=failed_denominator,
+        other_square_equation=_integer_square_equation_from_terms(other_terms),
+        failed_square_equation=_integer_square_equation_from_terms(failed_terms),
+    )
 
 
 def _leg_terms_mod(
