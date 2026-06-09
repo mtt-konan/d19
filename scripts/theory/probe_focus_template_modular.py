@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections.abc import Iterable, Sequence
-from math import gcd
+from math import gcd, prod
 from typing import Any
 
 VARIABLES: tuple[str, ...] = ("u", "p", "q", "v", "r", "s", "w", "x", "y")
@@ -166,15 +166,90 @@ def probe_many(
     *,
     sample_limit: int = 5,
     mode: str = "residue",
+    include_crt_summary: bool = False,
 ) -> dict[str, Any]:
-    return {
+    if include_crt_summary:
+        _require_crt_residue_mode(mode)
+        _require_pairwise_coprime(moduli)
+    rows = [
+        probe_modulus(modulus, sample_limit=sample_limit, mode=mode)
+        for modulus in moduli
+    ]
+    payload: dict[str, Any] = {
         "template": "focus_bucket_sum_ab_B_odd_odd_N1_even_even",
         "mode": mode,
-        "moduli": [
-            probe_modulus(modulus, sample_limit=sample_limit, mode=mode)
-            for modulus in moduli
-        ],
+        "moduli": rows,
     }
+    if include_crt_summary:
+        payload["crt_summary"] = crt_summary_from_rows(rows, mode=mode)
+    return payload
+
+
+def _require_pairwise_coprime(moduli: Sequence[int]) -> None:
+    for left_index, left_modulus in enumerate(moduli):
+        for right_modulus in moduli[left_index + 1 :]:
+            if gcd(left_modulus, right_modulus) != 1:
+                raise ValueError("CRT summary requires pairwise coprime moduli")
+
+
+def _require_crt_residue_mode(mode: str) -> None:
+    if mode != "residue":
+        raise ValueError("CRT summary is only defined for residue mode")
+
+
+def _require_matching_row_modes(rows: Sequence[dict[str, Any]], mode: str) -> None:
+    row_modes = {row.get("mode") for row in rows}
+    if row_modes != {mode}:
+        raise ValueError("CRT summary row modes must match the requested mode")
+
+
+def crt_summary_from_rows(
+    rows: Sequence[dict[str, Any]],
+    *,
+    mode: str,
+) -> dict[str, Any]:
+    _require_crt_residue_mode(mode)
+    _require_matching_row_modes(rows, mode)
+    moduli = [int(row["modulus"]) for row in rows]
+    _require_pairwise_coprime(moduli)
+    combined_modulus = prod(moduli)
+    total_assignments = prod(int(row["total_assignments"]) for row in rows)
+    side_condition_pass = prod(int(row["side_condition_pass"]) for row in rows)
+    shared_constraint_pass = prod(int(row["shared_constraint_pass"]) for row in rows)
+    closure_pass = prod(int(row["closure_pass"]) for row in rows)
+    missing_square_pass = prod(int(row["missing_square_pass"]) for row in rows)
+    return {
+        "kind": "count_level_crt_diagnostic",
+        "mode": mode,
+        "moduli": moduli,
+        "combined_modulus": combined_modulus,
+        "total_assignments": total_assignments,
+        "side_condition_pass": side_condition_pass,
+        "shared_constraint_pass": shared_constraint_pass,
+        "closure_pass": closure_pass,
+        "missing_square_pass": missing_square_pass,
+        "missing_square_obstructed": closure_pass - missing_square_pass,
+        "single_modulus_summaries": list(rows),
+        "interpretation": (
+            "Count-level CRT diagnostic only; this does not construct integer "
+            "solutions or prove an obstruction."
+        ),
+    }
+
+
+def crt_summary(
+    moduli: Sequence[int],
+    *,
+    sample_limit: int = 5,
+    mode: str = "residue",
+) -> dict[str, Any]:
+    _require_crt_residue_mode(mode)
+    _require_pairwise_coprime(moduli)
+    rows = [
+        probe_modulus(modulus, sample_limit=sample_limit, mode=mode)
+        for modulus in moduli
+    ]
+    return crt_summary_from_rows(rows, mode=mode)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -182,9 +257,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("moduli", type=int, nargs="+")
     parser.add_argument("--sample-limit", type=int, default=5)
     parser.add_argument("--mode", choices=MODES, default="residue")
+    parser.add_argument(
+        "--crt-summary",
+        action="store_true",
+        help="include count-level CRT diagnostic for pairwise coprime moduli",
+    )
     args = parser.parse_args(argv)
 
-    payload = probe_many(args.moduli, sample_limit=args.sample_limit, mode=args.mode)
+    payload = probe_many(
+        args.moduli,
+        sample_limit=args.sample_limit,
+        mode=args.mode,
+        include_crt_summary=args.crt_summary,
+    )
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0
 
