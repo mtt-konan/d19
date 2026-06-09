@@ -1944,6 +1944,21 @@ def closure_product_square_conditions(
     )
 
 
+def sum_ab_centerline_squareclass_conditions(
+    lambda_ratio: Fraction | int,
+) -> ClosureProductSquareConditions:
+    """Return the ``sum=A+B`` centerline squareclass ledger ``r=s=(λ+1)/2``."""
+    lam = _as_fraction(lambda_ratio)
+    _validate_positive("lambda_ratio", lam)
+    center = (lam + 1) / 2
+    return closure_product_square_conditions(
+        lam,
+        lam + 1,
+        center * center,
+        REL_SUM_AB,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2054,6 +2069,7 @@ __all__ = [
     "scan_sum_ab_slope_obstructions",
     "scan_sum_ab_slope_pairs",
     "square_rectangle_terms",
+    "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",

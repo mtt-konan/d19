@@ -225,6 +225,30 @@ def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
     assert not point.true_member_pair
 
 
+def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_SUM_AB,
+        sum_ab_centerline_squareclass_conditions,
+    )
+
+    conditions = sum_ab_centerline_squareclass_conditions(Fraction(3))
+
+    assert conditions.relation == REL_SUM_AB
+    assert conditions.roots == (Fraction(2), Fraction(2))
+    assert conditions.product == Fraction(4)
+    assert conditions.product_terms_are_squares
+    assert conditions.member_squareclasses == (5, 5, 13, 13)
+    assert conditions.member_squareclass_pair == (5, 13)
+    assert conditions.member_squareclasses_pairwise_equal
+    assert not conditions.true_member_pair
+
+    unit_conditions = sum_ab_centerline_squareclass_conditions(Fraction(1))
+
+    assert unit_conditions.roots == (Fraction(1), Fraction(1))
+    assert unit_conditions.member_squareclass_pair == (2, 2)
+    assert not unit_conditions.true_member_pair
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 
