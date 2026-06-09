@@ -540,6 +540,12 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
         (7, 24, 28),
         (28, 7, 45),
     )
+    assert summary.family_edges_by_failing_squareclass[17][0].source == (7, 24, 28)
+    assert summary.family_edges_by_failing_squareclass[17][0].target == (28, 7, 45)
+    assert summary.family_edges_by_failing_squareclass[17][
+        0
+    ].target_uses_source_failed_leg
+    assert summary.family_edges_by_failing_squareclass[17][0].target_uses_source_shared_leg
     assert summary.examples_by_abs_difference[1][0].slope_params == (4, 1)
     assert summary.examples_by_abs_difference[1][0].scaled_term_params == (7, 2)
     assert summary.examples_by_abs_difference[1][0].orientation == "odd"

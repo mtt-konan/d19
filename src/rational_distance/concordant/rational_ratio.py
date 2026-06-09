@@ -474,6 +474,16 @@ class SumAbNormalizedNearMissExample:
 
 
 @dataclass(frozen=True)
+class SumAbSquareclassFamilyEdge:
+    """A candidate relation between two canonical triples in one squareclass."""
+
+    source: tuple[int, int, int]
+    target: tuple[int, int, int]
+    target_uses_source_failed_leg: bool
+    target_uses_source_shared_leg: bool
+
+
+@dataclass(frozen=True)
 class SumAbNormalizedNearMissSummary:
     """Small bounded scan summary for same-orientation normalized near-misses."""
 
@@ -488,6 +498,9 @@ class SumAbNormalizedNearMissSummary:
     ]
     canonical_triples_by_failing_squareclass: dict[
         int, tuple[tuple[int, int, int], ...]
+    ]
+    family_edges_by_failing_squareclass: dict[
+        int, tuple[SumAbSquareclassFamilyEdge, ...]
     ]
 
 
@@ -1199,7 +1212,35 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
         canonical_triples_by_failing_squareclass={
             key: tuple(sorted(value)) for key, value in sorted(canonical_triples.items())
         },
+        family_edges_by_failing_squareclass={
+            key: _squareclass_family_edges(tuple(sorted(value)))
+            for key, value in sorted(canonical_triples.items())
+        },
     )
+
+
+def _squareclass_family_edges(
+    canonical_triples: tuple[tuple[int, int, int], ...],
+) -> tuple[SumAbSquareclassFamilyEdge, ...]:
+    edges: list[SumAbSquareclassFamilyEdge] = []
+    for source in canonical_triples:
+        source_n, source_p, source_q = source
+        for target in canonical_triples:
+            if source == target:
+                continue
+            target_n, target_p, target_q = target
+            target_uses_source_failed_leg = target_n in (source_p, source_q)
+            target_uses_source_shared_leg = source_n in (target_p, target_q)
+            if target_uses_source_failed_leg and target_uses_source_shared_leg:
+                edges.append(
+                    SumAbSquareclassFamilyEdge(
+                        source=source,
+                        target=target,
+                        target_uses_source_failed_leg=target_uses_source_failed_leg,
+                        target_uses_source_shared_leg=target_uses_source_shared_leg,
+                    )
+                )
+    return tuple(edges)
 
 
 def _primitive_euclid_params(max_m: int) -> tuple[tuple[int, int], ...]:
