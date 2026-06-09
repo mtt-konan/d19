@@ -95,6 +95,7 @@ def test_closure_product_identity_uses_difference_sign() -> None:
         REL_DIFF_AB,
         REL_SUM_AB,
         closure_product_identity_terms,
+        closure_product_square_conditions,
     )
 
     lam = Fraction(7, 3)
@@ -116,11 +117,28 @@ def test_closure_product_identity_uses_difference_sign() -> None:
         (lam * lam - 1) * (lam * lam - product * product)
     )
 
+    diff_conditions = closure_product_square_conditions(lam, target, product, REL_DIFF_AB)
+
+    assert diff_conditions.discriminant == target * target + 4 * product
+    assert diff_conditions.roots == ()
+
+    diff_product_with_roots = Fraction(16, 9)
+    diff_conditions = closure_product_square_conditions(
+        lam,
+        target,
+        diff_product_with_roots,
+        REL_DIFF_AB,
+    )
+
+    assert diff_conditions.roots == (Fraction(1, 3), Fraction(16, 3))
+    assert not diff_conditions.true_member_pair
+
 
 def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     from rational_distance.concordant.rational_ratio import (
         REL_SUM_AB,
         closure_product_identity_terms,
+        closure_product_square_conditions,
         is_rational_ratio_member,
     )
 
@@ -143,6 +161,14 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
     assert _is_rational_square(discriminant)
     assert not is_rational_ratio_member(lam, r)
     assert not is_rational_ratio_member(lam, s)
+
+    conditions = closure_product_square_conditions(lam, target, product, REL_SUM_AB)
+
+    assert conditions.discriminant == discriminant
+    assert conditions.roots == (r, s)
+    assert conditions.product_terms_are_squares
+    assert not conditions.true_member_pair
+    assert conditions.member_square_flags == (False, False, False, False)
 
 
 def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:

@@ -88,6 +88,23 @@ class ProductIdentityTerms:
 
 
 @dataclass(frozen=True)
+class ClosureProductSquareConditions:
+    """Square checks after replacing a closure pair by ``T`` and ``p=rs``."""
+
+    lambda_ratio: Fraction
+    target: Fraction
+    product: Fraction
+    relation: str
+    identity_terms: ProductIdentityTerms
+    discriminant: Fraction
+    discriminant_is_square: bool
+    roots: tuple[Fraction, ...]
+    product_terms_are_squares: bool
+    member_square_flags: tuple[bool, bool, bool, bool] | tuple[()]
+    true_member_pair: bool
+
+
+@dataclass(frozen=True)
 class SquareRectangleTerms:
     """Four square-candidate corners after a closure linear relation."""
 
@@ -1814,6 +1831,72 @@ def closure_product_identity_terms(
     )
 
 
+def closure_product_square_conditions(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ClosureProductSquareConditions:
+    """Return necessary and true square checks for one closure ``T,p`` pair.
+
+    ``A_p`` and ``B_p`` being squares is only a necessary product-level check.
+    The real ``R_lambda`` condition still needs the two recovered roots to pass
+    their four individual square tests.
+    """
+    terms = closure_product_identity_terms(lambda_ratio, target, product, relation)
+    lam = terms.lambda_ratio
+    t = terms.target
+    p = terms.product
+
+    if relation.startswith("sum="):
+        discriminant = t * t - 4 * p
+        sqrt_disc = _rational_sqrt(discriminant)
+        roots = (
+            tuple(sorted(((t - sqrt_disc) / 2, (t + sqrt_disc) / 2)))
+            if sqrt_disc is not None
+            else ()
+        )
+    elif relation.startswith("diff="):
+        discriminant = t * t + 4 * p
+        sqrt_disc = _rational_sqrt(discriminant)
+        roots = (
+            tuple(sorted(((sqrt_disc - t) / 2, (sqrt_disc + t) / 2)))
+            if sqrt_disc is not None
+            else ()
+        )
+    else:
+        raise ValueError(f"unknown closure relation: {relation}")
+
+    positive_roots = tuple(root for root in roots if root > 0)
+    if len(positive_roots) == 2:
+        r, s = positive_roots
+        member_square_flags: tuple[bool, bool, bool, bool] | tuple[()] = (
+            _is_rational_square(r * r + 1),
+            _is_rational_square(s * s + 1),
+            _is_rational_square(r * r + lam * lam),
+            _is_rational_square(s * s + lam * lam),
+        )
+    else:
+        member_square_flags = ()
+
+    product_terms_are_squares = _is_rational_square(
+        terms.a_term
+    ) and _is_rational_square(terms.b_term)
+    return ClosureProductSquareConditions(
+        lambda_ratio=lam,
+        target=t,
+        product=p,
+        relation=relation,
+        identity_terms=terms,
+        discriminant=discriminant,
+        discriminant_is_square=sqrt_disc is not None,
+        roots=positive_roots,
+        product_terms_are_squares=product_terms_are_squares,
+        member_square_flags=member_square_flags,
+        true_member_pair=all(member_square_flags) if member_square_flags else False,
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -1894,6 +1977,7 @@ def reciprocal_closure_roots(
 
 
 __all__ = [
+    "ClosureProductSquareConditions",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
     "PythagoreanLegParam",
@@ -1907,6 +1991,7 @@ __all__ = [
     "SumAbSlopePoint",
     "SumAbThreePassMobiusModel",
     "closure_product_identity_terms",
+    "closure_product_square_conditions",
     "find_rational_ratio_hits",
     "group_sum_ab_ratio_shadow_orbits",
     "is_pythagorean_leg_ratio",
