@@ -276,6 +276,14 @@ class SumAbSameOrientationSharedLegTerms:
             - self.failed_denominator * self.failed_denominator
         )
 
+    @property
+    def other_hypotenuse_factor_pair(self) -> tuple[int, int] | None:
+        return _hypotenuse_factor_pair(self.other_square_equation)
+
+    @property
+    def failed_hypotenuse_factor_pair(self) -> tuple[int, int] | None:
+        return _hypotenuse_factor_pair(self.failed_square_equation)
+
 
 @dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
@@ -566,6 +574,15 @@ def _integer_square_equation_from_terms(
     root = isqrt(square_sum)
     hypotenuse = root if root * root == square_sum else None
     return numerator, denominator, hypotenuse
+
+
+def _hypotenuse_factor_pair(
+    equation: tuple[int, int, int | None],
+) -> tuple[int, int] | None:
+    _, denominator, hypotenuse = equation
+    if hypotenuse is None:
+        return None
+    return hypotenuse - denominator, hypotenuse + denominator
 
 
 def _sum_ab_mobius_polynomial_terms_from_legs(
