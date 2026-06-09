@@ -1895,6 +1895,35 @@ def sum_ab_product_square_residuals_from_grid(
     return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
 
 
+def sum_ab_product_square_residuals_from_root_grid(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+) -> tuple[ClosureProductSquareConditions, ...]:
+    """Return residual diagnostics by choosing roots first, then ``lambda``.
+
+    For the ``sum=A+B`` closure, roots satisfy ``r+s=lambda+1``.  This helper
+    enumerates a finite rational root grid and derives ``lambda = r+s-1``.
+    It is a diagnostic generator for residual examples, not a proof.
+    """
+    ratios = positive_rational_ratios(max_numerator, max_denominator)
+    residuals: set[ClosureProductSquareConditions] = set()
+    for index, r in enumerate(ratios):
+        for s in ratios[index:]:
+            lam = r + s - 1
+            if lam <= 0:
+                continue
+            condition = closure_product_square_conditions(
+                lam,
+                lam + 1,
+                r * s,
+                REL_SUM_AB,
+            )
+            if condition.product_square_bucket == "residual":
+                residuals.add(condition)
+    return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
+
+
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
     """Return roots forced by ``r + lambda/r = lambda + 1``.
 
@@ -2222,9 +2251,9 @@ __all__ = [
     "ReciprocalClosureRoot",
     "SquareRectangleTerms",
     "SumAbRatioShadowOrbit",
-    "SumAbThreePassEuclidModel",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
+    "SumAbThreePassEuclidModel",
     "SumAbThreePassMobiusModel",
     "closure_product_identity_terms",
     "closure_product_square_conditions",
@@ -2235,8 +2264,8 @@ __all__ = [
     "leg_ratio_squareclass",
     "positive_rational_ratios",
     "product_identity_terms",
-    "pythagorean_leg_ratios",
     "pythagorean_leg_ratio_from_param",
+    "pythagorean_leg_ratios",
     "rational_ratio_hit_product_diagnostics",
     "reciprocal_closure_roots",
     "reciprocal_ratio",
@@ -2246,12 +2275,13 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
-    "sum_ab_product_square_condition_from_slopes",
     "sum_ab_product_square_bucket_summary",
+    "sum_ab_product_square_condition_from_slopes",
     "sum_ab_product_square_residuals_from_grid",
+    "sum_ab_product_square_residuals_from_root_grid",
     "sum_ab_ratio_shadow_key",
     "sum_ab_slope_obstruction",
-    "sum_ab_three_pass_mobius_model_from_params",
     "sum_ab_three_pass_mobius_model",
+    "sum_ab_three_pass_mobius_model_from_params",
     "true_reciprocal_sum_ab_roots",
 ]
