@@ -1528,3 +1528,40 @@ def test_reciprocal_closure_squareclass_ledger_explains_failed_roots() -> None:
         (Fraction(3), 10, 5),
     ]
     assert all(not row.true_member for row in ledger)
+
+
+def test_reciprocal_closure_discriminant_ledger_explains_failed_roots() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        reciprocal_closure_discriminant_ledger,
+    )
+
+    ledger = reciprocal_closure_discriminant_ledger(Fraction(6), "sum=|A-B|")
+
+    assert ledger.target == Fraction(5)
+    assert ledger.discriminant == Fraction(1)
+    assert ledger.discriminant_is_square
+    assert ledger.discriminant_squareclass == 1
+    assert [(row.r, row.unit_squareclass, row.lambda_squareclass) for row in ledger.roots] == [
+        (Fraction(2), 5, 10),
+        (Fraction(3), 10, 5),
+    ]
+    assert ledger.true_roots == ()
+    assert ledger.branch_closed
+
+
+def test_reciprocal_closure_discriminant_ledger_handles_single_positive_root() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        reciprocal_closure_discriminant_ledger,
+    )
+
+    ledger = reciprocal_closure_discriminant_ledger(Fraction(3, 2), "diff=A+B")
+
+    assert ledger.target == Fraction(5, 2)
+    assert ledger.discriminant == Fraction(49, 4)
+    assert ledger.discriminant_is_square
+    assert ledger.discriminant_squareclass == 1
+    assert [(row.r, row.unit_squareclass, row.lambda_squareclass) for row in ledger.roots] == [
+        (Fraction(3), 10, 5),
+    ]
+    assert ledger.true_roots == ()
+    assert ledger.branch_closed

@@ -179,6 +179,21 @@ class ReciprocalClosureSquareclassRoot:
 
 
 @dataclass(frozen=True)
+class ReciprocalClosureDiscriminantLedger:
+    """Discriminant ledger for the reciprocal branches that have a quadratic."""
+
+    lambda_ratio: Fraction
+    relation: str
+    target: Fraction
+    discriminant: Fraction
+    discriminant_is_square: bool
+    discriminant_squareclass: int | None
+    roots: tuple[ReciprocalClosureSquareclassRoot, ...]
+    true_roots: tuple[Fraction, ...]
+    branch_closed: bool
+
+
+@dataclass(frozen=True)
 class ReciprocalClosureObstruction:
     """One full-plane reciprocal closure branch and whether true roots remain."""
 
@@ -3626,6 +3641,42 @@ def reciprocal_closure_squareclass_ledger(
     return tuple(rows)
 
 
+def reciprocal_closure_discriminant_ledger(
+    lambda_ratio: Fraction | int,
+    relation: str,
+) -> ReciprocalClosureDiscriminantLedger:
+    """Return the discriminant ledger for the two quadratic reciprocal branches."""
+    lam = _as_fraction(lambda_ratio)
+    _validate_positive("lambda_ratio", lam)
+    if relation == REL_SUM_DIFF:
+        target = abs(lam - 1)
+        discriminant = target * target - 4 * lam
+    elif relation == REL_DIFF_AB:
+        target = lam + 1
+        discriminant = target * target + 4 * lam
+    else:
+        raise ValueError(
+            "discriminant ledger is only defined for sum=|A-B| and diff=A+B"
+        )
+
+    roots = reciprocal_closure_squareclass_ledger(lam, relation)
+    true_roots = tuple(row.r for row in roots if row.true_member)
+    discriminant_squareclass = (
+        _rational_squareclass(discriminant)[0] if discriminant > 0 else None
+    )
+    return ReciprocalClosureDiscriminantLedger(
+        lambda_ratio=lam,
+        relation=relation,
+        target=target,
+        discriminant=discriminant,
+        discriminant_is_square=_is_rational_square(discriminant),
+        discriminant_squareclass=discriminant_squareclass,
+        roots=roots,
+        true_roots=true_roots,
+        branch_closed=true_roots == (),
+    )
+
+
 def full_plane_reciprocal_obstruction(
     lambda_ratio: Fraction | int,
 ) -> FullPlaneReciprocalObstruction:
@@ -3661,6 +3712,7 @@ __all__ = [
     "PythagoreanLegParam",
     "RationalRatioHit",
     "RationalRatioHitProductDiagnostic",
+    "ReciprocalClosureDiscriminantLedger",
     "ReciprocalClosureObstruction",
     "ReciprocalClosureRoot",
     "ReciprocalClosureSquareclassRoot",
@@ -3701,6 +3753,7 @@ __all__ = [
     "pythagorean_leg_ratio_from_param",
     "pythagorean_leg_ratios",
     "rational_ratio_hit_product_diagnostics",
+    "reciprocal_closure_discriminant_ledger",
     "reciprocal_closure_roots",
     "reciprocal_closure_squareclass_ledger",
     "reciprocal_ratio",
