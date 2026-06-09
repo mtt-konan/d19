@@ -373,6 +373,35 @@ def test_sum_ab_root_grid_residual_summary_counts_squareclass_pairs() -> None:
     )
 
 
+def test_sum_ab_root_grid_residual_watchlist_flags_true_or_trivial_pairs() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_SUM_AB,
+        closure_product_square_conditions,
+        sum_ab_root_grid_residual_watchlist,
+    )
+
+    assert (
+        sum_ab_root_grid_residual_watchlist(
+            max_numerator=26,
+            max_denominator=23,
+        )
+        == ()
+    )
+
+    true_condition = closure_product_square_conditions(
+        Fraction(1),
+        Fraction(25, 12),
+        Fraction(1),
+        REL_SUM_AB,
+    )
+
+    assert sum_ab_root_grid_residual_watchlist(
+        max_numerator=1,
+        max_denominator=1,
+        extra_conditions=(true_condition,),
+    ) == (true_condition,)
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

@@ -1960,6 +1960,28 @@ def sum_ab_root_grid_residual_summary(
     )
 
 
+def sum_ab_root_grid_residual_watchlist(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+    extra_conditions: tuple[ClosureProductSquareConditions, ...] = (),
+) -> tuple[ClosureProductSquareConditions, ...]:
+    """Return finite residuals that would be dangerous for the proof direction."""
+    conditions = (
+        *sum_ab_product_square_residuals_from_root_grid(
+            max_numerator=max_numerator,
+            max_denominator=max_denominator,
+        ),
+        *extra_conditions,
+    )
+    watched = {
+        condition
+        for condition in conditions
+        if condition.true_member_pair or condition.member_squareclass_pair == (1, 1)
+    }
+    return tuple(sorted(watched, key=lambda item: (item.lambda_ratio, item.roots)))
+
+
 def reciprocal_sum_ab_roots(lambda_ratio: Fraction | int) -> tuple[Fraction, Fraction]:
     """Return roots forced by ``r + lambda/r = lambda + 1``.
 
@@ -2317,6 +2339,7 @@ __all__ = [
     "sum_ab_product_square_residuals_from_root_grid",
     "sum_ab_ratio_shadow_key",
     "sum_ab_root_grid_residual_summary",
+    "sum_ab_root_grid_residual_watchlist",
     "sum_ab_slope_obstruction",
     "sum_ab_three_pass_mobius_model",
     "sum_ab_three_pass_mobius_model_from_params",
