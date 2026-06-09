@@ -879,6 +879,69 @@ def test_scan_full_plane_true_closure_relations_can_focus_on_danger_branch() -> 
     assert relations == ()
 
 
+def test_full_plane_closure_product_ledger_links_classification_to_product_terms() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_DIFF_AB,
+        full_plane_closure_product_ledger,
+    )
+
+    ledger = full_plane_closure_product_ledger(
+        lambda_ratio=Fraction(7),
+        r=Fraction(2),
+        s=Fraction(10),
+        relation=REL_DIFF_AB,
+    )
+
+    assert ledger.classification.closes_relation
+    assert ledger.target == Fraction(8)
+    assert ledger.product == Fraction(20)
+    assert ledger.product_equals_lambda is False
+    assert ledger.danger_branch is False
+    assert ledger.conditions.discriminant == Fraction(144)
+    assert ledger.conditions.roots == (Fraction(2), Fraction(10))
+    assert ledger.conditions.true_member_pair is False
+
+
+def test_full_plane_closure_product_ledger_rejects_nonclosure_pairs() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        REL_SUM_AB,
+        full_plane_closure_product_ledger,
+    )
+
+    try:
+        full_plane_closure_product_ledger(
+            lambda_ratio=Fraction(1),
+            r=Fraction(3, 4),
+            s=Fraction(4, 3),
+            relation=REL_SUM_AB,
+        )
+    except ValueError as error:
+        assert "requires a pair that does close" in str(error)
+    else:
+        raise AssertionError("expected nonclosure pair to be rejected")
+
+
+def test_full_plane_closure_product_summary_counts_relation_and_bucket() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        full_plane_closure_product_summary,
+    )
+
+    summary = full_plane_closure_product_summary(
+        lambda_ratios=(Fraction(7),),
+        max_numerator=10,
+        max_denominator=1,
+        include_centerline=False,
+    )
+
+    assert summary.total_relations == 11
+    assert summary.branch_counts == {"false-reciprocal": 2, "false-residual": 9}
+    assert summary.relation_branch_counts[("sum=A+B", "false-residual")] == 2
+    assert summary.relation_branch_counts[("diff=A+B", "false-residual")] == 2
+    assert summary.product_bucket_counts[("sum=A+B", "reciprocal")] == 1
+    assert summary.product_bucket_counts[("sum=|A-B|", "none")] == 2
+    assert summary.danger_count == 0
+
+
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
     from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
 

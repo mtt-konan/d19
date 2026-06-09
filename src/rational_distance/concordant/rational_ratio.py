@@ -222,6 +222,29 @@ class FullPlaneTrueClosureRelation:
     branch: str
 
 
+@dataclass(frozen=True)
+class FullPlaneClosureProductLedger:
+    """Product ledger attached to one full-plane closure classification."""
+
+    classification: FullPlaneTrueClosureRelation
+    conditions: ClosureProductSquareConditions
+    target: Fraction
+    product: Fraction
+    product_equals_lambda: bool
+    danger_branch: bool
+
+
+@dataclass(frozen=True)
+class FullPlaneClosureProductSummary:
+    """Finite diagnostic summary for full-plane closure product ledgers."""
+
+    total_relations: int
+    branch_counts: dict[str, int]
+    relation_branch_counts: dict[tuple[str, str], int]
+    product_bucket_counts: dict[tuple[str, str], int]
+    danger_count: int
+
+
 @dataclass(frozen=True, order=True)
 class SumAbReciprocalObstruction:
     """Proof ledger showing why ``sum=A+B`` reciprocal roots are not true."""
@@ -2455,6 +2478,89 @@ def scan_full_plane_true_closure_relations(
     )
 
 
+def full_plane_closure_product_ledger(
+    *,
+    lambda_ratio: Fraction | int,
+    r: Fraction | int,
+    s: Fraction | int,
+    relation: str,
+) -> FullPlaneClosureProductLedger:
+    """Attach the product-square ledger to one full-plane closure classification."""
+    classification = full_plane_true_closure_relation(
+        lambda_ratio=lambda_ratio,
+        r=r,
+        s=s,
+        relation=relation,
+    )
+    if not classification.closes_relation:
+        raise ValueError(
+            "full-plane closure product ledger requires a pair that does close"
+        )
+    product = classification.r * classification.s
+    conditions = closure_product_square_conditions(
+        classification.lambda_ratio,
+        classification.target,
+        product,
+        classification.relation,
+    )
+    return FullPlaneClosureProductLedger(
+        classification=classification,
+        conditions=conditions,
+        target=classification.target,
+        product=product,
+        product_equals_lambda=product == classification.lambda_ratio,
+        danger_branch=classification.branch == "true-nonreciprocal",
+    )
+
+
+def full_plane_closure_product_summary(
+    *,
+    lambda_ratios: tuple[Fraction, ...],
+    max_numerator: int,
+    max_denominator: int,
+    include_centerline: bool = False,
+    branches: tuple[str, ...] | None = None,
+) -> FullPlaneClosureProductSummary:
+    """Summarize finite full-plane closure product ledgers.
+
+    This is a bounded diagnostic.  It counts buckets in the supplied rational
+    root pool; it does not prove that missing buckets are impossible.
+    """
+    branch_counts: Counter[str] = Counter()
+    relation_branch_counts: Counter[tuple[str, str]] = Counter()
+    product_bucket_counts: Counter[tuple[str, str]] = Counter()
+    danger_count = 0
+
+    for relation in scan_full_plane_true_closure_relations(
+        lambda_ratios=lambda_ratios,
+        max_numerator=max_numerator,
+        max_denominator=max_denominator,
+        include_centerline=include_centerline,
+        branches=branches,
+    ):
+        ledger = full_plane_closure_product_ledger(
+            lambda_ratio=relation.lambda_ratio,
+            r=relation.r,
+            s=relation.s,
+            relation=relation.relation,
+        )
+        branch = ledger.classification.branch
+        product_bucket = ledger.conditions.product_square_bucket
+        branch_counts[branch] += 1
+        relation_branch_counts[(ledger.classification.relation, branch)] += 1
+        product_bucket_counts[(ledger.classification.relation, product_bucket)] += 1
+        if ledger.danger_branch:
+            danger_count += 1
+
+    return FullPlaneClosureProductSummary(
+        total_relations=sum(branch_counts.values()),
+        branch_counts=dict(sorted(branch_counts.items())),
+        relation_branch_counts=dict(sorted(relation_branch_counts.items())),
+        product_bucket_counts=dict(sorted(product_bucket_counts.items())),
+        danger_count=danger_count,
+    )
+
+
 def sum_ab_root_grid_residual_summary(
     *,
     max_numerator: int,
@@ -3465,6 +3571,8 @@ def reciprocal_closure_roots(
 
 __all__ = [
     "ClosureProductSquareConditions",
+    "FullPlaneClosureProductLedger",
+    "FullPlaneClosureProductSummary",
     "FullPlaneTrueClosureRelation",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
@@ -3497,6 +3605,8 @@ __all__ = [
     "closure_product_identity_terms",
     "closure_product_square_conditions",
     "find_rational_ratio_hits",
+    "full_plane_closure_product_ledger",
+    "full_plane_closure_product_summary",
     "full_plane_true_closure_relation",
     "group_sum_ab_ratio_shadow_orbits",
     "is_pythagorean_leg_ratio",
