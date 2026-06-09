@@ -348,6 +348,23 @@ def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
     assert not model.true_member
 
 
+def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_remaining_quartic,
+    )
+
+    quartic = sum_ab_centerline_remaining_quartic(Fraction(3, 5))
+
+    assert quartic.parameter == Fraction(3, 5)
+    assert quartic.coefficients == (1, 8, 18, -8, 1)
+    assert quartic.quartic_value == Fraction(2836, 625)
+    assert quartic.denominator_square == Fraction(256, 625)
+    assert quartic.lambda_value == Fraction(709, 64)
+    assert quartic.lambda_value == quartic.quartic_value / quartic.denominator_square
+    assert quartic.squareclass == 709
+    assert not quartic.is_square
+
+
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
     from rational_distance.concordant.rational_ratio import (
         REL_SUM_AB,

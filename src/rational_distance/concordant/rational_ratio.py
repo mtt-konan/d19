@@ -242,6 +242,19 @@ class SumAbCenterlineUnitLegParam:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineRemainingQuartic:
+    """Remaining quartic square test after the centerline unit-leg parameter."""
+
+    parameter: Fraction
+    coefficients: tuple[int, int, int, int, int]
+    quartic_value: Fraction
+    denominator_square: Fraction
+    lambda_value: Fraction
+    squareclass: int
+    is_square: bool
+
+
+@dataclass(frozen=True, order=True)
 class LegRatioSquareclass:
     """Squareclass diagnostic for the Pythagorean-leg test ``z^2 + 1``."""
 
@@ -2508,6 +2521,36 @@ def sum_ab_centerline_from_unit_leg_param(
     )
 
 
+def sum_ab_centerline_remaining_quartic(
+    parameter: Fraction | int,
+) -> SumAbCenterlineRemainingQuartic:
+    """Return the quartic left after the centerline unit-leg parameterization."""
+    t = _as_fraction(parameter)
+    _validate_positive("parameter", t)
+    denominator = 1 - t * t
+    if denominator == 0:
+        raise ValueError("parameter must not be 1")
+    coefficients = (1, 8, 18, -8, 1)
+    quartic_value = (
+        t**4
+        + 8 * t**3
+        + 18 * t * t
+        - 8 * t
+        + 1
+    )
+    denominator_square = denominator * denominator
+    lambda_value = quartic_value / denominator_square
+    return SumAbCenterlineRemainingQuartic(
+        parameter=t,
+        coefficients=coefficients,
+        quartic_value=quartic_value,
+        denominator_square=denominator_square,
+        lambda_value=lambda_value,
+        squareclass=_rational_squareclass(lambda_value)[0],
+        is_square=_is_rational_square(lambda_value),
+    )
+
+
 def square_rectangle_terms(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2599,6 +2642,7 @@ __all__ = [
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
     "SumAbCenterlineEquations",
+    "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
     "SumAbRatioShadowOrbit",
     "SumAbReciprocalObstruction",
@@ -2628,6 +2672,7 @@ __all__ = [
     "square_rectangle_terms",
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
+    "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
     "sum_ab_point_from_slopes",
     "sum_ab_product_square_bucket_summary",
