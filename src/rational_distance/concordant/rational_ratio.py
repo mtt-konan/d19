@@ -273,6 +273,24 @@ class SumAbCenterlineQuarticSelfSimilarity:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbCenterlineQuarticNegativeReciprocalQuotient:
+    """Quotient ledger for the involution ``t -> -1/t`` on the quartic."""
+
+    parameter: Fraction
+    negative_reciprocal: Fraction
+    quotient_variable: Fraction
+    quartic_value: Fraction
+    negative_reciprocal_quartic_value: Fraction
+    negative_reciprocal_symmetry_holds: bool
+    scaled_quartic_value: Fraction
+    quotient_quadratic_value: Fraction
+    reconstructing_quadratic_coefficients: tuple[Fraction, Fraction, Fraction]
+    reconstruction_discriminant: Fraction
+    reconstruction_discriminant_is_square: bool
+    reconstruction_roots: tuple[Fraction, ...]
+
+
+@dataclass(frozen=True, order=True)
 class SumAbCenterlineQuarticIntegerEquation:
     """Integer form of the centerline quartic for ``t=u/v``."""
 
@@ -2706,6 +2724,74 @@ def sum_ab_centerline_quartic_self_similarity(
     )
 
 
+def sum_ab_centerline_quartic_negative_reciprocal_quotient(
+    parameter: Fraction | int,
+) -> SumAbCenterlineQuarticNegativeReciprocalQuotient:
+    """Return the quotient ledger for the ``t -> -1/t`` quartic symmetry."""
+    t = _as_fraction(parameter)
+    if t == 0:
+        raise ValueError("parameter must be nonzero")
+    negative_reciprocal = -1 / t
+    quotient_variable = t - 1 / t
+    quartic_value = (
+        t**4
+        + 8 * t**3
+        + 18 * t * t
+        - 8 * t
+        + 1
+    )
+    negative_reciprocal_quartic_value = (
+        negative_reciprocal**4
+        + 8 * negative_reciprocal**3
+        + 18 * negative_reciprocal * negative_reciprocal
+        - 8 * negative_reciprocal
+        + 1
+    )
+    scaled_quartic_value = quartic_value / (t * t)
+    quotient_quadratic_value = (
+        quotient_variable * quotient_variable
+        + 8 * quotient_variable
+        + 20
+    )
+    coefficients = (
+        Fraction(1),
+        -quotient_variable,
+        Fraction(-1),
+    )
+    reconstruction_discriminant = quotient_variable * quotient_variable + 4
+    if _is_rational_square(reconstruction_discriminant):
+        sqrt_discriminant = Fraction(
+            isqrt(reconstruction_discriminant.numerator),
+            isqrt(reconstruction_discriminant.denominator),
+        )
+        roots = tuple(
+            sorted(
+                {
+                    (quotient_variable - sqrt_discriminant) / 2,
+                    (quotient_variable + sqrt_discriminant) / 2,
+                }
+            )
+        )
+    else:
+        roots = ()
+    return SumAbCenterlineQuarticNegativeReciprocalQuotient(
+        parameter=t,
+        negative_reciprocal=negative_reciprocal,
+        quotient_variable=quotient_variable,
+        quartic_value=quartic_value,
+        negative_reciprocal_quartic_value=negative_reciprocal_quartic_value,
+        negative_reciprocal_symmetry_holds=(
+            negative_reciprocal_quartic_value == quartic_value / t**4
+        ),
+        scaled_quartic_value=scaled_quartic_value,
+        quotient_quadratic_value=quotient_quadratic_value,
+        reconstructing_quadratic_coefficients=coefficients,
+        reconstruction_discriminant=reconstruction_discriminant,
+        reconstruction_discriminant_is_square=bool(roots),
+        reconstruction_roots=roots,
+    )
+
+
 def sum_ab_centerline_quartic_integer_equation(
     u: int,
     v: int,
@@ -3044,6 +3130,7 @@ __all__ = [
     "SumAbCenterlineQuarticCRTLiveResidueSummary",
     "SumAbCenterlineQuarticIntegerEquation",
     "SumAbCenterlineQuarticLiveResidueClass",
+    "SumAbCenterlineQuarticNegativeReciprocalQuotient",
     "SumAbCenterlineQuarticPrimitiveResidueSummary",
     "SumAbCenterlineQuarticResidueSummary",
     "SumAbCenterlineQuarticSelfSimilarity",
@@ -3081,6 +3168,7 @@ __all__ = [
     "sum_ab_centerline_quartic_crt_live_residue_summary",
     "sum_ab_centerline_quartic_integer_equation",
     "sum_ab_centerline_quartic_live_residue_classes",
+    "sum_ab_centerline_quartic_negative_reciprocal_quotient",
     "sum_ab_centerline_quartic_primitive_residue_summary",
     "sum_ab_centerline_quartic_residue_summary",
     "sum_ab_centerline_quartic_self_similarity",

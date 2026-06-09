@@ -350,6 +350,7 @@ def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
 
 def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     from rational_distance.concordant.rational_ratio import (
+        sum_ab_centerline_quartic_negative_reciprocal_quotient,
         sum_ab_centerline_quartic_self_similarity,
         sum_ab_centerline_remaining_quartic,
     )
@@ -397,6 +398,39 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
     assert base.direct_positive_descent_warning == "degenerate-linear-root"
     assert base.has_rational_lift
     assert base.lift_roots == (Fraction(0),)
+
+    quotient = sum_ab_centerline_quartic_negative_reciprocal_quotient(
+        Fraction(3, 5)
+    )
+
+    assert quotient.parameter == Fraction(3, 5)
+    assert quotient.negative_reciprocal == Fraction(-5, 3)
+    assert quotient.quotient_variable == Fraction(-16, 15)
+    assert quotient.quartic_value == Fraction(2836, 625)
+    assert quotient.negative_reciprocal_quartic_value == Fraction(2836, 81)
+    assert (
+        quotient.negative_reciprocal_quartic_value
+        == quotient.quartic_value / quotient.parameter**4
+    )
+    assert quotient.negative_reciprocal_symmetry_holds
+    assert quotient.scaled_quartic_value == Fraction(2836, 225)
+    assert quotient.quotient_quadratic_value == Fraction(2836, 225)
+    assert quotient.reconstructing_quadratic_coefficients == (
+        Fraction(1),
+        Fraction(16, 15),
+        Fraction(-1),
+    )
+    assert quotient.reconstruction_discriminant == Fraction(1156, 225)
+    assert quotient.reconstruction_discriminant_is_square
+    assert quotient.reconstruction_roots == (Fraction(-5, 3), Fraction(3, 5))
+
+    quotient_base = sum_ab_centerline_quartic_negative_reciprocal_quotient(
+        Fraction(1)
+    )
+
+    assert quotient_base.quotient_variable == 0
+    assert quotient_base.reconstruction_discriminant == 4
+    assert quotient_base.reconstruction_roots == (Fraction(-1), Fraction(1))
 
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
