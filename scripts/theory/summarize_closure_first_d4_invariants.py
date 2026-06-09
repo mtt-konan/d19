@@ -5,11 +5,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import Counter, defaultdict
 from collections.abc import Sequence
 from fractions import Fraction
 from pathlib import Path
 from typing import Any
+
+ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT))
+
+from scripts.theory.equationize_closure_first_near_miss import equationize_sample  # noqa: E402
 
 
 def _fraction(value: str | int) -> Fraction:
@@ -42,6 +48,14 @@ def invariant_record(record: dict[str, Any]) -> dict[str, Any]:
     y1my = y * (1 - y)
     uv_left, uv_right = _sorted_fraction_pair(x1mx, y1my)
     sample = _sample(record)
+    shared_variables = equationize_sample(
+        sample["A"],
+        sample["B"],
+        sample["N1"],
+        sample["N2"],
+        sample["relation"],
+    )["shared_variables"]
+    shared_variable_roles = _shared_variable_roles(shared_variables)
     return {
         "x": str(x),
         "y": str(y),
@@ -59,8 +73,28 @@ def invariant_record(record: dict[str, Any]) -> dict[str, Any]:
         "ab_diff": abs(sample["A"] - sample["B"]),
         "n_sum": sample["N1"] + sample["N2"],
         "n_diff": abs(sample["N1"] - sample["N2"]),
+        "shared_variable_roles": shared_variable_roles,
+        "shared_role_pattern": _shared_role_pattern(shared_variable_roles),
         "best_sample": sample,
     }
+
+
+def _shared_variable_roles(
+    shared_variables: dict[str, list[dict[str, Any]]]
+) -> dict[str, list[str]]:
+    return {
+        label: [str(entry["role"]) for entry in entries]
+        for label, entries in sorted(shared_variables.items())
+    }
+
+
+def _shared_role_pattern(shared_variable_roles: dict[str, list[str]]) -> str:
+    if not shared_variable_roles:
+        return "none"
+    return "|".join(
+        f"{label}:{'+'.join(roles)}"
+        for label, roles in shared_variable_roles.items()
+    )
 
 
 def _counter_to_json(counter: Counter[str]) -> dict[str, int]:
@@ -118,6 +152,7 @@ def summarize_records(
     invariants = [invariant_record(record) for record in records]
     relation_counts = Counter(record["best_relation"] for record in invariants)
     missing_counts = Counter(edge for record in invariants for edge in record["best_missing_edges"])
+    shared_pattern_counts = Counter(record["shared_role_pattern"] for record in invariants)
     uv_groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for record in invariants:
         uv_groups[tuple(record["uv_pair"])].append(record)
@@ -150,6 +185,7 @@ def summarize_records(
         "uv_pair_group_count": len(uv_groups),
         "relation_counts": _counter_to_json(relation_counts),
         "missing_edge_counts": _counter_to_json(missing_counts),
+        "shared_role_pattern_counts": _counter_to_json(shared_pattern_counts),
         "uv_pair_groups_top": _top_groups(uv_groups, top_groups),
         "low_delta_threshold": low_delta,
         "low_delta_records": low_records,

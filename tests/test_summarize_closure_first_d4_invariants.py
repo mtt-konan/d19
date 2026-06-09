@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -21,10 +22,10 @@ def test_invariant_record_uses_d4_symmetric_coordinate_products() -> None:
         "best_relation": "sum=A+B",
         "best_missing_edges": ["A-N2"],
         "best_sample": {
-            "A": 10,
-            "B": 20,
-            "N1": 12,
-            "N2": 18,
+            "A": 7,
+            "B": 45,
+            "N1": 24,
+            "N2": 28,
             "relation": "sum=A+B",
             "failed_nearest_delta": 7,
             "missing_edges": ["A-N2"],
@@ -40,10 +41,15 @@ def test_invariant_record_uses_d4_symmetric_coordinate_products() -> None:
     assert summary["uv_sum"] == "104/225"
     assert summary["uv_product"] == "4/75"
     assert summary["side_n"] == 30
-    assert summary["ab_sum"] == 30
-    assert summary["ab_diff"] == 10
-    assert summary["n_sum"] == 30
-    assert summary["n_diff"] == 6
+    assert summary["ab_sum"] == 52
+    assert summary["ab_diff"] == 38
+    assert summary["n_sum"] == 52
+    assert summary["n_diff"] == 4
+    assert summary["shared_variable_roles"] == {
+        "B": ["odd_leg", "odd_leg"],
+        "N1": ["even_leg", "even_leg"],
+    }
+    assert summary["shared_role_pattern"] == "B:odd_leg+odd_leg|N1:even_leg+even_leg"
 
 
 def test_summarize_records_groups_by_invariant_pair_and_tracks_low_delta() -> None:
@@ -58,10 +64,10 @@ def test_summarize_records_groups_by_invariant_pair_and_tracks_low_delta() -> No
             "best_relation": "sum=A+B",
             "best_missing_edges": ["A-N2"],
             "best_sample": {
-                "A": 10,
-                "B": 20,
-                "N1": 12,
-                "N2": 18,
+                "A": 7,
+                "B": 45,
+                "N1": 24,
+                "N2": 28,
                 "relation": "sum=A+B",
                 "failed_nearest_delta": 7,
                 "missing_edges": ["A-N2"],
@@ -99,6 +105,10 @@ def test_summarize_records_groups_by_invariant_pair_and_tracks_low_delta() -> No
     assert summary["uv_pair_groups_top"][0]["d4_points"] == 2
     assert summary["uv_pair_groups_top"][0]["raw_count"] == 5
     assert summary["low_delta_records"][0]["best_failed_nearest_delta"] == 7
+    assert summary["shared_role_pattern_counts"] == {
+        "B:odd_leg+odd_leg|N1:even_leg+even_leg": 1,
+        "none": 1,
+    }
 
 
 def test_cli_writes_summary_json(tmp_path) -> None:
@@ -138,3 +148,55 @@ def test_cli_writes_summary_json(tmp_path) -> None:
     assert written["source"]["max_leg"] == 100
     assert written["source"]["diff_tail"] == 300
     assert written["record_count"] == 1
+
+
+def test_script_path_cli_can_run_from_repo_root(tmp_path) -> None:
+    input_path = tmp_path / "points.json"
+    output_path = tmp_path / "summary.json"
+    payload = {
+        "max_leg": 100,
+        "diff_tail": 300,
+        "d4_point_records": [
+            {
+                "x": "1/3",
+                "y": "2/5",
+                "x_float": 1 / 3,
+                "y_float": 2 / 5,
+                "raw_count": 2,
+                "best_failed_nearest_delta": 7,
+                "best_relation": "sum=A+B",
+                "best_missing_edges": ["A-N2"],
+                "best_sample": {
+                    "A": 7,
+                    "B": 45,
+                    "N1": 24,
+                    "N2": 28,
+                    "relation": "sum=A+B",
+                    "failed_nearest_delta": 7,
+                    "missing_edges": ["A-N2"],
+                    "square_coordinate": {"x": "1/3", "y": "2/5", "side_n": 30},
+                },
+            }
+        ],
+    }
+    input_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/theory/summarize_closure_first_d4_invariants.py",
+            str(input_path),
+            "--out",
+            str(output_path),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    written = json.loads(output_path.read_text(encoding="utf-8"))
+    assert written["shared_role_pattern_counts"] == {
+        "B:odd_leg+odd_leg|N1:even_leg+even_leg": 1
+    }
