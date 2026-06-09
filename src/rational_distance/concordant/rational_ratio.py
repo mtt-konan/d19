@@ -364,6 +364,20 @@ class SumAbSameOrientationSharedLegTerms:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbSameOrientationDenominatorFactorization:
+    """Factorization of ``P±Q`` for same-orientation denominators."""
+
+    orientation: str
+    other_denominator: int
+    failed_denominator: int
+    denominator_difference: int
+    denominator_sum: int
+    nu_minus_mv: int
+    difference_factorization: tuple[int, int, int]
+    sum_factorization: tuple[int, int, int]
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -852,6 +866,44 @@ def sum_ab_same_orientation_shared_leg_terms(
         failed_denominator=failed_denominator,
         other_square_equation=_integer_square_equation_from_terms(other_terms),
         failed_square_equation=_integer_square_equation_from_terms(failed_terms),
+    )
+
+
+def sum_ab_same_orientation_denominator_factorization(
+    *,
+    slope_m: int,
+    slope_n: int,
+    scaled_term_m: int,
+    scaled_term_n: int,
+    orientation: str,
+) -> SumAbSameOrientationDenominatorFactorization:
+    """Return the ``P±Q`` factors for same-orientation Euclid denominators."""
+    slope = PythagoreanLegParam(slope_m, slope_n, orientation)
+    scaled_term = PythagoreanLegParam(scaled_term_m, scaled_term_n, orientation)
+    shared_terms = sum_ab_same_orientation_shared_leg_terms(slope, scaled_term)
+    m = slope_m
+    n = slope_n
+    u = scaled_term_m
+    v = scaled_term_n
+    nu_minus_mv = n * u - m * v
+    difference_sign = 2 if orientation == "odd" else -2
+    first_difference_factor = m * u + n * v
+    first_sum_factor = m * u - n * v
+    second_sum_factor = m * v + n * u
+    return SumAbSameOrientationDenominatorFactorization(
+        orientation=orientation,
+        other_denominator=shared_terms.other_denominator,
+        failed_denominator=shared_terms.failed_denominator,
+        denominator_difference=shared_terms.other_denominator
+        - shared_terms.failed_denominator,
+        denominator_sum=shared_terms.other_denominator + shared_terms.failed_denominator,
+        nu_minus_mv=nu_minus_mv,
+        difference_factorization=(
+            difference_sign,
+            first_difference_factor,
+            nu_minus_mv,
+        ),
+        sum_factorization=(2, first_sum_factor, second_sum_factor),
     )
 
 

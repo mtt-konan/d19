@@ -417,6 +417,43 @@ def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> 
         )
 
 
+def test_sum_ab_same_orientation_denominator_factorization_exposes_nu_minus_mv() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_same_orientation_denominator_factorization,
+    )
+
+    factorization = sum_ab_same_orientation_denominator_factorization(
+        slope_m=4,
+        slope_n=1,
+        scaled_term_m=7,
+        scaled_term_n=2,
+        orientation="odd",
+    )
+
+    assert factorization.other_denominator == 360
+    assert factorization.failed_denominator == 420
+    assert factorization.denominator_difference == -60
+    assert factorization.denominator_sum == 780
+    assert factorization.nu_minus_mv == -1
+    assert factorization.difference_factorization == (2, 30, -1)
+    assert factorization.sum_factorization == (2, 26, 15)
+
+    even_factorization = sum_ab_same_orientation_denominator_factorization(
+        slope_m=4,
+        slope_n=1,
+        scaled_term_m=7,
+        scaled_term_n=2,
+        orientation="even",
+    )
+
+    assert even_factorization.other_denominator == 420
+    assert even_factorization.failed_denominator == 360
+    assert even_factorization.denominator_difference == 60
+    assert even_factorization.nu_minus_mv == -1
+    assert even_factorization.difference_factorization == (-2, 30, -1)
+    assert even_factorization.sum_factorization == (2, 26, 15)
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 
