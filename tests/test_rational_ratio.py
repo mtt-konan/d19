@@ -270,6 +270,8 @@ def test_sum_ab_mobius_model_from_euclid_params_exposes_square_equations() -> No
     assert model.failed_integer_equation == (1, 4, None)
     assert model.other_slope_polynomial_terms == (105, 360)
     assert model.failed_polynomial_terms == (105, 420)
+    assert model.other_slope_polynomial_equation == (105, 360, 375)
+    assert model.failed_polynomial_equation == (105, 420, None)
     assert model.failed_squareclass == 17
 
 

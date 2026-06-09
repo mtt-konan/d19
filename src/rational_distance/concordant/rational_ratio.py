@@ -204,6 +204,8 @@ class SumAbThreePassEuclidModel:
     failed_integer_equation: tuple[int, int, int | None]
     other_slope_polynomial_terms: tuple[int, int]
     failed_polynomial_terms: tuple[int, int]
+    other_slope_polynomial_equation: tuple[int, int, int | None]
+    failed_polynomial_equation: tuple[int, int, int | None]
 
     @property
     def failed_squareclass(self) -> int:
@@ -491,6 +493,16 @@ def _integer_square_equation_for_leg_ratio(ratio: Fraction) -> tuple[int, int, i
     return numerator, denominator, hypotenuse
 
 
+def _integer_square_equation_from_terms(
+    terms: tuple[int, int],
+) -> tuple[int, int, int | None]:
+    numerator, denominator = terms
+    square_sum = numerator * numerator + denominator * denominator
+    root = isqrt(square_sum)
+    hypotenuse = root if root * root == square_sum else None
+    return numerator, denominator, hypotenuse
+
+
 def _sum_ab_mobius_polynomial_terms_from_legs(
     slope_terms: tuple[int, int],
     scaled_term_terms: tuple[int, int],
@@ -537,6 +549,8 @@ def sum_ab_three_pass_mobius_model_from_params(
         ),
         other_slope_polynomial_terms=other_terms,
         failed_polynomial_terms=failed_terms,
+        other_slope_polynomial_equation=_integer_square_equation_from_terms(other_terms),
+        failed_polynomial_equation=_integer_square_equation_from_terms(failed_terms),
     )
 
 
