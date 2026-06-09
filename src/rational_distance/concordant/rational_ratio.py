@@ -213,6 +213,18 @@ class SumAbThreePassEuclidModel:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbEuclidOrientationEquation:
+    """One orientation case after substituting Euclid leg terms into ``sum=A+B``."""
+
+    slope_orientation: str
+    scaled_term_orientation: str
+    slope_terms: tuple[int, int]
+    scaled_term_terms: tuple[int, int]
+    other_slope_polynomial_equation: tuple[int, int, int | None]
+    failed_polynomial_equation: tuple[int, int, int | None]
+
+
+@dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
 
@@ -552,6 +564,51 @@ def sum_ab_three_pass_mobius_model_from_params(
         other_slope_polynomial_equation=_integer_square_equation_from_terms(other_terms),
         failed_polynomial_equation=_integer_square_equation_from_terms(failed_terms),
     )
+
+
+def sum_ab_euclid_orientation_equations(
+    *,
+    slope_m: int,
+    slope_n: int,
+    scaled_term_m: int,
+    scaled_term_n: int,
+) -> tuple[SumAbEuclidOrientationEquation, ...]:
+    """Expand the four odd/even Euclid orientation cases for ``sum=A+B``.
+
+    This is an equationization helper: it records the unreduced integer square
+    equations after substituting two Euclid-parameterized leg ratios.  It does
+    not assert that any branch is impossible.
+    """
+    cases: list[SumAbEuclidOrientationEquation] = []
+    for slope_orientation in ("odd", "even"):
+        slope_param = PythagoreanLegParam(slope_m, slope_n, slope_orientation)
+        slope_terms = slope_param.leg_terms()
+        for scaled_term_orientation in ("odd", "even"):
+            scaled_term_param = PythagoreanLegParam(
+                scaled_term_m,
+                scaled_term_n,
+                scaled_term_orientation,
+            )
+            scaled_term_terms = scaled_term_param.leg_terms()
+            other_terms, failed_terms = _sum_ab_mobius_polynomial_terms_from_legs(
+                slope_terms,
+                scaled_term_terms,
+            )
+            cases.append(
+                SumAbEuclidOrientationEquation(
+                    slope_orientation=slope_orientation,
+                    scaled_term_orientation=scaled_term_orientation,
+                    slope_terms=slope_terms,
+                    scaled_term_terms=scaled_term_terms,
+                    other_slope_polynomial_equation=_integer_square_equation_from_terms(
+                        other_terms
+                    ),
+                    failed_polynomial_equation=_integer_square_equation_from_terms(
+                        failed_terms
+                    ),
+                )
+            )
+    return tuple(cases)
 
 
 def _sum_ab_slope_obstruction_with_squareclass_cache(

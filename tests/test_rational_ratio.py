@@ -275,6 +275,36 @@ def test_sum_ab_mobius_model_from_euclid_params_exposes_square_equations() -> No
     assert model.failed_squareclass == 17
 
 
+def test_sum_ab_euclid_orientation_equations_expand_four_cases() -> None:
+    from rational_distance.concordant.rational_ratio import (
+        sum_ab_euclid_orientation_equations,
+    )
+
+    cases = sum_ab_euclid_orientation_equations(
+        slope_m=4,
+        slope_n=1,
+        scaled_term_m=7,
+        scaled_term_n=2,
+    )
+
+    assert [
+        (
+            case.slope_orientation,
+            case.scaled_term_orientation,
+            case.slope_terms,
+            case.scaled_term_terms,
+            case.other_slope_polynomial_equation,
+            case.failed_polynomial_equation,
+        )
+        for case in cases
+    ] == [
+        ("odd", "odd", (15, 8), (45, 28), (105, 360, 375), (105, 420, None)),
+        ("odd", "even", (15, 8), (28, 45), (479, 224, None), (479, 675, None)),
+        ("even", "odd", (8, 15), (45, 28), (539, 675, None), (539, 224, None)),
+        ("even", "even", (8, 15), (28, 45), (556, 420, None), (556, 360, None)),
+    ]
+
+
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
     import rational_distance.concordant.rational_ratio as rr
 
