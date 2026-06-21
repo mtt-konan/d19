@@ -92,5 +92,17 @@ class TestCycleRelations:
         assert res.skipped_reason is None
         assert res.rank is not None and res.rank >= 3
         assert res.all_two_divisible
-        # generators are recorded as exact coordinate strings (may be fractions)
-        assert any("/" in gx or "/" in gy for gx, gy in res.generators)
+        assert res.all_verified
+        assert len(res.generators) == res.rank
+
+    def test_mw_coordinates_saturates_ellrank_subgroup(self):
+        # Direction-one top40 MW evidence exposed that PARI ellrank may return
+        # a finite-index subgroup. This pair needs small-prime saturation before
+        # all concordant points verify as integer MW coordinates plus torsion.
+        res = analyze_cycle_relations(
+            109440,
+            489060,
+            [12705, 82080, 98800, 541728, 619008, 652080],
+        )
+        assert res.all_two_divisible
+        assert res.all_verified

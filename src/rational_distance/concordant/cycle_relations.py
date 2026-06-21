@@ -191,6 +191,28 @@ def _combine_free_part(pari: Any, E: Any, gens: Any, coords: list[int]) -> Any:
     return acc
 
 
+def _saturate_generators(
+    pari: Any,
+    E: Any,
+    gens: list[Any],
+    *,
+    primes: tuple[int, ...] = (2, 3, 5, 7, 11, 13),
+) -> list[Any]:
+    """Saturate an ``ellrank`` generator basis at small primes when possible."""
+    saturated = list(gens)
+    if not saturated:
+        return saturated
+    for p in primes:
+        try:
+            next_gens = pari("ellsaturation")(E, pari(saturated), p)
+            next_list = [next_gens[i] for i in range(len(next_gens))]
+        except Exception:
+            continue
+        if len(next_list) == len(saturated):
+            saturated = next_list
+    return saturated
+
+
 def mw_coordinates(
     A: int,
     B: int,
@@ -207,6 +229,7 @@ def mw_coordinates(
     # Exact PARI generator points: ellrank can return generators with rational
     # coordinates, which int-truncation would corrupt (-> "point not on E").
     rank, bounds, _sha2, gens = compute_rank_exact_points(A, B, pari, effort=effort)
+    gens = _saturate_generators(pari, E, gens)
     r = len(gens)
     # Faithful string record of the (possibly rational) generator coordinates.
     gen_coords = [(str(pt[0]), str(pt[1])) for pt in gens]

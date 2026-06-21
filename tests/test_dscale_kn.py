@@ -136,3 +136,51 @@ def test_reproduce_wl063_k10_hub() -> None:
         1426425, 1688148, 1900800, 6918912,
     ]
     assert Ns == expected, f"Got {Ns}, expected {expected}"
+
+
+@pytest.mark.skipif(
+    os.environ.get("SKIP_PARI_TESTS") == "1",
+    reason="PARI tests disabled (SKIP_PARI_TESTS=1)",
+)
+def test_enumerate_rational_n_uses_effortful_generators_for_square_x_points() -> None:
+    """Regression for wl223 top40 anomalies.
+
+    PARI's default ellrank generators can certify the rank but still miss
+    small-coordinate square-x points inside our bounded combination box.
+    With effortful generators, N=840 on primitive (800,1463) is just 2G.
+    """
+    from rational_distance.concordant.dscale_kn import enumerate_rational_n
+
+    pool = enumerate_rational_n(
+        800,
+        1463,
+        max_depth=4,
+        ratpoints_bound=0,
+        rank_combo_bound=2,
+    )
+
+    assert Fraction(840, 1) in pool.rational_ns
+
+
+@pytest.mark.skipif(
+    os.environ.get("SKIP_PARI_TESTS") == "1",
+    reason="PARI tests disabled (SKIP_PARI_TESTS=1)",
+)
+def test_enumerate_rational_n_combines_effortful_generators_with_torsion() -> None:
+    """Regression for the (117,320) top40 anomaly.
+
+    The missing n=2244/5 is reached by an effortful generator combination plus
+    a torsion point, so the effortful basis must use the same torsion expansion
+    as the default basis.
+    """
+    from rational_distance.concordant.dscale_kn import enumerate_rational_n
+
+    pool = enumerate_rational_n(
+        117,
+        320,
+        max_depth=4,
+        ratpoints_bound=0,
+        rank_combo_bound=2,
+    )
+
+    assert Fraction(2244, 5) in pool.rational_ns

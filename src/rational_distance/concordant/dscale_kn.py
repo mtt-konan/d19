@@ -45,6 +45,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from fractions import Fraction
+from itertools import product
 from math import gcd, isqrt
 from typing import Iterable
 
@@ -151,6 +152,7 @@ def enumerate_rational_n(
     max_depth: int = 30,
     ratpoints_bound: int = 100_000,
     rank_combo_bound: int = 5,
+    effort: int = 1,
     pari=None,
 ) -> RationalNPool:
     """Enumerate rational n ∈ ℚ such that E_{a₀,b₀}(ℚ) contains a point with
@@ -167,6 +169,8 @@ def enumerate_rational_n(
       max_depth: per-generator multiple depth (positive AND negative).
       ratpoints_bound: ellratpoints naive height bound; 0 disables.
       rank_combo_bound: linear-combination box size for rank ≥ 2.
+      effort: PARI ellrank effort; effort=1 often returns a generator basis
+        that exposes square-x points with much smaller coefficients.
     """
     if pari is None:
         pari = _ensure_pari()
@@ -174,17 +178,31 @@ def enumerate_rational_n(
     a2, b2 = a0 * a0, b0 * b0
     E = pari(f"ellinit([0, {a2 + b2}, 0, {a2 * b2}, 0])")
 
-    rank_info = pari.ellrank(E)
+    rank_info = pari.ellrank(E) if effort == 0 else pari.ellrank(E, effort)
     rank_lower = int(rank_info[0]) if len(rank_info) > 0 else 0
     rank_upper = int(rank_info[1]) if len(rank_info) > 1 else 0
-    gens = []
-    if len(rank_info) > 3:
-        gen_list = rank_info[3]
-        for i in range(len(gen_list)):
-            gens.append(gen_list[i])
+    gen_sets = []
+
+    def _append_rank_generators(info) -> None:
+        if len(info) <= 3:
+            return
+        gen_list = info[3]
+        gens = [gen_list[i] for i in range(len(gen_list))]
+        if gens:
+            gen_sets.append(gens)
+
+    _append_rank_generators(rank_info)
+    for extra_effort in range(0, max(2, effort) + 1):
+        if extra_effort == effort:
+            continue
+        try:
+            extra = pari.ellrank(E) if extra_effort == 0 else pari.ellrank(E, extra_effort)
+            _append_rank_generators(extra)
+        except Exception:
+            continue
 
     n_set: set[Fraction] = set()
-    if not gens:
+    if not gen_sets:
         return RationalNPool(a0, b0, rank_lower, rank_upper, 0, [])
 
     # Get torsion: E_{a,b} always has Z/2 × Z/4 (8 elements)
@@ -231,45 +249,44 @@ def enumerate_rational_n(
             except Exception:
                 pass
 
-    # Strategy (a): per-generator multiples (positive & negative) + torsion
-    for G in gens:
-        P = G
-        for _ in range(max_depth):
-            _add_with_torsion(P)
-            try:
-                P = pari.elladd(E, P, G)
-            except Exception:
-                break
-        try:
-            nG = pari.ellneg(E, G)
-            P = nG
+    for gens in gen_sets:
+        # Strategy (a): per-generator multiples (positive & negative) + torsion
+        for G in gens:
+            P = G
             for _ in range(max_depth):
                 _add_with_torsion(P)
                 try:
-                    P = pari.elladd(E, P, nG)
+                    P = pari.elladd(E, P, G)
                 except Exception:
                     break
-        except Exception:
-            pass
-
-    # Strategy (a') for rank ≥ 2: all combinations ∑ m_i G_i + torsion
-    if len(gens) >= 2:
-        from itertools import product
-
-        for ms in product(range(-rank_combo_bound, rank_combo_bound + 1), repeat=len(gens)):
-            if all(m == 0 for m in ms):
-                continue
             try:
-                P = None
-                for m, G in zip(ms, gens):
-                    if m == 0:
-                        continue
-                    Q = pari.ellmul(E, G, m)
-                    P = Q if P is None else pari.elladd(E, P, Q)
-                if P is not None:
+                nG = pari.ellneg(E, G)
+                P = nG
+                for _ in range(max_depth):
                     _add_with_torsion(P)
+                    try:
+                        P = pari.elladd(E, P, nG)
+                    except Exception:
+                        break
             except Exception:
                 pass
+
+        # Strategy (a') for rank ≥ 2: all combinations ∑ m_i G_i + torsion
+        if len(gens) >= 2:
+            for ms in product(range(-rank_combo_bound, rank_combo_bound + 1), repeat=len(gens)):
+                if all(m == 0 for m in ms):
+                    continue
+                try:
+                    P = None
+                    for m, G in zip(ms, gens):
+                        if m == 0:
+                            continue
+                        Q = pari.ellmul(E, G, m)
+                        P = Q if P is None else pari.elladd(E, P, Q)
+                    if P is not None:
+                        _add_with_torsion(P)
+                except Exception:
+                    pass
 
     for P in points:
         try:
@@ -297,7 +314,7 @@ def enumerate_rational_n(
             logger.warning("ellratpoints failed for E_{%d,%d}: %s", a0, b0, exc)
 
     return RationalNPool(
-        a0, b0, rank_lower, rank_upper, len(gens), sorted(n_set)
+        a0, b0, rank_lower, rank_upper, max(len(gens) for gens in gen_sets), sorted(n_set)
     )
 
 
