@@ -17,6 +17,7 @@ Scope: audit the repository's theory framework for fatal or near-fatal errors th
 - 整数固定比例 `A=kB` 是有效的低维理论切片，但它不能覆盖全局候选。归一化后的比例是 `λ=A/B∈Q_{>0}`，不一定是整数。
 - 纯同余筛不能关闭固定比例分支；`B≡0, N1≡1, N2≡-1 (mod M)` 给出每个模数上的局部幸存。
 - 有理比例 `R_λ` 版本已经有精确 `Fraction` 模块和测试，但它只记录恒等式与危险样本，不证明 `A=λB` 全灭。
+- wl220-wl222 新增了 full-plane reciprocal / squareclass / discriminant 账本；它们把“二次方程有根”和“根真的是 `R_λ` 成员”分开记，但仍然只是 proof-side diagnostics，不是全局无解证明。
 
 补审文件：`subagent-notes/fixed-ratio-addendum.md`。
 

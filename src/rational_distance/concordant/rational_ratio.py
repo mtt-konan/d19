@@ -11,15 +11,15 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass
 from fractions import Fraction
+from math import comb, isqrt
 from math import gcd as _gcd
-from math import isqrt
 
 from sympy import factorint
 
-REL_SUM_AB = "sum=A+B"
-REL_SUM_DIFF = "sum=|A-B|"
-REL_DIFF_AB = "diff=A+B"
-REL_DIFF_DIFF = "diff=|A-B|"
+REL_SUM_AB = "sum=A+B"      # r + s = λ + 1
+REL_SUM_DIFF = "sum=|A-B|"  # r + s = |λ - 1|
+REL_DIFF_AB = "diff=A+B"    # |r - s| = λ + 1
+REL_DIFF_DIFF = "diff=|A-B|" # |r - s| = |λ - 1|
 
 
 @dataclass(frozen=True, order=True)
@@ -115,6 +115,148 @@ class ClosureProductSquareConditions:
 
 
 @dataclass(frozen=True)
+class ClosureMemberProductSquareLedger:
+    """Individual member-square values and their product-level shadow terms."""
+
+    lambda_ratio: Fraction
+    target: Fraction
+    product: Fraction
+    relation: str
+    identity_terms: ProductIdentityTerms
+    roots: tuple[Fraction, ...]
+    unit_values: tuple[Fraction, Fraction] | tuple[()]
+    lambda_values: tuple[Fraction, Fraction] | tuple[()]
+    unit_product: Fraction | None
+    lambda_product: Fraction | None
+    unit_product_is_square: bool
+    lambda_product_is_square: bool
+    member_squareclasses: tuple[int, int, int, int] | tuple[()]
+    member_squareclass_pair: tuple[int, int] | tuple[()]
+    member_squareclasses_pairwise_equal: bool
+    member_squareclasses_all_trivial: bool
+    true_member_pair: bool
+
+
+@dataclass(frozen=True, order=True)
+class ClosureMemberPrimeValuationRow:
+    """Valuations at one prime for member terms and product identity terms."""
+
+    prime: int
+    member_valuations: tuple[int, int, int, int]
+    identity_valuations: tuple[int | None, int | None, int | None, int | None, int | None]
+    all_member_valuations_even: bool
+    product_valuations_even: bool
+
+
+@dataclass(frozen=True)
+class ClosureMemberPrimeValuationLedger:
+    """Prime-valuation ledger for the member-product square bridge."""
+
+    member_ledger: ClosureMemberProductSquareLedger
+    primes: tuple[int, ...]
+    three_mod_four_primes: tuple[int, ...]
+    member_squareclass_primes: tuple[int, ...]
+    three_mod_four_member_squareclass_primes: tuple[int, ...]
+    rows: tuple[ClosureMemberPrimeValuationRow, ...]
+    three_mod_four_rows: tuple[ClosureMemberPrimeValuationRow, ...]
+    rows_by_prime: dict[int, ClosureMemberPrimeValuationRow]
+
+
+@dataclass(frozen=True, order=True)
+class ClosureIdentityThreeModFourBalanceRow:
+    """Three-mod-four identity parity row for one prime."""
+
+    prime: int
+    identity_valuations: tuple[int | None, int | None, int | None, int | None, int | None]
+    identity_difference_odd: bool
+    lambda_squared_minus_one_odd: bool
+    lambda_squared_minus_product_squared_odd: bool
+    shared_odd_compensation: bool
+
+
+@dataclass(frozen=True)
+class ClosureIdentityThreeModFourBalanceLedger:
+    """Parity balance summary for ``(lambda^2-1)(lambda^2-p^2)``."""
+
+    valuation_ledger: ClosureMemberPrimeValuationLedger
+    rows: tuple[ClosureIdentityThreeModFourBalanceRow, ...]
+    rows_by_prime: dict[int, ClosureIdentityThreeModFourBalanceRow]
+    odd_identity_difference_primes: tuple[int, ...]
+    odd_lambda_squared_minus_product_squared_primes: tuple[int, ...]
+    shared_odd_lambda_squared_minus_one_primes: tuple[int, ...]
+    unshared_odd_lambda_squared_minus_product_squared_primes: tuple[int, ...]
+
+
+@dataclass(frozen=True, order=True)
+class ClosureIdentitySharedGcdRow:
+    """Shared-gcd row for ``lambda^2-1`` and ``lambda^2-p^2``."""
+
+    prime: int
+    lambda_squared_minus_one_valuation: int | None
+    lambda_squared_minus_product_squared_valuation: int | None
+    p_squared_minus_one_valuation: int | None
+    closure_discriminant_valuation: int | None
+    shared_odd_compensation: bool
+    p_squared_minus_one_carries_shared_factor: bool
+    closure_discriminant_valuation_even: bool
+
+
+@dataclass(frozen=True)
+class ClosureIdentitySharedGcdLedger:
+    """GCD bridge from shared odd compensation to ``p^2-1`` and discriminant."""
+
+    balance_ledger: ClosureIdentityThreeModFourBalanceLedger
+    closure_discriminant: Fraction
+    rows: tuple[ClosureIdentitySharedGcdRow, ...]
+    rows_by_prime: dict[int, ClosureIdentitySharedGcdRow]
+    shared_odd_compensation_primes: tuple[int, ...]
+    unshared_odd_lambda_squared_minus_product_squared_primes: tuple[int, ...]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSharedOddPrimeResidueCase:
+    """One surviving shared-prime sign case for the ``sum=A+B`` branch."""
+
+    prime: int
+    lambda_residue: int
+    product_residue: int
+    target_residue: int
+    discriminant_residue: int
+    root_residues: tuple[tuple[int, int], ...]
+    member_square_residue_pairs: tuple[tuple[int, int], ...]
+
+
+@dataclass(frozen=True)
+class SumAbSharedOddPrimeResidueSummary:
+    """Finite-field residue summary for shared odd ``q == 3 mod 4`` primes."""
+
+    prime: int
+    prime_mod_8: int
+    prime_mod_16: int
+    cases: tuple[SumAbSharedOddPrimeResidueCase, ...]
+    case_keys: tuple[tuple[int, int], ...]
+    killed_case_keys: tuple[tuple[int, int], ...]
+    all_cases_killed: bool
+
+
+@dataclass(frozen=True)
+class SumAbSharedOddPrimePowerLiftSummary:
+    """Prime-power lifts for shared-prime residue shadows."""
+
+    prime: int
+    exponent: int
+    modulus: int
+    total_lifts: int
+    pattern_counts: dict[tuple[int, int, int, int, tuple[int, int, int, int]], int]
+    examples_by_pattern: dict[
+        tuple[int, int, int, int, tuple[int, int, int, int]],
+        tuple[int, int, int, int, tuple[int, int, int, int]],
+    ]
+    p_minus_lambda_shadow_count: int
+    p_plus_lambda_shadow_count: int
+
+
+@dataclass(frozen=True)
 class ProductSquareBucketSummary:
     """Bucket counts for finite ``sum=A+B`` product-square diagnostics."""
 
@@ -122,6 +264,128 @@ class ProductSquareBucketSummary:
     true_member_counts: dict[str, int]
     squareclass_pair_counts_by_bucket: dict[str, dict[tuple[int, int], int]]
     examples_by_bucket: dict[str, ClosureProductSquareConditions]
+
+
+@dataclass(frozen=True)
+class ResidualPrimeClassSummary:
+    """Prime-class buckets for finite product-layer residuals."""
+
+    total_residuals: int
+    bucket_counts: dict[str, int]
+    squareclass_prime_counts: dict[tuple[int, ...], int]
+    three_mod_four_squareclass_prime_counts: dict[tuple[int, ...], int]
+    examples_by_bucket: dict[str, ClosureProductSquareConditions]
+
+
+@dataclass(frozen=True, order=True)
+class SquareclassTwoSquareAbsorption:
+    """Absorb a ``1 mod 4`` squareclass through a two-square factor."""
+
+    ratio: Fraction
+    squareclass: int
+    two_square_decomposition: tuple[int, int]
+    absorbed_plus: Fraction
+    absorbed_minus: Fraction
+    absorbed_plus_value: Fraction
+    absorbed_minus_value: Fraction
+    absorbed_plus_is_member: bool
+    absorbed_minus_is_member: bool
+
+
+@dataclass(frozen=True, order=True)
+class ResidualGaussianAbsorptionLedger:
+    """Pair-level Gaussian absorption for a product-layer residual."""
+
+    condition: ClosureProductSquareConditions
+    squareclass: int
+    r_absorption: SquareclassTwoSquareAbsorption
+    s_absorption: SquareclassTwoSquareAbsorption
+    common_absorbed_members: tuple[Fraction, ...]
+    centerline_shadow: bool
+
+
+@dataclass(frozen=True)
+class GaussianShadowSummary:
+    """Bounded root-grid summary of Gaussian absorption shadows."""
+
+    total_residuals: int
+    centerline_shadow_count: int
+    nonshadow_count: int
+    common_absorbed_member_counts: dict[tuple[Fraction, ...], int]
+    examples_by_bucket: dict[str, ClosureProductSquareConditions]
+
+
+@dataclass(frozen=True)
+class GaussianShadowObstructionSummary:
+    """Bounded summary of unit-square obstructions for Gaussian shadows."""
+
+    total_residuals: int
+    centerline_shadow_count: int
+    unit_obstructed_count: int
+    nonobstructed_count: int
+    obstruction_reason_counts: dict[str, int]
+    examples_by_bucket: dict[str, ClosureProductSquareConditions]
+
+
+@dataclass(frozen=True)
+class InverseGaussianAbsorptionPair:
+    """Pair generated by inverse Gaussian absorption from one absorbed slope."""
+
+    absorbed: Fraction
+    squareclass: int
+    two_square_decomposition: tuple[int, int]
+    r_branch: str
+    s_branch: str
+    r: Fraction
+    s: Fraction
+    lambda_ratio: Fraction
+    product: Fraction
+    condition: ClosureProductSquareConditions
+
+
+@dataclass(frozen=True)
+class InverseGaussianAbsorptionPairTerms:
+    """Factor ledger for the inverse Gaussian ``plus,minus`` branch."""
+
+    pair: InverseGaussianAbsorptionPair
+    identity_terms: ProductIdentityTerms
+    denominator_product: Fraction
+    lambda_numerator: Fraction
+    product_numerator: Fraction
+    lambda_minus_product_left_factor: Fraction
+    lambda_minus_product_right_factor: Fraction
+    lambda_minus_product_factorized: Fraction
+    lambda_plus_product_z_factor: Fraction
+    lambda_plus_product_factorized: Fraction
+    lambda_squared_minus_product_squared_factorized: Fraction
+    lambda_squared_minus_one_extra_factor: Fraction
+    lambda_squared_minus_one_factorized: Fraction
+    r_unit_value_factorized: Fraction
+    s_unit_value_factorized: Fraction
+    r_lambda_value_factorized: Fraction
+    s_lambda_value_factorized: Fraction
+    a_term_factorized: Fraction
+    b_term_minus_factor: Fraction
+    b_term_plus_factor: Fraction
+    b_term_factorized: Fraction
+    b_minus_lambda_sq_a_factorized: Fraction
+    member_factorization_holds: bool
+    factorization_holds: bool
+
+
+@dataclass(frozen=True)
+class InverseGaussianCenterlineShadowObstruction:
+    """Unit-square obstruction for a nontrivial Gaussian centerline shadow."""
+
+    terms: InverseGaussianAbsorptionPairTerms
+    absorbed_unit_value: Fraction
+    absorbed_unit_value_is_square: bool
+    squareclass_is_trivial: bool
+    r_unit_squareclass: int
+    s_unit_squareclass: int
+    unit_squareclass_obstruction: bool
+    true_member_pair_blocked: bool
+    obstruction_reason: str | None
 
 
 @dataclass(frozen=True)
@@ -642,6 +906,57 @@ class SumAbEuclidResidueSummary:
 
 
 @dataclass(frozen=True, order=True)
+class SumAbSameOrientationBothPassResidueSummary:
+    """Residue counts for same-orientation shared-leg both-pass classes."""
+
+    modulus: int
+    total_classes_by_orientation: dict[str, int]
+    p_equals_q_count_by_orientation: dict[str, int]
+    noncenter_survivor_count_by_orientation: dict[str, int]
+    noncenter_examples_by_orientation: dict[str, tuple[tuple[int, ...], ...]]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSameOrientationBothPassLiftSummary:
+    """One-step lift counts for a same-orientation both-pass residue class."""
+
+    modulus: int
+    next_modulus: int
+    orientation: str
+    residue: tuple[int, int, int, int]
+    prime: int
+    lift_count: int
+    diff_valuation_counts: dict[int, int]
+    examples: tuple[tuple[int, ...], ...]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSameOrientationDifferenceFactorValuationSummary:
+    """Valuation split for ``P-Q = ±2(mu+nv)(nu-mv)`` survivors."""
+
+    modulus: int
+    orientation: str
+    prime: int
+    total_survivors: int
+    pattern_counts: dict[tuple[int, int, int], int]
+    examples: dict[tuple[int, int, int], tuple[int, ...]]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSameOrientationCombinedValuationSummary:
+    """Combined factor valuation patterns for same-orientation survivors."""
+
+    modulus: int
+    orientation: str
+    prime: int
+    total_survivors: int
+    pattern_count: int
+    top_patterns: tuple[tuple[tuple[int, ...], int], ...]
+    zero_offset_pattern_count: int
+    examples: dict[tuple[int, ...], tuple[int, ...]]
+
+
+@dataclass(frozen=True, order=True)
 class SumAbSameOrientationSharedLegTerms:
     """Shared-leg square equations for one same-orientation ``sum=A+B`` case."""
 
@@ -765,13 +1080,18 @@ class SumAbSameOrientationDenominatorFactorization:
     """Factorization of ``P±Q`` for same-orientation denominators."""
 
     orientation: str
+    shared_numerator: int
     other_denominator: int
     failed_denominator: int
     denominator_difference: int
     denominator_sum: int
+    shared_minus_other_denominator: int
+    shared_minus_failed_denominator: int
     nu_minus_mv: int
     difference_factorization: tuple[int, int, int]
     sum_factorization: tuple[int, int, int]
+    shared_minus_other_factorization: tuple[int, int]
+    shared_minus_failed_factorization: tuple[int, int]
 
 
 @dataclass(frozen=True, order=True)
@@ -926,6 +1246,632 @@ class SumAbNormalizedNearMissSummary:
     n_descending_continuation_count: int
 
 
+@dataclass(frozen=True)
+class SumAbFourSlopeSquareclassSummary:
+    """Bounded four-slope squareclass diagnostic for ``sum=A+B``."""
+
+    max_m: int
+    slope_count: int
+    equal_unit_squareclass_pairs: int
+    centerline_equal_unit_squareclass_pairs: int
+    noncenter_equal_unit_squareclass_pairs: int
+    true_four_pass_pairs: int
+    centerline_squareclasses: dict[int, int]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbFourSlopeSquareclassWitness:
+    """One bounded equal-squareclass witness in the four-slope model."""
+
+    slope1: Fraction
+    slope2: Fraction
+    lambda_ratio: Fraction
+    r: Fraction
+    s: Fraction
+    unit_squareclass: int
+    centerline: bool
+    true_four_pass: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbFourSquareDualSlopeModel:
+    """Dual-slope ledger for the four individual square conditions."""
+
+    slope_x: Fraction
+    slope_y: Fraction
+    common_leg: Fraction
+    dual_slope_x: Fraction
+    dual_slope_y: Fraction
+    x_is_pythagorean: bool
+    y_is_pythagorean: bool
+    dual_x_is_pythagorean: bool
+    dual_y_is_pythagorean: bool
+    all_four_slopes_are_pythagorean: bool
+    dual_denominator: Fraction
+    reconstructed_x: Fraction
+    reconstructed_y: Fraction
+    reconstructed_common_leg: Fraction
+    self_dual_identity_holds: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeParameterization:
+    """Parameterize the dual slopes and recover the original slopes."""
+
+    parameter_t: Fraction
+    parameter_u: Fraction
+    dual_slope_x: Fraction
+    dual_slope_y: Fraction
+    dual_denominator: Fraction
+    generated_x: Fraction
+    generated_y: Fraction
+    common_leg: Fraction
+    generated_x_recovery_value: Fraction
+    generated_y_recovery_value: Fraction
+    generated_x_is_pythagorean: bool
+    generated_y_is_pythagorean: bool
+    generated_x_minus_y: Fraction
+    generated_x_minus_y_factorized: Fraction
+    recovery_value_difference_factorized: Fraction
+    centerline_factor: Fraction
+    centerline_factor_zero: bool
+    centerline_recovery_quartic: Fraction
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeValuationRow:
+    """Prime-valuation row for dual-slope recovery square conditions."""
+
+    prime: int
+    recovery_valuations: tuple[int, int]
+    recovery_difference_valuation: int | None
+    centerline_factor_valuation: int | None
+    all_recovery_valuations_even: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeValuationLedger:
+    """Prime-valuation ledger for the dual-slope recovery values."""
+
+    parameterization: SumAbDualSlopeParameterization
+    recovery_squareclasses: tuple[int, int]
+    recovery_squareclass_primes: tuple[int, ...]
+    three_mod_four_recovery_squareclass_primes: tuple[int, ...]
+    primes: tuple[int, ...]
+    three_mod_four_primes: tuple[int, ...]
+    rows: tuple[SumAbDualSlopeValuationRow, ...]
+    rows_by_prime: dict[int, SumAbDualSlopeValuationRow]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicNormLedger:
+    """Global squareclass ledger for the ``p+lambda`` q-adic norm shadow."""
+
+    parameterization: SumAbDualSlopeParameterization
+    parameter_pairs: tuple[Fraction, Fraction]
+    prime: int
+    q_norm_values: tuple[Fraction, Fraction]
+    q_norm_valuations: tuple[int | None, int | None]
+    q_norm_squareclasses: tuple[int, int]
+    odd_q_norm_squareclass_primes: tuple[tuple[int, ...], tuple[int, ...]]
+    recovery_squareclasses: tuple[int, int]
+    recovery_squareclass_primes: tuple[tuple[int, ...], tuple[int, ...]]
+    recovery_valuations_at_prime: tuple[int | None, int | None]
+    shadow_prime_balanced_in_recovery_squareclasses: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicNormSummary:
+    """Batch summary for q-adic norm shadow squareclass ledgers."""
+
+    prime: int
+    sample_count: int
+    shadow_prime_balanced_count: int
+    recovery_contains_shadow_prime_count: int
+    recovery_has_three_mod_four_prime_count: int
+    recovery_has_only_two_or_one_mod_four_primes_count: int
+    q_norm_valuation_pair_counts: dict[tuple[int | None, int | None], int]
+    recovery_prime_mod4_counts: dict[int, int]
+    recovery_prime_mod8_counts: dict[int, int]
+    recovery_prime_mod16_counts: dict[int, int]
+    examples_by_bucket: dict[str, SumAbDualSlopeQAdicNormLedger]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicNormGeneratedSummary:
+    """Generated q-adic shadow samples plus their norm squareclass summary."""
+
+    prime: int
+    exponent: int
+    modulus: int
+    representative_bound: int
+    root_count_mod_prime: int
+    lift_count: int
+    lifted_residue_pairs: tuple[tuple[int, int], ...]
+    parameter_pairs: tuple[tuple[Fraction, Fraction], ...]
+    summary: SumAbDualSlopeQAdicNormSummary
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicNormBridgeLedger:
+    """One q-adic norm shadow sample rewritten as a Gaussian bridge cycle."""
+
+    norm_ledger: SumAbDualSlopeQAdicNormLedger
+    bridge_cycle: SumAbDualSlopeGaussianBridgeCycle
+    recovery_matches_bridge_squareclasses: bool
+    generated_flags_match_bridge_flags: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicNormBridgeSummary:
+    """Batch bridge-cycle summary for generated q-adic norm shadow samples."""
+
+    generated_summary: SumAbDualSlopeQAdicNormGeneratedSummary
+    ledgers: tuple[SumAbDualSlopeQAdicNormBridgeLedger, ...]
+    sample_count: int
+    recovery_matches_bridge_squareclass_count: int
+    generated_flags_match_bridge_flags_count: int
+    all_cross_bridges_pythagorean_count: int
+    first_ledger: SumAbDualSlopeQAdicNormBridgeLedger | None
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeQAdicBridgeValuationRow:
+    """Valuation row for one generated q-adic bridge-cycle sample."""
+
+    parameter_pairs: tuple[Fraction, Fraction]
+    centerline_factor_valuations: tuple[int | None, int | None, int | None, int | None]
+    extra_factor_valuation: int | None
+    bridge_difference_valuation: int | None
+    bridge_value_valuation_pair: tuple[int | None, int | None]
+    bridge_value_2adic_pair: tuple[int | None, int | None]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicBridgeValuationSummary:
+    """Batch valuation summary for q-adic bridge-cycle samples."""
+
+    generated_summary: SumAbDualSlopeQAdicNormGeneratedSummary
+    rows: tuple[SumAbDualSlopeQAdicBridgeValuationRow, ...]
+    sample_count: int
+    centerline_factor_valuation_counts: dict[
+        tuple[int | None, int | None, int | None, int | None],
+        int,
+    ]
+    extra_factor_valuation_counts: dict[int | None, int]
+    bridge_difference_valuation_counts: dict[int | None, int]
+    bridge_value_valuation_pair_counts: dict[tuple[int | None, int | None], int]
+    bridge_value_2adic_pair_counts: dict[tuple[int | None, int | None], int]
+    first_row: SumAbDualSlopeQAdicBridgeValuationRow | None
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicBridgeTwoAdicSummary:
+    """Two-adic square obstruction summary for q-adic bridge samples."""
+
+    valuation_summary: SumAbDualSlopeQAdicBridgeValuationSummary
+    sample_count: int
+    parity_killed_count: int
+    two_adic_local_square_count: int
+    bridge_value_2adic_pair_counts: dict[tuple[int | None, int | None], int]
+    local_square_unit_mod8_pair_counts: dict[tuple[int, int], int]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeQAdicBridgeLocalSquareSummary:
+    """Odd-q and two-adic local-square summary for bridge samples."""
+
+    two_adic_summary: SumAbDualSlopeQAdicBridgeTwoAdicSummary
+    sample_count: int
+    two_adic_local_square_count: int
+    q_adic_local_square_count: int
+    combined_q_and_2_adic_local_square_count: int
+    q_adic_local_square_flag_pair_counts: dict[tuple[bool, bool], int]
+    combined_survivor_parameter_pairs: tuple[tuple[Fraction, Fraction], ...]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeGaussianAbsorption:
+    """Gaussian absorption of one failed dual-slope recovery value."""
+
+    parameterization: SumAbDualSlopeParameterization
+    failed_side: str
+    failed_slope: Fraction
+    failed_value: Fraction
+    failed_squareclass: int
+    two_square_decomposition: tuple[int, int]
+    absorbed_plus: Fraction | None
+    absorbed_minus: Fraction | None
+    matching_absorptions: tuple[tuple[str, str, Fraction], ...]
+    absorbs_to_existing_dual_slope: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeGaussianBridge:
+    """Gaussian angle bridge from a failed slope to one dual slope."""
+
+    parameterization: SumAbDualSlopeParameterization
+    failed_side: str
+    target_side: str
+    failed_slope: Fraction
+    target_slope: Fraction
+    failed_squareclass: int
+    bridge_ratio: Fraction
+    bridge_value: Fraction
+    bridge_squareclass: int
+    squareclass_matches_failure: bool
+    recovered_target: Fraction
+    recovery_identity_holds: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeGaussianBridgeCycle:
+    """Cross-bridge ledger for the dual-slope four-square loop."""
+
+    parameterization: SumAbDualSlopeParameterization
+    x_to_dual_y: SumAbDualSlopeGaussianBridge
+    y_to_dual_x: SumAbDualSlopeGaussianBridge
+    generated_slopes: tuple[Fraction, Fraction]
+    dual_slopes: tuple[Fraction, Fraction]
+    bridge_ratios: tuple[Fraction, Fraction]
+    generated_squareclasses: tuple[int, int]
+    bridge_squareclasses: tuple[int, int]
+    generated_pythagorean_flags: tuple[bool, bool]
+    bridge_pythagorean_flags: tuple[bool, bool]
+    generated_flags_match_bridge_flags: bool
+    all_generated_slopes_are_pythagorean: bool
+    all_cross_bridges_are_pythagorean: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeBridgeDifferenceFactorization:
+    """Factorization ledger for the two cross-bridge square values."""
+
+    bridge_cycle: SumAbDualSlopeGaussianBridgeCycle
+    bridge_value_difference: Fraction
+    centerline_factor: Fraction
+    extra_equal_bridge_factor: Fraction
+    bridge_difference_factorized: Fraction
+    factorization_holds: bool
+    extra_factor_u_quadratic_coefficients: tuple[Fraction, Fraction, Fraction]
+    extra_factor_u_discriminant: Fraction
+    new_curve_value_t: Fraction
+    extra_factor_discriminant_matches_new_curve: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSquareclassRatioZReduction:
+    """The ``A/B`` squareclass-ratio equation after ``z = u - 1/u``."""
+
+    t: Fraction
+    u: Fraction
+    z: Fraction
+    direct_ratio: Fraction
+    reduced_ratio: Fraction
+    ratio_is_square: bool
+    u_recovery_square: Fraction
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSquareclassRatioZParameterization:
+    """The ``z^2+4`` parameterization returns the original ratio shape."""
+
+    t: Fraction
+    parameter: Fraction
+    z: Fraction
+    reduced_ratio: Fraction
+    self_similar_ratio: Fraction
+    ratio_is_square: bool
+    centerline_factor: Fraction
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSquareclassRatioTUQuotientModel:
+    """The quotient model using ``T=t-1/t`` and ``U=u-1/u``."""
+
+    t_quotient: Fraction
+    u_quotient: Fraction
+    numerator_quadratic: Fraction
+    denominator_quadratic: Fraction
+    ratio: Fraction
+    ratio_is_square: bool
+    t_recovery_square: bool
+    u_recovery_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSquareclassRatioSlopeQuadraticModel:
+    """The squareclass-ratio model directly in Pythagorean slopes ``x,y``."""
+
+    slope_x: Fraction
+    slope_y: Fraction
+    numerator_quadratic: Fraction
+    denominator_quadratic: Fraction
+    ratio: Fraction
+    ratio_is_square: bool
+    numerator_is_square: bool
+    denominator_is_square: bool
+    individual_unit_terms_are_squares: bool
+    x_recovery_square: bool
+    y_recovery_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbSlopeRatioYDiscriminantLedger:
+    """Discriminant ledger for ``P = KQ`` as a quadratic in ``y``."""
+
+    slope_x: Fraction
+    square_ratio: Fraction
+    quadratic_coefficients: tuple[Fraction, Fraction, Fraction]
+    y_discriminant: Fraction
+    y_discriminant_inner: Fraction
+    inner_as_quadratic_in_square_ratio: Fraction
+    inner_square_ratio_discriminant: Fraction
+    pythagorean_recovery_square: Fraction
+    slope_x_is_pythagorean: bool
+    new_curve_factor: Fraction
+    new_curve_factor_is_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbNewCurveResidueSummary:
+    """Residue summary for ``Y^2 = 5t^4+8t^3-6t^2-8t+5``."""
+
+    modulus: int
+    primitive_classes: int
+    square_classes: int
+    boundary_square_classes: int
+    nonboundary_square_classes: int
+    boundary_examples: tuple[tuple[int, int, int], ...]
+    nonboundary_examples: tuple[tuple[int, int, int], ...]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbNewCurveZReduction:
+    """Reduction of the new quartic by ``z=t-1/t``."""
+
+    parameter_t: Fraction
+    z_value: Fraction
+    original_quartic_value: Fraction
+    scaled_quartic_value: Fraction
+    z_recovery_square: Fraction
+    new_curve_square: Fraction
+    identity_holds: bool
+    z_recovery_is_square: bool
+    new_curve_is_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbZLemmaCenterlineBridge:
+    """Bridge from the ``z`` lemma to the centerline quartic."""
+
+    parameter: Fraction
+    z_value: Fraction
+    denominator_square: Fraction
+    scaled_second_square: Fraction
+    remaining_quartic: Fraction
+    centerline_parameter: Fraction
+    centerline_quartic: Fraction
+    identity_holds: bool
+    remaining_quartic_is_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbBridgeExtraFactorZLemmaReduction:
+    """Reduction of the bridge extra factor to the z-lemma centerline quartic."""
+
+    parameter_t: Fraction
+    z_value: Fraction
+    z_parameter_m: Fraction
+    new_curve_value_t: Fraction
+    scaled_new_curve_value: Fraction
+    z_recovery_square: Fraction
+    z_lemma_new_curve_square: Fraction
+    z_reduction_identity_holds: bool
+    centerline_bridge: SumAbZLemmaCenterlineBridge
+    centerline_bridge_identity_holds: bool
+    extra_factor_reduces_to_centerline: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeBridgeProjectiveResidueSummary:
+    """Projective residue counts for the dual-slope bridge square conditions."""
+
+    modulus: int
+    projective_class_count: int
+    both_bridge_square_classes: int
+    centerline_square_classes: int
+    noncenter_square_classes: int
+    noncenter_extra_factor_zero_classes: int
+    noncenter_extra_factor_nonzero_classes: int
+    noncenter_extra_factor_nonzero_examples: tuple[tuple[int, ...], ...]
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeBridgePrimePowerLiftSummary:
+    """Prime-power lift counts for bridge square valuation pairs."""
+
+    prime: int
+    exponent: int
+    modulus: int
+    projective_class_count: int
+    both_bridge_square_classes: int
+    valuation_pair_counts: dict[tuple[int, int], int]
+    centerline_unit_extra_unit_classes: int
+    centerline_unit_classes: int
+    centerline_unit_min_extra_valuation: int | None
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeBridgeCenterlineFactorLiftSummary:
+    """Prime-power lift counts after splitting the centerline factor."""
+
+    prime: int
+    exponent: int
+    modulus: int
+    projective_class_count: int
+    both_bridge_square_classes: int
+    factor_extra_valuation_counts: dict[tuple[int, int, int, int, int], int]
+    centerline_factor_valuation_counts: dict[tuple[int, int, int, int], int]
+    max_centerline_factor_extra_valuation_counts: dict[tuple[int, int], int]
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeBridgeCenterlineBranchRestriction:
+    """Exact bridge-numerator restriction on one centerline-factor branch."""
+
+    branch: str
+    restriction_kind: str
+    parameter_t: Fraction
+    parameter_u: Fraction
+    x_bridge_numerator: Fraction
+    y_bridge_numerator: Fraction
+    common_bridge_numerator: Fraction
+    predicted_common_bridge_numerator: Fraction
+    extra_factor: Fraction
+    predicted_extra_factor: Fraction
+    bridge_numerators_equal: bool
+    common_identity_holds: bool
+    extra_identity_holds: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopeBridgeTrivialTubeExpansion:
+    """Expansion of bridge numerators around one trivial-square tube."""
+
+    branch: str
+    parameter_t: Fraction
+    base_u: Fraction
+    x_coefficients: tuple[Fraction, ...]
+    y_coefficients: tuple[Fraction, ...]
+    extra_coefficients: tuple[Fraction, ...]
+    difference_coefficients: tuple[Fraction, ...]
+    bridge_constants_equal: bool
+    common_constant: Fraction
+    common_constant_square_root: Fraction | None
+    common_constant_is_square: bool
+    nonzero_square_constant: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopeCenterlineFactorPositiveDomainRow:
+    """Positive-domain status of one exact centerline-factor branch."""
+
+    branch: str
+    restriction_kind: str
+    parameter_t: Fraction
+    parameter_u: Fraction
+    parameter_u_in_unit_interval: bool
+    dual_slope_y: Fraction | None
+    dual_slope_y_positive: bool
+    dual_denominator: Fraction | None
+    dual_denominator_positive: bool
+    admissible_positive_parameterization: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbDualSlopePositiveTrivialTubeLocalWitness:
+    """Positive real point in a trivial tube that survives local square tests."""
+
+    branch: str
+    prime: int
+    parameter_t: Fraction
+    parameter_u: Fraction
+    tube_value: Fraction
+    tube_valuation: int
+    dual_denominator: Fraction
+    generated_slopes: tuple[Fraction, Fraction]
+    recovery_values: tuple[Fraction, Fraction]
+    local_square_flags: tuple[bool, bool]
+    rational_square_flags: tuple[bool, bool]
+    admissible_positive_parameterization: bool
+    recovery_values_are_local_squares: bool
+    recovery_values_are_rational_squares: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopePositiveTrivialTubeSquareclassLedger:
+    """Global squareclasses for a positive trivial-tube local witness."""
+
+    witness: SumAbDualSlopePositiveTrivialTubeLocalWitness
+    recovery_squareclasses: tuple[int, int]
+    recovery_squareclass_primes: tuple[tuple[int, ...], tuple[int, ...]]
+    one_mod_four_squareclass_primes: tuple[int, ...]
+    three_mod_four_squareclass_primes: tuple[int, ...]
+    all_squareclass_primes_are_one_mod_four: bool
+
+
+@dataclass(frozen=True)
+class SumAbDualSlopePositiveTrivialTubeMemberLedger:
+    """Full member-term squareclasses for a positive trivial-tube witness."""
+
+    witness: SumAbDualSlopePositiveTrivialTubeLocalWitness
+    lambda_ratio: Fraction
+    ratios: tuple[Fraction, Fraction]
+    product: Fraction
+    member_values: tuple[Fraction, Fraction, Fraction, Fraction]
+    member_squareclasses: tuple[int, int, int, int]
+    member_squareclass_primes: tuple[
+        tuple[int, ...],
+        tuple[int, ...],
+        tuple[int, ...],
+        tuple[int, ...],
+    ]
+    one_mod_four_member_squareclass_primes: tuple[int, ...]
+    three_mod_four_member_squareclass_primes: tuple[int, ...]
+    closes_sum_ab: bool
+    unit_terms_are_squares: bool
+    lambda_terms_are_squares: bool
+    true_member_pair: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbKDiscriminantQuarticCompletion:
+    """Completion-of-square ledger for the remaining ``K`` quartic."""
+
+    parameter: Fraction
+    square_ratio: Fraction
+    centerline_quartic: Fraction
+    remaining_quartic: Fraction
+    linear_square_term: Fraction
+    positive_square_term: Fraction
+    positive_remainder: Fraction
+    left_side: Fraction
+    right_side: Fraction
+    identity_holds: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbKSquareCandidateYDiscriminant:
+    """Ledger separating the ``K`` quartic layer from the actual ``y`` layer."""
+
+    parameter: Fraction
+    slope_x: Fraction
+    square_ratio: Fraction
+    square_ratio_is_square: bool
+    remaining_quartic: Fraction
+    remaining_quartic_is_square: bool
+    y_discriminant: Fraction
+    y_discriminant_is_square: bool
+
+
+@dataclass(frozen=True, order=True)
+class SumAbKSquareYDiscriminantFactorization:
+    """Layer-3 factorization when the squareclass ratio is explicitly ``k^2``."""
+
+    parameter: Fraction
+    slope_x: Fraction
+    square_ratio_root: Fraction
+    square_ratio: Fraction
+    minus_factor: Fraction
+    plus_factor: Fraction
+    y_discriminant: Fraction
+    factorized_y_discriminant: Fraction
+    factorization_holds: bool
+    shared_factor_discriminant: Fraction
+    shared_factor_discriminant_is_square: bool
+
+
 @dataclass(frozen=True, order=True)
 class SumAbRatioShadowOrbit:
     """A lightweight reciprocal-shadow grouping for ``sum=A+B`` obstructions."""
@@ -996,6 +1942,393 @@ def _integer_squareclass(value: int) -> int:
         if exponent % 2:
             squarefree *= prime
     return squarefree
+
+
+def _two_square_decomposition(value: int) -> tuple[int, int] | None:
+    if value <= 0:
+        raise ValueError("value must be positive")
+    limit = isqrt(value)
+    for first in range(limit + 1):
+        second_squared = value - first * first
+        second = isqrt(second_squared)
+        if second * second == second_squared:
+            return tuple(sorted((first, second), reverse=True))
+    return None
+
+
+def _rational_valuation(value: Fraction, prime: int) -> int | None:
+    if prime <= 1:
+        raise ValueError("prime must be greater than 1")
+    if value == 0:
+        return None
+    numerator_exponent = _factorize_positive(abs(value.numerator)).get(prime, 0)
+    denominator_exponent = _factorize_positive(value.denominator).get(prime, 0)
+    return numerator_exponent - denominator_exponent
+
+
+def _prime_support(values: tuple[Fraction | None, ...]) -> tuple[int, ...]:
+    primes: set[int] = set()
+    for value in values:
+        if value is None or value == 0:
+            continue
+        for part in (abs(value.numerator), value.denominator):
+            primes.update(_factorize_positive(part))
+    return tuple(sorted(primes))
+
+
+def squareclass_two_square_absorption(
+    ratio: Fraction | int,
+    squareclass: int,
+) -> SquareclassTwoSquareAbsorption:
+    """Absorb a two-square squareclass from ``ratio^2+1`` by Gaussian division."""
+    value = _as_fraction(ratio)
+    _validate_positive("ratio", value)
+    if squareclass <= 0:
+        raise ValueError("squareclass must be positive")
+    decomposition = _two_square_decomposition(squareclass)
+    if decomposition is None:
+        raise ValueError("squareclass is not a sum of two squares")
+    first, second = decomposition
+    if first == 0:
+        raise ValueError("two-square decomposition must have nonzero real part")
+    absorbed_plus = (first * value + second) / (first - second * value)
+    absorbed_minus = (first * value - second) / (first + second * value)
+    plus_value = absorbed_plus * absorbed_plus + 1
+    minus_value = absorbed_minus * absorbed_minus + 1
+    return SquareclassTwoSquareAbsorption(
+        ratio=value,
+        squareclass=squareclass,
+        two_square_decomposition=decomposition,
+        absorbed_plus=absorbed_plus,
+        absorbed_minus=absorbed_minus,
+        absorbed_plus_value=plus_value,
+        absorbed_minus_value=minus_value,
+        absorbed_plus_is_member=_is_rational_square(plus_value),
+        absorbed_minus_is_member=_is_rational_square(minus_value),
+    )
+
+
+def _absorbed_member_values(
+    absorption: SquareclassTwoSquareAbsorption,
+) -> tuple[Fraction, ...]:
+    values: list[Fraction] = []
+    if absorption.absorbed_plus > 0 and absorption.absorbed_plus_is_member:
+        values.append(absorption.absorbed_plus)
+    if absorption.absorbed_minus > 0 and absorption.absorbed_minus_is_member:
+        values.append(absorption.absorbed_minus)
+    return tuple(sorted(set(values)))
+
+
+def _absorbed_branch_for_member(
+    absorption: SquareclassTwoSquareAbsorption,
+    absorbed: Fraction,
+) -> str:
+    if absorption.absorbed_plus == absorbed:
+        return "plus"
+    if absorption.absorbed_minus == absorbed:
+        return "minus"
+    raise ValueError("absorbed value is not produced by this absorption")
+
+
+def residual_gaussian_absorption_ledger(
+    condition: ClosureProductSquareConditions,
+) -> ResidualGaussianAbsorptionLedger:
+    """Absorb a common residual squareclass from both roots when possible."""
+    if len(condition.roots) != 2:
+        raise ValueError("condition must have two positive roots")
+    if len(condition.member_squareclass_pair) != 2:
+        raise ValueError("condition must expose a member squareclass pair")
+    if condition.member_squareclass_pair[0] != condition.member_squareclass_pair[1]:
+        raise ValueError("condition must have a common member squareclass")
+    squareclass = condition.member_squareclass_pair[0]
+    if squareclass == 1:
+        raise ValueError("condition must have a nontrivial member squareclass")
+    r, s = condition.roots
+    r_absorption = squareclass_two_square_absorption(r, squareclass)
+    s_absorption = squareclass_two_square_absorption(s, squareclass)
+    common_absorbed_members = tuple(
+        sorted(set(_absorbed_member_values(r_absorption)).intersection(
+            _absorbed_member_values(s_absorption)
+        ))
+    )
+    return ResidualGaussianAbsorptionLedger(
+        condition=condition,
+        squareclass=squareclass,
+        r_absorption=r_absorption,
+        s_absorption=s_absorption,
+        common_absorbed_members=common_absorbed_members,
+        centerline_shadow=bool(common_absorbed_members),
+    )
+
+
+def _inverse_gaussian_absorption_branch(
+    absorbed: Fraction,
+    decomposition: tuple[int, int],
+    branch: str,
+) -> Fraction:
+    first, second = decomposition
+    if branch == "plus":
+        denominator = second * absorbed + first
+        if denominator == 0:
+            raise ValueError("inverse plus branch has zero denominator")
+        return (first * absorbed - second) / denominator
+    if branch == "minus":
+        denominator = first - second * absorbed
+        if denominator == 0:
+            raise ValueError("inverse minus branch has zero denominator")
+        return (first * absorbed + second) / denominator
+    raise ValueError("branch must be 'plus' or 'minus'")
+
+
+def inverse_gaussian_absorption_pair(
+    *,
+    absorbed: Fraction | int,
+    squareclass: int,
+    r_branch: str,
+    s_branch: str,
+) -> InverseGaussianAbsorptionPair:
+    """Generate a ``sum=A+B`` product-layer pair from one absorbed slope."""
+    absorbed_fraction = _as_fraction(absorbed)
+    _validate_positive("absorbed", absorbed_fraction)
+    decomposition = _two_square_decomposition(squareclass)
+    if decomposition is None:
+        raise ValueError("squareclass is not a sum of two squares")
+    r = _inverse_gaussian_absorption_branch(absorbed_fraction, decomposition, r_branch)
+    s = _inverse_gaussian_absorption_branch(absorbed_fraction, decomposition, s_branch)
+    if r <= 0 or s <= 0:
+        raise ValueError("inverse branches must generate positive roots")
+    lam = r + s - 1
+    _validate_positive("lambda_ratio", lam)
+    product = r * s
+    condition = closure_product_square_conditions(lam, lam + 1, product, REL_SUM_AB)
+    return InverseGaussianAbsorptionPair(
+        absorbed=absorbed_fraction,
+        squareclass=squareclass,
+        two_square_decomposition=decomposition,
+        r_branch=r_branch,
+        s_branch=s_branch,
+        r=r,
+        s=s,
+        lambda_ratio=lam,
+        product=product,
+        condition=condition,
+    )
+
+
+def inverse_gaussian_absorption_pair_terms(
+    *,
+    absorbed: Fraction | int,
+    squareclass: int,
+    r_branch: str,
+    s_branch: str,
+) -> InverseGaussianAbsorptionPairTerms:
+    """Return exact factor terms for the inverse Gaussian ``plus,minus`` pair."""
+    if (r_branch, s_branch) != ("plus", "minus"):
+        raise ValueError("symbolic terms are currently implemented for plus,minus")
+    pair = inverse_gaussian_absorption_pair(
+        absorbed=absorbed,
+        squareclass=squareclass,
+        r_branch=r_branch,
+        s_branch=s_branch,
+    )
+    z = pair.absorbed
+    first, second = pair.two_square_decomposition
+    first_sq = first * first
+    second_sq = second * second
+    squareclass_fraction = Fraction(pair.squareclass)
+
+    denominator_product = first_sq - second_sq * z * z
+    if denominator_product == 0:
+        raise ValueError("inverse plus,minus branch has zero product denominator")
+
+    lambda_numerator = (
+        2 * first_sq * z - first_sq + second_sq * z * z + 2 * second_sq * z
+    )
+    product_numerator = first_sq * z * z - second_sq
+
+    lambda_minus_left = first + second - z * (first - second)
+    lambda_minus_right = z * (first + second) - (first - second)
+    lambda_plus_z_factor = z * z + 2 * z - 1
+    lambda_squared_minus_one_extra = (
+        first_sq * z - first_sq + second_sq * z * z + second_sq * z
+    )
+
+    denominator_squared = denominator_product * denominator_product
+    denominator_fourth = denominator_squared * denominator_squared
+    z_unit_factor = z * z + 1
+
+    lambda_minus_product_factorized = (
+        lambda_minus_left * lambda_minus_right / denominator_product
+    )
+    lambda_plus_product_factorized = (
+        squareclass_fraction * lambda_plus_z_factor / denominator_product
+    )
+    lambda_squared_minus_product_squared_factorized = (
+        squareclass_fraction
+        * lambda_plus_z_factor
+        * lambda_minus_left
+        * lambda_minus_right
+        / denominator_squared
+    )
+    lambda_squared_minus_one_factorized = (
+        4
+        * z
+        * squareclass_fraction
+        * lambda_squared_minus_one_extra
+        / denominator_squared
+    )
+    a_term_factorized = (
+        squareclass_fraction
+        * squareclass_fraction
+        * z_unit_factor
+        * z_unit_factor
+        / denominator_squared
+    )
+    r_unit_value_factorized = (
+        squareclass_fraction * z_unit_factor / (first + second * z) ** 2
+    )
+    s_unit_value_factorized = (
+        squareclass_fraction * z_unit_factor / (first - second * z) ** 2
+    )
+    b_term_minus_factor = (
+        5 * first_sq * z * z
+        - 4 * first_sq * z
+        + first_sq
+        - 2 * first * second * z**3
+        - 2 * first * second * z
+        + second_sq * z**4
+        + 4 * second_sq * z**3
+        + 5 * second_sq * z * z
+    )
+    b_term_plus_factor = (
+        5 * first_sq * z * z
+        - 4 * first_sq * z
+        + first_sq
+        + 2 * first * second * z**3
+        + 2 * first * second * z
+        + second_sq * z**4
+        + 4 * second_sq * z**3
+        + 5 * second_sq * z * z
+    )
+    b_term_factorized = (
+        squareclass_fraction
+        * squareclass_fraction
+        * b_term_minus_factor
+        * b_term_plus_factor
+        / denominator_fourth
+    )
+    r_lambda_value_factorized = (
+        squareclass_fraction * b_term_minus_factor / denominator_squared
+    )
+    s_lambda_value_factorized = (
+        squareclass_fraction * b_term_plus_factor / denominator_squared
+    )
+    b_minus_lambda_sq_a_factorized = (
+        lambda_squared_minus_one_factorized
+        * lambda_squared_minus_product_squared_factorized
+    )
+    identity_terms = pair.condition.identity_terms
+    member_factorization_holds = (
+        r_unit_value_factorized == pair.r * pair.r + 1
+        and s_unit_value_factorized == pair.s * pair.s + 1
+        and r_lambda_value_factorized
+        == pair.r * pair.r + pair.lambda_ratio * pair.lambda_ratio
+        and s_lambda_value_factorized
+        == pair.s * pair.s + pair.lambda_ratio * pair.lambda_ratio
+        and r_unit_value_factorized * s_unit_value_factorized == identity_terms.a_term
+        and r_lambda_value_factorized * s_lambda_value_factorized
+        == identity_terms.b_term
+    )
+    factorization_holds = (
+        pair.lambda_ratio == lambda_numerator / denominator_product
+        and pair.product == product_numerator / denominator_product
+        and lambda_minus_product_factorized == pair.lambda_ratio - pair.product
+        and lambda_plus_product_factorized == pair.lambda_ratio + pair.product
+        and lambda_squared_minus_product_squared_factorized
+        == pair.lambda_ratio * pair.lambda_ratio - pair.product * pair.product
+        and lambda_squared_minus_one_factorized
+        == pair.lambda_ratio * pair.lambda_ratio - 1
+        and a_term_factorized == identity_terms.a_term
+        and b_term_factorized == identity_terms.b_term
+        and b_minus_lambda_sq_a_factorized == identity_terms.b_minus_lambda_sq_a
+        and member_factorization_holds
+    )
+    return InverseGaussianAbsorptionPairTerms(
+        pair=pair,
+        identity_terms=identity_terms,
+        denominator_product=denominator_product,
+        lambda_numerator=lambda_numerator,
+        product_numerator=product_numerator,
+        lambda_minus_product_left_factor=lambda_minus_left,
+        lambda_minus_product_right_factor=lambda_minus_right,
+        lambda_minus_product_factorized=lambda_minus_product_factorized,
+        lambda_plus_product_z_factor=lambda_plus_z_factor,
+        lambda_plus_product_factorized=lambda_plus_product_factorized,
+        lambda_squared_minus_product_squared_factorized=(
+            lambda_squared_minus_product_squared_factorized
+        ),
+        lambda_squared_minus_one_extra_factor=lambda_squared_minus_one_extra,
+        lambda_squared_minus_one_factorized=lambda_squared_minus_one_factorized,
+        r_unit_value_factorized=r_unit_value_factorized,
+        s_unit_value_factorized=s_unit_value_factorized,
+        r_lambda_value_factorized=r_lambda_value_factorized,
+        s_lambda_value_factorized=s_lambda_value_factorized,
+        a_term_factorized=a_term_factorized,
+        b_term_minus_factor=b_term_minus_factor,
+        b_term_plus_factor=b_term_plus_factor,
+        b_term_factorized=b_term_factorized,
+        b_minus_lambda_sq_a_factorized=b_minus_lambda_sq_a_factorized,
+        member_factorization_holds=member_factorization_holds,
+        factorization_holds=factorization_holds,
+    )
+
+
+def inverse_gaussian_centerline_shadow_obstruction(
+    *,
+    absorbed: Fraction | int,
+    squareclass: int,
+    r_branch: str,
+    s_branch: str,
+) -> InverseGaussianCenterlineShadowObstruction:
+    """Detect the unit-square obstruction for a Gaussian centerline shadow."""
+    terms = inverse_gaussian_absorption_pair_terms(
+        absorbed=absorbed,
+        squareclass=squareclass,
+        r_branch=r_branch,
+        s_branch=s_branch,
+    )
+    absorbed_unit_value = terms.pair.absorbed * terms.pair.absorbed + 1
+    absorbed_unit_value_is_square = _is_rational_square(absorbed_unit_value)
+    squareclass_is_trivial = _rational_squareclass(Fraction(squareclass))[0] == 1
+    r_unit_squareclass = _rational_squareclass(terms.r_unit_value_factorized)[0]
+    s_unit_squareclass = _rational_squareclass(terms.s_unit_value_factorized)[0]
+    unit_squareclass_obstruction = (
+        absorbed_unit_value_is_square
+        and not squareclass_is_trivial
+        and r_unit_squareclass == squareclass
+        and s_unit_squareclass == squareclass
+    )
+    true_member_pair_blocked = (
+        not _is_rational_square(terms.r_unit_value_factorized)
+        or not _is_rational_square(terms.s_unit_value_factorized)
+    )
+    if unit_squareclass_obstruction:
+        obstruction_reason = "nontrivial-squareclass-on-unit-terms"
+    elif true_member_pair_blocked:
+        obstruction_reason = "unit-terms-not-square"
+    else:
+        obstruction_reason = None
+    return InverseGaussianCenterlineShadowObstruction(
+        terms=terms,
+        absorbed_unit_value=absorbed_unit_value,
+        absorbed_unit_value_is_square=absorbed_unit_value_is_square,
+        squareclass_is_trivial=squareclass_is_trivial,
+        r_unit_squareclass=r_unit_squareclass,
+        s_unit_squareclass=s_unit_squareclass,
+        unit_squareclass_obstruction=unit_squareclass_obstruction,
+        true_member_pair_blocked=true_member_pair_blocked,
+        obstruction_reason=obstruction_reason,
+    )
 
 
 def is_rational_ratio_member(lambda_ratio: Fraction | int, r: Fraction | int) -> bool:
@@ -1519,13 +2852,20 @@ def sum_ab_same_orientation_denominator_factorization(
     first_difference_factor = m * u + n * v
     first_sum_factor = m * u - n * v
     second_sum_factor = m * v + n * u
+    slope_numerator, slope_denominator = shared_terms.slope_terms
+    scaled_numerator, scaled_denominator = shared_terms.scaled_term_terms
     return SumAbSameOrientationDenominatorFactorization(
         orientation=orientation,
+        shared_numerator=shared_terms.shared_numerator,
         other_denominator=shared_terms.other_denominator,
         failed_denominator=shared_terms.failed_denominator,
         denominator_difference=shared_terms.other_denominator
         - shared_terms.failed_denominator,
         denominator_sum=shared_terms.other_denominator + shared_terms.failed_denominator,
+        shared_minus_other_denominator=shared_terms.shared_numerator
+        - shared_terms.other_denominator,
+        shared_minus_failed_denominator=shared_terms.shared_numerator
+        - shared_terms.failed_denominator,
         nu_minus_mv=nu_minus_mv,
         difference_factorization=(
             difference_sign,
@@ -1533,6 +2873,14 @@ def sum_ab_same_orientation_denominator_factorization(
             nu_minus_mv,
         ),
         sum_factorization=(2, first_sum_factor, second_sum_factor),
+        shared_minus_other_factorization=(
+            slope_numerator,
+            scaled_denominator - scaled_numerator,
+        ),
+        shared_minus_failed_factorization=(
+            scaled_numerator,
+            slope_denominator - slope_numerator,
+        ),
     )
 
 
@@ -1579,6 +2927,447 @@ def sum_ab_same_orientation_cross_gcd_terms(
             nu_minus_mv,
         ),
         sum_factorization=(2, m * u - n * v, m * v + n * u),
+    )
+
+
+def sum_ab_same_orientation_both_pass_residue_summary(
+    modulus: int,
+    *,
+    example_limit: int = 5,
+) -> SumAbSameOrientationBothPassResidueSummary:
+    """Count same-orientation noncenter both-pass residue classes modulo ``modulus``.
+
+    The scan keeps primitive residue classes modulo ``modulus`` for both Euclid
+    parameter pairs and, when the modulus is even, the usual opposite-parity
+    necessary condition.  A noncenter survivor is a class with ``P != Q`` where
+    both ``N^2+P^2`` and ``N^2+Q^2`` are square residues.
+    """
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    total_by_orientation: dict[str, int] = {}
+    p_equals_q_by_orientation: dict[str, int] = {}
+    survivor_by_orientation: dict[str, int] = {}
+    examples_by_orientation: dict[str, tuple[tuple[int, ...], ...]] = {}
+
+    for orientation in ("odd", "even"):
+        total = 0
+        p_equals_q = 0
+        survivors = 0
+        examples: list[tuple[int, ...]] = []
+        for m in range(modulus):
+            for n in range(modulus):
+                if _gcd(_gcd(m, n), modulus) != 1:
+                    continue
+                if modulus % 2 == 0 and (m - n) % 2 == 0:
+                    continue
+                for u in range(modulus):
+                    for v in range(modulus):
+                        if _gcd(_gcd(u, v), modulus) != 1:
+                            continue
+                        if modulus % 2 == 0 and (u - v) % 2 == 0:
+                            continue
+                        total += 1
+                        if orientation == "odd":
+                            slope_numerator = (m * m - n * n) % modulus
+                            slope_denominator = (2 * m * n) % modulus
+                            scaled_numerator = (u * u - v * v) % modulus
+                            scaled_denominator = (2 * u * v) % modulus
+                        else:
+                            slope_numerator = (2 * m * n) % modulus
+                            slope_denominator = (m * m - n * n) % modulus
+                            scaled_numerator = (2 * u * v) % modulus
+                            scaled_denominator = (u * u - v * v) % modulus
+                        other_denominator = slope_denominator * scaled_numerator % modulus
+                        failed_denominator = slope_numerator * scaled_denominator % modulus
+                        shared_numerator = (
+                            other_denominator
+                            - slope_numerator * scaled_numerator
+                            + failed_denominator
+                        ) % modulus
+                        if (other_denominator - failed_denominator) % modulus == 0:
+                            p_equals_q += 1
+                            continue
+                        other_square = (
+                            shared_numerator * shared_numerator
+                            + other_denominator * other_denominator
+                        ) % modulus
+                        failed_square = (
+                            shared_numerator * shared_numerator
+                            + failed_denominator * failed_denominator
+                        ) % modulus
+                        if (
+                            other_square in square_residues
+                            and failed_square in square_residues
+                        ):
+                            survivors += 1
+                            if len(examples) < example_limit:
+                                examples.append(
+                                    (
+                                        m,
+                                        n,
+                                        u,
+                                        v,
+                                        shared_numerator,
+                                        other_denominator,
+                                        failed_denominator,
+                                    )
+                                )
+        total_by_orientation[orientation] = total
+        p_equals_q_by_orientation[orientation] = p_equals_q
+        survivor_by_orientation[orientation] = survivors
+        examples_by_orientation[orientation] = tuple(examples)
+
+    return SumAbSameOrientationBothPassResidueSummary(
+        modulus=modulus,
+        total_classes_by_orientation=total_by_orientation,
+        p_equals_q_count_by_orientation=p_equals_q_by_orientation,
+        noncenter_survivor_count_by_orientation=survivor_by_orientation,
+        noncenter_examples_by_orientation=examples_by_orientation,
+    )
+
+
+def _same_orientation_residue_terms(
+    *,
+    modulus: int,
+    orientation: str,
+    residue: tuple[int, int, int, int],
+) -> tuple[int, int, int]:
+    m, n, u, v = residue
+    if orientation == "odd":
+        slope_numerator = (m * m - n * n) % modulus
+        slope_denominator = (2 * m * n) % modulus
+        scaled_numerator = (u * u - v * v) % modulus
+        scaled_denominator = (2 * u * v) % modulus
+    elif orientation == "even":
+        slope_numerator = (2 * m * n) % modulus
+        slope_denominator = (m * m - n * n) % modulus
+        scaled_numerator = (2 * u * v) % modulus
+        scaled_denominator = (u * u - v * v) % modulus
+    else:
+        raise ValueError("orientation must be 'odd' or 'even'")
+    other_denominator = slope_denominator * scaled_numerator % modulus
+    failed_denominator = slope_numerator * scaled_denominator % modulus
+    shared_numerator = (
+        other_denominator - slope_numerator * scaled_numerator + failed_denominator
+    ) % modulus
+    return shared_numerator, other_denominator, failed_denominator
+
+
+def _same_orientation_integer_terms(
+    *,
+    orientation: str,
+    residue: tuple[int, int, int, int],
+) -> tuple[int, int, int]:
+    m, n, u, v = residue
+    if orientation == "odd":
+        slope_numerator = m * m - n * n
+        slope_denominator = 2 * m * n
+        scaled_numerator = u * u - v * v
+        scaled_denominator = 2 * u * v
+    elif orientation == "even":
+        slope_numerator = 2 * m * n
+        slope_denominator = m * m - n * n
+        scaled_numerator = 2 * u * v
+        scaled_denominator = u * u - v * v
+    else:
+        raise ValueError("orientation must be 'odd' or 'even'")
+    other_denominator = slope_denominator * scaled_numerator
+    failed_denominator = slope_numerator * scaled_denominator
+    shared_numerator = (
+        other_denominator - slope_numerator * scaled_numerator + failed_denominator
+    )
+    return shared_numerator, other_denominator, failed_denominator
+
+
+def _integer_valuation(value: int, prime: int) -> int:
+    if prime <= 1:
+        raise ValueError("prime must be greater than 1")
+    if value == 0:
+        raise ValueError("valuation of zero is not finite")
+    remaining = abs(value)
+    exponent = 0
+    while remaining % prime == 0:
+        exponent += 1
+        remaining //= prime
+    return exponent
+
+
+def _integer_valuation_or_zero_sentinel(value: int, prime: int) -> int:
+    if value == 0:
+        return 99
+    return _integer_valuation(value, prime)
+
+
+def sum_ab_same_orientation_both_pass_lift_summary(
+    *,
+    modulus: int,
+    orientation: str,
+    residue: tuple[int, int, int, int],
+    prime: int,
+    example_limit: int = 5,
+) -> SumAbSameOrientationBothPassLiftSummary:
+    """Count noncenter both-pass lifts of one residue class to ``prime*modulus``."""
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    if prime <= 1:
+        raise ValueError("prime must be greater than 1")
+    if len(residue) != 4:
+        raise ValueError("residue must contain four entries")
+    next_modulus = modulus * prime
+    square_residues = {value * value % next_modulus for value in range(next_modulus)}
+    lift_count = 0
+    valuation_counts: dict[int, int] = {}
+    examples: list[tuple[int, ...]] = []
+    m, n, u, v = residue
+    for dm in range(prime):
+        for dn in range(prime):
+            for du in range(prime):
+                for dv in range(prime):
+                    lifted = (
+                        m + modulus * dm,
+                        n + modulus * dn,
+                        u + modulus * du,
+                        v + modulus * dv,
+                    )
+                    if _gcd(_gcd(lifted[0], lifted[1]), next_modulus) != 1:
+                        continue
+                    if _gcd(_gcd(lifted[2], lifted[3]), next_modulus) != 1:
+                        continue
+                    if next_modulus % 2 == 0 and (lifted[0] - lifted[1]) % 2 == 0:
+                        continue
+                    if next_modulus % 2 == 0 and (lifted[2] - lifted[3]) % 2 == 0:
+                        continue
+                    shared_numerator, other_denominator, failed_denominator = (
+                        _same_orientation_residue_terms(
+                            modulus=next_modulus,
+                            orientation=orientation,
+                            residue=lifted,
+                        )
+                    )
+                    difference = (other_denominator - failed_denominator) % next_modulus
+                    if difference == 0:
+                        continue
+                    other_square = (
+                        shared_numerator * shared_numerator
+                        + other_denominator * other_denominator
+                    ) % next_modulus
+                    failed_square = (
+                        shared_numerator * shared_numerator
+                        + failed_denominator * failed_denominator
+                    ) % next_modulus
+                    if (
+                        other_square not in square_residues
+                        or failed_square not in square_residues
+                    ):
+                        continue
+                    lift_count += 1
+                    valuation = _integer_valuation(difference, prime)
+                    valuation_counts[valuation] = valuation_counts.get(valuation, 0) + 1
+                    if len(examples) < example_limit:
+                        examples.append(
+                            (
+                                lifted[0],
+                                lifted[1],
+                                lifted[2],
+                                lifted[3],
+                                shared_numerator,
+                                other_denominator,
+                                failed_denominator,
+                            )
+                        )
+    return SumAbSameOrientationBothPassLiftSummary(
+        modulus=modulus,
+        next_modulus=next_modulus,
+        orientation=orientation,
+        residue=residue,
+        prime=prime,
+        lift_count=lift_count,
+        diff_valuation_counts=dict(sorted(valuation_counts.items())),
+        examples=tuple(examples),
+    )
+
+
+def sum_ab_same_orientation_difference_factor_valuation_summary(
+    *,
+    modulus: int,
+    orientation: str,
+    prime: int,
+) -> SumAbSameOrientationDifferenceFactorValuationSummary:
+    """Summarize which ``P-Q`` factor carries ``prime`` among survivors."""
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    if prime <= 1:
+        raise ValueError("prime must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    pattern_counts: dict[tuple[int, int, int], int] = {}
+    examples: dict[tuple[int, int, int], tuple[int, ...]] = {}
+    total = 0
+    for m in range(modulus):
+        for n in range(modulus):
+            if _gcd(_gcd(m, n), modulus) != 1:
+                continue
+            if modulus % 2 == 0 and (m - n) % 2 == 0:
+                continue
+            for u in range(modulus):
+                for v in range(modulus):
+                    if _gcd(_gcd(u, v), modulus) != 1:
+                        continue
+                    if modulus % 2 == 0 and (u - v) % 2 == 0:
+                        continue
+                    shared_numerator, other_denominator, failed_denominator = (
+                        _same_orientation_residue_terms(
+                            modulus=modulus,
+                            orientation=orientation,
+                            residue=(m, n, u, v),
+                        )
+                    )
+                    difference = (other_denominator - failed_denominator) % modulus
+                    if difference == 0:
+                        continue
+                    other_square = (
+                        shared_numerator * shared_numerator
+                        + other_denominator * other_denominator
+                    ) % modulus
+                    failed_square = (
+                        shared_numerator * shared_numerator
+                        + failed_denominator * failed_denominator
+                    ) % modulus
+                    if (
+                        other_square not in square_residues
+                        or failed_square not in square_residues
+                    ):
+                        continue
+                    first_factor = m * u + n * v
+                    second_factor = n * u - m * v
+                    pattern = (
+                        _integer_valuation(first_factor, prime),
+                        _integer_valuation(second_factor, prime),
+                        _integer_valuation(difference, prime),
+                    )
+                    total += 1
+                    pattern_counts[pattern] = pattern_counts.get(pattern, 0) + 1
+                    examples.setdefault(
+                        pattern,
+                        (
+                            m,
+                            n,
+                            u,
+                            v,
+                            shared_numerator,
+                            other_denominator,
+                            failed_denominator,
+                            first_factor,
+                            second_factor,
+                        ),
+                    )
+    return SumAbSameOrientationDifferenceFactorValuationSummary(
+        modulus=modulus,
+        orientation=orientation,
+        prime=prime,
+        total_survivors=total,
+        pattern_counts=dict(sorted(pattern_counts.items())),
+        examples=dict(sorted(examples.items())),
+    )
+
+
+def sum_ab_same_orientation_combined_valuation_summary(
+    *,
+    modulus: int,
+    orientation: str,
+    prime: int,
+    top_limit: int = 20,
+) -> SumAbSameOrientationCombinedValuationSummary:
+    """Summarize combined ``P±Q`` and ``N-P,N-Q`` valuations for survivors.
+
+    Survivor membership is a residue condition modulo ``modulus``.  Valuations
+    are then taken on the corresponding integer polynomial representatives, so
+    a residue that is zero modulo ``modulus`` is not mistaken for literal zero.
+    The sentinel value ``99`` records literal zero offsets in a pattern.
+    """
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    if prime <= 1:
+        raise ValueError("prime must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    pattern_counts: Counter[tuple[int, ...]] = Counter()
+    examples: dict[tuple[int, ...], tuple[int, ...]] = {}
+    total = 0
+    for m in range(modulus):
+        for n in range(modulus):
+            if _gcd(_gcd(m, n), modulus) != 1:
+                continue
+            if modulus % 2 == 0 and (m - n) % 2 == 0:
+                continue
+            for u in range(modulus):
+                for v in range(modulus):
+                    if _gcd(_gcd(u, v), modulus) != 1:
+                        continue
+                    if modulus % 2 == 0 and (u - v) % 2 == 0:
+                        continue
+                    shared_numerator, other_denominator, failed_denominator = (
+                        _same_orientation_residue_terms(
+                            modulus=modulus,
+                            orientation=orientation,
+                            residue=(m, n, u, v),
+                        )
+                    )
+                    difference = (other_denominator - failed_denominator) % modulus
+                    if difference == 0:
+                        continue
+                    other_square = (
+                        shared_numerator * shared_numerator
+                        + other_denominator * other_denominator
+                    ) % modulus
+                    failed_square = (
+                        shared_numerator * shared_numerator
+                        + failed_denominator * failed_denominator
+                    ) % modulus
+                    if (
+                        other_square not in square_residues
+                        or failed_square not in square_residues
+                    ):
+                        continue
+                    integer_n, integer_p, integer_q = _same_orientation_integer_terms(
+                        orientation=orientation,
+                        residue=(m, n, u, v),
+                    )
+                    pattern = (
+                        _integer_valuation_or_zero_sentinel(m * u + n * v, prime),
+                        _integer_valuation_or_zero_sentinel(n * u - m * v, prime),
+                        _integer_valuation_or_zero_sentinel(m * u - n * v, prime),
+                        _integer_valuation_or_zero_sentinel(m * v + n * u, prime),
+                        _integer_valuation_or_zero_sentinel(integer_n - integer_p, prime),
+                        _integer_valuation_or_zero_sentinel(integer_n - integer_q, prime),
+                        _integer_valuation_or_zero_sentinel(integer_p - integer_q, prime),
+                        _integer_valuation_or_zero_sentinel(integer_p + integer_q, prime),
+                    )
+                    total += 1
+                    pattern_counts[pattern] += 1
+                    examples.setdefault(
+                        pattern,
+                        (
+                            m,
+                            n,
+                            u,
+                            v,
+                            integer_n,
+                            integer_p,
+                            integer_q,
+                        ),
+                    )
+    top_patterns = tuple(pattern_counts.most_common(top_limit))
+    return SumAbSameOrientationCombinedValuationSummary(
+        modulus=modulus,
+        orientation=orientation,
+        prime=prime,
+        total_survivors=total,
+        pattern_count=len(pattern_counts),
+        top_patterns=top_patterns,
+        zero_offset_pattern_count=sum(
+            1 for pattern in pattern_counts if 99 in pattern[4:6]
+        ),
+        examples=dict(sorted(examples.items())),
     )
 
 
@@ -1714,6 +3503,2530 @@ def sum_ab_same_orientation_normalized_near_miss_summary(
         family_edges_by_failing_squareclass=family_edges_by_squareclass,
         n_descending_edge_count=n_descending_edge_count,
         n_descending_continuation_count=n_descending_continuation_count,
+    )
+
+
+def sum_ab_four_slope_squareclass_summary(
+    *,
+    max_m: int,
+) -> SumAbFourSlopeSquareclassSummary:
+    """Summarize the weak product-square layer in the four-slope model.
+
+    In the ``sum=A+B`` branch, choose Pythagorean slopes ``x,y`` and set
+    ``lambda = 1/(x+y-1)``.  Then ``r=lambda*x`` and ``s=lambda*y`` are the two
+    unit-side checks.  This diagnostic counts when those two unit-side checks
+    have equal squareclass; that is the product-square condition before asking
+    whether each unit-side check is individually square.
+    """
+    if max_m < 2:
+        raise ValueError("max_m must be at least 2")
+
+    slopes = pythagorean_leg_ratios(max_m)
+    squareclass_cache: dict[Fraction, int] = {}
+    centerline_squareclasses: Counter[int] = Counter()
+    equal_unit_squareclass_pairs = 0
+    centerline_equal_unit_squareclass_pairs = 0
+    noncenter_equal_unit_squareclass_pairs = 0
+    true_four_pass_pairs = 0
+
+    def unit_squareclass(value: Fraction) -> int:
+        if value not in squareclass_cache:
+            squareclass_cache[value] = leg_ratio_squareclass(value).squarefree_part
+        return squareclass_cache[value]
+
+    for x in slopes:
+        for y in slopes:
+            denominator = x + y - 1
+            if denominator <= 0:
+                continue
+            lam = 1 / denominator
+            r = lam * x
+            s = lam * y
+            r_squareclass = unit_squareclass(r)
+            s_squareclass = unit_squareclass(s)
+            if r_squareclass != s_squareclass:
+                continue
+
+            equal_unit_squareclass_pairs += 1
+            if r_squareclass == 1:
+                true_four_pass_pairs += 1
+            if x == y:
+                centerline_equal_unit_squareclass_pairs += 1
+                centerline_squareclasses[r_squareclass] += 1
+            else:
+                noncenter_equal_unit_squareclass_pairs += 1
+
+    return SumAbFourSlopeSquareclassSummary(
+        max_m=max_m,
+        slope_count=len(slopes),
+        equal_unit_squareclass_pairs=equal_unit_squareclass_pairs,
+        centerline_equal_unit_squareclass_pairs=centerline_equal_unit_squareclass_pairs,
+        noncenter_equal_unit_squareclass_pairs=noncenter_equal_unit_squareclass_pairs,
+        true_four_pass_pairs=true_four_pass_pairs,
+        centerline_squareclasses=dict(sorted(centerline_squareclasses.items())),
+    )
+
+
+def sum_ab_four_slope_squareclass_witnesses(
+    *,
+    max_m: int,
+    limit: int | None = None,
+    include_centerline: bool = True,
+) -> tuple[SumAbFourSlopeSquareclassWitness, ...]:
+    """Return bounded equal-unit-squareclass witnesses for ``sum=A+B``.
+
+    This is only a diagnostic extractor.  Absence of witnesses in a finite
+    bound is not a proof.
+    """
+    if max_m < 2:
+        raise ValueError("max_m must be at least 2")
+    if limit is not None and limit < 1:
+        raise ValueError("limit must be positive")
+
+    slopes = pythagorean_leg_ratios(max_m)
+    squareclass_cache: dict[Fraction, int] = {}
+    witnesses: list[SumAbFourSlopeSquareclassWitness] = []
+
+    def unit_squareclass(value: Fraction) -> int:
+        if value not in squareclass_cache:
+            squareclass_cache[value] = leg_ratio_squareclass(value).squarefree_part
+        return squareclass_cache[value]
+
+    for x in slopes:
+        for y in slopes:
+            denominator = x + y - 1
+            if denominator <= 0:
+                continue
+            lam = 1 / denominator
+            r = lam * x
+            s = lam * y
+            r_squareclass = unit_squareclass(r)
+            if r_squareclass != unit_squareclass(s):
+                continue
+            centerline = x == y
+            if centerline and not include_centerline:
+                continue
+            witnesses.append(
+                SumAbFourSlopeSquareclassWitness(
+                    slope1=x,
+                    slope2=y,
+                    lambda_ratio=lam,
+                    r=r,
+                    s=s,
+                    unit_squareclass=r_squareclass,
+                    centerline=centerline,
+                    true_four_pass=r_squareclass == 1,
+                )
+            )
+            if limit is not None and len(witnesses) >= limit:
+                return tuple(witnesses)
+
+    return tuple(witnesses)
+
+
+def sum_ab_four_square_dual_slope_model(
+    slope_x: Fraction | int,
+    slope_y: Fraction | int,
+) -> SumAbFourSquareDualSlopeModel:
+    """Record the dual Pythagorean slopes forced by the four square tests."""
+    x = _as_fraction(slope_x)
+    y = _as_fraction(slope_y)
+    _validate_positive("slope_x", x)
+    _validate_positive("slope_y", y)
+
+    common_leg = x + y - 1
+    _validate_positive("common_leg", common_leg)
+    dual_x = common_leg / x
+    dual_y = common_leg / y
+    dual_denominator = dual_x + dual_y - dual_x * dual_y
+    if dual_denominator == 0:
+        raise ValueError("dual denominator must be nonzero")
+
+    reconstructed_x = dual_y / dual_denominator
+    reconstructed_y = dual_x / dual_denominator
+    reconstructed_common_leg = dual_x * dual_y / dual_denominator
+    x_is_pythagorean = _is_rational_square(x * x + 1)
+    y_is_pythagorean = _is_rational_square(y * y + 1)
+    dual_x_is_pythagorean = _is_rational_square(dual_x * dual_x + 1)
+    dual_y_is_pythagorean = _is_rational_square(dual_y * dual_y + 1)
+    all_four_slopes_are_pythagorean = (
+        x_is_pythagorean
+        and y_is_pythagorean
+        and dual_x_is_pythagorean
+        and dual_y_is_pythagorean
+    )
+    return SumAbFourSquareDualSlopeModel(
+        slope_x=x,
+        slope_y=y,
+        common_leg=common_leg,
+        dual_slope_x=dual_x,
+        dual_slope_y=dual_y,
+        x_is_pythagorean=x_is_pythagorean,
+        y_is_pythagorean=y_is_pythagorean,
+        dual_x_is_pythagorean=dual_x_is_pythagorean,
+        dual_y_is_pythagorean=dual_y_is_pythagorean,
+        all_four_slopes_are_pythagorean=all_four_slopes_are_pythagorean,
+        dual_denominator=dual_denominator,
+        reconstructed_x=reconstructed_x,
+        reconstructed_y=reconstructed_y,
+        reconstructed_common_leg=reconstructed_common_leg,
+        self_dual_identity_holds=(
+            reconstructed_x == x
+            and reconstructed_y == y
+            and reconstructed_common_leg == common_leg
+        ),
+    )
+
+
+def sum_ab_dual_slope_parameterization(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+) -> SumAbDualSlopeParameterization:
+    """Parameterize the dual slopes in the four-square closed-loop model."""
+    t = _as_fraction(parameter_t)
+    u = _as_fraction(parameter_u)
+    _validate_positive("parameter_t", t)
+    _validate_positive("parameter_u", u)
+    if t == 1 or u == 1:
+        raise ValueError("parameters must not make the dual slope zero")
+
+    dual_x = (1 - t * t) / (2 * t)
+    dual_y = (1 - u * u) / (2 * u)
+    _validate_positive("dual_slope_x", dual_x)
+    _validate_positive("dual_slope_y", dual_y)
+
+    dual_denominator = dual_x + dual_y - dual_x * dual_y
+    _validate_positive("dual_denominator", dual_denominator)
+    generated_x = dual_y / dual_denominator
+    generated_y = dual_x / dual_denominator
+    common_leg = dual_x * dual_y / dual_denominator
+    generated_x_recovery_value = generated_x * generated_x + 1
+    generated_y_recovery_value = generated_y * generated_y + 1
+
+    denominator_polynomial = (
+        t * t * u * u
+        + 2 * t * t * u
+        - t * t
+        + 2 * t * u * u
+        - 2 * t
+        - u * u
+        - 2 * u
+        + 1
+    )
+    centerline_factor = (t - u) * (t + u) * (t * u - 1) * (t * u + 1)
+    generated_x_minus_y_factorized = (
+        -2 * (t - u) * (t * u + 1) / denominator_polynomial
+    )
+    recovery_value_difference_factorized = (
+        -4 * centerline_factor / (denominator_polynomial * denominator_polynomial)
+    )
+    centerline_recovery_quartic = t**4 + 8 * t**3 + 18 * t * t - 8 * t + 1
+
+    return SumAbDualSlopeParameterization(
+        parameter_t=t,
+        parameter_u=u,
+        dual_slope_x=dual_x,
+        dual_slope_y=dual_y,
+        dual_denominator=dual_denominator,
+        generated_x=generated_x,
+        generated_y=generated_y,
+        common_leg=common_leg,
+        generated_x_recovery_value=generated_x_recovery_value,
+        generated_y_recovery_value=generated_y_recovery_value,
+        generated_x_is_pythagorean=_is_rational_square(generated_x_recovery_value),
+        generated_y_is_pythagorean=_is_rational_square(generated_y_recovery_value),
+        generated_x_minus_y=generated_x - generated_y,
+        generated_x_minus_y_factorized=generated_x_minus_y_factorized,
+        recovery_value_difference_factorized=recovery_value_difference_factorized,
+        centerline_factor=centerline_factor,
+        centerline_factor_zero=centerline_factor == 0,
+        centerline_recovery_quartic=centerline_recovery_quartic,
+    )
+
+
+def sum_ab_dual_slope_valuation_ledger(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+) -> SumAbDualSlopeValuationLedger:
+    """Return prime valuations for the dual-slope recovery square values."""
+    parameterization = sum_ab_dual_slope_parameterization(parameter_t, parameter_u)
+    recovery_values = (
+        parameterization.generated_x_recovery_value,
+        parameterization.generated_y_recovery_value,
+    )
+    recovery_difference = recovery_values[0] - recovery_values[1]
+    centerline_factor = parameterization.centerline_factor
+    primes = _prime_support((*recovery_values, recovery_difference, centerline_factor))
+    rows: list[SumAbDualSlopeValuationRow] = []
+    for prime in primes:
+        recovery_valuations = tuple(
+            _rational_valuation(value, prime) for value in recovery_values
+        )
+        if any(valuation is None for valuation in recovery_valuations):
+            raise ValueError("recovery values should be positive nonzero rationals")
+        rows.append(
+            SumAbDualSlopeValuationRow(
+                prime=prime,
+                recovery_valuations=recovery_valuations,  # type: ignore[arg-type]
+                recovery_difference_valuation=_rational_valuation(
+                    recovery_difference,
+                    prime,
+                ),
+                centerline_factor_valuation=_rational_valuation(
+                    centerline_factor,
+                    prime,
+                ),
+                all_recovery_valuations_even=all(
+                    valuation % 2 == 0 for valuation in recovery_valuations
+                ),
+            )
+        )
+    rows_tuple = tuple(rows)
+    recovery_squareclasses = (
+        _rational_squareclass(recovery_values[0])[0],
+        _rational_squareclass(recovery_values[1])[0],
+    )
+    recovery_squareclass_primes = tuple(
+        prime for prime in primes if prime in recovery_squareclasses
+    )
+    return SumAbDualSlopeValuationLedger(
+        parameterization=parameterization,
+        recovery_squareclasses=recovery_squareclasses,
+        recovery_squareclass_primes=recovery_squareclass_primes,
+        three_mod_four_recovery_squareclass_primes=tuple(
+            prime for prime in recovery_squareclass_primes if prime % 4 == 3
+        ),
+        primes=primes,
+        three_mod_four_primes=tuple(prime for prime in primes if prime % 4 == 3),
+        rows=rows_tuple,
+        rows_by_prime={row.prime: row for row in rows_tuple},
+    )
+
+
+def _sum_ab_p_plus_lambda_q_norm(parameter: Fraction) -> Fraction:
+    """Return the quartic norm controlling the ``p+lambda`` shadow."""
+    return (
+        parameter**4
+        - 4 * parameter**3
+        - 6 * parameter * parameter
+        + 4 * parameter
+        + 1
+    )
+
+
+def sum_ab_dual_slope_qadic_norm_ledger(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+    *,
+    prime: int,
+) -> SumAbDualSlopeQAdicNormLedger:
+    """Return the global squareclass ledger for one q-adic norm shadow."""
+    if prime <= 1:
+        raise ValueError("prime must be an odd prime")
+    parameterization = sum_ab_dual_slope_parameterization(parameter_t, parameter_u)
+    q_norm_values = (
+        _sum_ab_p_plus_lambda_q_norm(parameterization.parameter_t),
+        _sum_ab_p_plus_lambda_q_norm(parameterization.parameter_u),
+    )
+    q_norm_squareclass_data = tuple(
+        _rational_squareclass(abs(value)) for value in q_norm_values
+    )
+    recovery_values = (
+        parameterization.generated_x_recovery_value,
+        parameterization.generated_y_recovery_value,
+    )
+    recovery_squareclass_data = tuple(
+        _rational_squareclass(value) for value in recovery_values
+    )
+    recovery_valuations_at_prime = tuple(
+        _rational_valuation(value, prime) for value in recovery_values
+    )
+    recovery_squareclass_primes = tuple(
+        primes for _, primes in recovery_squareclass_data
+    )
+    return SumAbDualSlopeQAdicNormLedger(
+        parameterization=parameterization,
+        parameter_pairs=(
+            parameterization.parameter_t,
+            parameterization.parameter_u,
+        ),
+        prime=prime,
+        q_norm_values=q_norm_values,  # type: ignore[arg-type]
+        q_norm_valuations=tuple(
+            _rational_valuation(value, prime) for value in q_norm_values
+        ),  # type: ignore[arg-type]
+        q_norm_squareclasses=tuple(
+            squareclass for squareclass, _ in q_norm_squareclass_data
+        ),  # type: ignore[arg-type]
+        odd_q_norm_squareclass_primes=tuple(
+            primes for _, primes in q_norm_squareclass_data
+        ),  # type: ignore[arg-type]
+        recovery_squareclasses=tuple(
+            squareclass for squareclass, _ in recovery_squareclass_data
+        ),  # type: ignore[arg-type]
+        recovery_squareclass_primes=recovery_squareclass_primes,  # type: ignore[arg-type]
+        recovery_valuations_at_prime=recovery_valuations_at_prime,  # type: ignore[arg-type]
+        shadow_prime_balanced_in_recovery_squareclasses=(
+            all(
+                valuation is not None and valuation % 2 == 0
+                for valuation in recovery_valuations_at_prime
+            )
+            and all(prime not in primes for primes in recovery_squareclass_primes)
+        ),
+    )
+
+
+def sum_ab_dual_slope_qadic_norm_summary(
+    parameter_pairs: tuple[tuple[Fraction | int, Fraction | int], ...],
+    *,
+    prime: int,
+) -> SumAbDualSlopeQAdicNormSummary:
+    """Summarize q-adic norm shadow squareclass patterns for sample pairs."""
+    ledgers = tuple(
+        sum_ab_dual_slope_qadic_norm_ledger(t, u, prime=prime)
+        for t, u in parameter_pairs
+    )
+    q_norm_valuation_pair_counts: Counter[tuple[int | None, int | None]] = Counter()
+    recovery_prime_mod4_counts: Counter[int] = Counter()
+    recovery_prime_mod8_counts: Counter[int] = Counter()
+    recovery_prime_mod16_counts: Counter[int] = Counter()
+    examples_by_bucket: dict[str, SumAbDualSlopeQAdicNormLedger] = {}
+    shadow_prime_balanced_count = 0
+    recovery_contains_shadow_prime_count = 0
+    recovery_has_three_mod_four_prime_count = 0
+    recovery_has_only_two_or_one_mod_four_primes_count = 0
+
+    for ledger in ledgers:
+        q_norm_valuation_pair_counts[ledger.q_norm_valuations] += 1
+        recovery_primes = {
+            prime_value
+            for primes in ledger.recovery_squareclass_primes
+            for prime_value in primes
+        }
+        for primes in ledger.recovery_squareclass_primes:
+            for prime_value in primes:
+                recovery_prime_mod4_counts[prime_value % 4] += 1
+                recovery_prime_mod8_counts[prime_value % 8] += 1
+                recovery_prime_mod16_counts[prime_value % 16] += 1
+        contains_shadow_prime = prime in recovery_primes
+        has_three_mod_four_prime = any(
+            prime_value % 4 == 3 for prime_value in recovery_primes
+        )
+        if ledger.shadow_prime_balanced_in_recovery_squareclasses:
+            shadow_prime_balanced_count += 1
+        if contains_shadow_prime:
+            recovery_contains_shadow_prime_count += 1
+            examples_by_bucket.setdefault("contains_shadow_prime", ledger)
+        if has_three_mod_four_prime:
+            recovery_has_three_mod_four_prime_count += 1
+            examples_by_bucket.setdefault("has_three_mod_four", ledger)
+        else:
+            recovery_has_only_two_or_one_mod_four_primes_count += 1
+            examples_by_bucket.setdefault("only_two_or_one_mod_four", ledger)
+
+    return SumAbDualSlopeQAdicNormSummary(
+        prime=prime,
+        sample_count=len(ledgers),
+        shadow_prime_balanced_count=shadow_prime_balanced_count,
+        recovery_contains_shadow_prime_count=recovery_contains_shadow_prime_count,
+        recovery_has_three_mod_four_prime_count=recovery_has_three_mod_four_prime_count,
+        recovery_has_only_two_or_one_mod_four_primes_count=(
+            recovery_has_only_two_or_one_mod_four_primes_count
+        ),
+        q_norm_valuation_pair_counts=dict(sorted(q_norm_valuation_pair_counts.items())),
+        recovery_prime_mod4_counts=dict(sorted(recovery_prime_mod4_counts.items())),
+        recovery_prime_mod8_counts=dict(sorted(recovery_prime_mod8_counts.items())),
+        recovery_prime_mod16_counts=dict(sorted(recovery_prime_mod16_counts.items())),
+        examples_by_bucket=examples_by_bucket,
+    )
+
+
+def _sum_ab_p_plus_lambda_shadow_f_mod(
+    parameter_t: int,
+    parameter_u: int,
+    modulus: int,
+) -> int:
+    t = parameter_t
+    u = parameter_u
+    return (
+        -t * t * u * u
+        - 2 * t * t * u
+        + t * t
+        - 2 * t * u * u
+        + 4 * t * u
+        + 2 * t
+        + u * u
+        + 2 * u
+        - 1
+    ) % modulus
+
+
+def _sum_ab_p_plus_lambda_shadow_e_mod(
+    parameter_t: int,
+    parameter_u: int,
+    modulus: int,
+) -> int:
+    t = parameter_t
+    u = parameter_u
+    return (
+        t * t * u * u
+        + t * t * u
+        - t * t
+        + t * u * u
+        - t
+        - u * u
+        - u
+        + 1
+    ) % modulus
+
+
+def _sum_ab_p_plus_lambda_shadow_roots_mod_prime(
+    prime: int,
+) -> tuple[tuple[int, int], ...]:
+    return tuple(
+        (t, u)
+        for t in range(prime)
+        for u in range(prime)
+        if _sum_ab_p_plus_lambda_shadow_f_mod(t, u, prime) == 0
+        and _sum_ab_p_plus_lambda_shadow_e_mod(t, u, prime) == 0
+    )
+
+
+def _sum_ab_p_plus_lambda_shadow_lifts(
+    roots_mod_prime: tuple[tuple[int, int], ...],
+    *,
+    prime: int,
+    exponent: int,
+) -> tuple[tuple[int, int], ...]:
+    lifted = roots_mod_prime
+    current_modulus = prime
+    for current_exponent in range(2, exponent + 1):
+        next_modulus = prime**current_exponent
+        next_lifted: list[tuple[int, int]] = []
+        for t0, u0 in lifted:
+            for t_digit in range(prime):
+                for u_digit in range(prime):
+                    t = t0 + current_modulus * t_digit
+                    u = u0 + current_modulus * u_digit
+                    if (
+                        _sum_ab_p_plus_lambda_shadow_f_mod(t, u, next_modulus)
+                        == 0
+                        and _sum_ab_p_plus_lambda_shadow_e_mod(t, u, next_modulus)
+                        == 0
+                    ):
+                        next_lifted.append((t % next_modulus, u % next_modulus))
+        lifted = tuple(sorted(next_lifted))
+        current_modulus = next_modulus
+    return lifted
+
+
+def _positive_fraction_representatives_for_residue(
+    residue: int,
+    *,
+    modulus: int,
+    bound: int,
+) -> tuple[Fraction, ...]:
+    representatives: set[Fraction] = set()
+    for height in range(1, bound + 1):
+        for denominator in range(1, height + 1):
+            if _gcd(denominator, modulus) != 1:
+                continue
+            numerator = residue * denominator % modulus
+            if 0 < numerator <= height:
+                representatives.add(Fraction(numerator, denominator))
+    return tuple(
+        sorted(
+            representatives,
+            key=lambda value: (
+                max(value.numerator, value.denominator),
+                value.numerator,
+                value.denominator,
+            ),
+        )
+    )
+
+
+def sum_ab_dual_slope_qadic_norm_generated_summary(
+    *,
+    prime: int,
+    exponent: int,
+    representative_bound: int,
+    sample_limit: int | None = None,
+) -> SumAbDualSlopeQAdicNormGeneratedSummary:
+    """Generate q-adic ``p+lambda`` shadow samples and summarize them.
+
+    This is a diagnostic generator, not a proof certificate.  It keeps only
+    positive representatives that enter the existing dual-slope chart.
+    """
+    if prime <= 2 or factorint(prime) != {prime: 1}:
+        raise ValueError("prime must be an odd prime")
+    if prime % 16 != 15:
+        raise ValueError("prime must be 15 mod 16")
+    if exponent < 2:
+        raise ValueError("exponent must be at least 2")
+    if representative_bound < 1:
+        raise ValueError("representative_bound must be positive")
+    if sample_limit is not None and sample_limit < 1:
+        raise ValueError("sample_limit must be positive when provided")
+
+    modulus = prime**exponent
+    roots_mod_prime = _sum_ab_p_plus_lambda_shadow_roots_mod_prime(prime)
+    lifted_residue_pairs = _sum_ab_p_plus_lambda_shadow_lifts(
+        roots_mod_prime,
+        prime=prime,
+        exponent=exponent,
+    )
+    parameter_pairs: list[tuple[Fraction, Fraction]] = []
+    for t_residue, u_residue in lifted_residue_pairs:
+        found_pair = False
+        t_representatives = _positive_fraction_representatives_for_residue(
+            t_residue,
+            modulus=modulus,
+            bound=representative_bound,
+        )
+        u_representatives = _positive_fraction_representatives_for_residue(
+            u_residue,
+            modulus=modulus,
+            bound=representative_bound,
+        )
+        for t in t_representatives:
+            for u in u_representatives:
+                try:
+                    sum_ab_dual_slope_parameterization(t, u)
+                except ValueError:
+                    continue
+                parameter_pairs.append((t, u))
+                found_pair = True
+                break
+            if found_pair:
+                break
+        if sample_limit is not None and len(parameter_pairs) >= sample_limit:
+            break
+
+    parameter_pairs_tuple = tuple(parameter_pairs)
+    return SumAbDualSlopeQAdicNormGeneratedSummary(
+        prime=prime,
+        exponent=exponent,
+        modulus=modulus,
+        representative_bound=representative_bound,
+        root_count_mod_prime=len(roots_mod_prime),
+        lift_count=len(lifted_residue_pairs),
+        lifted_residue_pairs=lifted_residue_pairs,
+        parameter_pairs=parameter_pairs_tuple,
+        summary=sum_ab_dual_slope_qadic_norm_summary(
+            parameter_pairs_tuple,
+            prime=prime,
+        ),
+    )
+
+
+def sum_ab_dual_slope_qadic_norm_bridge_summary(
+    *,
+    prime: int,
+    exponent: int,
+    representative_bound: int,
+    sample_limit: int | None = None,
+) -> SumAbDualSlopeQAdicNormBridgeSummary:
+    """Rewrite generated q-adic norm shadow samples as Gaussian bridge cycles."""
+    generated_summary = sum_ab_dual_slope_qadic_norm_generated_summary(
+        prime=prime,
+        exponent=exponent,
+        representative_bound=representative_bound,
+        sample_limit=sample_limit,
+    )
+    ledgers: list[SumAbDualSlopeQAdicNormBridgeLedger] = []
+    for t, u in generated_summary.parameter_pairs:
+        norm_ledger = sum_ab_dual_slope_qadic_norm_ledger(t, u, prime=prime)
+        bridge_cycle = sum_ab_dual_slope_gaussian_bridge_cycle(t, u)
+        ledgers.append(
+            SumAbDualSlopeQAdicNormBridgeLedger(
+                norm_ledger=norm_ledger,
+                bridge_cycle=bridge_cycle,
+                recovery_matches_bridge_squareclasses=(
+                    norm_ledger.recovery_squareclasses
+                    == bridge_cycle.bridge_squareclasses
+                ),
+                generated_flags_match_bridge_flags=(
+                    bridge_cycle.generated_flags_match_bridge_flags
+                ),
+            )
+        )
+
+    ledgers_tuple = tuple(ledgers)
+    return SumAbDualSlopeQAdicNormBridgeSummary(
+        generated_summary=generated_summary,
+        ledgers=ledgers_tuple,
+        sample_count=len(ledgers_tuple),
+        recovery_matches_bridge_squareclass_count=sum(
+            ledger.recovery_matches_bridge_squareclasses for ledger in ledgers_tuple
+        ),
+        generated_flags_match_bridge_flags_count=sum(
+            ledger.generated_flags_match_bridge_flags for ledger in ledgers_tuple
+        ),
+        all_cross_bridges_pythagorean_count=sum(
+            ledger.bridge_cycle.all_cross_bridges_are_pythagorean
+            for ledger in ledgers_tuple
+        ),
+        first_ledger=ledgers_tuple[0] if ledgers_tuple else None,
+    )
+
+
+def sum_ab_dual_slope_qadic_bridge_valuation_summary(
+    *,
+    prime: int,
+    exponent: int,
+    representative_bound: int,
+    sample_limit: int | None = None,
+) -> SumAbDualSlopeQAdicBridgeValuationSummary:
+    """Summarize q-adic valuations of generated bridge-cycle samples."""
+    generated_summary = sum_ab_dual_slope_qadic_norm_generated_summary(
+        prime=prime,
+        exponent=exponent,
+        representative_bound=representative_bound,
+        sample_limit=sample_limit,
+    )
+    rows: list[SumAbDualSlopeQAdicBridgeValuationRow] = []
+    centerline_factor_valuation_counts: Counter[
+        tuple[int | None, int | None, int | None, int | None]
+    ] = Counter()
+    extra_factor_valuation_counts: Counter[int | None] = Counter()
+    bridge_difference_valuation_counts: Counter[int | None] = Counter()
+    bridge_value_valuation_pair_counts: Counter[tuple[int | None, int | None]] = (
+        Counter()
+    )
+    bridge_value_2adic_pair_counts: Counter[tuple[int | None, int | None]] = Counter()
+    for t, u in generated_summary.parameter_pairs:
+        factorization = sum_ab_dual_slope_bridge_difference_factorization(t, u)
+        centerline_factors = (t - u, t + u, t * u - 1, t * u + 1)
+        centerline_factor_valuations = tuple(
+            _rational_valuation(value, prime) for value in centerline_factors
+        )
+        bridge_values = (
+            factorization.bridge_cycle.x_to_dual_y.bridge_value,
+            factorization.bridge_cycle.y_to_dual_x.bridge_value,
+        )
+        bridge_value_valuation_pair = tuple(
+            _rational_valuation(value, prime) for value in bridge_values
+        )
+        bridge_value_2adic_pair = tuple(
+            _rational_valuation(value, 2) for value in bridge_values
+        )
+        row = SumAbDualSlopeQAdicBridgeValuationRow(
+            parameter_pairs=(t, u),
+            centerline_factor_valuations=centerline_factor_valuations,  # type: ignore[arg-type]
+            extra_factor_valuation=_rational_valuation(
+                factorization.extra_equal_bridge_factor,
+                prime,
+            ),
+            bridge_difference_valuation=_rational_valuation(
+                factorization.bridge_value_difference,
+                prime,
+            ),
+            bridge_value_valuation_pair=bridge_value_valuation_pair,  # type: ignore[arg-type]
+            bridge_value_2adic_pair=bridge_value_2adic_pair,  # type: ignore[arg-type]
+        )
+        rows.append(row)
+        centerline_factor_valuation_counts[row.centerline_factor_valuations] += 1
+        extra_factor_valuation_counts[row.extra_factor_valuation] += 1
+        bridge_difference_valuation_counts[row.bridge_difference_valuation] += 1
+        bridge_value_valuation_pair_counts[row.bridge_value_valuation_pair] += 1
+        bridge_value_2adic_pair_counts[row.bridge_value_2adic_pair] += 1
+
+    rows_tuple = tuple(rows)
+    return SumAbDualSlopeQAdicBridgeValuationSummary(
+        generated_summary=generated_summary,
+        rows=rows_tuple,
+        sample_count=len(rows_tuple),
+        centerline_factor_valuation_counts=dict(
+            sorted(centerline_factor_valuation_counts.items())
+        ),
+        extra_factor_valuation_counts=dict(
+            sorted(extra_factor_valuation_counts.items())
+        ),
+        bridge_difference_valuation_counts=dict(
+            sorted(bridge_difference_valuation_counts.items())
+        ),
+        bridge_value_valuation_pair_counts=dict(
+            sorted(bridge_value_valuation_pair_counts.items())
+        ),
+        bridge_value_2adic_pair_counts=dict(
+            sorted(bridge_value_2adic_pair_counts.items())
+        ),
+        first_row=rows_tuple[0] if rows_tuple else None,
+    )
+
+
+def _rational_odd_unit_mod_8(value: Fraction) -> int:
+    if value == 0:
+        raise ValueError("value must be nonzero")
+
+    def strip_twos(part: int) -> int:
+        odd_part = abs(part)
+        while odd_part % 2 == 0:
+            odd_part //= 2
+        return odd_part
+
+    numerator_unit = strip_twos(value.numerator)
+    denominator_unit = strip_twos(value.denominator)
+    return (numerator_unit % 8) * pow(denominator_unit % 8, -1, 8) % 8
+
+
+def sum_ab_dual_slope_qadic_bridge_2adic_summary(
+    *,
+    prime: int,
+    exponent: int,
+    representative_bound: int,
+    sample_limit: int | None = None,
+) -> SumAbDualSlopeQAdicBridgeTwoAdicSummary:
+    """Classify generated bridge values by the two-adic square test."""
+    valuation_summary = sum_ab_dual_slope_qadic_bridge_valuation_summary(
+        prime=prime,
+        exponent=exponent,
+        representative_bound=representative_bound,
+        sample_limit=sample_limit,
+    )
+    local_square_unit_mod8_pair_counts: Counter[tuple[int, int]] = Counter()
+    parity_killed_count = 0
+    two_adic_local_square_count = 0
+    for row in valuation_summary.rows:
+        valuation_pair = row.bridge_value_2adic_pair
+        if any(valuation is None or valuation % 2 for valuation in valuation_pair):
+            parity_killed_count += 1
+            continue
+        t, u = row.parameter_pairs
+        factorization = sum_ab_dual_slope_bridge_difference_factorization(t, u)
+        bridge_values = (
+            factorization.bridge_cycle.x_to_dual_y.bridge_value,
+            factorization.bridge_cycle.y_to_dual_x.bridge_value,
+        )
+        unit_pair = tuple(_rational_odd_unit_mod_8(value) for value in bridge_values)
+        if unit_pair == (1, 1):
+            two_adic_local_square_count += 1
+        local_square_unit_mod8_pair_counts[unit_pair] += 1
+
+    return SumAbDualSlopeQAdicBridgeTwoAdicSummary(
+        valuation_summary=valuation_summary,
+        sample_count=valuation_summary.sample_count,
+        parity_killed_count=parity_killed_count,
+        two_adic_local_square_count=two_adic_local_square_count,
+        bridge_value_2adic_pair_counts=(
+            valuation_summary.bridge_value_2adic_pair_counts
+        ),
+        local_square_unit_mod8_pair_counts=dict(
+            sorted(local_square_unit_mod8_pair_counts.items())
+        ),
+    )
+
+
+def sum_ab_dual_slope_qadic_bridge_local_square_summary(
+    *,
+    prime: int,
+    exponent: int,
+    representative_bound: int,
+    sample_limit: int | None = None,
+) -> SumAbDualSlopeQAdicBridgeLocalSquareSummary:
+    """Count generated bridge samples passing both q-adic and two-adic tests."""
+    two_adic_summary = sum_ab_dual_slope_qadic_bridge_2adic_summary(
+        prime=prime,
+        exponent=exponent,
+        representative_bound=representative_bound,
+        sample_limit=sample_limit,
+    )
+    q_adic_local_square_flag_pair_counts: Counter[tuple[bool, bool]] = Counter()
+    q_adic_local_square_count = 0
+    combined_survivors: list[tuple[Fraction, Fraction]] = []
+    for row in two_adic_summary.valuation_summary.rows:
+        t, u = row.parameter_pairs
+        factorization = sum_ab_dual_slope_bridge_difference_factorization(t, u)
+        bridge_values = (
+            factorization.bridge_cycle.x_to_dual_y.bridge_value,
+            factorization.bridge_cycle.y_to_dual_x.bridge_value,
+        )
+        q_flags = tuple(
+            _is_odd_prime_local_square(value, prime) for value in bridge_values
+        )
+        q_adic_local_square_flag_pair_counts[q_flags] += 1
+        q_passes = q_flags == (True, True)
+        if q_passes:
+            q_adic_local_square_count += 1
+        two_adic_passes = (
+            all(
+                valuation is not None and valuation % 2 == 0
+                for valuation in row.bridge_value_2adic_pair
+            )
+            and tuple(_rational_odd_unit_mod_8(value) for value in bridge_values)
+            == (1, 1)
+        )
+        if q_passes and two_adic_passes:
+            combined_survivors.append(row.parameter_pairs)
+
+    return SumAbDualSlopeQAdicBridgeLocalSquareSummary(
+        two_adic_summary=two_adic_summary,
+        sample_count=two_adic_summary.sample_count,
+        two_adic_local_square_count=two_adic_summary.two_adic_local_square_count,
+        q_adic_local_square_count=q_adic_local_square_count,
+        combined_q_and_2_adic_local_square_count=len(combined_survivors),
+        q_adic_local_square_flag_pair_counts=dict(
+            sorted(q_adic_local_square_flag_pair_counts.items())
+        ),
+        combined_survivor_parameter_pairs=tuple(combined_survivors),
+    )
+
+
+def _safe_gaussian_absorption_branch(
+    value: Fraction,
+    decomposition: tuple[int, int],
+    branch: str,
+) -> Fraction | None:
+    first, second = decomposition
+    if branch == "plus":
+        denominator = first - second * value
+        if denominator == 0:
+            return None
+        return (first * value + second) / denominator
+    if branch == "minus":
+        denominator = first + second * value
+        if denominator == 0:
+            return None
+        return (first * value - second) / denominator
+    raise ValueError("branch must be 'plus' or 'minus'")
+
+
+def sum_ab_dual_slope_gaussian_absorption(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+    *,
+    failed_side: str,
+) -> SumAbDualSlopeGaussianAbsorption:
+    """Absorb a failed dual-slope recovery squareclass when possible."""
+    parameterization = sum_ab_dual_slope_parameterization(parameter_t, parameter_u)
+    if failed_side == "x":
+        failed_slope = parameterization.generated_x
+        failed_value = parameterization.generated_x_recovery_value
+    elif failed_side == "y":
+        failed_slope = parameterization.generated_y
+        failed_value = parameterization.generated_y_recovery_value
+    else:
+        raise ValueError("failed_side must be 'x' or 'y'")
+
+    failed_squareclass = _rational_squareclass(failed_value)[0]
+    decomposition = _two_square_decomposition(failed_squareclass)
+    if decomposition is None:
+        raise ValueError("failed squareclass is not a sum of two squares")
+    absorbed_plus = _safe_gaussian_absorption_branch(
+        failed_slope,
+        decomposition,
+        "plus",
+    )
+    absorbed_minus = _safe_gaussian_absorption_branch(
+        failed_slope,
+        decomposition,
+        "minus",
+    )
+    targets = (
+        ("dual_x", parameterization.dual_slope_x),
+        ("dual_y", parameterization.dual_slope_y),
+    )
+    matches: list[tuple[str, str, Fraction]] = []
+    for branch, absorbed in (("plus", absorbed_plus), ("minus", absorbed_minus)):
+        if absorbed is None:
+            continue
+        for target_name, target in targets:
+            if absorbed == target:
+                matches.append((branch, target_name, absorbed))
+    matching_absorptions = tuple(matches)
+    return SumAbDualSlopeGaussianAbsorption(
+        parameterization=parameterization,
+        failed_side=failed_side,
+        failed_slope=failed_slope,
+        failed_value=failed_value,
+        failed_squareclass=failed_squareclass,
+        two_square_decomposition=decomposition,
+        absorbed_plus=absorbed_plus,
+        absorbed_minus=absorbed_minus,
+        matching_absorptions=matching_absorptions,
+        absorbs_to_existing_dual_slope=bool(matching_absorptions),
+    )
+
+
+def sum_ab_dual_slope_gaussian_bridge(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+    *,
+    failed_side: str,
+    target_side: str,
+) -> SumAbDualSlopeGaussianBridge:
+    """Return the Gaussian angle bridge from a failed slope to a dual slope."""
+    parameterization = sum_ab_dual_slope_parameterization(parameter_t, parameter_u)
+    if failed_side == "x":
+        failed_slope = parameterization.generated_x
+        failed_value = parameterization.generated_x_recovery_value
+    elif failed_side == "y":
+        failed_slope = parameterization.generated_y
+        failed_value = parameterization.generated_y_recovery_value
+    else:
+        raise ValueError("failed_side must be 'x' or 'y'")
+
+    if target_side == "dual_x":
+        target_slope = parameterization.dual_slope_x
+    elif target_side == "dual_y":
+        target_slope = parameterization.dual_slope_y
+    else:
+        raise ValueError("target_side must be 'dual_x' or 'dual_y'")
+
+    bridge_denominator = target_slope * failed_slope + 1
+    if bridge_denominator == 0:
+        raise ValueError("bridge denominator must be nonzero")
+    bridge_ratio = (failed_slope - target_slope) / bridge_denominator
+    bridge_value = bridge_ratio * bridge_ratio + 1
+    recovered_target = (failed_slope - bridge_ratio) / (
+        1 + bridge_ratio * failed_slope
+    )
+    failed_squareclass = _rational_squareclass(failed_value)[0]
+    bridge_squareclass = _rational_squareclass(bridge_value)[0]
+    return SumAbDualSlopeGaussianBridge(
+        parameterization=parameterization,
+        failed_side=failed_side,
+        target_side=target_side,
+        failed_slope=failed_slope,
+        target_slope=target_slope,
+        failed_squareclass=failed_squareclass,
+        bridge_ratio=bridge_ratio,
+        bridge_value=bridge_value,
+        bridge_squareclass=bridge_squareclass,
+        squareclass_matches_failure=bridge_squareclass == failed_squareclass,
+        recovered_target=recovered_target,
+        recovery_identity_holds=recovered_target == target_slope,
+    )
+
+
+def sum_ab_dual_slope_gaussian_bridge_cycle(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+) -> SumAbDualSlopeGaussianBridgeCycle:
+    """Record both cross bridges in the dual-slope four-square loop."""
+    parameterization = sum_ab_dual_slope_parameterization(parameter_t, parameter_u)
+    x_to_dual_y = sum_ab_dual_slope_gaussian_bridge(
+        parameter_t,
+        parameter_u,
+        failed_side="x",
+        target_side="dual_y",
+    )
+    y_to_dual_x = sum_ab_dual_slope_gaussian_bridge(
+        parameter_t,
+        parameter_u,
+        failed_side="y",
+        target_side="dual_x",
+    )
+    generated_squareclasses = (
+        _rational_squareclass(parameterization.generated_x_recovery_value)[0],
+        _rational_squareclass(parameterization.generated_y_recovery_value)[0],
+    )
+    bridge_squareclasses = (
+        x_to_dual_y.bridge_squareclass,
+        y_to_dual_x.bridge_squareclass,
+    )
+    generated_pythagorean_flags = (
+        parameterization.generated_x_is_pythagorean,
+        parameterization.generated_y_is_pythagorean,
+    )
+    bridge_pythagorean_flags = (
+        bridge_squareclasses[0] == 1,
+        bridge_squareclasses[1] == 1,
+    )
+    return SumAbDualSlopeGaussianBridgeCycle(
+        parameterization=parameterization,
+        x_to_dual_y=x_to_dual_y,
+        y_to_dual_x=y_to_dual_x,
+        generated_slopes=(
+            parameterization.generated_x,
+            parameterization.generated_y,
+        ),
+        dual_slopes=(
+            parameterization.dual_slope_x,
+            parameterization.dual_slope_y,
+        ),
+        bridge_ratios=(
+            x_to_dual_y.bridge_ratio,
+            y_to_dual_x.bridge_ratio,
+        ),
+        generated_squareclasses=generated_squareclasses,
+        bridge_squareclasses=bridge_squareclasses,
+        generated_pythagorean_flags=generated_pythagorean_flags,
+        bridge_pythagorean_flags=bridge_pythagorean_flags,
+        generated_flags_match_bridge_flags=(
+            generated_pythagorean_flags == bridge_pythagorean_flags
+        ),
+        all_generated_slopes_are_pythagorean=all(generated_pythagorean_flags),
+        all_cross_bridges_are_pythagorean=all(bridge_pythagorean_flags),
+    )
+
+
+def sum_ab_dual_slope_bridge_difference_factorization(
+    parameter_t: Fraction | int,
+    parameter_u: Fraction | int,
+) -> SumAbDualSlopeBridgeDifferenceFactorization:
+    """Factor the difference of the two cross-bridge square values."""
+    t = _as_fraction(parameter_t)
+    u = _as_fraction(parameter_u)
+    bridge_cycle = sum_ab_dual_slope_gaussian_bridge_cycle(t, u)
+    bridge_value_difference = (
+        bridge_cycle.x_to_dual_y.bridge_value
+        - bridge_cycle.y_to_dual_x.bridge_value
+    )
+
+    centerline_factor = (t - u) * (t + u) * (t * u - 1) * (t * u + 1)
+    extra_equal_bridge_factor = (
+        t * t * u * u
+        + t * t * u
+        - t * t
+        + t * u * u
+        - t
+        - u * u
+        - u
+        + 1
+    )
+    shared_t_factor = t * t + 2 * t - 1
+    shared_u_factor = u * u + 2 * u - 1
+    x_denominator_factor = (
+        t * t * u**3
+        + 2 * t * t * u * u
+        - t * t * u
+        - t * u**4
+        + 2 * t * u**3
+        + 2 * t * u * u
+        - 2 * t * u
+        - t
+        - u**3
+        - 2 * u * u
+        + u
+    )
+    y_denominator_factor = (
+        t**4 * u
+        - t**3 * u * u
+        - 2 * t**3 * u
+        + t**3
+        - 2 * t * t * u * u
+        - 2 * t * t * u
+        + 2 * t * t
+        + t * u * u
+        + 2 * t * u
+        - t
+        + u
+    )
+    if x_denominator_factor == 0 or y_denominator_factor == 0:
+        raise ValueError("bridge difference denominator must be nonzero")
+
+    bridge_difference_factorized = (
+        -centerline_factor
+        * (t + u)
+        * (t * u - 1)
+        * shared_t_factor
+        * shared_t_factor
+        * shared_u_factor
+        * shared_u_factor
+        * extra_equal_bridge_factor
+        / (x_denominator_factor * x_denominator_factor)
+        / (y_denominator_factor * y_denominator_factor)
+    )
+    extra_factor_u_quadratic_coefficients = (
+        t * t + t - 1,
+        t * t - 1,
+        1 - t - t * t,
+    )
+    extra_factor_u_discriminant = (
+        extra_factor_u_quadratic_coefficients[1]
+        * extra_factor_u_quadratic_coefficients[1]
+        - 4
+        * extra_factor_u_quadratic_coefficients[0]
+        * extra_factor_u_quadratic_coefficients[2]
+    )
+    new_curve_value_t = 5 * t**4 + 8 * t**3 - 6 * t * t - 8 * t + 5
+    return SumAbDualSlopeBridgeDifferenceFactorization(
+        bridge_cycle=bridge_cycle,
+        bridge_value_difference=bridge_value_difference,
+        centerline_factor=centerline_factor,
+        extra_equal_bridge_factor=extra_equal_bridge_factor,
+        bridge_difference_factorized=bridge_difference_factorized,
+        factorization_holds=bridge_difference_factorized == bridge_value_difference,
+        extra_factor_u_quadratic_coefficients=extra_factor_u_quadratic_coefficients,
+        extra_factor_u_discriminant=extra_factor_u_discriminant,
+        new_curve_value_t=new_curve_value_t,
+        extra_factor_discriminant_matches_new_curve=(
+            extra_factor_u_discriminant == new_curve_value_t
+        ),
+    )
+
+
+def _sum_ab_squareclass_ratio_terms(
+    t: Fraction,
+    u: Fraction,
+) -> tuple[Fraction, Fraction]:
+    numerator = (
+        2 * t**4 * u**2
+        + 2 * t**3 * u**3
+        + 4 * t**3 * u**2
+        - 2 * t**3 * u
+        + t**2 * u**4
+        + 4 * t**2 * u**3
+        - 2 * t**2 * u**2
+        - 4 * t**2 * u
+        + t**2
+        - 2 * t * u**3
+        - 4 * t * u**2
+        + 2 * t * u
+        + 2 * u**2
+    )
+    denominator = (
+        t**4 * u**2
+        + 2 * t**3 * u**3
+        + 4 * t**3 * u**2
+        - 2 * t**3 * u
+        + 2 * t**2 * u**4
+        + 4 * t**2 * u**3
+        - 2 * t**2 * u**2
+        - 4 * t**2 * u
+        + 2 * t**2
+        - 2 * t * u**3
+        - 4 * t * u**2
+        + 2 * t * u
+        + u**2
+    )
+    return numerator, denominator
+
+
+def sum_ab_squareclass_ratio_z_reduction(
+    t: Fraction | int,
+    u: Fraction | int,
+) -> SumAbSquareclassRatioZReduction:
+    """Reduce the four-slope squareclass ratio by ``z = u - 1/u``.
+
+    For ``x=(1-t^2)/(2t)`` and ``y=(1-u^2)/(2u)``, the unit-side squareclass
+    ratio is ``A/B``.  Substituting ``z = u - 1/u`` lowers the expression from a
+    quartic in ``u`` to a quadratic in ``z``; this helper records that exact
+    identity.
+    """
+    t_fraction = _as_fraction(t)
+    u_fraction = _as_fraction(u)
+    _validate_positive("t", t_fraction)
+    _validate_positive("u", u_fraction)
+
+    z = u_fraction - 1 / u_fraction
+    direct_numerator, direct_denominator = _sum_ab_squareclass_ratio_terms(
+        t_fraction,
+        u_fraction,
+    )
+    reduced_numerator = (
+        2 * t_fraction**4
+        + 2 * t_fraction**3 * z
+        + 4 * t_fraction**3
+        + t_fraction**2 * z**2
+        + 4 * t_fraction**2 * z
+        - 2 * t_fraction * z
+        - 4 * t_fraction
+        + 2
+    )
+    reduced_denominator = (
+        t_fraction**4
+        + 2 * t_fraction**3 * z
+        + 4 * t_fraction**3
+        + 2 * t_fraction**2 * z**2
+        + 4 * t_fraction**2 * z
+        + 2 * t_fraction**2
+        - 2 * t_fraction * z
+        - 4 * t_fraction
+        + 1
+    )
+    direct_ratio = direct_numerator / direct_denominator
+    reduced_ratio = reduced_numerator / reduced_denominator
+    return SumAbSquareclassRatioZReduction(
+        t=t_fraction,
+        u=u_fraction,
+        z=z,
+        direct_ratio=direct_ratio,
+        reduced_ratio=reduced_ratio,
+        ratio_is_square=_is_rational_square(direct_ratio),
+        u_recovery_square=z * z + 4,
+    )
+
+
+def sum_ab_squareclass_ratio_z_parameterization(
+    t: Fraction | int,
+    parameter: Fraction | int,
+) -> SumAbSquareclassRatioZParameterization:
+    """Parameterize ``z^2+4`` and expose the self-similar ratio.
+
+    Setting ``z = a - 1/a`` recovers the same squareclass-ratio formula with
+    ``u`` replaced by ``a``.  This records the self-similarity instead of
+    treating the ``z`` reduction as a new proof.
+    """
+    t_fraction = _as_fraction(t)
+    parameter_fraction = _as_fraction(parameter)
+    _validate_positive("t", t_fraction)
+    _validate_positive("parameter", parameter_fraction)
+
+    z = parameter_fraction - 1 / parameter_fraction
+    reduced = sum_ab_squareclass_ratio_z_reduction(t_fraction, parameter_fraction)
+    self_numerator, self_denominator = _sum_ab_squareclass_ratio_terms(
+        t_fraction,
+        parameter_fraction,
+    )
+    self_similar_ratio = self_numerator / self_denominator
+    centerline_factor = (
+        (t_fraction - parameter_fraction)
+        * (t_fraction + parameter_fraction)
+        * (t_fraction * parameter_fraction - 1)
+        * (t_fraction * parameter_fraction + 1)
+    )
+    return SumAbSquareclassRatioZParameterization(
+        t=t_fraction,
+        parameter=parameter_fraction,
+        z=z,
+        reduced_ratio=reduced.reduced_ratio,
+        self_similar_ratio=self_similar_ratio,
+        ratio_is_square=_is_rational_square(self_similar_ratio),
+        centerline_factor=centerline_factor,
+    )
+
+
+def sum_ab_squareclass_ratio_tu_quotient_model(
+    t_quotient: Fraction | int,
+    u_quotient: Fraction | int,
+) -> SumAbSquareclassRatioTUQuotientModel:
+    """Return the quotient model for ``T=t-1/t`` and ``U=u-1/u``.
+
+    The four-slope squareclass ratio can be written as two quadratic forms in
+    ``T`` and ``U``.  A rational ``T`` comes from a rational positive ``t`` only
+    when ``T^2+4`` is a rational square.
+    """
+    t_value = _as_fraction(t_quotient)
+    u_value = _as_fraction(u_quotient)
+    numerator = (
+        2 * t_value**2
+        + 2 * t_value * u_value
+        + 4 * t_value
+        + u_value**2
+        + 4 * u_value
+        + 4
+    )
+    denominator = (
+        t_value**2
+        + 2 * t_value * u_value
+        + 4 * t_value
+        + 2 * u_value**2
+        + 4 * u_value
+        + 4
+    )
+    ratio = numerator / denominator
+    return SumAbSquareclassRatioTUQuotientModel(
+        t_quotient=t_value,
+        u_quotient=u_value,
+        numerator_quadratic=numerator,
+        denominator_quadratic=denominator,
+        ratio=ratio,
+        ratio_is_square=_is_rational_square(ratio),
+        t_recovery_square=_is_rational_square(t_value * t_value + 4),
+        u_recovery_square=_is_rational_square(u_value * u_value + 4),
+    )
+
+
+def sum_ab_squareclass_ratio_slope_quadratic_model(
+    slope_x: Fraction | int,
+    slope_y: Fraction | int,
+) -> SumAbSquareclassRatioSlopeQuadraticModel:
+    """Return the squareclass-ratio model directly in the slopes ``x,y``."""
+    x = _as_fraction(slope_x)
+    y = _as_fraction(slope_y)
+    numerator = 2 * x**2 + 2 * x * y - 2 * x + y**2 - 2 * y + 1
+    denominator = x**2 + 2 * x * y - 2 * x + 2 * y**2 - 2 * y + 1
+    ratio = numerator / denominator
+    numerator_is_square = _is_rational_square(numerator)
+    denominator_is_square = _is_rational_square(denominator)
+    return SumAbSquareclassRatioSlopeQuadraticModel(
+        slope_x=x,
+        slope_y=y,
+        numerator_quadratic=numerator,
+        denominator_quadratic=denominator,
+        ratio=ratio,
+        ratio_is_square=_is_rational_square(ratio),
+        numerator_is_square=numerator_is_square,
+        denominator_is_square=denominator_is_square,
+        individual_unit_terms_are_squares=(
+            numerator_is_square and denominator_is_square
+        ),
+        x_recovery_square=_is_rational_square(x * x + 1),
+        y_recovery_square=_is_rational_square(y * y + 1),
+    )
+
+
+def sum_ab_slope_ratio_y_discriminant_ledger(
+    slope_x: Fraction | int,
+    square_ratio: Fraction | int,
+) -> SumAbSlopeRatioYDiscriminantLedger:
+    """Return the ``y``-quadratic discriminant for ``P = KQ``.
+
+    Here ``K`` is the square ratio ``P/Q``.  The discriminant has shape
+    ``-4*inner``; viewing ``inner`` as a quadratic in ``K`` exposes the factor
+    ``(x^2+1)(5x^2-4x+1)``.
+    """
+    x = _as_fraction(slope_x)
+    k = _as_fraction(square_ratio)
+    a = 1 - 2 * k
+    b = -2 * k * x + 2 * k + 2 * x - 2
+    c = -k * x * x + 2 * k * x - k + 2 * x * x - 2 * x + 1
+    y_discriminant = b * b - 4 * a * c
+    inner = -y_discriminant / 4
+    inner_as_quadratic = (
+        k * k * x * x
+        - 2 * k * k * x
+        + k * k
+        - 3 * k * x * x
+        + 2 * k * x
+        - k
+        + x * x
+    )
+    pythagorean_recovery_square = x * x + 1
+    new_curve_factor = 5 * x * x - 4 * x + 1
+    return SumAbSlopeRatioYDiscriminantLedger(
+        slope_x=x,
+        square_ratio=k,
+        quadratic_coefficients=(a, b, c),
+        y_discriminant=y_discriminant,
+        y_discriminant_inner=inner,
+        inner_as_quadratic_in_square_ratio=inner_as_quadratic,
+        inner_square_ratio_discriminant=pythagorean_recovery_square
+        * new_curve_factor,
+        pythagorean_recovery_square=pythagorean_recovery_square,
+        slope_x_is_pythagorean=_is_rational_square(pythagorean_recovery_square),
+        new_curve_factor=new_curve_factor,
+        new_curve_factor_is_square=_is_rational_square(new_curve_factor),
+    )
+
+
+def _sum_ab_new_curve_homogeneous_value(a: int, b: int) -> int:
+    return 5 * a**4 + 8 * a**3 * b - 6 * a * a * b * b - 8 * a * b**3 + 5 * b**4
+
+
+def sum_ab_new_curve_residue_summary(modulus: int) -> SumAbNewCurveResidueSummary:
+    """Summarize square residues for the new quartic curve modulo ``modulus``."""
+    if modulus <= 1:
+        raise ValueError("modulus must be greater than 1")
+    square_residues = {value * value % modulus for value in range(modulus)}
+    primitive_classes = 0
+    square_classes = 0
+    boundary_square_classes = 0
+    nonboundary_square_classes = 0
+    boundary_examples: list[tuple[int, int, int]] = []
+    nonboundary_examples: list[tuple[int, int, int]] = []
+
+    for a in range(modulus):
+        for b in range(modulus):
+            if _gcd(_gcd(a, b), modulus) != 1:
+                continue
+            primitive_classes += 1
+            value = _sum_ab_new_curve_homogeneous_value(a, b) % modulus
+            if value not in square_residues:
+                continue
+            square_classes += 1
+            is_boundary = (a - b) % modulus == 0 or (a + b) % modulus == 0
+            row = (a, b, value)
+            if is_boundary:
+                boundary_square_classes += 1
+                if len(boundary_examples) < 3:
+                    boundary_examples.append(row)
+            else:
+                nonboundary_square_classes += 1
+                if len(nonboundary_examples) < 3:
+                    nonboundary_examples.append(row)
+
+    return SumAbNewCurveResidueSummary(
+        modulus=modulus,
+        primitive_classes=primitive_classes,
+        square_classes=square_classes,
+        boundary_square_classes=boundary_square_classes,
+        nonboundary_square_classes=nonboundary_square_classes,
+        boundary_examples=tuple(boundary_examples),
+        nonboundary_examples=tuple(nonboundary_examples),
+    )
+
+
+def sum_ab_new_curve_z_reduction(parameter_t: Fraction | int) -> SumAbNewCurveZReduction:
+    """Return the ``z=t-1/t`` ledger for the new quartic curve."""
+    t = _as_fraction(parameter_t)
+    if t == 0:
+        raise ValueError("parameter_t must be nonzero")
+    original = 5 * t**4 + 8 * t**3 - 6 * t * t - 8 * t + 5
+    z = t - 1 / t
+    scaled = original / (t * t)
+    new_curve_square = 5 * z * z + 8 * z + 4
+    z_recovery_square = z * z + 4
+    return SumAbNewCurveZReduction(
+        parameter_t=t,
+        z_value=z,
+        original_quartic_value=original,
+        scaled_quartic_value=scaled,
+        z_recovery_square=z_recovery_square,
+        new_curve_square=new_curve_square,
+        identity_holds=scaled == new_curve_square,
+        z_recovery_is_square=_is_rational_square(z_recovery_square),
+        new_curve_is_square=_is_rational_square(new_curve_square),
+    )
+
+
+def sum_ab_z_lemma_centerline_bridge(
+    parameter: Fraction | int,
+) -> SumAbZLemmaCenterlineBridge:
+    """Return the bridge from the ``z`` lemma to the centerline quartic."""
+    m = _as_fraction(parameter)
+    denominator = (m - 1) * (m + 1)
+    if denominator == 0:
+        raise ValueError("parameter must not be ±1")
+    z = -4 * m / denominator
+    denominator_square = denominator * denominator
+    remaining = m**4 - 8 * m**3 + 18 * m * m + 8 * m + 1
+    centerline_parameter = -m
+    centerline_quartic = (
+        centerline_parameter**4
+        + 8 * centerline_parameter**3
+        + 18 * centerline_parameter * centerline_parameter
+        - 8 * centerline_parameter
+        + 1
+    )
+    scaled_second_square = 5 * z * z + 8 * z + 4
+    return SumAbZLemmaCenterlineBridge(
+        parameter=m,
+        z_value=z,
+        denominator_square=denominator_square,
+        scaled_second_square=scaled_second_square,
+        remaining_quartic=remaining,
+        centerline_parameter=centerline_parameter,
+        centerline_quartic=centerline_quartic,
+        identity_holds=(
+            remaining == centerline_quartic
+            and scaled_second_square == 4 * remaining / denominator_square
+        ),
+        remaining_quartic_is_square=_is_rational_square(remaining),
+    )
+
+
+def sum_ab_bridge_extra_factor_z_lemma_reduction(
+    parameter_t: Fraction | int,
+) -> SumAbBridgeExtraFactorZLemmaReduction:
+    """Reduce the bridge extra-factor new curve to the centerline quartic."""
+    t = _as_fraction(parameter_t)
+    if t == 0:
+        raise ValueError("parameter_t must be nonzero")
+    if t == -1:
+        raise ValueError("parameter_t must not be -1")
+
+    z = t - 1 / t
+    z_parameter_m = (t - 1) / (t + 1)
+    new_curve_value_t = 5 * t**4 + 8 * t**3 - 6 * t * t - 8 * t + 5
+    scaled_new_curve_value = new_curve_value_t / (t * t)
+    z_recovery_square = z * z + 4
+    z_lemma_new_curve_square = 5 * z * z + 8 * z + 4
+    centerline_bridge = sum_ab_z_lemma_centerline_bridge(z_parameter_m)
+    z_reduction_identity_holds = (
+        scaled_new_curve_value == z_lemma_new_curve_square
+        and z_recovery_square == (t + 1 / t) * (t + 1 / t)
+        and centerline_bridge.z_value == z
+    )
+    centerline_bridge_identity_holds = centerline_bridge.identity_holds
+    return SumAbBridgeExtraFactorZLemmaReduction(
+        parameter_t=t,
+        z_value=z,
+        z_parameter_m=z_parameter_m,
+        new_curve_value_t=new_curve_value_t,
+        scaled_new_curve_value=scaled_new_curve_value,
+        z_recovery_square=z_recovery_square,
+        z_lemma_new_curve_square=z_lemma_new_curve_square,
+        z_reduction_identity_holds=z_reduction_identity_holds,
+        centerline_bridge=centerline_bridge,
+        centerline_bridge_identity_holds=centerline_bridge_identity_holds,
+        extra_factor_reduces_to_centerline=(
+            z_reduction_identity_holds and centerline_bridge_identity_holds
+        ),
+    )
+
+
+_BRIDGE_X_NUMERATOR_TERMS = (
+    (1, 4, 4),
+    (4, 4, 3),
+    (2, 4, 2),
+    (-4, 4, 1),
+    (1, 4, 0),
+    (4, 3, 4),
+    (8, 3, 3),
+    (-8, 3, 2),
+    (-8, 3, 1),
+    (4, 3, 0),
+    (6, 2, 4),
+    (-8, 2, 3),
+    (-20, 2, 2),
+    (8, 2, 1),
+    (6, 2, 0),
+    (-4, 1, 4),
+    (-8, 1, 3),
+    (8, 1, 2),
+    (8, 1, 1),
+    (-4, 1, 0),
+    (1, 0, 4),
+    (4, 0, 3),
+    (2, 0, 2),
+    (-4, 0, 1),
+    (1, 0, 0),
+)
+
+_BRIDGE_Y_NUMERATOR_TERMS = (
+    (1, 4, 4),
+    (4, 4, 3),
+    (6, 4, 2),
+    (-4, 4, 1),
+    (1, 4, 0),
+    (4, 3, 4),
+    (8, 3, 3),
+    (-8, 3, 2),
+    (-8, 3, 1),
+    (4, 3, 0),
+    (2, 2, 4),
+    (-8, 2, 3),
+    (-20, 2, 2),
+    (8, 2, 1),
+    (2, 2, 0),
+    (-4, 1, 4),
+    (-8, 1, 3),
+    (8, 1, 2),
+    (8, 1, 1),
+    (-4, 1, 0),
+    (1, 0, 4),
+    (4, 0, 3),
+    (6, 0, 2),
+    (-4, 0, 1),
+    (1, 0, 0),
+)
+
+_BRIDGE_EXTRA_FACTOR_TERMS = (
+    (1, 2, 2),
+    (1, 2, 1),
+    (-1, 2, 0),
+    (1, 1, 2),
+    (-1, 1, 0),
+    (-1, 0, 2),
+    (-1, 0, 1),
+    (1, 0, 0),
+)
+
+
+def _eval_bihomogeneous_terms_fraction(
+    terms: tuple[tuple[int, int, int], ...],
+    t_value: Fraction,
+    u_value: Fraction,
+) -> Fraction:
+    return sum(
+        Fraction(coefficient) * t_value**t_power * u_value**u_power
+        for coefficient, t_power, u_power in terms
+    )
+
+
+def _rational_square_root_or_none(value: Fraction) -> Fraction | None:
+    if value < 0:
+        return None
+    numerator_root = isqrt(value.numerator)
+    denominator_root = isqrt(value.denominator)
+    if (
+        numerator_root * numerator_root == value.numerator
+        and denominator_root * denominator_root == value.denominator
+    ):
+        return Fraction(numerator_root, denominator_root)
+    return None
+
+
+def _is_rational_square(value: Fraction) -> bool:
+    return _rational_square_root_or_none(value) is not None
+
+
+def _is_odd_prime_local_square(value: Fraction, prime: int) -> bool:
+    if prime <= 2:
+        raise ValueError("prime must be an odd prime")
+    if value == 0:
+        return True
+    valuation = _rational_valuation(value, prime)
+    if valuation is None or valuation % 2:
+        return False
+    if valuation > 0:
+        value /= prime**valuation
+    elif valuation < 0:
+        value *= prime ** (-valuation)
+    unit = (value.numerator % prime) * pow(value.denominator % prime, -1, prime)
+    return unit % prime in {residue * residue % prime for residue in range(prime)}
+
+
+def _shifted_u_coefficients_fraction(
+    terms: tuple[tuple[int, int, int], ...],
+    t_value: Fraction,
+    base_u: Fraction,
+) -> tuple[Fraction, ...]:
+    degree = max(u_power for _, _, u_power in terms)
+    coefficients = [Fraction(0) for _ in range(degree + 1)]
+    for coefficient, t_power, u_power in terms:
+        for h_power in range(u_power + 1):
+            coefficients[h_power] += (
+                Fraction(coefficient)
+                * t_value**t_power
+                * Fraction(comb(u_power, h_power))
+                * base_u ** (u_power - h_power)
+            )
+    return tuple(coefficients)
+
+
+def sum_ab_dual_slope_bridge_centerline_branch_restrictions(
+    parameter_t: Fraction | int,
+) -> tuple[SumAbDualSlopeBridgeCenterlineBranchRestriction, ...]:
+    """Restrict bridge numerator polynomials to the four centerline factors."""
+    t = _as_fraction(parameter_t)
+    if t == 0:
+        raise ValueError("parameter_t must be nonzero")
+
+    centerline_quartic = t**4 + 8 * t**3 + 18 * t * t - 8 * t + 1
+    visible_square = (t - 1) * (t - 1) * (t + 1) * (t + 1)
+    trivial_square = visible_square * (t * t + 1) * (t * t + 1)
+    centerline_extra = (t - 1) * (t + 1) * (t * t + 2 * t - 1)
+    branches = (
+        (
+            "t-u",
+            "centerline-quartic",
+            t,
+            visible_square * centerline_quartic,
+            centerline_extra,
+        ),
+        (
+            "t+u",
+            "trivial-square",
+            -t,
+            trivial_square,
+            visible_square,
+        ),
+        (
+            "tu-1",
+            "trivial-square",
+            1 / t,
+            trivial_square / (t**4),
+            -visible_square / (t * t),
+        ),
+        (
+            "tu+1",
+            "centerline-quartic",
+            -1 / t,
+            visible_square * centerline_quartic / (t**4),
+            -centerline_extra / (t * t),
+        ),
+    )
+
+    restrictions: list[SumAbDualSlopeBridgeCenterlineBranchRestriction] = []
+    for (
+        branch,
+        restriction_kind,
+        u_value,
+        predicted_common,
+        predicted_extra,
+    ) in branches:
+        x_numerator = _eval_bihomogeneous_terms_fraction(
+            _BRIDGE_X_NUMERATOR_TERMS,
+            t,
+            u_value,
+        )
+        y_numerator = _eval_bihomogeneous_terms_fraction(
+            _BRIDGE_Y_NUMERATOR_TERMS,
+            t,
+            u_value,
+        )
+        extra_factor = _eval_bihomogeneous_terms_fraction(
+            _BRIDGE_EXTRA_FACTOR_TERMS,
+            t,
+            u_value,
+        )
+        restrictions.append(
+            SumAbDualSlopeBridgeCenterlineBranchRestriction(
+                branch=branch,
+                restriction_kind=restriction_kind,
+                parameter_t=t,
+                parameter_u=u_value,
+                x_bridge_numerator=x_numerator,
+                y_bridge_numerator=y_numerator,
+                common_bridge_numerator=x_numerator,
+                predicted_common_bridge_numerator=predicted_common,
+                extra_factor=extra_factor,
+                predicted_extra_factor=predicted_extra,
+                bridge_numerators_equal=x_numerator == y_numerator,
+                common_identity_holds=(
+                    x_numerator == y_numerator == predicted_common
+                ),
+                extra_identity_holds=extra_factor == predicted_extra,
+            )
+        )
+
+    return tuple(restrictions)
+
+
+def sum_ab_dual_slope_bridge_trivial_tube_expansions(
+    parameter_t: Fraction | int,
+) -> tuple[SumAbDualSlopeBridgeTrivialTubeExpansion, ...]:
+    """Expand bridge numerators at the two trivial-square centerline tubes."""
+    t = _as_fraction(parameter_t)
+    if t == 0:
+        raise ValueError("parameter_t must be nonzero")
+
+    expansions: list[SumAbDualSlopeBridgeTrivialTubeExpansion] = []
+    for branch, base_u in (("t+u", -t), ("tu-1", 1 / t)):
+        x_coefficients = _shifted_u_coefficients_fraction(
+            _BRIDGE_X_NUMERATOR_TERMS,
+            t,
+            base_u,
+        )
+        y_coefficients = _shifted_u_coefficients_fraction(
+            _BRIDGE_Y_NUMERATOR_TERMS,
+            t,
+            base_u,
+        )
+        extra_coefficients = _shifted_u_coefficients_fraction(
+            _BRIDGE_EXTRA_FACTOR_TERMS,
+            t,
+            base_u,
+        )
+        difference_coefficients = tuple(
+            x_coefficient - y_coefficient
+            for x_coefficient, y_coefficient in zip(
+                x_coefficients,
+                y_coefficients,
+                strict=True,
+            )
+        )
+        common_constant = x_coefficients[0]
+        common_constant_square_root = _rational_square_root_or_none(
+            common_constant
+        )
+        expansions.append(
+            SumAbDualSlopeBridgeTrivialTubeExpansion(
+                branch=branch,
+                parameter_t=t,
+                base_u=base_u,
+                x_coefficients=x_coefficients,
+                y_coefficients=y_coefficients,
+                extra_coefficients=extra_coefficients,
+                difference_coefficients=difference_coefficients,
+                bridge_constants_equal=common_constant == y_coefficients[0],
+                common_constant=common_constant,
+                common_constant_square_root=common_constant_square_root,
+                common_constant_is_square=common_constant_square_root is not None,
+                nonzero_square_constant=(
+                    common_constant != 0 and common_constant_square_root is not None
+                ),
+            )
+        )
+
+    return tuple(expansions)
+
+
+def sum_ab_dual_slope_centerline_factor_positive_domain(
+    parameter_t: Fraction | int,
+) -> tuple[SumAbDualSlopeCenterlineFactorPositiveDomainRow, ...]:
+    """Classify exact centerline-factor branches in the positive parameter domain."""
+    t = _as_fraction(parameter_t)
+    if t == 0:
+        raise ValueError("parameter_t must be nonzero")
+
+    dual_x = (1 - t * t) / (2 * t)
+    restrictions = sum_ab_dual_slope_bridge_centerline_branch_restrictions(t)
+    rows: list[SumAbDualSlopeCenterlineFactorPositiveDomainRow] = []
+    for restriction in restrictions:
+        u = restriction.parameter_u
+        parameter_u_in_unit_interval = 0 < u < 1
+        dual_slope_y: Fraction | None = None
+        dual_slope_y_positive = False
+        dual_denominator: Fraction | None = None
+        dual_denominator_positive = False
+        if u != 0:
+            dual_slope_y = (1 - u * u) / (2 * u)
+            dual_slope_y_positive = dual_slope_y > 0
+            dual_denominator = dual_x + dual_slope_y - dual_x * dual_slope_y
+            dual_denominator_positive = dual_denominator > 0
+        rows.append(
+            SumAbDualSlopeCenterlineFactorPositiveDomainRow(
+                branch=restriction.branch,
+                restriction_kind=restriction.restriction_kind,
+                parameter_t=t,
+                parameter_u=u,
+                parameter_u_in_unit_interval=parameter_u_in_unit_interval,
+                dual_slope_y=dual_slope_y,
+                dual_slope_y_positive=dual_slope_y_positive,
+                dual_denominator=dual_denominator,
+                dual_denominator_positive=dual_denominator_positive,
+                admissible_positive_parameterization=(
+                    0 < t < 1
+                    and parameter_u_in_unit_interval
+                    and dual_x > 0
+                    and dual_slope_y_positive
+                    and dual_denominator_positive
+                ),
+            )
+        )
+
+    return tuple(rows)
+
+
+def sum_ab_dual_slope_positive_trivial_tube_local_witnesses(
+) -> tuple[SumAbDualSlopePositiveTrivialTubeLocalWitness, ...]:
+    """Return positive 5-adic tube witnesses for the local-square gap."""
+    prime = 5
+    samples = (
+        ("t+u", Fraction(1, 4), Fraction(19, 24)),
+        ("tu-1", Fraction(1, 4), Fraction(7, 8)),
+    )
+    witnesses: list[SumAbDualSlopePositiveTrivialTubeLocalWitness] = []
+    for branch, t, u in samples:
+        parameterization = sum_ab_dual_slope_parameterization(t, u)
+        tube_value = t + u if branch == "t+u" else t * u - 1
+        tube_valuation = _rational_valuation(tube_value, prime)
+        if tube_valuation is None:
+            raise ValueError("tube value must be nonzero")
+        recovery_values = (
+            parameterization.generated_x_recovery_value,
+            parameterization.generated_y_recovery_value,
+        )
+        local_square_flags = tuple(
+            _is_odd_prime_local_square(value, prime) for value in recovery_values
+        )
+        rational_square_flags = tuple(
+            _is_rational_square(value) for value in recovery_values
+        )
+        witnesses.append(
+            SumAbDualSlopePositiveTrivialTubeLocalWitness(
+                branch=branch,
+                prime=prime,
+                parameter_t=t,
+                parameter_u=u,
+                tube_value=tube_value,
+                tube_valuation=tube_valuation,
+                dual_denominator=parameterization.dual_denominator,
+                generated_slopes=(
+                    parameterization.generated_x,
+                    parameterization.generated_y,
+                ),
+                recovery_values=recovery_values,
+                local_square_flags=local_square_flags,
+                rational_square_flags=rational_square_flags,
+                admissible_positive_parameterization=(
+                    0 < t < 1
+                    and 0 < u < 1
+                    and parameterization.dual_slope_x > 0
+                    and parameterization.dual_slope_y > 0
+                    and parameterization.dual_denominator > 0
+                ),
+                recovery_values_are_local_squares=all(local_square_flags),
+                recovery_values_are_rational_squares=all(rational_square_flags),
+            )
+        )
+
+    return tuple(witnesses)
+
+
+def sum_ab_dual_slope_positive_trivial_tube_squareclass_ledgers(
+) -> tuple[SumAbDualSlopePositiveTrivialTubeSquareclassLedger, ...]:
+    """Record global squareclass obstructions for trivial-tube witnesses."""
+    ledgers: list[SumAbDualSlopePositiveTrivialTubeSquareclassLedger] = []
+    for witness in sum_ab_dual_slope_positive_trivial_tube_local_witnesses():
+        squareclass_data = tuple(
+            _rational_squareclass(value) for value in witness.recovery_values
+        )
+        recovery_squareclasses = tuple(
+            squareclass for squareclass, _ in squareclass_data
+        )
+        recovery_squareclass_primes = tuple(primes for _, primes in squareclass_data)
+        all_primes = tuple(
+            sorted(
+                {
+                    prime
+                    for primes in recovery_squareclass_primes
+                    for prime in primes
+                }
+            )
+        )
+        one_mod_four_squareclass_primes = tuple(
+            prime for prime in all_primes if prime % 4 == 1
+        )
+        three_mod_four_squareclass_primes = tuple(
+            prime for prime in all_primes if prime % 4 == 3
+        )
+        ledgers.append(
+            SumAbDualSlopePositiveTrivialTubeSquareclassLedger(
+                witness=witness,
+                recovery_squareclasses=recovery_squareclasses,  # type: ignore[arg-type]
+                recovery_squareclass_primes=recovery_squareclass_primes,  # type: ignore[arg-type]
+                one_mod_four_squareclass_primes=one_mod_four_squareclass_primes,
+                three_mod_four_squareclass_primes=three_mod_four_squareclass_primes,
+                all_squareclass_primes_are_one_mod_four=(
+                    bool(all_primes) and all_primes == one_mod_four_squareclass_primes
+                ),
+            )
+        )
+
+    return tuple(ledgers)
+
+
+def sum_ab_dual_slope_positive_trivial_tube_member_ledgers(
+) -> tuple[SumAbDualSlopePositiveTrivialTubeMemberLedger, ...]:
+    """Record full ``R_lambda`` member terms for trivial-tube witnesses."""
+    ledgers: list[SumAbDualSlopePositiveTrivialTubeMemberLedger] = []
+    for witness in sum_ab_dual_slope_positive_trivial_tube_local_witnesses():
+        parameterization = sum_ab_dual_slope_parameterization(
+            witness.parameter_t,
+            witness.parameter_u,
+        )
+        common_leg = parameterization.common_leg
+        lambda_ratio = 1 / common_leg
+        r_ratio = parameterization.generated_x / common_leg
+        s_ratio = parameterization.generated_y / common_leg
+        member_values = (
+            r_ratio * r_ratio + 1,
+            s_ratio * s_ratio + 1,
+            r_ratio * r_ratio + lambda_ratio * lambda_ratio,
+            s_ratio * s_ratio + lambda_ratio * lambda_ratio,
+        )
+        squareclass_data = tuple(
+            _rational_squareclass(value) for value in member_values
+        )
+        member_squareclasses = tuple(
+            squareclass for squareclass, _ in squareclass_data
+        )
+        member_squareclass_primes = tuple(primes for _, primes in squareclass_data)
+        all_primes = tuple(
+            sorted(
+                {
+                    prime
+                    for primes in member_squareclass_primes
+                    for prime in primes
+                }
+            )
+        )
+        one_mod_four_member_squareclass_primes = tuple(
+            prime for prime in all_primes if prime % 4 == 1
+        )
+        three_mod_four_member_squareclass_primes = tuple(
+            prime for prime in all_primes if prime % 4 == 3
+        )
+        unit_terms_are_squares = member_squareclasses[:2] == (1, 1)
+        lambda_terms_are_squares = member_squareclasses[2:] == (1, 1)
+        ledgers.append(
+            SumAbDualSlopePositiveTrivialTubeMemberLedger(
+                witness=witness,
+                lambda_ratio=lambda_ratio,
+                ratios=(r_ratio, s_ratio),
+                product=r_ratio * s_ratio,
+                member_values=member_values,
+                member_squareclasses=member_squareclasses,  # type: ignore[arg-type]
+                member_squareclass_primes=member_squareclass_primes,  # type: ignore[arg-type]
+                one_mod_four_member_squareclass_primes=(
+                    one_mod_four_member_squareclass_primes
+                ),
+                three_mod_four_member_squareclass_primes=(
+                    three_mod_four_member_squareclass_primes
+                ),
+                closes_sum_ab=r_ratio + s_ratio == lambda_ratio + 1,
+                unit_terms_are_squares=unit_terms_are_squares,
+                lambda_terms_are_squares=lambda_terms_are_squares,
+                true_member_pair=unit_terms_are_squares and lambda_terms_are_squares,
+            )
+        )
+
+    return tuple(ledgers)
+
+
+def _eval_bihomogeneous_terms_mod(
+    terms: tuple[tuple[int, int, int], ...],
+    degree_t: int,
+    degree_u: int,
+    t_num: int,
+    t_den: int,
+    u_num: int,
+    u_den: int,
+    modulus: int,
+) -> int:
+    value = 0
+    for coefficient, t_power, u_power in terms:
+        term = coefficient % modulus
+        term *= pow(t_num, t_power, modulus)
+        term *= pow(t_den, degree_t - t_power, modulus)
+        term *= pow(u_num, u_power, modulus)
+        term *= pow(u_den, degree_u - u_power, modulus)
+        value = (value + term) % modulus
+    return value
+
+
+def _projective_line_classes(modulus: int) -> tuple[tuple[int, int], ...]:
+    return (*((value, 1) for value in range(modulus)), (1, 0))
+
+
+def _local_projective_line_classes(
+    prime: int,
+    exponent: int,
+) -> tuple[tuple[int, int], ...]:
+    modulus = prime**exponent
+    return (
+        *((value, 1) for value in range(modulus)),
+        *((1, prime * value) for value in range(prime ** (exponent - 1))),
+    )
+
+
+def _truncated_mod_valuation(value: int, prime: int, exponent: int) -> int:
+    modulus = prime**exponent
+    value %= modulus
+    if value == 0:
+        return exponent
+    valuation = 0
+    while value % prime == 0:
+        valuation += 1
+        value //= prime
+    return valuation
+
+
+def _bridge_centerline_factor_mod(
+    t_num: int,
+    t_den: int,
+    u_num: int,
+    u_den: int,
+    modulus: int,
+) -> int:
+    return (
+        (t_num * u_den - t_den * u_num)
+        * (t_num * u_den + t_den * u_num)
+        * (t_num * u_num - t_den * u_den)
+        * (t_num * u_num + t_den * u_den)
+    ) % modulus
+
+
+def _bridge_centerline_factor_components_mod(
+    t_num: int,
+    t_den: int,
+    u_num: int,
+    u_den: int,
+    modulus: int,
+) -> tuple[int, int, int, int]:
+    return (
+        (t_num * u_den - t_den * u_num) % modulus,
+        (t_num * u_den + t_den * u_num) % modulus,
+        (t_num * u_num - t_den * u_den) % modulus,
+        (t_num * u_num + t_den * u_den) % modulus,
+    )
+
+
+def sum_ab_dual_slope_bridge_projective_residue_summary(
+    modulus: int,
+) -> SumAbDualSlopeBridgeProjectiveResidueSummary:
+    """Count projective residue classes for both cross-bridge square tests."""
+    if modulus <= 2:
+        raise ValueError("modulus must be an odd prime")
+    factors = factorint(modulus)
+    if len(factors) != 1 or next(iter(factors.values())) != 1:
+        raise ValueError("modulus must be an odd prime")
+
+    square_residues = {value * value % modulus for value in range(modulus)}
+    projective_classes = _projective_line_classes(modulus)
+    both_bridge_square_classes = 0
+    centerline_square_classes = 0
+    noncenter_square_classes = 0
+    noncenter_extra_factor_zero_classes = 0
+    noncenter_extra_factor_nonzero_classes = 0
+    noncenter_extra_factor_nonzero_examples: list[tuple[int, ...]] = []
+
+    for t_num, t_den in projective_classes:
+        for u_num, u_den in projective_classes:
+            x_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_X_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            y_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_Y_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            if x_value not in square_residues or y_value not in square_residues:
+                continue
+
+            both_bridge_square_classes += 1
+            centerline_factor = _bridge_centerline_factor_mod(
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            extra_factor = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_EXTRA_FACTOR_TERMS,
+                2,
+                2,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            if centerline_factor == 0:
+                centerline_square_classes += 1
+                continue
+
+            noncenter_square_classes += 1
+            if extra_factor == 0:
+                noncenter_extra_factor_zero_classes += 1
+                continue
+
+            noncenter_extra_factor_nonzero_classes += 1
+            if len(noncenter_extra_factor_nonzero_examples) < 5:
+                noncenter_extra_factor_nonzero_examples.append(
+                    (
+                        t_num,
+                        t_den,
+                        u_num,
+                        u_den,
+                        x_value,
+                        y_value,
+                        centerline_factor,
+                        extra_factor,
+                    )
+                )
+
+    return SumAbDualSlopeBridgeProjectiveResidueSummary(
+        modulus=modulus,
+        projective_class_count=len(projective_classes) ** 2,
+        both_bridge_square_classes=both_bridge_square_classes,
+        centerline_square_classes=centerline_square_classes,
+        noncenter_square_classes=noncenter_square_classes,
+        noncenter_extra_factor_zero_classes=noncenter_extra_factor_zero_classes,
+        noncenter_extra_factor_nonzero_classes=(
+            noncenter_extra_factor_nonzero_classes
+        ),
+        noncenter_extra_factor_nonzero_examples=tuple(
+            noncenter_extra_factor_nonzero_examples
+        ),
+    )
+
+
+def sum_ab_dual_slope_bridge_prime_power_lift_summary(
+    prime: int,
+    exponent: int,
+) -> SumAbDualSlopeBridgePrimePowerLiftSummary:
+    """Count prime-power bridge-square lifts by ``(v_p(C), v_p(E))``."""
+    if prime <= 2:
+        raise ValueError("prime must be an odd prime")
+    factors = factorint(prime)
+    if len(factors) != 1 or next(iter(factors.values())) != 1:
+        raise ValueError("prime must be an odd prime")
+    if exponent <= 0:
+        raise ValueError("exponent must be positive")
+
+    modulus = prime**exponent
+    square_residues = {value * value % modulus for value in range(modulus)}
+    projective_classes = _local_projective_line_classes(prime, exponent)
+    valuation_pair_counts: dict[tuple[int, int], int] = {}
+    both_bridge_square_classes = 0
+
+    for t_num, t_den in projective_classes:
+        for u_num, u_den in projective_classes:
+            x_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_X_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            y_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_Y_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            if x_value not in square_residues or y_value not in square_residues:
+                continue
+
+            both_bridge_square_classes += 1
+            centerline_factor = _bridge_centerline_factor_mod(
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            extra_factor = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_EXTRA_FACTOR_TERMS,
+                2,
+                2,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            valuation_pair = (
+                _truncated_mod_valuation(centerline_factor, prime, exponent),
+                _truncated_mod_valuation(extra_factor, prime, exponent),
+            )
+            valuation_pair_counts[valuation_pair] = (
+                valuation_pair_counts.get(valuation_pair, 0) + 1
+            )
+
+    centerline_unit_entries = [
+        (extra_valuation, count)
+        for (centerline_valuation, extra_valuation), count in valuation_pair_counts.items()
+        if centerline_valuation == 0
+    ]
+    centerline_unit_classes = sum(count for _, count in centerline_unit_entries)
+    return SumAbDualSlopeBridgePrimePowerLiftSummary(
+        prime=prime,
+        exponent=exponent,
+        modulus=modulus,
+        projective_class_count=len(projective_classes) ** 2,
+        both_bridge_square_classes=both_bridge_square_classes,
+        valuation_pair_counts=dict(sorted(valuation_pair_counts.items())),
+        centerline_unit_extra_unit_classes=valuation_pair_counts.get((0, 0), 0),
+        centerline_unit_classes=centerline_unit_classes,
+        centerline_unit_min_extra_valuation=(
+            min(extra_valuation for extra_valuation, _ in centerline_unit_entries)
+            if centerline_unit_entries
+            else None
+        ),
+    )
+
+
+def sum_ab_dual_slope_bridge_centerline_factor_lift_summary(
+    prime: int,
+    exponent: int,
+) -> SumAbDualSlopeBridgeCenterlineFactorLiftSummary:
+    """Count bridge-square lifts by the four centerline-factor valuations."""
+    if prime <= 2:
+        raise ValueError("prime must be an odd prime")
+    factors = factorint(prime)
+    if len(factors) != 1 or next(iter(factors.values())) != 1:
+        raise ValueError("prime must be an odd prime")
+    if exponent <= 0:
+        raise ValueError("exponent must be positive")
+
+    modulus = prime**exponent
+    square_residues = {value * value % modulus for value in range(modulus)}
+    projective_classes = _local_projective_line_classes(prime, exponent)
+    factor_extra_valuation_counts: Counter[tuple[int, int, int, int, int]] = (
+        Counter()
+    )
+    centerline_factor_valuation_counts: Counter[tuple[int, int, int, int]] = Counter()
+    max_centerline_factor_extra_valuation_counts: Counter[tuple[int, int]] = (
+        Counter()
+    )
+    both_bridge_square_classes = 0
+
+    for t_num, t_den in projective_classes:
+        for u_num, u_den in projective_classes:
+            x_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_X_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            y_value = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_Y_NUMERATOR_TERMS,
+                4,
+                4,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            if x_value not in square_residues or y_value not in square_residues:
+                continue
+
+            both_bridge_square_classes += 1
+            factor_values = _bridge_centerline_factor_components_mod(
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            factor_valuations = tuple(
+                _truncated_mod_valuation(value, prime, exponent)
+                for value in factor_values
+            )
+            extra_factor = _eval_bihomogeneous_terms_mod(
+                _BRIDGE_EXTRA_FACTOR_TERMS,
+                2,
+                2,
+                t_num,
+                t_den,
+                u_num,
+                u_den,
+                modulus,
+            )
+            extra_valuation = _truncated_mod_valuation(
+                extra_factor,
+                prime,
+                exponent,
+            )
+            factor_extra_valuation = (*factor_valuations, extra_valuation)
+            factor_extra_valuation_counts[factor_extra_valuation] += 1
+            centerline_factor_valuation_counts[factor_valuations] += 1
+            max_centerline_factor_extra_valuation_counts[
+                (max(factor_valuations), extra_valuation)
+            ] += 1
+
+    return SumAbDualSlopeBridgeCenterlineFactorLiftSummary(
+        prime=prime,
+        exponent=exponent,
+        modulus=modulus,
+        projective_class_count=len(projective_classes) ** 2,
+        both_bridge_square_classes=both_bridge_square_classes,
+        factor_extra_valuation_counts=dict(
+            sorted(factor_extra_valuation_counts.items())
+        ),
+        centerline_factor_valuation_counts=dict(
+            sorted(centerline_factor_valuation_counts.items())
+        ),
+        max_centerline_factor_extra_valuation_counts=dict(
+            sorted(max_centerline_factor_extra_valuation_counts.items())
+        ),
+    )
+
+
+def sum_ab_k_discriminant_quartic_completion(
+    parameter: Fraction | int,
+    square_ratio: Fraction | int,
+) -> SumAbKDiscriminantQuarticCompletion:
+    """Return the square-completion identity for the remaining ``K`` quartic."""
+    a = _as_fraction(parameter)
+    k = _as_fraction(square_ratio)
+    centerline_quartic = a**4 + 8 * a**3 + 18 * a * a - 8 * a + 1
+    shared_factor = a * a + 2 * a - 1
+    linear_factor = a * a + 4 * a - 1
+    remaining = (
+        centerline_quartic * k * k
+        - 4 * shared_factor * linear_factor * k
+        + 4 * shared_factor * shared_factor
+    )
+    linear_square_term = 2 * centerline_quartic * k - 4 * shared_factor * linear_factor
+    positive_square_term = 8 * a * shared_factor
+    positive_remainder = positive_square_term * positive_square_term
+    left_side = 4 * centerline_quartic * remaining
+    right_side = linear_square_term * linear_square_term + positive_remainder
+    return SumAbKDiscriminantQuarticCompletion(
+        parameter=a,
+        square_ratio=k,
+        centerline_quartic=centerline_quartic,
+        remaining_quartic=remaining,
+        linear_square_term=linear_square_term,
+        positive_square_term=positive_square_term,
+        positive_remainder=positive_remainder,
+        left_side=left_side,
+        right_side=right_side,
+        identity_holds=left_side == right_side,
+    )
+
+
+def sum_ab_k_square_candidate_y_discriminant(
+    parameter: Fraction | int,
+    square_ratio: Fraction | int,
+) -> SumAbKSquareCandidateYDiscriminant:
+    """Separate the ``K``-quartic square layer from the actual ``y`` roots."""
+    a = _as_fraction(parameter)
+    k = _as_fraction(square_ratio)
+    if a == 0:
+        raise ValueError("parameter must be nonzero")
+    x = (1 - a * a) / (2 * a)
+    completion = sum_ab_k_discriminant_quartic_completion(a, k)
+    y_a = 1 - 2 * k
+    y_b = -2 * k * x + 2 * k + 2 * x - 2
+    y_c = -k * x * x + 2 * k * x - k + 2 * x * x - 2 * x + 1
+    y_discriminant = y_b * y_b - 4 * y_a * y_c
+    return SumAbKSquareCandidateYDiscriminant(
+        parameter=a,
+        slope_x=x,
+        square_ratio=k,
+        square_ratio_is_square=_is_rational_square(k),
+        remaining_quartic=completion.remaining_quartic,
+        remaining_quartic_is_square=_is_rational_square(completion.remaining_quartic),
+        y_discriminant=y_discriminant,
+        y_discriminant_is_square=_is_rational_square(y_discriminant),
+    )
+
+
+def sum_ab_k_square_y_discriminant_factorization(
+    parameter: Fraction | int,
+    square_ratio_root: Fraction | int,
+) -> SumAbKSquareYDiscriminantFactorization:
+    """Return the actual ``y`` discriminant split after writing ``K=k^2``.
+
+    With ``x=(1-a^2)/(2a)`` and ``K=k^2``, the discriminant of ``P=KQ`` as a
+    quadratic in ``y`` factors as ``-F_-(a,k)F_+(a,k)/a^2``.  The two factors
+    have the same discriminant in ``k``: the new quartic from the outer
+    ``K``-discriminant entry.
+    """
+    a = _as_fraction(parameter)
+    k = _as_fraction(square_ratio_root)
+    if a == 0:
+        raise ValueError("parameter must be nonzero")
+    x = (1 - a * a) / (2 * a)
+    square_ratio = k * k
+    candidate = sum_ab_k_square_candidate_y_discriminant(a, square_ratio)
+    minus_factor = (
+        a * a * k * k
+        - a * a * k
+        - a * a
+        + 2 * a * k * k
+        - k * k
+        - k
+        + 1
+    )
+    plus_factor = (
+        a * a * k * k
+        + a * a * k
+        - a * a
+        + 2 * a * k * k
+        - k * k
+        + k
+        + 1
+    )
+    factorized = -minus_factor * plus_factor / (a * a)
+    shared_discriminant = 5 * a**4 + 8 * a**3 - 6 * a * a - 8 * a + 5
+    return SumAbKSquareYDiscriminantFactorization(
+        parameter=a,
+        slope_x=x,
+        square_ratio_root=k,
+        square_ratio=square_ratio,
+        minus_factor=minus_factor,
+        plus_factor=plus_factor,
+        y_discriminant=candidate.y_discriminant,
+        factorized_y_discriminant=factorized,
+        factorization_holds=factorized == candidate.y_discriminant,
+        shared_factor_discriminant=shared_discriminant,
+        shared_factor_discriminant_is_square=_is_rational_square(shared_discriminant),
     )
 
 
@@ -2649,6 +6962,157 @@ def sum_ab_root_grid_residual_summary(
     )
 
 
+def sum_ab_root_grid_residual_prime_class_summary(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+) -> ResidualPrimeClassSummary:
+    """Classify finite root-grid residuals by their member squareclass primes."""
+    bucket_counts: Counter[str] = Counter()
+    squareclass_prime_counts: Counter[tuple[int, ...]] = Counter()
+    three_mod_four_prime_counts: Counter[tuple[int, ...]] = Counter()
+    examples: dict[str, ClosureProductSquareConditions] = {}
+
+    for condition in sum_ab_product_square_residuals_from_root_grid(
+        max_numerator=max_numerator,
+        max_denominator=max_denominator,
+    ):
+        valuation = closure_member_prime_valuation_ledger(
+            condition.lambda_ratio,
+            condition.target,
+            condition.product,
+            condition.relation,
+        )
+        squareclass_primes = valuation.member_squareclass_primes
+        three_mod_four_primes = valuation.three_mod_four_member_squareclass_primes
+        if not squareclass_primes:
+            bucket = "trivial_squareclass"
+        elif three_mod_four_primes:
+            bucket = "has_3_mod_4_squareclass"
+        else:
+            bucket = "only_1_mod_4_squareclass"
+        bucket_counts[bucket] += 1
+        squareclass_prime_counts[squareclass_primes] += 1
+        three_mod_four_prime_counts[three_mod_four_primes] += 1
+        examples.setdefault(bucket, condition)
+
+    return ResidualPrimeClassSummary(
+        total_residuals=sum(bucket_counts.values()),
+        bucket_counts=dict(sorted(bucket_counts.items())),
+        squareclass_prime_counts=dict(sorted(squareclass_prime_counts.items())),
+        three_mod_four_squareclass_prime_counts=dict(
+            sorted(three_mod_four_prime_counts.items())
+        ),
+        examples_by_bucket=dict(sorted(examples.items())),
+    )
+
+
+def sum_ab_root_grid_gaussian_shadow_summary(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+) -> GaussianShadowSummary:
+    """Summarize whether finite residuals are Gaussian centerline shadows."""
+    centerline_shadow_count = 0
+    nonshadow_count = 0
+    common_counts: Counter[tuple[Fraction, ...]] = Counter()
+    examples: dict[str, ClosureProductSquareConditions] = {}
+
+    for condition in sum_ab_product_square_residuals_from_root_grid(
+        max_numerator=max_numerator,
+        max_denominator=max_denominator,
+    ):
+        try:
+            ledger = residual_gaussian_absorption_ledger(condition)
+        except ValueError:
+            nonshadow_count += 1
+            examples.setdefault("nonshadow", condition)
+            common_counts[()] += 1
+            continue
+        common_counts[ledger.common_absorbed_members] += 1
+        if ledger.centerline_shadow:
+            centerline_shadow_count += 1
+            examples.setdefault("centerline_shadow", condition)
+        else:
+            nonshadow_count += 1
+            examples.setdefault("nonshadow", condition)
+
+    return GaussianShadowSummary(
+        total_residuals=centerline_shadow_count + nonshadow_count,
+        centerline_shadow_count=centerline_shadow_count,
+        nonshadow_count=nonshadow_count,
+        common_absorbed_member_counts=dict(sorted(common_counts.items())),
+        examples_by_bucket=dict(sorted(examples.items())),
+    )
+
+
+def sum_ab_root_grid_gaussian_shadow_obstruction_summary(
+    *,
+    max_numerator: int,
+    max_denominator: int,
+) -> GaussianShadowObstructionSummary:
+    """Summarize whether finite Gaussian shadows are blocked by unit terms."""
+    centerline_shadow_count = 0
+    unit_obstructed_count = 0
+    nonobstructed_count = 0
+    reason_counts: Counter[str] = Counter()
+    examples: dict[str, ClosureProductSquareConditions] = {}
+
+    for condition in sum_ab_product_square_residuals_from_root_grid(
+        max_numerator=max_numerator,
+        max_denominator=max_denominator,
+    ):
+        try:
+            ledger = residual_gaussian_absorption_ledger(condition)
+        except ValueError:
+            nonobstructed_count += 1
+            examples.setdefault("nonshadow", condition)
+            continue
+        if not ledger.centerline_shadow:
+            nonobstructed_count += 1
+            examples.setdefault("nonshadow", condition)
+            continue
+        centerline_shadow_count += 1
+        obstruction_found = False
+        for absorbed in ledger.common_absorbed_members:
+            try:
+                r_branch = _absorbed_branch_for_member(
+                    ledger.r_absorption,
+                    absorbed,
+                )
+                s_branch = _absorbed_branch_for_member(
+                    ledger.s_absorption,
+                    absorbed,
+                )
+                obstruction = inverse_gaussian_centerline_shadow_obstruction(
+                    absorbed=absorbed,
+                    squareclass=ledger.squareclass,
+                    r_branch=r_branch,
+                    s_branch=s_branch,
+                )
+            except ValueError:
+                continue
+            if obstruction.unit_squareclass_obstruction:
+                obstruction_found = True
+                unit_obstructed_count += 1
+                if obstruction.obstruction_reason is not None:
+                    reason_counts[obstruction.obstruction_reason] += 1
+                examples.setdefault("unit_obstructed", condition)
+                break
+        if not obstruction_found:
+            nonobstructed_count += 1
+            examples.setdefault("not_unit_obstructed", condition)
+
+    return GaussianShadowObstructionSummary(
+        total_residuals=centerline_shadow_count + nonobstructed_count,
+        centerline_shadow_count=centerline_shadow_count,
+        unit_obstructed_count=unit_obstructed_count,
+        nonobstructed_count=nonobstructed_count,
+        obstruction_reason_counts=dict(sorted(reason_counts.items())),
+        examples_by_bucket=dict(sorted(examples.items())),
+    )
+
+
 def sum_ab_root_grid_residual_watchlist(
     *,
     max_numerator: int,
@@ -2777,6 +7241,518 @@ def closure_product_identity_terms(
     )
 
 
+def _closure_roots_from_target_product(
+    target: Fraction,
+    product: Fraction,
+    relation: str,
+) -> tuple[Fraction, ...]:
+    if relation.startswith("sum="):
+        discriminant = target * target - 4 * product
+        sqrt_disc = _rational_sqrt(discriminant)
+        return (
+            tuple(sorted(((target - sqrt_disc) / 2, (target + sqrt_disc) / 2)))
+            if sqrt_disc is not None
+            else ()
+        )
+    if relation.startswith("diff="):
+        discriminant = target * target + 4 * product
+        sqrt_disc = _rational_sqrt(discriminant)
+        return (
+            tuple(sorted(((sqrt_disc - target) / 2, (sqrt_disc + target) / 2)))
+            if sqrt_disc is not None
+            else ()
+        )
+    raise ValueError(f"unknown closure relation: {relation}")
+
+
+def closure_member_product_square_ledger(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ClosureMemberProductSquareLedger:
+    """Translate individual member squares into the product identity ledger."""
+    terms = closure_product_identity_terms(lambda_ratio, target, product, relation)
+    roots = tuple(root for root in _closure_roots_from_target_product(
+        terms.target,
+        terms.product,
+        relation,
+    ) if root > 0)
+    if len(roots) != 2:
+        return ClosureMemberProductSquareLedger(
+            lambda_ratio=terms.lambda_ratio,
+            target=terms.target,
+            product=terms.product,
+            relation=relation,
+            identity_terms=terms,
+            roots=roots,
+            unit_values=(),
+            lambda_values=(),
+            unit_product=None,
+            lambda_product=None,
+            unit_product_is_square=False,
+            lambda_product_is_square=False,
+            member_squareclasses=(),
+            member_squareclass_pair=(),
+            member_squareclasses_pairwise_equal=False,
+            member_squareclasses_all_trivial=False,
+            true_member_pair=False,
+        )
+
+    r, s = roots
+    lam = terms.lambda_ratio
+    unit_values = (r * r + 1, s * s + 1)
+    lambda_values = (r * r + lam * lam, s * s + lam * lam)
+    member_squareclasses = (
+        _rational_squareclass(unit_values[0])[0],
+        _rational_squareclass(unit_values[1])[0],
+        _rational_squareclass(lambda_values[0])[0],
+        _rational_squareclass(lambda_values[1])[0],
+    )
+    member_squareclasses_pairwise_equal = (
+        member_squareclasses[0] == member_squareclasses[1]
+        and member_squareclasses[2] == member_squareclasses[3]
+    )
+    member_squareclass_pair: tuple[int, int] | tuple[()] = (
+        (member_squareclasses[0], member_squareclasses[2])
+        if member_squareclasses_pairwise_equal
+        else ()
+    )
+    member_square_flags = (
+        _is_rational_square(unit_values[0]),
+        _is_rational_square(unit_values[1]),
+        _is_rational_square(lambda_values[0]),
+        _is_rational_square(lambda_values[1]),
+    )
+    unit_product = unit_values[0] * unit_values[1]
+    lambda_product = lambda_values[0] * lambda_values[1]
+    return ClosureMemberProductSquareLedger(
+        lambda_ratio=terms.lambda_ratio,
+        target=terms.target,
+        product=terms.product,
+        relation=relation,
+        identity_terms=terms,
+        roots=roots,
+        unit_values=unit_values,
+        lambda_values=lambda_values,
+        unit_product=unit_product,
+        lambda_product=lambda_product,
+        unit_product_is_square=_is_rational_square(unit_product),
+        lambda_product_is_square=_is_rational_square(lambda_product),
+        member_squareclasses=member_squareclasses,
+        member_squareclass_pair=member_squareclass_pair,
+        member_squareclasses_pairwise_equal=member_squareclasses_pairwise_equal,
+        member_squareclasses_all_trivial=set(member_squareclasses) == {1},
+        true_member_pair=all(member_square_flags),
+    )
+
+
+def closure_member_prime_valuation_ledger(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ClosureMemberPrimeValuationLedger:
+    """Record prime valuations for the true member terms and product identity."""
+    member_ledger = closure_member_product_square_ledger(
+        lambda_ratio,
+        target,
+        product,
+        relation,
+    )
+    terms = member_ledger.identity_terms
+    lam_sq = terms.lambda_ratio * terms.lambda_ratio
+    member_values = (*member_ledger.unit_values, *member_ledger.lambda_values)
+    identity_values = (
+        terms.a_term,
+        terms.b_term,
+        terms.b_minus_lambda_sq_a,
+        lam_sq - 1,
+        lam_sq - terms.product * terms.product,
+    )
+    primes = _prime_support((*member_values, *identity_values))
+    rows: list[ClosureMemberPrimeValuationRow] = []
+    for prime in primes:
+        member_valuations = tuple(
+            _rational_valuation(value, prime) for value in member_values
+        )
+        if any(valuation is None for valuation in member_valuations):
+            raise ValueError("member values should be positive nonzero rationals")
+        identity_valuations = tuple(
+            _rational_valuation(value, prime) for value in identity_values
+        )
+        finite_identity_valuations = tuple(
+            valuation for valuation in identity_valuations[:2] if valuation is not None
+        )
+        rows.append(
+            ClosureMemberPrimeValuationRow(
+                prime=prime,
+                member_valuations=member_valuations,  # type: ignore[arg-type]
+                identity_valuations=identity_valuations,
+                all_member_valuations_even=all(
+                    valuation % 2 == 0 for valuation in member_valuations
+                ),
+                product_valuations_even=all(
+                    valuation % 2 == 0 for valuation in finite_identity_valuations
+                ),
+            )
+        )
+    rows_tuple = tuple(rows)
+    rows_by_prime = {row.prime: row for row in rows_tuple}
+    member_squareclass_primes = tuple(
+        prime
+        for prime in primes
+        if prime in member_ledger.member_squareclasses
+        or any(
+            _rational_valuation(value, prime) % 2
+            for value in member_values
+        )
+    )
+    three_mod_four_primes = tuple(prime for prime in primes if prime % 4 == 3)
+    return ClosureMemberPrimeValuationLedger(
+        member_ledger=member_ledger,
+        primes=primes,
+        three_mod_four_primes=three_mod_four_primes,
+        member_squareclass_primes=member_squareclass_primes,
+        three_mod_four_member_squareclass_primes=tuple(
+            prime for prime in member_squareclass_primes if prime % 4 == 3
+        ),
+        rows=rows_tuple,
+        three_mod_four_rows=tuple(
+            row for row in rows_tuple if row.prime in three_mod_four_primes
+        ),
+        rows_by_prime=rows_by_prime,
+    )
+
+
+def _valuation_is_odd(valuation: int | None) -> bool:
+    return valuation is not None and valuation % 2 != 0
+
+
+def closure_identity_three_mod_four_balance_ledger(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ClosureIdentityThreeModFourBalanceLedger:
+    """Summarize parity balance at primes ``q == 3 mod 4`` in the identity."""
+    valuation_ledger = closure_member_prime_valuation_ledger(
+        lambda_ratio,
+        target,
+        product,
+        relation,
+    )
+    rows: list[ClosureIdentityThreeModFourBalanceRow] = []
+    for valuation_row in valuation_ledger.three_mod_four_rows:
+        identity_valuations = valuation_row.identity_valuations
+        lambda_squared_minus_one_odd = _valuation_is_odd(identity_valuations[3])
+        lambda_squared_minus_product_squared_odd = _valuation_is_odd(
+            identity_valuations[4]
+        )
+        rows.append(
+            ClosureIdentityThreeModFourBalanceRow(
+                prime=valuation_row.prime,
+                identity_valuations=identity_valuations,
+                identity_difference_odd=_valuation_is_odd(identity_valuations[2]),
+                lambda_squared_minus_one_odd=lambda_squared_minus_one_odd,
+                lambda_squared_minus_product_squared_odd=(
+                    lambda_squared_minus_product_squared_odd
+                ),
+                shared_odd_compensation=(
+                    lambda_squared_minus_one_odd
+                    and lambda_squared_minus_product_squared_odd
+                ),
+            )
+        )
+    rows_tuple = tuple(rows)
+    rows_by_prime = {row.prime: row for row in rows_tuple}
+    odd_lambda_squared_minus_product_squared_primes = tuple(
+        row.prime for row in rows_tuple if row.lambda_squared_minus_product_squared_odd
+    )
+    shared_odd_lambda_squared_minus_one_primes = tuple(
+        row.prime for row in rows_tuple if row.shared_odd_compensation
+    )
+    return ClosureIdentityThreeModFourBalanceLedger(
+        valuation_ledger=valuation_ledger,
+        rows=rows_tuple,
+        rows_by_prime=rows_by_prime,
+        odd_identity_difference_primes=tuple(
+            row.prime for row in rows_tuple if row.identity_difference_odd
+        ),
+        odd_lambda_squared_minus_product_squared_primes=(
+            odd_lambda_squared_minus_product_squared_primes
+        ),
+        shared_odd_lambda_squared_minus_one_primes=(
+            shared_odd_lambda_squared_minus_one_primes
+        ),
+        unshared_odd_lambda_squared_minus_product_squared_primes=tuple(
+            prime
+            for prime in odd_lambda_squared_minus_product_squared_primes
+            if prime not in shared_odd_lambda_squared_minus_one_primes
+        ),
+    )
+
+
+def closure_identity_shared_gcd_ledger(
+    lambda_ratio: Fraction | int,
+    target: Fraction | int,
+    product: Fraction | int,
+    relation: str,
+) -> ClosureIdentitySharedGcdLedger:
+    """Track shared odd factors through ``p^2-1`` and the closure discriminant."""
+    balance_ledger = closure_identity_three_mod_four_balance_ledger(
+        lambda_ratio,
+        target,
+        product,
+        relation,
+    )
+    terms = balance_ledger.valuation_ledger.member_ledger.identity_terms
+    if relation.startswith("sum="):
+        closure_discriminant = terms.target * terms.target - 4 * terms.product
+    elif relation.startswith("diff="):
+        closure_discriminant = terms.target * terms.target + 4 * terms.product
+    else:
+        raise ValueError(f"unknown closure relation: {relation}")
+
+    p_squared_minus_one = terms.product * terms.product - 1
+    rows: list[ClosureIdentitySharedGcdRow] = []
+    for balance_row in balance_ledger.rows:
+        lambda_squared_minus_one_valuation = balance_row.identity_valuations[3]
+        lambda_squared_minus_product_squared_valuation = (
+            balance_row.identity_valuations[4]
+        )
+        p_squared_minus_one_valuation = _rational_valuation(
+            p_squared_minus_one,
+            balance_row.prime,
+        )
+        closure_discriminant_valuation = _rational_valuation(
+            closure_discriminant,
+            balance_row.prime,
+        )
+        shared_minimum = (
+            min(
+                lambda_squared_minus_one_valuation,
+                lambda_squared_minus_product_squared_valuation,
+            )
+            if lambda_squared_minus_one_valuation is not None
+            and lambda_squared_minus_product_squared_valuation is not None
+            else None
+        )
+        rows.append(
+            ClosureIdentitySharedGcdRow(
+                prime=balance_row.prime,
+                lambda_squared_minus_one_valuation=(
+                    lambda_squared_minus_one_valuation
+                ),
+                lambda_squared_minus_product_squared_valuation=(
+                    lambda_squared_minus_product_squared_valuation
+                ),
+                p_squared_minus_one_valuation=p_squared_minus_one_valuation,
+                closure_discriminant_valuation=closure_discriminant_valuation,
+                shared_odd_compensation=balance_row.shared_odd_compensation,
+                p_squared_minus_one_carries_shared_factor=(
+                    shared_minimum is not None
+                    and shared_minimum > 0
+                    and p_squared_minus_one_valuation is not None
+                    and p_squared_minus_one_valuation >= shared_minimum
+                ),
+                closure_discriminant_valuation_even=(
+                    closure_discriminant_valuation is not None
+                    and closure_discriminant_valuation % 2 == 0
+                ),
+            )
+        )
+    rows_tuple = tuple(rows)
+    return ClosureIdentitySharedGcdLedger(
+        balance_ledger=balance_ledger,
+        closure_discriminant=closure_discriminant,
+        rows=rows_tuple,
+        rows_by_prime={row.prime: row for row in rows_tuple},
+        shared_odd_compensation_primes=(
+            balance_ledger.shared_odd_lambda_squared_minus_one_primes
+        ),
+        unshared_odd_lambda_squared_minus_product_squared_primes=(
+            balance_ledger.unshared_odd_lambda_squared_minus_product_squared_primes
+        ),
+    )
+
+
+def sum_ab_shared_odd_prime_residue_summary(
+    prime: int,
+) -> SumAbSharedOddPrimeResidueSummary:
+    """Enumerate shared-prime sign cases that survive member-square residues."""
+    if prime <= 2 or factorint(prime) != {prime: 1}:
+        raise ValueError("prime must be an odd prime")
+    if prime % 4 != 3:
+        raise ValueError("prime must be 3 mod 4")
+
+    square_residues = {residue * residue % prime for residue in range(prime)}
+    all_case_keys = ((1, 1), (1, -1), (-1, 1), (-1, -1))
+    cases: list[SumAbSharedOddPrimeResidueCase] = []
+    for lambda_residue, product_residue in all_case_keys:
+        target_residue = (lambda_residue + 1) % prime
+        product_mod = product_residue % prime
+        root_residues: list[tuple[int, int]] = []
+        member_square_residue_pairs: list[tuple[int, int]] = []
+        for r_residue in range(prime):
+            s_residue = (target_residue - r_residue) % prime
+            if (r_residue * s_residue - product_mod) % prime:
+                continue
+            unit_pair = (
+                (r_residue * r_residue + 1) % prime,
+                (s_residue * s_residue + 1) % prime,
+            )
+            lambda_pair = unit_pair
+            if all(value in square_residues for value in (*unit_pair, *lambda_pair)):
+                root_residues.append((r_residue, s_residue))
+                member_square_residue_pairs.append(unit_pair)
+
+        if root_residues:
+            cases.append(
+                SumAbSharedOddPrimeResidueCase(
+                    prime=prime,
+                    lambda_residue=lambda_residue,
+                    product_residue=product_residue,
+                    target_residue=target_residue,
+                    discriminant_residue=(
+                        target_residue * target_residue - 4 * product_mod
+                    )
+                    % prime,
+                    root_residues=tuple(root_residues),
+                    member_square_residue_pairs=tuple(
+                        member_square_residue_pairs
+                    ),
+                )
+            )
+
+    cases_tuple = tuple(cases)
+    case_keys = tuple(
+        (case.lambda_residue, case.product_residue) for case in cases_tuple
+    )
+    killed_case_keys = tuple(
+        case_key for case_key in all_case_keys if case_key not in case_keys
+    )
+    return SumAbSharedOddPrimeResidueSummary(
+        prime=prime,
+        prime_mod_8=prime % 8,
+        prime_mod_16=prime % 16,
+        cases=cases_tuple,
+        case_keys=case_keys,
+        killed_case_keys=killed_case_keys,
+        all_cases_killed=case_keys == (),
+    )
+
+
+def sum_ab_shared_odd_prime_power_lift_summary(
+    prime: int,
+    exponent: int,
+) -> SumAbSharedOddPrimePowerLiftSummary:
+    """Enumerate small prime-power lifts of shared-prime local shadows."""
+    if prime <= 2 or factorint(prime) != {prime: 1}:
+        raise ValueError("prime must be an odd prime")
+    if prime % 4 != 3:
+        raise ValueError("prime must be 3 mod 4")
+    if exponent < 2:
+        raise ValueError("exponent must be at least 2")
+
+    modulus = prime**exponent
+    square_residues = {residue * residue % modulus for residue in range(modulus)}
+    pattern_counts: Counter[
+        tuple[int, int, int, int, tuple[int, int, int, int]]
+    ] = Counter()
+    examples_by_pattern: dict[
+        tuple[int, int, int, int, tuple[int, int, int, int]],
+        tuple[int, int, int, int, tuple[int, int, int, int]],
+    ] = {}
+    for lambda_residue in range(1, modulus):
+        if _gcd(lambda_residue, prime) != 1:
+            continue
+        if _truncated_mod_valuation(
+            lambda_residue * lambda_residue - 1,
+            prime,
+            exponent,
+        ) != 1:
+            continue
+        target_residue = (lambda_residue + 1) % modulus
+        for r_residue in range(1, modulus):
+            if _gcd(r_residue, prime) != 1:
+                continue
+            s_residue = (target_residue - r_residue) % modulus
+            if _gcd(s_residue, prime) != 1:
+                continue
+            product_residue = r_residue * s_residue % modulus
+            if _truncated_mod_valuation(
+                lambda_residue * lambda_residue
+                - product_residue * product_residue,
+                prime,
+                exponent,
+            ) != 1:
+                continue
+            member_residues = (
+                (r_residue * r_residue + 1) % modulus,
+                (s_residue * s_residue + 1) % modulus,
+                (r_residue * r_residue + lambda_residue * lambda_residue) % modulus,
+                (s_residue * s_residue + lambda_residue * lambda_residue) % modulus,
+            )
+            if not all(value in square_residues for value in member_residues):
+                continue
+
+            lambda_mod_prime = lambda_residue % prime
+            product_mod_prime = product_residue % prime
+            pattern = (
+                lambda_mod_prime if lambda_mod_prime != prime - 1 else -1,
+                product_mod_prime if product_mod_prime != prime - 1 else -1,
+                _truncated_mod_valuation(
+                    product_residue - lambda_residue,
+                    prime,
+                    exponent,
+                ),
+                _truncated_mod_valuation(
+                    product_residue + lambda_residue,
+                    prime,
+                    exponent,
+                ),
+                tuple(
+                    _truncated_mod_valuation(value, prime, exponent)
+                    for value in member_residues
+                ),
+            )
+            pattern_counts[pattern] += 1
+            examples_by_pattern.setdefault(
+                pattern,
+                (
+                    lambda_residue,
+                    r_residue,
+                    s_residue,
+                    product_residue,
+                    member_residues,
+                ),
+            )
+
+    pattern_counts_dict = dict(sorted(pattern_counts.items()))
+    return SumAbSharedOddPrimePowerLiftSummary(
+        prime=prime,
+        exponent=exponent,
+        modulus=modulus,
+        total_lifts=sum(pattern_counts_dict.values()),
+        pattern_counts=pattern_counts_dict,
+        examples_by_pattern={
+            pattern: examples_by_pattern[pattern]
+            for pattern in pattern_counts_dict
+        },
+        p_minus_lambda_shadow_count=sum(
+            count
+            for pattern, count in pattern_counts_dict.items()
+            if pattern[2] > 0
+        ),
+        p_plus_lambda_shadow_count=sum(
+            count
+            for pattern, count in pattern_counts_dict.items()
+            if pattern[3] > 0
+        ),
+    )
+
+
 def closure_product_square_conditions(
     lambda_ratio: Fraction | int,
     target: Fraction | int,
@@ -2796,22 +7772,12 @@ def closure_product_square_conditions(
 
     if relation.startswith("sum="):
         discriminant = t * t - 4 * p
-        sqrt_disc = _rational_sqrt(discriminant)
-        roots = (
-            tuple(sorted(((t - sqrt_disc) / 2, (t + sqrt_disc) / 2)))
-            if sqrt_disc is not None
-            else ()
-        )
     elif relation.startswith("diff="):
         discriminant = t * t + 4 * p
-        sqrt_disc = _rational_sqrt(discriminant)
-        roots = (
-            tuple(sorted(((sqrt_disc - t) / 2, (sqrt_disc + t) / 2)))
-            if sqrt_disc is not None
-            else ()
-        )
     else:
         raise ValueError(f"unknown closure relation: {relation}")
+    roots = _closure_roots_from_target_product(t, p, relation)
+    sqrt_disc = _rational_sqrt(discriminant)
 
     positive_roots = tuple(root for root in roots if root > 0)
     if len(positive_roots) == 2:
@@ -3715,11 +8681,23 @@ def full_plane_reciprocal_obstruction(
 
 
 __all__ = [
+    "ClosureIdentitySharedGcdLedger",
+    "ClosureIdentitySharedGcdRow",
+    "ClosureIdentityThreeModFourBalanceLedger",
+    "ClosureIdentityThreeModFourBalanceRow",
+    "ClosureMemberPrimeValuationLedger",
+    "ClosureMemberPrimeValuationRow",
+    "ClosureMemberProductSquareLedger",
     "ClosureProductSquareConditions",
     "FullPlaneClosureProductLedger",
     "FullPlaneClosureProductSummary",
     "FullPlaneReciprocalObstruction",
     "FullPlaneTrueClosureRelation",
+    "GaussianShadowObstructionSummary",
+    "GaussianShadowSummary",
+    "InverseGaussianAbsorptionPair",
+    "InverseGaussianAbsorptionPairTerms",
+    "InverseGaussianCenterlineShadowObstruction",
     "LegRatioSquareclass",
     "ProductIdentityTerms",
     "ProductSquareBucketSummary",
@@ -3730,8 +8708,12 @@ __all__ = [
     "ReciprocalClosureObstruction",
     "ReciprocalClosureRoot",
     "ReciprocalClosureSquareclassRoot",
+    "ResidualGaussianAbsorptionLedger",
+    "ResidualPrimeClassSummary",
     "ResidualSquareclassEquations",
     "SquareRectangleTerms",
+    "SquareclassTwoSquareAbsorption",
+    "SumAbBridgeExtraFactorZLemmaReduction",
     "SumAbCenterlineEquations",
     "SumAbCenterlineQuarticCRTLiveResidueSummary",
     "SumAbCenterlineQuarticIntegerEquation",
@@ -3744,13 +8726,62 @@ __all__ = [
     "SumAbCenterlineQuotientWParameterization",
     "SumAbCenterlineRemainingQuartic",
     "SumAbCenterlineUnitLegParam",
+    "SumAbDualSlopeBridgeCenterlineBranchRestriction",
+    "SumAbDualSlopeBridgeCenterlineFactorLiftSummary",
+    "SumAbDualSlopeBridgeDifferenceFactorization",
+    "SumAbDualSlopeBridgePrimePowerLiftSummary",
+    "SumAbDualSlopeBridgeProjectiveResidueSummary",
+    "SumAbDualSlopeBridgeTrivialTubeExpansion",
+    "SumAbDualSlopeCenterlineFactorPositiveDomainRow",
+    "SumAbDualSlopeGaussianAbsorption",
+    "SumAbDualSlopeGaussianBridge",
+    "SumAbDualSlopeGaussianBridgeCycle",
+    "SumAbDualSlopeParameterization",
+    "SumAbDualSlopePositiveTrivialTubeLocalWitness",
+    "SumAbDualSlopePositiveTrivialTubeMemberLedger",
+    "SumAbDualSlopePositiveTrivialTubeSquareclassLedger",
+    "SumAbDualSlopeQAdicBridgeLocalSquareSummary",
+    "SumAbDualSlopeQAdicBridgeTwoAdicSummary",
+    "SumAbDualSlopeQAdicBridgeValuationRow",
+    "SumAbDualSlopeQAdicBridgeValuationSummary",
+    "SumAbDualSlopeQAdicNormBridgeLedger",
+    "SumAbDualSlopeQAdicNormBridgeSummary",
+    "SumAbDualSlopeQAdicNormGeneratedSummary",
+    "SumAbDualSlopeQAdicNormLedger",
+    "SumAbDualSlopeQAdicNormSummary",
+    "SumAbDualSlopeValuationLedger",
+    "SumAbDualSlopeValuationRow",
+    "SumAbFourSlopeSquareclassSummary",
+    "SumAbFourSlopeSquareclassWitness",
+    "SumAbFourSquareDualSlopeModel",
+    "SumAbKDiscriminantQuarticCompletion",
+    "SumAbKSquareCandidateYDiscriminant",
+    "SumAbKSquareYDiscriminantFactorization",
+    "SumAbNewCurveResidueSummary",
+    "SumAbNewCurveZReduction",
     "SumAbRatioShadowOrbit",
     "SumAbReciprocalObstruction",
+    "SumAbSameOrientationBothPassLiftSummary",
+    "SumAbSameOrientationBothPassResidueSummary",
+    "SumAbSameOrientationCombinedValuationSummary",
+    "SumAbSameOrientationDifferenceFactorValuationSummary",
+    "SumAbSharedOddPrimePowerLiftSummary",
+    "SumAbSharedOddPrimeResidueCase",
+    "SumAbSharedOddPrimeResidueSummary",
     "SumAbSlopeObstruction",
     "SumAbSlopePoint",
+    "SumAbSquareclassRatioSlopeQuadraticModel",
+    "SumAbSquareclassRatioTUQuotientModel",
+    "SumAbSquareclassRatioZParameterization",
+    "SumAbSquareclassRatioZReduction",
     "SumAbThreePassEuclidModel",
     "SumAbThreePassMobiusModel",
     "SumAbTrueClosureRelation",
+    "SumAbZLemmaCenterlineBridge",
+    "closure_identity_shared_gcd_ledger",
+    "closure_identity_three_mod_four_balance_ledger",
+    "closure_member_prime_valuation_ledger",
+    "closure_member_product_square_ledger",
     "closure_product_identity_terms",
     "closure_product_square_conditions",
     "find_rational_ratio_hits",
@@ -3759,6 +8790,9 @@ __all__ = [
     "full_plane_reciprocal_obstruction",
     "full_plane_true_closure_relation",
     "group_sum_ab_ratio_shadow_orbits",
+    "inverse_gaussian_absorption_pair",
+    "inverse_gaussian_absorption_pair_terms",
+    "inverse_gaussian_centerline_shadow_obstruction",
     "is_pythagorean_leg_ratio",
     "is_rational_ratio_member",
     "leg_ratio_squareclass",
@@ -3772,11 +8806,14 @@ __all__ = [
     "reciprocal_closure_squareclass_ledger",
     "reciprocal_ratio",
     "reciprocal_sum_ab_roots",
+    "residual_gaussian_absorption_ledger",
     "scan_full_plane_true_closure_relations",
     "scan_sum_ab_slope_obstructions",
     "scan_sum_ab_slope_pairs",
     "scan_sum_ab_true_closure_relations",
     "square_rectangle_terms",
+    "squareclass_two_square_absorption",
+    "sum_ab_bridge_extra_factor_z_lemma_reduction",
     "sum_ab_centerline_equations",
     "sum_ab_centerline_from_unit_leg_param",
     "sum_ab_centerline_quartic_crt_live_residue_classes",
@@ -3791,6 +8828,36 @@ __all__ = [
     "sum_ab_centerline_quotient_w_parameterization",
     "sum_ab_centerline_remaining_quartic",
     "sum_ab_centerline_squareclass_conditions",
+    "sum_ab_dual_slope_bridge_centerline_branch_restrictions",
+    "sum_ab_dual_slope_bridge_centerline_factor_lift_summary",
+    "sum_ab_dual_slope_bridge_difference_factorization",
+    "sum_ab_dual_slope_bridge_prime_power_lift_summary",
+    "sum_ab_dual_slope_bridge_projective_residue_summary",
+    "sum_ab_dual_slope_bridge_trivial_tube_expansions",
+    "sum_ab_dual_slope_centerline_factor_positive_domain",
+    "sum_ab_dual_slope_gaussian_absorption",
+    "sum_ab_dual_slope_gaussian_bridge",
+    "sum_ab_dual_slope_gaussian_bridge_cycle",
+    "sum_ab_dual_slope_parameterization",
+    "sum_ab_dual_slope_positive_trivial_tube_local_witnesses",
+    "sum_ab_dual_slope_positive_trivial_tube_member_ledgers",
+    "sum_ab_dual_slope_positive_trivial_tube_squareclass_ledgers",
+    "sum_ab_dual_slope_qadic_bridge_2adic_summary",
+    "sum_ab_dual_slope_qadic_bridge_local_square_summary",
+    "sum_ab_dual_slope_qadic_bridge_valuation_summary",
+    "sum_ab_dual_slope_qadic_norm_bridge_summary",
+    "sum_ab_dual_slope_qadic_norm_generated_summary",
+    "sum_ab_dual_slope_qadic_norm_ledger",
+    "sum_ab_dual_slope_qadic_norm_summary",
+    "sum_ab_dual_slope_valuation_ledger",
+    "sum_ab_four_slope_squareclass_summary",
+    "sum_ab_four_slope_squareclass_witnesses",
+    "sum_ab_four_square_dual_slope_model",
+    "sum_ab_k_discriminant_quartic_completion",
+    "sum_ab_k_square_candidate_y_discriminant",
+    "sum_ab_k_square_y_discriminant_factorization",
+    "sum_ab_new_curve_residue_summary",
+    "sum_ab_new_curve_z_reduction",
     "sum_ab_point_from_slopes",
     "sum_ab_product_square_bucket_summary",
     "sum_ab_product_square_condition_from_slopes",
@@ -3799,11 +8866,26 @@ __all__ = [
     "sum_ab_ratio_shadow_key",
     "sum_ab_reciprocal_obstruction",
     "sum_ab_residual_squareclass_equations",
+    "sum_ab_root_grid_gaussian_shadow_obstruction_summary",
+    "sum_ab_root_grid_gaussian_shadow_summary",
+    "sum_ab_root_grid_residual_prime_class_summary",
     "sum_ab_root_grid_residual_summary",
     "sum_ab_root_grid_residual_watchlist",
+    "sum_ab_same_orientation_both_pass_lift_summary",
+    "sum_ab_same_orientation_both_pass_residue_summary",
+    "sum_ab_same_orientation_combined_valuation_summary",
+    "sum_ab_same_orientation_difference_factor_valuation_summary",
+    "sum_ab_shared_odd_prime_power_lift_summary",
+    "sum_ab_shared_odd_prime_residue_summary",
     "sum_ab_slope_obstruction",
+    "sum_ab_slope_ratio_y_discriminant_ledger",
+    "sum_ab_squareclass_ratio_slope_quadratic_model",
+    "sum_ab_squareclass_ratio_tu_quotient_model",
+    "sum_ab_squareclass_ratio_z_parameterization",
+    "sum_ab_squareclass_ratio_z_reduction",
     "sum_ab_three_pass_mobius_model",
     "sum_ab_three_pass_mobius_model_from_params",
     "sum_ab_true_closure_relation",
+    "sum_ab_z_lemma_centerline_bridge",
     "true_reciprocal_sum_ab_roots",
 ]
