@@ -91,6 +91,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/317-residual-local-witness-paper-claim-gate.md"),
     Artifact("worklog", "docs/work-logs/318-residual-selmer-gap-ledger.md"),
     Artifact("worklog", "docs/work-logs/319-all-residual-cover-map-verification.md"),
+    Artifact("worklog", "docs/work-logs/320-residual-selmer-gap-frontier-split.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),

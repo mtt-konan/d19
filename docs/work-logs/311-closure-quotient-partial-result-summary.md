@@ -90,11 +90,12 @@ residual_local_witness_status.unresolved_bad_prime_total = 0
 residual_selmer_gap_status.candidate_cover_total = 27
 residual_selmer_gap_status.rows_with_ok_diagnostics = 27
 residual_selmer_gap_status.rank0_sha2_gap2_cover_total = 20
+residual_selmer_gap_status.gap_type_counts = {'even-rank-sha2-gap4-open': 4, 'rank0-sha2-gap2': 20, 'rank1-sha2-gap2-open': 3}
 residual_cover_map_status.target_cover_count = 27
 residual_cover_map_status.verified_cover_count = 27
 residual_cover_map_status.failed_cover_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 98
+artifact_status.required_file_count = 99
 artifact_status.missing_file_count = 0
 ```
 

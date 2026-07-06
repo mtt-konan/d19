@@ -53,7 +53,11 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "rows_with_ok_diagnostics": 27,
         "missing_diagnostic_rows": 0,
         "rank0_sha2_gap2_cover_total": 20,
-        "gap_type_counts": {"rank0-sha2-gap2": 20, "residual-gap-open": 7},
+        "gap_type_counts": {
+            "even-rank-sha2-gap4-open": 4,
+            "rank0-sha2-gap2": 20,
+            "rank1-sha2-gap2-open": 3,
+        },
         "all_rows_candidate_not_proof": True,
     }
     residual_cover_map_verify = {
@@ -62,7 +66,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "verified_cover_count": 27,
         "failed_cover_count": 0,
     }
-    artifact_audit = {"ready": True, "required_file_count": 98, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 99, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -113,8 +117,9 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "missing_diagnostic_rows": 0,
             "rank0_sha2_gap2_cover_total": 20,
             "gap_type_counts": {
+                "even-rank-sha2-gap4-open": 4,
                 "rank0-sha2-gap2": 20,
-                "residual-gap-open": 7,
+                "rank1-sha2-gap2-open": 3,
             },
         },
         "residual_cover_map_status": {
@@ -125,7 +130,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 98,
+            "required_file_count": 99,
             "missing_file_count": 0,
         },
         "boundary": (

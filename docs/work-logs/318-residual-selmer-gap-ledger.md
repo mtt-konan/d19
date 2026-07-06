@@ -8,6 +8,8 @@
 
 普通话说：我们现在不只是知道“还有 27 个候选 cover 没严格关掉”，还知道它们主要卡在哪里。
 真实结果是：27 个候选 cover 都有 Sage diagnostic，其中 20 个是 `rank0-sha2-gap2`。
+后续 wl320 又把剩下 7 个细分成 3 个 `rank1-sha2-gap2-open` 和 4 个
+`even-rank-sha2-gap4-open`。
 
 ## 更新脚本
 
@@ -48,7 +50,8 @@ diagnostic_status_counts.ok = 27
 missing_diagnostic_rows = 0
 rank0_sha2_gap2_cover_total = 20
 gap_type_counts.rank0-sha2-gap2 = 20
-gap_type_counts.residual-gap-open = 7
+gap_type_counts.rank1-sha2-gap2-open = 3
+gap_type_counts.even-rank-sha2-gap4-open = 4
 all_rows_candidate_not_proof = true
 ```
 

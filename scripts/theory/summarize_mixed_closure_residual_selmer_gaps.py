@@ -50,10 +50,26 @@ def _rank_bounds(diagnostic: dict[str, Any]) -> list[int]:
     return [int(value) for value in diagnostic.get("rank_bounds", [])]
 
 
+def _rank_lower_bound(rank_bounds: list[int]) -> int:
+    return int(rank_bounds[0]) if rank_bounds else 0
+
+
+def _rank_upper_bound(rank_bounds: list[int]) -> int:
+    return int(rank_bounds[1]) if len(rank_bounds) > 1 else 0
+
+
 def _selmer_rank(diagnostic: dict[str, Any]) -> int:
     return _int_value(diagnostic, "selmer_rank_mwrank") or _int_value(
         diagnostic, "selmer_rank_pari"
     )
+
+
+def _root_number_parity(root_number: int) -> str:
+    if root_number == 1:
+        return "even"
+    if root_number == -1:
+        return "odd"
+    return "unknown"
 
 
 def _gap_type(
@@ -62,6 +78,7 @@ def _gap_type(
     rank_bounds: list[int],
     priority_selmer_gap: int,
     rank_plus_sha2_dimension: int,
+    root_number: int,
 ) -> str:
     if diagnostic_status != "ok":
         return "diagnostic-open"
@@ -71,6 +88,20 @@ def _gap_type(
         and rank_plus_sha2_dimension == 2
     ):
         return "rank0-sha2-gap2"
+    if (
+        rank_bounds == [1, 3]
+        and rank_plus_sha2_dimension == 3
+        and rank_plus_sha2_dimension - _rank_lower_bound(rank_bounds) == 2
+        and root_number == -1
+    ):
+        return "rank1-sha2-gap2-open"
+    if (
+        rank_bounds == [0, 4]
+        and priority_selmer_gap == 4
+        and rank_plus_sha2_dimension == 4
+        and root_number == 1
+    ):
+        return "even-rank-sha2-gap4-open"
     return "residual-gap-open"
 
 
@@ -96,8 +127,11 @@ def build_selmer_gap_ledger(
             all_rows_candidate_not_proof and proof_status == "candidate-not-proof"
         )
         rank_bounds = _rank_bounds(diagnostic)
+        rank_lower_bound = _rank_lower_bound(rank_bounds)
+        rank_upper_bound = _rank_upper_bound(rank_bounds)
         priority_selmer_gap = _int_value(priority_row, "selmer_gap")
         rank_plus_sha2_dimension = _int_value(diagnostic, "rank_plus_sha2_dimension")
+        root_number = _int_value(diagnostic, "root_number")
         rows.append(
             {
                 "priority": int(priority_row["priority"]),
@@ -108,12 +142,18 @@ def build_selmer_gap_ledger(
                 "priority_selmer_gap": priority_selmer_gap,
                 "diagnostic_status": diagnostic_status,
                 "rank_bounds": rank_bounds,
+                "rank_lower_bound": rank_lower_bound,
+                "rank_upper_bound": rank_upper_bound,
                 "selmer_rank": _selmer_rank(diagnostic),
                 "torsion_two_dimension": _int_value(
                     diagnostic, "torsion_two_dimension"
                 ),
                 "rank_plus_sha2_dimension": rank_plus_sha2_dimension,
-                "root_number": _int_value(diagnostic, "root_number"),
+                "sha2_gap_over_rank_lower_bound": max(
+                    0, rank_plus_sha2_dimension - rank_lower_bound
+                ),
+                "root_number_parity": _root_number_parity(root_number),
+                "root_number": root_number,
                 "conductor": _int_value(diagnostic, "conductor"),
                 "has_bsd_conditional_rank0": bool(
                     priority_row.get("has_bsd_conditional_rank0", False)
@@ -124,6 +164,7 @@ def build_selmer_gap_ledger(
                     rank_bounds=rank_bounds,
                     priority_selmer_gap=priority_selmer_gap,
                     rank_plus_sha2_dimension=rank_plus_sha2_dimension,
+                    root_number=root_number,
                 ),
             }
         )
