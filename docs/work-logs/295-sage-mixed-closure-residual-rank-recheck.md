@@ -441,3 +441,93 @@ rank 2
 ```
 
 但要写进严格主线，还需要可认证的 L 值非零 / Sha[2] 证书 / 2-cover 无点证书。
+
+## 9. 后续更新：PARI ell2cover 显式 cover 探针
+
+继续推进时新增：
+
+```text
+scripts/theory/pari_ell2cover_mixed_residuals.py
+tests/test_pari_ell2cover_mixed_residuals.py
+```
+
+目的：把上面的 Selmer 维数拆成具体的 2-cover 四次曲线，看看哪些 cover 找得到有理点，哪些
+cover 是 Sha[2] 候选。
+
+第一条 `(115,297) AA` 手工和脚本都得到：
+
+```text
+ellrank = [0, 2, 0, []]
+ell2cover count = 4
+height <= 100000:
+  cover 1: 4 points
+  cover 2: 2 points
+  cover 3: 0 points
+  cover 4: 0 points
+```
+
+命令：
+
+```bash
+uv run python scripts/theory/pari_ell2cover_mixed_residuals.py \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --curve AA \
+  --curve BB \
+  --height 100000 \
+  --effort 1
+```
+
+结果：
+
+```text
+wrote 12 ell2cover rows to results/pari_ell2cover_mixed_aabb_h100000.jsonl
+status_counts={'ok': 12}
+covers_without_points_counts={'2': 10, '3': 1, '4': 1}
+```
+
+逐条摘要：
+
+```text
+115 297 AA       rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+209 5355 BB      rank+sha2 3  covers_without_points 3  point_counts [12,2,0,0,0]
+209 21735 BB     rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+391 9009 BB      rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+567 3757 BB      rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+575 4641 AA      rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+1449 12155 BB    rank+sha2 4  covers_without_points 4  point_counts [4,2,0,0,0,0]
+1625 5643 AA     rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+5075 17901 AA    rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+5083 12825 BB    rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+5301 38675 BB    rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+8075 8613 AA     rank+sha2 2  covers_without_points 2  point_counts [4,2,0,0]
+```
+
+普通话解释：
+
+```text
+这些 residual 不是乱的。
+对 10 条最典型的 AA/BB [0,2] 残余，ell2cover 都呈现同一个形状：
+4 个 cover 里前 2 个有点，后 2 个在高度 100000 内没点。
+```
+
+这和 Selmer 诊断完全对齐：
+
+```text
+selmer_rank - torsion_two_dimension = covers_without_points
+```
+
+边界：
+
+- `hyperellratpoints` 没找到点不是严格“无点证明”。
+- 但这已经给出 explicit Sha[2] candidate cover。
+- 下一步若要把 `(115,297) AA` 或 10 条典型残余变成严格 rank-0 证书，需要证明这些 no-point cover
+  真的全局无有理点，或者给出等价的 Cassels-Tate / Brauer-Manin / L 值非零证书。
+
+当前收敛判断：
+
+```text
+tmp 方向的 residual 已经从“16 条 rank bounds 不闭合”
+进一步压成“AA/BB 的 explicit 2-cover no-point candidates”。
+这是继续严格化 Sha[2] 的正确入口。
+```

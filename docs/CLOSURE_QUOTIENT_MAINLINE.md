@@ -337,6 +337,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/rank_mixed_closure_curves.py`
 - `scripts/theory/sage_recheck_mixed_closure_residuals.py`
 - `scripts/theory/sage_diagnose_mixed_closure_residuals.py`
+- `scripts/theory/pari_ell2cover_mixed_residuals.py`
 
 测试：
 
@@ -344,6 +345,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_rank_cli.py`
 - `tests/test_sage_recheck_mixed_closure_residuals.py`
 - `tests/test_sage_diagnose_mixed_closure_residuals.py`
+- `tests/test_pari_ell2cover_mixed_residuals.py`
 
 结果：
 
@@ -352,6 +354,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl`
 - `results/mixed_closure_rank_summary.json`
 - `results/sage_mixed_closure_residual_recheck_limit13.jsonl`
+- `results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl`
+- `results/pari_ell2cover_mixed_aabb_h100000.jsonl`
 
 论文草稿：
 
