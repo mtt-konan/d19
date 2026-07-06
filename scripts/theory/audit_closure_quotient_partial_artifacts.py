@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+"""Audit artifact presence for the closure-quotient partial-result package."""
+
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+BOUNDARY = (
+    "This checks artifact presence for the closure-quotient partial-result "
+    "package. It does not check mathematical truth."
+)
+
+
+@dataclass(frozen=True)
+class Artifact:
+    category: str
+    path: str
+
+
+DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
+    Artifact("script", "scripts/theory/rank_mixed_closure_curves.py"),
+    Artifact("script", "scripts/theory/audit_mixed_closure_rank0_certificates.py"),
+    Artifact("script", "scripts/theory/audit_mixed_closure_even_model_identities.py"),
+    Artifact("script", "scripts/theory/summarize_mixed_closure_residual_covers.py"),
+    Artifact("script", "scripts/theory/audit_mixed_closure_residual_evidence.py"),
+    Artifact("script", "scripts/theory/pari_ell2cover_mixed_residuals.py"),
+    Artifact("script", "scripts/theory/pari_bsd_mixed_closure_residuals.py"),
+    Artifact("script", "scripts/theory/sage_diagnose_mixed_closure_residuals.py"),
+    Artifact("script", "scripts/theory/prioritize_mixed_closure_residual_covers.py"),
+    Artifact("script", "scripts/theory/export_mixed_closure_residual_handoff.py"),
+    Artifact("script", "scripts/theory/sage_probe_mixed_closure_handoff.py"),
+    Artifact("script", "scripts/theory/audit_mixed_closure_residual_language.py"),
+    Artifact("script", "scripts/theory/audit_closure_quotient_paper_claims.py"),
+    Artifact("script", "scripts/theory/summarize_closure_quotient_partial_result.py"),
+    Artifact("script", "scripts/theory/audit_closure_quotient_partial_artifacts.py"),
+    Artifact("test", "tests/test_mixed_closure_rank_cli.py"),
+    Artifact("test", "tests/test_mixed_closure_rank0_certificate_audit.py"),
+    Artifact("test", "tests/test_mixed_closure_even_model_identity_audit.py"),
+    Artifact("test", "tests/test_mixed_closure_residual_cover_summary.py"),
+    Artifact("test", "tests/test_mixed_closure_residual_evidence_audit.py"),
+    Artifact("test", "tests/test_pari_ell2cover_mixed_residuals.py"),
+    Artifact("test", "tests/test_pari_bsd_mixed_closure_residuals.py"),
+    Artifact("test", "tests/test_sage_diagnose_mixed_closure_residuals.py"),
+    Artifact("test", "tests/test_prioritize_mixed_closure_residual_covers.py"),
+    Artifact("test", "tests/test_mixed_closure_residual_handoff.py"),
+    Artifact("test", "tests/test_sage_probe_mixed_closure_handoff.py"),
+    Artifact("test", "tests/test_mixed_closure_residual_language_audit.py"),
+    Artifact("test", "tests/test_closure_quotient_paper_claim_audit.py"),
+    Artifact("test", "tests/test_summarize_closure_quotient_partial_result.py"),
+    Artifact("test", "tests/test_closure_quotient_partial_artifacts.py"),
+    Artifact("doc", "docs/CLOSURE_QUOTIENT_MAINLINE.md"),
+    Artifact("doc", "docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md"),
+    Artifact("worklog", "docs/work-logs/294-tmp-mixed-closure-answer.md"),
+    Artifact("worklog", "docs/work-logs/295-sage-mixed-closure-residual-rank-recheck.md"),
+    Artifact("worklog", "docs/work-logs/296-mixed-closure-residual-cover-summary.md"),
+    Artifact("worklog", "docs/work-logs/297-mixed-closure-cover-map-handoff.md"),
+    Artifact("worklog", "docs/work-logs/298-mixed-closure-rank0-certificate-audit.md"),
+    Artifact("worklog", "docs/work-logs/299-mixed-closure-pari-bsd-diagnostics.md"),
+    Artifact("worklog", "docs/work-logs/300-closure-quotient-paper-claim-audit.md"),
+    Artifact("worklog", "docs/work-logs/301-mixed-closure-residual-handoff.md"),
+    Artifact("worklog", "docs/work-logs/302-mixed-closure-even-model-identity-audit.md"),
+    Artifact("worklog", "docs/work-logs/303-mixed-closure-rank0-classification-detail-audit.md"),
+    Artifact("worklog", "docs/work-logs/304-mixed-closure-residual-evidence-audit.md"),
+    Artifact("worklog", "docs/work-logs/305-sage-residual-handoff-probe.md"),
+    Artifact("worklog", "docs/work-logs/306-mixed-residual-cover-priority-queue.md"),
+    Artifact("worklog", "docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md"),
+    Artifact("worklog", "docs/work-logs/308-priority-queue-paper-claim-gate.md"),
+    Artifact("worklog", "docs/work-logs/309-residual-language-overclaim-audit.md"),
+    Artifact("worklog", "docs/work-logs/310-language-audit-paper-claim-gate.md"),
+    Artifact("worklog", "docs/work-logs/311-closure-quotient-partial-result-summary.md"),
+    Artifact("worklog", "docs/work-logs/312-closure-quotient-partial-artifact-audit.md"),
+    Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
+    Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
+    Artifact("result", "results/mixed_closure_rank_summary.json"),
+    Artifact("result", "results/mixed_closure_rank0_certificate_audit.json"),
+    Artifact("result", "results/mixed_closure_even_model_identity_audit.json"),
+    Artifact("result", "results/mixed_closure_aabb_residual_cover_summary.json"),
+    Artifact("result", "results/mixed_closure_aabb_residual_evidence_audit.json"),
+    Artifact("result", "results/mixed_closure_aabb_residual_cover_priorities.json"),
+    Artifact("result", "results/mixed_closure_residual_language_audit.json"),
+    Artifact("result", "results/closure_quotient_paper_claim_audit.json"),
+    Artifact("result", "results/closure_quotient_partial_result_summary.json"),
+    Artifact("result", "results/pari_ell2cover_mixed_aabb_h100000.jsonl"),
+    Artifact("result", "results/pari_bsd_mixed_aabb_t10.jsonl"),
+    Artifact("result", "results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl"),
+)
+
+
+def parse_required_artifact(raw: str) -> Artifact:
+    category, separator, path = raw.partition(":")
+    if not separator or not category or not path:
+        raise argparse.ArgumentTypeError(
+            "--require entries must use CATEGORY:relative/path"
+        )
+    parsed_path = Path(path)
+    if parsed_path.is_absolute() or ".." in parsed_path.parts:
+        raise argparse.ArgumentTypeError("--require paths must stay under --root")
+    return Artifact(category=category, path=path)
+
+
+def _artifact_dict(artifact: Artifact) -> dict[str, str]:
+    return {"category": artifact.category, "path": artifact.path}
+
+
+def audit_artifacts(*, root: Path, required: list[Artifact]) -> dict[str, Any]:
+    missing = [
+        _artifact_dict(artifact)
+        for artifact in required
+        if not (root / artifact.path).is_file()
+    ]
+    category_counts = dict(sorted(Counter(a.category for a in required).items()))
+    return {
+        "ready": not missing,
+        "required_file_count": len(required),
+        "category_counts": category_counts,
+        "missing_files": missing,
+        "required_files": [_artifact_dict(artifact) for artifact in required],
+        "boundary": BOUNDARY,
+    }
+
+
+def write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument(
+        "--require",
+        action="append",
+        type=parse_required_artifact,
+        default=[],
+        help=(
+            "Required artifact as CATEGORY:relative/path. When omitted, the "
+            "built-in closure-quotient partial-result manifest is used."
+        ),
+    )
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--strict", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    required = args.require or list(DEFAULT_REQUIRED_ARTIFACTS)
+    audit = audit_artifacts(root=args.root, required=required)
+    write_json(args.out, audit)
+    print(f"wrote closure quotient partial-result artifact audit to {args.out}")
+    print(f"ready={audit['ready']}")
+    print(f"required_file_count={audit['required_file_count']}")
+    print(f"missing_files={audit['missing_files']}")
+    if args.strict and not audit["ready"]:
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

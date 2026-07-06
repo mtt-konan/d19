@@ -30,6 +30,7 @@ def _blocking_issues(
     claim_audit: dict[str, Any],
     language_audit: dict[str, Any],
     priority_summary: dict[str, Any],
+    artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
     if claim_audit.get("mismatches"):
@@ -38,6 +39,8 @@ def _blocking_issues(
         issues.append("language-audit-violations")
     if not priority_summary.get("top_targets"):
         issues.append("missing-priority-top-target")
+    if artifact_audit.get("ready") is not True:
+        issues.append("artifact-audit-missing-files")
     return issues
 
 
@@ -46,6 +49,7 @@ def summarize_partial_result(
     claim_audit: dict[str, Any],
     language_audit: dict[str, Any],
     priority_summary: dict[str, Any],
+    artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
     top_targets = priority_summary.get("top_targets", [])
@@ -54,6 +58,7 @@ def summarize_partial_result(
         claim_audit=claim_audit,
         language_audit=language_audit,
         priority_summary=priority_summary,
+        artifact_audit=artifact_audit,
     )
 
     return {
@@ -81,6 +86,11 @@ def summarize_partial_result(
             "files": _int_value(language_audit, "files"),
             "violations": len(language_audit.get("violations", [])),
         },
+        "artifact_status": {
+            "ready": artifact_audit.get("ready") is True,
+            "required_file_count": _int_value(artifact_audit, "required_file_count"),
+            "missing_file_count": len(artifact_audit.get("missing_files", [])),
+        },
         "boundary": (
             "Ready here means the stored partial-result evidence is internally "
             "consistent and wording boundaries are clean. It does not mean the "
@@ -94,6 +104,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--claim-audit", type=Path, required=True)
     parser.add_argument("--language-audit", type=Path, required=True)
     parser.add_argument("--priority-summary", type=Path, required=True)
+    parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -105,6 +116,7 @@ def main() -> int:
         claim_audit=load_json(args.claim_audit),
         language_audit=load_json(args.language_audit),
         priority_summary=load_json(args.priority_summary),
+        artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)
     print(f"wrote closure quotient partial-result summary to {args.out}")

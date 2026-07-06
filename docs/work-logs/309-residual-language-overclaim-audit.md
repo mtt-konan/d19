@@ -57,7 +57,7 @@ wrote mixed closure residual language audit to results/mixed_closure_residual_la
 files=7
 violations=0
 required_boundary_hits={
-  'candidate_not_proof': 2,
+  'candidate_not_proof': 4,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 1,
   'bsd_not_strict_certificate': 1

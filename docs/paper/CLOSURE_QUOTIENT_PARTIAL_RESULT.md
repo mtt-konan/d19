@@ -456,7 +456,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
   --expect language_audit_files=7 \
-  --expect language_candidate_not_proof_hits=2 \
+  --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
   --expect language_bsd_not_strict_certificate_hits=1 \
@@ -496,7 +496,7 @@ Current result:
 files = 7
 violations = 0
 required_boundary_hits = {
-  'candidate_not_proof': 2,
+  'candidate_not_proof': 4,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 1,
   'bsd_not_strict_certificate': 1
@@ -514,6 +514,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --claim-audit results/closure_quotient_paper_claim_audit.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
 ```
@@ -527,11 +528,14 @@ rank0_torsion_certificates = 275
 strict_excluded_pair_count = 220
 candidate_cover_total = 27
 residual proof_status = candidate-not-proof
+artifact_status.ready = True
+artifact_status.missing_file_count = 0
 ```
 
 The word `ready` here means the stored evidence and wording gates are internally
-consistent for a partial-result note. It does not mean the residual covers have
-been strictly proven pointless.
+consistent for a partial-result note, and the required evidence-package artifacts
+are present. It does not mean the residual covers have been strictly proven
+pointless.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -607,6 +611,7 @@ scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
+scripts/theory/audit_closure_quotient_partial_artifacts.py
 ```
 
 The certificate-producing function is:
@@ -702,3 +707,14 @@ This note can become a partial-result section with the following structure:
 5. State the remaining problems:
    the `AA/BB` residuals are explicit 2-cover no-point candidates, and need a strict
    no-point certificate before they can produce more rank-zero certificates.
+
+The current evidence package also has an artifact audit:
+
+```bash
+uv run python scripts/theory/audit_closure_quotient_partial_artifacts.py \
+  --out results/closure_quotient_partial_artifact_audit.json \
+  --strict
+```
+
+This checks that the scripts, tests, result files, paper note, and worklogs needed
+for the partial-result package are present. It does not check mathematical truth.
