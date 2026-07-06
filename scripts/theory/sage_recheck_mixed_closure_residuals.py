@@ -15,9 +15,12 @@ import json
 import subprocess
 from collections.abc import Callable
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 
 Run = Callable[..., subprocess.CompletedProcess[str]]
+Clock = Callable[[], float]
+CurveTarget = tuple[int, int, str]
 
 MARKER = "SAGE_RECHECK_JSON "
 
@@ -68,6 +71,42 @@ def _parse_marker_rows(stdout: str) -> list[dict[str, Any]]:
     return parsed
 
 
+def parse_curve_target(raw: str) -> CurveTarget:
+    parts = [part.strip() for part in raw.split(",")]
+    if len(parts) != 3:
+        raise argparse.ArgumentTypeError("target must be A,B,CURVE")
+    try:
+        a_value = int(parts[0])
+        b_value = int(parts[1])
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("target A and B must be integers") from exc
+
+    curve = parts[2].upper()
+    if curve not in {"AA", "AB", "BA", "BB"}:
+        raise argparse.ArgumentTypeError("target curve must be one of AA, AB, BA, BB")
+    return a_value, b_value, curve
+
+
+def filter_uncertain_rows(
+    rows: list[dict[str, Any]],
+    *,
+    curves: list[str] | None = None,
+    targets: list[CurveTarget] | None = None,
+) -> list[dict[str, Any]]:
+    allowed_curves = {curve.upper() for curve in curves or []}
+    allowed_targets = set(targets or [])
+
+    filtered: list[dict[str, Any]] = []
+    for row in rows:
+        row_key = (int(row["A"]), int(row["B"]), str(row["curve"]).upper())
+        if allowed_curves and row_key[2] not in allowed_curves:
+            continue
+        if allowed_targets and row_key not in allowed_targets:
+            continue
+        filtered.append(row)
+    return filtered
+
+
 def _result_from_completed(
     row: dict[str, Any],
     completed: subprocess.CompletedProcess[str],
@@ -115,6 +154,7 @@ def recheck_rows(
     second_limits: list[int],
     timeout_seconds: int,
     run: Run = subprocess.run,
+    clock: Clock = perf_counter,
 ) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     for row in rows:
@@ -125,6 +165,7 @@ def recheck_rows(
             "-c",
             _sage_program(model, second_limits),
         ]
+        started_at = clock()
         try:
             completed = run(
                 cmd,
@@ -143,13 +184,16 @@ def recheck_rows(
                     "model": row["model"],
                     "status": "timeout",
                     "timeout_seconds": timeout_seconds,
+                    "elapsed_seconds": round(clock() - started_at, 6),
                     "stdout_tail": _tail_lines(exc.stdout or ""),
                     "stderr_tail": _tail_lines(exc.stderr or ""),
                 }
             )
             continue
 
-        results.append(_result_from_completed(row, completed))
+        result = _result_from_completed(row, completed)
+        result["elapsed_seconds"] = round(clock() - started_at, 6)
+        results.append(result)
     return results
 
 
@@ -188,13 +232,30 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--timeout", type=int, default=300, help="Seconds per curve.")
     parser.add_argument("--limit", type=int, default=None, help="Only run the first N rows.")
+    parser.add_argument(
+        "--curve",
+        action="append",
+        choices=["AA", "AB", "BA", "BB"],
+        default=[],
+        help="Only run residual rows for this curve. Repeat for several curves.",
+    )
+    parser.add_argument(
+        "--target",
+        action="append",
+        type=parse_curve_target,
+        default=[],
+        help="Only run one residual row, formatted as A,B,CURVE. Repeat for several rows.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     second_limits = args.second_limits or [13]
-    rows = load_uncertain_rows(args.summary, limit=args.limit)
+    rows = load_uncertain_rows(args.summary)
+    rows = filter_uncertain_rows(rows, curves=args.curve, targets=args.target)
+    if args.limit is not None:
+        rows = rows[: args.limit]
     results: list[dict[str, Any]] = []
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -218,7 +279,8 @@ def main() -> int:
             print(
                 f"[{index}/{len(rows)}] "
                 f"({result['A']},{result['B']}) {result['curve']} "
-                f"status={result['status']} final={final_rank}",
+                f"status={result['status']} final={final_rank} "
+                f"elapsed={result['elapsed_seconds']}s",
                 flush=True,
             )
 

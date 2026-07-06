@@ -225,3 +225,88 @@ uv run python scripts/theory/sage_recheck_mixed_closure_residuals.py \
 status_counts={'ok': 1}
 final_rank_counts={'0/2': 1}
 ```
+
+## 7. 后续更新：AA/BB 批处理增强与 `second_limit=20` 边界
+
+继续推进时，脚本补了三个实用能力：
+
+```text
+--curve AA --curve BB       只跑指定曲线类型
+--target A,B,CURVE          只跑指定残余行
+elapsed_seconds             每条结果记录实际耗时
+```
+
+这让后续可以只攻主线上的 `AA/BB` 残余，不把 `AB/BA` 混进来。
+
+真实烟测：
+
+```bash
+uv run python scripts/theory/sage_recheck_mixed_closure_residuals.py \
+  --sage /usr/local/bin/sage \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/sage_mixed_closure_target_smoke.jsonl \
+  --target 115,297,AA \
+  --second-limit 13 \
+  --timeout 180
+```
+
+结果：
+
+```text
+[1/1] (115,297) AA status=ok final=0/2 elapsed=25.518334s
+```
+
+AA/BB 过滤烟测：
+
+```bash
+uv run python scripts/theory/sage_recheck_mixed_closure_residuals.py \
+  --sage /usr/local/bin/sage \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/sage_mixed_closure_aabb_filter_smoke.jsonl \
+  --curve AA \
+  --curve BB \
+  --limit 2 \
+  --second-limit 13 \
+  --timeout 180
+```
+
+结果：
+
+```text
+[1/2] (115,297) AA status=ok final=0/2 elapsed=25.521335s
+[2/2] (209,5355) BB status=ok final=1/3 elapsed=49.859545s
+```
+
+然后试了一次更高档：
+
+```bash
+uv run python scripts/theory/sage_recheck_mixed_closure_residuals.py \
+  --sage /usr/local/bin/sage \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/sage_mixed_closure_aabb_recheck_limit20.jsonl \
+  --curve AA \
+  --curve BB \
+  --second-limit 20 \
+  --timeout 300
+```
+
+第一条就超时：
+
+```text
+[1/12] (115,297) AA status=timeout final=missing elapsed=300.003987s
+```
+
+随后观察第 2 条 60 秒仍无输出，手动中止。这个结果不提供 rank 结论，但提供了成本边界：
+
+```text
+second_limit=20 不能作为前台批量常规参数。
+后续如果继续用 Sage，应改成按单条目标后台长跑，或者换 Selmer / 2-cover 数据来做更结构化判断。
+```
+
+普通话说：
+
+```text
+13 档能给基线，但不收敛。
+20 档成本明显上升，第一条 5 分钟都没跑完。
+所以不能靠简单调高 Sage 参数来收敛 tmp 方向。
+```
