@@ -44,6 +44,10 @@ def test_mixed_closure_summary_cli_reports_rank_certificates_and_uncertain_rows(
                 "status": "ok",
                 "rank_lower": 0,
                 "rank_upper": 2,
+                "model": [0, 1, 0, -2, -3],
+                "root_number": 1,
+                "sha2_lower": 0,
+                "torsion_order": 4,
             },
             {
                 "A": 9,
@@ -92,6 +96,15 @@ def test_mixed_closure_summary_cli_reports_rank_certificates_and_uncertain_rows(
         {"A": 9, "B": 35, "certifying_curves": ["AA"]}
     ]
     assert summary["uncertain_rank_rows"] == [
-        {"A": 9, "B": 35, "curve": "BB", "rank": "0/2"}
+        {
+            "A": 9,
+            "B": 35,
+            "curve": "BB",
+            "rank": "0/2",
+            "model": [0, 1, 0, -2, -3],
+            "root_number": 1,
+            "sha2_lower": 0,
+            "torsion_order": 4,
+        }
     ]
     assert "wrote summary" in result.stdout

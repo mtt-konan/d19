@@ -197,6 +197,11 @@ sets the next tool boundary: further progress needs a different rank-certificati
 method, such as 2-descent, Selmer computation, or a better model. Raising PARI effort
 inside the current workflow is not a good next bet.
 
+The generated `results/mixed_closure_rank_summary.json` file records each residual
+row in `uncertain_rank_rows` with its Weierstrass model, root number, `sha2_lower`,
+and torsion order. That field is the handoff point for Sage, Magma, or any later
+Selmer-specific tool.
+
 ## 4. Reproducibility
 
 Run the hard-case census:

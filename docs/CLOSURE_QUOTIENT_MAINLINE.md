@@ -220,6 +220,16 @@ AB/BA:
 `ellrank(effort=2/3/4)` 都没收紧这 `16` 条。继续把 PARI effort 调大不是当前主线。
 下一步要换 2-descent / Selmer / 模型化处理。
 
+复现入口：
+
+```text
+results/mixed_closure_rank_summary.json
+  uncertain_rank_rows
+```
+
+每条 residual 行都带 `model`、`root_number`、`sha2_lower`、`torsion_order`，可以直接转给
+Sage / Magma / 后续 Selmer 工具。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。

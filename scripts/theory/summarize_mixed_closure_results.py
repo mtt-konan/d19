@@ -41,14 +41,16 @@ def summarize_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
             rank_counts[rank] += 1
             rank_counts_by_curve[curve][rank] += 1
             if row["rank_lower"] != row["rank_upper"]:
-                uncertain_rank_rows.append(
-                    {
-                        "A": int(row["A"]),
-                        "B": int(row["B"]),
-                        "curve": curve,
-                        "rank": rank,
-                    }
-                )
+                uncertain_row = {
+                    "A": int(row["A"]),
+                    "B": int(row["B"]),
+                    "curve": curve,
+                    "rank": rank,
+                }
+                for field in ("model", "root_number", "sha2_lower", "torsion_order"):
+                    if field in row:
+                        uncertain_row[field] = row[field]
+                uncertain_rank_rows.append(uncertain_row)
 
         certificate = row.get("rank0_torsion_certificate")
         if isinstance(certificate, dict) and certificate.get("status") == "certified":
