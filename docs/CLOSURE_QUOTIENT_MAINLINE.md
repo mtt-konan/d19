@@ -335,11 +335,13 @@ factor_concordant / GEN-CLOSURE 后
 
 - `src/rational_distance/concordant/mixed_closure_curves.py`
 - `scripts/theory/rank_mixed_closure_curves.py`
+- `scripts/theory/sage_recheck_mixed_closure_residuals.py`
 
 测试：
 
 - `tests/test_mixed_closure_curves.py`
 - `tests/test_mixed_closure_rank_cli.py`
+- `tests/test_sage_recheck_mixed_closure_residuals.py`
 
 结果：
 
@@ -347,6 +349,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_localglobal_residual64_pairs.jsonl`
 - `results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl`
 - `results/mixed_closure_rank_summary.json`
+- `results/sage_mixed_closure_residual_recheck_limit13.jsonl`
 
 论文草稿：
 
@@ -356,6 +359,7 @@ factor_concordant / GEN-CLOSURE 后
 
 - [wl290](work-logs/290-mixed-closure-quotient-rank-smoke.md)
 - [wl294](work-logs/294-tmp-mixed-closure-answer.md)
+- [wl295](work-logs/295-sage-mixed-closure-residual-rank-recheck.md)
 
 数学总入口：
 
