@@ -35,6 +35,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("script", "scripts/theory/export_mixed_closure_residual_handoff.py"),
     Artifact("script", "scripts/theory/sage_probe_mixed_closure_handoff.py"),
     Artifact("script", "scripts/theory/sage_verify_mixed_closure_handoff_maps.py"),
+    Artifact("script", "scripts/theory/sage_probe_mixed_closure_local_witnesses.py"),
     Artifact("script", "scripts/theory/audit_mixed_closure_residual_language.py"),
     Artifact("script", "scripts/theory/audit_mixed_closure_priority_handoffs.py"),
     Artifact("script", "scripts/theory/audit_closure_quotient_paper_claims.py"),
@@ -52,6 +53,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("test", "tests/test_mixed_closure_residual_handoff.py"),
     Artifact("test", "tests/test_sage_probe_mixed_closure_handoff.py"),
     Artifact("test", "tests/test_sage_verify_mixed_closure_handoff_maps.py"),
+    Artifact("test", "tests/test_sage_probe_mixed_closure_local_witnesses.py"),
     Artifact("test", "tests/test_mixed_closure_residual_language_audit.py"),
     Artifact("test", "tests/test_mixed_closure_priority_handoff_audit.py"),
     Artifact("test", "tests/test_closure_quotient_paper_claim_audit.py"),
@@ -80,6 +82,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/312-closure-quotient-partial-artifact-audit.md"),
     Artifact("worklog", "docs/work-logs/313-priority-handoff-probe-audit.md"),
     Artifact("worklog", "docs/work-logs/314-sage-cover-map-identity-verification.md"),
+    Artifact("worklog", "docs/work-logs/315-sage-local-witness-probe.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -117,6 +120,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "handoff",
+        "results/mixed_closure_residual_handoffs/priority_001_115_297_AA_covers_3_4_local_witnesses.json",
+    ),
+    Artifact(
+        "handoff",
         "results/mixed_closure_residual_handoffs/priority_003_575_4641_AA_covers_4_3.json",
     ),
     Artifact(
@@ -134,6 +141,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "handoff",
         "results/mixed_closure_residual_handoffs/priority_003_575_4641_AA_covers_4_3_map_verify.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_003_575_4641_AA_covers_4_3_local_witnesses.json",
     ),
 )
 

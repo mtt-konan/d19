@@ -533,6 +533,7 @@ priority_handoff_status.ready = True
 priority_handoff_status.groups_checked = 2
 priority_handoff_status.target_cover_count = 4
 priority_handoff_status.map_verified_groups = 2
+priority_handoff_status.local_witnessed_groups = 2
 artifact_status.ready = True
 artifact_status.missing_file_count = 0
 ```
@@ -613,6 +614,7 @@ scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/sage_verify_mixed_closure_handoff_maps.py
+scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/audit_mixed_closure_priority_handoffs.py

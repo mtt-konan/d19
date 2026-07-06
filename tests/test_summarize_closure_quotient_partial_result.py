@@ -38,9 +38,10 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "groups_checked": 2,
         "target_cover_count": 4,
         "map_verify_status_counts": {"ok": 2},
+        "local_witness_status_counts": {"ok": 2},
         "violations": [],
     }
-    artifact_audit = {"ready": True, "required_file_count": 82, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 87, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -72,11 +73,12 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "groups_checked": 2,
             "target_cover_count": 4,
             "map_verified_groups": 2,
+            "local_witnessed_groups": 2,
             "violations": 0,
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 82,
+            "required_file_count": 87,
             "missing_file_count": 0,
         },
         "boundary": (

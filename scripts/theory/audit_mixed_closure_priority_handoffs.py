@@ -307,6 +307,74 @@ def _map_verify_summary(
     }
 
 
+def _local_witness_summary(
+    *,
+    name: str,
+    local_witnesses: dict[str, Any],
+    target: tuple[int, int, str],
+    cover_indices: list[int],
+    violations: list[dict[str, Any]],
+) -> dict[str, Any]:
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.A",
+        actual=int(local_witnesses.get("A", 0)),
+        expected=target[0],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.B",
+        actual=int(local_witnesses.get("B", 0)),
+        expected=target[1],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.curve",
+        actual=str(local_witnesses.get("curve", "")),
+        expected=target[2],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.status",
+        actual=str(local_witnesses.get("status", "")),
+        expected="ok",
+    )
+    sage = local_witnesses.get("sage", {})
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.all_bad_primes_witnessed",
+        actual=sage.get("all_bad_primes_witnessed") is True,
+        expected=True,
+    )
+    covers = sage.get("covers", [])
+    actual_cover_indices = [int(row.get("index", -1)) for row in covers]
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.cover_indices",
+        actual=actual_cover_indices,
+        expected=cover_indices,
+    )
+    all_witnessed = [row.get("all_witnessed") is True for row in covers]
+    _expect_equal(
+        violations,
+        name=name,
+        field="local_witnesses.cover_all_witnessed",
+        actual=all_witnessed,
+        expected=[True for _index in cover_indices],
+    )
+    bad_prime_count = sum(len(row.get("bad_primes", [])) for row in covers)
+    return {
+        "local_all_bad_primes_witnessed": sage.get("all_bad_primes_witnessed") is True,
+        "local_bad_prime_count": bad_prime_count,
+    }
+
+
 def audit_priority_handoffs(
     *,
     priorities: dict[str, Any],
@@ -314,6 +382,7 @@ def audit_priority_handoffs(
     top: int,
     require_probes: bool,
     require_map_verifications: bool,
+    require_local_witnesses: bool,
 ) -> dict[str, Any]:
     priority_rows = _priority_rows_by_number(priorities)
     specs = priority_handoff_specs(priorities, top=top)
@@ -322,6 +391,7 @@ def audit_priority_handoffs(
     groups: list[dict[str, Any]] = []
     probe_status_counts: Counter[str] = Counter()
     map_verify_status_counts: Counter[str] = Counter()
+    local_witness_status_counts: Counter[str] = Counter()
 
     for spec in specs:
         name = str(spec["name"])
@@ -395,6 +465,29 @@ def audit_priority_handoffs(
                     violations=violations,
                 )
             )
+        local_witness_path = handoff_dir / f"{name}_local_witnesses.json"
+        if not local_witness_path.is_file():
+            if require_local_witnesses:
+                _missing_file(
+                    missing_files,
+                    name=name,
+                    kind="local_witnesses",
+                    path=local_witness_path,
+                )
+        else:
+            local_witnesses = load_json(local_witness_path)
+            local_witness_status_counts.update(
+                [str(local_witnesses.get("status", "missing"))]
+            )
+            group.update(
+                _local_witness_summary(
+                    name=name,
+                    local_witnesses=local_witnesses,
+                    target=target,
+                    cover_indices=cover_indices,
+                    violations=violations,
+                )
+            )
         groups.append(group)
 
     return {
@@ -407,6 +500,9 @@ def audit_priority_handoffs(
         "violations": violations,
         "probe_status_counts": dict(sorted(probe_status_counts.items())),
         "map_verify_status_counts": dict(sorted(map_verify_status_counts.items())),
+        "local_witness_status_counts": dict(
+            sorted(local_witness_status_counts.items())
+        ),
         "groups": groups,
         "boundary": BOUNDARY,
     }
@@ -419,6 +515,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--top", type=int, required=True)
     parser.add_argument("--require-probes", action="store_true")
     parser.add_argument("--require-map-verifications", action="store_true")
+    parser.add_argument("--require-local-witnesses", action="store_true")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -432,6 +529,7 @@ def main() -> int:
         top=args.top,
         require_probes=args.require_probes,
         require_map_verifications=args.require_map_verifications,
+        require_local_witnesses=args.require_local_witnesses,
     )
     write_json(args.out, audit)
     print(f"wrote mixed closure priority handoff audit to {args.out}")

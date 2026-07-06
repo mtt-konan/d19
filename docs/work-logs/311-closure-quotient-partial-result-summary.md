@@ -78,8 +78,9 @@ priority_handoff_status.ready = True
 priority_handoff_status.groups_checked = 2
 priority_handoff_status.target_cover_count = 4
 priority_handoff_status.map_verified_groups = 2
+priority_handoff_status.local_witnessed_groups = 2
 artifact_status.ready = True
-artifact_status.required_file_count = 82
+artifact_status.required_file_count = 87
 artifact_status.missing_file_count = 0
 ```
 
@@ -92,7 +93,7 @@ stored result files 自洽；
 论文数字 gate 无 mismatch；
 措辞 gate 无 overclaim；
 priority queue 有 top target；
-priority handoff/probe/map audit ready；
+priority handoff/probe/map/local audit ready；
 artifact audit 无 missing file。
 ```
 

@@ -102,6 +102,35 @@ def _write_complete_group(handoff_dir: Path) -> None:
             ],
         },
     }
+    local_witnesses = {
+        "A": 115,
+        "B": 297,
+        "curve": "AA",
+        "status": "ok",
+        "sage": {
+            "all_bad_primes_witnessed": True,
+            "covers": [
+                {
+                    "index": 3,
+                    "bad_primes": [2, 5],
+                    "all_witnessed": True,
+                    "witnesses": [
+                        {"p": 2, "status": "ok", "kind": "infinity"},
+                        {"p": 5, "status": "ok", "kind": "finite", "x": "1"},
+                    ],
+                },
+                {
+                    "index": 4,
+                    "bad_primes": [2, 19],
+                    "all_witnessed": True,
+                    "witnesses": [
+                        {"p": 2, "status": "ok", "kind": "finite", "x": "-1"},
+                        {"p": 19, "status": "ok", "kind": "finite", "x": "0"},
+                    ],
+                },
+            ],
+        },
+    }
     handoff_dir.mkdir(parents=True)
     (handoff_dir / f"{name}.json").write_text(
         json.dumps(handoff) + "\n",
@@ -115,6 +144,10 @@ def _write_complete_group(handoff_dir: Path) -> None:
     )
     (handoff_dir / f"{name}_map_verify.json").write_text(
         json.dumps(map_verify) + "\n",
+        encoding="utf-8",
+    )
+    (handoff_dir / f"{name}_local_witnesses.json").write_text(
+        json.dumps(local_witnesses) + "\n",
         encoding="utf-8",
     )
 
@@ -131,6 +164,7 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
         top=2,
         require_probes=True,
         require_map_verifications=True,
+        require_local_witnesses=True,
     )
 
     assert audit == {
@@ -143,6 +177,7 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
         "violations": [],
         "probe_status_counts": {"ok": 1},
         "map_verify_status_counts": {"ok": 1},
+        "local_witness_status_counts": {"ok": 1},
         "groups": [
             {
                 "name": "priority_001_115_297_AA_covers_3_4",
@@ -157,6 +192,8 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
                 "cover_point_counts": [0, 0],
                 "map_all_verified": True,
                 "map_verified_cover_count": 2,
+                "local_all_bad_primes_witnessed": True,
+                "local_bad_prime_count": 4,
             }
         ],
         "boundary": (
@@ -177,6 +214,7 @@ def test_audit_priority_handoffs_reports_missing_required_probe(tmp_path: Path) 
         top=2,
         require_probes=True,
         require_map_verifications=False,
+        require_local_witnesses=False,
     )
 
     assert audit["ready"] is False
@@ -204,6 +242,7 @@ def test_audit_priority_handoffs_reports_missing_required_map_verification(
         top=2,
         require_probes=True,
         require_map_verifications=True,
+        require_local_witnesses=False,
     )
 
     assert audit["ready"] is False
@@ -213,6 +252,35 @@ def test_audit_priority_handoffs_reports_missing_required_map_verification(
             "kind": "map_verify",
             "path": str(
                 handoff_dir / "priority_001_115_297_AA_covers_3_4_map_verify.json"
+            ),
+        }
+    ]
+
+
+def test_audit_priority_handoffs_reports_missing_required_local_witnesses(
+    tmp_path: Path,
+) -> None:
+    handoff_dir = tmp_path / "handoffs"
+    _write_complete_group(handoff_dir)
+    (handoff_dir / "priority_001_115_297_AA_covers_3_4_local_witnesses.json").unlink()
+
+    audit = audit_priority_handoffs(
+        priorities=_priorities(),
+        handoff_dir=handoff_dir,
+        top=2,
+        require_probes=True,
+        require_map_verifications=True,
+        require_local_witnesses=True,
+    )
+
+    assert audit["ready"] is False
+    assert audit["missing_files"] == [
+        {
+            "name": "priority_001_115_297_AA_covers_3_4",
+            "kind": "local_witnesses",
+            "path": str(
+                handoff_dir
+                / "priority_001_115_297_AA_covers_3_4_local_witnesses.json"
             ),
         }
     ]
@@ -239,6 +307,7 @@ def test_priority_handoff_audit_cli_strict_exits_nonzero_when_not_ready(
             "2",
             "--require-probes",
             "--require-map-verifications",
+            "--require-local-witnesses",
             "--out",
             str(out),
             "--strict",
