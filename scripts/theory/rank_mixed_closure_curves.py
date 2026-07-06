@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance.concordant.mixed_closure_curves import (  # noqa: E402
     _ensure_pari,
+    certify_rank_zero_even_quotient,
     classify_quartic_point,
     closure_quotient_polynomials,
     enumerate_quartic_points,
@@ -68,6 +69,15 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--certify-rank0-torsion",
+        action="store_true",
+        help=(
+            "For certified rank-0 AA/BB quotients, enumerate all torsion points on "
+            "the centered even Weierstrass model and pull back every affine quartic "
+            "preimage. This is strict, unlike bounded --pullback-height."
+        ),
+    )
+    parser.add_argument(
         "--no-pari",
         action="store_true",
         help="Only emit quartic equations; mark rank rows as pari-unavailable.",
@@ -94,12 +104,15 @@ def main() -> int:
         pari_available=not args.no_pari,
     )
 
-    if args.pullback_height > 0 and not args.no_pari:
+    curves = None
+    if (args.pullback_height > 0 or args.certify_rank0_torsion) and not args.no_pari:
         curves = {
             (curve.A, curve.B, curve.name): curve
             for pair in pairs
             for curve in closure_quotient_polynomials(*pair)
         }
+
+    if args.pullback_height > 0 and curves is not None:
         for row in rows:
             if (
                 row.get("status") == "ok"
@@ -116,6 +129,21 @@ def main() -> int:
                 row["point_classifications"] = [
                     classify_quartic_point(curve, point) for point in points
                 ]
+
+    if args.certify_rank0_torsion and curves is not None:
+        for row in rows:
+            if (
+                row.get("status") == "ok"
+                and row.get("rank_lower") == 0
+                and row.get("rank_upper") == 0
+                and row.get("curve") in {"AA", "BB"}
+            ):
+                curve = curves[(int(row["A"]), int(row["B"]), str(row["curve"]))]
+                row["rank0_torsion_certificate"] = certify_rank_zero_even_quotient(
+                    curve,
+                    pari=pari,
+                    effort=args.effort,
+                )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8") as handle:

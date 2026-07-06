@@ -1894,14 +1894,6 @@ def _validate_positive(name: str, value: Fraction) -> None:
         raise ValueError(f"{name} must be positive")
 
 
-def _is_rational_square(value: Fraction) -> bool:
-    if value < 0:
-        return False
-    num = isqrt(value.numerator)
-    den = isqrt(value.denominator)
-    return num * num == value.numerator and den * den == value.denominator
-
-
 def _rational_sqrt(value: Fraction) -> Fraction | None:
     if value < 0:
         return None
@@ -1910,6 +1902,10 @@ def _rational_sqrt(value: Fraction) -> Fraction | None:
     if num * num == value.numerator and den * den == value.denominator:
         return Fraction(num, den)
     return None
+
+
+def _is_rational_square(value: Fraction) -> bool:
+    return _rational_sqrt(value) is not None
 
 
 def _factorize_positive(value: int) -> dict[int, int]:
@@ -5128,23 +5124,6 @@ def _eval_bihomogeneous_terms_fraction(
     )
 
 
-def _rational_square_root_or_none(value: Fraction) -> Fraction | None:
-    if value < 0:
-        return None
-    numerator_root = isqrt(value.numerator)
-    denominator_root = isqrt(value.denominator)
-    if (
-        numerator_root * numerator_root == value.numerator
-        and denominator_root * denominator_root == value.denominator
-    ):
-        return Fraction(numerator_root, denominator_root)
-    return None
-
-
-def _is_rational_square(value: Fraction) -> bool:
-    return _rational_square_root_or_none(value) is not None
-
-
 def _is_odd_prime_local_square(value: Fraction, prime: int) -> bool:
     if prime <= 2:
         raise ValueError("prime must be an odd prime")
@@ -5302,9 +5281,7 @@ def sum_ab_dual_slope_bridge_trivial_tube_expansions(
             )
         )
         common_constant = x_coefficients[0]
-        common_constant_square_root = _rational_square_root_or_none(
-            common_constant
-        )
+        common_constant_square_root = _rational_sqrt(common_constant)
         expansions.append(
             SumAbDualSlopeBridgeTrivialTubeExpansion(
                 branch=branch,

@@ -13,8 +13,6 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance._legacy import parametric_core as core
-from rational_distance.backend import detect_backend
-from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 from rational_distance._legacy.search import (
     _parametric_search_fast_run,
     brute_force_search,
@@ -24,6 +22,8 @@ from rational_distance._legacy.search import (
 )
 from rational_distance._legacy.search_gpu import _parametric_search_gpu_run, parametric_search_gpu
 from rational_distance._legacy.square import VERTICES, make_point
+from rational_distance.backend import detect_backend
+from rational_distance.math_utils import primitive_pythagorean_triples, rational_sqrt
 
 
 class TestRationalSqrt:

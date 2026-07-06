@@ -15,8 +15,10 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass
 from fractions import Fraction
-from math import isqrt
+from itertools import product
 from typing import Any
+
+from rational_distance.math_utils import is_rational_sqrt
 
 
 @dataclass(frozen=True)
@@ -147,17 +149,6 @@ def enumerate_quartic_points(
     return [QuarticPoint(x=str(point[0]), y=str(point[1])) for point in raw_points]
 
 
-def _is_square_fraction(value: Fraction) -> bool:
-    if value < 0:
-        return False
-    numerator_root = isqrt(value.numerator)
-    denominator_root = isqrt(value.denominator)
-    return (
-        numerator_root * numerator_root == value.numerator
-        and denominator_root * denominator_root == value.denominator
-    )
-
-
 def classify_quartic_point(
     curve: ClosureQuotientCurve,
     point: QuarticPoint,
@@ -171,10 +162,10 @@ def classify_quartic_point(
     q_ma = m * m + curve.A * curve.A
     q_mb = m * m + curve.B * curve.B
     square_flags = {
-        "NA": _is_square_fraction(q_na),
-        "NB": _is_square_fraction(q_nb),
-        "MA": _is_square_fraction(q_ma),
-        "MB": _is_square_fraction(q_mb),
+        "NA": is_rational_sqrt(q_na),
+        "NB": is_rational_sqrt(q_nb),
+        "MA": is_rational_sqrt(q_ma),
+        "MB": is_rational_sqrt(q_mb),
     }
     return {
         "x": point.x,
@@ -186,6 +177,207 @@ def classify_quartic_point(
         "square_flags": square_flags,
         "is_full_closed_square": all(square_flags.values()),
     }
+
+
+def _centered_even_quartic_parameters(curve: ClosureQuotientCurve) -> dict[str, int] | None:
+    """Return the centered even-quartic model for ``AA``/``BB`` quotients.
+
+    For ``AA`` and ``BB``, setting ``t = 2N - (A+B)`` and ``z = 4y`` gives
+    ``z^2 = t^4 + p*t^2 + q``. The mixed ``AB``/``BA`` quotients do not become
+    even under this centering.
+    """
+    if curve.name == "AA":
+        leg = curve.A
+    elif curve.name == "BB":
+        leg = curve.B
+    else:
+        return None
+
+    total = curve.A + curve.B
+    sqrt_q = total * total + 4 * leg * leg
+    p = 8 * leg * leg - 2 * total * total
+    q = sqrt_q * sqrt_q
+    return {
+        "total": total,
+        "leg": leg,
+        "p": p,
+        "q": q,
+        "sqrt_q": sqrt_q,
+    }
+
+
+def _enumerate_torsion_points(elliptic_curve, torsion, pari) -> list[Any | None]:
+    """Enumerate all torsion points from PARI ``elltors`` output.
+
+    ``None`` represents the identity point at infinity. PARI represents it as
+    ``[0]``, but keeping it explicit avoids accidental coordinate indexing.
+    """
+    structures = [int(torsion[1][idx]) for idx in range(len(torsion[1]))]
+    generators = [torsion[2][idx] for idx in range(len(torsion[2]))]
+    if not structures:
+        return [None]
+
+    points: list[Any | None] = []
+    seen: set[str] = set()
+    for coefficients in product(*(range(order) for order in structures)):
+        point = None
+        for coefficient, generator in zip(coefficients, generators, strict=True):
+            if coefficient == 0:
+                continue
+            term = pari.ellmul(elliptic_curve, generator, coefficient)
+            point = term if point is None else pari.elladd(elliptic_curve, point, term)
+
+        key = "[0]" if point is None else str(point)
+        if key not in seen:
+            seen.add(key)
+            points.append(point)
+    return points
+
+
+def _pull_back_even_torsion_point(
+    curve: ClosureQuotientCurve,
+    params: dict[str, int],
+    point,
+) -> dict[str, Any]:
+    """Pull one torsion point on the centered even model back to the quartic."""
+    if point is None:
+        return {
+            "kind": "identity",
+            "has_affine_preimage": False,
+            "reason": "point-at-infinity",
+        }
+
+    x_coord = Fraction(str(point[0]))
+    v_coord = Fraction(str(point[1]))
+    p = Fraction(params["p"])
+    q = Fraction(params["q"])
+    denominator = 2 * (x_coord + p)
+    base = {
+        "kind": "torsion",
+        "X": str(x_coord),
+        "V": str(v_coord),
+    }
+
+    if denominator == 0:
+        return {
+            **base,
+            "has_affine_preimage": False,
+            "reason": "quartic-infinity",
+        }
+
+    t = v_coord / denominator
+    z = x_coord / 2 - t * t
+    rhs = t**4 + p * t * t + q
+    if z * z != rhs:
+        return {
+            **base,
+            "has_affine_preimage": False,
+            "reason": "inverse-map-check-failed",
+            "t": str(t),
+            "z": str(z),
+            "rhs": str(rhs),
+        }
+
+    n = (Fraction(params["total"]) + t) / 2
+    y = z / 4
+    classification = classify_quartic_point(curve, QuarticPoint(x=str(n), y=str(y)))
+    return {
+        **base,
+        "has_affine_preimage": True,
+        "t": str(t),
+        "z": str(z),
+        "N": str(n),
+        "quartic_y": str(y),
+        "classification": classification,
+    }
+
+
+def certify_rank_zero_even_quotient(
+    curve: ClosureQuotientCurve,
+    pari=None,
+    *,
+    effort: int = 1,
+) -> dict[str, Any]:
+    """Certify all affine quartic points for rank-zero ``AA``/``BB`` quotients.
+
+    The certificate is strict for the centered even model: when PARI certifies
+    rank ``0/0``, all rational points on the elliptic curve are torsion, and the
+    explicit inverse map lists every affine quartic preimage.
+    """
+    params = _centered_even_quartic_parameters(curve)
+    if params is None:
+        return {
+            "A": curve.A,
+            "B": curve.B,
+            "curve": curve.name,
+            "status": "unsupported-curve",
+            "reason": "only AA/BB quotients become centered even quartics",
+        }
+    if params["p"] * params["p"] == 4 * params["q"]:
+        return {
+            "A": curve.A,
+            "B": curve.B,
+            "curve": curve.name,
+            "status": "singular-even-model",
+        }
+
+    if pari is None:
+        pari = _ensure_pari()
+
+    p = params["p"]
+    q = params["q"]
+    model = [0, p, 0, -4 * q, -4 * p * q]
+    elliptic_curve = pari.ellinit(model)
+    rank_result = pari.ellrank(elliptic_curve, effort)
+    torsion = pari.elltors(elliptic_curve)
+
+    certificate: dict[str, Any] = {
+        "A": curve.A,
+        "B": curve.B,
+        "curve": curve.name,
+        "centered_variable": "t=2*N-(A+B)",
+        "even_quartic": f"z^2=t^4+({p})*t^2+({q})",
+        "weierstrass_model": model,
+        "rank_lower": int(rank_result[0]),
+        "rank_upper": int(rank_result[1]),
+        "sha2_lower": int(rank_result[2]) if len(rank_result) > 2 else 0,
+        "torsion_order": int(torsion[0]),
+    }
+    if certificate["rank_lower"] != 0 or certificate["rank_upper"] != 0:
+        certificate["status"] = "not-rank-zero"
+        return certificate
+
+    torsion_points = _enumerate_torsion_points(elliptic_curve, torsion, pari)
+    pullbacks = [
+        _pull_back_even_torsion_point(curve, params, point)
+        for point in torsion_points
+    ]
+    affine_classifications = [
+        pullback["classification"]
+        for pullback in pullbacks
+        if pullback.get("has_affine_preimage")
+    ]
+    map_errors = [
+        pullback
+        for pullback in pullbacks
+        if pullback.get("reason") == "inverse-map-check-failed"
+    ]
+    certificate.update(
+        {
+            "status": "map-error" if map_errors else "certified",
+            "torsion_point_count": len(torsion_points),
+            "torsion_pullbacks": pullbacks,
+            "affine_preimage_count": len(affine_classifications),
+            "affine_preimage_classifications": affine_classifications,
+            "certifies_no_full_closed_square": not any(
+                point["is_full_closed_square"] for point in affine_classifications
+            ),
+            "all_affine_preimages_are_midpoints": all(
+                point["is_midpoint"] for point in affine_classifications
+            ),
+        }
+    )
+    return certificate
 
 
 def _ensure_pari():
@@ -220,6 +412,12 @@ def rank_closure_quotient(
         elliptic_curve = pari.ellinit(model)
         rank_result = pari.ellrank(elliptic_curve, effort)
         torsion = pari.elltors(elliptic_curve)
+        try:
+            root_number = int(pari.ellrootno(elliptic_curve))
+            root_number_error = None
+        except Exception as exc:
+            root_number = None
+            root_number_error = str(exc)
     except Exception as exc:
         row.update(
             {
@@ -241,6 +439,10 @@ def rank_closure_quotient(
             "elapsed_s": round(time.perf_counter() - started, 4),
         }
     )
+    if root_number is not None:
+        row["root_number"] = root_number
+    else:
+        row["root_number_error"] = root_number_error
     return row
 
 

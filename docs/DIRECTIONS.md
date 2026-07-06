@@ -31,13 +31,14 @@
 2. [docs/PROJECT_STATUS.md](PROJECT_STATUS.md)：只看现状、主线和瓶颈。
 3. [docs/GLOSSARY.md](GLOSSARY.md)：英文术语 → 中文叫法 + 一句话解释。第一次读 `concordant`/沙群/Selmer 相关 worklog 时查表。
 4. [docs/MULTI_CONCORDANT_N_STRATEGY.md](MULTI_CONCORDANT_N_STRATEGY.md)：multi-N / 高 rank / closure 障碍的新主线。
-5. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：短中期可落地的理论方向（安全前筛）。
-6. [docs/THEORY_DIRECTIONS_ADVANCED.md](THEORY_DIRECTIONS_ADVANCED.md)：长期数学突破方向（Heegner / Chabauty / Brauer–Manin / K3）。
-7. [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)：把 5 个子命令当成词典看（已归档，仅供参考）。
-8. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
-9. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
-10. [docs/literature/](literature/README.md)：相关文献的索引、时间轴、BibTeX、阅读笔记。⭐ 重点看 `notes/peschmann-2604-09328.md`，那是 d19 的"完美双胞胎"对标论文。
-11. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
+5. [docs/CLOSURE_QUOTIENT_MAINLINE.md](CLOSURE_QUOTIENT_MAINLINE.md)：`tmp.txt` 里闭合商曲线方向的正式主线入口。
+6. [docs/THEORY_DIRECTIONS.md](THEORY_DIRECTIONS.md)：短中期可落地的理论方向（安全前筛）。
+7. [docs/THEORY_DIRECTIONS_ADVANCED.md](THEORY_DIRECTIONS_ADVANCED.md)：长期数学突破方向（Heegner / Chabauty / Brauer–Manin / K3）。
+8. [docs/archive/SEARCH_METHODS.md](archive/SEARCH_METHODS.md)：把 5 个子命令当成词典看（已归档，仅供参考）。
+9. [docs/MATH.md](MATH.md)：数学推导总库，`concordant` 相关章节是当前重点。
+10. [docs/IMPLEMENTATION.md](IMPLEMENTATION.md)：看当前工程结构和兼容层现状。
+11. [docs/literature/](literature/README.md)：相关文献的索引、时间轴、BibTeX、阅读笔记。⭐ 重点看 `notes/peschmann-2604-09328.md`，那是 d19 的"完美双胞胎"对标论文。
+12. `chain-fast` 相关文档或 `docs/work-logs/`：只在需要工程细节或历史背景时回看。
 
 ---
 
@@ -139,10 +140,15 @@
 - 文档入口：
   - [docs/MATH.md](MATH.md)
   - [docs/PROJECT_STATUS.md](PROJECT_STATUS.md)
+  - [docs/MULTI_CONCORDANT_N_STRATEGY.md](MULTI_CONCORDANT_N_STRATEGY.md)
+  - [docs/CLOSURE_QUOTIENT_MAINLINE.md](CLOSURE_QUOTIENT_MAINLINE.md)
 - 测试入口：
   - `tests/test_concordant.py`
+  - `tests/test_mixed_closure_curves.py`
+  - `tests/test_mixed_closure_rank_cli.py`
 - 脚本入口：
   - `scripts/search.py`
+  - `scripts/theory/rank_mixed_closure_curves.py`
 
 ---
 
@@ -163,12 +169,31 @@
 
 ## 3. `tmp.txt` 与 `concordant` 的关系
 
-结论一句话：`tmp.txt` 里讨论的“固定 `(A,B)`，研究共同腿 `N`”路线，和现在项目里的 `concordant` 是同一条数学路线，只是切入角度不同。
+结论一句话：`tmp.txt` 已经收进 `concordant` 主线，但要分成两层看。
 
-- `tmp.txt` 更偏“从 chain / chain-fast 的结构往里推”
-- 现在的 `concordant` 代码更偏“直接把 `(A,B)` 当输入来做数论分析”
+第一层是旧的共同腿问题：
 
-所以方向不是两条，而是一条：都在研究“`C3+C4` 共享同一个 `N`”能带来哪些硬约束。
+```text
+固定 (A,B)，找 N，使 N^2+A^2 和 N^2+B^2 同时为平方。
+```
+
+这一层对应现有 `concordant` 曲线 $E_{A,B}$，负责解释为什么很多 pair 会有半解。
+
+第二层是现在正式接入的 closure quotient 子方向：
+
+```text
+令 M=A+B-N，再同时要求 M^2+A^2 和 M^2+B^2 也是平方。
+```
+
+普通话说：第一层只看一条腿 `N`，第二层把另一条闭合腿 `M` 也放回同一个对象里。这个子方向的入口是
+[docs/CLOSURE_QUOTIENT_MAINLINE.md](CLOSURE_QUOTIENT_MAINLINE.md)。
+
+当前已经收清楚的结论是：
+
+- `AB/BA` 没有按 `tmp.txt` 预期变成 rank-0 击杀器。
+- `AA/BB rank=0` 才是当前可用的新信号。
+- 对 `AA/BB rank=0` 的行，torsion 回拉已经能严格列尽仿射点；两批样本里只回到中点，没有完整闭合点。
+- 这仍是局部判据，不是 Harborth 猜想的全局证明。
 
 ---
 

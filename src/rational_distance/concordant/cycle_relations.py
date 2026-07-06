@@ -31,16 +31,10 @@ from typing import Any
 
 from rational_distance.concordant.analysis import (
     _ensure_pari,
+    _is_perfect_square,
     compute_rank_exact_points,
     find_concordant_integers,
 )
-
-
-def _is_perfect_square(n: int) -> bool:
-    if n < 0:
-        return False
-    s = isqrt(n)
-    return s * s == n
 
 
 @dataclass(frozen=True)

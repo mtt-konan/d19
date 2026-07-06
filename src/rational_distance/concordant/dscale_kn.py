@@ -43,11 +43,12 @@ enumerates E(ℚ) entirely. So:
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
+from contextlib import suppress
 from dataclasses import dataclass, field
 from fractions import Fraction
 from itertools import product
 from math import gcd, isqrt
-from typing import Iterable
 
 from rational_distance.concordant.analysis import _ensure_pari, _is_perfect_square
 
@@ -55,10 +56,10 @@ logger = logging.getLogger(__name__)
 
 
 __all__ = [
-    "RationalNPool",
     "KnCandidate",
-    "is_rational_square",
+    "RationalNPool",
     "enumerate_rational_n",
+    "is_rational_square",
     "k_for_d",
     "scan_d_for_target_k",
 ]
@@ -192,7 +193,7 @@ def enumerate_rational_n(
             gen_sets.append(gens)
 
     _append_rank_generators(rank_info)
-    for extra_effort in range(0, max(2, effort) + 1):
+    for extra_effort in range(max(2, effort) + 1):
         if extra_effort == effort:
             continue
         try:
@@ -205,10 +206,10 @@ def enumerate_rational_n(
     if not gen_sets:
         return RationalNPool(a0, b0, rank_lower, rank_upper, 0, [])
 
-    # Get torsion: E_{a,b} always has Z/2 × Z/4 (8 elements)
+    # Get torsion: E_{a,b} always has Z/2 x Z/4 (8 elements)
     # elltors(E) returns [order, [structure], [generators]]
     tors_points: list = []  # list of finite torsion points (not [0])
-    try:
+    with suppress(Exception):
         tors_info = pari.elltors(E)
         if len(tors_info) >= 3:
             tors_gens = tors_info[2]
@@ -235,8 +236,6 @@ def enumerate_rational_n(
                             tors_points.append(P1)
                         else:
                             tors_points.append(pari.elladd(E, P1, P2))
-    except Exception:
-        pass
 
     points = []
 
@@ -244,10 +243,8 @@ def enumerate_rational_n(
         """Append P and P + T for each torsion T."""
         points.append(P)
         for T in tors_points:
-            try:
+            with suppress(Exception):
                 points.append(pari.elladd(E, P, T))
-            except Exception:
-                pass
 
     for gens in gen_sets:
         # Strategy (a): per-generator multiples (positive & negative) + torsion
@@ -259,7 +256,7 @@ def enumerate_rational_n(
                     P = pari.elladd(E, P, G)
                 except Exception:
                     break
-            try:
+            with suppress(Exception):
                 nG = pari.ellneg(E, G)
                 P = nG
                 for _ in range(max_depth):
@@ -268,25 +265,21 @@ def enumerate_rational_n(
                         P = pari.elladd(E, P, nG)
                     except Exception:
                         break
-            except Exception:
-                pass
 
         # Strategy (a') for rank ≥ 2: all combinations ∑ m_i G_i + torsion
         if len(gens) >= 2:
             for ms in product(range(-rank_combo_bound, rank_combo_bound + 1), repeat=len(gens)):
                 if all(m == 0 for m in ms):
                     continue
-                try:
+                with suppress(Exception):
                     P = None
-                    for m, G in zip(ms, gens):
+                    for m, G in zip(ms, gens, strict=True):
                         if m == 0:
                             continue
                         Q = pari.ellmul(E, G, m)
                         P = Q if P is None else pari.elladd(E, P, Q)
                     if P is not None:
                         _add_with_torsion(P)
-                except Exception:
-                    pass
 
     for P in points:
         try:

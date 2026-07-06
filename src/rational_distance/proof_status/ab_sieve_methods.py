@@ -35,14 +35,6 @@ def _get_concordant_n(A: int, B: int, ctx: PairEvalContext) -> list[int]:
     return ctx.concordant_n
 
 
-def run_safe_sieve_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_safe_sieve(A, B)
-
-
-def run_chain_closure_mod_sieve_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_chain_closure_mod_sieve(A, B)
-
-
 def run_concordant_search_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
     started = time.perf_counter()
     ns = _get_concordant_n(A, B, ctx)
@@ -109,33 +101,21 @@ def run_rank_zero_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
     return run_rank_zero(A, B, rank_lower_hint=hint)
 
 
-def run_heegner_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_heegner_height(A, B)
-
-
 def run_factor_concordant_ctx(A: int, B: int, ctx: PairEvalContext) -> MethodResult:
     return run_factor_concordant(A, B, concordant_n=_get_concordant_n(A, B, ctx))
 
 
-def run_chabauty_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_chabauty_stub(A, B)
-
-
-def run_brauer_manin_ctx(A: int, B: int, _ctx: PairEvalContext) -> MethodResult:
-    return run_brauer_manin_stub(A, B)
-
-
 METHOD_REGISTRY: dict[str, ContextMethod] = {
-    "safe_sieve": run_safe_sieve_ctx,
-    "chain_closure_mod_sieve": run_chain_closure_mod_sieve_ctx,
+    "safe_sieve": lambda A, B, _ctx: run_safe_sieve(A, B),
+    "chain_closure_mod_sieve": lambda A, B, _ctx: run_chain_closure_mod_sieve(A, B),
     "concordant_search": run_concordant_search_ctx,
     "multi_n_sieve": run_multi_n_sieve_ctx,
     "factor_concordant": run_factor_concordant_ctx,
     "f2_rank": run_f2_rank_ctx,
     "rank_zero": run_rank_zero_ctx,
-    "heegner": run_heegner_ctx,
-    "chabauty": run_chabauty_ctx,
-    "brauer_manin": run_brauer_manin_ctx,
+    "heegner": lambda A, B, _ctx: run_heegner_height(A, B),
+    "chabauty": lambda A, B, _ctx: run_chabauty_stub(A, B),
+    "brauer_manin": lambda A, B, _ctx: run_brauer_manin_stub(A, B),
 }
 
 

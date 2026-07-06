@@ -55,15 +55,15 @@ test then has fewer compatible residue classes to fall into.
 from __future__ import annotations
 
 # ---------------------------------------------------------------------------
-# 模数档位：根据性价比（μs/kill）分四档
+# 模数档位: 根据性价比 (us/kill) 分四档
 # ---------------------------------------------------------------------------
-# 精简版：只用最高性价比的 2 个模数，适合小规模或下游 concordant_search 很快时
+# 精简版: 只用最高性价比的 2 个模数, 适合小规模或下游 concordant_search 很快时
 MINIMAL_MODULI: tuple[int, ...] = (
     9,    # 3²  μs/kill ≈ 1.4
     25,   # 5²  μs/kill ≈ 2.9
 )
 
-# 平衡版：加上性价比还行的模数（μs/kill < 100）
+# 平衡版: 加上性价比还行的模数 (us/kill < 100)
 BALANCED_MODULI: tuple[int, ...] = (
     9,    # 3²
     25,   # 5²
@@ -72,7 +72,7 @@ BALANCED_MODULI: tuple[int, ...] = (
     361,  # 19²  μs/kill ≈ 91
 )
 
-# 原版：prime squares p² for primes p in [3, 53]
+# 原版: prime squares p² for primes p in [3, 53]
 # Skipping p = 2 because safe_sieve already exhausts 2-adic info at mod 4
 STANDARD_MODULI: tuple[int, ...] = (
     9,    # 3²
@@ -91,8 +91,9 @@ STANDARD_MODULI: tuple[int, ...] = (
     2809, # 53²
 )
 
-# 扩展版：加上 59² 到 97²，适合超大规模时减少下游压力
-EXTENDED_MODULI: tuple[int, ...] = STANDARD_MODULI + (
+# 扩展版: 加上 59² 到 97², 适合超大规模时减少下游压力
+EXTENDED_MODULI: tuple[int, ...] = (
+    *STANDARD_MODULI,
     3481,  # 59²
     3721,  # 61²
     4489,  # 67²
@@ -104,7 +105,7 @@ EXTENDED_MODULI: tuple[int, ...] = STANDARD_MODULI + (
     9409,  # 97²
 )
 
-# 默认使用原版，保持向后兼容
+# 默认使用原版, 保持向后兼容
 DEFAULT_PRIME_SQUARE_MODULI: tuple[int, ...] = STANDARD_MODULI
 
 

@@ -27,10 +27,7 @@ def evaluate_core_pair(A: int, B: int) -> bool:
         return False
 
     factor = proof_methods.run_factor_concordant(A, B)
-    if factor.outcome == "no_solution":
-        return False
-
-    return True
+    return factor.outcome != "no_solution"
 
 
 def evaluate_core_chunk(pairs: Sequence[Pair]) -> CoreChunkResult:

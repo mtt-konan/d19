@@ -44,7 +44,7 @@
 
 这正是后面想减少搜索空间时最需要的东西。
 
-## 三、`tmp.txt` 和现在的 `concordant` 其实是一条线
+## 三、`tmp.txt` 已收进 `concordant` 主线
 
 这里之前最容易让人混乱，所以单独写清楚：
 
@@ -57,6 +57,20 @@
 - `concordant` 更偏固定 `(A,B)` 后做数论分析
 
 项目现在把这两部分统一归到 `concordant` 主线下。
+
+2026-07 又把 `tmp.txt` 里更具体的闭合商曲线方向收成了 `concordant` 的正式子方向：
+
+- 入口文档：[docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)
+- 临时判断记录：[wl294](./work-logs/294-tmp-mixed-closure-answer.md)
+- 实验与严格回拉记录：[wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)
+
+这个子方向问的是：旧曲线只看 `N`，如果把闭合腿 `M=A+B-N` 也放进同一条曲线，会多出什么判据。
+当前结论很具体：
+
+- `AA/BB rank=0` 已经能通过 torsion 回拉变成严格局部判据。
+- 两批样本里，所有被认证的 `AA/BB rank=0` 行都只回到中点 `N=M=(A+B)/2`，没有完整闭合点。
+- `AB/BA` 没有出现 rank `0`，所以不能再把 `AB` 当成第一把刀。
+- 这条线还没有接入通用 `proof_status`。只有在 `AA/BB rank=0` 且 torsion certificate 成功时，才可以作为局部排除证据。
 
 ## 四、其它路线现在分别扮演什么角色
 
@@ -133,8 +147,9 @@
 
 1. 把已经落地的 `concordant --safe-pair-sieve` 当作“完整链导向”的快路径，继续跑更大范围的批量诊断。
 2. 在这条更快的批量路径上，继续整理哪些 pair 仍然能活到后面，给下一轮更深的数学筛提供样本。
-3. 继续把 `chain-fast` 当作 baseline，用来验证任何新必要条件有没有误杀真候选。
-4. 暂时不把主要精力放在 `parametric`、`ec`、`chain` 的继续扩展上。
+3. 对模筛和 GEN-CLOSURE 留下的 residual pair，进入 closure quotient 子方向，优先看 `AA/BB rank=0` torsion certificate。
+4. 继续把 `chain-fast` 当作 baseline，用来验证任何新必要条件有没有误杀真候选。
+5. 暂时不把主要精力放在 `parametric`、`ec`、`chain` 的继续扩展上。
 
 如果只是想知道“现在先看哪条线”，结论很简单：
 
@@ -222,6 +237,37 @@ PARI_MT_ENGINE=single uv run python scripts/prove_no_solution.py \
 详细用法见 [docs/PROOF_STATUS_FAST_MODE.md](./PROOF_STATUS_FAST_MODE.md)。
 实现记录见 [wl069](./work-logs/069-proof-status-fast-core-mode.md) 和
 [wl070](./work-logs/070-pari-mt-engine-and-survivor-audit-hang.md)。
+
+### 7.3 closure quotient 已成为 `concordant` 的数学子方向
+
+`tmp.txt` 里最有价值的新判断，是旧 $E_{A,B}$ 忘掉了闭合腿 `M=A+B-N`。现在这部分已经不再放在临时讨论里，
+而是单独列为主线入口：
+
+```text
+docs/CLOSURE_QUOTIENT_MAINLINE.md
+```
+
+当前它给项目增加了一条新判据：
+
+```text
+AA/BB rank=0
+  -> 枚举 torsion
+  -> 显式回拉到原四次曲线
+  -> 若只有中点，则排除完整闭合点
+```
+
+这条判据已经覆盖：
+
+- 320 hard cases 中 `AA/BB` 的 216 条 rank-0 行
+- 64 local-global residual pairs 中 `AA/BB` 的 59 条 rank-0 行
+
+两批样本的回拉结果相同：只有中点 `N=M=(A+B)/2`，没有完整闭合仿射点。
+
+边界也已经写清楚：
+
+- `AB/BA` 没有 rank-0 命中，不能当作当前主刀。
+- root number 只做诊断。
+- 这条线先不自动接入通用 `proof_status`；等 P1/P2 收紧后再决定。
 
 ## 八、长期方向：跳出“加速搜索”的范式
 

@@ -40,6 +40,22 @@ def test_batch_rank_records_pari_unavailable_without_crashing() -> None:
     assert all(row["A"] == 3 and row["B"] == 5 for row in rows)
 
 
+def test_rank_record_includes_root_number_when_pari_is_available() -> None:
+    from rational_distance.concordant.analysis import _ensure_pari
+    from rational_distance.concordant.mixed_closure_curves import (
+        closure_quotient_polynomials,
+        rank_closure_quotient,
+    )
+
+    pari = _ensure_pari()
+    curve = next(c for c in closure_quotient_polynomials(9, 35) if c.name == "AA")
+
+    row = rank_closure_quotient(curve, pari=pari)
+
+    assert row["status"] == "ok"
+    assert row["root_number"] in {-1, 1}
+
+
 def test_hyperelliptic_points_are_classified_on_rank_zero_curve() -> None:
     from rational_distance.concordant.analysis import _ensure_pari
     from rational_distance.concordant.mixed_closure_curves import (
@@ -60,3 +76,45 @@ def test_hyperelliptic_points_are_classified_on_rank_zero_curve() -> None:
         classification = classify_quartic_point(curve, point)
         assert classification["is_midpoint"]
         assert not classification["is_full_closed_square"]
+
+
+def test_rank_zero_even_quotient_torsion_certificate_pulls_back_all_affine_points() -> None:
+    from rational_distance.concordant.analysis import _ensure_pari
+    from rational_distance.concordant.mixed_closure_curves import (
+        certify_rank_zero_even_quotient,
+        closure_quotient_polynomials,
+    )
+
+    pari = _ensure_pari()
+    curve = next(c for c in closure_quotient_polynomials(9, 35) if c.name == "AA")
+
+    certificate = certify_rank_zero_even_quotient(curve, pari=pari)
+
+    assert certificate["status"] == "certified"
+    assert certificate["rank_lower"] == 0
+    assert certificate["rank_upper"] == 0
+    assert certificate["torsion_order"] == 4
+    assert certificate["affine_preimage_count"] == 2
+    assert {point["N"] for point in certificate["affine_preimage_classifications"]} == {"22"}
+    assert all(point["is_midpoint"] for point in certificate["affine_preimage_classifications"])
+    assert not any(
+        point["is_full_closed_square"]
+        for point in certificate["affine_preimage_classifications"]
+    )
+
+
+def test_rank_zero_even_quotient_certificate_refuses_mixed_or_positive_rank_curve() -> None:
+    from rational_distance.concordant.analysis import _ensure_pari
+    from rational_distance.concordant.mixed_closure_curves import (
+        certify_rank_zero_even_quotient,
+        closure_quotient_polynomials,
+    )
+
+    pari = _ensure_pari()
+    curves = closure_quotient_polynomials(7, 45)
+
+    mixed = next(c for c in curves if c.name == "AB")
+    positive_rank = next(c for c in curves if c.name == "AA")
+
+    assert certify_rank_zero_even_quotient(mixed, pari=pari)["status"] == "unsupported-curve"
+    assert certify_rank_zero_even_quotient(positive_rank, pari=pari)["status"] == "not-rank-zero"

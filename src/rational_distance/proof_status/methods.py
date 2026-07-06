@@ -33,9 +33,9 @@ from __future__ import annotations
 import os
 import time
 from collections.abc import Callable
-from math import gcd, isqrt
+from math import gcd
 
-from rational_distance.concordant.analysis import gen_closure_hit
+from rational_distance.concordant.analysis import _is_perfect_square, gen_closure_hit
 from rational_distance.concordant.chain_closure_sieve import (
     BALANCED_MODULI,
     DEFAULT_PRIME_SQUARE_MODULI,
@@ -48,7 +48,7 @@ from rational_distance.concordant.factor_search import find_concordant_by_factor
 from rational_distance.concordant.safe_pair_sieve import classify_reduced_pair
 from rational_distance.proof_status.types import MethodResult
 
-# 模数档位映射，供 CLI 使用
+# 模数档位映射, 供 CLI 使用
 MODULI_PRESETS: dict[str, tuple[int, ...]] = {
     "minimal": MINIMAL_MODULI,
     "balanced": BALANCED_MODULI,
@@ -56,7 +56,7 @@ MODULI_PRESETS: dict[str, tuple[int, ...]] = {
     "extended": EXTENDED_MODULI,
 }
 
-# 环境变量名，用于跨进程传递模数档位
+# 环境变量名, 用于跨进程传递模数档位
 _MODULI_ENV_VAR = "RD_MODULI_PRESET"
 
 
@@ -75,13 +75,6 @@ def get_current_moduli() -> tuple[int, ...]:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
-
-
-def _is_perfect_square(n: int) -> bool:
-    if n < 0:
-        return False
-    s = isqrt(n)
-    return s * s == n
 
 
 def _check_chain_compatibility(A: int, B: int, N: int) -> bool:

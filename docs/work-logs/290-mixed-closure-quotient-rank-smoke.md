@@ -111,3 +111,164 @@ non_positive_points = 0
 
 所以这批不确定 rank 不能靠简单提高 PARI effort 解决。后续如果要收紧，应该换成更直接的
 2-descent / Selmer / 模型化处理，而不是继续加 effort。
+
+### 2026-07-06 更新：rank-0 `AA/BB` torsion 严格回拉
+
+新增 `--certify-rank0-torsion`，并给 rank 输出补充 `root_number`。这次不再用
+`hyperellratpoints` 的高度枚举，而是利用
+`AA/BB` 的中点对称结构：
+
+```text
+t = 2N - (A+B),  z = 4y
+z^2 = t^4 + p t^2 + q
+```
+
+其中
+
+```text
+p = 8L^2 - 2(A+B)^2
+q = ((A+B)^2 + 4L^2)^2
+```
+
+`L=A` 对应 `AA`，`L=B` 对应 `BB`。偶四次到椭圆曲线的显式模型是：
+
+```text
+E: V^2 = X^3 + pX^2 - 4qX - 4pq
+X = 2(z + t^2)
+V = 2t(X+p)
+```
+
+反向回拉为：
+
+```text
+t = V / (2(X+p))
+z = X/2 - t^2
+N = ((A+B)+t)/2
+```
+
+当 PARI 认证 `rank=0/0` 时，`E(Q)` 就是 torsion。于是枚举 `elltors(E)` 的全部点并逐点回拉，
+可以严格列出原四次曲线的全部仿射有理点；`X=-p` 的 2-torsion 点对应无穷远，不给仿射点。
+
+命令：
+
+```bash
+PARI_MT_ENGINE=single uv run python scripts/theory/rank_mixed_closure_curves.py \
+  --pairs-jsonl results/archive/ell2cover_hard_cases.jsonl \
+  --out results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --certify-rank0-torsion
+```
+
+统计：
+
+```text
+rows = 1280
+rank0 torsion certificates = 216
+certificate status = {'certified': 216}
+curve split = {'AA': 113, 'BB': 103}
+root_number missing = 0
+torsion_point_count = {4: 216}
+affine_preimage_count = {2: 216}
+certifies_no_full_closed_square = {True: 216}
+all_affine_preimages_are_midpoints = {True: 216}
+map_errors = 0
+non_midpoint affine preimages = 0
+full_closed affine preimages = 0
+```
+
+普通话解释：
+
+- 320 个 hard-case pair 里，`AA/BB` 的 `216` 条 certified rank `0` 商曲线现在已经严格回拉完。
+- 每条曲线的全部 torsion 点只有两个仿射回拉点。
+- 这两个仿射点都是中点 `N=M=(A+B)/2`。
+- 没有任何一个点同时让四个闭合平方条件成立。
+
+所以 `AA/BB` 的 rank-0 信号已经从“高度 `100000` 内只看到中点”的实验观察，升级成了
+“在这些 rank-0 商曲线上，全部仿射有理点都已列出且无完整闭合点”的严格认证。
+
+同一轮还补了 root number。320 hard cases 按曲线拆分：
+
+```text
+AA root_number {-1: 166, 1: 154}
+AB root_number { 1: 144, -1: 176}
+BA root_number { 1: 144, -1: 176}
+BB root_number { 1: 146, -1: 174}
+```
+
+边界：
+
+- 这只认证 `AA/BB` 且 `rank_lower=rank_upper=0` 的行。
+- `AB/BA` 在这批 320 个 hard cases 里没有 rank `0`，所以没有形成 `tmp.txt` 预期的 `AB` rank-0 击杀器。
+- `0/2`、`1/3` 这些上下界不闭合的曲线仍需 2-descent / Selmer 或其它模型化处理。
+
+### 2026-07-06 更新：64 个 local-global residual pair
+
+`tmp.txt` 的实验设计还点名了 wl100 的 `64` 个 local-global 残留对。它们来自：
+
+```text
+results/multi_n/non_coprime_scan_max2000.jsonl
+gcd_aware_kills 未杀
+STANDARD chain_closure 模 p² 未杀
+p²<=300 + 若干素数幂仍未杀
+```
+
+导出到：
+
+```text
+results/mixed_closure_localglobal_residual64_pairs.jsonl
+```
+
+然后跑：
+
+```bash
+PARI_MT_ENGINE=single uv run python scripts/theory/rank_mixed_closure_curves.py \
+  --pairs-jsonl results/mixed_closure_localglobal_residual64_pairs.jsonl \
+  --out results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --certify-rank0-torsion
+```
+
+结果：
+
+```text
+rows = 256
+status = {'ok': 256}
+rank_counts = {'0/0': 59, '1/1': 104, '2/2': 75, '3/3': 14, '4/4': 4}
+```
+
+按曲线拆分：
+
+```text
+AA {'0/0': 27, '1/1': 34, '2/2': 3}
+AB {'1/1': 20, '2/2': 35, '3/3': 7, '4/4': 2}
+BA {'1/1': 20, '2/2': 35, '3/3': 7, '4/4': 2}
+BB {'0/0': 32, '1/1': 30, '2/2': 2}
+```
+
+root number：
+
+```text
+AA { 1: 30, -1: 34}
+AB {-1: 27,  1: 37}
+BA {-1: 27,  1: 37}
+BB { 1: 34, -1: 30}
+```
+
+torsion 严格回拉：
+
+```text
+rank0 torsion certificates = 59
+certificate status = {'certified': 59}
+curve split = {'AA': 27, 'BB': 32}
+affine_preimage_count = {2: 59}
+certifies_no_full_closed_square = {True: 59}
+all_affine_preimages_are_midpoints = {True: 59}
+map_errors = 0
+non_midpoint affine preimages = 0
+full_closed affine preimages = 0
+```
+
+普通话解释：
+
+- 64 个 local-global 残留对里，`AA/BB` 仍然有 rank `0` 新信号，共 `59` 条。
+- 这些 rank `0` 信号也全部严格回拉完，只给中点，不给完整闭合点。
+- `AB/BA` 仍然没有 rank `0`，所以 `tmp.txt` 猜的 `AB` 头号候选没有兑现。
+- 这批 residual pair 没有 rank 上下界不闭合的问题；所有 `256` 行都是 certified rank。

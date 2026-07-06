@@ -18,7 +18,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from rational_distance.concordant.dscale_kn import (  # noqa: E402
+from rational_distance.concordant.dscale_kn import (
     KnCandidate,
     RationalNPool,
     is_rational_square,

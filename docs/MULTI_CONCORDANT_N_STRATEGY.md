@@ -91,6 +91,42 @@ N1 + N2 = A + B
 
 我们的扫描先找第一层条件，再检查第二层条件。第一层已经很稀少，第二层目前没有出现。
 
+## 2.5 与 closure quotient 子方向的关系
+
+multi-N 线先把可能的 `N` 找出来，再检查两两能不能凑成闭合。closure quotient 换了一个角度：
+它把 `N` 和闭合腿
+
+```text
+M = A+B-N
+```
+
+直接放进同一条商曲线里。这样做的好处是，部分 pair 不必等完整枚举所有 `N`，也能用曲线的 rank 和 torsion
+结构排除。
+
+当前正式入口是：
+
+- [docs/CLOSURE_QUOTIENT_MAINLINE.md](CLOSURE_QUOTIENT_MAINLINE.md)
+- [wl290](work-logs/290-mixed-closure-quotient-rank-smoke.md)
+- [wl294](work-logs/294-tmp-mixed-closure-answer.md)
+
+已经确认的口径：
+
+- `AA/BB rank=0` 是现在可用的严格信号。torsion 回拉会列尽仿射点；若只回到中点，就排除完整闭合点。
+- `AB/BA` 在 320 个 hard cases 和 64 个 local-global residual pairs 中都没有 rank `0`。
+- root number 只做诊断，不作为证明。
+
+所以后续处理 local-global residual pair 时，合理顺序是：
+
+```text
+gcd-aware / mod p^2 local sieve
+  -> GEN-CLOSURE 整数枚举
+  -> closure quotient rank + AA/BB torsion certificate
+  -> 再考虑 Selmer / Chabauty / Mordell-Weil sieve
+```
+
+普通话说：mod 筛管“局部能不能过”，GEN-CLOSURE 管“当前整数集合有没有闭合”，closure quotient 开始把
+“这一整条闭合曲线还有没有非平凡有理点”纳入主线。
+
 ## 3. 椭圆曲线翻译
 
 固定 `(A,B)`，考虑曲线：
@@ -332,6 +368,10 @@ n1 + n2 = A + B mod m
 ```
 
 如果某个模数已经无解，则该 pair 不可能闭合。
+
+对模筛杀不掉的残余 pair，不要继续只堆模数。wl100 已经出现 64 个“每个模下都局部可解”的残余对；
+这类 pair 应转入 closure quotient 主线，先跑 `AA/BB/AB/BA` 四条商曲线的 rank，再对 `AA/BB rank=0`
+行做 torsion certificate。
 
 ### 任务 D：固定 pair 的 Mordell-Weil sieve
 

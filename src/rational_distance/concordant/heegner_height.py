@@ -24,16 +24,9 @@ from dataclasses import dataclass, field
 from math import isfinite, isqrt, sqrt
 from typing import Any
 
-from rational_distance.concordant.analysis import check_chain_compatibility
+from rational_distance.concordant.analysis import _is_perfect_square, check_chain_compatibility
 
 DEFAULT_MULTIPLE_BOUND = 12
-
-
-def _is_perfect_square(n: int) -> bool:
-    if n < 0:
-        return False
-    s = isqrt(n)
-    return s * s == n
 
 
 def _env_int(name: str, default: int) -> int:

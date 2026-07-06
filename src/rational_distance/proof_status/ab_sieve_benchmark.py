@@ -5,7 +5,6 @@ import time
 from collections import Counter, defaultdict
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from typing import TypeAlias
 
 from rational_distance.parallel import ParallelConfig
 from rational_distance.proof_status.ab_sieve_methods import (
@@ -151,7 +150,7 @@ class OrderBenchmarkSummary:
         }
 
 
-PairSource: TypeAlias = Iterable[tuple[int, int]] | Callable[[], Iterable[tuple[int, int]]]
+type PairSource = Iterable[tuple[int, int]] | Callable[[], Iterable[tuple[int, int]]]
 
 
 def build_core_order_specs(prefix: tuple[str, ...] = ()) -> list[OrderSpec]:
@@ -268,7 +267,10 @@ def _iter_pairs(pairs: PairSource) -> Iterable[tuple[int, int]]:
     return pairs
 
 
-def _make_batches(pairs: Iterable[tuple[int, int]], batch_size: int) -> Iterable[list[tuple[int, int]]]:
+def _make_batches(
+    pairs: Iterable[tuple[int, int]],
+    batch_size: int,
+) -> Iterable[list[tuple[int, int]]]:
     batch: list[tuple[int, int]] = []
     for pair in pairs:
         batch.append(pair)

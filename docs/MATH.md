@@ -440,15 +440,50 @@ $$Q_{AB}:\ y^2=(N^2+A^2)((A+B-N)^2+B^2),$$
 $$Q_{BA}:\ y^2=(N^2+B^2)((A+B-N)^2+A^2).$$
 
 这四条曲线是当前新的实验入口。`scripts/theory/rank_mixed_closure_curves.py` 已对 archived `320` 个
-hard-case pair 跑过 `ellfromeqn + ellrank`：
+hard-case pair 和 wl100 的 `64` 个 local-global residual pair 跑过 `ellfromeqn + ellrank + ellrootno`：
 
 - `AA/BB` 出现大量 certified rank `0`。
-- 高度 `100000` 的 quartic 点回拉只看到中点 $N=M=(A+B)/2$，没有完整闭合平方点。
-- `AB/BA` 在这批样本里没有 rank `0`。
+- 320 hard cases 中 `AA/BB` 的 `216` 条 rank `0` 商曲线、64 residual pair 中 `AA/BB` 的 `59` 条
+  rank `0` 商曲线，已经用 centered even quartic 的 torsion 回拉严格认证：
+  全部仿射回拉点都只是中点 $N=M=(A+B)/2$，没有完整闭合平方点。
+- `AB/BA` 在这两批样本里都没有 rank `0`。
 
-这不是 `proof_status` 的新判定方法。要把它升级成严格 `no_solution`，还要把 rank `0` 商曲线的 torsion
-点全部回拉到原始 quartic，并证明它们只给中点或无效点。实验记录见
-[wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)。
+这说明闭合商曲线确实提供了旧 $E_{A,B}$ 看不到的新信号，但还不是通用的 `proof_status` 判定方法：
+`AB/BA` 没有命中 rank `0`；320 hard cases 里 `0/2`、`1/3` 这些 rank 上下界不闭合的行仍需更直接的
+2-descent / Selmer / 模型化处理。64 residual pair 这批则全部 rank 上下界闭合。实验记录见
+[wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)。主线入口见
+[docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
+
+**`AA/BB rank=0` torsion 回拉引理（当前可用口径）。** 对 `AA` 或 `BB`，令
+
+$$t=2N-(A+B),\qquad z=4y.$$
+
+则商曲线化为偶四次
+
+$$z^2=t^4+pt^2+q,$$
+
+其中 $L=A$ 对应 `AA`，$L=B$ 对应 `BB`，
+
+$$p=8L^2-2(A+B)^2,\qquad q=((A+B)^2+4L^2)^2.$$
+
+它对应椭圆曲线
+
+$$E:\quad V^2=X^3+pX^2-4qX-4pq,$$
+
+映射可取
+
+$$X=2(z+t^2),\qquad V=2t(X+p),$$
+
+且在仿射部分可反解为
+
+$$t=\frac{V}{2(X+p)},\qquad z=\frac X2-t^2,\qquad N=\frac{A+B+t}{2}.$$
+
+因此，当 PARI 认证 `rank_lower=rank_upper=0` 时，$E(\mathbb Q)$ 由 torsion 点给出。枚举 `elltors(E)`，
+再按上面的反向公式回拉，就列尽原 `AA/BB` 四次曲线的仿射有理点。若这些回拉点全部是
+$N=M=(A+B)/2$，则这条商曲线排除非平凡内部闭合点。
+
+注意这个引理只管 `AA/BB` 且 rank 已认证为 `0` 的行。它没有证明所有 pair 无闭合点，也没有给
+`AB/BA` rank 正的结构解释。
 
 ### 8.5 关键实验发现
 

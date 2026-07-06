@@ -171,15 +171,15 @@ class TestChainClosureModSieve:
         # The implementation matches that intersection check, so soundness is
         # immediate by construction.  Here we just check the sieve does not
         # report "killed" for some trivially-safe pairs.
-        for A, B in [(1, 3), (3, 5), (5, 11)]:  # 全部 mod 4 安全 + 小
+        for A, B in [(1, 3), (3, 5), (5, 11)]:  # 全部 mod 4 safe + small
             for M in DEFAULT_PRIME_SQUARE_MODULI:
                 killed = killed_at_modulus(A, B, M)
-                # 这里不强行声明 "未杀" — 我们只检查若被杀，T 确实为空。
-                # 即没有 "假阳性"（killed=True 但其实有解）的可能。
-                # 因为构造层面 T 是直接计算的，killed 与否完全由 T 决定。
+                # 这里不强行声明 "未杀"; 我们只检查若被杀, T 确实为空.
+                # 即没有 "假阳性" (killed=True 但其实有解) 的可能.
+                # 因为构造层面 T 是直接计算的, killed 与否完全由 T 决定.
                 if killed:
-                    # 必有 T 或 reflected 在 mod M 上空集，这是 sound。
-                    # 数值上没法在这里轻易 reproduce 完整证明，跳过即可。
+                    # 必有 T 或 reflected 在 mod M 上空集, 这是 sound.
+                    # 数值上没法在这里轻易 reproduce 完整证明, 跳过即可.
                     pass
 
     def test_default_moduli_are_prime_squares(self):
@@ -189,7 +189,7 @@ class TestChainClosureModSieve:
             DEFAULT_PRIME_SQUARE_MODULI,
         )
 
-        # 全是 p² 形式，且 p ∈ [3, 53]
+        # 全是 p² 形式, 且 p ∈ [3, 53]
         for M in DEFAULT_PRIME_SQUARE_MODULI:
             p = isqrt(M)
             assert p * p == M, f"{M} 不是完全平方"

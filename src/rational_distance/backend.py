@@ -65,6 +65,11 @@ def _try_torch():
         class _TorchXP:
             """Minimal numpy-compatible namespace for torch CUDA/ROCm tensors."""
 
+            floor = staticmethod(torch.floor)
+            sqrt = staticmethod(torch.sqrt)
+            where = staticmethod(torch.where)
+            any = staticmethod(lambda t: bool(t.any()))
+
             def __init__(self, device):
                 self._dev = device
                 self.int64 = torch.int64
@@ -78,19 +83,6 @@ def _try_torch():
 
             def zeros(self, shape, dtype=None):
                 return torch.zeros(shape, dtype=dtype or torch.int64, device=self._dev)
-
-            # ── Math ops ──────────────────────────────────────────────────
-            def floor(self, t):
-                return torch.floor(t)
-
-            def sqrt(self, t):
-                return torch.sqrt(t)
-
-            def any(self, t):
-                return bool(t.any())
-
-            def where(self, cond):
-                return torch.where(cond)
 
         dev = torch.device("cuda")
         torch.tensor([1], dtype=torch.int64, device=dev)  # verify device works

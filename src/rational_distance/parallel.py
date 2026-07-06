@@ -40,37 +40,10 @@ import argparse
 import itertools
 import multiprocessing as mp
 import os
-from collections.abc import Callable, Iterable, Iterator
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from types import TracebackType
-from typing import Protocol, TypeVar, cast
-
-T = TypeVar("T")
-R = TypeVar("R")
-
-
-class _PoolProtocol(Protocol):
-    def imap(
-        self,
-        func: Callable[[object], object],
-        iterable: Iterable[object],
-        chunksize: int = 1,
-    ) -> Iterator[object]: ...
-
-    def imap_unordered(
-        self,
-        func: Callable[[object], object],
-        iterable: Iterable[object],
-        chunksize: int = 1,
-    ) -> Iterator[object]: ...
-
-    def close(self) -> None: ...
-
-    def join(self) -> None: ...
-
-
-class _ContextProtocol(Protocol):
-    def Pool(self, processes: int) -> _PoolProtocol: ...
+from typing import Any, Protocol, cast
 
 
 class _ParallelArgsProtocol(Protocol):
@@ -99,7 +72,7 @@ def default_workers() -> int:
     return os.cpu_count() or 1
 
 
-def parallel_map(
+def parallel_map[T, R](
     fn: Callable[[T], R],
     items: Iterable[T],
     *,
@@ -149,7 +122,7 @@ def parallel_map(
     results: list[R] = []
 
     if workers <= 1:
-        # 串行路径：无 Pool 开销
+        # 串行路径: 无 Pool 开销
         for item in items_iter:
             r = fn(item)
             if collect_results:
@@ -182,10 +155,10 @@ class ParallelExecutor:
         self.workers: int = default_workers() if workers is None else workers
         self.chunksize: int = chunksize
         self.ordered: bool = ordered
-        self._ctx: _ContextProtocol | None = None
-        self._pool: _PoolProtocol | None = None
+        self._ctx: Any | None = None
+        self._pool: Any | None = None
 
-    def _ensure_pool(self) -> _PoolProtocol | None:
+    def _ensure_pool(self) -> Any | None:
         if self.workers <= 1:
             return None
         if self._pool is None:
@@ -193,7 +166,7 @@ class ParallelExecutor:
             self._pool = self._ctx.Pool(processes=self.workers)
         return self._pool
 
-    def map(
+    def map[T, R](
         self,
         fn: Callable[[T], R],
         items: Iterable[T],
@@ -237,7 +210,7 @@ class ParallelExecutor:
             self._pool = None
             self._ctx = None
 
-    def __enter__(self) -> "ParallelExecutor":
+    def __enter__(self) -> ParallelExecutor:
         return self
 
     def __exit__(
@@ -258,11 +231,11 @@ class ParallelConfig:
     ordered: bool = False
 
     @classmethod
-    def default(cls, chunksize: int = 50, ordered: bool = False) -> "ParallelConfig":
+    def default(cls, chunksize: int = 50, ordered: bool = False) -> ParallelConfig:
         """使用默认 worker 数创建配置。"""
         return cls(workers=default_workers(), chunksize=chunksize, ordered=ordered)
 
-    def map(
+    def map[T, R](
         self,
         fn: Callable[[T], R],
         items: Iterable[T],
