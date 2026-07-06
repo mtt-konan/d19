@@ -366,6 +366,47 @@ top_target={'A': 115, 'B': 297, 'curve': 'AA', 'cover_index': 3}
 普通话说：后续不要随机挑 cover 攻。先攻有 BSD 条件 rank 0 且 quartic 系数较小的目标；
 这个排序只是工作队列，不是数学证明。
 
+按优先级自动导出 top-4 handoff：
+
+```bash
+uv run python scripts/theory/export_mixed_closure_residual_handoff.py \
+  --covers results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
+  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
+  --top 4 \
+  --out-dir results/mixed_closure_residual_handoffs
+```
+
+当前输出：
+
+```text
+wrote 2 priority handoff(s)
+priority_001_115_297_AA_covers_3_4
+priority_003_575_4641_AA_covers_4_3
+```
+
+第二组 handoff 的 Sage probe：
+
+```bash
+uv run python scripts/theory/sage_probe_mixed_closure_handoff.py \
+  --handoff results/mixed_closure_residual_handoffs/priority_003_575_4641_AA_covers_4_3.json \
+  --out results/mixed_closure_residual_handoffs/priority_003_575_4641_AA_covers_4_3_sage_probe.json \
+  --timeout 60 \
+  --point-search-bound 100
+```
+
+结果同样是：
+
+```text
+status=ok
+rank_bounds=[0, 2]
+rank_proof_status=runtime-error
+rank_probable=0
+selmer_rank=4
+torsion_two_dimension=2
+cover_point_counts=[0, 0]
+```
+
 边界必须保留：
 
 ```text

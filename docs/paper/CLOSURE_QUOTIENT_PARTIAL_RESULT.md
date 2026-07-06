@@ -342,6 +342,39 @@ zero, ordered by quartic coefficient height:
 This table is only a work queue for strictification. It is not a proof that any
 cover has no rational point.
 
+The priority queue can also drive handoff export directly:
+
+```bash
+uv run python scripts/theory/export_mixed_closure_residual_handoff.py \
+  --covers results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
+  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
+  --top 4 \
+  --out-dir results/mixed_closure_residual_handoffs
+```
+
+Current output:
+
+```text
+priority_001_115_297_AA_covers_3_4
+priority_003_575_4641_AA_covers_4_3
+```
+
+The second handoff, `(575,4641) AA covers 4,3`, has also been probed with Sage:
+
+```text
+rank_bounds = [0, 2]
+rank_proof_status = runtime-error
+rank_probable = 0
+selmer_rank = 4
+torsion_two_dimension = 2
+cover_point_counts = [0, 0]
+```
+
+So the first two priority groups share the same local picture: BSD-conditional
+rank zero, unresolved strict rank bounds, and two genus-one cover candidates
+with no points found by the bounded Sage probe.
+
 There is also a PARI analytic/BSD diagnostic script:
 
 ```bash

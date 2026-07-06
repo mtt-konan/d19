@@ -25,6 +25,10 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def load_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _row_key(row: dict[str, Any]) -> tuple[int, int, str]:
     return int(row["A"]), int(row["B"]), str(row["curve"])
 
@@ -191,14 +195,90 @@ def write_handoff_files(out_dir: Path, name: str, handoff: dict[str, Any]) -> No
     )
 
 
+def priority_handoff_specs(priorities: dict[str, Any], *, top: int) -> list[dict[str, Any]]:
+    grouped: dict[tuple[int, int, str], dict[str, Any]] = {}
+    for row in priorities.get("rows", [])[:top]:
+        key = _row_key(row)
+        if key not in grouped:
+            grouped[key] = {
+                "target": key,
+                "cover_indices": [],
+                "priorities": [],
+            }
+        grouped[key]["cover_indices"].append(int(row["cover_index"]))
+        grouped[key]["priorities"].append(int(row["priority"]))
+
+    specs: list[dict[str, Any]] = []
+    for item in grouped.values():
+        first_priority = min(item["priorities"])
+        a_value, b_value, curve = item["target"]
+        covers = "_".join(str(index) for index in item["cover_indices"])
+        specs.append(
+            {
+                "name": (
+                    f"priority_{first_priority:03d}_{a_value}_{b_value}_{curve}"
+                    f"_covers_{covers}"
+                ),
+                "target": item["target"],
+                "cover_indices": item["cover_indices"],
+                "priorities": item["priorities"],
+            }
+        )
+    return sorted(specs, key=lambda spec: min(spec["priorities"]))
+
+
+def write_priority_handoff_files(
+    *,
+    cover_rows: list[dict[str, Any]],
+    bsd_rows: list[dict[str, Any]] | None,
+    priorities: dict[str, Any],
+    top: int,
+    out_dir: Path,
+) -> list[dict[str, Any]]:
+    written: list[dict[str, Any]] = []
+    for spec in priority_handoff_specs(priorities, top=top):
+        cover_row = _find_row(cover_rows, spec["target"])
+        handoff = build_handoff(
+            cover_row=cover_row,
+            bsd_row=_bsd_row(bsd_rows, spec["target"]),
+            target_indices=spec["cover_indices"],
+        )
+        handoff["priority_source"] = {
+            "priorities": spec["priorities"],
+            "name": spec["name"],
+        }
+        write_handoff_files(out_dir, spec["name"], handoff)
+        written.append(
+            {
+                "name": spec["name"],
+                "target": spec["target"],
+                "cover_indices": spec["cover_indices"],
+                "priorities": spec["priorities"],
+            }
+        )
+    return written
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--covers", type=Path, required=True)
     parser.add_argument("--bsd", type=Path, default=None)
-    parser.add_argument("--target", type=parse_curve_target, required=True)
-    parser.add_argument("--cover-index", type=int, action="append", required=True)
+    parser.add_argument("--target", type=parse_curve_target, default=None)
+    parser.add_argument("--cover-index", type=int, action="append", default=[])
+    parser.add_argument(
+        "--priorities",
+        type=Path,
+        default=None,
+        help="Priority JSON from prioritize_mixed_closure_residual_covers.py.",
+    )
+    parser.add_argument(
+        "--top",
+        type=int,
+        default=None,
+        help="When --priorities is set, export the first N priority rows grouped by target.",
+    )
     parser.add_argument("--out-dir", type=Path, required=True)
-    parser.add_argument("--name", required=True)
+    parser.add_argument("--name", default=None)
     return parser.parse_args()
 
 
@@ -206,6 +286,24 @@ def main() -> int:
     args = parse_args()
     cover_rows = load_jsonl(args.covers)
     bsd_rows = load_jsonl(args.bsd) if args.bsd else None
+    if args.priorities is not None:
+        if args.top is None or args.top <= 0:
+            raise ValueError("--top must be a positive integer when --priorities is set")
+        written = write_priority_handoff_files(
+            cover_rows=cover_rows,
+            bsd_rows=bsd_rows,
+            priorities=load_json(args.priorities),
+            top=args.top,
+            out_dir=args.out_dir,
+        )
+        print(f"wrote {len(written)} priority handoff(s) to {args.out_dir}")
+        for row in written:
+            print(f"  {row['name']}: covers={row['cover_indices']}")
+        return 0
+
+    if args.target is None or not args.cover_index or args.name is None:
+        raise ValueError("--target, --cover-index, and --name are required without --priorities")
+
     cover_row = _find_row(cover_rows, args.target)
     handoff = build_handoff(
         cover_row=cover_row,

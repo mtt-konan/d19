@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT))
 
 from scripts.theory.export_mixed_closure_residual_handoff import (
     build_handoff,
+    priority_handoff_specs,
     render_magma_handoff,
     render_sage_handoff,
     write_handoff_files,
@@ -142,6 +143,31 @@ def test_write_handoff_files(tmp_path: Path) -> None:
     assert "f3 =" in (tmp_path / "target.sage").read_text(encoding="utf-8")
 
 
+def test_priority_handoff_specs_group_selected_covers_by_target() -> None:
+    priorities = {
+        "rows": [
+            {"priority": 1, "A": 115, "B": 297, "curve": "AA", "cover_index": 3},
+            {"priority": 2, "A": 115, "B": 297, "curve": "AA", "cover_index": 4},
+            {"priority": 3, "A": 575, "B": 4641, "curve": "AA", "cover_index": 4},
+        ]
+    }
+
+    assert priority_handoff_specs(priorities, top=3) == [
+        {
+            "name": "priority_001_115_297_AA_covers_3_4",
+            "target": (115, 297, "AA"),
+            "cover_indices": [3, 4],
+            "priorities": [1, 2],
+        },
+        {
+            "name": "priority_003_575_4641_AA_covers_4",
+            "target": (575, 4641, "AA"),
+            "cover_indices": [4],
+            "priorities": [3],
+        },
+    ]
+
+
 def test_handoff_cli_writes_target_files(tmp_path: Path) -> None:
     covers = tmp_path / "covers.jsonl"
     bsd = tmp_path / "bsd.jsonl"
@@ -181,3 +207,60 @@ def test_handoff_cli_writes_target_files(tmp_path: Path) -> None:
     assert (out_dir / "target.json").exists()
     assert (out_dir / "target.magma").exists()
     assert (out_dir / "target.sage").exists()
+
+
+def test_handoff_cli_writes_priority_targets(tmp_path: Path) -> None:
+    covers = tmp_path / "covers.jsonl"
+    priorities = tmp_path / "priorities.json"
+    out_dir = tmp_path / "handoff"
+    covers.write_text(json.dumps(_cover_row()) + "\n", encoding="utf-8")
+    priorities.write_text(
+        json.dumps(
+            {
+                "rows": [
+                    {
+                        "priority": 1,
+                        "A": 115,
+                        "B": 297,
+                        "curve": "AA",
+                        "cover_index": 3,
+                    },
+                    {
+                        "priority": 2,
+                        "A": 115,
+                        "B": 297,
+                        "curve": "AA",
+                        "cover_index": 4,
+                    },
+                ]
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/theory/export_mixed_closure_residual_handoff.py",
+            "--covers",
+            str(covers),
+            "--priorities",
+            str(priorities),
+            "--top",
+            "2",
+            "--out-dir",
+            str(out_dir),
+        ],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+
+    name = "priority_001_115_297_AA_covers_3_4"
+    assert "wrote 1 priority handoff(s)" in result.stdout
+    assert (out_dir / f"{name}.json").exists()
+    assert json.loads((out_dir / f"{name}.json").read_text(encoding="utf-8"))[
+        "target_cover_indices"
+    ] == [3, 4]
