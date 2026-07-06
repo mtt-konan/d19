@@ -338,6 +338,34 @@ violations=0
 PARI `ell2cover`、BSD 诊断四份文件里对得上；`27` 个 no-point cover 仍只标成
 `candidate-not-proof`，没有被误升格成证明。
 
+候选 cover 优先级表：
+
+```bash
+uv run python scripts/theory/prioritize_mixed_closure_residual_covers.py \
+  --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
+  --out results/mixed_closure_aabb_residual_cover_priorities.json
+```
+
+当前结果：
+
+```text
+candidate_cover_total=27
+top_target={'A': 115, 'B': 297, 'curve': 'AA', 'cover_index': 3}
+```
+
+前四个目标是：
+
+```text
+1. (115,297) AA cover 3, height 54060, BSD conditional rank 0
+2. (115,297) AA cover 4, height 6281875, BSD conditional rank 0
+3. (575,4641) AA cover 4, height 7095212, BSD conditional rank 0
+4. (575,4641) AA cover 3, height 63929328, BSD conditional rank 0
+```
+
+普通话说：后续不要随机挑 cover 攻。先攻有 BSD 条件 rank 0 且 quartic 系数较小的目标；
+这个排序只是工作队列，不是数学证明。
+
 边界必须保留：
 
 ```text
@@ -583,6 +611,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_paper_claims.py`
 - `scripts/theory/export_mixed_closure_residual_handoff.py`
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
+- `scripts/theory/prioritize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 
 测试：
@@ -599,6 +628,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_paper_claim_audit.py`
 - `tests/test_mixed_closure_residual_handoff.py`
 - `tests/test_sage_probe_mixed_closure_handoff.py`
+- `tests/test_prioritize_mixed_closure_residual_covers.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 
 结果：
@@ -612,6 +642,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/pari_ell2cover_mixed_aabb_h100000.jsonl`
 - `results/mixed_closure_aabb_residual_cover_summary.json`
 - `results/mixed_closure_aabb_residual_evidence_audit.json`
+- `results/mixed_closure_aabb_residual_cover_priorities.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
 - `results/closure_quotient_paper_claim_audit.json`

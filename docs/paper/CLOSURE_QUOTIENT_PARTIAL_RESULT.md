@@ -313,6 +313,35 @@ violations = 0
 This is still an evidence audit, not a no-point proof. Its main purpose is to
 make sure the residual rows and candidate-cover language remain consistent.
 
+Prioritize the explicit no-point candidates for follow-up:
+
+```bash
+uv run python scripts/theory/prioritize_mixed_closure_residual_covers.py \
+  --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
+  --out results/mixed_closure_aabb_residual_cover_priorities.json
+```
+
+Current result:
+
+```text
+candidate_cover_total = 27
+top_target = {'A': 115, 'B': 297, 'curve': 'AA', 'cover_index': 3}
+```
+
+The first four targets are the two `AA` rows with BSD-conditional analytic rank
+zero, ordered by quartic coefficient height:
+
+```text
+1. (115,297) AA cover 3, height 54060
+2. (115,297) AA cover 4, height 6281875
+3. (575,4641) AA cover 4, height 7095212
+4. (575,4641) AA cover 3, height 63929328
+```
+
+This table is only a work queue for strictification. It is not a proof that any
+cover has no rational point.
+
 There is also a PARI analytic/BSD diagnostic script:
 
 ```bash
@@ -470,6 +499,7 @@ scripts/theory/audit_mixed_closure_residual_evidence.py
 scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
+scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 ```
 
