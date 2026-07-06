@@ -22,10 +22,20 @@ def test_summarize_cover_rows_aligns_no_point_covers_with_selmer_gap() -> None:
             "cover_count": 4,
             "covers_without_points": 2,
             "covers": [
-                {"index": 1, "point_count": 4},
-                {"index": 2, "point_count": 2},
-                {"index": 3, "point_count": 0},
-                {"index": 4, "point_count": 0},
+                {"index": 1, "quartic": "x^4 - 1", "point_count": 4},
+                {"index": 2, "quartic": "x^4 + 1", "point_count": 2},
+                {
+                    "index": 3,
+                    "quartic": "41*x^4 + 1025",
+                    "covering_map_to_elliptic": "map-3",
+                    "point_count": 0,
+                },
+                {
+                    "index": 4,
+                    "quartic": "-19*x^4 - 5",
+                    "covering_map_to_elliptic": "map-4",
+                    "point_count": 0,
+                },
             ],
         },
         {
@@ -36,11 +46,11 @@ def test_summarize_cover_rows_aligns_no_point_covers_with_selmer_gap() -> None:
             "cover_count": 5,
             "covers_without_points": 3,
             "covers": [
-                {"index": 1, "point_count": 12},
-                {"index": 2, "point_count": 2},
-                {"index": 3, "point_count": 0},
-                {"index": 4, "point_count": 0},
-                {"index": 5, "point_count": 0},
+                {"index": 1, "quartic": "x^4 - 4", "point_count": 12},
+                {"index": 2, "quartic": "x^4 - 9", "point_count": 2},
+                {"index": 3, "quartic": "x^4 + 2", "point_count": 0},
+                {"index": 4, "quartic": "x^4 + 3", "point_count": 0},
+                {"index": 5, "quartic": "x^4 + 5", "point_count": 0},
             ],
         },
     ]
@@ -82,8 +92,21 @@ def test_summarize_cover_rows_aligns_no_point_covers_with_selmer_gap() -> None:
             "cover_count": 4,
             "covers_without_points": 2,
             "no_point_cover_indices": [3, 4],
+            "no_point_covers": [
+                {
+                    "index": 3,
+                    "quartic": "41*x^4 + 1025",
+                    "covering_map_to_elliptic": "map-3",
+                },
+                {
+                    "index": 4,
+                    "quartic": "-19*x^4 - 5",
+                    "covering_map_to_elliptic": "map-4",
+                },
+            ],
             "selmer_gap": 2,
             "selmer_gap_alignment": "match",
+            "local_solubility_source": "PARI ell2cover",
             "evidence_level": "bounded-search-no-point-candidate",
         },
         {
@@ -93,11 +116,23 @@ def test_summarize_cover_rows_aligns_no_point_covers_with_selmer_gap() -> None:
             "cover_count": 5,
             "covers_without_points": 3,
             "no_point_cover_indices": [3, 4, 5],
+            "no_point_covers": [
+                {"index": 3, "quartic": "x^4 + 2"},
+                {"index": 4, "quartic": "x^4 + 3"},
+                {"index": 5, "quartic": "x^4 + 5"},
+            ],
             "selmer_gap": 3,
             "selmer_gap_alignment": "match",
+            "local_solubility_source": "PARI ell2cover",
             "evidence_level": "bounded-search-no-point-candidate",
         },
     ]
+    assert summary["boundary"] == (
+        "PARI ell2cover returns everywhere locally soluble 2-covers. "
+        "A no-point cover here means hyperellratpoints found no point up to "
+        "the chosen height. It is an explicit Sha[2] candidate, not a proof "
+        "that the cover has no rational point."
+    )
 
 
 def test_write_json_writes_sorted_summary(tmp_path: Path) -> None:

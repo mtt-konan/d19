@@ -74,6 +74,7 @@ def cover_row(
         cover_result: dict[str, Any] = {
             "index": index,
             "quartic": str(quartic),
+            "covering_map_to_elliptic": str(cover[1]) if len(cover) > 1 else None,
         }
         try:
             points = pari.hyperellratpoints(quartic, height)

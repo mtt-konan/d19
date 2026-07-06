@@ -112,13 +112,14 @@ evidence_level_counts={'bounded-search-no-point-candidate': 12}
 只能写：
 
 ```text
-这些 cover 是显式 Sha[2] 候选；在高度 100000 内没找到点，并且 no-point cover 数与 Selmer gap 完全对齐。
+这些 cover 是显式 Sha[2] 候选；按 PARI ell2cover 口径局部处处可解；
+在高度 100000 内没找到点，并且 no-point cover 数与 Selmer gap 完全对齐。
 ```
 
 要进入论文主证明，还缺严格无点证书，例如：
 
-- 局部 obstruction；
 - Cassels-Tate / Brauer-Manin 解释；
+- Mordell-Weil sieve；
 - 可认证的 rank 或 L 值非零证书；
 - Magma/Sage 能导出的可检查 genus-one cover 证书。
 

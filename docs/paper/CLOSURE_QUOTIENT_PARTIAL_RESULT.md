@@ -224,6 +224,12 @@ on which `hyperellratpoints` found no rational point up to height `100000`. This
 useful evidence, but it is not yet a strict certificate. A bounded point search
 does not prove that a cover has no rational point.
 
+PARI `ell2cover` returns everywhere locally soluble 2-covers, so these rows should
+not be advertised as local-obstruction candidates. The right interpretation is
+that they are explicit candidates for non-trivial `Sha[2]` classes. The current
+collector records the quartic equations, and on rerun also records PARI's covering
+map to the elliptic curve.
+
 The correct paper-level wording is:
 
 ```text

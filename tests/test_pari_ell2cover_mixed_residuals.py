@@ -21,7 +21,7 @@ class FakePari:
         return [0, 2, 0, []]
 
     def ell2cover(self, curve: list[int]) -> list[list[object]]:
-        return [["x^4 - 1", []], ["x^4 + 1", []]]
+        return [["x^4 - 1", "map-1"], ["x^4 + 1", "map-2"]]
 
     def hyperellratpoints(self, quartic: object, height: int) -> list[list[int]]:
         assert height == 100
@@ -54,12 +54,14 @@ def test_cover_row_records_cover_point_counts() -> None:
             {
                 "index": 1,
                 "quartic": "x^4 - 1",
+                "covering_map_to_elliptic": "map-1",
                 "point_count": 2,
                 "points": ["[1, 0]", "[-1, 0]"],
             },
             {
                 "index": 2,
                 "quartic": "x^4 + 1",
+                "covering_map_to_elliptic": "map-2",
                 "point_count": 0,
                 "points": [],
             },

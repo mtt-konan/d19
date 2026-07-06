@@ -76,6 +76,22 @@ def _no_point_cover_indices(row: dict[str, Any]) -> list[int]:
     return indices
 
 
+def _no_point_covers(row: dict[str, Any]) -> list[dict[str, Any]]:
+    covers: list[dict[str, Any]] = []
+    for cover in row.get("covers", []):
+        if cover.get("point_count") == 0:
+            no_point_cover = {
+                "index": int(cover["index"]),
+                "quartic": str(cover["quartic"]),
+            }
+            if "covering_map_to_elliptic" in cover:
+                no_point_cover["covering_map_to_elliptic"] = str(
+                    cover["covering_map_to_elliptic"]
+                )
+            covers.append(no_point_cover)
+    return covers
+
+
 def _counter_dict(counter: Counter[str]) -> dict[str, int]:
     return dict(sorted(counter.items()))
 
@@ -138,8 +154,10 @@ def summarize_cover_rows(
                     "cover_count": cover_count,
                     "covers_without_points": covers_without_points,
                     "no_point_cover_indices": _no_point_cover_indices(row),
+                    "no_point_covers": _no_point_covers(row),
                     "selmer_gap": selmer_gap,
                     "selmer_gap_alignment": alignment,
+                    "local_solubility_source": "PARI ell2cover",
                     "evidence_level": evidence_level,
                 }
             )
@@ -158,6 +176,7 @@ def summarize_cover_rows(
         },
         "no_point_cover_rows": no_point_cover_rows,
         "boundary": (
+            "PARI ell2cover returns everywhere locally soluble 2-covers. "
             "A no-point cover here means hyperellratpoints found no point up to "
             "the chosen height. It is an explicit Sha[2] candidate, not a proof "
             "that the cover has no rational point."

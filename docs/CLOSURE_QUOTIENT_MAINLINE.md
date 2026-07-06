@@ -275,12 +275,18 @@ evidence_level_counts={'bounded-search-no-point-candidate': 12}
 边界必须保留：
 
 ```text
+PARI ell2cover 返回的是 everywhere locally soluble 2-covers。
 hyperellratpoints 没找到点 != 严格证明 cover 无点。
 当前只能叫 explicit Sha[2] candidate / 2-cover no-point candidate。
 ```
 
+当前采集脚本已经保留每条 cover 的 quartic；重跑后还会保留 PARI 返回的
+`covering_map_to_elliptic`。这使后续可以把具体 cover 交给 Magma / Cassels-Tate /
+Brauer-Manin 方向，而不是只保留点数表。
+
 下一步的严格化目标是从这些 no-point cover 中选最小代表，例如 `(115,297) AA` 的第 `3,4`
-个 cover，尝试给出真正的无有理点证书：局部 obstruction、Cassels-Tate/Brauer-Manin 解释、
+个 cover，尝试给出真正的无有理点证书。因为这些 cover 已经是局部处处可解，普通局部
+obstruction 不是预期路线；更现实的是 Cassels-Tate/Brauer-Manin 解释、Mordell-Weil sieve、
 或可引用的严格 rank/L-value 证书。
 
 ### P2：解释 `AB/BA` 无 rank 0
@@ -423,6 +429,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl294](work-logs/294-tmp-mixed-closure-answer.md)
 - [wl295](work-logs/295-sage-mixed-closure-residual-rank-recheck.md)
 - [wl296](work-logs/296-mixed-closure-residual-cover-summary.md)
+- [wl297](work-logs/297-mixed-closure-cover-map-handoff.md)
 
 数学总入口：
 
