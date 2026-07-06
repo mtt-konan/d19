@@ -7,7 +7,7 @@
 - 哪些地方还只是实验信号，不能写进 `proof_status`。
 
 如果只想看临时判断，读 [wl294](work-logs/294-tmp-mixed-closure-answer.md)。如果要接着做这条线，
-从本文开始。
+从本文开始。若要写成论文段落，读 [closure quotient partial result](paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md)。
 
 ## 1. 主线位置
 
@@ -98,6 +98,21 @@ N = ((A+B)+t)/2
 所以当 PARI 认证 `rank_lower=rank_upper=0` 时，`E(Q)` 全由 torsion 点组成。枚举 `elltors(E)` 并回拉，
 即可列出原四次曲线的全部仿射有理点。
 
+论文级口径可以先写成下面这个引理：
+
+```text
+引理（AA/BB rank-0 torsion 回拉）。
+设 Q_L 是 AA 或 BB 商曲线，L 分别取 A 或 B。若上面的 centered even model 非奇异，
+且对应椭圆曲线 E 满足 rank E(Q)=0，则 Q_L 的全部仿射有理点来自 E(Q)_tors 的显式回拉。
+其中 E 的单位元不给仿射点，X=-p 的 torsion 点对应四次曲线无穷远点。
+其余 torsion 点按 t=V/(2(X+p)), z=X/2-t^2, N=((A+B)+t)/2 回拉。
+若这些仿射回拉点没有 full-closed square 点，则 Q_L 排除原闭合曲线的完整仿射点。
+```
+
+普通话说：rank `0/0` 之后，椭圆曲线那边已经没有自由移动的点了。剩下有限个 torsion 点，
+逐个拉回即可。两个例外点也有明确去处：一个是椭圆曲线无穷远点，一个是四次曲线无穷远点。
+它们都不给有限的 `N`。
+
 当前实现：
 
 ```text
@@ -106,6 +121,9 @@ src/rational_distance/concordant/mixed_closure_curves.py
 
 scripts/theory/rank_mixed_closure_curves.py
   --certify-rank0-torsion
+
+scripts/theory/summarize_mixed_closure_results.py
+  summarize rank/certificate JSONL files for paper tables
 ```
 
 这个判据已经跑过两批样本：
@@ -113,12 +131,14 @@ scripts/theory/rank_mixed_closure_curves.py
 ```text
 320 hard cases:
   AA/BB rank-0 certificates = 216
+  strict excluded pairs = 178
   all certified
   all affine preimages are midpoint N=M=(A+B)/2
   full closed affine preimages = 0
 
 64 local-global residual pairs:
   AA/BB rank-0 certificates = 59
+  strict excluded pairs = 42
   all certified
   all affine preimages are midpoint N=M=(A+B)/2
   full closed affine preimages = 0
@@ -177,38 +197,86 @@ PARI_MT_ENGINE=single uv run python scripts/theory/rank_mixed_closure_curves.py 
   --pairs-jsonl results/mixed_closure_localglobal_residual64_pairs.jsonl \
   --out results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
   --certify-rank0-torsion
+
+uv run python scripts/theory/summarize_mixed_closure_results.py \
+  --input results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --input results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/mixed_closure_rank_summary.json
 ```
 
 ### P1：收紧不确定 rank bounds
 
-320 hard cases 里仍有：
+320 hard cases 里仍有 `16` 条 rank bounds 不闭合，其中 `12` 条属于 `AA/BB`，`4` 条属于 `AB/BA`：
 
 ```text
-0/2 = 11
-1/3 = 5
+AA/BB:
+  0/2 = 11
+  1/3 = 1
+
+AB/BA:
+  1/3 = 4
 ```
 
-`ellrank(effort=2/3)` 没收紧。下一步要换 2-descent / Selmer / 模型化处理。
+`ellrank(effort=2/3/4)` 都没收紧这 `16` 条。继续把 PARI effort 调大不是当前主线。
+下一步要换 2-descent / Selmer / 模型化处理。
 
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
 
-如果能证明一个结构性正秩点族，`AB/BA rank=0` 路线应停止押注。
+已经有一个基础结构解释：`AB/BA` 有两个通用仿射点。
+
+```text
+AB:
+  N=A, y=2AB
+  N=B, y=A^2+B^2
+
+BA:
+  N=A, y=A^2+B^2
+  N=B, y=2AB
+```
+
+这些点来自闭合端点互换，不要求四个平方条件全成立。它们说明 `AB/BA` 本来就带着稳定的有理点，
+所以把 `AB` 当 rank-0 击杀器的押注应降级。
+
+还没证明的部分：这些通用点在 `AB/BA` 的 Jacobian 上是否一般给出非 torsion 类。若能证明，
+`AB/BA rank=0` 路线就可以正式停止；若只能作为样本现象，就继续保留为待解释结构。
 
 ### P3：把 `AA/BB rank=0` 写成论文级引理
 
-当前已有代码证明型证据。下一步要把下面这句话写成独立引理：
+已推进到主文档引理草案，见 §3.1。
 
-```text
-对 AA/BB，若 centered even model 的椭圆曲线 rank 为 0，
-则枚举 torsion 并按显式反向映射回拉，可列尽原四次曲线的仿射有理点。
-若回拉点全为中点，则该商曲线排除完整闭合点。
-```
+还要收紧的只是论文写法，不是代码证据：
+
+- 把非奇异条件单独列出；
+- 把 `X=-p` 对应四次曲线无穷远点写进证明；
+- 把“没有 full-closed square 点”与“全部是中点”分开陈述，避免把中点-only 当成必要条件。
 
 ### P4：决定是否接入 `proof_status`
 
-现在先不要默认接入。等 P1/P2 有结果后再决定。
+当前 partial-result 阶段不默认接入 `proof_status`。
+
+原因：
+
+- `AA/BB rank=0` 是严格证书，但需要 PARI rank 认证和 torsion 回拉；
+- `proof_status` 现在的主流程更适合低成本、批量、稳定顺序的 pair 级筛；
+- `AB/BA` 已降级，不提供 rank-zero 判据；
+- 16 条 rank bounds 不闭合，已经确认不能靠提高 PARI effort 收掉。
+
+所以当前收敛口径是：
+
+```text
+closure quotient = 离线严格证书工具
+proof_status = 暂不默认调用 closure quotient
+```
+
+以后若要接入，应先设计 pair-level certificate 字段，再只接受下面这种结果：
+
+```text
+AA/BB rank=0
+torsion certificate status = certified
+certifies_no_full_closed_square = true
+```
 
 可选接法：
 
@@ -251,6 +319,11 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl`
 - `results/mixed_closure_localglobal_residual64_pairs.jsonl`
 - `results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl`
+- `results/mixed_closure_rank_summary.json`
+
+论文草稿：
+
+- [Closure Quotient Partial Result](paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md)
 
 工作日志：
 

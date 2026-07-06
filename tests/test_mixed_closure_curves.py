@@ -29,6 +29,35 @@ def test_pari_polynomial_uses_constant_first_coefficients() -> None:
     assert curve.pari_polynomial() == "x^4-16*x^3+114*x^2-320*x+1226"
 
 
+def test_mixed_quotients_have_universal_affine_points() -> None:
+    from fractions import Fraction
+
+    from rational_distance.concordant.mixed_closure_curves import (
+        closure_quotient_polynomials,
+        evaluate_quartic,
+    )
+
+    A = 7
+    B = 45
+    curves = {curve.name: curve for curve in closure_quotient_polynomials(A, B)}
+
+    universal_points = {
+        "AB": {
+            Fraction(A): Fraction(2 * A * B),
+            Fraction(B): Fraction(A * A + B * B),
+        },
+        "BA": {
+            Fraction(A): Fraction(A * A + B * B),
+            Fraction(B): Fraction(2 * A * B),
+        },
+    }
+
+    for curve_name, points in universal_points.items():
+        curve = curves[curve_name]
+        for n_value, y_value in points.items():
+            assert evaluate_quartic(curve, n_value) == y_value * y_value
+
+
 def test_batch_rank_records_pari_unavailable_without_crashing() -> None:
     from rational_distance.concordant.mixed_closure_curves import rank_mixed_closure_curves
 
@@ -94,6 +123,12 @@ def test_rank_zero_even_quotient_torsion_certificate_pulls_back_all_affine_point
     assert certificate["rank_lower"] == 0
     assert certificate["rank_upper"] == 0
     assert certificate["torsion_order"] == 4
+    assert certificate["torsion_point_count"] == 4
+    assert {
+        point["reason"]
+        for point in certificate["torsion_pullbacks"]
+        if not point["has_affine_preimage"]
+    } == {"point-at-infinity", "quartic-infinity"}
     assert certificate["affine_preimage_count"] == 2
     assert {point["N"] for point in certificate["affine_preimage_classifications"]} == {"22"}
     assert all(point["is_midpoint"] for point in certificate["affine_preimage_classifications"])

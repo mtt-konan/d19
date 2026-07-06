@@ -449,8 +449,9 @@ hard-case pair 和 wl100 的 `64` 个 local-global residual pair 跑过 `ellfrom
 - `AB/BA` 在这两批样本里都没有 rank `0`。
 
 这说明闭合商曲线确实提供了旧 $E_{A,B}$ 看不到的新信号，但还不是通用的 `proof_status` 判定方法：
-`AB/BA` 没有命中 rank `0`；320 hard cases 里 `0/2`、`1/3` 这些 rank 上下界不闭合的行仍需更直接的
-2-descent / Selmer / 模型化处理。64 residual pair 这批则全部 rank 上下界闭合。实验记录见
+`AB/BA` 没有命中 rank `0`；320 hard cases 里 `0/2`、`1/3` 这些 rank 上下界不闭合的行经
+`ellrank(effort=4)` 复核仍未收紧，后续需要更直接的 2-descent / Selmer / 模型化处理。
+64 residual pair 这批则全部 rank 上下界闭合。实验记录见
 [wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)。主线入口见
 [docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
 
@@ -479,11 +480,15 @@ $$X=2(z+t^2),\qquad V=2t(X+p),$$
 $$t=\frac{V}{2(X+p)},\qquad z=\frac X2-t^2,\qquad N=\frac{A+B+t}{2}.$$
 
 因此，当 PARI 认证 `rank_lower=rank_upper=0` 时，$E(\mathbb Q)$ 由 torsion 点给出。枚举 `elltors(E)`，
-再按上面的反向公式回拉，就列尽原 `AA/BB` 四次曲线的仿射有理点。若这些回拉点全部是
-$N=M=(A+B)/2$，则这条商曲线排除非平凡内部闭合点。
+再按上面的反向公式回拉，就列尽原 `AA/BB` 四次曲线的仿射有理点。这里有两个边界点要单独处理：
+椭圆曲线单位元不给仿射点；`X=-p` 让反向公式分母为 `0`，它对应四次曲线的无穷远点。
 
-注意这个引理只管 `AA/BB` 且 rank 已认证为 `0` 的行。它没有证明所有 pair 无闭合点，也没有给
-`AB/BA` rank 正的结构解释。
+在当前两批样本里，所有 rank `0` 的 `AA/BB` 行只回拉出
+$N=M=(A+B)/2$ 的两个仿射点，且这两个点不满足四个平方条件。因此这些行能严格排除完整内部闭合点。
+
+注意这个引理只管非奇异 `AA/BB` 且 rank 已认证为 `0` 的行。它没有证明所有 pair 无闭合点，也没有给
+`AB/BA` rank 正的结构解释。以后写论文时，应把“无 full-closed square 点”作为判据，把“全部是中点”
+作为当前样本里的更强现象。
 
 ### 8.5 关键实验发现
 
