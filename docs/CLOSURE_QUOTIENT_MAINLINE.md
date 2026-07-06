@@ -436,6 +436,38 @@ results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.magma
 Sage 文件已在本地验证能构造目标 cover。Magma 本地未安装，所以 `.magma` 文件只是 handoff 草案，
 不是已验证 transcript。
 
+Sage handoff probe：
+
+```bash
+uv run python scripts/theory/sage_probe_mixed_closure_handoff.py \
+  --handoff results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.json \
+  --out results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4_sage_probe.json \
+  --timeout 60 \
+  --point-search-bound 100
+```
+
+当前结果：
+
+```text
+status=ok
+rank_bounds=[0, 2]
+rank_proof_status=runtime-error
+rank_probable=0
+selmer_rank=4
+torsion_two_dimension=2
+cover_point_counts=[0, 0]
+```
+
+Sage 明确提示：
+
+```text
+This could be because Sha(E/Q)[2] is nontrivial.
+```
+
+也就是说，Sage 的严格 rank 证明接口没有关掉这条 residual，反而把它定位到当前主线正在追的
+`Sha[2] / 2-cover` 障碍。带 `--two-descent-second-limit 13` 的同一 probe 在 `45` 秒预算下
+超时；这说明 second descent 暂时不是一个稳定快速的本地证书入口。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
@@ -550,6 +582,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_residual_evidence.py`
 - `scripts/theory/audit_closure_quotient_paper_claims.py`
 - `scripts/theory/export_mixed_closure_residual_handoff.py`
+- `scripts/theory/sage_probe_mixed_closure_handoff.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 
 测试：
@@ -565,6 +598,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_evidence_audit.py`
 - `tests/test_closure_quotient_paper_claim_audit.py`
 - `tests/test_mixed_closure_residual_handoff.py`
+- `tests/test_sage_probe_mixed_closure_handoff.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 
 结果：

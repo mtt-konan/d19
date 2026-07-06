@@ -417,6 +417,34 @@ This produces JSON, Sage, and Magma handoff files. The Sage file has been checke
 locally for syntax. Magma is not installed locally, so the Magma file is only a
 handoff skeleton until a verified transcript is produced.
 
+Probe that handoff with Sage:
+
+```bash
+uv run python scripts/theory/sage_probe_mixed_closure_handoff.py \
+  --handoff results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.json \
+  --out results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4_sage_probe.json \
+  --timeout 60 \
+  --point-search-bound 100
+```
+
+Current result:
+
+```text
+status = ok
+rank_bounds = [0, 2]
+rank_proof_status = runtime-error
+rank_probable = 0
+selmer_rank = 4
+torsion_two_dimension = 2
+cover_point_counts = [0, 0]
+```
+
+Sage's proof-rank interface explicitly reports that the rank is not provably
+correct and suggests possible non-trivial `Sha(E/Q)[2]`. A follow-up run with
+`--two-descent-second-limit 13` timed out at `45` seconds. This is useful
+negative evidence for the local workflow, but still not a no-point proof for the
+two cover quartics.
+
 Run the targeted tests:
 
 ```bash
@@ -441,6 +469,7 @@ scripts/theory/pari_bsd_mixed_closure_residuals.py
 scripts/theory/audit_mixed_closure_residual_evidence.py
 scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
+scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 ```
 
