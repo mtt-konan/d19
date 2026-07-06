@@ -49,6 +49,11 @@ def _sage_program(
     covers = [
         {
             "index": int(cover["index"]),
+            **{
+                key: cover[key]
+                for key in ("priority", "A", "B", "curve", "cover_index")
+                if key in cover
+            },
             "quartic": _sage_expr(str(cover["quartic"])),
         }
         for cover in handoff.get("target_covers", [])
@@ -132,12 +137,16 @@ def cover_row(cover):
     f = parse_quartic(cover["quartic"])
     bad_primes = bad_primes_for_quartic(f)
     witnesses = [find_witness(f, p) for p in bad_primes]
-    return {{
+    row = {{
         "index": int(cover["index"]),
         "bad_primes": bad_primes,
         "witnesses": witnesses,
         "all_witnessed": all(row["status"] == "ok" for row in witnesses),
     }}
+    for key in ("priority", "A", "B", "curve", "cover_index"):
+        if key in cover:
+            row[key] = cover[key]
+    return row
 
 
 cover_rows = [cover_row(cover) for cover in covers]
@@ -231,9 +240,72 @@ def probe_local_witnesses(
     return result
 
 
+def priority_rows_to_handoff(priorities: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "A": 0,
+        "B": 0,
+        "curve": "priority-table",
+        "target_covers": [
+            {
+                "index": int(row["priority"]),
+                "priority": int(row["priority"]),
+                "A": int(row["A"]),
+                "B": int(row["B"]),
+                "curve": str(row["curve"]),
+                "cover_index": int(row["cover_index"]),
+                "quartic": str(row["quartic"]),
+            }
+            for row in priorities.get("rows", [])
+        ],
+    }
+
+
+def _bad_prime_totals(sage_payload: dict[str, Any]) -> tuple[int, int]:
+    total = 0
+    unresolved = 0
+    for cover in sage_payload.get("covers", []):
+        witnesses = cover.get("witnesses", [])
+        total += len(witnesses)
+        unresolved += sum(1 for witness in witnesses if witness.get("status") != "ok")
+    return total, unresolved
+
+
+def probe_priority_local_witnesses(
+    priorities: dict[str, Any],
+    *,
+    sage_executable: str,
+    timeout_seconds: int,
+    search_bound: int,
+    max_denominator_power: int,
+    run: Run = subprocess.run,
+    dot_sage: Path | None = None,
+) -> dict[str, Any]:
+    result = probe_local_witnesses(
+        priority_rows_to_handoff(priorities),
+        sage_executable=sage_executable,
+        timeout_seconds=timeout_seconds,
+        search_bound=search_bound,
+        max_denominator_power=max_denominator_power,
+        run=run,
+        dot_sage=dot_sage,
+    )
+    candidate_cover_total = len(priorities.get("rows", []))
+    result["candidate_cover_total"] = candidate_cover_total
+    if "sage" in result:
+        bad_prime_total, unresolved_total = _bad_prime_totals(result["sage"])
+        result["bad_prime_check_total"] = bad_prime_total
+        result["unresolved_bad_prime_total"] = unresolved_total
+    else:
+        result["bad_prime_check_total"] = 0
+        result["unresolved_bad_prime_total"] = candidate_cover_total
+    return result
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--handoff", type=Path, required=True)
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument("--handoff", type=Path)
+    input_group.add_argument("--priorities", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--sage", default="sage")
     parser.add_argument("--timeout", type=int, default=60)
@@ -251,19 +323,33 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    result = probe_local_witnesses(
-        load_json(args.handoff),
-        sage_executable=args.sage,
-        timeout_seconds=args.timeout,
-        search_bound=args.search_bound,
-        max_denominator_power=args.max_denominator_power,
-        dot_sage=args.dot_sage,
-    )
+    if args.priorities is not None:
+        result = probe_priority_local_witnesses(
+            load_json(args.priorities),
+            sage_executable=args.sage,
+            timeout_seconds=args.timeout,
+            search_bound=args.search_bound,
+            max_denominator_power=args.max_denominator_power,
+            dot_sage=args.dot_sage,
+        )
+    else:
+        result = probe_local_witnesses(
+            load_json(args.handoff),
+            sage_executable=args.sage,
+            timeout_seconds=args.timeout,
+            search_bound=args.search_bound,
+            max_denominator_power=args.max_denominator_power,
+            dot_sage=args.dot_sage,
+        )
     write_json(args.out, result)
     print(f"wrote Sage local witness probe to {args.out}")
     print(f"status={result['status']}")
     all_witnessed = bool(result.get("sage", {}).get("all_bad_primes_witnessed", False))
     print(f"all_bad_primes_witnessed={all_witnessed}")
+    if "candidate_cover_total" in result:
+        print(f"candidate_cover_total={result['candidate_cover_total']}")
+        print(f"bad_prime_check_total={result['bad_prime_check_total']}")
+        print(f"unresolved_bad_prime_total={result['unresolved_bad_prime_total']}")
     if args.strict and not (result["status"] == "ok" and all_witnessed):
         return 1
     return 0 if result["status"] == "ok" else 1

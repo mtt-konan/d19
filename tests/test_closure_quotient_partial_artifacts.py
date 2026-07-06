@@ -83,7 +83,9 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
     assert "docs/work-logs/314-sage-cover-map-identity-verification.md" in paths
     assert "docs/work-logs/315-sage-local-witness-probe.md" in paths
+    assert "docs/work-logs/316-all-residual-local-witnesses.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
+    assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert (
         "results/mixed_closure_residual_handoffs/"
         "priority_001_115_297_AA_covers_3_4_sage_probe.json"

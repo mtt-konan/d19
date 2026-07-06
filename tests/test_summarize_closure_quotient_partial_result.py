@@ -41,13 +41,21 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "local_witness_status_counts": {"ok": 2},
         "violations": [],
     }
-    artifact_audit = {"ready": True, "required_file_count": 87, "missing_files": []}
+    residual_local_witnesses = {
+        "status": "ok",
+        "candidate_cover_total": 27,
+        "bad_prime_check_total": 251,
+        "unresolved_bad_prime_total": 0,
+        "sage": {"all_bad_primes_witnessed": True},
+    }
+    artifact_audit = {"ready": True, "required_file_count": 89, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
         language_audit=language_audit,
         priority_summary=priority_summary,
         priority_handoff_audit=priority_handoff_audit,
+        residual_local_witnesses=residual_local_witnesses,
         artifact_audit=artifact_audit,
     )
 
@@ -76,9 +84,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "local_witnessed_groups": 2,
             "violations": 0,
         },
+        "residual_local_witness_status": {
+            "ready": True,
+            "candidate_cover_total": 27,
+            "bad_prime_check_total": 251,
+            "unresolved_bad_prime_total": 0,
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 87,
+            "required_file_count": 89,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -98,6 +112,11 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "ready": False,
             "violations": [{"field": "probe.status"}],
         },
+        residual_local_witnesses={
+            "status": "ok",
+            "unresolved_bad_prime_total": 1,
+            "sage": {"all_bad_primes_witnessed": False},
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -110,6 +129,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "language-audit-violations",
         "missing-priority-top-target",
         "priority-handoff-audit-issues",
+        "residual-local-witness-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -119,12 +139,18 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     language = tmp_path / "language.json"
     priority = tmp_path / "priority.json"
     handoffs = tmp_path / "handoffs.json"
+    local_witnesses = tmp_path / "local.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
     language.write_text('{"violations":[],"files":1}\n', encoding="utf-8")
     priority.write_text('{"top_targets":[]}\n', encoding="utf-8")
     handoffs.write_text('{"ready":true,"violations":[]}\n', encoding="utf-8")
+    local_witnesses.write_text(
+        '{"status":"ok","unresolved_bad_prime_total":0,'
+        '"sage":{"all_bad_primes_witnessed":true}}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -139,6 +165,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(priority),
             "--priority-handoff-audit",
             str(handoffs),
+            "--residual-local-witnesses",
+            str(local_witnesses),
             "--artifact-audit",
             str(artifacts),
             "--out",

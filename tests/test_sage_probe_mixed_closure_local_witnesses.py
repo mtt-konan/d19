@@ -11,7 +11,9 @@ sys.path.insert(0, str(ROOT))
 from scripts.theory.sage_probe_mixed_closure_local_witnesses import (
     MARKER,
     _sage_program,
+    priority_rows_to_handoff,
     probe_local_witnesses,
+    probe_priority_local_witnesses,
     write_json,
 )
 
@@ -115,6 +117,97 @@ def test_sage_program_contains_qp_square_search() -> None:
     assert "is_qp_square" in program
     assert "bad_primes_for_quartic" in program
     assert "SAGE_LOCAL_WITNESS_JSON" in program
+
+
+def test_priority_rows_to_handoff_preserves_cover_metadata() -> None:
+    handoff = priority_rows_to_handoff(
+        {
+            "rows": [
+                {
+                    "priority": 7,
+                    "A": 115,
+                    "B": 297,
+                    "curve": "AA",
+                    "cover_index": 3,
+                    "quartic": "x^4 + 1",
+                }
+            ]
+        }
+    )
+
+    assert handoff == {
+        "A": 0,
+        "B": 0,
+        "curve": "priority-table",
+        "target_covers": [
+            {
+                "index": 7,
+                "priority": 7,
+                "A": 115,
+                "B": 297,
+                "curve": "AA",
+                "cover_index": 3,
+                "quartic": "x^4 + 1",
+            }
+        ],
+    }
+
+
+def test_probe_priority_local_witnesses_summarizes_all_priority_rows(
+    tmp_path: Path,
+) -> None:
+    priorities = {
+        "rows": [
+            {
+                "priority": 7,
+                "A": 115,
+                "B": 297,
+                "curve": "AA",
+                "cover_index": 3,
+                "quartic": "x^4 + 1",
+            }
+        ]
+    }
+    marker_payload = {
+        "all_bad_primes_witnessed": True,
+        "covers": [
+            {
+                "index": 7,
+                "priority": 7,
+                "A": 115,
+                "B": 297,
+                "curve": "AA",
+                "cover_index": 3,
+                "bad_primes": [2],
+                "all_witnessed": True,
+                "witnesses": [{"p": 2, "status": "ok", "kind": "infinity"}],
+            }
+        ],
+    }
+
+    def fake_run(*args: object, **kwargs: object) -> subprocess.CompletedProcess[str]:
+        return subprocess.CompletedProcess(
+            args=args,
+            returncode=0,
+            stdout=MARKER + json.dumps(marker_payload) + "\n",
+            stderr="",
+        )
+
+    result = probe_priority_local_witnesses(
+        priorities,
+        sage_executable="sage",
+        timeout_seconds=30,
+        search_bound=300,
+        max_denominator_power=3,
+        run=fake_run,
+        dot_sage=tmp_path / "dot_sage",
+    )
+
+    assert result["status"] == "ok"
+    assert result["candidate_cover_total"] == 1
+    assert result["bad_prime_check_total"] == 1
+    assert result["unresolved_bad_prime_total"] == 0
+    assert result["sage"] == marker_payload
 
 
 def test_write_json_writes_sorted_local_witnesses(tmp_path: Path) -> None:

@@ -31,6 +31,7 @@ def _blocking_issues(
     language_audit: dict[str, Any],
     priority_summary: dict[str, Any],
     priority_handoff_audit: dict[str, Any],
+    residual_local_witnesses: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -42,6 +43,13 @@ def _blocking_issues(
         issues.append("missing-priority-top-target")
     if priority_handoff_audit.get("ready") is not True:
         issues.append("priority-handoff-audit-issues")
+    if (
+        residual_local_witnesses.get("status") != "ok"
+        or residual_local_witnesses.get("sage", {}).get("all_bad_primes_witnessed")
+        is not True
+        or int(residual_local_witnesses.get("unresolved_bad_prime_total", 0)) != 0
+    ):
+        issues.append("residual-local-witness-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -53,6 +61,7 @@ def summarize_partial_result(
     language_audit: dict[str, Any],
     priority_summary: dict[str, Any],
     priority_handoff_audit: dict[str, Any],
+    residual_local_witnesses: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -63,6 +72,7 @@ def summarize_partial_result(
         language_audit=language_audit,
         priority_summary=priority_summary,
         priority_handoff_audit=priority_handoff_audit,
+        residual_local_witnesses=residual_local_witnesses,
         artifact_audit=artifact_audit,
     )
 
@@ -107,6 +117,22 @@ def summarize_partial_result(
             ),
             "violations": len(priority_handoff_audit.get("violations", [])),
         },
+        "residual_local_witness_status": {
+            "ready": residual_local_witnesses.get("status") == "ok"
+            and residual_local_witnesses.get("sage", {}).get("all_bad_primes_witnessed")
+            is True
+            and _int_value(residual_local_witnesses, "unresolved_bad_prime_total")
+            == 0,
+            "candidate_cover_total": _int_value(
+                residual_local_witnesses, "candidate_cover_total"
+            ),
+            "bad_prime_check_total": _int_value(
+                residual_local_witnesses, "bad_prime_check_total"
+            ),
+            "unresolved_bad_prime_total": _int_value(
+                residual_local_witnesses, "unresolved_bad_prime_total"
+            ),
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -126,6 +152,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--language-audit", type=Path, required=True)
     parser.add_argument("--priority-summary", type=Path, required=True)
     parser.add_argument("--priority-handoff-audit", type=Path, required=True)
+    parser.add_argument("--residual-local-witnesses", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -139,6 +166,7 @@ def main() -> int:
         language_audit=load_json(args.language_audit),
         priority_summary=load_json(args.priority_summary),
         priority_handoff_audit=load_json(args.priority_handoff_audit),
+        residual_local_witnesses=load_json(args.residual_local_witnesses),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

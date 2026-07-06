@@ -532,6 +532,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
   --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
+  --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -550,6 +551,9 @@ priority_handoff_status.groups_checked=2
 priority_handoff_status.target_cover_count=4
 priority_handoff_status.map_verified_groups=2
 priority_handoff_status.local_witnessed_groups=2
+residual_local_witness_status.candidate_cover_total=27
+residual_local_witness_status.bad_prime_check_total=251
+residual_local_witness_status.unresolved_bad_prime_total=0
 artifact_status.ready=True
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
@@ -772,6 +776,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_aabb_residual_cover_summary.json`
 - `results/mixed_closure_aabb_residual_evidence_audit.json`
 - `results/mixed_closure_aabb_residual_cover_priorities.json`
+- `results/mixed_closure_aabb_residual_local_witnesses.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -810,6 +815,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl313](work-logs/313-priority-handoff-probe-audit.md)
 - [wl314](work-logs/314-sage-cover-map-identity-verification.md)
 - [wl315](work-logs/315-sage-local-witness-probe.md)
+- [wl316](work-logs/316-all-residual-local-witnesses.md)
 
 数学总入口：
 
