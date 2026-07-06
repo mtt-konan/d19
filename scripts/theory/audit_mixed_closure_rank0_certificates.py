@@ -50,11 +50,31 @@ def _counter_dict(counter: Counter[str]) -> dict[str, int]:
     return dict(sorted(counter.items()))
 
 
+def _audit_classifications(
+    row: dict[str, Any],
+    certificate: dict[str, Any],
+) -> list[dict[str, Any]]:
+    violations: list[dict[str, Any]] = []
+    classifications = certificate.get("affine_preimage_classifications", [])
+    expected_count = int(certificate["affine_preimage_count"])
+    if len(classifications) != expected_count:
+        violations.append(_violation(row, "classification-count-mismatch"))
+
+    for classification in classifications:
+        if not classification.get("is_midpoint"):
+            violations.append(_violation(row, "classification-not-midpoint"))
+        if classification.get("is_full_closed_square"):
+            violations.append(_violation(row, "classification-full-closed-square"))
+    return violations
+
+
 def audit_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
     rank0_aabb_rows = 0
     certified_rows = 0
     strict_no_full_closed_rows = 0
     only_midpoint_rows = 0
+    classification_detail_rows = 0
+    classification_detail_point_count = 0
     affine_preimage_counts: Counter[str] = Counter()
     strict_excluded_pairs: dict[tuple[int, int], set[str]] = defaultdict(set)
     violations: list[dict[str, Any]] = []
@@ -71,6 +91,11 @@ def audit_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
         certified_rows += 1
         affine_preimage_counts[str(certificate["affine_preimage_count"])] += 1
+        classifications = certificate.get("affine_preimage_classifications", [])
+        if isinstance(classifications, list):
+            classification_detail_rows += 1
+            classification_detail_point_count += len(classifications)
+            violations.extend(_audit_classifications(row, certificate))
 
         if certificate.get("certifies_no_full_closed_square"):
             strict_no_full_closed_rows += 1
@@ -99,6 +124,8 @@ def audit_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "certified_rows": certified_rows,
         "strict_no_full_closed_rows": strict_no_full_closed_rows,
         "only_midpoint_rows": only_midpoint_rows,
+        "classification_detail_rows": classification_detail_rows,
+        "classification_detail_point_count": classification_detail_point_count,
         "affine_preimage_counts": _counter_dict(affine_preimage_counts),
         "strict_excluded_pair_count": len(strict_excluded_pair_rows),
         "strict_excluded_pairs": strict_excluded_pair_rows,

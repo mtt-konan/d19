@@ -43,6 +43,10 @@ def test_audit_rows_reports_rank0_aabb_certificate_violations() -> None:
             certificate={
                 "status": "certified",
                 "affine_preimage_count": 2,
+                "affine_preimage_classifications": [
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                ],
                 "certifies_no_full_closed_square": True,
                 "all_affine_preimages_are_midpoints": True,
             },
@@ -54,6 +58,10 @@ def test_audit_rows_reports_rank0_aabb_certificate_violations() -> None:
             certificate={
                 "status": "certified",
                 "affine_preimage_count": 2,
+                "affine_preimage_classifications": [
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                ],
                 "certifies_no_full_closed_square": True,
                 "all_affine_preimages_are_midpoints": False,
             },
@@ -65,11 +73,45 @@ def test_audit_rows_reports_rank0_aabb_certificate_violations() -> None:
             certificate={
                 "status": "certified",
                 "affine_preimage_count": 3,
+                "affine_preimage_classifications": [
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                ],
                 "certifies_no_full_closed_square": False,
                 "all_affine_preimages_are_midpoints": True,
             },
         ),
-        _rank0_row(A=15, B=43, curve="BB", certificate=None),
+        _rank0_row(
+            A=14,
+            B=42,
+            curve="AA",
+            certificate={
+                "status": "certified",
+                "affine_preimage_count": 2,
+                "affine_preimage_classifications": [
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                ],
+                "certifies_no_full_closed_square": True,
+                "all_affine_preimages_are_midpoints": True,
+            },
+        ),
+        _rank0_row(
+            A=15,
+            B=43,
+            curve="BB",
+            certificate={
+                "status": "certified",
+                "affine_preimage_count": 2,
+                "affine_preimage_classifications": [
+                    {"is_midpoint": True, "is_full_closed_square": False},
+                    {"is_midpoint": False, "is_full_closed_square": True},
+                ],
+                "certifies_no_full_closed_square": True,
+                "all_affine_preimages_are_midpoints": True,
+            },
+        ),
+        _rank0_row(A=16, B=44, curve="BB", certificate=None),
         {
             "A": 17,
             "B": 45,
@@ -91,20 +133,27 @@ def test_audit_rows_reports_rank0_aabb_certificate_violations() -> None:
     audit = audit_rows(rows)
 
     assert audit == {
-        "rows": 6,
-        "rank0_aabb_rows": 4,
-        "certified_rows": 3,
-        "strict_no_full_closed_rows": 2,
-        "only_midpoint_rows": 2,
-        "affine_preimage_counts": {"2": 2, "3": 1},
-        "strict_excluded_pair_count": 2,
+        "rows": 8,
+        "rank0_aabb_rows": 6,
+        "certified_rows": 5,
+        "strict_no_full_closed_rows": 4,
+        "only_midpoint_rows": 4,
+        "classification_detail_rows": 5,
+        "classification_detail_point_count": 10,
+        "affine_preimage_counts": {"2": 4, "3": 1},
+        "strict_excluded_pair_count": 4,
         "strict_excluded_pairs": [
             {"A": 9, "B": 35, "certifying_curves": ["AA"]},
             {"A": 11, "B": 39, "certifying_curves": ["BB"]},
+            {"A": 14, "B": 42, "certifying_curves": ["AA"]},
+            {"A": 15, "B": 43, "certifying_curves": ["BB"]},
         ],
         "violation_counts": {
             "missing-or-uncertified-certificate": 1,
             "not-only-midpoint": 1,
+            "classification-count-mismatch": 1,
+            "classification-not-midpoint": 1,
+            "classification-full-closed-square": 1,
             "does-not-certify-no-full-closed-square": 1,
         },
         "violations": [
@@ -121,8 +170,26 @@ def test_audit_rows_reports_rank0_aabb_certificate_violations() -> None:
                 "reason": "does-not-certify-no-full-closed-square",
             },
             {
+                "A": 14,
+                "B": 42,
+                "curve": "AA",
+                "reason": "classification-count-mismatch",
+            },
+            {
                 "A": 15,
                 "B": 43,
+                "curve": "BB",
+                "reason": "classification-not-midpoint",
+            },
+            {
+                "A": 15,
+                "B": 43,
+                "curve": "BB",
+                "reason": "classification-full-closed-square",
+            },
+            {
+                "A": 16,
+                "B": 44,
                 "curve": "BB",
                 "reason": "missing-or-uncertified-certificate",
             },
@@ -149,6 +216,10 @@ def test_audit_cli_exits_nonzero_when_strict_flag_finds_violations(
                 certificate={
                     "status": "certified",
                     "affine_preimage_count": 2,
+                    "affine_preimage_classifications": [
+                        {"is_midpoint": True, "is_full_closed_square": False},
+                        {"is_midpoint": True, "is_full_closed_square": False},
+                    ],
                     "certifies_no_full_closed_square": True,
                     "all_affine_preimages_are_midpoints": False,
                 },

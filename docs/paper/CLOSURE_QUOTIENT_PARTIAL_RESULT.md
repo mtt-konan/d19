@@ -195,11 +195,14 @@ rank0_aabb_rows = 275
 certified_rows = 275
 strict_no_full_closed_rows = 275
 only_midpoint_rows = 275
+classification_detail_rows = 275
+classification_detail_point_count = 550
 violations = 0
 ```
 
 This audit checks the stored torsion-pullback certificates. It is not a separate
-rank-certification algorithm.
+rank-certification algorithm. It also checks every stored affine preimage
+classification, rather than only trusting the certificate's aggregate flags.
 
 The algebraic identities used by the lemma are also audited symbolically:
 
@@ -350,6 +353,8 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_torsion_certificates=275 \
   --expect strict_excluded_pair_count=220 \
   --expect rank0_aabb_rows=275 \
+  --expect classification_detail_rows=275 \
+  --expect classification_detail_point_count=550 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
   --expect even_model_identities_verified=1 \

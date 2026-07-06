@@ -42,6 +42,8 @@ results/closure_quotient_paper_claim_audit.json
 rank0_torsion_certificates = 275
 strict_excluded_pair_count = 220
 rank0_aabb_rows = 275
+classification_detail_rows = 275
+classification_detail_point_count = 550
 cover_rows = 12
 cover_selmer_matches = 12
 even_model_identities_verified = 1
@@ -72,6 +74,8 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_torsion_certificates=275 \
   --expect strict_excluded_pair_count=220 \
   --expect rank0_aabb_rows=275 \
+  --expect classification_detail_rows=275 \
+  --expect classification_detail_point_count=550 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
   --expect even_model_identities_verified=1 \

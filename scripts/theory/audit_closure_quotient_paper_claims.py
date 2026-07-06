@@ -91,6 +91,12 @@ def audit_claims(
             rank0_audit, "strict_no_full_closed_rows"
         ),
         "rank0_only_midpoint_rows": _int_value(rank0_audit, "only_midpoint_rows"),
+        "classification_detail_rows": _int_value(
+            rank0_audit, "classification_detail_rows"
+        ),
+        "classification_detail_point_count": _int_value(
+            rank0_audit, "classification_detail_point_count"
+        ),
         "rank0_audit_violations": len(rank0_audit.get("violations", [])),
         "cover_rows": _int_value(cover_summary, "rows"),
         "cover_selmer_matches": int(

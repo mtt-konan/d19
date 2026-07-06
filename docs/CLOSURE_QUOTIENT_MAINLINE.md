@@ -163,11 +163,14 @@ rank0_aabb_rows=275
 certified_rows=275
 strict_no_full_closed_rows=275
 only_midpoint_rows=275
+classification_detail_rows=275
+classification_detail_point_count=550
 violations=0
 ```
 
 这一步只审计已经写入 JSONL 的 torsion-pullback 证书；rank 认证仍来自前面的 PARI rank
-计算和 certificate 生成流程。
+计算和 certificate 生成流程。审计不仅看 certificate 汇总布尔字段，也逐条检查
+`affine_preimage_classifications`，确认每个 affine preimage 都是 midpoint 且不是 full-closed square。
 
 代数公式审计入口：
 
@@ -363,6 +366,8 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_torsion_certificates=275 \
   --expect strict_excluded_pair_count=220 \
   --expect rank0_aabb_rows=275 \
+  --expect classification_detail_rows=275 \
+  --expect classification_detail_point_count=550 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
   --expect even_model_identities_verified=1 \
@@ -564,6 +569,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl300](work-logs/300-closure-quotient-paper-claim-audit.md)
 - [wl301](work-logs/301-mixed-closure-residual-handoff.md)
 - [wl302](work-logs/302-mixed-closure-even-model-identity-audit.md)
+- [wl303](work-logs/303-mixed-closure-rank0-classification-detail-audit.md)
 
 数学总入口：
 

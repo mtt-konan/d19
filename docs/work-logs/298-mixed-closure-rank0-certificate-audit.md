@@ -10,6 +10,8 @@
 275 个 AA/BB rank-0 证书全部 certified
 275 个全部排除 full-closed square
 275 个全部 only-midpoint
+275 条都有 affine preimage classification 明细
+550 个 affine preimage 明细逐点通过
 violations = 0
 ```
 
@@ -33,6 +35,9 @@ AA/BB rows with exact rank 0/0 only
 - certificate 是否存在且 `status=certified`；
 - 是否 `certifies_no_full_closed_square=true`；
 - 是否 `all_affine_preimages_are_midpoints=true`；
+- `affine_preimage_classifications` 长度是否等于 `affine_preimage_count`；
+- 每个 affine preimage 明细是否 `is_midpoint=true`；
+- 每个 affine preimage 明细是否 `is_full_closed_square=false`；
 - affine preimage 数量分布；
 - pair 级 strict exclusion 数量；
 - 若有例外，列出 `(A,B,curve,reason)`。
@@ -54,6 +59,14 @@ uv run python scripts/theory/audit_mixed_closure_rank0_certificates.py \
 ```text
 wrote rank0 certificate audit for 1536 rows to results/mixed_closure_rank0_certificate_audit.json
 rank0_aabb_rows=275 certified_rows=275 strict_no_full_closed_rows=275 only_midpoint_rows=275 violations=0
+```
+
+当前 JSON 里还记录：
+
+```text
+classification_detail_rows=275
+classification_detail_point_count=550
+affine_preimage_counts={'2': 275}
 ```
 
 这里的 `1536` 是：
