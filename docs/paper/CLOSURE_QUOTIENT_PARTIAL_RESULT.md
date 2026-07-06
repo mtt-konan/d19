@@ -348,6 +348,23 @@ mismatches = 0
 This is a consistency gate for stored result files and paper-level numeric claims.
 It does not create new mathematical certificates.
 
+Export the current strict-proof handoff for the smallest residual target:
+
+```bash
+uv run python scripts/theory/export_mixed_closure_residual_handoff.py \
+  --covers results/pari_ell2cover_mixed_115_297_AA_h100000_with_maps.jsonl \
+  --bsd results/pari_bsd_mixed_115_297_AA.jsonl \
+  --target 115,297,AA \
+  --cover-index 3 \
+  --cover-index 4 \
+  --out-dir results/mixed_closure_residual_handoffs \
+  --name 115_297_AA_covers_3_4
+```
+
+This produces JSON, Sage, and Magma handoff files. The Sage file has been checked
+locally for syntax. Magma is not installed locally, so the Magma file is only a
+handoff skeleton until a verified transcript is produced.
+
 Run the targeted tests:
 
 ```bash
@@ -370,6 +387,7 @@ scripts/theory/summarize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_rank0_certificates.py
 scripts/theory/pari_bsd_mixed_closure_residuals.py
 scripts/theory/audit_closure_quotient_paper_claims.py
+scripts/theory/export_mixed_closure_residual_handoff.py
 ```
 
 The certificate-producing function is:

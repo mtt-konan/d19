@@ -361,6 +361,30 @@ mismatches=0
 
 这只检查 stored result files 和 paper-level 数字声明的一致性，不产生新的数学证书。
 
+目标 cover handoff：
+
+```bash
+uv run python scripts/theory/export_mixed_closure_residual_handoff.py \
+  --covers results/pari_ell2cover_mixed_115_297_AA_h100000_with_maps.jsonl \
+  --bsd results/pari_bsd_mixed_115_297_AA.jsonl \
+  --target 115,297,AA \
+  --cover-index 3 \
+  --cover-index 4 \
+  --out-dir results/mixed_closure_residual_handoffs \
+  --name 115_297_AA_covers_3_4
+```
+
+输出：
+
+```text
+results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.json
+results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.sage
+results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.magma
+```
+
+Sage 文件已在本地验证能构造目标 cover。Magma 本地未安装，所以 `.magma` 文件只是 handoff 草案，
+不是已验证 transcript。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
@@ -473,6 +497,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_rank0_certificates.py`
 - `scripts/theory/pari_bsd_mixed_closure_residuals.py`
 - `scripts/theory/audit_closure_quotient_paper_claims.py`
+- `scripts/theory/export_mixed_closure_residual_handoff.py`
 
 测试：
 
@@ -485,6 +510,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_rank0_certificate_audit.py`
 - `tests/test_pari_bsd_mixed_closure_residuals.py`
 - `tests/test_closure_quotient_paper_claim_audit.py`
+- `tests/test_mixed_closure_residual_handoff.py`
 
 结果：
 
@@ -499,6 +525,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
 - `results/closure_quotient_paper_claim_audit.json`
+- `results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.json`
 
 论文草稿：
 
@@ -514,6 +541,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl298](work-logs/298-mixed-closure-rank0-certificate-audit.md)
 - [wl299](work-logs/299-mixed-closure-pari-bsd-diagnostics.md)
 - [wl300](work-logs/300-closure-quotient-paper-claim-audit.md)
+- [wl301](work-logs/301-mixed-closure-residual-handoff.md)
 
 数学总入口：
 
