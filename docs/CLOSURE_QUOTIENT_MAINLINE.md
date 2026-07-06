@@ -487,6 +487,36 @@ mismatches=0
 
 这只检查 stored result files 和 paper-level 数字声明的一致性，不产生新的数学证书。
 
+residual 语言边界审计：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_residual_language.py \
+  --path docs/CLOSURE_QUOTIENT_MAINLINE.md \
+  --path docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
+  --path docs/work-logs/304-mixed-closure-residual-evidence-audit.md \
+  --path docs/work-logs/305-sage-residual-handoff-probe.md \
+  --path docs/work-logs/306-mixed-residual-cover-priority-queue.md \
+  --path docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md \
+  --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
+  --out results/mixed_closure_residual_language_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+files=7
+violations=0
+required_boundary_hits={
+  'candidate_not_proof': 2,
+  'sha2_candidate': 5,
+  'bounded_search_not_proof': 1,
+  'bsd_not_strict_certificate': 1
+}
+```
+
+这一步只审计措辞，防止把 bounded search / BSD 条件诊断 / Sha[2] candidate 写成证明。
+
 目标 cover handoff：
 
 ```bash
@@ -659,6 +689,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/export_mixed_closure_residual_handoff.py`
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
+- `scripts/theory/audit_mixed_closure_residual_language.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 
 测试：
@@ -676,6 +707,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_handoff.py`
 - `tests/test_sage_probe_mixed_closure_handoff.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
+- `tests/test_mixed_closure_residual_language_audit.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 
 结果：

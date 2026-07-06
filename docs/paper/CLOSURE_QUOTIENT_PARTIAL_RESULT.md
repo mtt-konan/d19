@@ -468,6 +468,38 @@ mismatches = 0
 This is a consistency gate for stored result files and paper-level numeric claims.
 It does not create new mathematical certificates.
 
+Audit residual wording so evidence is not promoted to proof:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_residual_language.py \
+  --path docs/CLOSURE_QUOTIENT_MAINLINE.md \
+  --path docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
+  --path docs/work-logs/304-mixed-closure-residual-evidence-audit.md \
+  --path docs/work-logs/305-sage-residual-handoff-probe.md \
+  --path docs/work-logs/306-mixed-residual-cover-priority-queue.md \
+  --path docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md \
+  --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
+  --out results/mixed_closure_residual_language_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+files = 7
+violations = 0
+required_boundary_hits = {
+  'candidate_not_proof': 2,
+  'sha2_candidate': 5,
+  'bounded_search_not_proof': 1,
+  'bsd_not_strict_certificate': 1
+}
+```
+
+This wording audit does not verify the mathematics. It only guards the paper
+language against turning bounded search, BSD-conditional diagnostics, or
+`Sha[2]` candidates into proof claims.
+
 Export the current strict-proof handoff for the smallest residual target:
 
 ```bash
@@ -539,6 +571,7 @@ scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
+scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 ```
 
