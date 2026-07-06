@@ -41,7 +41,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
 
 ```text
 ready=True
-required_file_count=65
+required_file_count=77
 missing_files=[]
 ```
 
@@ -53,6 +53,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --claim-audit results/closure_quotient_paper_claim_audit.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict

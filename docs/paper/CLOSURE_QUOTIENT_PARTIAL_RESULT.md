@@ -514,6 +514,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --claim-audit results/closure_quotient_paper_claim_audit.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -528,6 +529,9 @@ rank0_torsion_certificates = 275
 strict_excluded_pair_count = 220
 candidate_cover_total = 27
 residual proof_status = candidate-not-proof
+priority_handoff_status.ready = True
+priority_handoff_status.groups_checked = 2
+priority_handoff_status.target_cover_count = 4
 artifact_status.ready = True
 artifact_status.missing_file_count = 0
 ```
@@ -609,6 +613,7 @@ scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
+scripts/theory/audit_mixed_closure_priority_handoffs.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py

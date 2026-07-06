@@ -531,6 +531,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --claim-audit results/closure_quotient_paper_claim_audit.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -544,6 +545,9 @@ blocking_issues=[]
 strict_certificate.rank0_torsion_certificates=275
 strict_certificate.strict_excluded_pair_count=220
 residual_status.candidate_cover_total=27
+priority_handoff_status.ready=True
+priority_handoff_status.groups_checked=2
+priority_handoff_status.target_cover_count=4
 artifact_status.ready=True
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
@@ -724,6 +728,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_residual_language.py`
+- `scripts/theory/audit_mixed_closure_priority_handoffs.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -744,6 +749,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_probe_mixed_closure_handoff.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
 - `tests/test_mixed_closure_residual_language_audit.py`
+- `tests/test_mixed_closure_priority_handoff_audit.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -760,6 +766,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_aabb_residual_cover_summary.json`
 - `results/mixed_closure_aabb_residual_evidence_audit.json`
 - `results/mixed_closure_aabb_residual_cover_priorities.json`
+- `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
 - `results/closure_quotient_paper_claim_audit.json`
@@ -794,6 +801,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl310](work-logs/310-language-audit-paper-claim-gate.md)
 - [wl311](work-logs/311-closure-quotient-partial-result-summary.md)
 - [wl312](work-logs/312-closure-quotient-partial-artifact-audit.md)
+- [wl313](work-logs/313-priority-handoff-probe-audit.md)
 
 数学总入口：
 

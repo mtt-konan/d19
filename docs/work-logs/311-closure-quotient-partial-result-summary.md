@@ -22,6 +22,7 @@ tests/test_summarize_closure_quotient_partial_result.py
 results/closure_quotient_paper_claim_audit.json
 results/mixed_closure_residual_language_audit.json
 results/mixed_closure_aabb_residual_cover_priorities.json
+results/mixed_closure_priority_handoff_audit_top4.json
 results/closure_quotient_partial_artifact_audit.json
 ```
 
@@ -33,6 +34,7 @@ blocking_issues
 strict_certificate
 residual_status
 language_status
+priority_handoff_status
 artifact_status
 boundary
 ```
@@ -47,6 +49,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --claim-audit results/closure_quotient_paper_claim_audit.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -71,8 +74,11 @@ residual_status.bsd_analytic_rank0_rows = 2
 residual_status.proof_status = candidate-not-proof
 language_status.files = 7
 language_status.violations = 0
+priority_handoff_status.ready = True
+priority_handoff_status.groups_checked = 2
+priority_handoff_status.target_cover_count = 4
 artifact_status.ready = True
-artifact_status.required_file_count = 65
+artifact_status.required_file_count = 77
 artifact_status.missing_file_count = 0
 ```
 
@@ -85,6 +91,7 @@ stored result files 自洽；
 论文数字 gate 无 mismatch；
 措辞 gate 无 overclaim；
 priority queue 有 top target；
+priority handoff/probe audit ready；
 artifact audit 无 missing file。
 ```
 
