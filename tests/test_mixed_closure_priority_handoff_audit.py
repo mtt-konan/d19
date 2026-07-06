@@ -81,6 +81,27 @@ def _write_complete_group(handoff_dir: Path) -> None:
             ],
         },
     }
+    map_verify = {
+        "A": 115,
+        "B": 297,
+        "curve": "AA",
+        "status": "ok",
+        "sage": {
+            "all_verified": True,
+            "covers": [
+                {
+                    "index": 3,
+                    "map_parse_status": "ok",
+                    "identity_verified": True,
+                },
+                {
+                    "index": 4,
+                    "map_parse_status": "ok",
+                    "identity_verified": True,
+                },
+            ],
+        },
+    }
     handoff_dir.mkdir(parents=True)
     (handoff_dir / f"{name}.json").write_text(
         json.dumps(handoff) + "\n",
@@ -90,6 +111,10 @@ def _write_complete_group(handoff_dir: Path) -> None:
     (handoff_dir / f"{name}.magma").write_text("magma handoff\n", encoding="utf-8")
     (handoff_dir / f"{name}_sage_probe.json").write_text(
         json.dumps(probe) + "\n",
+        encoding="utf-8",
+    )
+    (handoff_dir / f"{name}_map_verify.json").write_text(
+        json.dumps(map_verify) + "\n",
         encoding="utf-8",
     )
 
@@ -105,6 +130,7 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
         handoff_dir=handoff_dir,
         top=2,
         require_probes=True,
+        require_map_verifications=True,
     )
 
     assert audit == {
@@ -116,6 +142,7 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
         "missing_files": [],
         "violations": [],
         "probe_status_counts": {"ok": 1},
+        "map_verify_status_counts": {"ok": 1},
         "groups": [
             {
                 "name": "priority_001_115_297_AA_covers_3_4",
@@ -128,6 +155,8 @@ def test_audit_priority_handoffs_marks_ready_when_handoffs_and_probes_align(
                 "rank_proof_status": "runtime-error",
                 "selmer_minus_torsion2": 2,
                 "cover_point_counts": [0, 0],
+                "map_all_verified": True,
+                "map_verified_cover_count": 2,
             }
         ],
         "boundary": (
@@ -147,6 +176,7 @@ def test_audit_priority_handoffs_reports_missing_required_probe(tmp_path: Path) 
         handoff_dir=handoff_dir,
         top=2,
         require_probes=True,
+        require_map_verifications=False,
     )
 
     assert audit["ready"] is False
@@ -156,6 +186,33 @@ def test_audit_priority_handoffs_reports_missing_required_probe(tmp_path: Path) 
             "kind": "sage_probe",
             "path": str(
                 handoff_dir / "priority_001_115_297_AA_covers_3_4_sage_probe.json"
+            ),
+        }
+    ]
+
+
+def test_audit_priority_handoffs_reports_missing_required_map_verification(
+    tmp_path: Path,
+) -> None:
+    handoff_dir = tmp_path / "handoffs"
+    _write_complete_group(handoff_dir)
+    (handoff_dir / "priority_001_115_297_AA_covers_3_4_map_verify.json").unlink()
+
+    audit = audit_priority_handoffs(
+        priorities=_priorities(),
+        handoff_dir=handoff_dir,
+        top=2,
+        require_probes=True,
+        require_map_verifications=True,
+    )
+
+    assert audit["ready"] is False
+    assert audit["missing_files"] == [
+        {
+            "name": "priority_001_115_297_AA_covers_3_4",
+            "kind": "map_verify",
+            "path": str(
+                handoff_dir / "priority_001_115_297_AA_covers_3_4_map_verify.json"
             ),
         }
     ]
@@ -181,6 +238,7 @@ def test_priority_handoff_audit_cli_strict_exits_nonzero_when_not_ready(
             "--top",
             "2",
             "--require-probes",
+            "--require-map-verifications",
             "--out",
             str(out),
             "--strict",

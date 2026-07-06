@@ -41,7 +41,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
 
 ```text
 ready=True
-required_file_count=77
+required_file_count=82
 missing_files=[]
 ```
 

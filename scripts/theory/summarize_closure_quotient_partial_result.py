@@ -97,6 +97,9 @@ def summarize_partial_result(
             "target_cover_count": _int_value(
                 priority_handoff_audit, "target_cover_count"
             ),
+            "map_verified_groups": int(
+                priority_handoff_audit.get("map_verify_status_counts", {}).get("ok", 0)
+            ),
             "violations": len(priority_handoff_audit.get("violations", [])),
         },
         "artifact_status": {

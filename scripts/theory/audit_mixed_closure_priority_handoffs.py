@@ -240,12 +240,80 @@ def _probe_summary(
     }
 
 
+def _map_verify_summary(
+    *,
+    name: str,
+    map_verify: dict[str, Any],
+    target: tuple[int, int, str],
+    cover_indices: list[int],
+    violations: list[dict[str, Any]],
+) -> dict[str, Any]:
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.A",
+        actual=int(map_verify.get("A", 0)),
+        expected=target[0],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.B",
+        actual=int(map_verify.get("B", 0)),
+        expected=target[1],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.curve",
+        actual=str(map_verify.get("curve", "")),
+        expected=target[2],
+    )
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.status",
+        actual=str(map_verify.get("status", "")),
+        expected="ok",
+    )
+    sage = map_verify.get("sage", {})
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.all_verified",
+        actual=sage.get("all_verified") is True,
+        expected=True,
+    )
+    covers = sage.get("covers", [])
+    actual_cover_indices = [int(row.get("index", -1)) for row in covers]
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.cover_indices",
+        actual=actual_cover_indices,
+        expected=cover_indices,
+    )
+    cover_verified = [row.get("identity_verified") is True for row in covers]
+    _expect_equal(
+        violations,
+        name=name,
+        field="map_verify.cover_identity_verified",
+        actual=cover_verified,
+        expected=[True for _index in cover_indices],
+    )
+    return {
+        "map_all_verified": sage.get("all_verified") is True,
+        "map_verified_cover_count": sum(1 for verified in cover_verified if verified),
+    }
+
+
 def audit_priority_handoffs(
     *,
     priorities: dict[str, Any],
     handoff_dir: Path,
     top: int,
     require_probes: bool,
+    require_map_verifications: bool,
 ) -> dict[str, Any]:
     priority_rows = _priority_rows_by_number(priorities)
     specs = priority_handoff_specs(priorities, top=top)
@@ -253,6 +321,7 @@ def audit_priority_handoffs(
     violations: list[dict[str, Any]] = []
     groups: list[dict[str, Any]] = []
     probe_status_counts: Counter[str] = Counter()
+    map_verify_status_counts: Counter[str] = Counter()
 
     for spec in specs:
         name = str(spec["name"])
@@ -305,6 +374,27 @@ def audit_priority_handoffs(
                     violations=violations,
                 )
             )
+        map_verify_path = handoff_dir / f"{name}_map_verify.json"
+        if not map_verify_path.is_file():
+            if require_map_verifications:
+                _missing_file(
+                    missing_files,
+                    name=name,
+                    kind="map_verify",
+                    path=map_verify_path,
+                )
+        else:
+            map_verify = load_json(map_verify_path)
+            map_verify_status_counts.update([str(map_verify.get("status", "missing"))])
+            group.update(
+                _map_verify_summary(
+                    name=name,
+                    map_verify=map_verify,
+                    target=target,
+                    cover_indices=cover_indices,
+                    violations=violations,
+                )
+            )
         groups.append(group)
 
     return {
@@ -316,6 +406,7 @@ def audit_priority_handoffs(
         "missing_files": missing_files,
         "violations": violations,
         "probe_status_counts": dict(sorted(probe_status_counts.items())),
+        "map_verify_status_counts": dict(sorted(map_verify_status_counts.items())),
         "groups": groups,
         "boundary": BOUNDARY,
     }
@@ -327,6 +418,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--handoff-dir", type=Path, required=True)
     parser.add_argument("--top", type=int, required=True)
     parser.add_argument("--require-probes", action="store_true")
+    parser.add_argument("--require-map-verifications", action="store_true")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -339,6 +431,7 @@ def main() -> int:
         handoff_dir=args.handoff_dir,
         top=args.top,
         require_probes=args.require_probes,
+        require_map_verifications=args.require_map_verifications,
     )
     write_json(args.out, audit)
     print(f"wrote mixed closure priority handoff audit to {args.out}")

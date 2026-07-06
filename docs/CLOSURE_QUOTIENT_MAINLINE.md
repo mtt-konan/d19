@@ -548,6 +548,7 @@ residual_status.candidate_cover_total=27
 priority_handoff_status.ready=True
 priority_handoff_status.groups_checked=2
 priority_handoff_status.target_cover_count=4
+priority_handoff_status.map_verified_groups=2
 artifact_status.ready=True
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
@@ -726,6 +727,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_paper_claims.py`
 - `scripts/theory/export_mixed_closure_residual_handoff.py`
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
+- `scripts/theory/sage_verify_mixed_closure_handoff_maps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_residual_language.py`
 - `scripts/theory/audit_mixed_closure_priority_handoffs.py`
@@ -747,6 +749,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_paper_claim_audit.py`
 - `tests/test_mixed_closure_residual_handoff.py`
 - `tests/test_sage_probe_mixed_closure_handoff.py`
+- `tests/test_sage_verify_mixed_closure_handoff_maps.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
 - `tests/test_mixed_closure_residual_language_audit.py`
 - `tests/test_mixed_closure_priority_handoff_audit.py`
@@ -802,6 +805,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl311](work-logs/311-closure-quotient-partial-result-summary.md)
 - [wl312](work-logs/312-closure-quotient-partial-artifact-audit.md)
 - [wl313](work-logs/313-priority-handoff-probe-audit.md)
+- [wl314](work-logs/314-sage-cover-map-identity-verification.md)
 
 数学总入口：
 
