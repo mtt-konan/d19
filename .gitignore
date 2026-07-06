@@ -24,6 +24,7 @@ scripts/multi_n/_concordant_gen.c
 /results*.json
 /*_results.json
 /tmp.txt
+/outputs/
 .cache/
 *.sqlite3
 

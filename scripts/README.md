@@ -81,6 +81,7 @@ F₂-rank 工具:
 - `classify_multi_n_by_f2_rank.py` — F₂-rank 分类器 (wl049)
 - `pari_rank_high_f2.py` — high F₂-rank pair PARI ellrank (wl050)
 - `k4_rank.py` / `k4_two_descent_rank.py` — k=4 rank 实测
+- `rank_mixed_closure_curves.py` — 闭合条件混合商曲线 rank 实验 (wl290)
 
 ### `modular/` — Path B / mod p² 实证
 
