@@ -269,6 +269,28 @@ uv run python scripts/theory/summarize_mixed_closure_residual_covers.py \
   --out results/mixed_closure_aabb_residual_cover_summary.json
 ```
 
+There is also a PARI analytic/BSD diagnostic script:
+
+```bash
+uv run python scripts/theory/pari_bsd_mixed_closure_residuals.py \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/pari_bsd_mixed_aabb_t10.jsonl \
+  --curve AA \
+  --curve BB \
+  --timeout 10
+```
+
+With this budget, the current result is:
+
+```text
+status_counts = {'ok': 2, 'pari-error': 2, 'timeout': 8}
+analytic_rank_counts = {'0': 2}
+```
+
+The two successful rows give BSD-conditional support for `rank 0`; they do not
+replace the strict rank-zero certificate rule. The failed rows are tool-budget
+failures, not mathematical counterevidence.
+
 ## 4. Reproducibility
 
 Run the hard-case census:
@@ -318,6 +340,7 @@ scripts/theory/sage_diagnose_mixed_closure_residuals.py
 scripts/theory/pari_ell2cover_mixed_residuals.py
 scripts/theory/summarize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_rank0_certificates.py
+scripts/theory/pari_bsd_mixed_closure_residuals.py
 ```
 
 The certificate-producing function is:

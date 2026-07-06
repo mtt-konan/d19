@@ -312,6 +312,28 @@ Brauer-Manin 方向，而不是只保留点数表。
 obstruction 不是预期路线；更现实的是 Cassels-Tate/Brauer-Manin 解释、Mordell-Weil sieve、
 或可引用的严格 rank/L-value 证书。
 
+BSD/analytic-rank 条件性诊断入口：
+
+```bash
+uv run python scripts/theory/pari_bsd_mixed_closure_residuals.py \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/pari_bsd_mixed_aabb_t10.jsonl \
+  --curve AA \
+  --curve BB \
+  --timeout 10
+```
+
+`timeout=10` 的真实结果：
+
+```text
+status_counts={'ok': 2, 'pari-error': 2, 'timeout': 8}
+analytic_rank_counts={'0': 2}
+```
+
+成功的两条是 `(115,297) AA` 和 `(575,4641) AA`，都给出 `analytic_rank=0`。这只是
+`bsd-conditional-diagnostic`，不是严格 rank 证书。`pari-error` 当前来自 PARI stack overflow；
+加大到 `1GB` stack 后，`(567,3757) BB` 仍在 `20` 秒内超时。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
@@ -422,6 +444,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/pari_ell2cover_mixed_residuals.py`
 - `scripts/theory/summarize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_rank0_certificates.py`
+- `scripts/theory/pari_bsd_mixed_closure_residuals.py`
 
 测试：
 
@@ -432,6 +455,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_pari_ell2cover_mixed_residuals.py`
 - `tests/test_mixed_closure_residual_cover_summary.py`
 - `tests/test_mixed_closure_rank0_certificate_audit.py`
+- `tests/test_pari_bsd_mixed_closure_residuals.py`
 
 结果：
 
@@ -444,6 +468,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/pari_ell2cover_mixed_aabb_h100000.jsonl`
 - `results/mixed_closure_aabb_residual_cover_summary.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
+- `results/pari_bsd_mixed_aabb_t10.jsonl`
 
 论文草稿：
 
@@ -457,6 +482,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl296](work-logs/296-mixed-closure-residual-cover-summary.md)
 - [wl297](work-logs/297-mixed-closure-cover-map-handoff.md)
 - [wl298](work-logs/298-mixed-closure-rank0-certificate-audit.md)
+- [wl299](work-logs/299-mixed-closure-pari-bsd-diagnostics.md)
 
 数学总入口：
 
