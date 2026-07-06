@@ -336,12 +336,14 @@ factor_concordant / GEN-CLOSURE 后
 - `src/rational_distance/concordant/mixed_closure_curves.py`
 - `scripts/theory/rank_mixed_closure_curves.py`
 - `scripts/theory/sage_recheck_mixed_closure_residuals.py`
+- `scripts/theory/sage_diagnose_mixed_closure_residuals.py`
 
 测试：
 
 - `tests/test_mixed_closure_curves.py`
 - `tests/test_mixed_closure_rank_cli.py`
 - `tests/test_sage_recheck_mixed_closure_residuals.py`
+- `tests/test_sage_diagnose_mixed_closure_residuals.py`
 
 结果：
 

@@ -310,3 +310,134 @@ second_limit=20 不能作为前台批量常规参数。
 20 档成本明显上升，第一条 5 分钟都没跑完。
 所以不能靠简单调高 Sage 参数来收敛 tmp 方向。
 ```
+
+## 8. 后续更新：Selmer 与 analytic-rank 诊断
+
+继续推进时新增轻量诊断脚本：
+
+```text
+scripts/theory/sage_diagnose_mixed_closure_residuals.py
+tests/test_sage_diagnose_mixed_closure_residuals.py
+```
+
+它和 recheck 脚本不同：默认不做重型 `two_descent(second_limit=...)`，只收集 Sage 能较快给出的结构信息：
+
+```text
+rank_bounds
+selmer_rank_pari
+selmer_rank_mwrank
+torsion_order
+torsion_invariants
+torsion_two_dimension
+root_number
+conductor
+rank_plus_sha2_dimension = selmer_rank_pari - torsion_two_dimension
+```
+
+命令：
+
+```bash
+uv run python scripts/theory/sage_diagnose_mixed_closure_residuals.py \
+  --sage /usr/local/bin/sage \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
+  --curve AA \
+  --curve BB \
+  --timeout 120
+```
+
+结果：
+
+```text
+wrote 12 Sage diagnostic rows to results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl
+status_counts={'ok': 12}
+selmer_rank_counts={'4': 10, '5': 1, '6': 1}
+```
+
+逐条摘要：
+
+```text
+115 297 AA       bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+209 5355 BB      bounds [1,3] selmer 5 tors2dim 2 rank+sha2 3 root -1
+209 21735 BB     bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+391 9009 BB      bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+567 3757 BB      bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+575 4641 AA      bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+1449 12155 BB    bounds [0,4] selmer 6 tors2dim 2 rank+sha2 4 root  1
+1625 5643 AA     bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+5075 17901 AA    bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+5083 12825 BB    bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+5301 38675 BB    bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+8075 8613 AA     bounds [0,2] selmer 4 tors2dim 2 rank+sha2 2 root  1
+```
+
+普通话解释：
+
+```text
+多数 AA/BB 残余都不是“没有 Selmer 信息”。
+它们的 2-Selmer 维数正好比满 2-torsion 多 2。
+所以问题被压成：这多出来的 2 维到底来自真实 rank，还是来自 Sha[2]。
+```
+
+对 10 条 `root_number=+1, selmer_rank=4` 的行，当前形态是：
+
+```text
+rank 0 + Sha[2] 维数 2
+或
+rank 2 + Sha[2] 维数 0
+```
+
+这就是剩余 AA/BB 残余的真正核心。要把它们变成 rank-0 证书，不能只靠普通 rank bounds；
+需要严格地区分“真实 Mordell-Weil 点”与“2-Selmer 里的 Sha 元素”。
+
+脚本也支持 probable analytic rank 探针：
+
+```bash
+uv run python scripts/theory/sage_diagnose_mixed_closure_residuals.py \
+  --sage /usr/local/bin/sage \
+  --summary results/mixed_closure_rank_summary.json \
+  --out results/sage_mixed_closure_aabb_analytic_rank_pari_probe.jsonl \
+  --curve AA \
+  --curve BB \
+  --limit 4 \
+  --analytic-rank pari \
+  --timeout 45
+```
+
+结果：
+
+```text
+[1/4] (115,297) AA status=ok
+[2/4] (209,5355) BB status=timeout
+[3/4] (209,21735) BB status=timeout
+[4/4] (391,9009) BB status=timeout
+
+status_counts={'ok': 1, 'timeout': 3}
+```
+
+第一条 `(115,297) AA` 得到：
+
+```text
+analytic_rank_pari = 0
+```
+
+前面手工还确认过：
+
+```text
+analytic_rank_sympow = 0
+```
+
+边界必须说清楚：Sage 文档把 `analytic_rank()` 描述为 “probably”。所以这只是强证据，不是严格
+rank-0 证书。它说明 `(115,297) AA` 很可能是：
+
+```text
+rank 0 + Sha[2] 维数 2
+```
+
+而不是：
+
+```text
+rank 2
+```
+
+但要写进严格主线，还需要可认证的 L 值非零 / Sha[2] 证书 / 2-cover 无点证书。
