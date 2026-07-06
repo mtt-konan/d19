@@ -178,6 +178,29 @@ rows. Every certified row has exactly two affine preimages, and none gives a ful
 closed square point. At pair level, these certificates strictly exclude `220`
 distinct `(A, B)` pairs across the two datasets.
 
+The stored certificates are audited separately with:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_rank0_certificates.py \
+  --input results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --input results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/mixed_closure_rank0_certificate_audit.json \
+  --strict
+```
+
+The current audit result is:
+
+```text
+rank0_aabb_rows = 275
+certified_rows = 275
+strict_no_full_closed_rows = 275
+only_midpoint_rows = 275
+violations = 0
+```
+
+This audit checks the stored torsion-pullback certificates. It is not a separate
+rank-certification algorithm.
+
 ### 3.3 Unclosed rank bounds
 
 The 64 residual-pair dataset has no unclosed rank bounds. The 320 hard-case dataset
@@ -294,6 +317,7 @@ scripts/theory/summarize_mixed_closure_results.py
 scripts/theory/sage_diagnose_mixed_closure_residuals.py
 scripts/theory/pari_ell2cover_mixed_residuals.py
 scripts/theory/summarize_mixed_closure_residual_covers.py
+scripts/theory/audit_mixed_closure_rank0_certificates.py
 ```
 
 The certificate-producing function is:

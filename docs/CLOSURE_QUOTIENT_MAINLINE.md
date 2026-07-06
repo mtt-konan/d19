@@ -146,6 +146,29 @@ scripts/theory/summarize_mixed_closure_results.py
 
 这已经是严格判据，不再是高度枚举。
 
+独立审计入口：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_rank0_certificates.py \
+  --input results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --input results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/mixed_closure_rank0_certificate_audit.json \
+  --strict
+```
+
+真实审计结果：
+
+```text
+rank0_aabb_rows=275
+certified_rows=275
+strict_no_full_closed_rows=275
+only_midpoint_rows=275
+violations=0
+```
+
+这一步只审计已经写入 JSONL 的 torsion-pullback 证书；rank 认证仍来自前面的 PARI rank
+计算和 certificate 生成流程。
+
 ### 3.2 root number 只作诊断
 
 rank 输出现在记录 `root_number`。它帮助观察 parity pattern，但当前不作为无条件判据。
@@ -398,6 +421,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_diagnose_mixed_closure_residuals.py`
 - `scripts/theory/pari_ell2cover_mixed_residuals.py`
 - `scripts/theory/summarize_mixed_closure_residual_covers.py`
+- `scripts/theory/audit_mixed_closure_rank0_certificates.py`
 
 测试：
 
@@ -407,6 +431,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_diagnose_mixed_closure_residuals.py`
 - `tests/test_pari_ell2cover_mixed_residuals.py`
 - `tests/test_mixed_closure_residual_cover_summary.py`
+- `tests/test_mixed_closure_rank0_certificate_audit.py`
 
 结果：
 
@@ -418,6 +443,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl`
 - `results/pari_ell2cover_mixed_aabb_h100000.jsonl`
 - `results/mixed_closure_aabb_residual_cover_summary.json`
+- `results/mixed_closure_rank0_certificate_audit.json`
 
 论文草稿：
 
@@ -430,6 +456,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl295](work-logs/295-sage-mixed-closure-residual-rank-recheck.md)
 - [wl296](work-logs/296-mixed-closure-residual-cover-summary.md)
 - [wl297](work-logs/297-mixed-closure-cover-map-handoff.md)
+- [wl298](work-logs/298-mixed-closure-rank0-certificate-audit.md)
 
 数学总入口：
 
