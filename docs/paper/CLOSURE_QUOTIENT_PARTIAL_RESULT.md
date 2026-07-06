@@ -507,6 +507,32 @@ This wording audit does not verify the mathematics. It only guards the paper
 language against turning bounded search, BSD-conditional diagnostics, or
 `Sha[2]` candidates into proof claims.
 
+Summarize the full partial-result gate:
+
+```bash
+uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
+  --claim-audit results/closure_quotient_paper_claim_audit.json \
+  --language-audit results/mixed_closure_residual_language_audit.json \
+  --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --out results/closure_quotient_partial_result_summary.json \
+  --strict
+```
+
+Current result:
+
+```text
+ready_for_partial_result = True
+blocking_issues = []
+rank0_torsion_certificates = 275
+strict_excluded_pair_count = 220
+candidate_cover_total = 27
+residual proof_status = candidate-not-proof
+```
+
+The word `ready` here means the stored evidence and wording gates are internally
+consistent for a partial-result note. It does not mean the residual covers have
+been strictly proven pointless.
+
 Export the current strict-proof handoff for the smallest residual target:
 
 ```bash
@@ -579,6 +605,7 @@ scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
+scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 ```
 

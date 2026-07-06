@@ -524,6 +524,30 @@ required_boundary_hits={
 
 这一步只审计措辞，防止把 bounded search / BSD 条件诊断 / Sha[2] candidate 写成证明。
 
+partial-result 总摘要：
+
+```bash
+uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
+  --claim-audit results/closure_quotient_paper_claim_audit.json \
+  --language-audit results/mixed_closure_residual_language_audit.json \
+  --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
+  --out results/closure_quotient_partial_result_summary.json \
+  --strict
+```
+
+当前结果：
+
+```text
+ready_for_partial_result=True
+blocking_issues=[]
+strict_certificate.rank0_torsion_certificates=275
+strict_certificate.strict_excluded_pair_count=220
+residual_status.candidate_cover_total=27
+residual_status.proof_status=candidate-not-proof
+```
+
+普通话说：这表示“partial result 证据包和措辞边界已经自洽”，不表示 residual cover 已被严格无点证明。
+
 目标 cover handoff：
 
 ```bash
@@ -697,6 +721,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_residual_language.py`
+- `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 
 测试：
@@ -715,6 +740,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_probe_mixed_closure_handoff.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
 - `tests/test_mixed_closure_residual_language_audit.py`
+- `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 
 结果：
