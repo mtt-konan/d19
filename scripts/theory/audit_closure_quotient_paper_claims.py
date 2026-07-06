@@ -44,6 +44,22 @@ def _bsd_analytic_rank0_rows(rows: list[dict[str, Any]]) -> int:
     return sum(1 for row in rows if row.get("status") == "ok" and row.get("analytic_rank") == 0)
 
 
+def _priority_rows(priority_summary: dict[str, Any] | None) -> list[dict[str, Any]]:
+    return list((priority_summary or {}).get("rows", []))
+
+
+def _top_priority(priority_summary: dict[str, Any] | None) -> dict[str, Any]:
+    rows = _priority_rows(priority_summary)
+    if not rows:
+        return {}
+    return min(rows, key=lambda row: int(row.get("priority", 10**9)))
+
+
+def _top_n_bsd_rank0(priority_summary: dict[str, Any] | None, *, n: int) -> int:
+    rows = sorted(_priority_rows(priority_summary), key=lambda row: int(row.get("priority", 10**9)))
+    return sum(1 for row in rows[:n] if row.get("has_bsd_conditional_rank0") is True)
+
+
 def _mismatches(
     claim_values: dict[str, int],
     expected: dict[str, int],
@@ -68,11 +84,13 @@ def audit_claims(
     rank0_audit: dict[str, Any],
     cover_summary: dict[str, Any],
     residual_evidence_audit: dict[str, Any] | None,
+    priority_summary: dict[str, Any] | None,
     identity_audit: dict[str, Any],
     bsd_rows: list[dict[str, Any]],
     expected: dict[str, int],
 ) -> dict[str, Any]:
     bsd_counts = _bsd_status_counts(bsd_rows)
+    top_priority = _top_priority(priority_summary)
     claim_values = {
         "rank_summary_rows": _int_value(rank_summary, "rows"),
         "rank0_torsion_certificates": _int_value(
@@ -123,6 +141,14 @@ def audit_claims(
         "residual_evidence_violations": len(
             (residual_evidence_audit or {}).get("violations", [])
         ),
+        "priority_candidate_cover_total": _int_value(
+            priority_summary or {}, "candidate_cover_total"
+        ),
+        "priority_top_a": int(top_priority.get("A", 0)),
+        "priority_top_b": int(top_priority.get("B", 0)),
+        "priority_top_cover_index": int(top_priority.get("cover_index", 0)),
+        "priority_top_curve_is_aa": 1 if top_priority.get("curve") == "AA" else 0,
+        "priority_top4_bsd_rank0_rows": _top_n_bsd_rank0(priority_summary, n=4),
         "even_model_identities_verified": 1
         if identity_audit.get("all_verified") is True
         else 0,
@@ -156,6 +182,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank0-audit", type=Path, required=True)
     parser.add_argument("--cover-summary", type=Path, required=True)
     parser.add_argument("--residual-evidence-audit", type=Path, default=None)
+    parser.add_argument("--priority-summary", type=Path, default=None)
     parser.add_argument("--identity-audit", type=Path, required=True)
     parser.add_argument("--bsd", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -178,6 +205,7 @@ def main() -> int:
         residual_evidence_audit=load_json(args.residual_evidence_audit)
         if args.residual_evidence_audit
         else None,
+        priority_summary=load_json(args.priority_summary) if args.priority_summary else None,
         identity_audit=load_json(args.identity_audit),
         bsd_rows=load_jsonl(args.bsd),
         expected=_parse_expect(args.expect),

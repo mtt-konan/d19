@@ -434,6 +434,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
   --residual-evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
+  --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
   --identity-audit results/mixed_closure_even_model_identity_audit.json \
   --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
   --out results/closure_quotient_paper_claim_audit.json \
@@ -447,6 +448,11 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect residual_evidence_target_rows=12 \
   --expect residual_evidence_candidate_cover_total=27 \
   --expect residual_evidence_violations=0 \
+  --expect priority_candidate_cover_total=27 \
+  --expect priority_top_a=115 \
+  --expect priority_top_b=297 \
+  --expect priority_top_cover_index=3 \
+  --expect priority_top4_bsd_rank0_rows=4 \
   --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
   --expect bsd_analytic_rank0_rows=2 \
