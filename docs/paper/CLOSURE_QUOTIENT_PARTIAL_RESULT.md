@@ -289,6 +289,30 @@ uv run python scripts/theory/summarize_mixed_closure_residual_covers.py \
   --out results/mixed_closure_aabb_residual_cover_summary.json
 ```
 
+A stricter cross-file audit aligns the residual rows across the rank summary,
+Sage Selmer diagnostics, PARI `ell2cover` output, and BSD diagnostics:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_residual_evidence.py \
+  --rank-summary results/mixed_closure_rank_summary.json \
+  --diagnostics results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
+  --covers results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
+  --out results/mixed_closure_aabb_residual_evidence_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+target_rows = 12
+candidate_cover_total = 27
+violations = 0
+```
+
+This is still an evidence audit, not a no-point proof. Its main purpose is to
+make sure the residual rows and candidate-cover language remain consistent.
+
 There is also a PARI analytic/BSD diagnostic script:
 
 ```bash
@@ -347,6 +371,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank-summary results/mixed_closure_rank_summary.json \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --residual-evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
   --identity-audit results/mixed_closure_even_model_identity_audit.json \
   --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
   --out results/closure_quotient_paper_claim_audit.json \
@@ -357,6 +382,9 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect classification_detail_point_count=550 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
+  --expect residual_evidence_target_rows=12 \
+  --expect residual_evidence_candidate_cover_total=27 \
+  --expect residual_evidence_violations=0 \
   --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
   --expect bsd_analytic_rank0_rows=2 \
@@ -410,6 +438,7 @@ scripts/theory/pari_ell2cover_mixed_residuals.py
 scripts/theory/summarize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_rank0_certificates.py
 scripts/theory/pari_bsd_mixed_closure_residuals.py
+scripts/theory/audit_mixed_closure_residual_evidence.py
 scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
