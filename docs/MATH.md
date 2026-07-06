@@ -455,6 +455,12 @@ hard-case pair 和 wl100 的 `64` 个 local-global residual pair 跑过 `ellfrom
 [wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)。主线入口见
 [docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
 
+`AB/BA` 的正 rank 现象已有结构解释：二者共享
+$Y^2=X^3+CX^2-DX-CD$，其中 $C=2(A^2+AB+B^2)$、$D=(2AB)^2$，并带显式点
+$P=(-(A^2+B^2),(A+B)^2(B-A))$。特化 `(A,B)=(7,45)` 已验证该点非 torsion；
+当前两批样本的 `384` 个 distinct pair 中也全部非 torsion。因此 `AB/BA` 先降级为结构解释，
+不作为 rank-zero 排除工具。
+
 **`AA/BB rank=0` torsion 回拉引理（当前可用口径）。** 对 `AA` 或 `BB`，令
 
 $$t=2N-(A+B),\qquad z=4y.$$

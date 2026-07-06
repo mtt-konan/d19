@@ -98,6 +98,18 @@ def _mul_quadratics(
     return tuple(out)  # type: ignore[return-value]
 
 
+def mixed_ab_ba_weierstrass_model(A: int, B: int) -> list[int]:
+    """Return the shared PARI Weierstrass model for the ``AB``/``BA`` quotients."""
+    middle = 2 * (A * A + A * B + B * B)
+    square_gap = (2 * A * B) ** 2
+    return [0, middle, 0, -square_gap, -middle * square_gap]
+
+
+def mixed_ab_ba_positive_rank_point(A: int, B: int) -> list[int]:
+    """Return a generic non-torsion candidate on the shared ``AB``/``BA`` model."""
+    return [-(A * A + B * B), (A + B) ** 2 * (B - A)]
+
+
 def closure_quotient_polynomials(A: int, B: int) -> list[ClosureQuotientCurve]:
     """Build the four closure quotients that involve both ``N`` and ``M``."""
     factors = {

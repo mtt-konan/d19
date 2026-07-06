@@ -58,6 +58,33 @@ def test_mixed_quotients_have_universal_affine_points() -> None:
             assert evaluate_quartic(curve, n_value) == y_value * y_value
 
 
+def test_mixed_ab_ba_share_weierstrass_model_with_generic_point() -> None:
+    from rational_distance.concordant.analysis import _ensure_pari
+    from rational_distance.concordant.mixed_closure_curves import (
+        closure_quotient_polynomials,
+        mixed_ab_ba_positive_rank_point,
+        mixed_ab_ba_weierstrass_model,
+        rank_closure_quotient,
+    )
+
+    pari = _ensure_pari()
+    A = 7
+    B = 45
+    curves = {curve.name: curve for curve in closure_quotient_polynomials(A, B)}
+
+    expected_model = [0, 2 * (A * A + A * B + B * B), 0, -((2 * A * B) ** 2)]
+    expected_model.append(-expected_model[1] * ((2 * A * B) ** 2))
+
+    assert mixed_ab_ba_weierstrass_model(A, B) == expected_model
+    assert rank_closure_quotient(curves["AB"], pari=pari)["model"] == expected_model
+    assert rank_closure_quotient(curves["BA"], pari=pari)["model"] == expected_model
+
+    point = mixed_ab_ba_positive_rank_point(A, B)
+    elliptic_curve = pari.ellinit(expected_model)
+    assert pari.ellisoncurve(elliptic_curve, point)
+    assert int(pari.ellorder(elliptic_curve, point)) == 0
+
+
 def test_batch_rank_records_pari_unavailable_without_crashing() -> None:
     from rational_distance.concordant.mixed_closure_curves import rank_mixed_closure_curves
 

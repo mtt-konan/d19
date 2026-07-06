@@ -99,6 +99,8 @@ algebraic identities, 2-adic obstructions, and a verified no-solution census.*
   - `59` rank-zero `AA/BB` certificate rows, covering `42` pairs, among the `64`
     local-global residual pairs.
   - all certified affine pullbacks are midpoint points and none is full closed.
+- Explain why `AB/BA` are not rank-zero obstruction candidates: they share an
+  `E_mix` model with an explicit non-torsion point in the generic family.
 - State the boundary: `AB/BA` have no rank-zero rows in these datasets, and this
   section does not prove a global theorem.
 - Draft source: [CLOSURE_QUOTIENT_PARTIAL_RESULT.md](CLOSURE_QUOTIENT_PARTIAL_RESULT.md).

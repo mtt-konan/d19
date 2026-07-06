@@ -300,9 +300,27 @@ BA: N=A gives y=A^2+B^2, and N=B gives y=2AB
 ```
 
 These points do not require all four square conditions. They only show that the
-mixed quotients carry built-in rational points. The remaining question is whether
-their divisor classes are generally non-torsion on the Jacobian. That question
-controls whether the observed positive rank of `AB/BA` has a general proof.
+mixed quotients carry built-in rational points.
+
+The `AB/BA` quotients share the Weierstrass model
+
+```text
+E_mix: Y^2 = X^3 + C X^2 - D X - CD
+C = 2(A^2 + AB + B^2)
+D = (2AB)^2
+```
+
+and this model carries the explicit point
+
+```text
+P_mix = (-(A^2+B^2), (A+B)^2(B-A)).
+```
+
+For the specialization `(A,B)=(7,45)`, PARI verifies that `P_mix` lies on `E_mix`
+and has `ellorder(P_mix)=0`. Hence `P_mix` is not a torsion point in the generic
+family. In the two current datasets, the same point has `ellorder=0` for all `384`
+distinct pairs. This explains why `AB/BA` should not be treated as rank-zero
+obstruction candidates in this framework.
 
 The midpoint-only outcome is an observed stronger pattern in the two datasets. The
 certificate rule only needs the weaker condition: no affine pullback satisfies all
@@ -317,5 +335,5 @@ This note can become a partial-result section with the following structure:
 3. State the certificate rule.
 4. Present the two certified censuses.
 5. State the remaining problems:
-   `AB/BA` need a non-torsion proof for their universal points, and the `0/2`,
-   `1/3` bounds need descent or model work before they can produce more certificates.
+   the `0/2`, `1/3` bounds need descent or model work before they can produce more
+   certificates.
