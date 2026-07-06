@@ -76,10 +76,12 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
 
     assert "scripts/theory/audit_mixed_closure_priority_handoffs.py" in paths
     assert "scripts/theory/sage_verify_mixed_closure_handoff_maps.py" in paths
+    assert "scripts/theory/sage_verify_mixed_closure_residual_cover_maps.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
     assert "tests/test_sage_verify_mixed_closure_handoff_maps.py" in paths
+    assert "tests/test_sage_verify_mixed_closure_residual_cover_maps.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -88,9 +90,11 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/316-all-residual-local-witnesses.md" in paths
     assert "docs/work-logs/317-residual-local-witness-paper-claim-gate.md" in paths
     assert "docs/work-logs/318-residual-selmer-gap-ledger.md" in paths
+    assert "docs/work-logs/319-all-residual-cover-map-verification.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
+    assert "results/mixed_closure_residual_cover_map_verify.json" in paths
     assert (
         "results/mixed_closure_residual_handoffs/"
         "priority_001_115_297_AA_covers_3_4_sage_probe.json"

@@ -33,6 +33,7 @@ def _blocking_issues(
     priority_handoff_audit: dict[str, Any],
     residual_local_witnesses: dict[str, Any],
     selmer_gap_ledger: dict[str, Any],
+    residual_cover_map_verify: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -58,6 +59,13 @@ def _blocking_issues(
         or selmer_gap_ledger.get("all_rows_candidate_not_proof") is not True
     ):
         issues.append("residual-selmer-gap-ledger-issues")
+    if (
+        residual_cover_map_verify.get("all_verified") is not True
+        or _int_value(residual_cover_map_verify, "target_cover_count")
+        != _int_value(priority_summary, "candidate_cover_total")
+        or _int_value(residual_cover_map_verify, "failed_cover_count") != 0
+    ):
+        issues.append("residual-cover-map-verify-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -71,6 +79,7 @@ def summarize_partial_result(
     priority_handoff_audit: dict[str, Any],
     residual_local_witnesses: dict[str, Any],
     selmer_gap_ledger: dict[str, Any],
+    residual_cover_map_verify: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -83,6 +92,7 @@ def summarize_partial_result(
         priority_handoff_audit=priority_handoff_audit,
         residual_local_witnesses=residual_local_witnesses,
         selmer_gap_ledger=selmer_gap_ledger,
+        residual_cover_map_verify=residual_cover_map_verify,
         artifact_audit=artifact_audit,
     )
 
@@ -164,6 +174,21 @@ def summarize_partial_result(
                 sorted(selmer_gap_ledger.get("gap_type_counts", {}).items())
             ),
         },
+        "residual_cover_map_status": {
+            "ready": residual_cover_map_verify.get("all_verified") is True
+            and _int_value(residual_cover_map_verify, "target_cover_count")
+            == _int_value(priority_summary, "candidate_cover_total")
+            and _int_value(residual_cover_map_verify, "failed_cover_count") == 0,
+            "target_cover_count": _int_value(
+                residual_cover_map_verify, "target_cover_count"
+            ),
+            "verified_cover_count": _int_value(
+                residual_cover_map_verify, "verified_cover_count"
+            ),
+            "failed_cover_count": _int_value(
+                residual_cover_map_verify, "failed_cover_count"
+            ),
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -185,6 +210,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--priority-handoff-audit", type=Path, required=True)
     parser.add_argument("--residual-local-witnesses", type=Path, required=True)
     parser.add_argument("--selmer-gap-ledger", type=Path, required=True)
+    parser.add_argument("--residual-cover-map-verify", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -200,6 +226,7 @@ def main() -> int:
         priority_handoff_audit=load_json(args.priority_handoff_audit),
         residual_local_witnesses=load_json(args.residual_local_witnesses),
         selmer_gap_ledger=load_json(args.selmer_gap_ledger),
+        residual_cover_map_verify=load_json(args.residual_cover_map_verify),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

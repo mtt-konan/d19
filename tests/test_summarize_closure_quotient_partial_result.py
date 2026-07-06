@@ -56,7 +56,13 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "gap_type_counts": {"rank0-sha2-gap2": 20, "residual-gap-open": 7},
         "all_rows_candidate_not_proof": True,
     }
-    artifact_audit = {"ready": True, "required_file_count": 94, "missing_files": []}
+    residual_cover_map_verify = {
+        "all_verified": True,
+        "target_cover_count": 27,
+        "verified_cover_count": 27,
+        "failed_cover_count": 0,
+    }
+    artifact_audit = {"ready": True, "required_file_count": 98, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -65,6 +71,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         priority_handoff_audit=priority_handoff_audit,
         residual_local_witnesses=residual_local_witnesses,
         selmer_gap_ledger=selmer_gap_ledger,
+        residual_cover_map_verify=residual_cover_map_verify,
         artifact_audit=artifact_audit,
     )
 
@@ -110,9 +117,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
                 "residual-gap-open": 7,
             },
         },
+        "residual_cover_map_status": {
+            "ready": True,
+            "target_cover_count": 27,
+            "verified_cover_count": 27,
+            "failed_cover_count": 0,
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 94,
+            "required_file_count": 98,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -142,6 +155,12 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "missing_diagnostic_rows": 1,
             "all_rows_candidate_not_proof": True,
         },
+        residual_cover_map_verify={
+            "all_verified": False,
+            "target_cover_count": 27,
+            "verified_cover_count": 26,
+            "failed_cover_count": 1,
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -156,6 +175,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "priority-handoff-audit-issues",
         "residual-local-witness-issues",
         "residual-selmer-gap-ledger-issues",
+        "residual-cover-map-verify-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -167,6 +187,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     handoffs = tmp_path / "handoffs.json"
     local_witnesses = tmp_path / "local.json"
     selmer_gaps = tmp_path / "selmer_gaps.json"
+    cover_maps = tmp_path / "cover_maps.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -181,6 +202,11 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     selmer_gaps.write_text(
         '{"candidate_cover_total":0,"missing_diagnostic_rows":0,'
         '"all_rows_candidate_not_proof":true}\n',
+        encoding="utf-8",
+    )
+    cover_maps.write_text(
+        '{"all_verified":true,"target_cover_count":0,'
+        '"verified_cover_count":0,"failed_cover_count":0}\n',
         encoding="utf-8",
     )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
@@ -201,6 +227,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(local_witnesses),
             "--selmer-gap-ledger",
             str(selmer_gaps),
+            "--residual-cover-map-verify",
+            str(cover_maps),
             "--artifact-audit",
             str(artifacts),
             "--out",

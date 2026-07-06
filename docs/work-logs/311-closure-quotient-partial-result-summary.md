@@ -54,6 +54,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
+  --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -89,8 +90,11 @@ residual_local_witness_status.unresolved_bad_prime_total = 0
 residual_selmer_gap_status.candidate_cover_total = 27
 residual_selmer_gap_status.rows_with_ok_diagnostics = 27
 residual_selmer_gap_status.rank0_sha2_gap2_cover_total = 20
+residual_cover_map_status.target_cover_count = 27
+residual_cover_map_status.verified_cover_count = 27
+residual_cover_map_status.failed_cover_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 94
+artifact_status.required_file_count = 98
 artifact_status.missing_file_count = 0
 ```
 
