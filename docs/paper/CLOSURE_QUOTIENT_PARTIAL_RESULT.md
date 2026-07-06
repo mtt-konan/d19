@@ -202,6 +202,44 @@ row in `uncertain_rank_rows` with its Weierstrass model, root number, `sha2_lowe
 and torsion order. That field is the handoff point for Sage, Magma, or any later
 Selmer-specific tool.
 
+### 3.4 Residual 2-cover candidates
+
+The `AA/BB` part of the residual set has now been diagnosed one level deeper.
+Sage Selmer diagnostics and PARI `ell2cover` agree on all 12 `AA/BB` residual rows:
+
+```text
+status_counts = {'ok': 12}
+covers_without_points_counts = {'2': 10, '3': 1, '4': 1}
+selmer_gap_alignment_counts = {'match': 12}
+```
+
+Here the Selmer gap is
+
+```text
+selmer_rank_pari - torsion_two_dimension.
+```
+
+Thus the extra 2-Selmer dimensions are represented by explicit 2-cover quartics
+on which `hyperellratpoints` found no rational point up to height `100000`. This is
+useful evidence, but it is not yet a strict certificate. A bounded point search
+does not prove that a cover has no rational point.
+
+The correct paper-level wording is:
+
+```text
+The remaining AA/BB residual rows produce explicit Sha[2] candidate covers.
+They are not currently accepted by the strict certificate rule.
+```
+
+The current summary is reproducible with:
+
+```bash
+uv run python scripts/theory/summarize_mixed_closure_residual_covers.py \
+  --covers results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --diagnostics results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
+  --out results/mixed_closure_aabb_residual_cover_summary.json
+```
+
 ## 4. Reproducibility
 
 Run the hard-case census:
@@ -247,6 +285,9 @@ The implementation entry points are:
 src/rational_distance/concordant/mixed_closure_curves.py
 scripts/theory/rank_mixed_closure_curves.py
 scripts/theory/summarize_mixed_closure_results.py
+scripts/theory/sage_diagnose_mixed_closure_residuals.py
+scripts/theory/pari_ell2cover_mixed_residuals.py
+scripts/theory/summarize_mixed_closure_residual_covers.py
 ```
 
 The certificate-producing function is:
@@ -340,5 +381,5 @@ This note can become a partial-result section with the following structure:
 3. State the certificate rule.
 4. Present the two certified censuses.
 5. State the remaining problems:
-   the `0/2`, `1/3` bounds need descent or model work before they can produce more
-   certificates.
+   the `AA/BB` residuals are explicit 2-cover no-point candidates, and need a strict
+   no-point certificate before they can produce more rank-zero certificates.

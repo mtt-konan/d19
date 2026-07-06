@@ -230,6 +230,59 @@ results/mixed_closure_rank_summary.json
 每条 residual 行都带 `model`、`root_number`、`sha2_lower`、`torsion_order`，可以直接转给
 Sage / Magma / 后续 Selmer 工具。
 
+### P1.1：AA/BB residual 已压成显式 2-cover 候选
+
+已推进。
+
+Sage Selmer 诊断和 PARI `ell2cover` 已把 `12` 条 `AA/BB` residual 从“rank bounds 不闭合”
+进一步压成更具体的问题：
+
+```text
+12 AA/BB residual rows:
+  Sage Selmer diagnostics: all ok
+  PARI ell2cover probes: all ok
+  covers_without_points_counts = {'2': 10, '3': 1, '4': 1}
+  selmer_gap_alignment_counts = {'match': 12}
+```
+
+这里的 `selmer_gap` 指：
+
+```text
+selmer_rank_pari - torsion_two_dimension
+```
+
+普通话说：多出来的 Selmer 维数，正好对应 `ell2cover` 里高度 `100000` 内没找到点的 cover 数。
+所以剩余问题不是散的 rank 黑箱，而是显式的 2-cover 无点候选。
+
+复现命令：
+
+```bash
+uv run python scripts/theory/summarize_mixed_closure_residual_covers.py \
+  --covers results/pari_ell2cover_mixed_aabb_h100000.jsonl \
+  --diagnostics results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
+  --out results/mixed_closure_aabb_residual_cover_summary.json
+```
+
+输出摘要：
+
+```text
+status_counts={'ok': 12}
+covers_without_points_counts={'2': 10, '3': 1, '4': 1}
+selmer_gap_alignment_counts={'match': 12}
+evidence_level_counts={'bounded-search-no-point-candidate': 12}
+```
+
+边界必须保留：
+
+```text
+hyperellratpoints 没找到点 != 严格证明 cover 无点。
+当前只能叫 explicit Sha[2] candidate / 2-cover no-point candidate。
+```
+
+下一步的严格化目标是从这些 no-point cover 中选最小代表，例如 `(115,297) AA` 的第 `3,4`
+个 cover，尝试给出真正的无有理点证书：局部 obstruction、Cassels-Tate/Brauer-Manin 解释、
+或可引用的严格 rank/L-value 证书。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
@@ -338,6 +391,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_recheck_mixed_closure_residuals.py`
 - `scripts/theory/sage_diagnose_mixed_closure_residuals.py`
 - `scripts/theory/pari_ell2cover_mixed_residuals.py`
+- `scripts/theory/summarize_mixed_closure_residual_covers.py`
 
 测试：
 
@@ -346,6 +400,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_recheck_mixed_closure_residuals.py`
 - `tests/test_sage_diagnose_mixed_closure_residuals.py`
 - `tests/test_pari_ell2cover_mixed_residuals.py`
+- `tests/test_mixed_closure_residual_cover_summary.py`
 
 结果：
 
@@ -356,6 +411,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/sage_mixed_closure_residual_recheck_limit13.jsonl`
 - `results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl`
 - `results/pari_ell2cover_mixed_aabb_h100000.jsonl`
+- `results/mixed_closure_aabb_residual_cover_summary.json`
 
 论文草稿：
 
@@ -366,6 +422,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl290](work-logs/290-mixed-closure-quotient-rank-smoke.md)
 - [wl294](work-logs/294-tmp-mixed-closure-answer.md)
 - [wl295](work-logs/295-sage-mixed-closure-residual-rank-recheck.md)
+- [wl296](work-logs/296-mixed-closure-residual-cover-summary.md)
 
 数学总入口：
 
