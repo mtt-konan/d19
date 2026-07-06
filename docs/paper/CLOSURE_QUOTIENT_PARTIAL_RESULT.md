@@ -320,6 +320,34 @@ uv run python scripts/theory/summarize_mixed_closure_results.py \
   --out results/mixed_closure_rank_summary.json
 ```
 
+Audit the numeric claims used in this note:
+
+```bash
+uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
+  --rank-summary results/mixed_closure_rank_summary.json \
+  --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
+  --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
+  --out results/closure_quotient_paper_claim_audit.json \
+  --expect rank0_torsion_certificates=275 \
+  --expect strict_excluded_pair_count=220 \
+  --expect rank0_aabb_rows=275 \
+  --expect cover_rows=12 \
+  --expect cover_selmer_matches=12 \
+  --expect bsd_ok_rows=2 \
+  --expect bsd_analytic_rank0_rows=2 \
+  --strict
+```
+
+Current result:
+
+```text
+mismatches = 0
+```
+
+This is a consistency gate for stored result files and paper-level numeric claims.
+It does not create new mathematical certificates.
+
 Run the targeted tests:
 
 ```bash
@@ -341,6 +369,7 @@ scripts/theory/pari_ell2cover_mixed_residuals.py
 scripts/theory/summarize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_rank0_certificates.py
 scripts/theory/pari_bsd_mixed_closure_residuals.py
+scripts/theory/audit_closure_quotient_paper_claims.py
 ```
 
 The certificate-producing function is:

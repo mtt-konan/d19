@@ -334,6 +334,33 @@ analytic_rank_counts={'0': 2}
 `bsd-conditional-diagnostic`，不是严格 rank 证书。`pari-error` 当前来自 PARI stack overflow；
 加大到 `1GB` stack 后，`(567,3757) BB` 仍在 `20` 秒内超时。
 
+论文数字一致性 gate：
+
+```bash
+uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
+  --rank-summary results/mixed_closure_rank_summary.json \
+  --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
+  --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
+  --out results/closure_quotient_paper_claim_audit.json \
+  --expect rank0_torsion_certificates=275 \
+  --expect strict_excluded_pair_count=220 \
+  --expect rank0_aabb_rows=275 \
+  --expect cover_rows=12 \
+  --expect cover_selmer_matches=12 \
+  --expect bsd_ok_rows=2 \
+  --expect bsd_analytic_rank0_rows=2 \
+  --strict
+```
+
+当前结果：
+
+```text
+mismatches=0
+```
+
+这只检查 stored result files 和 paper-level 数字声明的一致性，不产生新的数学证书。
+
 ### P2：解释 `AB/BA` 无 rank 0
 
 两批样本中 `AB/BA` 全部 rank 正。需要判断这是偶然，还是闭合结构强迫。
@@ -445,6 +472,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_mixed_closure_residual_covers.py`
 - `scripts/theory/audit_mixed_closure_rank0_certificates.py`
 - `scripts/theory/pari_bsd_mixed_closure_residuals.py`
+- `scripts/theory/audit_closure_quotient_paper_claims.py`
 
 测试：
 
@@ -456,6 +484,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_cover_summary.py`
 - `tests/test_mixed_closure_rank0_certificate_audit.py`
 - `tests/test_pari_bsd_mixed_closure_residuals.py`
+- `tests/test_closure_quotient_paper_claim_audit.py`
 
 结果：
 
@@ -469,6 +498,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_aabb_residual_cover_summary.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
+- `results/closure_quotient_paper_claim_audit.json`
 
 论文草稿：
 
@@ -483,6 +513,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl297](work-logs/297-mixed-closure-cover-map-handoff.md)
 - [wl298](work-logs/298-mixed-closure-rank0-certificate-audit.md)
 - [wl299](work-logs/299-mixed-closure-pari-bsd-diagnostics.md)
+- [wl300](work-logs/300-closure-quotient-paper-claim-audit.md)
 
 数学总入口：
 
