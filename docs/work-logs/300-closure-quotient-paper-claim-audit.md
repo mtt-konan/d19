@@ -44,6 +44,7 @@ strict_excluded_pair_count = 220
 rank0_aabb_rows = 275
 cover_rows = 12
 cover_selmer_matches = 12
+even_model_identities_verified = 1
 bsd_ok_rows = 2
 bsd_analytic_rank0_rows = 2
 ```
@@ -52,6 +53,7 @@ bsd_analytic_rank0_rows = 2
 
 - rank/certificate summary；
 - rank-0 certificate audit；
+- even-model symbolic identity audit；
 - residual 2-cover summary；
 - PARI BSD 条件诊断。
 
@@ -64,6 +66,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank-summary results/mixed_closure_rank_summary.json \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --identity-audit results/mixed_closure_even_model_identity_audit.json \
   --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
   --out results/closure_quotient_paper_claim_audit.json \
   --expect rank0_torsion_certificates=275 \
@@ -71,6 +74,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_aabb_rows=275 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
+  --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
   --expect bsd_analytic_rank0_rows=2 \
   --strict

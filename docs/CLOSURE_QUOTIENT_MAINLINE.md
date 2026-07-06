@@ -169,6 +169,22 @@ violations=0
 这一步只审计已经写入 JSONL 的 torsion-pullback 证书；rank 认证仍来自前面的 PARI rank
 计算和 certificate 生成流程。
 
+代数公式审计入口：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_even_model_identities.py \
+  --out results/mixed_closure_even_model_identity_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+all_verified=True
+```
+
+它只审计 centered even model 和双向映射公式，不认证 rank 或有理点。
+
 ### 3.2 root number 只作诊断
 
 rank 输出现在记录 `root_number`。它帮助观察 parity pattern，但当前不作为无条件判据。
@@ -341,6 +357,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank-summary results/mixed_closure_rank_summary.json \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --identity-audit results/mixed_closure_even_model_identity_audit.json \
   --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
   --out results/closure_quotient_paper_claim_audit.json \
   --expect rank0_torsion_certificates=275 \
@@ -348,6 +365,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_aabb_rows=275 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
+  --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
   --expect bsd_analytic_rank0_rows=2 \
   --strict
@@ -498,6 +516,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/pari_bsd_mixed_closure_residuals.py`
 - `scripts/theory/audit_closure_quotient_paper_claims.py`
 - `scripts/theory/export_mixed_closure_residual_handoff.py`
+- `scripts/theory/audit_mixed_closure_even_model_identities.py`
 
 测试：
 
@@ -511,6 +530,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_pari_bsd_mixed_closure_residuals.py`
 - `tests/test_closure_quotient_paper_claim_audit.py`
 - `tests/test_mixed_closure_residual_handoff.py`
+- `tests/test_mixed_closure_even_model_identity_audit.py`
 
 结果：
 
@@ -526,6 +546,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
 - `results/closure_quotient_paper_claim_audit.json`
 - `results/mixed_closure_residual_handoffs/115_297_AA_covers_3_4.json`
+- `results/mixed_closure_even_model_identity_audit.json`
 
 论文草稿：
 
@@ -542,6 +563,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl299](work-logs/299-mixed-closure-pari-bsd-diagnostics.md)
 - [wl300](work-logs/300-closure-quotient-paper-claim-audit.md)
 - [wl301](work-logs/301-mixed-closure-residual-handoff.md)
+- [wl302](work-logs/302-mixed-closure-even-model-identity-audit.md)
 
 数学总入口：
 

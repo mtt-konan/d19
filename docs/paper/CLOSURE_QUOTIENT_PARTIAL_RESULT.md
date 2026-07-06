@@ -201,6 +201,23 @@ violations = 0
 This audit checks the stored torsion-pullback certificates. It is not a separate
 rank-certification algorithm.
 
+The algebraic identities used by the lemma are also audited symbolically:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_even_model_identities.py \
+  --out results/mixed_closure_even_model_identity_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+all_verified = True
+```
+
+This checks the centered even quartic formula and both rational maps. It does not
+certify ranks or rational points.
+
 ### 3.3 Unclosed rank bounds
 
 The 64 residual-pair dataset has no unclosed rank bounds. The 320 hard-case dataset
@@ -327,6 +344,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank-summary results/mixed_closure_rank_summary.json \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --identity-audit results/mixed_closure_even_model_identity_audit.json \
   --bsd results/pari_bsd_mixed_aabb_t10.jsonl \
   --out results/closure_quotient_paper_claim_audit.json \
   --expect rank0_torsion_certificates=275 \
@@ -334,6 +352,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect rank0_aabb_rows=275 \
   --expect cover_rows=12 \
   --expect cover_selmer_matches=12 \
+  --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
   --expect bsd_analytic_rank0_rows=2 \
   --strict
@@ -388,6 +407,7 @@ scripts/theory/audit_mixed_closure_rank0_certificates.py
 scripts/theory/pari_bsd_mixed_closure_residuals.py
 scripts/theory/audit_closure_quotient_paper_claims.py
 scripts/theory/export_mixed_closure_residual_handoff.py
+scripts/theory/audit_mixed_closure_even_model_identities.py
 ```
 
 The certificate-producing function is:

@@ -67,6 +67,7 @@ def audit_claims(
     rank_summary: dict[str, Any],
     rank0_audit: dict[str, Any],
     cover_summary: dict[str, Any],
+    identity_audit: dict[str, Any],
     bsd_rows: list[dict[str, Any]],
     expected: dict[str, int],
 ) -> dict[str, Any]:
@@ -100,6 +101,9 @@ def audit_claims(
                 "bounded-search-no-point-candidate", 0
             )
         ),
+        "even_model_identities_verified": 1
+        if identity_audit.get("all_verified") is True
+        else 0,
         "bsd_ok_rows": int(bsd_counts.get("ok", 0)),
         "bsd_analytic_rank0_rows": _bsd_analytic_rank0_rows(bsd_rows),
     }
@@ -129,6 +133,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank-summary", type=Path, required=True)
     parser.add_argument("--rank0-audit", type=Path, required=True)
     parser.add_argument("--cover-summary", type=Path, required=True)
+    parser.add_argument("--identity-audit", type=Path, required=True)
     parser.add_argument("--bsd", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument(
@@ -147,6 +152,7 @@ def main() -> int:
         rank_summary=load_json(args.rank_summary),
         rank0_audit=load_json(args.rank0_audit),
         cover_summary=load_json(args.cover_summary),
+        identity_audit=load_json(args.identity_audit),
         bsd_rows=load_jsonl(args.bsd),
         expected=_parse_expect(args.expect),
     )
