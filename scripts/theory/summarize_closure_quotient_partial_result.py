@@ -32,6 +32,7 @@ def _blocking_issues(
     priority_summary: dict[str, Any],
     priority_handoff_audit: dict[str, Any],
     residual_local_witnesses: dict[str, Any],
+    selmer_gap_ledger: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -50,6 +51,13 @@ def _blocking_issues(
         or int(residual_local_witnesses.get("unresolved_bad_prime_total", 0)) != 0
     ):
         issues.append("residual-local-witness-issues")
+    if (
+        _int_value(selmer_gap_ledger, "candidate_cover_total")
+        != _int_value(priority_summary, "candidate_cover_total")
+        or _int_value(selmer_gap_ledger, "missing_diagnostic_rows") != 0
+        or selmer_gap_ledger.get("all_rows_candidate_not_proof") is not True
+    ):
+        issues.append("residual-selmer-gap-ledger-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -62,6 +70,7 @@ def summarize_partial_result(
     priority_summary: dict[str, Any],
     priority_handoff_audit: dict[str, Any],
     residual_local_witnesses: dict[str, Any],
+    selmer_gap_ledger: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -73,6 +82,7 @@ def summarize_partial_result(
         priority_summary=priority_summary,
         priority_handoff_audit=priority_handoff_audit,
         residual_local_witnesses=residual_local_witnesses,
+        selmer_gap_ledger=selmer_gap_ledger,
         artifact_audit=artifact_audit,
     )
 
@@ -133,6 +143,27 @@ def summarize_partial_result(
                 residual_local_witnesses, "unresolved_bad_prime_total"
             ),
         },
+        "residual_selmer_gap_status": {
+            "ready": _int_value(selmer_gap_ledger, "candidate_cover_total")
+            == _int_value(priority_summary, "candidate_cover_total")
+            and _int_value(selmer_gap_ledger, "missing_diagnostic_rows") == 0
+            and selmer_gap_ledger.get("all_rows_candidate_not_proof") is True,
+            "candidate_cover_total": _int_value(
+                selmer_gap_ledger, "candidate_cover_total"
+            ),
+            "rows_with_ok_diagnostics": _int_value(
+                selmer_gap_ledger, "rows_with_ok_diagnostics"
+            ),
+            "missing_diagnostic_rows": _int_value(
+                selmer_gap_ledger, "missing_diagnostic_rows"
+            ),
+            "rank0_sha2_gap2_cover_total": _int_value(
+                selmer_gap_ledger, "rank0_sha2_gap2_cover_total"
+            ),
+            "gap_type_counts": dict(
+                sorted(selmer_gap_ledger.get("gap_type_counts", {}).items())
+            ),
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -153,6 +184,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--priority-summary", type=Path, required=True)
     parser.add_argument("--priority-handoff-audit", type=Path, required=True)
     parser.add_argument("--residual-local-witnesses", type=Path, required=True)
+    parser.add_argument("--selmer-gap-ledger", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -167,6 +199,7 @@ def main() -> int:
         priority_summary=load_json(args.priority_summary),
         priority_handoff_audit=load_json(args.priority_handoff_audit),
         residual_local_witnesses=load_json(args.residual_local_witnesses),
+        selmer_gap_ledger=load_json(args.selmer_gap_ledger),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

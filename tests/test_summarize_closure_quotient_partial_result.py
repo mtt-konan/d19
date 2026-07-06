@@ -48,7 +48,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "unresolved_bad_prime_total": 0,
         "sage": {"all_bad_primes_witnessed": True},
     }
-    artifact_audit = {"ready": True, "required_file_count": 89, "missing_files": []}
+    selmer_gap_ledger = {
+        "candidate_cover_total": 27,
+        "rows_with_ok_diagnostics": 27,
+        "missing_diagnostic_rows": 0,
+        "rank0_sha2_gap2_cover_total": 20,
+        "gap_type_counts": {"rank0-sha2-gap2": 20, "residual-gap-open": 7},
+        "all_rows_candidate_not_proof": True,
+    }
+    artifact_audit = {"ready": True, "required_file_count": 94, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -56,6 +64,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         priority_summary=priority_summary,
         priority_handoff_audit=priority_handoff_audit,
         residual_local_witnesses=residual_local_witnesses,
+        selmer_gap_ledger=selmer_gap_ledger,
         artifact_audit=artifact_audit,
     )
 
@@ -90,9 +99,20 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "bad_prime_check_total": 251,
             "unresolved_bad_prime_total": 0,
         },
+        "residual_selmer_gap_status": {
+            "ready": True,
+            "candidate_cover_total": 27,
+            "rows_with_ok_diagnostics": 27,
+            "missing_diagnostic_rows": 0,
+            "rank0_sha2_gap2_cover_total": 20,
+            "gap_type_counts": {
+                "rank0-sha2-gap2": 20,
+                "residual-gap-open": 7,
+            },
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 89,
+            "required_file_count": 94,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -117,6 +137,11 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "unresolved_bad_prime_total": 1,
             "sage": {"all_bad_primes_witnessed": False},
         },
+        selmer_gap_ledger={
+            "candidate_cover_total": 27,
+            "missing_diagnostic_rows": 1,
+            "all_rows_candidate_not_proof": True,
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -130,6 +155,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "missing-priority-top-target",
         "priority-handoff-audit-issues",
         "residual-local-witness-issues",
+        "residual-selmer-gap-ledger-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -140,6 +166,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     priority = tmp_path / "priority.json"
     handoffs = tmp_path / "handoffs.json"
     local_witnesses = tmp_path / "local.json"
+    selmer_gaps = tmp_path / "selmer_gaps.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -149,6 +176,11 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     local_witnesses.write_text(
         '{"status":"ok","unresolved_bad_prime_total":0,'
         '"sage":{"all_bad_primes_witnessed":true}}\n',
+        encoding="utf-8",
+    )
+    selmer_gaps.write_text(
+        '{"candidate_cover_total":0,"missing_diagnostic_rows":0,'
+        '"all_rows_candidate_not_proof":true}\n',
         encoding="utf-8",
     )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
@@ -167,6 +199,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(handoffs),
             "--residual-local-witnesses",
             str(local_witnesses),
+            "--selmer-gap-ledger",
+            str(selmer_gaps),
             "--artifact-audit",
             str(artifacts),
             "--out",

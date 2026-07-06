@@ -524,6 +524,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
   --priority-handoff-audit results/mixed_closure_priority_handoff_audit_top4.json \
   --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
+  --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -546,6 +547,10 @@ priority_handoff_status.local_witnessed_groups = 2
 residual_local_witness_status.candidate_cover_total = 27
 residual_local_witness_status.bad_prime_check_total = 251
 residual_local_witness_status.unresolved_bad_prime_total = 0
+residual_selmer_gap_status.candidate_cover_total = 27
+residual_selmer_gap_status.rows_with_ok_diagnostics = 27
+residual_selmer_gap_status.rank0_sha2_gap2_cover_total = 20
+residual_selmer_gap_status.gap_type_counts = {'rank0-sha2-gap2': 20, 'residual-gap-open': 7}
 artifact_status.ready = True
 artifact_status.missing_file_count = 0
 ```
@@ -627,6 +632,7 @@ scripts/theory/export_mixed_closure_residual_handoff.py
 scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/sage_verify_mixed_closure_handoff_maps.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
+scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/audit_mixed_closure_priority_handoffs.py
