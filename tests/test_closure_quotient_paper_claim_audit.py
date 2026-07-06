@@ -82,6 +82,16 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             },
         ],
     }
+    language_audit = {
+        "files": 7,
+        "violations": [],
+        "required_boundary_hits": {
+            "candidate_not_proof": 2,
+            "sha2_candidate": 5,
+            "bounded_search_not_proof": 1,
+            "bsd_not_strict_certificate": 1,
+        },
+    }
     identity_audit = {"all_verified": True}
     bsd_rows = [
         {"status": "ok", "analytic_rank": 0},
@@ -96,6 +106,7 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
         cover_summary=cover_summary,
         residual_evidence_audit=residual_evidence_audit,
         priority_summary=priority_summary,
+        language_audit=language_audit,
         identity_audit=identity_audit,
         bsd_rows=bsd_rows,
         expected={
@@ -114,6 +125,12 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "priority_top_b": 297,
             "priority_top_cover_index": 3,
             "priority_top4_bsd_rank0_rows": 4,
+            "language_audit_violations": 0,
+            "language_audit_files": 7,
+            "language_candidate_not_proof_hits": 2,
+            "language_sha2_candidate_hits": 5,
+            "language_bounded_search_not_proof_hits": 1,
+            "language_bsd_not_strict_certificate_hits": 1,
             "even_model_identities_verified": 1,
             "bsd_ok_rows": 2,
             "bsd_analytic_rank0_rows": 2,
@@ -149,6 +166,12 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "priority_top_cover_index": 3,
             "priority_top_curve_is_aa": 1,
             "priority_top4_bsd_rank0_rows": 4,
+            "language_audit_violations": 0,
+            "language_audit_files": 7,
+            "language_candidate_not_proof_hits": 2,
+            "language_sha2_candidate_hits": 5,
+            "language_bounded_search_not_proof_hits": 1,
+            "language_bsd_not_strict_certificate_hits": 1,
             "even_model_identities_verified": 1,
             "bsd_ok_rows": 2,
             "bsd_analytic_rank0_rows": 2,
@@ -169,6 +192,12 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "priority_top_b": 297,
             "priority_top_cover_index": 3,
             "priority_top4_bsd_rank0_rows": 4,
+            "language_audit_violations": 0,
+            "language_audit_files": 7,
+            "language_candidate_not_proof_hits": 2,
+            "language_sha2_candidate_hits": 5,
+            "language_bounded_search_not_proof_hits": 1,
+            "language_bsd_not_strict_certificate_hits": 1,
             "even_model_identities_verified": 1,
             "bsd_ok_rows": 2,
             "bsd_analytic_rank0_rows": 2,
@@ -188,6 +217,7 @@ def test_audit_claims_reports_expected_value_mismatch() -> None:
         cover_summary={},
         residual_evidence_audit=None,
         priority_summary=None,
+        language_audit=None,
         identity_audit={},
         bsd_rows=[],
         expected={"rank0_torsion_certificates": 275},
@@ -207,6 +237,7 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
     rank0_audit = tmp_path / "rank0.json"
     cover_summary = tmp_path / "cover.json"
     priorities = tmp_path / "priorities.json"
+    language = tmp_path / "language.json"
     identity_audit = tmp_path / "identity.json"
     bsd = tmp_path / "bsd.jsonl"
     out = tmp_path / "audit.json"
@@ -214,6 +245,7 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
     rank0_audit.write_text("{}\n", encoding="utf-8")
     cover_summary.write_text("{}\n", encoding="utf-8")
     priorities.write_text("{}\n", encoding="utf-8")
+    language.write_text("{}\n", encoding="utf-8")
     identity_audit.write_text("{}\n", encoding="utf-8")
     bsd.write_text("", encoding="utf-8")
 
@@ -231,6 +263,8 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
             str(cover_summary),
             "--priority-summary",
             str(priorities),
+            "--language-audit",
+            str(language),
             "--identity-audit",
             str(identity_audit),
             "--bsd",

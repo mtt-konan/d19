@@ -60,6 +60,10 @@ def _top_n_bsd_rank0(priority_summary: dict[str, Any] | None, *, n: int) -> int:
     return sum(1 for row in rows[:n] if row.get("has_bsd_conditional_rank0") is True)
 
 
+def _language_hit(language_audit: dict[str, Any] | None, key: str) -> int:
+    return int((language_audit or {}).get("required_boundary_hits", {}).get(key, 0))
+
+
 def _mismatches(
     claim_values: dict[str, int],
     expected: dict[str, int],
@@ -85,6 +89,7 @@ def audit_claims(
     cover_summary: dict[str, Any],
     residual_evidence_audit: dict[str, Any] | None,
     priority_summary: dict[str, Any] | None,
+    language_audit: dict[str, Any] | None,
     identity_audit: dict[str, Any],
     bsd_rows: list[dict[str, Any]],
     expected: dict[str, int],
@@ -149,6 +154,18 @@ def audit_claims(
         "priority_top_cover_index": int(top_priority.get("cover_index", 0)),
         "priority_top_curve_is_aa": 1 if top_priority.get("curve") == "AA" else 0,
         "priority_top4_bsd_rank0_rows": _top_n_bsd_rank0(priority_summary, n=4),
+        "language_audit_violations": len((language_audit or {}).get("violations", [])),
+        "language_audit_files": _int_value(language_audit or {}, "files"),
+        "language_candidate_not_proof_hits": _language_hit(
+            language_audit, "candidate_not_proof"
+        ),
+        "language_sha2_candidate_hits": _language_hit(language_audit, "sha2_candidate"),
+        "language_bounded_search_not_proof_hits": _language_hit(
+            language_audit, "bounded_search_not_proof"
+        ),
+        "language_bsd_not_strict_certificate_hits": _language_hit(
+            language_audit, "bsd_not_strict_certificate"
+        ),
         "even_model_identities_verified": 1
         if identity_audit.get("all_verified") is True
         else 0,
@@ -183,6 +200,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cover-summary", type=Path, required=True)
     parser.add_argument("--residual-evidence-audit", type=Path, default=None)
     parser.add_argument("--priority-summary", type=Path, default=None)
+    parser.add_argument("--language-audit", type=Path, default=None)
     parser.add_argument("--identity-audit", type=Path, required=True)
     parser.add_argument("--bsd", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -206,6 +224,7 @@ def main() -> int:
         if args.residual_evidence_audit
         else None,
         priority_summary=load_json(args.priority_summary) if args.priority_summary else None,
+        language_audit=load_json(args.language_audit) if args.language_audit else None,
         identity_audit=load_json(args.identity_audit),
         bsd_rows=load_jsonl(args.bsd),
         expected=_parse_expect(args.expect),
