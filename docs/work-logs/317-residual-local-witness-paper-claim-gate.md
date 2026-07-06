@@ -1,13 +1,13 @@
-# wl310 - language audit paper claim gate
+# wl317 - residual local witness paper claim gate
 
 日期：2026-07-07
 
 ## 一句话结论
 
-residual language audit 现在接进了 paper-level claim gate。
+全量 residual local witness 的数字现在进入了 paper-level claim gate。
 
-普通话说：以后跑论文数字一致性检查时，会同时检查“没有过度声明”和“关键边界句还在”。
-这样就不需要靠人记得单独跑措辞审计。
+普通话说：之前 partial summary 会展示“27 个候选 cover 的坏素数都找到了局部点见证”，
+但 paper claim audit 还不会硬检查这些数字。现在论文数字 gate 也会检查这一点。
 
 ## 更新脚本
 
@@ -19,18 +19,16 @@ tests/test_closure_quotient_paper_claim_audit.py
 新增输入：
 
 ```text
---language-audit results/mixed_closure_residual_language_audit.json
+--residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json
 ```
 
 新增 claim values：
 
 ```text
-language_audit_violations
-language_audit_files
-language_candidate_not_proof_hits
-language_sha2_candidate_hits
-language_bounded_search_not_proof_hits
-language_bsd_not_strict_certificate_hits
+residual_local_witness_candidate_cover_total
+residual_local_witness_bad_prime_check_total
+residual_local_witness_unresolved_bad_prime_total
+residual_local_witness_all_bad_primes_witnessed
 ```
 
 ## 真实运行
@@ -88,21 +86,19 @@ wrote closure quotient paper claim audit to results/closure_quotient_paper_claim
 mismatches=0
 ```
 
-## 边界
-
-这个 gate 仍然不产生数学证明。
-
-它现在同时检查：
+## 当前 gate 数字
 
 ```text
-rank-0 torsion 回拉数字；
-residual evidence 数字；
-全量 residual local witness 数字；
-priority queue 数字；
-language audit 边界；
-BSD 条件诊断数字；
-代数恒等式审计结果。
+residual_local_witness_candidate_cover_total = 27
+residual_local_witness_bad_prime_check_total = 251
+residual_local_witness_unresolved_bad_prime_total = 0
+residual_local_witness_all_bad_primes_witnessed = 1
 ```
+
+## 边界
+
+这个 gate 只说明“全量 residual cover 的局部可解性检查数字和文档说法一致”。
+它不是无有理点证明，也不把 bounded search 或 Sha[2] candidate 升级成证明。
 
 ## 验证
 

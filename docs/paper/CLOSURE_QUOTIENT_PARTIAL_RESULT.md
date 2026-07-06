@@ -434,6 +434,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
   --residual-evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
+  --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --identity-audit results/mixed_closure_even_model_identity_audit.json \
@@ -449,6 +450,10 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect residual_evidence_target_rows=12 \
   --expect residual_evidence_candidate_cover_total=27 \
   --expect residual_evidence_violations=0 \
+  --expect residual_local_witness_candidate_cover_total=27 \
+  --expect residual_local_witness_bad_prime_check_total=251 \
+  --expect residual_local_witness_unresolved_bad_prime_total=0 \
+  --expect residual_local_witness_all_bad_primes_witnessed=1 \
   --expect priority_candidate_cover_total=27 \
   --expect priority_top_a=115 \
   --expect priority_top_b=297 \
@@ -474,6 +479,9 @@ mismatches = 0
 
 This is a consistency gate for stored result files and paper-level numeric claims.
 It does not create new mathematical certificates.
+It also checks the full residual local-witness totals: `27` candidate covers,
+`251` bad-prime checks, `0` unresolved bad-prime checks, and
+`all_bad_primes_witnessed = 1`.
 
 Audit residual wording so evidence is not promoted to proof:
 

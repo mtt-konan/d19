@@ -45,6 +45,12 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
         "bsd_conditional_rank0_rows": 2,
         "violations": [],
     }
+    residual_local_witnesses = {
+        "candidate_cover_total": 27,
+        "bad_prime_check_total": 251,
+        "unresolved_bad_prime_total": 0,
+        "sage": {"all_bad_primes_witnessed": True},
+    }
     priority_summary = {
         "candidate_cover_total": 27,
         "rows": [
@@ -105,6 +111,7 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
         rank0_audit=rank0_audit,
         cover_summary=cover_summary,
         residual_evidence_audit=residual_evidence_audit,
+        residual_local_witnesses=residual_local_witnesses,
         priority_summary=priority_summary,
         language_audit=language_audit,
         identity_audit=identity_audit,
@@ -120,6 +127,10 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "residual_evidence_target_rows": 12,
             "residual_evidence_candidate_cover_total": 27,
             "residual_evidence_violations": 0,
+            "residual_local_witness_candidate_cover_total": 27,
+            "residual_local_witness_bad_prime_check_total": 251,
+            "residual_local_witness_unresolved_bad_prime_total": 0,
+            "residual_local_witness_all_bad_primes_witnessed": 1,
             "priority_candidate_cover_total": 27,
             "priority_top_a": 115,
             "priority_top_b": 297,
@@ -160,6 +171,10 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "residual_evidence_candidate_rows": 12,
             "residual_evidence_bsd_conditional_rank0_rows": 2,
             "residual_evidence_violations": 0,
+            "residual_local_witness_candidate_cover_total": 27,
+            "residual_local_witness_bad_prime_check_total": 251,
+            "residual_local_witness_unresolved_bad_prime_total": 0,
+            "residual_local_witness_all_bad_primes_witnessed": 1,
             "priority_candidate_cover_total": 27,
             "priority_top_a": 115,
             "priority_top_b": 297,
@@ -187,6 +202,10 @@ def test_audit_claims_collects_paper_level_numbers() -> None:
             "residual_evidence_target_rows": 12,
             "residual_evidence_candidate_cover_total": 27,
             "residual_evidence_violations": 0,
+            "residual_local_witness_candidate_cover_total": 27,
+            "residual_local_witness_bad_prime_check_total": 251,
+            "residual_local_witness_unresolved_bad_prime_total": 0,
+            "residual_local_witness_all_bad_primes_witnessed": 1,
             "priority_candidate_cover_total": 27,
             "priority_top_a": 115,
             "priority_top_b": 297,
@@ -216,6 +235,7 @@ def test_audit_claims_reports_expected_value_mismatch() -> None:
         rank0_audit={},
         cover_summary={},
         residual_evidence_audit=None,
+        residual_local_witnesses=None,
         priority_summary=None,
         language_audit=None,
         identity_audit={},
@@ -236,6 +256,7 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
     rank_summary = tmp_path / "summary.json"
     rank0_audit = tmp_path / "rank0.json"
     cover_summary = tmp_path / "cover.json"
+    residual_local_witnesses = tmp_path / "local_witnesses.json"
     priorities = tmp_path / "priorities.json"
     language = tmp_path / "language.json"
     identity_audit = tmp_path / "identity.json"
@@ -244,6 +265,7 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
     rank_summary.write_text('{"rank0_torsion_certificates": 274}\n', encoding="utf-8")
     rank0_audit.write_text("{}\n", encoding="utf-8")
     cover_summary.write_text("{}\n", encoding="utf-8")
+    residual_local_witnesses.write_text("{}\n", encoding="utf-8")
     priorities.write_text("{}\n", encoding="utf-8")
     language.write_text("{}\n", encoding="utf-8")
     identity_audit.write_text("{}\n", encoding="utf-8")
@@ -261,6 +283,8 @@ def test_audit_cli_strict_exits_nonzero_on_mismatch(tmp_path: Path) -> None:
             str(cover_summary),
             "--residual-evidence-audit",
             str(cover_summary),
+            "--residual-local-witnesses",
+            str(residual_local_witnesses),
             "--priority-summary",
             str(priorities),
             "--language-audit",

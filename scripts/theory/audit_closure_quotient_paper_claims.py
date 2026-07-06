@@ -88,6 +88,7 @@ def audit_claims(
     rank0_audit: dict[str, Any],
     cover_summary: dict[str, Any],
     residual_evidence_audit: dict[str, Any] | None,
+    residual_local_witnesses: dict[str, Any] | None,
     priority_summary: dict[str, Any] | None,
     language_audit: dict[str, Any] | None,
     identity_audit: dict[str, Any],
@@ -96,6 +97,7 @@ def audit_claims(
 ) -> dict[str, Any]:
     bsd_counts = _bsd_status_counts(bsd_rows)
     top_priority = _top_priority(priority_summary)
+    residual_local_witness_payload = residual_local_witnesses or {}
     claim_values = {
         "rank_summary_rows": _int_value(rank_summary, "rows"),
         "rank0_torsion_certificates": _int_value(
@@ -146,6 +148,21 @@ def audit_claims(
         "residual_evidence_violations": len(
             (residual_evidence_audit or {}).get("violations", [])
         ),
+        "residual_local_witness_candidate_cover_total": _int_value(
+            residual_local_witness_payload, "candidate_cover_total"
+        ),
+        "residual_local_witness_bad_prime_check_total": _int_value(
+            residual_local_witness_payload, "bad_prime_check_total"
+        ),
+        "residual_local_witness_unresolved_bad_prime_total": _int_value(
+            residual_local_witness_payload, "unresolved_bad_prime_total"
+        ),
+        "residual_local_witness_all_bad_primes_witnessed": 1
+        if residual_local_witness_payload.get("sage", {}).get(
+            "all_bad_primes_witnessed"
+        )
+        is True
+        else 0,
         "priority_candidate_cover_total": _int_value(
             priority_summary or {}, "candidate_cover_total"
         ),
@@ -199,6 +216,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank0-audit", type=Path, required=True)
     parser.add_argument("--cover-summary", type=Path, required=True)
     parser.add_argument("--residual-evidence-audit", type=Path, default=None)
+    parser.add_argument("--residual-local-witnesses", type=Path, default=None)
     parser.add_argument("--priority-summary", type=Path, default=None)
     parser.add_argument("--language-audit", type=Path, default=None)
     parser.add_argument("--identity-audit", type=Path, required=True)
@@ -222,6 +240,9 @@ def main() -> int:
         cover_summary=load_json(args.cover_summary),
         residual_evidence_audit=load_json(args.residual_evidence_audit)
         if args.residual_evidence_audit
+        else None,
+        residual_local_witnesses=load_json(args.residual_local_witnesses)
+        if args.residual_local_witnesses
         else None,
         priority_summary=load_json(args.priority_summary) if args.priority_summary else None,
         language_audit=load_json(args.language_audit) if args.language_audit else None,

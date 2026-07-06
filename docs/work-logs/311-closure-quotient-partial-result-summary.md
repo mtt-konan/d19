@@ -86,7 +86,7 @@ residual_local_witness_status.candidate_cover_total = 27
 residual_local_witness_status.bad_prime_check_total = 251
 residual_local_witness_status.unresolved_bad_prime_total = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 89
+artifact_status.required_file_count = 90
 artifact_status.missing_file_count = 0
 ```
 

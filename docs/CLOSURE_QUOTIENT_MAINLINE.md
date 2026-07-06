@@ -454,6 +454,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --rank0-audit results/mixed_closure_rank0_certificate_audit.json \
   --cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
   --residual-evidence-audit results/mixed_closure_aabb_residual_evidence_audit.json \
+  --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --priority-summary results/mixed_closure_aabb_residual_cover_priorities.json \
   --language-audit results/mixed_closure_residual_language_audit.json \
   --identity-audit results/mixed_closure_even_model_identity_audit.json \
@@ -469,6 +470,10 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect residual_evidence_target_rows=12 \
   --expect residual_evidence_candidate_cover_total=27 \
   --expect residual_evidence_violations=0 \
+  --expect residual_local_witness_candidate_cover_total=27 \
+  --expect residual_local_witness_bad_prime_check_total=251 \
+  --expect residual_local_witness_unresolved_bad_prime_total=0 \
+  --expect residual_local_witness_all_bad_primes_witnessed=1 \
   --expect priority_candidate_cover_total=27 \
   --expect priority_top_a=115 \
   --expect priority_top_b=297 \
@@ -493,6 +498,8 @@ mismatches=0
 ```
 
 这只检查 stored result files 和 paper-level 数字声明的一致性，不产生新的数学证书。
+它现在也检查全量 residual local witness 数字：`27` 个候选 cover、`251` 个坏素数检查、
+`0` 个未解决坏素数，以及 `all_bad_primes_witnessed=1`。
 
 residual 语言边界审计：
 
@@ -816,6 +823,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl314](work-logs/314-sage-cover-map-identity-verification.md)
 - [wl315](work-logs/315-sage-local-witness-probe.md)
 - [wl316](work-logs/316-all-residual-local-witnesses.md)
+- [wl317](work-logs/317-residual-local-witness-paper-claim-gate.md)
 
 数学总入口：
 
