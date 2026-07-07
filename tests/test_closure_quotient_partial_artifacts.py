@@ -78,12 +78,14 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "scripts/theory/sage_verify_mixed_closure_handoff_maps.py" in paths
     assert "scripts/theory/sage_verify_mixed_closure_residual_cover_maps.py" in paths
     assert "scripts/theory/sage_audit_mixed_closure_rank0_torsion_preimages.py" in paths
+    assert "scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
     assert "tests/test_sage_verify_mixed_closure_handoff_maps.py" in paths
     assert "tests/test_sage_verify_mixed_closure_residual_cover_maps.py" in paths
     assert "tests/test_sage_audit_mixed_closure_rank0_torsion_preimages.py" in paths
+    assert "tests/test_mixed_closure_bsd_conditional_no_point_audit.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -95,11 +97,13 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/319-all-residual-cover-map-verification.md" in paths
     assert "docs/work-logs/320-residual-selmer-gap-frontier-split.md" in paths
     assert "docs/work-logs/321-rank0-torsion-preimage-audit.md" in paths
+    assert "docs/work-logs/322-bsd-conditional-no-point-audit.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
     assert "results/mixed_closure_residual_cover_map_verify.json" in paths
     assert "results/mixed_closure_rank0_sha2_torsion_preimage_audit.json" in paths
+    assert "results/mixed_closure_bsd_conditional_no_point_audit.json" in paths
     assert (
         "results/mixed_closure_residual_handoffs/"
         "priority_001_115_297_AA_covers_3_4_sage_probe.json"

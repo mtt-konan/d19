@@ -24,6 +24,10 @@ results/mixed_closure_residual_language_audit.json
 results/mixed_closure_aabb_residual_cover_priorities.json
 results/mixed_closure_priority_handoff_audit_top4.json
 results/mixed_closure_aabb_residual_local_witnesses.json
+results/mixed_closure_residual_selmer_gap_ledger.json
+results/mixed_closure_residual_cover_map_verify.json
+results/mixed_closure_rank0_sha2_torsion_preimage_audit.json
+results/mixed_closure_bsd_conditional_no_point_audit.json
 results/closure_quotient_partial_artifact_audit.json
 ```
 
@@ -37,6 +41,10 @@ residual_status
 language_status
 priority_handoff_status
 residual_local_witness_status
+residual_selmer_gap_status
+residual_cover_map_status
+rank0_torsion_preimage_status
+bsd_conditional_no_point_status
 artifact_status
 boundary
 ```
@@ -56,6 +64,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
   --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
   --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
+  --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -78,7 +87,7 @@ residual_status.candidate_cover_total = 27
 residual_status.top_target = (115,297) AA cover 3
 residual_status.bsd_analytic_rank0_rows = 2
 residual_status.proof_status = candidate-not-proof
-language_status.files = 7
+language_status.files = 8
 language_status.violations = 0
 priority_handoff_status.ready = True
 priority_handoff_status.groups_checked = 2
@@ -98,8 +107,14 @@ residual_cover_map_status.failed_cover_count = 0
 rank0_torsion_preimage_status.target_cover_count = 20
 rank0_torsion_preimage_status.no_torsion_preimage_count = 20
 rank0_torsion_preimage_status.failed_cover_count = 0
+rank0_torsion_preimage_status.conditional_on_rank_zero = True
+bsd_conditional_no_point_status.bsd_conditional_no_point_cover_count = 4
+bsd_conditional_no_point_status.rank0_sha2_gap2_cover_count = 20
+bsd_conditional_no_point_status.strict_no_point_cover_count = 0
+bsd_conditional_no_point_status.candidate_not_proof = True
+bsd_conditional_no_point_status.proof_status = conditional-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 103
+artifact_status.required_file_count = 107
 artifact_status.missing_file_count = 0
 ```
 
@@ -114,6 +129,8 @@ stored result files 自洽；
 priority queue 有 top target；
 priority handoff/probe/map/local audit ready；
 27 个 residual candidate covers 的 bad-prime local witness audit 无 unresolved；
+20 个 rank0-sha2-gap2 covers 已做 torsion-preimage audit；
+4 个 BSD 条件 no-point cover 只作为 conditional-not-proof 记录；
 artifact audit 无 missing file。
 ```
 
@@ -121,6 +138,7 @@ artifact audit 无 missing file。
 
 ```text
 residual 2-cover 已经严格无点；
+BSD 条件 no-point candidate 已经变成严格证明；
 Sha[2] candidate 已经变成已证明的 Sha[2] 元素；
 Harborth 猜想已证明。
 ```

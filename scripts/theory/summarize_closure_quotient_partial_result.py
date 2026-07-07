@@ -35,6 +35,7 @@ def _blocking_issues(
     selmer_gap_ledger: dict[str, Any],
     residual_cover_map_verify: dict[str, Any],
     rank0_torsion_preimage_audit: dict[str, Any],
+    bsd_conditional_no_point_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -75,6 +76,15 @@ def _blocking_issues(
         or _int_value(rank0_torsion_preimage_audit, "failed_cover_count") != 0
     ):
         issues.append("rank0-torsion-preimage-audit-issues")
+    if (
+        bsd_conditional_no_point_audit.get("status") != "ok"
+        or bsd_conditional_no_point_audit.get("candidate_not_proof") is not True
+        or _int_value(bsd_conditional_no_point_audit, "strict_no_point_cover_count")
+        != 0
+        or _int_value(bsd_conditional_no_point_audit, "rank0_sha2_gap2_cover_count")
+        != _int_value(selmer_gap_ledger, "rank0_sha2_gap2_cover_total")
+    ):
+        issues.append("bsd-conditional-no-point-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -90,6 +100,7 @@ def summarize_partial_result(
     selmer_gap_ledger: dict[str, Any],
     residual_cover_map_verify: dict[str, Any],
     rank0_torsion_preimage_audit: dict[str, Any],
+    bsd_conditional_no_point_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -104,6 +115,7 @@ def summarize_partial_result(
         selmer_gap_ledger=selmer_gap_ledger,
         residual_cover_map_verify=residual_cover_map_verify,
         rank0_torsion_preimage_audit=rank0_torsion_preimage_audit,
+        bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -217,6 +229,33 @@ def summarize_partial_result(
             ),
             "conditional_on_rank_zero": True,
         },
+        "bsd_conditional_no_point_status": {
+            "ready": bsd_conditional_no_point_audit.get("status") == "ok"
+            and bsd_conditional_no_point_audit.get("candidate_not_proof") is True
+            and _int_value(
+                bsd_conditional_no_point_audit, "strict_no_point_cover_count"
+            )
+            == 0
+            and _int_value(
+                bsd_conditional_no_point_audit, "rank0_sha2_gap2_cover_count"
+            )
+            == _int_value(selmer_gap_ledger, "rank0_sha2_gap2_cover_total"),
+            "bsd_conditional_no_point_cover_count": _int_value(
+                bsd_conditional_no_point_audit,
+                "bsd_conditional_no_point_cover_count",
+            ),
+            "rank0_sha2_gap2_cover_count": _int_value(
+                bsd_conditional_no_point_audit, "rank0_sha2_gap2_cover_count"
+            ),
+            "strict_no_point_cover_count": _int_value(
+                bsd_conditional_no_point_audit, "strict_no_point_cover_count"
+            ),
+            "candidate_not_proof": bsd_conditional_no_point_audit.get(
+                "candidate_not_proof"
+            )
+            is True,
+            "proof_status": "conditional-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -240,6 +279,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--selmer-gap-ledger", type=Path, required=True)
     parser.add_argument("--residual-cover-map-verify", type=Path, required=True)
     parser.add_argument("--rank0-torsion-preimage-audit", type=Path, required=True)
+    parser.add_argument("--bsd-conditional-no-point-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -257,6 +297,9 @@ def main() -> int:
         selmer_gap_ledger=load_json(args.selmer_gap_ledger),
         residual_cover_map_verify=load_json(args.residual_cover_map_verify),
         rank0_torsion_preimage_audit=load_json(args.rank0_torsion_preimage_audit),
+        bsd_conditional_no_point_audit=load_json(
+            args.bsd_conditional_no_point_audit
+        ),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

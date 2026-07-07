@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=7 \
+  --expect language_audit_files=8 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -494,6 +494,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/306-mixed-residual-cover-priority-queue.md \
   --path docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md \
   --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
+  --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -501,7 +502,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 7
+files = 8
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -527,6 +528,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
   --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
   --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
+  --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -560,7 +562,13 @@ rank0_torsion_preimage_status.target_cover_count = 20
 rank0_torsion_preimage_status.no_torsion_preimage_count = 20
 rank0_torsion_preimage_status.failed_cover_count = 0
 rank0_torsion_preimage_status.conditional_on_rank_zero = True
+bsd_conditional_no_point_status.bsd_conditional_no_point_cover_count = 4
+bsd_conditional_no_point_status.rank0_sha2_gap2_cover_count = 20
+bsd_conditional_no_point_status.strict_no_point_cover_count = 0
+bsd_conditional_no_point_status.candidate_not_proof = True
+bsd_conditional_no_point_status.proof_status = conditional-not-proof
 artifact_status.ready = True
+artifact_status.required_file_count = 107
 artifact_status.missing_file_count = 0
 ```
 
@@ -568,6 +576,10 @@ The word `ready` here means the stored evidence and wording gates are internally
 consistent for a partial-result note, and the required evidence-package artifacts
 are present. It does not mean the residual covers have been strictly proven
 pointless.
+
+Among the residual covers, 4 now have BSD-conditional rank-zero support and no torsion
+preimage under the verified map. This is useful narrowing information, not a theorem:
+the strict residual no-point problem remains open.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -642,6 +654,7 @@ scripts/theory/sage_probe_mixed_closure_handoff.py
 scripts/theory/sage_verify_mixed_closure_handoff_maps.py
 scripts/theory/sage_verify_mixed_closure_residual_cover_maps.py
 scripts/theory/sage_audit_mixed_closure_rank0_torsion_preimages.py
+scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -756,3 +769,10 @@ uv run python scripts/theory/audit_closure_quotient_partial_artifacts.py \
 
 This checks that the scripts, tests, result files, paper note, and worklogs needed
 for the partial-result package are present. It does not check mathematical truth.
+Current output:
+
+```text
+ready = True
+required_file_count = 107
+missing_files = []
+```

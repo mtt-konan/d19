@@ -74,7 +74,14 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "no_torsion_preimage_count": 20,
         "failed_cover_count": 0,
     }
-    artifact_audit = {"ready": True, "required_file_count": 103, "missing_files": []}
+    bsd_conditional_no_point_audit = {
+        "status": "ok",
+        "bsd_conditional_no_point_cover_count": 4,
+        "rank0_sha2_gap2_cover_count": 20,
+        "strict_no_point_cover_count": 0,
+        "candidate_not_proof": True,
+    }
+    artifact_audit = {"ready": True, "required_file_count": 107, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -85,6 +92,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         selmer_gap_ledger=selmer_gap_ledger,
         residual_cover_map_verify=residual_cover_map_verify,
         rank0_torsion_preimage_audit=rank0_torsion_preimage_audit,
+        bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -144,9 +152,17 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "failed_cover_count": 0,
             "conditional_on_rank_zero": True,
         },
+        "bsd_conditional_no_point_status": {
+            "ready": True,
+            "bsd_conditional_no_point_cover_count": 4,
+            "rank0_sha2_gap2_cover_count": 20,
+            "strict_no_point_cover_count": 0,
+            "candidate_not_proof": True,
+            "proof_status": "conditional-not-proof",
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 103,
+            "required_file_count": 107,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -188,6 +204,12 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "all_no_torsion_preimages": False,
             "failed_cover_count": 1,
         },
+        bsd_conditional_no_point_audit={
+            "status": "error",
+            "rank0_sha2_gap2_cover_count": 19,
+            "strict_no_point_cover_count": 1,
+            "candidate_not_proof": False,
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -204,6 +226,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "residual-selmer-gap-ledger-issues",
         "residual-cover-map-verify-issues",
         "rank0-torsion-preimage-audit-issues",
+        "bsd-conditional-no-point-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -217,6 +240,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     selmer_gaps = tmp_path / "selmer_gaps.json"
     cover_maps = tmp_path / "cover_maps.json"
     torsion_preimages = tmp_path / "torsion_preimages.json"
+    bsd_no_points = tmp_path / "bsd_no_points.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -243,6 +267,11 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"all_no_torsion_preimages":true,"failed_cover_count":0}\n',
         encoding="utf-8",
     )
+    bsd_no_points.write_text(
+        '{"status":"ok","rank0_sha2_gap2_cover_count":0,'
+        '"strict_no_point_cover_count":0,"candidate_not_proof":true}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -265,6 +294,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(cover_maps),
             "--rank0-torsion-preimage-audit",
             str(torsion_preimages),
+            "--bsd-conditional-no-point-audit",
+            str(bsd_no_points),
             "--artifact-audit",
             str(artifacts),
             "--out",
