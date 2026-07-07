@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=20 \
+  --expect language_audit_files=21 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -525,6 +525,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/332-rankzero-frontier-recheck-391-9009.md \
   --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
   --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
+  --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -532,7 +533,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=20
+files=21
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -606,7 +607,7 @@ residual_open_frontier_status.proof_status=open-frontier-not-proof
 rank_zero_frontier_status.rank_zero_frontier_cover_count=16
 rank_zero_frontier_status.rank_zero_frontier_target_count=8
 rank_zero_frontier_status.closed_rank_zero_target_count=0
-rank_zero_frontier_status.target_status_counts={'not-retried': 1, 'sage-timeout': 7}
+rank_zero_frontier_status.target_status_counts={'sage-timeout': 8}
 rank_zero_frontier_status.proof_status=rank-proof-frontier-not-proof
 non_rankzero_frontier_status.non_rankzero_frontier_cover_count=7
 non_rankzero_frontier_status.non_rankzero_frontier_target_count=2
@@ -614,7 +615,7 @@ non_rankzero_frontier_status.target_type_counts={'even-rank-gap4-needs-deeper-de
 non_rankzero_frontier_status.target_status_counts={'sage-timeout': 2}
 non_rankzero_frontier_status.proof_status=non-rankzero-frontier-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=138
+artifact_status.required_file_count=140
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -624,7 +625,7 @@ residual_status.proof_status=candidate-not-proof
 现在也被分桶成“差 rank-zero 证明”的 16 个、“rank-one 分离问题”的 3 个、
 以及“even rank gap4 deeper descent”的 4 个。其中 16 个 rank-zero cover
 又合并成 8 个 rank 证明目标；`(1625,5643) AA`、`(567,3757) BB`、`(5075,17901) AA`、
-`(8075,8613) AA`、`(391,9009) BB`、`(209,21735) BB` 和 `(5083,12825) BB`
+`(8075,8613) AA`、`(391,9009) BB`、`(209,21735) BB`、`(5083,12825) BB` 和 `(5301,38675) BB`
 已做 Sage `second_limit=13,20`、120 秒重试，结果都是 timeout。最高优先级
 `(1625,5643) AA` 又用 `second_limit=20,40`、600 秒预算重试，仍然 timeout。
 这些都没有产生严格 rank-zero 证明。
@@ -878,6 +879,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/sage_rankzero_frontier_recheck_391_9009_BB_s13_20_t120.jsonl`
 - `results/sage_rankzero_frontier_recheck_209_21735_BB_s13_20_t120.jsonl`
 - `results/sage_rankzero_frontier_recheck_5083_12825_BB_s13_20_t120.jsonl`
+- `results/sage_rankzero_frontier_recheck_5301_38675_BB_s13_20_t120.jsonl`
 - `results/sage_rank1_frontier_recheck_209_5355_BB_s13_20_t120.jsonl`
 - `results/sage_even_gap4_frontier_recheck_1449_12155_BB_s13_20_t120.jsonl`
 - `results/mixed_closure_rank_zero_frontier_queue.json`
@@ -939,6 +941,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl332](work-logs/332-rankzero-frontier-recheck-391-9009.md)
 - [wl333](work-logs/333-rankzero-frontier-recheck-209-21735.md)
 - [wl334](work-logs/334-rankzero-frontier-recheck-5083-12825.md)
+- [wl335](work-logs/335-rankzero-frontier-recheck-5301-38675.md)
 
 数学总入口：
 
