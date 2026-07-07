@@ -542,6 +542,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
   --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
+  --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -570,6 +571,10 @@ residual_selmer_gap_status.gap_type_counts={'even-rank-sha2-gap4-open': 4, 'rank
 residual_cover_map_status.target_cover_count=27
 residual_cover_map_status.verified_cover_count=27
 residual_cover_map_status.failed_cover_count=0
+rank0_torsion_preimage_status.target_cover_count=20
+rank0_torsion_preimage_status.no_torsion_preimage_count=20
+rank0_torsion_preimage_status.failed_cover_count=0
+rank0_torsion_preimage_status.conditional_on_rank_zero=True
 artifact_status.ready=True
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
@@ -750,6 +755,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_probe_mixed_closure_handoff.py`
 - `scripts/theory/sage_verify_mixed_closure_handoff_maps.py`
 - `scripts/theory/sage_verify_mixed_closure_residual_cover_maps.py`
+- `scripts/theory/sage_audit_mixed_closure_rank0_torsion_preimages.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -775,6 +781,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_probe_mixed_closure_handoff.py`
 - `tests/test_sage_verify_mixed_closure_handoff_maps.py`
 - `tests/test_sage_verify_mixed_closure_residual_cover_maps.py`
+- `tests/test_sage_audit_mixed_closure_rank0_torsion_preimages.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -799,6 +806,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_aabb_residual_local_witnesses.json`
 - `results/mixed_closure_residual_selmer_gap_ledger.json`
 - `results/mixed_closure_residual_cover_map_verify.json`
+- `results/mixed_closure_rank0_sha2_torsion_preimage_audit.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -842,6 +850,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl318](work-logs/318-residual-selmer-gap-ledger.md)
 - [wl319](work-logs/319-all-residual-cover-map-verification.md)
 - [wl320](work-logs/320-residual-selmer-gap-frontier-split.md)
+- [wl321](work-logs/321-rank0-torsion-preimage-audit.md)
 
 数学总入口：
 

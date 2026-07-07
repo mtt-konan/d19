@@ -34,6 +34,7 @@ def _blocking_issues(
     residual_local_witnesses: dict[str, Any],
     selmer_gap_ledger: dict[str, Any],
     residual_cover_map_verify: dict[str, Any],
+    rank0_torsion_preimage_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -66,6 +67,14 @@ def _blocking_issues(
         or _int_value(residual_cover_map_verify, "failed_cover_count") != 0
     ):
         issues.append("residual-cover-map-verify-issues")
+    if (
+        rank0_torsion_preimage_audit.get("status") != "ok"
+        or rank0_torsion_preimage_audit.get("all_no_torsion_preimages") is not True
+        or _int_value(rank0_torsion_preimage_audit, "target_cover_count")
+        != _int_value(selmer_gap_ledger, "rank0_sha2_gap2_cover_total")
+        or _int_value(rank0_torsion_preimage_audit, "failed_cover_count") != 0
+    ):
+        issues.append("rank0-torsion-preimage-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -80,6 +89,7 @@ def summarize_partial_result(
     residual_local_witnesses: dict[str, Any],
     selmer_gap_ledger: dict[str, Any],
     residual_cover_map_verify: dict[str, Any],
+    rank0_torsion_preimage_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -93,6 +103,7 @@ def summarize_partial_result(
         residual_local_witnesses=residual_local_witnesses,
         selmer_gap_ledger=selmer_gap_ledger,
         residual_cover_map_verify=residual_cover_map_verify,
+        rank0_torsion_preimage_audit=rank0_torsion_preimage_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -189,6 +200,23 @@ def summarize_partial_result(
                 residual_cover_map_verify, "failed_cover_count"
             ),
         },
+        "rank0_torsion_preimage_status": {
+            "ready": rank0_torsion_preimage_audit.get("status") == "ok"
+            and rank0_torsion_preimage_audit.get("all_no_torsion_preimages") is True
+            and _int_value(rank0_torsion_preimage_audit, "target_cover_count")
+            == _int_value(selmer_gap_ledger, "rank0_sha2_gap2_cover_total")
+            and _int_value(rank0_torsion_preimage_audit, "failed_cover_count") == 0,
+            "target_cover_count": _int_value(
+                rank0_torsion_preimage_audit, "target_cover_count"
+            ),
+            "no_torsion_preimage_count": _int_value(
+                rank0_torsion_preimage_audit, "no_torsion_preimage_count"
+            ),
+            "failed_cover_count": _int_value(
+                rank0_torsion_preimage_audit, "failed_cover_count"
+            ),
+            "conditional_on_rank_zero": True,
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -211,6 +239,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--residual-local-witnesses", type=Path, required=True)
     parser.add_argument("--selmer-gap-ledger", type=Path, required=True)
     parser.add_argument("--residual-cover-map-verify", type=Path, required=True)
+    parser.add_argument("--rank0-torsion-preimage-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -227,6 +256,7 @@ def main() -> int:
         residual_local_witnesses=load_json(args.residual_local_witnesses),
         selmer_gap_ledger=load_json(args.selmer_gap_ledger),
         residual_cover_map_verify=load_json(args.residual_cover_map_verify),
+        rank0_torsion_preimage_audit=load_json(args.rank0_torsion_preimage_audit),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

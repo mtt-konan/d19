@@ -55,6 +55,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --residual-local-witnesses results/mixed_closure_aabb_residual_local_witnesses.json \
   --selmer-gap-ledger results/mixed_closure_residual_selmer_gap_ledger.json \
   --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
+  --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -94,8 +95,11 @@ residual_selmer_gap_status.gap_type_counts = {'even-rank-sha2-gap4-open': 4, 'ra
 residual_cover_map_status.target_cover_count = 27
 residual_cover_map_status.verified_cover_count = 27
 residual_cover_map_status.failed_cover_count = 0
+rank0_torsion_preimage_status.target_cover_count = 20
+rank0_torsion_preimage_status.no_torsion_preimage_count = 20
+rank0_torsion_preimage_status.failed_cover_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 99
+artifact_status.required_file_count = 103
 artifact_status.missing_file_count = 0
 ```
 
