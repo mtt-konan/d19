@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=42 \
+  --expect language_audit_files=43 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -547,6 +547,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
   --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
   --path docs/work-logs/356-external-cover-descent-route-audit.md \
+  --path docs/work-logs/357-external-cover-certificate-intake.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -554,7 +555,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=42
+files=43
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -848,6 +849,28 @@ Sage 当前也没有直接证书接口；所以下一份能推动证明的产物
 cover descent / Mordell-Weil sieve transcript，且需要给出逐 cover no-point
 certificate，或把源椭圆 rank bounds 严格闭到 `[0,0]` 后再做 torsion-preimage audit。
 
+External cover certificate intake：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_intake.py \
+  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
+  --out results/priority_005_1625_5643_AA_external_cover_certificate_intake.json \
+  --template-out results/priority_005_1625_5643_AA_external_cover_certificate_template.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+certificate_package_ready=False
+strict_promotion_ready=False
+```
+
+普通话说：现在还没有外部 no-point 证书包。这个脚本生成未来证书包模板，
+并检查目标、cover 覆盖、证书类型、结果字段和 transcript 文件是否齐全。
+即使字段齐全，它也只把证书包标成“可审阅”，不自己验证外部数学。
+
 partial-result 总摘要：
 
 ```bash
@@ -954,7 +977,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=270
+artifact_status.required_file_count=275
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1193,6 +1216,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/probe_mwrank_mixed_closure_rank.py`
 - `scripts/theory/audit_sage_cover_tool_capabilities.py`
 - `scripts/theory/audit_external_cover_descent_route.py`
+- `scripts/theory/audit_external_cover_certificate_intake.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1234,6 +1258,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_probe_mwrank_mixed_closure_rank.py`
 - `tests/test_audit_sage_cover_tool_capabilities.py`
 - `tests/test_audit_external_cover_descent_route.py`
+- `tests/test_audit_external_cover_certificate_intake.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1298,6 +1323,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json`
 - `results/priority_005_1625_5643_AA_cover_tool_capabilities.json`
 - `results/priority_005_1625_5643_AA_external_cover_descent_route.json`
+- `results/priority_005_1625_5643_AA_external_cover_certificate_intake.json`
+- `results/priority_005_1625_5643_AA_external_cover_certificate_template.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1395,6 +1422,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl354](work-logs/354-mwrank-frontier-rank-probe.md)
 - [wl355](work-logs/355-sage-cover-tool-capability-audit.md)
 - [wl356](work-logs/356-external-cover-descent-route-audit.md)
+- [wl357](work-logs/357-external-cover-certificate-intake.md)
 
 数学总入口：
 
