@@ -138,6 +138,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -243,6 +247,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "test",
         "tests/test_closure_quotient_rank_zero_selmer_odd_prime_valuations.py",
+    ),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py",
     ),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_proof_seeds.py"),
@@ -363,6 +371,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "worklog",
         "docs/work-logs/392-rank-zero-selmer-odd-prime-valuations.md",
+    ),
+    Artifact(
+        "worklog",
+        "docs/work-logs/393-rank-zero-selmer-odd-prime-lemma-queue.md",
     ),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
@@ -557,6 +569,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/closure_quotient_rank_zero_selmer_odd_prime_valuations.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.json",
     ),
     Artifact(
         "result",
