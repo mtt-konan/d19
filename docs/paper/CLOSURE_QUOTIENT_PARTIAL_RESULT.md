@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=21 \
+  --expect language_audit_files=22 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -508,6 +508,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
   --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
   --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
+  --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -515,7 +516,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 21
+files = 22
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -528,6 +529,32 @@ required_boundary_hits = {
 This wording audit does not verify the mathematics. It only guards the paper
 language against turning bounded search, BSD-conditional diagnostics, or
 `Sha[2]` candidates into proof claims.
+
+Audit the residual frontier proof strategy:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_residual_frontier_strategy.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --out results/mixed_closure_residual_frontier_strategy_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+short_sage_retry_status = exhausted-without-proof
+short_sage_retry_target_count = 10
+short_sage_retry_timeout_target_count = 10
+strict_promotion_count = 0
+next_strategy_counts = {
+  'external_rank_proof_or_cover_level_descent': 8,
+  'rank1_generator_or_sha2_separation': 1,
+  'even_gap4_deeper_descent_or_sha2_obstruction': 1
+}
+```
+
+This is routing information, not a proof.
 
 Summarize the full partial-result gate:
 
@@ -545,6 +572,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -599,8 +627,14 @@ non_rankzero_frontier_status.non_rankzero_frontier_target_count = 2
 non_rankzero_frontier_status.target_type_counts = {'even-rank-gap4-needs-deeper-descent': 1, 'rank1-needs-visible-generator-or-descent': 1}
 non_rankzero_frontier_status.target_status_counts = {'sage-timeout': 2}
 non_rankzero_frontier_status.proof_status = non-rankzero-frontier-not-proof
+residual_frontier_strategy_status.short_sage_retry_status = exhausted-without-proof
+residual_frontier_strategy_status.short_sage_retry_target_count = 10
+residual_frontier_strategy_status.short_sage_retry_timeout_target_count = 10
+residual_frontier_strategy_status.strict_promotion_count = 0
+residual_frontier_strategy_status.next_strategy_counts = {'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
+residual_frontier_strategy_status.proof_status = strategy-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 140
+artifact_status.required_file_count = 144
 artifact_status.missing_file_count = 0
 ```
 
@@ -632,6 +666,9 @@ deeper-descent problem. The `(209,5355) BB` target was retried in Sage with
 open diagnostic target rather than a proof. The `(1449,12155) BB` target was
 retried with the same budget and also timed out. Both non-rank-zero elliptic
 targets therefore still need stronger descent tooling or a cover-level proof.
+The strategy audit records the combined 10 frontier targets as
+`exhausted-without-proof`: the local short Sage queue is exhausted, but the
+residual no-point problem is still open.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -710,6 +747,7 @@ scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py
 scripts/theory/audit_mixed_closure_residual_open_frontier.py
 scripts/theory/summarize_mixed_closure_rank_zero_frontier.py
 scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py
+scripts/theory/audit_mixed_closure_residual_frontier_strategy.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -828,6 +866,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 140
+required_file_count = 144
 missing_files = []
 ```

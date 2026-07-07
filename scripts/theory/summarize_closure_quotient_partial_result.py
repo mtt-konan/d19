@@ -39,6 +39,7 @@ def _blocking_issues(
     residual_open_frontier_audit: dict[str, Any],
     rank_zero_frontier_queue: dict[str, Any],
     non_rankzero_frontier_queue: dict[str, Any],
+    residual_frontier_strategy_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -127,6 +128,12 @@ def _blocking_issues(
         != non_rankzero_expected
     ):
         issues.append("non-rankzero-frontier-queue-issues")
+    if (
+        residual_frontier_strategy_audit.get("status") != "ok"
+        or _int_value(residual_frontier_strategy_audit, "strict_promotion_count") != 0
+        or residual_frontier_strategy_audit.get("candidate_not_proof") is not True
+    ):
+        issues.append("residual-frontier-strategy-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -146,6 +153,7 @@ def summarize_partial_result(
     residual_open_frontier_audit: dict[str, Any],
     rank_zero_frontier_queue: dict[str, Any],
     non_rankzero_frontier_queue: dict[str, Any],
+    residual_frontier_strategy_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -164,6 +172,7 @@ def summarize_partial_result(
         residual_open_frontier_audit=residual_open_frontier_audit,
         rank_zero_frontier_queue=rank_zero_frontier_queue,
         non_rankzero_frontier_queue=non_rankzero_frontier_queue,
+        residual_frontier_strategy_audit=residual_frontier_strategy_audit,
         artifact_audit=artifact_audit,
     )
     non_rankzero_expected = sum(
@@ -395,6 +404,42 @@ def summarize_partial_result(
             ),
             "proof_status": "non-rankzero-frontier-not-proof",
         },
+        "residual_frontier_strategy_status": {
+            "ready": residual_frontier_strategy_audit.get("status") == "ok"
+            and _int_value(
+                residual_frontier_strategy_audit, "strict_promotion_count"
+            )
+            == 0
+            and residual_frontier_strategy_audit.get("candidate_not_proof") is True,
+            "short_sage_retry_status": str(
+                residual_frontier_strategy_audit.get("short_sage_retry_status", "")
+            ),
+            "short_sage_retry_target_count": _int_value(
+                residual_frontier_strategy_audit, "short_sage_retry_target_count"
+            ),
+            "short_sage_retry_timeout_target_count": _int_value(
+                residual_frontier_strategy_audit,
+                "short_sage_retry_timeout_target_count",
+            ),
+            "strict_promotion_count": _int_value(
+                residual_frontier_strategy_audit, "strict_promotion_count"
+            ),
+            "candidate_not_proof": residual_frontier_strategy_audit.get(
+                "candidate_not_proof"
+            )
+            is True,
+            "next_strategy_counts": dict(
+                sorted(
+                    residual_frontier_strategy_audit.get(
+                        "next_strategy_counts", {}
+                    ).items()
+                )
+            ),
+            "first_external_rank_target": residual_frontier_strategy_audit.get(
+                "first_external_rank_target"
+            ),
+            "proof_status": "strategy-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -422,6 +467,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--residual-open-frontier-audit", type=Path, required=True)
     parser.add_argument("--rank-zero-frontier-queue", type=Path, required=True)
     parser.add_argument("--non-rankzero-frontier-queue", type=Path, required=True)
+    parser.add_argument("--residual-frontier-strategy-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -445,6 +491,9 @@ def main() -> int:
         residual_open_frontier_audit=load_json(args.residual_open_frontier_audit),
         rank_zero_frontier_queue=load_json(args.rank_zero_frontier_queue),
         non_rankzero_frontier_queue=load_json(args.non_rankzero_frontier_queue),
+        residual_frontier_strategy_audit=load_json(
+            args.residual_frontier_strategy_audit
+        ),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

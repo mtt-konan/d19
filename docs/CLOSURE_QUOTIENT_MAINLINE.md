@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=21 \
+  --expect language_audit_files=22 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -526,6 +526,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
   --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
   --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
+  --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -533,7 +534,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=21
+files=22
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -544,6 +545,32 @@ required_boundary_hits={
 ```
 
 这一步只审计措辞，防止把 bounded search / BSD 条件诊断 / Sha[2] candidate 写成证明。
+
+residual frontier 策略审计：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_residual_frontier_strategy.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --out results/mixed_closure_residual_frontier_strategy_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+short_sage_retry_status=exhausted-without-proof
+short_sage_retry_target_count=10
+short_sage_retry_timeout_target_count=10
+strict_promotion_count=0
+next_strategy_counts={
+  'external_rank_proof_or_cover_level_descent': 8,
+  'rank1_generator_or_sha2_separation': 1,
+  'even_gap4_deeper_descent_or_sha2_obstruction': 1
+}
+```
+
+这一步只做 proof-work 路由：短时 Sage 队列已经扫完，但没有产生严格证明。
 
 partial-result 总摘要：
 
@@ -561,6 +588,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -614,8 +642,14 @@ non_rankzero_frontier_status.non_rankzero_frontier_target_count=2
 non_rankzero_frontier_status.target_type_counts={'even-rank-gap4-needs-deeper-descent': 1, 'rank1-needs-visible-generator-or-descent': 1}
 non_rankzero_frontier_status.target_status_counts={'sage-timeout': 2}
 non_rankzero_frontier_status.proof_status=non-rankzero-frontier-not-proof
+residual_frontier_strategy_status.short_sage_retry_status=exhausted-without-proof
+residual_frontier_strategy_status.short_sage_retry_target_count=10
+residual_frontier_strategy_status.short_sage_retry_timeout_target_count=10
+residual_frontier_strategy_status.strict_promotion_count=0
+residual_frontier_strategy_status.next_strategy_counts={'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
+residual_frontier_strategy_status.proof_status=strategy-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=140
+artifact_status.required_file_count=144
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -635,6 +669,10 @@ residual_status.proof_status=candidate-not-proof
 闭合或 cover-level 证明。`(1449,12155) BB` 也已用同样预算重试，结果 timeout；
 因此 2 个非 rank-zero elliptic targets 都已记录为 Sage timeout，仍需要更强
 descent 工具或 cover-level 证明。
+策略审计把这 10 个 frontier targets 统一标记为 `exhausted-without-proof`：
+这不是说 residual 已证明无点，而是说“短时 Sage 重试队列”已经不再是剩余工作；
+后续应转向外部 rank proof、visible-rank 分离、deeper descent 或 cover-level `Sha[2]`
+阻碍证明。
 
 目标 cover handoff：
 
@@ -814,6 +852,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_residual_open_frontier.py`
 - `scripts/theory/summarize_mixed_closure_rank_zero_frontier.py`
 - `scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py`
+- `scripts/theory/audit_mixed_closure_residual_frontier_strategy.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -844,6 +883,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_open_frontier_audit.py`
 - `tests/test_mixed_closure_rank_zero_frontier_queue.py`
 - `tests/test_mixed_closure_non_rankzero_frontier_queue.py`
+- `tests/test_mixed_closure_residual_frontier_strategy.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -884,6 +924,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/sage_even_gap4_frontier_recheck_1449_12155_BB_s13_20_t120.jsonl`
 - `results/mixed_closure_rank_zero_frontier_queue.json`
 - `results/mixed_closure_non_rankzero_frontier_queue.json`
+- `results/mixed_closure_residual_frontier_strategy_audit.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -942,6 +983,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl333](work-logs/333-rankzero-frontier-recheck-209-21735.md)
 - [wl334](work-logs/334-rankzero-frontier-recheck-5083-12825.md)
 - [wl335](work-logs/335-rankzero-frontier-recheck-5301-38675.md)
+- [wl336](work-logs/336-residual-frontier-strategy-audit.md)
 
 数学总入口：
 

@@ -110,7 +110,29 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "target_status_counts": {"sage-timeout": 2},
     }
-    artifact_audit = {"ready": True, "required_file_count": 140, "missing_files": []}
+    residual_frontier_strategy_audit = {
+        "status": "ok",
+        "short_sage_retry_status": "exhausted-without-proof",
+        "short_sage_retry_target_count": 10,
+        "short_sage_retry_timeout_target_count": 10,
+        "strict_promotion_count": 0,
+        "candidate_not_proof": True,
+        "next_strategy_counts": {
+            "even_gap4_deeper_descent_or_sha2_obstruction": 1,
+            "external_rank_proof_or_cover_level_descent": 8,
+            "rank1_generator_or_sha2_separation": 1,
+        },
+        "first_external_rank_target": {
+            "A": 1625,
+            "B": 5643,
+            "curve": "AA",
+            "priorities": [5, 7],
+            "cover_indices": [3, 4],
+            "has_long_sage_timeout": True,
+            "max_timeout_seconds": 600,
+        },
+    }
+    artifact_audit = {"ready": True, "required_file_count": 144, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -125,6 +147,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         residual_open_frontier_audit=residual_open_frontier_audit,
         rank_zero_frontier_queue=rank_zero_frontier_queue,
         non_rankzero_frontier_queue=non_rankzero_frontier_queue,
+        residual_frontier_strategy_audit=residual_frontier_strategy_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -224,9 +247,32 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "target_status_counts": {"sage-timeout": 2},
             "proof_status": "non-rankzero-frontier-not-proof",
         },
+        "residual_frontier_strategy_status": {
+            "ready": True,
+            "short_sage_retry_status": "exhausted-without-proof",
+            "short_sage_retry_target_count": 10,
+            "short_sage_retry_timeout_target_count": 10,
+            "strict_promotion_count": 0,
+            "candidate_not_proof": True,
+            "next_strategy_counts": {
+                "even_gap4_deeper_descent_or_sha2_obstruction": 1,
+                "external_rank_proof_or_cover_level_descent": 8,
+                "rank1_generator_or_sha2_separation": 1,
+            },
+            "first_external_rank_target": {
+                "A": 1625,
+                "B": 5643,
+                "curve": "AA",
+                "priorities": [5, 7],
+                "cover_indices": [3, 4],
+                "has_long_sage_timeout": True,
+                "max_timeout_seconds": 600,
+            },
+            "proof_status": "strategy-not-proof",
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 140,
+            "required_file_count": 144,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -289,6 +335,11 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "status": "error",
             "non_rankzero_frontier_cover_count": 6,
         },
+        residual_frontier_strategy_audit={
+            "status": "error",
+            "strict_promotion_count": 1,
+            "candidate_not_proof": False,
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -309,6 +360,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "residual-open-frontier-audit-issues",
         "rank-zero-frontier-queue-issues",
         "non-rankzero-frontier-queue-issues",
+        "residual-frontier-strategy-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -326,6 +378,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     open_frontier = tmp_path / "open_frontier.json"
     rank_zero_frontier = tmp_path / "rank_zero_frontier.json"
     non_rankzero_frontier = tmp_path / "non_rankzero_frontier.json"
+    frontier_strategy = tmp_path / "frontier_strategy.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -372,6 +425,11 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '{"status":"ok","non_rankzero_frontier_cover_count":0}\n',
         encoding="utf-8",
     )
+    frontier_strategy.write_text(
+        '{"status":"ok","strict_promotion_count":0,'
+        '"candidate_not_proof":true}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -402,6 +460,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(rank_zero_frontier),
             "--non-rankzero-frontier-queue",
             str(non_rankzero_frontier),
+            "--residual-frontier-strategy-audit",
+            str(frontier_strategy),
             "--artifact-audit",
             str(artifacts),
             "--out",
