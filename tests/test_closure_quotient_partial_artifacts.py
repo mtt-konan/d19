@@ -112,6 +112,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/328-rankzero-frontier-recheck-567-3757.md" in paths
     assert "docs/work-logs/329-rankzero-frontier-recheck-5075-17901.md" in paths
     assert "docs/work-logs/330-rankzero-frontier-long-recheck-1625-5643.md" in paths
+    assert "docs/work-logs/331-rankzero-frontier-recheck-8075-8613.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -123,6 +124,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_5075_17901_AA_s13_20_t120.jsonl" in paths
+    assert "results/sage_rankzero_frontier_recheck_8075_8613_AA_s13_20_t120.jsonl" in paths
     assert "results/sage_rank1_frontier_recheck_209_5355_BB_s13_20_t120.jsonl" in paths
     assert (
         "results/sage_even_gap4_frontier_recheck_1449_12155_BB_s13_20_t120.jsonl"

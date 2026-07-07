@@ -112,6 +112,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/328-rankzero-frontier-recheck-567-3757.md"),
     Artifact("worklog", "docs/work-logs/329-rankzero-frontier-recheck-5075-17901.md"),
     Artifact("worklog", "docs/work-logs/330-rankzero-frontier-long-recheck-1625-5643.md"),
+    Artifact("worklog", "docs/work-logs/331-rankzero-frontier-recheck-8075-8613.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -139,6 +140,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/sage_rankzero_frontier_recheck_5075_17901_AA_s13_20_t120.jsonl",
+    ),
+    Artifact(
+        "result",
+        "results/sage_rankzero_frontier_recheck_8075_8613_AA_s13_20_t120.jsonl",
     ),
     Artifact(
         "result",
