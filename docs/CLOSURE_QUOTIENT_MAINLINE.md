@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=41 \
+  --expect language_audit_files=42 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -546,6 +546,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/353-frontier-escalation-queue.md \
   --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
   --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
+  --path docs/work-logs/356-external-cover-descent-route-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -553,7 +554,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=41
+files=42
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -822,6 +823,31 @@ recommended_next_tool=magma-or-specialized-cover-descent
 没有直接 no-point 证明所需的 local/descent/Jacobian rank 接口。因此 cover-level
 收敛下一步应转向 Magma 或专门的 Mordell-Weil sieve / cover descent。
 
+External cover descent route audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_descent_route.py \
+  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
+  --sage-cover-capability-audit results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
+  --out results/priority_005_1625_5643_AA_external_cover_descent_route.json \
+  --magma magma \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+local_magma_available=False
+proof_status=external-tool-gap-open
+recommended_next_action=obtain-magma-or-specialized-cover-descent-environment
+```
+
+普通话说：这一步把“下一步该跑什么才算数”固定下来。本机没有 Magma，
+Sage 当前也没有直接证书接口；所以下一份能推动证明的产物必须是外部
+cover descent / Mordell-Weil sieve transcript，且需要给出逐 cover no-point
+certificate，或把源椭圆 rank bounds 严格闭到 `[0,0]` 后再做 torsion-preimage audit。
+
 partial-result 总摘要：
 
 ```bash
@@ -928,7 +954,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=266
+artifact_status.required_file_count=270
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1166,6 +1192,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_frontier_escalation_queue.py`
 - `scripts/theory/probe_mwrank_mixed_closure_rank.py`
 - `scripts/theory/audit_sage_cover_tool_capabilities.py`
+- `scripts/theory/audit_external_cover_descent_route.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1206,6 +1233,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_frontier_escalation_queue.py`
 - `tests/test_probe_mwrank_mixed_closure_rank.py`
 - `tests/test_audit_sage_cover_tool_capabilities.py`
+- `tests/test_audit_external_cover_descent_route.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1269,6 +1297,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/priority_025_5301_38675_BB_mwrank_rank_probe.json`
 - `results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json`
 - `results/priority_005_1625_5643_AA_cover_tool_capabilities.json`
+- `results/priority_005_1625_5643_AA_external_cover_descent_route.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1365,6 +1394,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl353](work-logs/353-frontier-escalation-queue.md)
 - [wl354](work-logs/354-mwrank-frontier-rank-probe.md)
 - [wl355](work-logs/355-sage-cover-tool-capability-audit.md)
+- [wl356](work-logs/356-external-cover-descent-route-audit.md)
 
 数学总入口：
 
