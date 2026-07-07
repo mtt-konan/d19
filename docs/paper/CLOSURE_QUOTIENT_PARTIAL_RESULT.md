@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=56 \
+  --expect language_audit_files=57 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -552,6 +552,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/368-root-number-lambda-triage.md \
   --path docs/work-logs/369-two-cover-lambda-frontier.md \
   --path docs/work-logs/370-lambda-route-partition-audit.md \
+  --path docs/work-logs/371-lambda-mainline-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -559,7 +560,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 56
+files = 57
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1040,9 +1041,32 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 326
+artifact_status.required_file_count = 330
 artifact_status.missing_file_count = 0
 ```
+
+Audit the lambda mainline gate:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_mainline.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --lambda-frontier results/closure_quotient_lambda_frontier.json \
+  --route-partition results/closure_quotient_lambda_route_partition_audit.json \
+  --two-cover-frontier results/closure_quotient_two_cover_lambda_frontier.json \
+  --out results/closure_quotient_lambda_mainline_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+lambda_class_count = 356
+covered_class_count = 356
+violations = []
+```
+
+This is the current evidence-boundary gate for the lambda-level mainline.
 
 Audit lambda route partition:
 
@@ -1430,6 +1454,7 @@ scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
 scripts/theory/audit_closure_quotient_lambda_route_partition.py
+scripts/theory/audit_closure_quotient_lambda_mainline.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1543,6 +1568,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 326
+required_file_count = 330
 missing_files = []
 ```

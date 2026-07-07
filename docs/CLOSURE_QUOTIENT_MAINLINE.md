@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=56 \
+  --expect language_audit_files=57 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -571,6 +571,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/368-root-number-lambda-triage.md \
   --path docs/work-logs/369-two-cover-lambda-frontier.md \
   --path docs/work-logs/370-lambda-route-partition-audit.md \
+  --path docs/work-logs/371-lambda-mainline-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -578,7 +579,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=56
+files=57
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1061,10 +1062,41 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=326
+artifact_status.required_file_count=330
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Lambda mainline audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_mainline.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --lambda-frontier results/closure_quotient_lambda_frontier.json \
+  --route-partition results/closure_quotient_lambda_route_partition_audit.json \
+  --two-cover-frontier results/closure_quotient_two_cover_lambda_frontier.json \
+  --out results/closure_quotient_lambda_mainline_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+lambda_class_count=356
+covered_class_count=356
+violations=[]
+checks={
+  'ray_ledger_has_c_minus': True,
+  'route_partition_complete': True,
+  'search_count_rejected_as_progress': True,
+  'two_cover_requires_strict_evidence': True,
+  'family_exclusion_claim_count_zero': True
+}
+```
+
+普通话说：这个总 gate 确认 closure quotient 已收成 `lambda=A/B` 层面的结构证明主线；
+它仍然不证明任何比例类已经整族排除。
 
 Lambda route partition audit：
 
@@ -1549,6 +1581,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
 - `scripts/theory/audit_closure_quotient_lambda_route_partition.py`
+- `scripts/theory/audit_closure_quotient_lambda_mainline.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1603,6 +1636,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
 - `tests/test_closure_quotient_lambda_route_partition.py`
+- `tests/test_closure_quotient_lambda_mainline_gate.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1678,6 +1712,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
 - `results/closure_quotient_lambda_route_partition_audit.json`
+- `results/closure_quotient_lambda_mainline_audit.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1789,6 +1824,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl368](work-logs/368-root-number-lambda-triage.md)
 - [wl369](work-logs/369-two-cover-lambda-frontier.md)
 - [wl370](work-logs/370-lambda-route-partition-audit.md)
+- [wl371](work-logs/371-lambda-mainline-audit.md)
 
 数学总入口：
 
