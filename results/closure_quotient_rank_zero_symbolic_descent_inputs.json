@@ -1,0 +1,4411 @@
+{
+  "boundary": "This audits uniform symbolic inputs for a future 2-isogeny/Selmer rank argument on the rank-zero primitive lambda families. It does not prove a Selmer bound, rank zero, or any lambda-family exclusion theorem.",
+  "family_exclusion_proved_count": 0,
+  "formula": {
+    "p": "8*L^2 - 2*T^2",
+    "q": "sqrt_q^2",
+    "root_differences": {
+      "(-p) - (-2*sqrt_q)": "4*T^2",
+      "(-p) - 2*sqrt_q": "-16*L^2",
+      "(2*sqrt_q) - (-2*sqrt_q)": "4*(T^2 + 4*L^2)"
+    },
+    "sqrt_q": "T^2 + 4*L^2",
+    "two_torsion_roots": [
+      "-2*sqrt_q",
+      "-p",
+      "2*sqrt_q"
+    ],
+    "variables": {
+      "L": "primitive_A for AA, primitive_B for BB",
+      "T": "primitive_A + primitive_B"
+    }
+  },
+  "model_counts_by_curve": {
+    "AA": 125,
+    "BB": 118
+  },
+  "models": [
+    {
+      "class": "1001:2375",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1001,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 45589504,
+        "minus_p_minus_pos_2sqrt_q": -16032016,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 61621520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 3376
+    },
+    {
+      "class": "1015:3289",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1015,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 74097664,
+        "minus_p_minus_pos_2sqrt_q": -16483600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 90581264
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4304
+    },
+    {
+      "class": "1015:7293",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1015,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 276091456,
+        "minus_p_minus_pos_2sqrt_q": -16483600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 292575056
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 8308
+    },
+    {
+      "class": "1015:9801",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 9801,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 467943424,
+        "minus_p_minus_pos_2sqrt_q": -1536953616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2004897040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10816
+    },
+    {
+      "class": "1053:1463",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1053,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 25321024,
+        "minus_p_minus_pos_2sqrt_q": -17740944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 43061968
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2516
+    },
+    {
+      "class": "1053:1463",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1463,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 25321024,
+        "minus_p_minus_pos_2sqrt_q": -34245904,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 59566928
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2516
+    },
+    {
+      "class": "105:143",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 143,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 246016,
+        "minus_p_minus_pos_2sqrt_q": -327184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 573200
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 248
+    },
+    {
+      "class": "1071:1265",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1265,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 21827584,
+        "minus_p_minus_pos_2sqrt_q": -25603600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 47431184
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2336
+    },
+    {
+      "class": "1085:17043",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1085,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1314497536,
+        "minus_p_minus_pos_2sqrt_q": -18835600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1333333136
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 18128
+    },
+    {
+      "class": "114:161",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 161,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 302500,
+        "minus_p_minus_pos_2sqrt_q": -414736,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 717236
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 275
+    },
+    {
+      "class": "115:1309",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1309,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 8111104,
+        "minus_p_minus_pos_2sqrt_q": -27415696,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 35526800
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1424
+    },
+    {
+      "class": "115:189",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 115,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 369664,
+        "minus_p_minus_pos_2sqrt_q": -211600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 581264
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 304
+    },
+    {
+      "class": "115:2261",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2261,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 22581504,
+        "minus_p_minus_pos_2sqrt_q": -81793936,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 104375440
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2376
+    },
+    {
+      "class": "1197:17875",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1197,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1454964736,
+        "minus_p_minus_pos_2sqrt_q": -22924944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1477889680
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 19072
+    },
+    {
+      "class": "119:145",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 119,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 278784,
+        "minus_p_minus_pos_2sqrt_q": -226576,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 505360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 264
+    },
+    {
+      "class": "119:156",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 119,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 302500,
+        "minus_p_minus_pos_2sqrt_q": -226576,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 529076
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 275
+    },
+    {
+      "class": "119:209",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 119,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 430336,
+        "minus_p_minus_pos_2sqrt_q": -226576,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 656912
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 328
+    },
+    {
+      "class": "11:161",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 161,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 118336,
+        "minus_p_minus_pos_2sqrt_q": -414736,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 533072
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 172
+    },
+    {
+      "class": "11:221",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 221,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 215296,
+        "minus_p_minus_pos_2sqrt_q": -781456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 996752
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 232
+    },
+    {
+      "class": "11:25",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 25,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5184,
+        "minus_p_minus_pos_2sqrt_q": -10000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 15184
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 36
+    },
+    {
+      "class": "1215:1729",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1215,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 34668544,
+        "minus_p_minus_pos_2sqrt_q": -23619600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 58288144
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2944
+    },
+    {
+      "class": "1215:27209",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 27209,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3231695104,
+        "minus_p_minus_pos_2sqrt_q": -11845274896,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 15076970000
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 28424
+    },
+    {
+      "class": "121:1755",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 121,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14077504,
+        "minus_p_minus_pos_2sqrt_q": -234256,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 14311760
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1876
+    },
+    {
+      "class": "1235:3213",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1235,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 79138816,
+        "minus_p_minus_pos_2sqrt_q": -24403600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 103542416
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4448
+    },
+    {
+      "class": "125:1547",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 125,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 11182336,
+        "minus_p_minus_pos_2sqrt_q": -250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 11432336
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1672
+    },
+    {
+      "class": "125:351",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 125,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 906304,
+        "minus_p_minus_pos_2sqrt_q": -250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1156304
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 476
+    },
+    {
+      "class": "125:351",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 351,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 906304,
+        "minus_p_minus_pos_2sqrt_q": -1971216,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2877520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 476
+    },
+    {
+      "class": "1265:1547",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1265,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 31629376,
+        "minus_p_minus_pos_2sqrt_q": -25603600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 57232976
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2812
+    },
+    {
+      "class": "1275:3289",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1275,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 83320384,
+        "minus_p_minus_pos_2sqrt_q": -26010000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 109330384
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4564
+    },
+    {
+      "class": "1275:3289",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 3289,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 83320384,
+        "minus_p_minus_pos_2sqrt_q": -173080336,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 256400720
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4564
+    },
+    {
+      "class": "1309:1395",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1395,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 29246464,
+        "minus_p_minus_pos_2sqrt_q": -31136400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 60382864
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2704
+    },
+    {
+      "class": "1323:15125",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 15125,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1082146816,
+        "minus_p_minus_pos_2sqrt_q": -3660250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4742396816
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 16448
+    },
+    {
+      "class": "133:1035",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1035,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5456896,
+        "minus_p_minus_pos_2sqrt_q": -17139600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 22596496
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1168
+    },
+    {
+      "class": "133:1375",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1375,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 9096256,
+        "minus_p_minus_pos_2sqrt_q": -30250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 39346256
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1508
+    },
+    {
+      "class": "133:575",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 133,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2005056,
+        "minus_p_minus_pos_2sqrt_q": -283024,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2288080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 708
+    },
+    {
+      "class": "133:575",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 575,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2005056,
+        "minus_p_minus_pos_2sqrt_q": -5290000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 7295056
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 708
+    },
+    {
+      "class": "135:154",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 154,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 334084,
+        "minus_p_minus_pos_2sqrt_q": -379456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 713540
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 289
+    },
+    {
+      "class": "135:437",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 135,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1308736,
+        "minus_p_minus_pos_2sqrt_q": -291600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1600336
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 572
+    },
+    {
+      "class": "1375:4641",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 4641,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 144769024,
+        "minus_p_minus_pos_2sqrt_q": -344622096,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 489391120
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6016
+    },
+    {
+      "class": "1377:23023",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1377,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2381440000,
+        "minus_p_minus_pos_2sqrt_q": -30338064,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2411778064
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 24400
+    },
+    {
+      "class": "1377:23023",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 23023,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2381440000,
+        "minus_p_minus_pos_2sqrt_q": -8480936464,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 10862376464
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 24400
+    },
+    {
+      "class": "1395:10829",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 10829,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 597704704,
+        "minus_p_minus_pos_2sqrt_q": -1876275856,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2473980560
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12224
+    },
+    {
+      "class": "13:135",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 135,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 87616,
+        "minus_p_minus_pos_2sqrt_q": -291600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 379216
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 148
+    },
+    {
+      "class": "13:22",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 13,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4900,
+        "minus_p_minus_pos_2sqrt_q": -2704,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 7604
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 35
+    },
+    {
+      "class": "13:55",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 55,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 18496,
+        "minus_p_minus_pos_2sqrt_q": -48400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 66896
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 68
+    },
+    {
+      "class": "1421:4455",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1421,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 138109504,
+        "minus_p_minus_pos_2sqrt_q": -32307856,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 170417360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5876
+    },
+    {
+      "class": "143:225",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 143,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 541696,
+        "minus_p_minus_pos_2sqrt_q": -327184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 868880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 368
+    },
+    {
+      "class": "143:665",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 143,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2611456,
+        "minus_p_minus_pos_2sqrt_q": -327184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2938640
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 808
+    },
+    {
+      "class": "143:665",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 665,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2611456,
+        "minus_p_minus_pos_2sqrt_q": -7075600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9687056
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 808
+    },
+    {
+      "class": "1445:2783",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2783,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 71503936,
+        "minus_p_minus_pos_2sqrt_q": -123921424,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 195425360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4228
+    },
+    {
+      "class": "145:2431",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 145,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 26543104,
+        "minus_p_minus_pos_2sqrt_q": -336400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 26879504
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2576
+    },
+    {
+      "class": "147:425",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 147,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1308736,
+        "minus_p_minus_pos_2sqrt_q": -345744,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1654480
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 572
+    },
+    {
+      "class": "147:425",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 425,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1308736,
+        "minus_p_minus_pos_2sqrt_q": -2890000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4198736
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 572
+    },
+    {
+      "class": "1485:4199",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 4199,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 129231424,
+        "minus_p_minus_pos_2sqrt_q": -282105616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 411337040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5684
+    },
+    {
+      "class": "1495:2793",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1495,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 73547776,
+        "minus_p_minus_pos_2sqrt_q": -35760400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 109308176
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4288
+    },
+    {
+      "class": "161:275",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 275,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 760384,
+        "minus_p_minus_pos_2sqrt_q": -1210000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1970384
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 436
+    },
+    {
+      "class": "161:4675",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 161,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 93547584,
+        "minus_p_minus_pos_2sqrt_q": -414736,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 93962320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4836
+    },
+    {
+      "class": "1625:5643",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 5643,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 211295296,
+        "minus_p_minus_pos_2sqrt_q": -509495184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 720790480
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7268
+    },
+    {
+      "class": "16443:26125",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 16443,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7248138496,
+        "minus_p_minus_pos_2sqrt_q": -4325955984,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 11574094480
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 42568
+    },
+    {
+      "class": "165:203",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 203,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 541696,
+        "minus_p_minus_pos_2sqrt_q": -659344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1201040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 368
+    },
+    {
+      "class": "1683:16625",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 16625,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1340731456,
+        "minus_p_minus_pos_2sqrt_q": -4422250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5762981456
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 18308
+    },
+    {
+      "class": "1701:5083",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1701,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 184090624,
+        "minus_p_minus_pos_2sqrt_q": -46294416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 230385040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6784
+    },
+    {
+      "class": "1701:5083",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 5083,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 184090624,
+        "minus_p_minus_pos_2sqrt_q": -413390224,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 597480848
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6784
+    },
+    {
+      "class": "1705:2639",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2639,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 75481344,
+        "minus_p_minus_pos_2sqrt_q": -111429136,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 186910480
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4344
+    },
+    {
+      "class": "1705:56511",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1705,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 13556410624,
+        "minus_p_minus_pos_2sqrt_q": -46512400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 13602923024
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 58216
+    },
+    {
+      "class": "1705:56511",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 56511,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 13556410624,
+        "minus_p_minus_pos_2sqrt_q": -51095889936,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 64652300560
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 58216
+    },
+    {
+      "class": "171:325",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 171,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 984064,
+        "minus_p_minus_pos_2sqrt_q": -467856,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1451920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 496
+    },
+    {
+      "class": "171:325",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 325,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 984064,
+        "minus_p_minus_pos_2sqrt_q": -1690000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2674064
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 496
+    },
+    {
+      "class": "1755:2261",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2261,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 64513024,
+        "minus_p_minus_pos_2sqrt_q": -81793936,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 146306960
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4016
+    },
+    {
+      "class": "175:221",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 175,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 627264,
+        "minus_p_minus_pos_2sqrt_q": -490000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1117264
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 396
+    },
+    {
+      "class": "17:567",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 17,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1364224,
+        "minus_p_minus_pos_2sqrt_q": -4624,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1368848
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 584
+    },
+    {
+      "class": "187:1365",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1365,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 9634816,
+        "minus_p_minus_pos_2sqrt_q": -29811600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 39446416
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1552
+    },
+    {
+      "class": "187:245",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 187,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 746496,
+        "minus_p_minus_pos_2sqrt_q": -559504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1306000
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 432
+    },
+    {
+      "class": "187:437",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 187,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1557504,
+        "minus_p_minus_pos_2sqrt_q": -559504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2117008
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 624
+    },
+    {
+      "class": "187:513",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 187,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1960000,
+        "minus_p_minus_pos_2sqrt_q": -559504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2519504
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 700
+    },
+    {
+      "class": "187:513",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 513,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1960000,
+        "minus_p_minus_pos_2sqrt_q": -4210704,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 6170704
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 700
+    },
+    {
+      "class": "187:585",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 187,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2383936,
+        "minus_p_minus_pos_2sqrt_q": -559504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2943440
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 772
+    },
+    {
+      "class": "1885:7803",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1885,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 375429376,
+        "minus_p_minus_pos_2sqrt_q": -56851600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 432280976
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9688
+    },
+    {
+      "class": "1885:7803",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7803,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 375429376,
+        "minus_p_minus_pos_2sqrt_q": -974188944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1349618320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9688
+    },
+    {
+      "class": "189:275",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 275,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 861184,
+        "minus_p_minus_pos_2sqrt_q": -1210000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2071184
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 464
+    },
+    {
+      "class": "189:299",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 189,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 952576,
+        "minus_p_minus_pos_2sqrt_q": -571536,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1524112
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 488
+    },
+    {
+      "class": "18:143",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 18,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 103684,
+        "minus_p_minus_pos_2sqrt_q": -5184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 108868
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 161
+    },
+    {
+      "class": "18:143",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 143,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 103684,
+        "minus_p_minus_pos_2sqrt_q": -327184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 430868
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 161
+    },
+    {
+      "class": "19:135",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 135,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 94864,
+        "minus_p_minus_pos_2sqrt_q": -291600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 386464
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 154
+    },
+    {
+      "class": "19:33",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 33,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 10816,
+        "minus_p_minus_pos_2sqrt_q": -17424,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 28240
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 52
+    },
+    {
+      "class": "19:44",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 44,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 15876,
+        "minus_p_minus_pos_2sqrt_q": -30976,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 46852
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 63
+    },
+    {
+      "class": "19:525",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 19,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1183744,
+        "minus_p_minus_pos_2sqrt_q": -5776,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1189520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 544
+    },
+    {
+      "class": "19:525",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 525,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1183744,
+        "minus_p_minus_pos_2sqrt_q": -4410000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5593744
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 544
+    },
+    {
+      "class": "1:10",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 1,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 484,
+        "minus_p_minus_pos_2sqrt_q": -16,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 500
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11
+    },
+    {
+      "class": "203:1053",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 203,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 6310144,
+        "minus_p_minus_pos_2sqrt_q": -659344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 6969488
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1256
+    },
+    {
+      "class": "203:1425",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 203,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 10601536,
+        "minus_p_minus_pos_2sqrt_q": -659344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 11260880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1628
+    },
+    {
+      "class": "203:297",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 203,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1000000,
+        "minus_p_minus_pos_2sqrt_q": -659344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1659344
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 500
+    },
+    {
+      "class": "203:297",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 297,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1000000,
+        "minus_p_minus_pos_2sqrt_q": -1411344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2411344
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 500
+    },
+    {
+      "class": "2057:10143",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2057,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 595360000,
+        "minus_p_minus_pos_2sqrt_q": -67699984,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 663059984
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12200
+    },
+    {
+      "class": "2057:10143",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 10143,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 595360000,
+        "minus_p_minus_pos_2sqrt_q": -1646087184,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2241447184
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12200
+    },
+    {
+      "class": "2079:2185",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2079,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 72726784,
+        "minus_p_minus_pos_2sqrt_q": -69155856,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 141882640
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 4264
+    },
+    {
+      "class": "207:493",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 493,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1960000,
+        "minus_p_minus_pos_2sqrt_q": -3888784,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5848784
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 700
+    },
+    {
+      "class": "209:1015",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1015,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5992704,
+        "minus_p_minus_pos_2sqrt_q": -16483600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 22476304
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1224
+    },
+    {
+      "class": "209:5355",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 209,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 123832384,
+        "minus_p_minus_pos_2sqrt_q": -698896,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 124531280
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5564
+    },
+    {
+      "class": "209:783",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 209,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3936256,
+        "minus_p_minus_pos_2sqrt_q": -698896,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4635152
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 992
+    },
+    {
+      "class": "2125:8379",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 8379,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 441336064,
+        "minus_p_minus_pos_2sqrt_q": -1123322256,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1564658320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10504
+    },
+    {
+      "class": "2185:22491",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2185,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2435619904,
+        "minus_p_minus_pos_2sqrt_q": -76387600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2512007504
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 24676
+    },
+    {
+      "class": "221:279",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 279,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1000000,
+        "minus_p_minus_pos_2sqrt_q": -1245456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2245456
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 500
+    },
+    {
+      "class": "2223:4025",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2223,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 156150016,
+        "minus_p_minus_pos_2sqrt_q": -79067664,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 235217680
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6248
+    },
+    {
+      "class": "2233:3159",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 3159,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 116294656,
+        "minus_p_minus_pos_2sqrt_q": -159668496,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 275963152
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5392
+    },
+    {
+      "class": "2233:6375",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2233,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 296390656,
+        "minus_p_minus_pos_2sqrt_q": -79780624,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 376171280
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 8608
+    },
+    {
+      "class": "2233:6375",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 6375,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 296390656,
+        "minus_p_minus_pos_2sqrt_q": -650250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 946640656
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 8608
+    },
+    {
+      "class": "225:391",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 225,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1517824,
+        "minus_p_minus_pos_2sqrt_q": -810000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2327824
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 616
+    },
+    {
+      "class": "225:391",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 391,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1517824,
+        "minus_p_minus_pos_2sqrt_q": -2446096,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3963920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 616
+    },
+    {
+      "class": "225:4807",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 225,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 101284096,
+        "minus_p_minus_pos_2sqrt_q": -810000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 102094096
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5032
+    },
+    {
+      "class": "225:4807",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 4807,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 101284096,
+        "minus_p_minus_pos_2sqrt_q": -369715984,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 471000080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5032
+    },
+    {
+      "class": "2261:5175",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2261,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 221176384,
+        "minus_p_minus_pos_2sqrt_q": -81793936,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 302970320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7436
+    },
+    {
+      "class": "2277:30875",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2277,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4396220416,
+        "minus_p_minus_pos_2sqrt_q": -82955664,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4479176080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 33152
+    },
+    {
+      "class": "2277:30875",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 30875,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4396220416,
+        "minus_p_minus_pos_2sqrt_q": -15252250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 19648470416
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 33152
+    },
+    {
+      "class": "2295:2717",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2295,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 100480576,
+        "minus_p_minus_pos_2sqrt_q": -84272400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 184752976
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 5012
+    },
+    {
+      "class": "2349:7315",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7315,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 373571584,
+        "minus_p_minus_pos_2sqrt_q": -856147600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1229719184
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9664
+    },
+    {
+      "class": "2431:7245",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2431,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 374499904,
+        "minus_p_minus_pos_2sqrt_q": -94556176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 469056080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9676
+    },
+    {
+      "class": "2431:7245",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7245,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 374499904,
+        "minus_p_minus_pos_2sqrt_q": -839840400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1214340304
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9676
+    },
+    {
+      "class": "243:1085",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1085,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7054336,
+        "minus_p_minus_pos_2sqrt_q": -18835600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 25889936
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1328
+    },
+    {
+      "class": "247:621",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 247,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3013696,
+        "minus_p_minus_pos_2sqrt_q": -976144,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3989840
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 868
+    },
+    {
+      "class": "247:7425",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7425,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 235438336,
+        "minus_p_minus_pos_2sqrt_q": -882090000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1117528336
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7672
+    },
+    {
+      "class": "247:7497",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7497,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 239878144,
+        "minus_p_minus_pos_2sqrt_q": -899280144,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1139158288
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7744
+    },
+    {
+      "class": "247:765",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 765,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4096576,
+        "minus_p_minus_pos_2sqrt_q": -9363600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 13460176
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1012
+    },
+    {
+      "class": "253:855",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 855,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4910656,
+        "minus_p_minus_pos_2sqrt_q": -11696400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 16607056
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1108
+    },
+    {
+      "class": "25:1859",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 25,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14197824,
+        "minus_p_minus_pos_2sqrt_q": -10000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 14207824
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1884
+    },
+    {
+      "class": "25:1859",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1859,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14197824,
+        "minus_p_minus_pos_2sqrt_q": -55294096,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 69491920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1884
+    },
+    {
+      "class": "25:63",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 63,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 30976,
+        "minus_p_minus_pos_2sqrt_q": -63504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 94480
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 88
+    },
+    {
+      "class": "2601:8855",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2601,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 524959744,
+        "minus_p_minus_pos_2sqrt_q": -108243216,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 633202960
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11456
+    },
+    {
+      "class": "2601:8855",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 8855,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 524959744,
+        "minus_p_minus_pos_2sqrt_q": -1254576400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1779536144
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11456
+    },
+    {
+      "class": "26:51",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 26,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 23716,
+        "minus_p_minus_pos_2sqrt_q": -10816,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 34532
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 77
+    },
+    {
+      "class": "26:51",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 51,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 23716,
+        "minus_p_minus_pos_2sqrt_q": -41616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 65332
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 77
+    },
+    {
+      "class": "2737:3375",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 2737,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 149426176,
+        "minus_p_minus_pos_2sqrt_q": -119858704,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 269284880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6112
+    },
+    {
+      "class": "2737:3375",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 3375,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 149426176,
+        "minus_p_minus_pos_2sqrt_q": -182250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 331676176
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6112
+    },
+    {
+      "class": "2793:3575",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 3575,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 162205696,
+        "minus_p_minus_pos_2sqrt_q": -204490000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 366695696
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6368
+    },
+    {
+      "class": "279:7429",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7429,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 237653056,
+        "minus_p_minus_pos_2sqrt_q": -883040656,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1120693712
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7708
+    },
+    {
+      "class": "27:209",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 209,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 222784,
+        "minus_p_minus_pos_2sqrt_q": -698896,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 921680
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 236
+    },
+    {
+      "class": "28:187",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 28,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 184900,
+        "minus_p_minus_pos_2sqrt_q": -12544,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 197444
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 215
+    },
+    {
+      "class": "28:187",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 187,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 184900,
+        "minus_p_minus_pos_2sqrt_q": -559504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 744404
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 215
+    },
+    {
+      "class": "297:455",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 297,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2262016,
+        "minus_p_minus_pos_2sqrt_q": -1411344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3673360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 752
+    },
+    {
+      "class": "297:455",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 455,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2262016,
+        "minus_p_minus_pos_2sqrt_q": -3312400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5574416
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 752
+    },
+    {
+      "class": "299:385",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 299,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1871424,
+        "minus_p_minus_pos_2sqrt_q": -1430416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3301840
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 684
+    },
+    {
+      "class": "299:525",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 299,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2715904,
+        "minus_p_minus_pos_2sqrt_q": -1430416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4146320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 824
+    },
+    {
+      "class": "29:175",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 175,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 166464,
+        "minus_p_minus_pos_2sqrt_q": -490000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 656464
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 204
+    },
+    {
+      "class": "29:2079",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 29,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 17774656,
+        "minus_p_minus_pos_2sqrt_q": -13456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 17788112
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2108
+    },
+    {
+      "class": "29:2079",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2079,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 17774656,
+        "minus_p_minus_pos_2sqrt_q": -69155856,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 86930512
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2108
+    },
+    {
+      "class": "29:675",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 29,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1982464,
+        "minus_p_minus_pos_2sqrt_q": -13456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1995920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 704
+    },
+    {
+      "class": "29:77",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 29,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 44944,
+        "minus_p_minus_pos_2sqrt_q": -13456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 58400
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 106
+    },
+    {
+      "class": "29:935",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 935,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3717184,
+        "minus_p_minus_pos_2sqrt_q": -13987600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 17704784
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 964
+    },
+    {
+      "class": "3025:7371",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 7371,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 432307264,
+        "minus_p_minus_pos_2sqrt_q": -869306256,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1301613520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10396
+    },
+    {
+      "class": "3069:10115",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 3069,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 695271424,
+        "minus_p_minus_pos_2sqrt_q": -150700176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 845971600
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 13184
+    },
+    {
+      "class": "315:1573",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1573,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14258176,
+        "minus_p_minus_pos_2sqrt_q": -39589264,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 53847440
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1888
+    },
+    {
+      "class": "319:12285",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 319,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 635443264,
+        "minus_p_minus_pos_2sqrt_q": -1628176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 637071440
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12604
+    },
+    {
+      "class": "319:16625",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 319,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1148396544,
+        "minus_p_minus_pos_2sqrt_q": -1628176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1150024720
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 16944
+    },
+    {
+      "class": "319:325",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 319,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1658944,
+        "minus_p_minus_pos_2sqrt_q": -1628176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3287120
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 644
+    },
+    {
+      "class": "319:357",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 319,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1827904,
+        "minus_p_minus_pos_2sqrt_q": -1628176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3456080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 676
+    },
+    {
+      "class": "31:119",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 31,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 90000,
+        "minus_p_minus_pos_2sqrt_q": -15376,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 105376
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 150
+    },
+    {
+      "class": "323:1701",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 323,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 16386304,
+        "minus_p_minus_pos_2sqrt_q": -1669264,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 18055568
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2024
+    },
+    {
+      "class": "323:2673",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 323,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 35904064,
+        "minus_p_minus_pos_2sqrt_q": -1669264,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 37573328
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2996
+    },
+    {
+      "class": "325:1071",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1071,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7795264,
+        "minus_p_minus_pos_2sqrt_q": -18352656,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 26147920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1396
+    },
+    {
+      "class": "325:3591",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 325,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 61340224,
+        "minus_p_minus_pos_2sqrt_q": -1690000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 63030224
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 3916
+    },
+    {
+      "class": "325:3591",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 3591,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 61340224,
+        "minus_p_minus_pos_2sqrt_q": -206324496,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 267664720
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 3916
+    },
+    {
+      "class": "325:627",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 325,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3625216,
+        "minus_p_minus_pos_2sqrt_q": -1690000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5315216
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 952
+    },
+    {
+      "class": "325:627",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 627,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3625216,
+        "minus_p_minus_pos_2sqrt_q": -6290064,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9915280
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 952
+    },
+    {
+      "class": "32:45",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 32,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 23716,
+        "minus_p_minus_pos_2sqrt_q": -16384,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 40100
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 77
+    },
+    {
+      "class": "32:45",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 45,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 23716,
+        "minus_p_minus_pos_2sqrt_q": -32400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 56116
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 77
+    },
+    {
+      "class": "33:1615",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 33,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 10863616,
+        "minus_p_minus_pos_2sqrt_q": -17424,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 10881040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1648
+    },
+    {
+      "class": "33:299",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 33,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 440896,
+        "minus_p_minus_pos_2sqrt_q": -17424,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 458320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 332
+    },
+    {
+      "class": "33:299",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 299,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 440896,
+        "minus_p_minus_pos_2sqrt_q": -1430416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1871312
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 332
+    },
+    {
+      "class": "3451:8349",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 3451,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 556960000,
+        "minus_p_minus_pos_2sqrt_q": -190550416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 747510416
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11800
+    },
+    {
+      "class": "3451:8349",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 8349,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 556960000,
+        "minus_p_minus_pos_2sqrt_q": -1115292816,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1672252816
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11800
+    },
+    {
+      "class": "3553:4095",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 4095,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 233967616,
+        "minus_p_minus_pos_2sqrt_q": -268304400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 502272016
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7648
+    },
+    {
+      "class": "3553:4347",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 4347,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 249640000,
+        "minus_p_minus_pos_2sqrt_q": -302342544,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 551982544
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 7900
+    },
+    {
+      "class": "35:437",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 437,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 891136,
+        "minus_p_minus_pos_2sqrt_q": -3055504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3946640
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 472
+    },
+    {
+      "class": "3757:4275",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 3757,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 258052096,
+        "minus_p_minus_pos_2sqrt_q": -225840784,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 483892880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 8032
+    },
+    {
+      "class": "37:455",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 455,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 968256,
+        "minus_p_minus_pos_2sqrt_q": -3312400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4280656
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 492
+    },
+    {
+      "class": "385:663",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 663,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4393216,
+        "minus_p_minus_pos_2sqrt_q": -7033104,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 11426320
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1048
+    },
+    {
+      "class": "3887:7425",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 3887,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 511845376,
+        "minus_p_minus_pos_2sqrt_q": -241740304,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 753585680
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11312
+    },
+    {
+      "class": "391:1197",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1197,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 10086976,
+        "minus_p_minus_pos_2sqrt_q": -22924944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 33011920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1588
+    },
+    {
+      "class": "391:9009",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 391,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 353440000,
+        "minus_p_minus_pos_2sqrt_q": -2446096,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 355886096
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 9400
+    },
+    {
+      "class": "39:2261",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 39,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 21160000,
+        "minus_p_minus_pos_2sqrt_q": -24336,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 21184336
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2300
+    },
+    {
+      "class": "405:20111",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 405,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1683625024,
+        "minus_p_minus_pos_2sqrt_q": -2624400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1686249424
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 20516
+    },
+    {
+      "class": "405:539",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 539,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3564544,
+        "minus_p_minus_pos_2sqrt_q": -4648336,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 8212880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 944
+    },
+    {
+      "class": "425:567",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 567,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3936256,
+        "minus_p_minus_pos_2sqrt_q": -5143824,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9080080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 992
+    },
+    {
+      "class": "441:935",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 441,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7573504,
+        "minus_p_minus_pos_2sqrt_q": -3111696,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 10685200
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1376
+    },
+    {
+      "class": "441:935",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 935,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7573504,
+        "minus_p_minus_pos_2sqrt_q": -13987600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 21561104
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1376
+    },
+    {
+      "class": "45:143",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 45,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 141376,
+        "minus_p_minus_pos_2sqrt_q": -32400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 173776
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 188
+    },
+    {
+      "class": "45:88",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 45,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 70756,
+        "minus_p_minus_pos_2sqrt_q": -32400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 103156
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 133
+    },
+    {
+      "class": "475:1053",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 475,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 9339136,
+        "minus_p_minus_pos_2sqrt_q": -3610000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 12949136
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1528
+    },
+    {
+      "class": "475:1449",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 475,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14807104,
+        "minus_p_minus_pos_2sqrt_q": -3610000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 18417104
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1924
+    },
+    {
+      "class": "475:1449",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1449,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14807104,
+        "minus_p_minus_pos_2sqrt_q": -33593616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 48400720
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1924
+    },
+    {
+      "class": "4807:5525",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 5525,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 427000896,
+        "minus_p_minus_pos_2sqrt_q": -488410000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 915410896
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10332
+    },
+    {
+      "class": "49:95",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 49,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 82944,
+        "minus_p_minus_pos_2sqrt_q": -38416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 121360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 144
+    },
+    {
+      "class": "49:99",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 49,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 87616,
+        "minus_p_minus_pos_2sqrt_q": -38416,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 126032
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 148
+    },
+    {
+      "class": "513:1547",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1547,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 16974400,
+        "minus_p_minus_pos_2sqrt_q": -38291344,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 55265744
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2060
+    },
+    {
+      "class": "513:935",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 513,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 8386816,
+        "minus_p_minus_pos_2sqrt_q": -4210704,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 12597520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1448
+    },
+    {
+      "class": "5225:22491",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 5225,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3072706624,
+        "minus_p_minus_pos_2sqrt_q": -436810000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3509516624
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 27716
+    },
+    {
+      "class": "5301:38675",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 5301,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7735554304,
+        "minus_p_minus_pos_2sqrt_q": -449609616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 8185163920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 43976
+    },
+    {
+      "class": "5423:12285",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 12285,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1254293056,
+        "minus_p_minus_pos_2sqrt_q": -2414739600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 3669032656
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 17708
+    },
+    {
+      "class": "5481:41515",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 5481,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 8834496064,
+        "minus_p_minus_pos_2sqrt_q": -480661776,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9315157840
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 46996
+    },
+    {
+      "class": "551:37485",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 551,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5786949184,
+        "minus_p_minus_pos_2sqrt_q": -4857616,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5791806800
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 38036
+    },
+    {
+      "class": "567:1265",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1265,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 13424896,
+        "minus_p_minus_pos_2sqrt_q": -25603600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 39028496
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1832
+    },
+    {
+      "class": "5:33",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 5,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5776,
+        "minus_p_minus_pos_2sqrt_q": -400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 6176
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 38
+    },
+    {
+      "class": "5:33",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 33,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 5776,
+        "minus_p_minus_pos_2sqrt_q": -17424,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 23200
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 38
+    },
+    {
+      "class": "621:20995",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 621,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1869005824,
+        "minus_p_minus_pos_2sqrt_q": -6170256,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1875176080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 21616
+    },
+    {
+      "class": "621:775",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 621,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7795264,
+        "minus_p_minus_pos_2sqrt_q": -6170256,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 13965520
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1396
+    },
+    {
+      "class": "637:675",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 675,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 6885376,
+        "minus_p_minus_pos_2sqrt_q": -7290000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 14175376
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1312
+    },
+    {
+      "class": "637:935",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 637,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 9884736,
+        "minus_p_minus_pos_2sqrt_q": -6492304,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 16377040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1572
+    },
+    {
+      "class": "637:935",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 935,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 9884736,
+        "minus_p_minus_pos_2sqrt_q": -13987600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 23872336
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1572
+    },
+    {
+      "class": "63:221",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 221,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 322624,
+        "minus_p_minus_pos_2sqrt_q": -781456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1104080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 284
+    },
+    {
+      "class": "63:425",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 63,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 952576,
+        "minus_p_minus_pos_2sqrt_q": -63504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1016080
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 488
+    },
+    {
+      "class": "63:437",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 63,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1000000,
+        "minus_p_minus_pos_2sqrt_q": -63504,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1063504
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 500
+    },
+    {
+      "class": "65:133",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 133,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 156816,
+        "minus_p_minus_pos_2sqrt_q": -283024,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 439840
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 198
+    },
+    {
+      "class": "65:2079",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 65,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 18386944,
+        "minus_p_minus_pos_2sqrt_q": -67600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 18454544
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2144
+    },
+    {
+      "class": "675:1421",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 675,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 17572864,
+        "minus_p_minus_pos_2sqrt_q": -7290000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 24862864
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2096
+    },
+    {
+      "class": "675:5929",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 675,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 174451264,
+        "minus_p_minus_pos_2sqrt_q": -7290000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 181741264
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6604
+    },
+    {
+      "class": "675:5929",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 5929,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 174451264,
+        "minus_p_minus_pos_2sqrt_q": -562448656,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 736899920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 6604
+    },
+    {
+      "class": "69:715",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 69,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2458624,
+        "minus_p_minus_pos_2sqrt_q": -76176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2534800
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 784
+    },
+    {
+      "class": "715:1197",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1197,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 14622976,
+        "minus_p_minus_pos_2sqrt_q": -22924944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 37547920
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1912
+    },
+    {
+      "class": "725:2023",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 725,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 30206016,
+        "minus_p_minus_pos_2sqrt_q": -8410000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 38616016
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2748
+    },
+    {
+      "class": "7497:8303",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 8303,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 998560000,
+        "minus_p_minus_pos_2sqrt_q": -1103036944,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2101596944
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 15800
+    },
+    {
+      "class": "77:675",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 675,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 2262016,
+        "minus_p_minus_pos_2sqrt_q": -7290000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9552016
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 752
+    },
+    {
+      "class": "7:26",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 7,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4356,
+        "minus_p_minus_pos_2sqrt_q": -784,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5140
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 33
+    },
+    {
+      "class": "805:11583",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 805,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 613850176,
+        "minus_p_minus_pos_2sqrt_q": -10368400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 624218576
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12388
+    },
+    {
+      "class": "805:11583",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 11583,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 613850176,
+        "minus_p_minus_pos_2sqrt_q": -2146654224,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2760504400
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 12388
+    },
+    {
+      "class": "81:2431",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 81,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 25240576,
+        "minus_p_minus_pos_2sqrt_q": -104976,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 25345552
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2512
+    },
+    {
+      "class": "81:319",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 81,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 640000,
+        "minus_p_minus_pos_2sqrt_q": -104976,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 744976
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 400
+    },
+    {
+      "class": "81:455",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 81,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1149184,
+        "minus_p_minus_pos_2sqrt_q": -104976,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1254160
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 536
+    },
+    {
+      "class": "81:455",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 455,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1149184,
+        "minus_p_minus_pos_2sqrt_q": -3312400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 4461584
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 536
+    },
+    {
+      "class": "837:9163",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 837,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 400000000,
+        "minus_p_minus_pos_2sqrt_q": -11209104,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 411209104
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10000
+    },
+    {
+      "class": "837:9163",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 9163,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 400000000,
+        "minus_p_minus_pos_2sqrt_q": -1343369104,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1743369104
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 10000
+    },
+    {
+      "class": "85:351",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 85,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 760384,
+        "minus_p_minus_pos_2sqrt_q": -115600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 875984
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 436
+    },
+    {
+      "class": "85:351",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 351,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 760384,
+        "minus_p_minus_pos_2sqrt_q": -1971216,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2731600
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 436
+    },
+    {
+      "class": "85:483",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 483,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1290496,
+        "minus_p_minus_pos_2sqrt_q": -3732624,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 5023120
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 568
+    },
+    {
+      "class": "85:99",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 85,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 135424,
+        "minus_p_minus_pos_2sqrt_q": -115600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 251024
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 184
+    },
+    {
+      "class": "8721:8855",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 8721,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1235663104,
+        "minus_p_minus_pos_2sqrt_q": -1216893456,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2452556560
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 17576
+    },
+    {
+      "class": "87:11305",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 11305,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 519110656,
+        "minus_p_minus_pos_2sqrt_q": -2044848400,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 2563959056
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 11392
+    },
+    {
+      "class": "87:2093",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 2093,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 19009600,
+        "minus_p_minus_pos_2sqrt_q": -70090384,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 89099984
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 2180
+    },
+    {
+      "class": "931:7605",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 931,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 291453184,
+        "minus_p_minus_pos_2sqrt_q": -13868176,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 305321360
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 8536
+    },
+    {
+      "class": "93:875",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 875,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 3748096,
+        "minus_p_minus_pos_2sqrt_q": -12250000,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 15998096
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 968
+    },
+    {
+      "class": "95:1001",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 1001,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 4804864,
+        "minus_p_minus_pos_2sqrt_q": -16032016,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 20836880
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 1096
+    },
+    {
+      "class": "99:425",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 99,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 1098304,
+        "minus_p_minus_pos_2sqrt_q": -156816,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 1255120
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 524
+    },
+    {
+      "class": "9:35",
+      "curve": "AA",
+      "family_exclusion_proved": false,
+      "leg": 9,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7744,
+        "minus_p_minus_pos_2sqrt_q": -1296,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 9040
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 44
+    },
+    {
+      "class": "9:35",
+      "curve": "BB",
+      "family_exclusion_proved": false,
+      "leg": 35,
+      "root_differences": {
+        "minus_p_minus_neg_2sqrt_q": 7744,
+        "minus_p_minus_pos_2sqrt_q": -19600,
+        "pos_2sqrt_q_minus_neg_2sqrt_q": 27344
+      },
+      "selmer_rank_upper_bound_proved": false,
+      "squareclass_inputs": {
+        "minus_p_minus_neg_2sqrt_q": "square",
+        "minus_p_minus_pos_2sqrt_q": "-1 times a square",
+        "pos_2sqrt_q_minus_neg_2sqrt_q": "4*(T^2 + 4*L^2)"
+      },
+      "total": 44
+    }
+  ],
+  "primitive_model_count": 243,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "symbolic_formula_verified_count": 243,
+  "symbolic_formula_violation_count": 0,
+  "violations": []
+}

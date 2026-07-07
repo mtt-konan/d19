@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=67 \
+  --expect language_audit_files=68 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=3 \
@@ -582,6 +582,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/379-lambda-mainline-proof-seed-gate.md \
   --path docs/work-logs/380-lambda-convergence-priorities.md \
   --path docs/work-logs/381-rank-zero-family-obligations.md \
+  --path docs/work-logs/382-rank-zero-symbolic-descent-inputs.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -589,7 +590,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=67
+files=68
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1072,7 +1073,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=367
+artifact_status.required_file_count=371
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1413,6 +1414,30 @@ family_exclusion_proved_count=0
 普通话说：rank-zero 主线现在压成 3 个整族证明义务：`AA`、`AA+BB`、`BB`。
 已审计的恒等式、rank-zero invariant 和 forced torsion 是输入，不是结论；真正缺的是
 uniform 2-isogeny/Selmer rank upper bound，或者外部可审阅的 rank-zero theorem certificate。
+
+Rank-zero symbolic descent input audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_symbolic_descent_inputs.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --out results/closure_quotient_rank_zero_symbolic_descent_inputs.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+primitive_model_count=243
+symbolic_formula_verified_count=243
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：`T=A+B`、`L=A` for `AA` / `L=B` for `BB` 时，全部 243 个模型都符合
+`p=8L^2-2T^2`、`sqrt_q=T^2+4L^2`。2-torsion root differences 统一为
+`-16L^2`、`4T^2`、`4(T^2+4L^2)`。这已经是 Selmer/rank upper bound 的符号输入，
+但还不是 Selmer/rank upper bound 本身。
 
 Rank-zero family candidate list：
 
@@ -1805,6 +1830,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_symbolic_descent_inputs.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -1869,6 +1895,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_forced_torsion.py`
 - `tests/test_closure_quotient_rank_zero_seed_identities.py`
 - `tests/test_closure_quotient_rank_zero_family_obligations.py`
+- `tests/test_closure_quotient_rank_zero_symbolic_descent_inputs.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -1954,6 +1981,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_forced_torsion_audit.json`
 - `results/closure_quotient_rank_zero_seed_identity_audit.json`
 - `results/closure_quotient_rank_zero_family_obligations.json`
+- `results/closure_quotient_rank_zero_symbolic_descent_inputs.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
@@ -2084,6 +2112,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl379](work-logs/379-lambda-mainline-proof-seed-gate.md)
 - [wl380](work-logs/380-lambda-convergence-priorities.md)
 - [wl381](work-logs/381-rank-zero-family-obligations.md)
+- [wl382](work-logs/382-rank-zero-symbolic-descent-inputs.md)
 
 数学总入口：
 
