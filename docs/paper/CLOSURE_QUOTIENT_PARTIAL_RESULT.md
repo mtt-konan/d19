@@ -543,6 +543,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
   --path docs/work-logs/360-paper-structure-audit.md \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
+  --path docs/work-logs/362-external-cover-descent-packages.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -550,7 +551,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 47
+files = 48
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 6,
@@ -1031,8 +1032,28 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 290
+artifact_status.required_file_count = 294
 artifact_status.missing_file_count = 0
+```
+
+Export external cover-descent task packages:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/export_external_cover_descent_packages.py \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out-dir results/mixed_closure_external_cover_descent_packages \
+  --out results/mixed_closure_external_cover_descent_package_index.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+target_count = 10
+cover_count = 23
+strict_certificate_ready_count = 0
 ```
 
 Audit partial-result dependency traceability:
@@ -1200,6 +1221,7 @@ scripts/theory/audit_sage_cover_tool_capabilities.py
 scripts/theory/audit_external_cover_descent_route.py
 scripts/theory/audit_external_cover_certificate_intake.py
 scripts/theory/audit_external_cover_certificate_frontier_intake.py
+scripts/theory/export_external_cover_descent_packages.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1320,6 +1342,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 290
+required_file_count = 294
 missing_files = []
 ```

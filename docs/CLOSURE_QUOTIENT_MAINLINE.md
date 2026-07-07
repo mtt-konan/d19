@@ -552,6 +552,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
   --path docs/work-logs/360-paper-structure-audit.md \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
+  --path docs/work-logs/362-external-cover-descent-packages.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -559,7 +560,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=47
+files=48
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 6,
@@ -1042,9 +1043,29 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=290
+artifact_status.required_file_count=294
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
+```
+
+External cover-descent package export：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/export_external_cover_descent_packages.py \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out-dir results/mixed_closure_external_cover_descent_packages \
+  --out results/mixed_closure_external_cover_descent_package_index.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+target_count=10
+cover_count=23
+strict_certificate_ready_count=0
 ```
 
 Partial-result dependency audit：
@@ -1302,6 +1323,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_external_cover_descent_route.py`
 - `scripts/theory/audit_external_cover_certificate_intake.py`
 - `scripts/theory/audit_external_cover_certificate_frontier_intake.py`
+- `scripts/theory/export_external_cover_descent_packages.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1347,6 +1369,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_audit_external_cover_descent_route.py`
 - `tests/test_audit_external_cover_certificate_intake.py`
 - `tests/test_audit_external_cover_certificate_frontier_intake.py`
+- `tests/test_export_external_cover_descent_packages.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1417,6 +1440,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/priority_005_1625_5643_AA_external_cover_certificate_template.json`
 - `results/mixed_closure_external_cover_certificate_frontier_intake.json`
 - `results/mixed_closure_external_cover_certificate_template_index.json`
+- `results/mixed_closure_external_cover_descent_package_index.json`
 - `results/closure_quotient_paper_structure_audit.json`
 - `results/closure_quotient_partial_artifact_audit.json`
 - `results/closure_quotient_partial_dependency_audit.json`
@@ -1522,6 +1546,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl359](work-logs/359-summary-gate-external-certificate-intake.md)
 - [wl360](work-logs/360-paper-structure-audit.md)
 - [wl361](work-logs/361-partial-result-dependency-audit.md)
+- [wl362](work-logs/362-external-cover-descent-packages.md)
 
 数学总入口：
 
