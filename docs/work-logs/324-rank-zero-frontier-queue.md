@@ -34,6 +34,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --sage-recheck results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl \
   --sage-recheck results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl \
   --sage-recheck results/sage_rankzero_frontier_recheck_5075_17901_AA_s13_20_t120.jsonl \
+  --sage-recheck results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl \
   --out results/mixed_closure_rank_zero_frontier_queue.json \
   --strict
 ```
@@ -50,14 +51,15 @@ target_status_counts = {'not-retried': 5, 'sage-timeout': 3}
 ```
 
 The first attempted target was `(1625,5643) AA`, covering priorities `5` and `7`
-with cover indices `3,4`. The second attempted target was `(567,3757) BB`,
-covering priorities `6` and `21` with cover indices `3,4`. The third attempted
-target was `(5075,17901) AA`, covering priorities `9` and `14` with cover indices
-`3,4`. Sage did not close any of these rank bounds within 120 seconds:
+with cover indices `3,4`. It was later retried with `second_limit=20,40` and a
+600-second budget, and still timed out. The second attempted target was
+`(567,3757) BB`, covering priorities `6` and `21` with cover indices `3,4`.
+The third attempted target was `(5075,17901) AA`, covering priorities `9` and
+`14` with cover indices `3,4`. Sage did not close any of these rank bounds:
 
 ```text
 status = timeout
-second_limits = 13,20
+top target long timeout_seconds = 600
 final_rank_bounds = missing
 ```
 

@@ -67,6 +67,7 @@ def test_build_rank_zero_frontier_queue_groups_covers_by_rank_target() -> None:
             "final_rank_bounds": None,
             "limits": [{"second_limit": 13, "rank_bounds": [0, 2]}],
             "timeout_seconds": 120,
+            "elapsed_seconds": 120.25,
         }
     ]
 
@@ -100,6 +101,8 @@ def test_build_rank_zero_frontier_queue_groups_covers_by_rank_target() -> None:
                 "sage_recheck_status": "timeout",
                 "sage_recheck_final_rank_bounds": None,
                 "sage_recheck_second_limits": [13],
+                "sage_recheck_timeout_seconds": 120,
+                "sage_recheck_elapsed_seconds": 120.25,
                 "rank_proof_queue_status": "sage-timeout",
                 "next_step": "retry rank proof with stronger descent tooling or external CAS",
                 "candidate_not_proof": True,

@@ -110,7 +110,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "target_status_counts": {"sage-timeout": 2},
     }
-    artifact_audit = {"ready": True, "required_file_count": 128, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 130, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -226,7 +226,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 128,
+            "required_file_count": 130,
             "missing_file_count": 0,
         },
         "boundary": (

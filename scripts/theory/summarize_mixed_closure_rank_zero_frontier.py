@@ -59,6 +59,18 @@ def _second_limits(recheck: dict[str, Any] | None) -> list[int]:
     return limits
 
 
+def _optional_int(recheck: dict[str, Any] | None, key: str) -> int | None:
+    if recheck is None or recheck.get(key) is None:
+        return None
+    return int(recheck[key])
+
+
+def _optional_float(recheck: dict[str, Any] | None, key: str) -> float | None:
+    if recheck is None or recheck.get(key) is None:
+        return None
+    return float(recheck[key])
+
+
 def _queue_status(recheck: dict[str, Any] | None) -> str:
     if recheck is None:
         return "not-retried"
@@ -127,6 +139,12 @@ def build_rank_zero_frontier_queue(
                 if recheck is None
                 else recheck.get("final_rank_bounds"),
                 "sage_recheck_second_limits": _second_limits(recheck),
+                "sage_recheck_timeout_seconds": _optional_int(
+                    recheck, "timeout_seconds"
+                ),
+                "sage_recheck_elapsed_seconds": _optional_float(
+                    recheck, "elapsed_seconds"
+                ),
                 "rank_proof_queue_status": status,
                 "next_step": _next_step(status),
                 "candidate_not_proof": True,
