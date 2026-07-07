@@ -12,6 +12,16 @@
 ## 1. 主线位置
 
 当前项目仍以 `concordant` 为 active 主线。closure quotient 是 `concordant` 下面的新子方向。
+当前口径已经从“继续堆单个 `(A,B)` 证书数量”切换为：
+
+```text
+closure quotient = 离线局部证书工具
+主线目标 = lambda=A/B 层面的比例类结构证明
+```
+
+普通话说：closure quotient 已经证明它能在一些具体 pair 上严格排除闭合点；下一步不再把
+“又排掉几个 pair”当主进展，而是看哪些本原比例 `A:B` 可以被 rank-zero、root-number、
+2-cover 等机制整族解释。
 
 旧主线问：
 
@@ -481,7 +491,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
   --expect language_audit_files=47 \
-  --expect language_candidate_not_proof_hits=6 \
+  --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
   --expect language_bsd_not_strict_certificate_hits=1 \
@@ -553,6 +563,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/360-paper-structure-audit.md \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
   --path docs/work-logs/362-external-cover-descent-packages.md \
+  --path docs/work-logs/363-closure-quotient-ray-ledger.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -560,10 +571,10 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=48
+files=49
 violations=0
 required_boundary_hits={
-  'candidate_not_proof': 6,
+  'candidate_not_proof': 7,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 2,
   'bsd_not_strict_certificate': 1
@@ -1043,10 +1054,37 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=294
+artifact_status.required_file_count=298
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Ray ledger / `c_-/c_+` 收尾：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_ray_ledger.py \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --rank-summary results/mixed_closure_rank_summary.json \
+  --residual-cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --out results/closure_quotient_ray_ledger.json \
+  --strict
+```
+
+当前结果：
+
+```text
+pair_count=384
+primitive_ray_count=356
+c_ratio_class_count=356
+strict_c_ratio_class_count=200
+residual_candidate_pair_count=8
+```
+
+普通话说：这里补上 `c_- = |A-B|`，并按本原比例 `A:B` 建 ledger。
+`c_+/c_-` 识别的是无向比例类 `{A:B, B:A}`，不能单独区分 `lambda` 和 `1/lambda`。
+所以它是比例类索引，不是整族证明。后续主线应研究哪些 `lambda` 类能被 rank-zero /
+root-number / 2-cover 机制整族排除；剩余类只接受可审阅的 no-point 证书。
 
 External cover-descent package export：
 
@@ -1331,6 +1369,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_priority_handoffs.py`
 - `scripts/theory/audit_closure_quotient_paper_structure.py`
 - `scripts/theory/audit_closure_quotient_partial_dependencies.py`
+- `scripts/theory/summarize_closure_quotient_ray_ledger.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1377,6 +1416,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_priority_handoff_audit.py`
 - `tests/test_closure_quotient_paper_structure_audit.py`
 - `tests/test_closure_quotient_partial_dependency_audit.py`
+- `tests/test_closure_quotient_ray_ledger.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1444,6 +1484,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_paper_structure_audit.json`
 - `results/closure_quotient_partial_artifact_audit.json`
 - `results/closure_quotient_partial_dependency_audit.json`
+- `results/closure_quotient_ray_ledger.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1547,6 +1588,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl360](work-logs/360-paper-structure-audit.md)
 - [wl361](work-logs/361-partial-result-dependency-audit.md)
 - [wl362](work-logs/362-external-cover-descent-packages.md)
+- [wl363](work-logs/363-closure-quotient-ray-ledger.md)
 
 数学总入口：
 

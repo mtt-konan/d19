@@ -470,7 +470,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
   --expect language_audit_files=47 \
-  --expect language_candidate_not_proof_hits=6 \
+  --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
   --expect language_bsd_not_strict_certificate_hits=1 \
@@ -544,6 +544,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/360-paper-structure-audit.md \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
   --path docs/work-logs/362-external-cover-descent-packages.md \
+  --path docs/work-logs/363-closure-quotient-ray-ledger.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -551,10 +552,10 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 48
+files = 49
 violations = 0
 required_boundary_hits = {
-  'candidate_not_proof': 6,
+  'candidate_not_proof': 7,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 2,
   'bsd_not_strict_certificate': 1
@@ -1032,9 +1033,34 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 294
+artifact_status.required_file_count = 298
 artifact_status.missing_file_count = 0
 ```
+
+Summarize the primitive ray ledger:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_ray_ledger.py \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --rank-summary results/mixed_closure_rank_summary.json \
+  --residual-cover-summary results/mixed_closure_aabb_residual_cover_summary.json \
+  --out results/closure_quotient_ray_ledger.json \
+  --strict
+```
+
+Current result:
+
+```text
+pair_count = 384
+primitive_ray_count = 356
+c_ratio_class_count = 356
+strict_c_ratio_class_count = 200
+residual_candidate_pair_count = 8
+```
+
+Here `c_- = |A-B|`, and `c_+/c_-` records the unordered primitive ratio class
+`{A:B, B:A}`. This is a ledger key, not a family-level theorem.
 
 Export external cover-descent task packages:
 
@@ -1229,6 +1255,7 @@ scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/audit_mixed_closure_priority_handoffs.py
 scripts/theory/audit_closure_quotient_paper_structure.py
 scripts/theory/audit_closure_quotient_partial_dependencies.py
+scripts/theory/summarize_closure_quotient_ray_ledger.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1342,6 +1369,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 294
+required_file_count = 298
 missing_files = []
 ```
