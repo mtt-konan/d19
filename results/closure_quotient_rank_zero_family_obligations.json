@@ -1,0 +1,89 @@
+{
+  "boundary": "This audits what remains before the rank-zero proof seeds can become lambda-family exclusion theorems. It does not prove rank zero, does not prove a no-point theorem, and does not count more individual samples as progress.",
+  "candidate_class_count": 200,
+  "checks": {
+    "family_exclusion_claim_count_zero": true,
+    "group_boundaries_retained": true,
+    "primitive_support_complete": true,
+    "rank_zero_priority_first": true,
+    "rank_zero_seed_groups_present": true,
+    "sample_growth_rejected_as_progress": true
+  },
+  "family_exclusion_proved_count": 0,
+  "groups": [
+    {
+      "acceptable_closure_routes": [
+        "uniform 2-isogeny or Selmer descent rank upper bound for the seed family",
+        "or an external reviewable rank-zero theorem certificate for the seed family"
+      ],
+      "already_checked_inputs": [
+        "coefficient identities",
+        "observed rank-zero invariant rows",
+        "forced full rational 2-torsion"
+      ],
+      "candidate_class_count": 82,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform rank-zero proof over the primitive lambda family",
+      "model_count": 82,
+      "model_counts_by_curve": {
+        "AA": 82
+      },
+      "pattern": "AA",
+      "priority": 1,
+      "unacceptable_progress": "More individual scaled (A,B) rank rows are diagnostics only; they are not rank-zero family proof progress."
+    },
+    {
+      "acceptable_closure_routes": [
+        "uniform 2-isogeny or Selmer descent rank upper bound for the seed family",
+        "or an external reviewable rank-zero theorem certificate for the seed family"
+      ],
+      "already_checked_inputs": [
+        "coefficient identities",
+        "observed rank-zero invariant rows",
+        "forced full rational 2-torsion"
+      ],
+      "candidate_class_count": 43,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform rank-zero proof over the primitive lambda family",
+      "model_count": 86,
+      "model_counts_by_curve": {
+        "AA": 43,
+        "BB": 43
+      },
+      "pattern": "AA+BB",
+      "priority": 2,
+      "unacceptable_progress": "More individual scaled (A,B) rank rows are diagnostics only; they are not rank-zero family proof progress."
+    },
+    {
+      "acceptable_closure_routes": [
+        "uniform 2-isogeny or Selmer descent rank upper bound for the seed family",
+        "or an external reviewable rank-zero theorem certificate for the seed family"
+      ],
+      "already_checked_inputs": [
+        "coefficient identities",
+        "observed rank-zero invariant rows",
+        "forced full rational 2-torsion"
+      ],
+      "candidate_class_count": 75,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform rank-zero proof over the primitive lambda family",
+      "model_count": 75,
+      "model_counts_by_curve": {
+        "BB": 75
+      },
+      "pattern": "BB",
+      "priority": 3,
+      "unacceptable_progress": "More individual scaled (A,B) rank rows are diagnostics only; they are not rank-zero family proof progress."
+    }
+  ],
+  "next_main_action": "Prove a uniform rank-zero theorem for the AA, AA+BB, and BB primitive lambda seed groups.",
+  "open_obligation_count": 3,
+  "primitive_model_count": 243,
+  "rank_zero_family_obligation_count": 3,
+  "rank_zero_family_proof_complete": false,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "seed_group_count": 3,
+  "status": "ok",
+  "violations": []
+}

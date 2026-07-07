@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=66 \
+  --expect language_audit_files=67 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=3 \
@@ -562,6 +562,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/378-lambda-proof-seed-coverage.md \
   --path docs/work-logs/379-lambda-mainline-proof-seed-gate.md \
   --path docs/work-logs/380-lambda-convergence-priorities.md \
+  --path docs/work-logs/381-rank-zero-family-obligations.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -569,7 +570,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 66
+files = 67
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1050,7 +1051,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 363
+artifact_status.required_file_count = 367
 artifact_status.missing_file_count = 0
 ```
 
@@ -1128,6 +1129,32 @@ family_exclusion_proved_count = 0
 This fixes the next proof order without claiming completion: rank-zero family
 theorems first, root-number/rank structure second, strict two-cover certificates
 third.
+
+Audit rank-zero family obligations:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py \
+  --convergence-priorities results/closure_quotient_lambda_convergence_priorities.json \
+  --rank-zero-seeds results/closure_quotient_rank_zero_proof_seeds.json \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --identity-audit results/closure_quotient_rank_zero_seed_identity_audit.json \
+  --invariants results/closure_quotient_rank_zero_certifying_invariants.json \
+  --forced-torsion results/closure_quotient_rank_zero_forced_torsion_audit.json \
+  --out results/closure_quotient_rank_zero_family_obligations.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+rank_zero_family_proof_complete = False
+rank_zero_family_obligation_count = 3
+family_exclusion_proved_count = 0
+```
+
+This records that the rank-zero route is now three open family theorem obligations:
+`AA`, `AA+BB`, and `BB`. More individual rank rows are diagnostics only.
 
 Audit lambda route partition:
 
@@ -1654,6 +1681,7 @@ scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py
 scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py
 scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py
 scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py
+scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -1775,6 +1803,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 363
+required_file_count = 367
 missing_files = []
 ```

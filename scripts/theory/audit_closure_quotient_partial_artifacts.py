@@ -94,6 +94,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -171,6 +175,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact("test", "tests/test_closure_quotient_rank_zero_forced_torsion.py"),
     Artifact("test", "tests/test_closure_quotient_rank_zero_seed_identities.py"),
+    Artifact("test", "tests/test_closure_quotient_rank_zero_family_obligations.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_proof_seeds.py"),
     Artifact("test", "tests/test_closure_quotient_two_cover_lambda_frontier.py"),
@@ -276,6 +281,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/378-lambda-proof-seed-coverage.md"),
     Artifact("worklog", "docs/work-logs/379-lambda-mainline-proof-seed-gate.md"),
     Artifact("worklog", "docs/work-logs/380-lambda-convergence-priorities.md"),
+    Artifact("worklog", "docs/work-logs/381-rank-zero-family-obligations.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -437,6 +443,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact("result", "results/closure_quotient_rank_zero_forced_torsion_audit.json"),
     Artifact("result", "results/closure_quotient_rank_zero_seed_identity_audit.json"),
+    Artifact("result", "results/closure_quotient_rank_zero_family_obligations.json"),
     Artifact("result", "results/closure_quotient_root_number_lambda_triage.json"),
     Artifact("result", "results/closure_quotient_root_number_proof_seeds.json"),
     Artifact("result", "results/closure_quotient_two_cover_lambda_frontier.json"),
