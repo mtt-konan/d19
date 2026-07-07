@@ -480,8 +480,8 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=25 \
-  --expect language_candidate_not_proof_hits=4 \
+  --expect language_audit_files=26 \
+  --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
   --expect language_bsd_not_strict_certificate_hits=1 \
@@ -530,6 +530,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
+  --path docs/work-logs/340-frontier-handoff-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -537,10 +538,10 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=25
+files=26
 violations=0
 required_boundary_hits={
-  'candidate_not_proof': 4,
+  'candidate_not_proof': 5,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 1,
   'bsd_not_strict_certificate': 1
@@ -575,6 +576,35 @@ next_strategy_counts={
 
 这一步只做 proof-work 路由：短时 Sage 队列已经扫完，但没有产生严格证明。
 
+frontier handoff 内容审计：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_frontier_handoffs.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out results/mixed_closure_frontier_handoff_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+handoff_group_count=10
+target_cover_count=23
+map_verified_group_count=10
+local_witnessed_group_count=10
+bounded_probe_group_count=10
+strict_promotion_count=0
+missing_files=[]
+violations=[]
+```
+
+这一步检查 10 个 frontier handoff 包的内容是否和队列一致。它仍然不是无点证明；
+`bounded_probe_group_count=10` 的意思只是 bounded Sage probe 已经复跑并留下诊断。
+
 partial-result 总摘要：
 
 ```bash
@@ -592,6 +622,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -651,8 +682,16 @@ residual_frontier_strategy_status.short_sage_retry_timeout_target_count=10
 residual_frontier_strategy_status.strict_promotion_count=0
 residual_frontier_strategy_status.next_strategy_counts={'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status=strategy-not-proof
+frontier_handoff_status.ready=True
+frontier_handoff_status.handoff_group_count=10
+frontier_handoff_status.target_cover_count=23
+frontier_handoff_status.map_verified_group_count=10
+frontier_handoff_status.local_witnessed_group_count=10
+frontier_handoff_status.bounded_probe_group_count=10
+frontier_handoff_status.strict_promotion_count=0
+frontier_handoff_status.proof_status=handoff-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=207
+artifact_status.required_file_count=211
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -688,6 +727,8 @@ Sage handoff probe。共同状态仍是 `strict_proof_status=open`、
 保持 `rank_bounds=[1,3]`，对应 rank-one/Sha[2] 分离问题；`(1449,12155) BB`
 保持 `rank_bounds=[0,4]`，对应 even gap4 deeper descent 问题。二者 maps 验证通过、
 bad-prime local witnesses 全部找到，但仍没有 cover-level no-point proof。
+frontier handoff 内容审计现在把这些 10 个 handoff group、23 个 cover 统一检查为
+`handoff-not-proof`，并确认没有 strict promotion。
 
 目标 cover handoff：
 
@@ -868,6 +909,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_mixed_closure_rank_zero_frontier.py`
 - `scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py`
 - `scripts/theory/audit_mixed_closure_residual_frontier_strategy.py`
+- `scripts/theory/audit_mixed_closure_frontier_handoffs.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -899,6 +941,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_rank_zero_frontier_queue.py`
 - `tests/test_mixed_closure_non_rankzero_frontier_queue.py`
 - `tests/test_mixed_closure_residual_frontier_strategy.py`
+- `tests/test_mixed_closure_frontier_handoff_audit.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -940,6 +983,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_rank_zero_frontier_queue.json`
 - `results/mixed_closure_non_rankzero_frontier_queue.json`
 - `results/mixed_closure_residual_frontier_strategy_audit.json`
+- `results/mixed_closure_frontier_handoff_audit.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1017,6 +1061,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl337](work-logs/337-frontier-target-handoff-1625-5643.md)
 - [wl338](work-logs/338-all-rankzero-frontier-handoffs.md)
 - [wl339](work-logs/339-non-rankzero-frontier-handoffs.md)
+- [wl340](work-logs/340-frontier-handoff-audit.md)
 
 数学总入口：
 

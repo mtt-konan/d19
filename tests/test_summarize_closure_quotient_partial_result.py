@@ -132,7 +132,21 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "max_timeout_seconds": 600,
         },
     }
-    artifact_audit = {"ready": True, "required_file_count": 207, "missing_files": []}
+    frontier_handoff_audit = {
+        "status": "ok",
+        "handoff_group_count": 10,
+        "target_cover_count": 23,
+        "rank_zero_group_count": 8,
+        "non_rankzero_group_count": 2,
+        "map_verified_group_count": 10,
+        "local_witnessed_group_count": 10,
+        "bounded_probe_group_count": 10,
+        "strict_promotion_count": 0,
+        "candidate_not_proof": True,
+        "missing_files": [],
+        "violations": [],
+    }
+    artifact_audit = {"ready": True, "required_file_count": 211, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -148,6 +162,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         rank_zero_frontier_queue=rank_zero_frontier_queue,
         non_rankzero_frontier_queue=non_rankzero_frontier_queue,
         residual_frontier_strategy_audit=residual_frontier_strategy_audit,
+        frontier_handoff_audit=frontier_handoff_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -270,9 +285,22 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             },
             "proof_status": "strategy-not-proof",
         },
+        "frontier_handoff_status": {
+            "ready": True,
+            "handoff_group_count": 10,
+            "target_cover_count": 23,
+            "rank_zero_group_count": 8,
+            "non_rankzero_group_count": 2,
+            "map_verified_group_count": 10,
+            "local_witnessed_group_count": 10,
+            "bounded_probe_group_count": 10,
+            "strict_promotion_count": 0,
+            "candidate_not_proof": True,
+            "proof_status": "handoff-not-proof",
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 207,
+            "required_file_count": 211,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -340,6 +368,18 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "strict_promotion_count": 1,
             "candidate_not_proof": False,
         },
+        frontier_handoff_audit={
+            "status": "error",
+            "handoff_group_count": 9,
+            "target_cover_count": 22,
+            "map_verified_group_count": 9,
+            "local_witnessed_group_count": 9,
+            "bounded_probe_group_count": 8,
+            "strict_promotion_count": 1,
+            "candidate_not_proof": False,
+            "missing_files": [{"path": "missing.json"}],
+            "violations": [{"field": "proof_boundary"}],
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -361,6 +401,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "rank-zero-frontier-queue-issues",
         "non-rankzero-frontier-queue-issues",
         "residual-frontier-strategy-audit-issues",
+        "frontier-handoff-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -379,6 +420,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     rank_zero_frontier = tmp_path / "rank_zero_frontier.json"
     non_rankzero_frontier = tmp_path / "non_rankzero_frontier.json"
     frontier_strategy = tmp_path / "frontier_strategy.json"
+    frontier_handoffs = tmp_path / "frontier_handoffs.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -430,6 +472,13 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"candidate_not_proof":true}\n',
         encoding="utf-8",
     )
+    frontier_handoffs.write_text(
+        '{"status":"ok","handoff_group_count":0,"target_cover_count":0,'
+        '"map_verified_group_count":0,"local_witnessed_group_count":0,'
+        '"bounded_probe_group_count":0,"strict_promotion_count":0,'
+        '"candidate_not_proof":true,"missing_files":[],"violations":[]}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -462,6 +511,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(non_rankzero_frontier),
             "--residual-frontier-strategy-audit",
             str(frontier_strategy),
+            "--frontier-handoff-audit",
+            str(frontier_handoffs),
             "--artifact-audit",
             str(artifacts),
             "--out",

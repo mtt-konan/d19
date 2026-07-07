@@ -83,6 +83,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "scripts/theory/summarize_mixed_closure_rank_zero_frontier.py" in paths
     assert "scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py" in paths
     assert "scripts/theory/audit_mixed_closure_residual_frontier_strategy.py" in paths
+    assert "scripts/theory/audit_mixed_closure_frontier_handoffs.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -94,6 +95,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_mixed_closure_rank_zero_frontier_queue.py" in paths
     assert "tests/test_mixed_closure_non_rankzero_frontier_queue.py" in paths
     assert "tests/test_mixed_closure_residual_frontier_strategy.py" in paths
+    assert "tests/test_mixed_closure_frontier_handoff_audit.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -123,6 +125,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/337-frontier-target-handoff-1625-5643.md" in paths
     assert "docs/work-logs/338-all-rankzero-frontier-handoffs.md" in paths
     assert "docs/work-logs/339-non-rankzero-frontier-handoffs.md" in paths
+    assert "docs/work-logs/340-frontier-handoff-audit.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -147,6 +150,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/mixed_closure_rank_zero_frontier_queue.json" in paths
     assert "results/mixed_closure_non_rankzero_frontier_queue.json" in paths
     assert "results/mixed_closure_residual_frontier_strategy_audit.json" in paths
+    assert "results/mixed_closure_frontier_handoff_audit.json" in paths
     assert (
         "results/mixed_closure_residual_handoffs/"
         "priority_001_115_297_AA_covers_3_4_sage_probe.json"

@@ -40,6 +40,7 @@ def _blocking_issues(
     rank_zero_frontier_queue: dict[str, Any],
     non_rankzero_frontier_queue: dict[str, Any],
     residual_frontier_strategy_audit: dict[str, Any],
+    frontier_handoff_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -134,6 +135,27 @@ def _blocking_issues(
         or residual_frontier_strategy_audit.get("candidate_not_proof") is not True
     ):
         issues.append("residual-frontier-strategy-audit-issues")
+    expected_frontier_groups = _int_value(
+        rank_zero_frontier_queue, "rank_zero_frontier_target_count"
+    ) + _int_value(non_rankzero_frontier_queue, "non_rankzero_frontier_target_count")
+    if (
+        frontier_handoff_audit.get("status") != "ok"
+        or _int_value(frontier_handoff_audit, "handoff_group_count")
+        != expected_frontier_groups
+        or _int_value(frontier_handoff_audit, "target_cover_count")
+        != _int_value(residual_open_frontier_audit, "open_frontier_cover_count")
+        or _int_value(frontier_handoff_audit, "map_verified_group_count")
+        != expected_frontier_groups
+        or _int_value(frontier_handoff_audit, "local_witnessed_group_count")
+        != expected_frontier_groups
+        or _int_value(frontier_handoff_audit, "bounded_probe_group_count")
+        != expected_frontier_groups
+        or _int_value(frontier_handoff_audit, "strict_promotion_count") != 0
+        or frontier_handoff_audit.get("candidate_not_proof") is not True
+        or frontier_handoff_audit.get("missing_files")
+        or frontier_handoff_audit.get("violations")
+    ):
+        issues.append("frontier-handoff-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -154,6 +176,7 @@ def summarize_partial_result(
     rank_zero_frontier_queue: dict[str, Any],
     non_rankzero_frontier_queue: dict[str, Any],
     residual_frontier_strategy_audit: dict[str, Any],
+    frontier_handoff_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -173,6 +196,7 @@ def summarize_partial_result(
         rank_zero_frontier_queue=rank_zero_frontier_queue,
         non_rankzero_frontier_queue=non_rankzero_frontier_queue,
         residual_frontier_strategy_audit=residual_frontier_strategy_audit,
+        frontier_handoff_audit=frontier_handoff_audit,
         artifact_audit=artifact_audit,
     )
     non_rankzero_expected = sum(
@@ -182,6 +206,9 @@ def summarize_partial_result(
             "even-rank-gap4-needs-deeper-descent",
         )
     )
+    expected_frontier_groups = _int_value(
+        rank_zero_frontier_queue, "rank_zero_frontier_target_count"
+    ) + _int_value(non_rankzero_frontier_queue, "non_rankzero_frontier_target_count")
 
     return {
         "ready_for_partial_result": not issues,
@@ -440,6 +467,50 @@ def summarize_partial_result(
             ),
             "proof_status": "strategy-not-proof",
         },
+        "frontier_handoff_status": {
+            "ready": frontier_handoff_audit.get("status") == "ok"
+            and _int_value(frontier_handoff_audit, "handoff_group_count")
+            == expected_frontier_groups
+            and _int_value(frontier_handoff_audit, "target_cover_count")
+            == _int_value(residual_open_frontier_audit, "open_frontier_cover_count")
+            and _int_value(frontier_handoff_audit, "map_verified_group_count")
+            == expected_frontier_groups
+            and _int_value(frontier_handoff_audit, "local_witnessed_group_count")
+            == expected_frontier_groups
+            and _int_value(frontier_handoff_audit, "bounded_probe_group_count")
+            == expected_frontier_groups
+            and _int_value(frontier_handoff_audit, "strict_promotion_count") == 0
+            and frontier_handoff_audit.get("candidate_not_proof") is True
+            and not frontier_handoff_audit.get("missing_files")
+            and not frontier_handoff_audit.get("violations"),
+            "handoff_group_count": _int_value(
+                frontier_handoff_audit, "handoff_group_count"
+            ),
+            "target_cover_count": _int_value(
+                frontier_handoff_audit, "target_cover_count"
+            ),
+            "rank_zero_group_count": _int_value(
+                frontier_handoff_audit, "rank_zero_group_count"
+            ),
+            "non_rankzero_group_count": _int_value(
+                frontier_handoff_audit, "non_rankzero_group_count"
+            ),
+            "map_verified_group_count": _int_value(
+                frontier_handoff_audit, "map_verified_group_count"
+            ),
+            "local_witnessed_group_count": _int_value(
+                frontier_handoff_audit, "local_witnessed_group_count"
+            ),
+            "bounded_probe_group_count": _int_value(
+                frontier_handoff_audit, "bounded_probe_group_count"
+            ),
+            "strict_promotion_count": _int_value(
+                frontier_handoff_audit, "strict_promotion_count"
+            ),
+            "candidate_not_proof": frontier_handoff_audit.get("candidate_not_proof")
+            is True,
+            "proof_status": "handoff-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -468,6 +539,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank-zero-frontier-queue", type=Path, required=True)
     parser.add_argument("--non-rankzero-frontier-queue", type=Path, required=True)
     parser.add_argument("--residual-frontier-strategy-audit", type=Path, required=True)
+    parser.add_argument("--frontier-handoff-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -494,6 +566,7 @@ def main() -> int:
         residual_frontier_strategy_audit=load_json(
             args.residual_frontier_strategy_audit
         ),
+        frontier_handoff_audit=load_json(args.frontier_handoff_audit),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

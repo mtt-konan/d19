@@ -460,8 +460,8 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=25 \
-  --expect language_candidate_not_proof_hits=4 \
+  --expect language_audit_files=26 \
+  --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
   --expect language_bsd_not_strict_certificate_hits=1 \
@@ -512,6 +512,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
+  --path docs/work-logs/340-frontier-handoff-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -519,10 +520,10 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 25
+files = 26
 violations = 0
 required_boundary_hits = {
-  'candidate_not_proof': 4,
+  'candidate_not_proof': 5,
   'sha2_candidate': 5,
   'bounded_search_not_proof': 1,
   'bsd_not_strict_certificate': 1
@@ -559,6 +560,35 @@ next_strategy_counts = {
 
 This is routing information, not a proof.
 
+Audit the frontier handoff packages:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_frontier_handoffs.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out results/mixed_closure_frontier_handoff_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+handoff_group_count = 10
+target_cover_count = 23
+map_verified_group_count = 10
+local_witnessed_group_count = 10
+bounded_probe_group_count = 10
+strict_promotion_count = 0
+missing_files = []
+violations = []
+```
+
+This checks package consistency only. It does not prove that the residual
+2-covers have no rational point.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -576,6 +606,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -636,8 +667,16 @@ residual_frontier_strategy_status.short_sage_retry_timeout_target_count = 10
 residual_frontier_strategy_status.strict_promotion_count = 0
 residual_frontier_strategy_status.next_strategy_counts = {'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status = strategy-not-proof
+frontier_handoff_status.ready = True
+frontier_handoff_status.handoff_group_count = 10
+frontier_handoff_status.target_cover_count = 23
+frontier_handoff_status.map_verified_group_count = 10
+frontier_handoff_status.local_witnessed_group_count = 10
+frontier_handoff_status.bounded_probe_group_count = 10
+frontier_handoff_status.strict_promotion_count = 0
+frontier_handoff_status.proof_status = handoff-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 207
+artifact_status.required_file_count = 211
 artifact_status.missing_file_count = 0
 ```
 
@@ -683,6 +722,8 @@ The two non-rank-zero frontier targets now have the same handoff package shape:
 `(209,5355) BB` remains a rank-one/Sha[2] separation target with rank bounds
 `[1,3]`, while `(1449,12155) BB` remains an even-gap4 deeper-descent target with
 rank bounds `[0,4]`.
+The frontier handoff audit now checks these 10 handoff groups and 23 covers as
+`handoff-not-proof`, with no strict promotion.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -762,6 +803,7 @@ scripts/theory/audit_mixed_closure_residual_open_frontier.py
 scripts/theory/summarize_mixed_closure_rank_zero_frontier.py
 scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py
 scripts/theory/audit_mixed_closure_residual_frontier_strategy.py
+scripts/theory/audit_mixed_closure_frontier_handoffs.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -880,6 +922,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 207
+required_file_count = 211
 missing_files = []
 ```
