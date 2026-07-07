@@ -259,6 +259,13 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
         "results/priority_025_5301_38675_BB_rank_methods_t600_twodescent40.json",
     ),
     Artifact("result", "results/priority_005_1625_5643_AA_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_006_567_3757_BB_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_009_5075_17901_AA_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_012_8075_8613_AA_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_013_391_9009_BB_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_017_209_21735_BB_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_024_5083_12825_BB_mwrank_rank_probe.json"),
+    Artifact("result", "results/priority_025_5301_38675_BB_mwrank_rank_probe.json"),
     Artifact(
         "result",
         "results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json",

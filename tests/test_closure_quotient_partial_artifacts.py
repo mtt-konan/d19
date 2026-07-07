@@ -224,6 +224,13 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert "results/priority_005_1625_5643_AA_mwrank_rank_probe.json" in paths
+    assert "results/priority_006_567_3757_BB_mwrank_rank_probe.json" in paths
+    assert "results/priority_009_5075_17901_AA_mwrank_rank_probe.json" in paths
+    assert "results/priority_012_8075_8613_AA_mwrank_rank_probe.json" in paths
+    assert "results/priority_013_391_9009_BB_mwrank_rank_probe.json" in paths
+    assert "results/priority_017_209_21735_BB_mwrank_rank_probe.json" in paths
+    assert "results/priority_024_5083_12825_BB_mwrank_rank_probe.json" in paths
+    assert "results/priority_025_5301_38675_BB_mwrank_rank_probe.json" in paths
     assert (
         "results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json"
         in paths
