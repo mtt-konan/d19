@@ -142,6 +142,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/344-frontier-batch-rank-method-probe.md"),
     Artifact("worklog", "docs/work-logs/345-frontier-next-action-audit.md"),
     Artifact("worklog", "docs/work-logs/346-rankzero-frontier-long-recheck-567-3757.md"),
+    Artifact("worklog", "docs/work-logs/347-rankzero-frontier-long-recheck-5075-17901.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -220,6 +221,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/priority_006_567_3757_BB_rank_methods_t600_twodescent40.json",
+    ),
+    Artifact(
+        "result",
+        "results/priority_009_5075_17901_AA_rank_methods_t600_twodescent40.json",
     ),
     Artifact("result", "results/mixed_closure_residual_language_audit.json"),
     Artifact("result", "results/closure_quotient_paper_claim_audit.json"),
