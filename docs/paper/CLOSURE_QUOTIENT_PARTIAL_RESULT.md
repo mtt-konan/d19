@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 435
+artifact_status.required_file_count = 439
 artifact_status.missing_file_count = 0
 ```
 
@@ -1413,6 +1413,29 @@ local_condition_proved_count = 0
 
 This proves the displayed reduced cubic factorization shape for each odd-prime
 lemma branch. It does not prove the required isogeny-Selmer local image.
+
+Audit rank-zero Selmer odd-prime local-image schemas:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py \
+  --odd-prime-reduction-shapes results/closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_reduction_shape_count = 9
+local_image_schema_count = 2
+local_image_schema_proved_count = 0
+local_condition_proved_count = 0
+```
+
+This reduces the odd-prime local-image work to two nodal model schemas:
+`y^2=x*(x-r)^2` with `r` a local unit, and `y^2=x^2*(x-s)` with `s` a local
+unit. The local-image theorem is still open.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -1976,6 +1999,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -2097,6 +2121,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 435
+required_file_count = 439
 missing_files = []
 ```

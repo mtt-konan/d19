@@ -1,0 +1,51 @@
+{
+  "boundary": "This groups proved odd-prime reduced cubic shapes into local-image theorem schemas. It does not prove the local-image theorem, compute local Selmer images, prove local conditions, prove a Selmer rank bound, or prove any lambda-family exclusion.",
+  "family_exclusion_proved_count": 0,
+  "input_reduction_shape_count": 9,
+  "local_condition_proved_count": 0,
+  "local_image_schema_count": 2,
+  "local_image_schema_proved_count": 0,
+  "local_image_schemas_not_conditions": true,
+  "ready": true,
+  "schemas": [
+    {
+      "covered_lemma_ids": [
+        "odd-prime-lemma-kernel-minus-p-divides-L",
+        "odd-prime-lemma-kernel-minus-p-divides-T",
+        "odd-prime-lemma-kernel-neg-2sqrt-q-divides-T",
+        "odd-prime-lemma-kernel-neg-2sqrt-q-divides-T2-plus-4L2",
+        "odd-prime-lemma-kernel-pos-2sqrt-q-divides-L",
+        "odd-prime-lemma-kernel-pos-2sqrt-q-divides-T2-plus-4L2"
+      ],
+      "covered_reduction_shape_count": 6,
+      "local_condition_proved": false,
+      "local_image_schema_proved": false,
+      "model_shape": "y^2 = x*(x-r)^2 with r a local unit",
+      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "proof_status": "open",
+      "required_theorem": "compute the 2-isogeny local squareclass image for the split nodal unit-double-root model",
+      "schema_id": "odd-prime-local-image-nonzero-double-root",
+      "unit_hypothesis": "r is nonzero modulo ell"
+    },
+    {
+      "covered_lemma_ids": [
+        "odd-prime-lemma-kernel-minus-p-divides-T2-plus-4L2",
+        "odd-prime-lemma-kernel-neg-2sqrt-q-divides-L",
+        "odd-prime-lemma-kernel-pos-2sqrt-q-divides-T"
+      ],
+      "covered_reduction_shape_count": 3,
+      "local_condition_proved": false,
+      "local_image_schema_proved": false,
+      "model_shape": "y^2 = x^2*(x-s) with s a local unit",
+      "nodal_reduction_shape": "split-nodal-cubic-with-zero-double-root",
+      "proof_status": "open",
+      "required_theorem": "compute the 2-isogeny local squareclass image for the split nodal zero-double-root model",
+      "schema_id": "odd-prime-local-image-zero-double-root",
+      "unit_hypothesis": "s is nonzero modulo ell"
+    }
+  ],
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}
