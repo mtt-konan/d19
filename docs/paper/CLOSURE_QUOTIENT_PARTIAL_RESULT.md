@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=70 \
+  --expect language_audit_files=71 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=3 \
@@ -566,6 +566,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/382-rank-zero-symbolic-descent-inputs.md \
   --path docs/work-logs/383-rank-zero-isogeny-templates.md \
   --path docs/work-logs/384-rank-zero-selmer-obligations.md \
+  --path docs/work-logs/385-rank-zero-selmer-package-index.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -573,7 +574,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 70
+files = 71
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1054,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 379
+artifact_status.required_file_count = 383
 artifact_status.missing_file_count = 0
 ```
 
@@ -1226,6 +1227,28 @@ family_exclusion_proved_count = 0
 ```
 
 This records the nine open uniform isogeny-Selmer rank-bound obligations.
+
+Export rank-zero Selmer proof package index:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py \
+  --selmer-obligations results/closure_quotient_rank_zero_selmer_obligations.json \
+  --isogeny-templates results/closure_quotient_rank_zero_isogeny_templates.json \
+  --out results/closure_quotient_rank_zero_selmer_package_index.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+open_package_count = 9
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+This turns the nine open Selmer obligations into reviewable proof-package inputs.
 
 Audit lambda route partition:
 
@@ -1756,6 +1779,7 @@ scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py
 scripts/theory/audit_closure_quotient_rank_zero_symbolic_descent_inputs.py
 scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py
+scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -1877,6 +1901,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 379
+required_file_count = 383
 missing_files = []
 ```
