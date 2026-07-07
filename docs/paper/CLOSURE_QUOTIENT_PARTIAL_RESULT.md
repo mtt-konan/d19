@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=26 \
+  --expect language_audit_files=27 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -513,6 +513,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --path docs/work-logs/340-frontier-handoff-audit.md \
+  --path docs/work-logs/341-frontier-strictification-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -520,7 +521,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 26
+files = 27
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -589,6 +590,31 @@ violations = []
 This checks package consistency only. It does not prove that the residual
 2-covers have no rational point.
 
+Build the frontier strictification queue:
+
+```bash
+uv run python scripts/theory/summarize_mixed_closure_frontier_strictification.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --out results/mixed_closure_frontier_strictification_queue.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+target_count = 10
+cover_count = 23
+track_counts = {'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+strict_certificate_ready_count = 0
+first_target = {'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proof', 'priorities': [5, 7], 'cover_indices': [3, 4]}
+```
+
+This queue says which strict proof object is needed next. It is not itself a
+proof.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -607,6 +633,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -675,8 +702,14 @@ frontier_handoff_status.local_witnessed_group_count = 10
 frontier_handoff_status.bounded_probe_group_count = 10
 frontier_handoff_status.strict_promotion_count = 0
 frontier_handoff_status.proof_status = handoff-not-proof
+frontier_strictification_status.ready = True
+frontier_strictification_status.target_count = 10
+frontier_strictification_status.cover_count = 23
+frontier_strictification_status.track_counts = {'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+frontier_strictification_status.strict_certificate_ready_count = 0
+frontier_strictification_status.proof_status = strictification-queue-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 211
+artifact_status.required_file_count = 215
 artifact_status.missing_file_count = 0
 ```
 
@@ -724,6 +757,9 @@ The two non-rank-zero frontier targets now have the same handoff package shape:
 rank bounds `[0,4]`.
 The frontier handoff audit now checks these 10 handoff groups and 23 covers as
 `handoff-not-proof`, with no strict promotion.
+The strictification queue orders the same 10 targets by the strict proof object
+needed next: 8 rank-zero rank proofs, 1 rank-one/Sha[2] separation, and 1 even
+gap4 deeper descent.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -804,6 +840,7 @@ scripts/theory/summarize_mixed_closure_rank_zero_frontier.py
 scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py
 scripts/theory/audit_mixed_closure_residual_frontier_strategy.py
 scripts/theory/audit_mixed_closure_frontier_handoffs.py
+scripts/theory/summarize_mixed_closure_frontier_strictification.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -922,6 +959,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 211
+required_file_count = 215
 missing_files = []
 ```

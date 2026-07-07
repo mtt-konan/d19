@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=26 \
+  --expect language_audit_files=27 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -531,6 +531,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --path docs/work-logs/340-frontier-handoff-audit.md \
+  --path docs/work-logs/341-frontier-strictification-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -538,7 +539,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=26
+files=27
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -605,6 +606,31 @@ violations=[]
 这一步检查 10 个 frontier handoff 包的内容是否和队列一致。它仍然不是无点证明；
 `bounded_probe_group_count=10` 的意思只是 bounded Sage probe 已经复跑并留下诊断。
 
+frontier strictification queue：
+
+```bash
+uv run python scripts/theory/summarize_mixed_closure_frontier_strictification.py \
+  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --out results/mixed_closure_frontier_strictification_queue.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+target_count=10
+cover_count=23
+track_counts={'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+strict_certificate_ready_count=0
+first_target={'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proof', 'priorities': [5, 7], 'cover_indices': [3, 4]}
+```
+
+普通话说：这一步把“下一步怎么严谨收敛”排成队列。它不证明任何新 cover 无点；
+它只说明每个目标需要什么严格证据才允许升级。
+
 partial-result 总摘要：
 
 ```bash
@@ -623,6 +649,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -690,8 +717,14 @@ frontier_handoff_status.local_witnessed_group_count=10
 frontier_handoff_status.bounded_probe_group_count=10
 frontier_handoff_status.strict_promotion_count=0
 frontier_handoff_status.proof_status=handoff-not-proof
+frontier_strictification_status.ready=True
+frontier_strictification_status.target_count=10
+frontier_strictification_status.cover_count=23
+frontier_strictification_status.track_counts={'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+frontier_strictification_status.strict_certificate_ready_count=0
+frontier_strictification_status.proof_status=strictification-queue-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=211
+artifact_status.required_file_count=215
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -729,6 +762,9 @@ Sage handoff probe。共同状态仍是 `strict_proof_status=open`、
 bad-prime local witnesses 全部找到，但仍没有 cover-level no-point proof。
 frontier handoff 内容审计现在把这些 10 个 handoff group、23 个 cover 统一检查为
 `handoff-not-proof`，并确认没有 strict promotion。
+strictification queue 进一步把这 10 个目标排成可攻队列：先攻 `(1625,5643) AA`
+的 rank-zero proof 或 cover-level no-point certificate；另外保留 1 个 rank-one/Sha[2]
+分离目标和 1 个 even gap4 deeper descent 目标。
 
 目标 cover handoff：
 
@@ -910,6 +946,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py`
 - `scripts/theory/audit_mixed_closure_residual_frontier_strategy.py`
 - `scripts/theory/audit_mixed_closure_frontier_handoffs.py`
+- `scripts/theory/summarize_mixed_closure_frontier_strictification.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -942,6 +979,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_non_rankzero_frontier_queue.py`
 - `tests/test_mixed_closure_residual_frontier_strategy.py`
 - `tests/test_mixed_closure_frontier_handoff_audit.py`
+- `tests/test_mixed_closure_frontier_strictification_queue.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -984,6 +1022,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_non_rankzero_frontier_queue.json`
 - `results/mixed_closure_residual_frontier_strategy_audit.json`
 - `results/mixed_closure_frontier_handoff_audit.json`
+- `results/mixed_closure_frontier_strictification_queue.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1062,6 +1101,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl338](work-logs/338-all-rankzero-frontier-handoffs.md)
 - [wl339](work-logs/339-non-rankzero-frontier-handoffs.md)
 - [wl340](work-logs/340-frontier-handoff-audit.md)
+- [wl341](work-logs/341-frontier-strictification-queue.md)
 
 数学总入口：
 
