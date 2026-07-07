@@ -60,3 +60,30 @@ This is a diagnostic batch, not a proof. In plain language: every rank-zero
 frontier target still looks like an open two-cover/Sha[2] gap. The cheap methods
 did not find a target whose rank closed to 0, and PARI `ellrank=[0,2,0,[]]`
 is still an open interval, not a rank-zero certificate.
+
+## Ledger Integration
+
+The batch result is also expanded into the strictification attempt ledger:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
+  --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
+  --batch-probe rankzero-batch-t45:results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
+  --out results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --strict
+```
+
+Output:
+
+```text
+status=ok
+attempt_count=10
+target_count_with_attempts=8
+attempt_status_counts={'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
+strict_certificate_ready_count=0
+```
+
+This makes the ledger say explicitly that all 8 rank-zero frontier targets have
+cheap rank-method attempts recorded, and none is a strict certificate.

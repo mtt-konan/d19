@@ -29,6 +29,17 @@ def _queue() -> dict[str, object]:
                 "rank_bounds": [0, 2],
                 "strict_certificate_ready": False,
                 "candidate_not_proof": True,
+            },
+            {
+                "A": 567,
+                "B": 3757,
+                "curve": "BB",
+                "track": "rank-zero-rank-proof",
+                "priorities": [6, 21],
+                "cover_indices": [3, 4],
+                "rank_bounds": [0, 2],
+                "strict_certificate_ready": False,
+                "candidate_not_proof": True,
             }
         ],
     }
@@ -99,6 +110,88 @@ def _rank_method_zero_probe() -> dict[str, object]:
         "method_results": [{"method": "rank_proof", "status": "ok", "rank": 0}],
         "rank_zero_proof_candidate": True,
         "boundary": "rank proof candidate needs downstream audit",
+    }
+
+
+def _batch_rank_method_probe() -> dict[str, object]:
+    return {
+        "status": "ok",
+        "target_count": 2,
+        "method_status_counts": {
+            "pari_ellrank:ok": 2,
+            "rank_bounds:ok": 2,
+            "selmer_rank:ok": 2,
+        },
+        "rank_zero_proof_candidate_count": 0,
+        "targets": [
+            {
+                "name": "priority_005_1625_5643_AA_covers_4_3",
+                "A": 1625,
+                "B": 5643,
+                "curve": "AA",
+                "track": "rank-zero-rank-proof",
+                "probe": {
+                    "A": 1625,
+                    "B": 5643,
+                    "curve": "AA",
+                    "status": "ok",
+                    "method_status_counts": {
+                        "pari_ellrank:ok": 1,
+                        "rank_bounds:ok": 1,
+                        "selmer_rank:ok": 1,
+                    },
+                    "method_results": [
+                        {
+                            "method": "rank_bounds",
+                            "status": "ok",
+                            "rank_bounds": [0, 2],
+                        },
+                        {"method": "selmer_rank", "status": "ok", "selmer_rank": 4},
+                        {
+                            "method": "pari_ellrank",
+                            "status": "ok",
+                            "rank_bounds": [0, 2],
+                            "ellrank": ["0", "2", "0", "[]"],
+                        },
+                    ],
+                    "rank_zero_proof_candidate": False,
+                },
+            },
+            {
+                "name": "priority_006_567_3757_BB_covers_4_3",
+                "A": 567,
+                "B": 3757,
+                "curve": "BB",
+                "track": "rank-zero-rank-proof",
+                "probe": {
+                    "A": 567,
+                    "B": 3757,
+                    "curve": "BB",
+                    "status": "ok",
+                    "method_status_counts": {
+                        "pari_ellrank:ok": 1,
+                        "rank_bounds:ok": 1,
+                        "selmer_rank:ok": 1,
+                    },
+                    "method_results": [
+                        {
+                            "method": "rank_bounds",
+                            "status": "ok",
+                            "rank_bounds": [0, 2],
+                        },
+                        {"method": "selmer_rank", "status": "ok", "selmer_rank": 4},
+                        {
+                            "method": "pari_ellrank",
+                            "status": "ok",
+                            "rank_bounds": [0, 2],
+                            "ellrank": ["0", "2", "0", "[]"],
+                        },
+                    ],
+                    "rank_zero_proof_candidate": False,
+                },
+            },
+        ],
+        "boundary": "batch rank method probe is diagnostic only",
     }
 
 
@@ -208,6 +301,36 @@ def test_audit_attempts_marks_rank_method_zero_probe_as_ready_candidate(
     assert audit["attempts"][0]["proof_status"] == "rank-zero-proof-candidate"
 
 
+def test_audit_attempts_expands_batch_rank_method_probe(tmp_path: Path) -> None:
+    batch_path = tmp_path / "batch_rank_methods.json"
+    batch_path.write_text(
+        json.dumps(_batch_rank_method_probe()) + "\n",
+        encoding="utf-8",
+    )
+
+    audit = audit_attempts(
+        strictification_queue=_queue(),
+        probes=[],
+        batch_probes=[("rankzero-batch-t45", batch_path)],
+    )
+
+    assert audit["status"] == "ok"
+    assert audit["attempt_count"] == 2
+    assert audit["target_count_with_attempts"] == 2
+    assert audit["strict_certificate_ready_count"] == 0
+    assert audit["candidate_not_proof"] is True
+    assert audit["attempt_status_counts"] == {"rank-method-open-not-proof": 2}
+    assert [attempt["name"] for attempt in audit["attempts"]] == [
+        "rankzero-batch-t45:priority_005_1625_5643_AA_covers_4_3",
+        "rankzero-batch-t45:priority_006_567_3757_BB_covers_4_3",
+    ]
+    assert audit["attempts"][0]["method_status_counts"] == {
+        "pari_ellrank:ok": 1,
+        "rank_bounds:ok": 1,
+        "selmer_rank:ok": 1,
+    }
+
+
 def test_audit_attempts_reports_probe_for_unknown_target(tmp_path: Path) -> None:
     probe = _timeout_probe()
     probe["B"] = 999
@@ -260,6 +383,40 @@ def test_attempt_ledger_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) 
     assert json.loads(out.read_text(encoding="utf-8"))["missing_files"] == [
         {"name": "missing", "kind": "probe", "path": str(missing_probe)}
     ]
+
+
+def test_attempt_ledger_cli_accepts_batch_probe(tmp_path: Path) -> None:
+    queue_path = tmp_path / "queue.json"
+    batch_path = tmp_path / "batch.json"
+    out = tmp_path / "audit.json"
+    queue_path.write_text(json.dumps(_queue()) + "\n", encoding="utf-8")
+    batch_path.write_text(
+        json.dumps(_batch_rank_method_probe()) + "\n",
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py",
+            "--strictification-queue",
+            str(queue_path),
+            "--batch-probe",
+            f"rankzero-batch-t45:{batch_path}",
+            "--out",
+            str(out),
+            "--strict",
+        ],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    payload = json.loads(out.read_text(encoding="utf-8"))
+    assert result.returncode == 0
+    assert "attempt_count=2" in result.stdout
+    assert payload["attempt_status_counts"] == {"rank-method-open-not-proof": 2}
 
 
 def test_parse_probe_arg_requires_name_and_path() -> None:

@@ -112,10 +112,46 @@ def _attempt_summary(
     }
 
 
+def _batch_attempts(
+    *,
+    name: str,
+    path: Path,
+    batch_probe: dict[str, Any],
+    targets: dict[tuple[int, int, str], dict[str, Any]],
+    violations: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    attempts: list[dict[str, Any]] = []
+    for entry in batch_probe.get("targets", []):
+        probe = dict(entry.get("probe", {}))
+        target_name = str(entry.get("name", ""))
+        key = _target_key(probe)
+        queue_target = targets.get(key)
+        attempt_name = f"{name}:{target_name}" if target_name else name
+        if queue_target is None:
+            violations.append(
+                {
+                    "name": attempt_name,
+                    "field": "target",
+                    "expected": "target present in strictification queue",
+                    "actual": _target(probe),
+                }
+            )
+        attempts.append(
+            _attempt_summary(
+                name=attempt_name,
+                path=path,
+                probe=probe,
+                queue_target=queue_target,
+            )
+        )
+    return attempts
+
+
 def audit_attempts(
     *,
     strictification_queue: dict[str, Any],
     probes: list[tuple[str, Path]],
+    batch_probes: list[tuple[str, Path]] | None = None,
 ) -> dict[str, Any]:
     missing_files: list[dict[str, str]] = []
     violations: list[dict[str, Any]] = []
@@ -154,6 +190,32 @@ def audit_attempts(
                 path=path,
                 probe=probe,
                 queue_target=queue_target,
+            )
+        )
+
+    for name, path in batch_probes or []:
+        if not path.is_file():
+            missing_files.append(
+                {"name": name, "kind": "batch-probe", "path": str(path)}
+            )
+            continue
+        batch_probe = load_json(path)
+        if batch_probe.get("status") != "ok":
+            violations.append(
+                {
+                    "name": name,
+                    "field": "status",
+                    "expected": "ok",
+                    "actual": batch_probe.get("status"),
+                }
+            )
+        attempts.extend(
+            _batch_attempts(
+                name=name,
+                path=path,
+                batch_probe=batch_probe,
+                targets=targets,
+                violations=violations,
             )
         )
 
@@ -196,6 +258,16 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Strictification probe as NAME:/path/to/probe.json. Repeat as needed.",
     )
+    parser.add_argument(
+        "--batch-probe",
+        action="append",
+        type=parse_probe_arg,
+        default=[],
+        help=(
+            "Batch strictification probe as NAME:/path/to/batch.json. "
+            "Each target entry is expanded into a ledger attempt."
+        ),
+    )
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -206,6 +278,7 @@ def main() -> int:
     audit = audit_attempts(
         strictification_queue=load_json(args.strictification_queue),
         probes=args.probe,
+        batch_probes=args.batch_probe,
     )
     write_json(args.out, audit)
     print(f"wrote frontier strictification attempt audit to {args.out}")

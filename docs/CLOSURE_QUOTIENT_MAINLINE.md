@@ -641,6 +641,7 @@ uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attemp
   --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
   --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
+  --batch-probe rankzero-batch-t45:results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
   --out results/mixed_closure_frontier_strictification_attempt_audit.json \
   --strict
 ```
@@ -649,9 +650,9 @@ uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attemp
 
 ```text
 status=ok
-attempt_count=2
-target_count_with_attempts=1
-attempt_status_counts={'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
+attempt_count=10
+target_count_with_attempts=8
+attempt_status_counts={'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
 strict_certificate_ready_count=0
 ```
 
@@ -811,9 +812,9 @@ frontier_strictification_status.track_counts={'even-gap4-deeper-descent': 1, 'ra
 frontier_strictification_status.strict_certificate_ready_count=0
 frontier_strictification_status.proof_status=strictification-queue-not-proof
 frontier_strictification_attempt_status.ready=True
-frontier_strictification_attempt_status.attempt_count=2
-frontier_strictification_attempt_status.target_count_with_attempts=1
-frontier_strictification_attempt_status.attempt_status_counts={'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
+frontier_strictification_attempt_status.attempt_count=10
+frontier_strictification_attempt_status.target_count_with_attempts=8
+frontier_strictification_attempt_status.attempt_status_counts={'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
 frontier_strictification_attempt_status.strict_certificate_ready_count=0
 frontier_strictification_attempt_status.proof_status=attempt-ledger-not-proof
 artifact_status.ready=True
