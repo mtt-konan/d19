@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=59 \
+  --expect language_audit_files=60 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -574,6 +574,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/371-lambda-mainline-audit.md \
   --path docs/work-logs/372-rank-zero-proof-seeds.md \
   --path docs/work-logs/373-rank-zero-seed-identities.md \
+  --path docs/work-logs/374-rank-zero-certifying-invariants.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -581,7 +582,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=59
+files=60
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1064,7 +1065,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=338
+artifact_status.required_file_count=342
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1234,6 +1235,33 @@ p_sign_novel_signal_count=0
 
 普通话说：`AA` 的 `p<0`、`BB` 的 `p>0` 不是新证明线索，只是本原无向比例
 `0<a<b` 和公式强制出来的符号。后续不要把这个符号现象当成 rank-zero 家族结构。
+
+Rank-zero certifying invariant ledger：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/closure_quotient_rank_zero_certifying_invariants.json \
+  --strict
+```
+
+当前结果：
+
+```text
+primitive_model_count=243
+matched_primitive_model_count=243
+matched_rank_row_count=275
+rank_key_counts={'0/0': 243}
+torsion_order_counts={'4': 243}
+root_number_counts={'1': 243}
+family_exclusion_proved_count=0
+```
+
+普通话说：275 条 certifying rank 行折叠到 243 个本原 `class+curve` 模型。
+这些本原模型在当前数据里共同是 rank `0/0`、torsion order `4`、root number `1`。
+这是后续 rank-zero 家族证明的结构目标，不是已经完成的整族证明。
 
 Rank-zero family candidate list：
 
@@ -1622,6 +1650,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py`
+- `scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -1679,6 +1708,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_family_candidates.py`
 - `tests/test_closure_quotient_rank_zero_primitive_models.py`
 - `tests/test_closure_quotient_rank_zero_proof_seeds.py`
+- `tests/test_closure_quotient_rank_zero_certifying_invariants.py`
 - `tests/test_closure_quotient_rank_zero_seed_identities.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -1757,6 +1787,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_family_candidates.json`
 - `results/closure_quotient_rank_zero_primitive_models.json`
 - `results/closure_quotient_rank_zero_proof_seeds.json`
+- `results/closure_quotient_rank_zero_certifying_invariants.json`
 - `results/closure_quotient_rank_zero_seed_identity_audit.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
@@ -1876,6 +1907,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl371](work-logs/371-lambda-mainline-audit.md)
 - [wl372](work-logs/372-rank-zero-proof-seeds.md)
 - [wl373](work-logs/373-rank-zero-seed-identities.md)
+- [wl374](work-logs/374-rank-zero-certifying-invariants.md)
 
 数学总入口：
 
