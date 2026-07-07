@@ -53,6 +53,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("script", "scripts/theory/audit_sage_cover_tool_capabilities.py"),
     Artifact("script", "scripts/theory/audit_external_cover_descent_route.py"),
     Artifact("script", "scripts/theory/audit_external_cover_certificate_intake.py"),
+    Artifact(
+        "script",
+        "scripts/theory/audit_external_cover_certificate_frontier_intake.py",
+    ),
     Artifact("script", "scripts/theory/sage_probe_mixed_closure_local_witnesses.py"),
     Artifact("script", "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py"),
     Artifact("script", "scripts/theory/audit_mixed_closure_residual_language.py"),
@@ -90,6 +94,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("test", "tests/test_audit_sage_cover_tool_capabilities.py"),
     Artifact("test", "tests/test_audit_external_cover_descent_route.py"),
     Artifact("test", "tests/test_audit_external_cover_certificate_intake.py"),
+    Artifact(
+        "test",
+        "tests/test_audit_external_cover_certificate_frontier_intake.py",
+    ),
     Artifact("test", "tests/test_sage_probe_mixed_closure_local_witnesses.py"),
     Artifact("test", "tests/test_mixed_closure_residual_selmer_gap_ledger.py"),
     Artifact("test", "tests/test_mixed_closure_residual_language_audit.py"),
@@ -163,6 +171,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/355-sage-cover-tool-capability-audit.md"),
     Artifact("worklog", "docs/work-logs/356-external-cover-descent-route-audit.md"),
     Artifact("worklog", "docs/work-logs/357-external-cover-certificate-intake.md"),
+    Artifact(
+        "worklog",
+        "docs/work-logs/358-frontier-external-certificate-intake.md",
+    ),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -294,6 +306,14 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/priority_005_1625_5643_AA_external_cover_certificate_template.json",
+    ),
+    Artifact(
+        "result",
+        "results/mixed_closure_external_cover_certificate_frontier_intake.json",
+    ),
+    Artifact(
+        "result",
+        "results/mixed_closure_external_cover_certificate_template_index.json",
     ),
     Artifact("result", "results/mixed_closure_residual_language_audit.json"),
     Artifact("result", "results/closure_quotient_paper_claim_audit.json"),

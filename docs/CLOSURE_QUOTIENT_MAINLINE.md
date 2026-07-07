@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=43 \
+  --expect language_audit_files=44 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -548,6 +548,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
   --path docs/work-logs/356-external-cover-descent-route-audit.md \
   --path docs/work-logs/357-external-cover-certificate-intake.md \
+  --path docs/work-logs/358-frontier-external-certificate-intake.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -555,7 +556,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=43
+files=44
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -871,6 +872,31 @@ strict_promotion_ready=False
 并检查目标、cover 覆盖、证书类型、结果字段和 transcript 文件是否齐全。
 即使字段齐全，它也只把证书包标成“可审阅”，不自己验证外部数学。
 
+Frontier external cover certificate intake：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_frontier_intake.py \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --certificate-dir results/mixed_closure_external_certificates \
+  --out results/mixed_closure_external_cover_certificate_frontier_intake.json \
+  --template-index-out results/mixed_closure_external_cover_certificate_template_index.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+target_count=10
+cover_count=23
+certificate_package_ready_count=0
+strict_promotion_ready_count=0
+```
+
+普通话说：全部 residual frontier 现在都有统一外部证书入口。它覆盖 10 个目标、
+23 个 cover；当前还没有任何外部证书包 ready，所以没有新的严格提升。
+
 partial-result 总摘要：
 
 ```bash
@@ -977,7 +1003,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=275
+artifact_status.required_file_count=280
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1217,6 +1243,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_sage_cover_tool_capabilities.py`
 - `scripts/theory/audit_external_cover_descent_route.py`
 - `scripts/theory/audit_external_cover_certificate_intake.py`
+- `scripts/theory/audit_external_cover_certificate_frontier_intake.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1259,6 +1286,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_audit_sage_cover_tool_capabilities.py`
 - `tests/test_audit_external_cover_descent_route.py`
 - `tests/test_audit_external_cover_certificate_intake.py`
+- `tests/test_audit_external_cover_certificate_frontier_intake.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1325,6 +1353,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/priority_005_1625_5643_AA_external_cover_descent_route.json`
 - `results/priority_005_1625_5643_AA_external_cover_certificate_intake.json`
 - `results/priority_005_1625_5643_AA_external_cover_certificate_template.json`
+- `results/mixed_closure_external_cover_certificate_frontier_intake.json`
+- `results/mixed_closure_external_cover_certificate_template_index.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1423,6 +1453,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl355](work-logs/355-sage-cover-tool-capability-audit.md)
 - [wl356](work-logs/356-external-cover-descent-route-audit.md)
 - [wl357](work-logs/357-external-cover-certificate-intake.md)
+- [wl358](work-logs/358-frontier-external-certificate-intake.md)
 
 数学总入口：
 

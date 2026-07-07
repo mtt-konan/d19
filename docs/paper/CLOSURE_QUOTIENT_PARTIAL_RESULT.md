@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=43 \
+  --expect language_audit_files=44 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -530,6 +530,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
   --path docs/work-logs/356-external-cover-descent-route-audit.md \
   --path docs/work-logs/357-external-cover-certificate-intake.md \
+  --path docs/work-logs/358-frontier-external-certificate-intake.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -537,7 +538,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 43
+files = 44
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -850,6 +851,31 @@ This is an intake gate, not a mathematical verifier. It creates the expected
 external-certificate package shape and prevents incomplete external evidence
 from being promoted.
 
+Audit frontier-wide external cover-certificate intake:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_frontier_intake.py \
+  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --certificate-dir results/mixed_closure_external_certificates \
+  --out results/mixed_closure_external_cover_certificate_frontier_intake.json \
+  --template-index-out results/mixed_closure_external_cover_certificate_template_index.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+target_count = 10
+cover_count = 23
+certificate_package_ready_count = 0
+strict_promotion_ready_count = 0
+```
+
+This extends the external evidence intake from one target to the full residual
+frontier. It is not a proof and currently records no strict promotion.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -957,7 +983,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted = Tru
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 275
+artifact_status.required_file_count = 280
 artifact_status.missing_file_count = 0
 ```
 
@@ -1106,6 +1132,7 @@ scripts/theory/probe_mwrank_mixed_closure_rank.py
 scripts/theory/audit_sage_cover_tool_capabilities.py
 scripts/theory/audit_external_cover_descent_route.py
 scripts/theory/audit_external_cover_certificate_intake.py
+scripts/theory/audit_external_cover_certificate_frontier_intake.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1224,6 +1251,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 275
+required_file_count = 280
 missing_files = []
 ```
