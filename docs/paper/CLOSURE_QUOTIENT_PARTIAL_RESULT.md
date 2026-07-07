@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=24 \
+  --expect language_audit_files=25 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -511,6 +511,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
+  --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -518,7 +519,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 24
+files = 25
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -636,7 +637,7 @@ residual_frontier_strategy_status.strict_promotion_count = 0
 residual_frontier_strategy_status.next_strategy_counts = {'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status = strategy-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 194
+artifact_status.required_file_count = 207
 artifact_status.missing_file_count = 0
 ```
 
@@ -678,6 +679,10 @@ primes, and still reports only diagnostic rank bounds `[0,2]` with
 All 8 rank-zero frontier targets now have the same handoff package shape. In
 each case the maps verify, local witnesses exist at the checked bad primes, and
 the bounded Sage probe remains diagnostic rather than proof.
+The two non-rank-zero frontier targets now have the same handoff package shape:
+`(209,5355) BB` remains a rank-one/Sha[2] separation target with rank bounds
+`[1,3]`, while `(1449,12155) BB` remains an even-gap4 deeper-descent target with
+rank bounds `[0,4]`.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -875,6 +880,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 194
+required_file_count = 207
 missing_files = []
 ```

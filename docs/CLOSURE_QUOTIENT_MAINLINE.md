@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=24 \
+  --expect language_audit_files=25 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -529,6 +529,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
   --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
+  --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -536,7 +537,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=24
+files=25
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -651,7 +652,7 @@ residual_frontier_strategy_status.strict_promotion_count=0
 residual_frontier_strategy_status.next_strategy_counts={'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status=strategy-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=194
+artifact_status.required_file_count=207
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -683,6 +684,10 @@ bounded handoff probe 仍为 `rank_bounds=[0,2]` 且 `rank_proof_status=runtime-
 JSON/Sage/Magma handoff、map verification、bad-prime local witness probe 和 bounded
 Sage handoff probe。共同状态仍是 `strict_proof_status=open`、
 `rank_bounds=[0,2]`、`rank_proof_status=runtime-error`、`cover_point_counts=[0,0]`。
+两个 non-rank-zero frontier targets 也完成同格式 handoff。`(209,5355) BB`
+保持 `rank_bounds=[1,3]`，对应 rank-one/Sha[2] 分离问题；`(1449,12155) BB`
+保持 `rank_bounds=[0,4]`，对应 even gap4 deeper descent 问题。二者 maps 验证通过、
+bad-prime local witnesses 全部找到，但仍没有 cover-level no-point proof。
 
 目标 cover handoff：
 
@@ -955,6 +960,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_residual_handoffs/priority_017_209_21735_BB_covers_3_4.json`
 - `results/mixed_closure_residual_handoffs/priority_024_5083_12825_BB_covers_3_4.json`
 - `results/mixed_closure_residual_handoffs/priority_025_5301_38675_BB_covers_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4.json`
 - `results/mixed_closure_even_model_identity_audit.json`
 
 论文草稿：
@@ -1009,6 +1016,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl336](work-logs/336-residual-frontier-strategy-audit.md)
 - [wl337](work-logs/337-frontier-target-handoff-1625-5643.md)
 - [wl338](work-logs/338-all-rankzero-frontier-handoffs.md)
+- [wl339](work-logs/339-non-rankzero-frontier-handoffs.md)
 
 数学总入口：
 

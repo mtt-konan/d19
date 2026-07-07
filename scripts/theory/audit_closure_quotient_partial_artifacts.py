@@ -122,6 +122,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/336-residual-frontier-strategy-audit.md"),
     Artifact("worklog", "docs/work-logs/337-frontier-target-handoff-1625-5643.md"),
     Artifact("worklog", "docs/work-logs/338-all-rankzero-frontier-handoffs.md"),
+    Artifact("worklog", "docs/work-logs/339-non-rankzero-frontier-handoffs.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -402,6 +403,54 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "handoff",
         "results/mixed_closure_residual_handoffs/priority_025_5301_38675_BB_covers_4_3_local_witnesses.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3.sage",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3.magma",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3_sage_probe.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3_map_verify.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_008_209_5355_BB_covers_5_4_3_local_witnesses.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4.sage",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4.magma",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4_sage_probe.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4_map_verify.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_011_1449_12155_BB_covers_5_6_3_4_local_witnesses.json",
     ),
     Artifact(
         "handoff",
