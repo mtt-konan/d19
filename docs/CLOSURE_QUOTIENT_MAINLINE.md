@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=57 \
+  --expect language_audit_files=58 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -572,6 +572,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/369-two-cover-lambda-frontier.md \
   --path docs/work-logs/370-lambda-route-partition-audit.md \
   --path docs/work-logs/371-lambda-mainline-audit.md \
+  --path docs/work-logs/372-rank-zero-proof-seeds.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -579,7 +580,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=57
+files=58
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1062,7 +1063,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=330
+artifact_status.required_file_count=334
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1191,6 +1192,27 @@ family_exclusion_proved_count=0
 
 普通话说：这一步把 200 个候选比例类落成 243 个本原 AA/BB 模型，
 记录 `p,q,sqrt_q,weierstrass_model`。后续整族 rank-zero 证明应从这些本原模型入手。
+
+Rank-zero proof seed ledger：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --out results/closure_quotient_rank_zero_proof_seeds.json \
+  --strict
+```
+
+当前结果：
+
+```text
+seed_group_count=3
+candidate_class_count=200
+model_count=243
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步把 200 个 rank-zero 候选比例类压成 3 个证明入口：
+`AA` 82 类、`AA+BB` 43 类、`BB` 75 类。它只是 proof seed 分组，不证明整族排除。
 
 Rank-zero family candidate list：
 
@@ -1578,6 +1600,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_ray_scale_invariance.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py`
+- `scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
 - `scripts/theory/audit_closure_quotient_lambda_route_partition.py`
@@ -1633,6 +1656,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_ray_scale_invariance.py`
 - `tests/test_closure_quotient_rank_zero_family_candidates.py`
 - `tests/test_closure_quotient_rank_zero_primitive_models.py`
+- `tests/test_closure_quotient_rank_zero_proof_seeds.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
 - `tests/test_closure_quotient_lambda_route_partition.py`
@@ -1709,6 +1733,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_ray_scale_invariance_audit.json`
 - `results/closure_quotient_rank_zero_family_candidates.json`
 - `results/closure_quotient_rank_zero_primitive_models.json`
+- `results/closure_quotient_rank_zero_proof_seeds.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
 - `results/closure_quotient_lambda_route_partition_audit.json`
@@ -1825,6 +1850,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl369](work-logs/369-two-cover-lambda-frontier.md)
 - [wl370](work-logs/370-lambda-route-partition-audit.md)
 - [wl371](work-logs/371-lambda-mainline-audit.md)
+- [wl372](work-logs/372-rank-zero-proof-seeds.md)
 
 数学总入口：
 

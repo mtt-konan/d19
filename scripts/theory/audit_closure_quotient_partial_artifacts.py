@@ -78,6 +78,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -135,6 +139,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("test", "tests/test_closure_quotient_ray_scale_invariance.py"),
     Artifact("test", "tests/test_closure_quotient_rank_zero_family_candidates.py"),
     Artifact("test", "tests/test_closure_quotient_rank_zero_primitive_models.py"),
+    Artifact("test", "tests/test_closure_quotient_rank_zero_proof_seeds.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_two_cover_lambda_frontier.py"),
     Artifact("test", "tests/test_closure_quotient_lambda_route_partition.py"),
@@ -227,6 +232,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/369-two-cover-lambda-frontier.md"),
     Artifact("worklog", "docs/work-logs/370-lambda-route-partition-audit.md"),
     Artifact("worklog", "docs/work-logs/371-lambda-mainline-audit.md"),
+    Artifact("worklog", "docs/work-logs/372-rank-zero-proof-seeds.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -381,6 +387,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("result", "results/closure_quotient_ray_scale_invariance_audit.json"),
     Artifact("result", "results/closure_quotient_rank_zero_family_candidates.json"),
     Artifact("result", "results/closure_quotient_rank_zero_primitive_models.json"),
+    Artifact("result", "results/closure_quotient_rank_zero_proof_seeds.json"),
     Artifact("result", "results/closure_quotient_root_number_lambda_triage.json"),
     Artifact("result", "results/closure_quotient_two_cover_lambda_frontier.json"),
     Artifact("result", "results/closure_quotient_lambda_route_partition_audit.json"),

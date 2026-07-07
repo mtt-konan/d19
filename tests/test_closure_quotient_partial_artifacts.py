@@ -113,6 +113,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py"
+        in paths
+    )
+    assert (
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py"
         in paths
     )
@@ -156,6 +160,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_ray_scale_invariance.py" in paths
     assert "tests/test_closure_quotient_rank_zero_family_candidates.py" in paths
     assert "tests/test_closure_quotient_rank_zero_primitive_models.py" in paths
+    assert "tests/test_closure_quotient_rank_zero_proof_seeds.py" in paths
     assert "tests/test_closure_quotient_root_number_lambda_triage.py" in paths
     assert "tests/test_closure_quotient_two_cover_lambda_frontier.py" in paths
     assert "tests/test_closure_quotient_lambda_route_partition.py" in paths
@@ -221,6 +226,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/369-two-cover-lambda-frontier.md" in paths
     assert "docs/work-logs/370-lambda-route-partition-audit.md" in paths
     assert "docs/work-logs/371-lambda-mainline-audit.md" in paths
+    assert "docs/work-logs/372-rank-zero-proof-seeds.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -237,6 +243,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_ray_scale_invariance_audit.json" in paths
     assert "results/closure_quotient_rank_zero_family_candidates.json" in paths
     assert "results/closure_quotient_rank_zero_primitive_models.json" in paths
+    assert "results/closure_quotient_rank_zero_proof_seeds.json" in paths
     assert "results/closure_quotient_root_number_lambda_triage.json" in paths
     assert "results/closure_quotient_two_cover_lambda_frontier.json" in paths
     assert "results/closure_quotient_lambda_route_partition_audit.json" in paths
