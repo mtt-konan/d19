@@ -1276,6 +1276,30 @@ This writes one JSON task file and one Markdown review file for each open
 package. These files record the formulas and required transcript fields; they
 do not prove any Selmer bound or family exclusion.
 
+Audit rank-zero Selmer transcript intake:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py \
+  --materialization results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --out results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --template-index-out results/closure_quotient_rank_zero_selmer_transcript_template_index.json \
+  --root . \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+transcript_package_ready_count = 0
+strict_promotion_ready_count = 0
+```
+
+This records the review gate for future Selmer transcripts. A complete
+transcript package can be accepted as review material, but this audit does not
+verify the Selmer mathematics or promote a family exclusion.
+
 Audit lambda route partition:
 
 ```bash
@@ -1807,6 +1831,7 @@ scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py
 scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py

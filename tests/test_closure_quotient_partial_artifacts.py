@@ -168,6 +168,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py"
         in paths
     )
+    assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -221,6 +225,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_rank_zero_selmer_package_index.py" in paths
     assert (
         "tests/test_closure_quotient_rank_zero_selmer_package_materialization.py"
+        in paths
+    )
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py"
         in paths
     )
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
@@ -333,6 +341,11 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_rank_zero_selmer_package_index.json" in paths
     assert (
         "results/closure_quotient_rank_zero_selmer_package_materialization.json"
+        in paths
+    )
+    assert "results/closure_quotient_rank_zero_selmer_transcript_intake.json" in paths
+    assert (
+        "results/closure_quotient_rank_zero_selmer_transcript_template_index.json"
         in paths
     )
     for package_id in [

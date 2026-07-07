@@ -1,0 +1,145 @@
+{
+  "boundary": "This audits transcript packaging for rank-zero isogeny-Selmer tasks. It checks package matching, transcript presence, and required field labels; it does not verify Selmer groups, prove rank zero, or promote any lambda-family exclusion.",
+  "candidate_not_proof": true,
+  "family_exclusion_proved_count": 0,
+  "missing_transcript_package_count": 9,
+  "open_package_count": 9,
+  "package_count": 9,
+  "packages": [
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "missing_fields": [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "proof_status": "no-transcript-package-not-proof",
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    }
+  ],
+  "proof_status": "rank-zero-selmer-transcripts-missing-not-proof",
+  "ready": true,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "strict_promotion_count": 0,
+  "strict_promotion_ready_count": 0,
+  "transcript_package_ready_count": 0,
+  "unexpected_transcript_package_ids": [],
+  "violations": []
+}

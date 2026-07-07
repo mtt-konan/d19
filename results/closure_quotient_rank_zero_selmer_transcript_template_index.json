@@ -1,0 +1,159 @@
+{
+  "boundary": "This audits transcript packaging for rank-zero isogeny-Selmer tasks. It checks package matching, transcript presence, and required field labels; it does not verify Selmer groups, prove rank zero, or promote any lambda-family exclusion.",
+  "package_count": 9,
+  "templates": [
+    {
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-kernel-minus-p-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-kernel-neg-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-kernel-pos-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-BB-kernel-minus-p-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-BB-kernel-minus-p-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-BB-kernel-neg-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    },
+    {
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "transcript_index_entry": {
+        "field_status": {
+          "isogeny_setup": "missing",
+          "local_squareclass_conditions": "missing",
+          "rank_zero_conclusion": "missing",
+          "review_notes": "missing",
+          "selmer_bound_argument": "missing",
+          "statement": "missing"
+        },
+        "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+        "result": "uniform-isogeny-selmer-rank-bound",
+        "transcript_path": "docs/external/rank_zero_selmer/rank-zero-selmer-BB-kernel-pos-2sqrt-q-transcript.txt",
+        "transcript_type": "uniform-isogeny-selmer-rank-bound-transcript"
+      }
+    }
+  ]
+}
