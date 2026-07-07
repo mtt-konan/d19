@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=51 \
+  --expect language_audit_files=52 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -547,6 +547,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/363-closure-quotient-ray-ledger.md \
   --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
   --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
+  --path docs/work-logs/366-rank-zero-family-candidates.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -554,7 +555,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 51
+files = 52
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1035,9 +1036,30 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 306
+artifact_status.required_file_count = 310
 artifact_status.missing_file_count = 0
 ```
+
+Summarize rank-zero family candidates:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_rank_zero_family_candidates.json \
+  --strict
+```
+
+Current result:
+
+```text
+candidate_class_count = 200
+strict_observed_pair_count = 220
+family_exclusion_proved_count = 0
+certifying_curve_pattern_counts = {'AA': 125, 'BB': 118}
+```
+
+This list identifies family-level rank-zero proof candidates. It is not itself
+a family exclusion theorem.
 
 Audit scale invariance along primitive rays:
 
@@ -1308,6 +1330,7 @@ scripts/theory/audit_closure_quotient_partial_dependencies.py
 scripts/theory/summarize_closure_quotient_ray_ledger.py
 scripts/theory/summarize_closure_quotient_lambda_frontier.py
 scripts/theory/audit_closure_quotient_ray_scale_invariance.py
+scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1421,6 +1444,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 306
+required_file_count = 310
 missing_files = []
 ```
