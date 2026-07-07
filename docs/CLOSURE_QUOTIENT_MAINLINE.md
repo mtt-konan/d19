@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=61 \
+  --expect language_audit_files=62 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -576,6 +576,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/373-rank-zero-seed-identities.md \
   --path docs/work-logs/374-rank-zero-certifying-invariants.md \
   --path docs/work-logs/375-rank-zero-forced-torsion.md \
+  --path docs/work-logs/376-root-number-proof-seeds.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -583,7 +584,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=61
+files=62
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1066,7 +1067,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=346
+artifact_status.required_file_count=350
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1174,6 +1175,27 @@ family_exclusion_proved_count=0
 
 普通话说：这一步只给 `observed-open` 比例类做 root-number / rank-key 分流。
 root number 不是证明，只用来决定下一步应该尝试哪种整族 rank/descent 问题。
+
+Root-number proof seed ledger：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py \
+  --triage results/closure_quotient_root_number_lambda_triage.json \
+  --out results/closure_quotient_root_number_proof_seeds.json \
+  --strict
+```
+
+当前结果：
+
+```text
+seed_group_count=21
+target_class_count=148
+target_pair_count=156
+family_exclusion_proved_count=0
+```
+
+普通话说：148 个 root-number/rank-structure 目标类被压成 21 个 combined seed group。
+前三组覆盖 100 个类。它只是给后续 `lambda` 族 rank/descent 问题分桶，不是 no-point 证明。
 
 Rank-zero primitive model index：
 
@@ -1678,6 +1700,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
+- `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
 - `scripts/theory/audit_closure_quotient_lambda_route_partition.py`
 - `scripts/theory/audit_closure_quotient_lambda_mainline.py`
@@ -1737,6 +1760,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_forced_torsion.py`
 - `tests/test_closure_quotient_rank_zero_seed_identities.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
+- `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
 - `tests/test_closure_quotient_lambda_route_partition.py`
 - `tests/test_closure_quotient_lambda_mainline_gate.py`
@@ -1817,6 +1841,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_forced_torsion_audit.json`
 - `results/closure_quotient_rank_zero_seed_identity_audit.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
+- `results/closure_quotient_root_number_proof_seeds.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
 - `results/closure_quotient_lambda_route_partition_audit.json`
 - `results/closure_quotient_lambda_mainline_audit.json`
@@ -1936,6 +1961,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl373](work-logs/373-rank-zero-seed-identities.md)
 - [wl374](work-logs/374-rank-zero-certifying-invariants.md)
 - [wl375](work-logs/375-rank-zero-forced-torsion.md)
+- [wl376](work-logs/376-root-number-proof-seeds.md)
 
 数学总入口：
 

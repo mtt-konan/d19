@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=61 \
+  --expect language_audit_files=62 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -557,6 +557,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/373-rank-zero-seed-identities.md \
   --path docs/work-logs/374-rank-zero-certifying-invariants.md \
   --path docs/work-logs/375-rank-zero-forced-torsion.md \
+  --path docs/work-logs/376-root-number-proof-seeds.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -564,7 +565,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 61
+files = 62
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1045,7 +1046,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 346
+artifact_status.required_file_count = 350
 artifact_status.missing_file_count = 0
 ```
 
@@ -1141,6 +1142,28 @@ family_exclusion_proved_count = 0
 ```
 
 This is a routing ledger. Root number is not used as a standalone proof.
+
+Summarize root-number proof seeds:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py \
+  --triage results/closure_quotient_root_number_lambda_triage.json \
+  --out results/closure_quotient_root_number_proof_seeds.json \
+  --strict
+```
+
+Current result:
+
+```text
+seed_group_count = 21
+target_class_count = 148
+target_pair_count = 156
+family_exclusion_proved_count = 0
+```
+
+This groups the root-number/rank-structure route into 21 combined proof seeds.
+The largest three groups cover 100 classes. It is a routing ledger, not a
+no-point proof.
 
 Summarize primitive models for rank-zero family candidates:
 
@@ -1554,6 +1577,7 @@ scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py
 scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py
 scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
+scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
 scripts/theory/audit_closure_quotient_lambda_route_partition.py
 scripts/theory/audit_closure_quotient_lambda_mainline.py
@@ -1670,6 +1694,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 346
+required_file_count = 350
 missing_files = []
 ```
