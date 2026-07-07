@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 411
+artifact_status.required_file_count = 415
 artifact_status.missing_file_count = 0
 ```
 
@@ -1279,6 +1279,30 @@ family_exclusion_proved_count = 0
 This writes one JSON task file and one Markdown review file for each open
 package. These files record the formulas and required transcript fields; they
 do not prove any Selmer bound or family exclusion.
+
+Audit rank-zero Selmer local supports:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py \
+  --package-index results/closure_quotient_rank_zero_selmer_package_index.json \
+  --out results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+support_entry_count = 9
+local_condition_proved_count = 0
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+This records symbolic support candidates for future local Selmer conditions.
+The common candidate bad factors are `2, L, T, T^2+4L^2`. This is not a local
+condition computation or a Selmer bound.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -1836,6 +1860,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py
 scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py

@@ -122,6 +122,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -211,6 +215,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "test",
         "tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py",
+    ),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_selmer_local_supports.py",
     ),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_proof_seeds.py"),
@@ -325,6 +333,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/386-rank-zero-selmer-package-materialization.md"),
     Artifact("worklog", "docs/work-logs/387-rank-zero-selmer-transcript-intake.md"),
     Artifact("worklog", "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md"),
+    Artifact("worklog", "docs/work-logs/389-rank-zero-selmer-local-supports.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -502,6 +511,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/closure_quotient_rank_zero_selmer_transcript_template_index.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_local_supports.json",
     ),
     Artifact(
         "result",

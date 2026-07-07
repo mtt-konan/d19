@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=411
+artifact_status.required_file_count=415
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1543,6 +1543,33 @@ family_exclusion_proved_count=0
 Markdown 审阅页。每个文件都列出 family、kernel、目标曲线模板和必须补的 transcript 字段。
 它方便后续逐个关闭证明义务，但本身仍不证明 Selmer bound，也不排除任何 `lambda` family。
 
+Rank-zero Selmer local-support audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py \
+  --package-index results/closure_quotient_rank_zero_selmer_package_index.json \
+  --out results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+support_entry_count=9
+local_condition_proved_count=0
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步把 9 个 package 的目标曲线二次因子先拆清楚。未来做局部
+isogeny-Selmer transcript 时，候选坏因子统一是
+`2, L, T, T^2+4L^2`。三个 kernel 的二次判别式 squareclass 分别是：
+`kernel_minus_p -> -1`，`kernel_pos_2sqrt_q -> T^2+4L^2`，
+`kernel_neg_2sqrt_q -> T^2+4L^2`。这只是 local support candidates，不是
+local condition 证明。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -1964,6 +1991,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py`
 - `scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2034,6 +2062,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_package_index.py`
 - `tests/test_closure_quotient_rank_zero_selmer_package_materialization.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
+- `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2126,6 +2155,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_package_materialization.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_intake.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
+- `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
@@ -2264,6 +2294,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl386](work-logs/386-rank-zero-selmer-package-materialization.md)
 - [wl387](work-logs/387-rank-zero-selmer-transcript-intake.md)
 - [wl388](work-logs/388-lambda-mainline-transcript-intake-gate.md)
+- [wl389](work-logs/389-rank-zero-selmer-local-supports.md)
 
 数学总入口：
 
