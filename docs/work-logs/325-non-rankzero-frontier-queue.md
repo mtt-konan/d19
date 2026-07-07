@@ -18,6 +18,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --diagnostics results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
   --sage-recheck results/sage_rank1_frontier_recheck_209_5355_BB_s13_20_t120.jsonl \
+  --sage-recheck results/sage_even_gap4_frontier_recheck_1449_12155_BB_s13_20_t120.jsonl \
   --out results/mixed_closure_non_rankzero_frontier_queue.json \
   --strict
 ```
@@ -33,7 +34,7 @@ target_type_counts = {
   'even-rank-gap4-needs-deeper-descent': 1,
   'rank1-needs-visible-generator-or-descent': 1
 }
-target_status_counts = {'even-gap4-open': 1, 'sage-timeout': 1}
+target_status_counts = {'sage-timeout': 2}
 ```
 
 Targets:
@@ -52,7 +53,8 @@ Targets:
   priorities = 11,15,18,23
   rank_bounds = [0,4]
   rank_plus_sha2_dimension = 4
-  next = run deeper descent or produce an independent Sha[2] obstruction
+  proof_queue_status = sage-timeout
+  next = retry with stronger descent tooling or switch to a cover-level proof
 ```
 
 ## Boundary
