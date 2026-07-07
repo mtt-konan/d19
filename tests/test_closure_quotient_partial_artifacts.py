@@ -136,6 +136,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py"
         in paths
     )
+    assert "scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_route_partition.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_mainline.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
@@ -179,6 +180,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_root_number_lambda_triage.py" in paths
     assert "tests/test_closure_quotient_root_number_proof_seeds.py" in paths
     assert "tests/test_closure_quotient_two_cover_lambda_frontier.py" in paths
+    assert "tests/test_closure_quotient_two_cover_proof_seeds.py" in paths
     assert "tests/test_closure_quotient_lambda_route_partition.py" in paths
     assert "tests/test_closure_quotient_lambda_mainline_gate.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
@@ -247,6 +249,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/374-rank-zero-certifying-invariants.md" in paths
     assert "docs/work-logs/375-rank-zero-forced-torsion.md" in paths
     assert "docs/work-logs/376-root-number-proof-seeds.md" in paths
+    assert "docs/work-logs/377-two-cover-proof-seeds.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -270,6 +273,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_root_number_lambda_triage.json" in paths
     assert "results/closure_quotient_root_number_proof_seeds.json" in paths
     assert "results/closure_quotient_two_cover_lambda_frontier.json" in paths
+    assert "results/closure_quotient_two_cover_proof_seeds.json" in paths
     assert "results/closure_quotient_lambda_route_partition_audit.json" in paths
     assert "results/closure_quotient_lambda_mainline_audit.json" in paths
     assert "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl" in paths

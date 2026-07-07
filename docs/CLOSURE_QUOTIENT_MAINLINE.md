@@ -490,10 +490,10 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=62 \
+  --expect language_audit_files=63 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
-  --expect language_bounded_search_not_proof_hits=2 \
+  --expect language_bounded_search_not_proof_hits=3 \
   --expect language_bsd_not_strict_certificate_hits=1 \
   --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
@@ -577,6 +577,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/374-rank-zero-certifying-invariants.md \
   --path docs/work-logs/375-rank-zero-forced-torsion.md \
   --path docs/work-logs/376-root-number-proof-seeds.md \
+  --path docs/work-logs/377-two-cover-proof-seeds.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -584,12 +585,12 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=62
+files=63
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
   'sha2_candidate': 5,
-  'bounded_search_not_proof': 2,
+  'bounded_search_not_proof': 3,
   'bsd_not_strict_certificate': 1
 }
 ```
@@ -1067,7 +1068,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=350
+artifact_status.required_file_count=354
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1153,6 +1154,27 @@ family_exclusion_proved_count=0
 
 普通话说：strict local tool 已覆盖的 pair 去掉后，剩下 8 个比例类需要 2-cover/Selmer
 障碍或逐 cover 的可审阅 no-point 证书。bounded-search no-point candidate 仍然不是证明。
+
+Two-cover proof seed ledger：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py \
+  --frontier results/closure_quotient_two_cover_lambda_frontier.json \
+  --out results/closure_quotient_two_cover_proof_seeds.json \
+  --strict
+```
+
+当前结果：
+
+```text
+seed_group_count=7
+target_class_count=8
+candidate_cover_total=18
+family_exclusion_proved_count=0
+```
+
+普通话说：two-cover 剩余支只能压成 7 个证书需求组。后续只接受整族 2-cover/Selmer
+障碍，或对每个列出 cover 的可审阅 no-point 证书；继续提高 bounded search 不是主进展。
 
 Root-number lambda triage：
 
@@ -1702,6 +1724,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
+- `scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py`
 - `scripts/theory/audit_closure_quotient_lambda_route_partition.py`
 - `scripts/theory/audit_closure_quotient_lambda_mainline.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
@@ -1762,6 +1785,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
+- `tests/test_closure_quotient_two_cover_proof_seeds.py`
 - `tests/test_closure_quotient_lambda_route_partition.py`
 - `tests/test_closure_quotient_lambda_mainline_gate.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
@@ -1843,6 +1867,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
+- `results/closure_quotient_two_cover_proof_seeds.json`
 - `results/closure_quotient_lambda_route_partition_audit.json`
 - `results/closure_quotient_lambda_mainline_audit.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
@@ -1962,6 +1987,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl374](work-logs/374-rank-zero-certifying-invariants.md)
 - [wl375](work-logs/375-rank-zero-forced-torsion.md)
 - [wl376](work-logs/376-root-number-proof-seeds.md)
+- [wl377](work-logs/377-two-cover-proof-seeds.md)
 
 数学总入口：
 
