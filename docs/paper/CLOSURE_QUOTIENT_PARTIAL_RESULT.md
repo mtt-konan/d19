@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=29 \
+  --expect language_audit_files=30 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -516,6 +516,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/341-frontier-strictification-queue.md \
   --path docs/work-logs/342-frontier-strictification-attempt.md \
   --path docs/work-logs/343-frontier-rank-method-probe.md \
+  --path docs/work-logs/344-frontier-batch-rank-method-probe.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -523,7 +524,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 29
+files = 30
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -665,6 +666,38 @@ method_status_counts = {'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:r
 rank_zero_proof_candidate = False
 ```
 
+Batch-run the cheap rank methods over all 8 rank-zero frontier targets:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache DOT_SAGE=/private/tmp/d19-dot-sage uv run python scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
+  --sage sage \
+  --timeout 45 \
+  --method rank_bounds \
+  --method selmer_rank \
+  --method pari_ellrank \
+  --track rank-zero-rank-proof \
+  --limit 8 \
+  --dot-sage /private/tmp/d19-dot-sage \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+target_count = 8
+method_status_counts = {'pari_ellrank:ok': 8, 'rank_bounds:ok': 8, 'selmer_rank:ok': 8}
+rank_zero_proof_candidate_count = 0
+```
+
+For each of the 8 targets, the cheap diagnostics remain
+`rank_bounds=[0,2]`, `selmer_rank=4`, and PARI `ellrank=[0,2,0,[]]`.
+This is not a rank-zero proof.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -766,7 +799,7 @@ frontier_strictification_attempt_status.attempt_status_counts = {'rank-method-ti
 frontier_strictification_attempt_status.strict_certificate_ready_count = 0
 frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 224
+artifact_status.required_file_count = 228
 artifact_status.missing_file_count = 0
 ```
 
@@ -821,7 +854,10 @@ The first recorded attempt, `sage-twodescent20` on `(1625,5643) AA`, timed out
 under a 180-second budget and therefore leaves `strict_certificate_ready_count = 0`.
 The follow-up rank-method probe shows `rank_bounds`, PARI `ellrank`, and
 `selmer_rank` complete, while `rank_proof` remains a runtime error and
-`two_descent` times out under a 90-second method budget.
+`two_descent` times out under a 90-second method budget. A batch cheap-method
+probe over all 8 rank-zero frontier targets also completes, but every target
+keeps `rank_bounds=[0,2]`, `selmer_rank=4`, and PARI `ellrank=[0,2,0,[]]`;
+no target becomes a rank-zero proof candidate.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -905,6 +941,7 @@ scripts/theory/audit_mixed_closure_frontier_handoffs.py
 scripts/theory/summarize_mixed_closure_frontier_strictification.py
 scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py
 scripts/theory/sage_probe_mixed_closure_rank_methods.py
+scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1023,6 +1060,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 224
+required_file_count = 228
 missing_files = []
 ```

@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=29 \
+  --expect language_audit_files=30 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -534,6 +534,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/341-frontier-strictification-queue.md \
   --path docs/work-logs/342-frontier-strictification-attempt.md \
   --path docs/work-logs/343-frontier-rank-method-probe.md \
+  --path docs/work-logs/344-frontier-batch-rank-method-probe.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -541,7 +542,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=29
+files=30
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -684,6 +685,38 @@ rank_zero_proof_candidate=False
 普通话说：`rank_bounds`、PARI `ellrank=[0,2,0,[]]` 和 `selmer_rank`
 这些诊断能跑通；严格 rank proof 没有出来，`two_descent` 在 90 秒内 timeout。
 
+8 个 rank-zero frontier targets 的批量便宜 rank probe：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache DOT_SAGE=/private/tmp/d19-dot-sage uv run python scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --handoff-audit results/mixed_closure_frontier_handoff_audit.json \
+  --handoff-dir results/mixed_closure_residual_handoffs \
+  --out results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
+  --sage sage \
+  --timeout 45 \
+  --method rank_bounds \
+  --method selmer_rank \
+  --method pari_ellrank \
+  --track rank-zero-rank-proof \
+  --limit 8 \
+  --dot-sage /private/tmp/d19-dot-sage \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+target_count=8
+method_status_counts={'pari_ellrank:ok': 8, 'rank_bounds:ok': 8, 'selmer_rank:ok': 8}
+rank_zero_proof_candidate_count=0
+```
+
+普通话说：8 个 rank-zero 目标全部仍是同一种开放形态：
+`rank_bounds=[0,2]`、`selmer_rank=4`、PARI `ellrank=[0,2,0,[]]`。
+这说明便宜诊断没有挑出已经闭合的目标；它仍然只是诊断，不是 rank-zero 证明。
+
 partial-result 总摘要：
 
 ```bash
@@ -784,7 +817,7 @@ frontier_strictification_attempt_status.attempt_status_counts={'rank-method-time
 frontier_strictification_attempt_status.strict_certificate_ready_count=0
 frontier_strictification_attempt_status.proof_status=attempt-ledger-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=224
+artifact_status.required_file_count=228
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -829,6 +862,10 @@ strictification queue 进一步把这 10 个目标排成可攻队列：先攻 `(
 `strict_certificate_ready_count=0` 仍保持不变。
 随后逐方法 probe 显示 `rank_bounds`、PARI `ellrank` 与 `selmer_rank` 可计算，
 但 `rank_proof` 仍为 runtime-error，`two_descent` 在 90 秒预算内 timeout。
+再随后，对全部 8 个 rank-zero frontier targets 批量跑 `rank_bounds`、`selmer_rank`
+和 PARI `ellrank`，全部完成，但全部保持 `rank_bounds=[0,2]`、
+`selmer_rank=4`、PARI `ellrank=[0,2,0,[]]`，没有任何
+`rank_zero_proof_candidate`。
 
 目标 cover handoff：
 
@@ -1013,6 +1050,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_mixed_closure_frontier_strictification.py`
 - `scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py`
 - `scripts/theory/sage_probe_mixed_closure_rank_methods.py`
+- `scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1048,6 +1086,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_frontier_strictification_queue.py`
 - `tests/test_mixed_closure_frontier_strictification_attempts.py`
 - `tests/test_sage_probe_mixed_closure_rank_methods.py`
+- `tests/test_batch_sage_probe_mixed_closure_rank_methods.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1094,6 +1133,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_frontier_strictification_attempt_audit.json`
 - `results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json`
 - `results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json`
+- `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1175,6 +1215,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl341](work-logs/341-frontier-strictification-queue.md)
 - [wl342](work-logs/342-frontier-strictification-attempt.md)
 - [wl343](work-logs/343-frontier-rank-method-probe.md)
+- [wl344](work-logs/344-frontier-batch-rank-method-probe.md)
 
 数学总入口：
 
