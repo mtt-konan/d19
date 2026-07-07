@@ -77,6 +77,7 @@ def test_build_non_rankzero_frontier_queue_groups_rank1_and_even_gap_targets() -
     queue = build_non_rankzero_frontier_queue(
         open_frontier_audit=open_frontier,
         diagnostics=diagnostics,
+        sage_rechecks=[],
     )
 
     assert queue == {
@@ -87,6 +88,7 @@ def test_build_non_rankzero_frontier_queue_groups_rank1_and_even_gap_targets() -
             "even-rank-gap4-needs-deeper-descent": 1,
             "rank1-needs-visible-generator-or-descent": 1,
         },
+        "target_status_counts": {"even-gap4-open": 1, "rank1-open": 1},
         "targets": [
             {
                 "A": 209,
@@ -104,6 +106,9 @@ def test_build_non_rankzero_frontier_queue_groups_rank1_and_even_gap_targets() -
                 "root_number": -1,
                 "conductor": 101,
                 "torsion_two_dimension": 2,
+                "sage_recheck_status": None,
+                "sage_recheck_final_rank_bounds": None,
+                "sage_recheck_second_limits": [],
                 "proof_queue_status": "rank1-open",
                 "next_step": (
                     "find a visible rank-one generator and isolate the residual "
@@ -127,6 +132,9 @@ def test_build_non_rankzero_frontier_queue_groups_rank1_and_even_gap_targets() -
                 "root_number": 1,
                 "conductor": 202,
                 "torsion_two_dimension": 2,
+                "sage_recheck_status": None,
+                "sage_recheck_final_rank_bounds": None,
+                "sage_recheck_second_limits": [],
                 "proof_queue_status": "even-gap4-open",
                 "next_step": "run deeper descent or produce an independent Sha[2] obstruction",
                 "candidate_not_proof": True,
@@ -137,6 +145,60 @@ def test_build_non_rankzero_frontier_queue_groups_rank1_and_even_gap_targets() -
             "target. It is a proof-work queue, not a no-point certificate."
         ),
     }
+
+
+def test_non_rankzero_frontier_queue_records_sage_recheck_status_without_proof_claim() -> None:
+    queue = build_non_rankzero_frontier_queue(
+        open_frontier_audit={
+            "rows": [
+                {
+                    "priority": 8,
+                    "A": 209,
+                    "B": 5355,
+                    "curve": "BB",
+                    "cover_index": 5,
+                    "gap_type": "rank1-sha2-gap2-open",
+                    "frontier_type": "rank1-needs-visible-generator-or-descent",
+                }
+            ]
+        },
+        diagnostics=[
+            {
+                "A": 209,
+                "B": 5355,
+                "curve": "BB",
+                "status": "ok",
+                "model": [0, 1, 0, -2, -3],
+                "rank_bounds": [1, 3],
+                "rank_plus_sha2_dimension": 3,
+                "root_number": -1,
+                "conductor": 101,
+                "torsion_two_dimension": 2,
+            }
+        ],
+        sage_rechecks=[
+            {
+                "A": 209,
+                "B": 5355,
+                "curve": "BB",
+                "status": "ok",
+                "final_rank_bounds": [1, 1],
+                "limits": [{"second_limit": 20, "rank_bounds": [1, 1]}],
+            }
+        ],
+    )
+
+    target = queue["targets"][0]
+    assert queue["target_status_counts"] == {"rank-bounds-closed": 1}
+    assert target["sage_recheck_status"] == "ok"
+    assert target["sage_recheck_final_rank_bounds"] == [1, 1]
+    assert target["sage_recheck_second_limits"] == [20]
+    assert target["proof_queue_status"] == "rank-bounds-closed"
+    assert target["next_step"] == (
+        "use the closed rank bounds only as diagnostics; still prove the "
+        "residual cover obstruction separately"
+    )
+    assert target["candidate_not_proof"] is True
 
 
 def test_non_rankzero_frontier_queue_cli_writes_json(tmp_path: Path) -> None:

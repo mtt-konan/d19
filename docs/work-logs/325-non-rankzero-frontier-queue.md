@@ -17,6 +17,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py \
   --open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --diagnostics results/sage_mixed_closure_aabb_selmer_diagnostics.jsonl \
+  --sage-recheck results/sage_rank1_frontier_recheck_209_5355_BB_s13_20_t120.jsonl \
   --out results/mixed_closure_non_rankzero_frontier_queue.json \
   --strict
 ```
@@ -32,6 +33,7 @@ target_type_counts = {
   'even-rank-gap4-needs-deeper-descent': 1,
   'rank1-needs-visible-generator-or-descent': 1
 }
+target_status_counts = {'even-gap4-open': 1, 'sage-timeout': 1}
 ```
 
 Targets:
@@ -42,7 +44,8 @@ Targets:
   priorities = 8,10,22
   rank_bounds = [1,3]
   rank_plus_sha2_dimension = 3
-  next = find a visible rank-one generator and isolate the residual Sha[2] class
+  proof_queue_status = sage-timeout
+  next = retry with stronger descent tooling or switch to a cover-level proof
 
 (1449,12155) BB:
   covers = 3,4,5,6

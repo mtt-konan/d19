@@ -107,6 +107,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/323-residual-open-frontier-audit.md"),
     Artifact("worklog", "docs/work-logs/324-rank-zero-frontier-queue.md"),
     Artifact("worklog", "docs/work-logs/325-non-rankzero-frontier-queue.md"),
+    Artifact("worklog", "docs/work-logs/326-rank1-frontier-recheck.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -123,6 +124,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("result", "results/mixed_closure_bsd_conditional_no_point_audit.json"),
     Artifact("result", "results/mixed_closure_residual_open_frontier_audit.json"),
     Artifact("result", "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl"),
+    Artifact(
+        "result",
+        "results/sage_rank1_frontier_recheck_209_5355_BB_s13_20_t120.jsonl",
+    ),
     Artifact("result", "results/mixed_closure_rank_zero_frontier_queue.json"),
     Artifact("result", "results/mixed_closure_non_rankzero_frontier_queue.json"),
     Artifact("result", "results/mixed_closure_residual_language_audit.json"),

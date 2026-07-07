@@ -108,8 +108,9 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "even-rank-gap4-needs-deeper-descent": 1,
             "rank1-needs-visible-generator-or-descent": 1,
         },
+        "target_status_counts": {"even-gap4-open": 1, "sage-timeout": 1},
     }
-    artifact_audit = {"ready": True, "required_file_count": 120, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 122, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -220,11 +221,12 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
                 "even-rank-gap4-needs-deeper-descent": 1,
                 "rank1-needs-visible-generator-or-descent": 1,
             },
+            "target_status_counts": {"even-gap4-open": 1, "sage-timeout": 1},
             "proof_status": "non-rankzero-frontier-not-proof",
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 120,
+            "required_file_count": 122,
             "missing_file_count": 0,
         },
         "boundary": (

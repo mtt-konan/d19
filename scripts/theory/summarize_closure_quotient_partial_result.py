@@ -388,6 +388,11 @@ def summarize_partial_result(
                     non_rankzero_frontier_queue.get("target_type_counts", {}).items()
                 )
             ),
+            "target_status_counts": dict(
+                sorted(
+                    non_rankzero_frontier_queue.get("target_status_counts", {}).items()
+                )
+            ),
             "proof_status": "non-rankzero-frontier-not-proof",
         },
         "artifact_status": {

@@ -59,12 +59,56 @@ def _diagnostic_index(
     return {_target_key(row): row for row in diagnostics}
 
 
+def _recheck_index(
+    sage_rechecks: list[dict[str, Any]],
+) -> dict[tuple[int, int, str], dict[str, Any]]:
+    return {_target_key(row): row for row in sage_rechecks}
+
+
+def _second_limits(recheck: dict[str, Any] | None) -> list[int]:
+    limits = []
+    for row in (recheck or {}).get("limits", []):
+        if "second_limit" in row:
+            limits.append(int(row["second_limit"]))
+    return limits
+
+
+def _queue_status(frontier_type: str, recheck: dict[str, Any] | None) -> str:
+    if recheck is None:
+        return QUEUE_STATUSES[frontier_type]
+    final_bounds = recheck.get("final_rank_bounds")
+    if recheck.get("status") == "ok" and (
+        isinstance(final_bounds, list)
+        and len(final_bounds) == 2
+        and int(final_bounds[0]) == int(final_bounds[1])
+    ):
+        return "rank-bounds-closed"
+    if recheck.get("status") == "timeout":
+        return "sage-timeout"
+    if recheck.get("status") == "ok":
+        return "sage-open"
+    return "sage-error"
+
+
+def _next_step(frontier_type: str, status: str) -> str:
+    if status == "rank-bounds-closed":
+        return (
+            "use the closed rank bounds only as diagnostics; still prove the "
+            "residual cover obstruction separately"
+        )
+    if status in {"sage-timeout", "sage-open", "sage-error"}:
+        return "retry with stronger descent tooling or switch to a cover-level proof"
+    return NEXT_STEPS[frontier_type]
+
+
 def build_non_rankzero_frontier_queue(
     *,
     open_frontier_audit: dict[str, Any],
     diagnostics: list[dict[str, Any]],
+    sage_rechecks: list[dict[str, Any]],
 ) -> dict[str, Any]:
     diagnostics_by_key = _diagnostic_index(diagnostics)
+    rechecks_by_key = _recheck_index(sage_rechecks)
     grouped: dict[tuple[int, int, str], list[dict[str, Any]]] = {}
 
     for row in open_frontier_audit.get("rows", []):
@@ -79,6 +123,8 @@ def build_non_rankzero_frontier_queue(
         first_row = min(rows, key=lambda row: int(row["priority"]))
         frontier_type = str(first_row["frontier_type"])
         diagnostic = diagnostics_by_key.get(key, {})
+        recheck = rechecks_by_key.get(key)
+        status = _queue_status(frontier_type, recheck)
         targets.append(
             {
                 "A": key[0],
@@ -102,12 +148,20 @@ def build_non_rankzero_frontier_queue(
                 "torsion_two_dimension": int(
                     diagnostic.get("torsion_two_dimension", 0)
                 ),
-                "proof_queue_status": QUEUE_STATUSES[frontier_type],
-                "next_step": NEXT_STEPS[frontier_type],
+                "sage_recheck_status": None if recheck is None else recheck.get("status"),
+                "sage_recheck_final_rank_bounds": None
+                if recheck is None
+                else recheck.get("final_rank_bounds"),
+                "sage_recheck_second_limits": _second_limits(recheck),
+                "proof_queue_status": status,
+                "next_step": _next_step(frontier_type, status),
                 "candidate_not_proof": True,
             }
         )
 
+    status_counts = dict(
+        sorted(Counter(str(target["proof_queue_status"]) for target in targets).items())
+    )
     return {
         "status": "ok",
         "non_rankzero_frontier_cover_count": sum(
@@ -117,6 +171,7 @@ def build_non_rankzero_frontier_queue(
         "target_type_counts": dict(
             sorted(Counter(str(target["frontier_type"]) for target in targets).items())
         ),
+        "target_status_counts": status_counts,
         "targets": targets,
         "boundary": BOUNDARY,
     }
@@ -126,6 +181,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--open-frontier-audit", type=Path, required=True)
     parser.add_argument("--diagnostics", type=Path, required=True)
+    parser.add_argument("--sage-recheck", type=Path, action="append", default=[])
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -133,9 +189,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    sage_rechecks: list[dict[str, Any]] = []
+    for path in args.sage_recheck:
+        sage_rechecks.extend(load_jsonl(path))
     queue = build_non_rankzero_frontier_queue(
         open_frontier_audit=load_json(args.open_frontier_audit),
         diagnostics=load_jsonl(args.diagnostics),
+        sage_rechecks=sage_rechecks,
     )
     write_json(args.out, queue)
     print(f"wrote non-rankzero frontier queue to {args.out}")
