@@ -145,6 +145,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/347-rankzero-frontier-long-recheck-5075-17901.md" in paths
     assert "docs/work-logs/348-rankzero-frontier-long-recheck-8075-8613.md" in paths
     assert "docs/work-logs/349-rankzero-frontier-long-recheck-391-9009.md" in paths
+    assert "docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -199,6 +200,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/priority_013_391_9009_BB_rank_methods_t600_twodescent40.json"
+        in paths
+    )
+    assert (
+        "results/priority_017_209_21735_BB_rank_methods_t600_twodescent40.json"
         in paths
     )
     assert (
