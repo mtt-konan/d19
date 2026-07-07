@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=39 \
+  --expect language_audit_files=40 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -526,6 +526,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
   --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
   --path docs/work-logs/353-frontier-escalation-queue.md \
+  --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -533,7 +534,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 39
+files = 40
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -634,6 +635,8 @@ uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attemp
   --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
   --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
+  --probe mwrank-default-1625:results/priority_005_1625_5643_AA_mwrank_rank_probe.json \
+  --probe mwrank-b20-x30-t60-1625:results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json \
   --probe sage-rank-methods-t600-567:results/priority_006_567_3757_BB_rank_methods_t600_twodescent40.json \
   --probe sage-rank-methods-t600-5075:results/priority_009_5075_17901_AA_rank_methods_t600_twodescent40.json \
   --probe sage-rank-methods-t600-8075:results/priority_012_8075_8613_AA_rank_methods_t600_twodescent40.json \
@@ -650,9 +653,9 @@ Current result:
 
 ```text
 status = ok
-attempt_count = 17
+attempt_count = 19
 target_count_with_attempts = 8
-attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 1}
+attempt_status_counts = {'open-rank-bounds-not-proof': 1, 'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 2}
 strict_certificate_ready_count = 0
 ```
 
@@ -861,9 +864,9 @@ frontier_strictification_status.track_counts = {'even-gap4-deeper-descent': 1, '
 frontier_strictification_status.strict_certificate_ready_count = 0
 frontier_strictification_status.proof_status = strictification-queue-not-proof
 frontier_strictification_attempt_status.ready = True
-frontier_strictification_attempt_status.attempt_count = 17
+frontier_strictification_attempt_status.attempt_count = 19
 frontier_strictification_attempt_status.target_count_with_attempts = 8
-frontier_strictification_attempt_status.attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 1}
+frontier_strictification_attempt_status.attempt_status_counts = {'open-rank-bounds-not-proof': 1, 'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 2}
 frontier_strictification_attempt_status.strict_certificate_ready_count = 0
 frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
 frontier_next_action_status.ready = True
@@ -872,7 +875,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted = Tru
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 250
+artifact_status.required_file_count = 255
 artifact_status.missing_file_count = 0
 ```
 
@@ -1017,6 +1020,7 @@ scripts/theory/sage_probe_mixed_closure_rank_methods.py
 scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py
 scripts/theory/audit_mixed_closure_frontier_next_actions.py
 scripts/theory/audit_mixed_closure_frontier_escalation_queue.py
+scripts/theory/probe_mwrank_mixed_closure_rank.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1135,6 +1139,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 250
+required_file_count = 255
 missing_files = []
 ```

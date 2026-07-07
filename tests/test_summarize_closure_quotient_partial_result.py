@@ -169,14 +169,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
     }
     frontier_strictification_attempt_audit = {
         "status": "ok",
-        "attempt_count": 17,
+        "attempt_count": 19,
         "target_count_with_attempts": 8,
         "strict_certificate_ready_count": 0,
         "candidate_not_proof": True,
         "attempt_status_counts": {
             "rank-method-open-not-proof": 8,
             "rank-method-timeout-not-proof": 8,
-            "timeout-not-proof": 1,
+            "open-rank-bounds-not-proof": 1,
+            "timeout-not-proof": 2,
         },
         "missing_files": [],
         "violations": [],
@@ -369,14 +370,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "frontier_strictification_attempt_status": {
             "ready": True,
-            "attempt_count": 17,
+            "attempt_count": 19,
             "target_count_with_attempts": 8,
             "strict_certificate_ready_count": 0,
             "candidate_not_proof": True,
             "attempt_status_counts": {
                 "rank-method-open-not-proof": 8,
                 "rank-method-timeout-not-proof": 8,
-                "timeout-not-proof": 1,
+                "open-rank-bounds-not-proof": 1,
+                "timeout-not-proof": 2,
             },
             "proof_status": "attempt-ledger-not-proof",
         },

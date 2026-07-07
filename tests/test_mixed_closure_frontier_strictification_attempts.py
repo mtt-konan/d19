@@ -113,6 +113,18 @@ def _rank_method_zero_probe() -> dict[str, object]:
     }
 
 
+def _mwrank_open_probe() -> dict[str, object]:
+    return {
+        "status": "ok",
+        "target": {"A": 1625, "B": 5643, "curve": "AA"},
+        "rank_bounds": [0, 2],
+        "rank_proved": False,
+        "rank_zero_proof_candidate": False,
+        "proof_status": "open-rank-bounds-not-proof",
+        "boundary": "mwrank open rank bounds are not a proof",
+    }
+
+
 def _batch_rank_method_probe() -> dict[str, object]:
     return {
         "status": "ok",
@@ -279,6 +291,25 @@ def test_audit_attempts_records_rank_method_timeout_as_nonproof(tmp_path: Path) 
         "rank_proof:runtime-error": 1,
         "two_descent:timeout": 1,
     }
+
+
+def test_audit_attempts_records_mwrank_open_bounds_as_nonproof(tmp_path: Path) -> None:
+    probe_path = tmp_path / "mwrank.json"
+    probe_path.write_text(json.dumps(_mwrank_open_probe()) + "\n", encoding="utf-8")
+
+    audit = audit_attempts(
+        strictification_queue=_queue(),
+        probes=[("mwrank-default", probe_path)],
+    )
+
+    assert audit["status"] == "ok"
+    assert audit["target_count_with_attempts"] == 1
+    assert audit["attempt_status_counts"] == {"open-rank-bounds-not-proof": 1}
+    assert audit["attempts"][0]["target"] == {"A": 1625, "B": 5643, "curve": "AA"}
+    assert audit["attempts"][0]["track"] == "rank-zero-rank-proof"
+    assert audit["attempts"][0]["rank_bounds"] == [0, 2]
+    assert audit["attempts"][0]["proof_status"] == "open-rank-bounds-not-proof"
+    assert audit["attempts"][0]["strict_certificate_ready"] is False
 
 
 def test_audit_attempts_marks_rank_method_zero_probe_as_ready_candidate(

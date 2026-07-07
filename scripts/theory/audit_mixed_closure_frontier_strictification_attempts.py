@@ -44,15 +44,18 @@ def _int_list(values: Any) -> list[int]:
 
 
 def _target(payload: dict[str, Any]) -> dict[str, int | str]:
+    nested = payload.get("target", {})
+    source = payload if payload.get("A") is not None else nested
     return {
-        "A": int(payload.get("A", 0)),
-        "B": int(payload.get("B", 0)),
-        "curve": str(payload.get("curve", "")),
+        "A": int(source.get("A", 0)),
+        "B": int(source.get("B", 0)),
+        "curve": str(source.get("curve", "")),
     }
 
 
 def _target_key(payload: dict[str, Any]) -> tuple[int, int, str]:
-    return int(payload.get("A", 0)), int(payload.get("B", 0)), str(payload.get("curve", ""))
+    target = _target(payload)
+    return int(target["A"]), int(target["B"]), str(target["curve"])
 
 
 def _queue_targets(
@@ -91,6 +94,9 @@ def _attempt_summary(
     queue_target: dict[str, Any] | None,
 ) -> dict[str, Any]:
     sage = probe.get("sage", {})
+    rank_bounds = _int_list(sage.get("rank_bounds", [])) or _int_list(
+        probe.get("rank_bounds", [])
+    )
     proof_status = _proof_status(probe)
     return {
         "name": name,
@@ -98,7 +104,7 @@ def _attempt_summary(
         "target": _target(probe),
         "track": "" if queue_target is None else str(queue_target.get("track", "")),
         "status": str(probe.get("status", "")),
-        "rank_bounds": _int_list(sage.get("rank_bounds", [])),
+        "rank_bounds": rank_bounds,
         "rank_proof_status": str(sage.get("rank_proof_status", "")),
         "method_status_counts": dict(
             sorted(probe.get("method_status_counts", {}).items())
