@@ -29,6 +29,7 @@ results/mixed_closure_residual_cover_map_verify.json
 results/mixed_closure_rank0_sha2_torsion_preimage_audit.json
 results/mixed_closure_bsd_conditional_no_point_audit.json
 results/mixed_closure_residual_open_frontier_audit.json
+results/mixed_closure_rank_zero_frontier_queue.json
 results/closure_quotient_partial_artifact_audit.json
 ```
 
@@ -47,6 +48,7 @@ residual_cover_map_status
 rank0_torsion_preimage_status
 bsd_conditional_no_point_status
 residual_open_frontier_status
+rank_zero_frontier_status
 artifact_status
 boundary
 ```
@@ -68,6 +70,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
   --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
+  --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -90,7 +93,7 @@ residual_status.candidate_cover_total = 27
 residual_status.top_target = (115,297) AA cover 3
 residual_status.bsd_analytic_rank0_rows = 2
 residual_status.proof_status = candidate-not-proof
-language_status.files = 9
+language_status.files = 10
 language_status.violations = 0
 priority_handoff_status.ready = True
 priority_handoff_status.groups_checked = 2
@@ -122,8 +125,13 @@ residual_open_frontier_status.open_frontier_cover_count = 23
 residual_open_frontier_status.open_frontier_type_counts = {'even-rank-gap4-needs-deeper-descent': 4, 'rank-zero-needs-rank-proof': 16, 'rank1-needs-visible-generator-or-descent': 3}
 residual_open_frontier_status.strict_no_point_cover_count = 0
 residual_open_frontier_status.proof_status = open-frontier-not-proof
+rank_zero_frontier_status.rank_zero_frontier_cover_count = 16
+rank_zero_frontier_status.rank_zero_frontier_target_count = 8
+rank_zero_frontier_status.closed_rank_zero_target_count = 0
+rank_zero_frontier_status.target_status_counts = {'not-retried': 7, 'sage-timeout': 1}
+rank_zero_frontier_status.proof_status = rank-proof-frontier-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 111
+artifact_status.required_file_count = 116
 artifact_status.missing_file_count = 0
 ```
 
@@ -141,6 +149,7 @@ priority handoff/probe/map/local audit ready；
 20 个 rank0-sha2-gap2 covers 已做 torsion-preimage audit；
 4 个 BSD 条件 no-point cover 只作为 conditional-not-proof 记录；
 23 个 residual open frontier cover 已按下一步缺口分桶；
+16 个 rank-zero frontier cover 已合并成 8 个 rank proof target；
 artifact audit 无 missing file。
 ```
 

@@ -37,6 +37,7 @@ def _blocking_issues(
     rank0_torsion_preimage_audit: dict[str, Any],
     bsd_conditional_no_point_audit: dict[str, Any],
     residual_open_frontier_audit: dict[str, Any],
+    rank_zero_frontier_queue: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -99,6 +100,17 @@ def _blocking_issues(
         != 0
     ):
         issues.append("residual-open-frontier-audit-issues")
+    if (
+        rank_zero_frontier_queue.get("status") != "ok"
+        or _int_value(rank_zero_frontier_queue, "rank_zero_frontier_cover_count")
+        != int(
+            residual_open_frontier_audit.get("open_frontier_type_counts", {}).get(
+                "rank-zero-needs-rank-proof", 0
+            )
+        )
+        or _int_value(rank_zero_frontier_queue, "closed_rank_zero_target_count") != 0
+    ):
+        issues.append("rank-zero-frontier-queue-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -116,6 +128,7 @@ def summarize_partial_result(
     rank0_torsion_preimage_audit: dict[str, Any],
     bsd_conditional_no_point_audit: dict[str, Any],
     residual_open_frontier_audit: dict[str, Any],
+    rank_zero_frontier_queue: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -132,6 +145,7 @@ def summarize_partial_result(
         rank0_torsion_preimage_audit=rank0_torsion_preimage_audit,
         bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
         residual_open_frontier_audit=residual_open_frontier_audit,
+        rank_zero_frontier_queue=rank_zero_frontier_queue,
         artifact_audit=artifact_audit,
     )
 
@@ -308,6 +322,30 @@ def summarize_partial_result(
             ),
             "proof_status": "open-frontier-not-proof",
         },
+        "rank_zero_frontier_status": {
+            "ready": rank_zero_frontier_queue.get("status") == "ok"
+            and _int_value(rank_zero_frontier_queue, "rank_zero_frontier_cover_count")
+            == int(
+                residual_open_frontier_audit.get("open_frontier_type_counts", {}).get(
+                    "rank-zero-needs-rank-proof", 0
+                )
+            )
+            and _int_value(rank_zero_frontier_queue, "closed_rank_zero_target_count")
+            == 0,
+            "rank_zero_frontier_cover_count": _int_value(
+                rank_zero_frontier_queue, "rank_zero_frontier_cover_count"
+            ),
+            "rank_zero_frontier_target_count": _int_value(
+                rank_zero_frontier_queue, "rank_zero_frontier_target_count"
+            ),
+            "closed_rank_zero_target_count": _int_value(
+                rank_zero_frontier_queue, "closed_rank_zero_target_count"
+            ),
+            "target_status_counts": dict(
+                sorted(rank_zero_frontier_queue.get("target_status_counts", {}).items())
+            ),
+            "proof_status": "rank-proof-frontier-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -333,6 +371,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank0-torsion-preimage-audit", type=Path, required=True)
     parser.add_argument("--bsd-conditional-no-point-audit", type=Path, required=True)
     parser.add_argument("--residual-open-frontier-audit", type=Path, required=True)
+    parser.add_argument("--rank-zero-frontier-queue", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -354,6 +393,7 @@ def main() -> int:
             args.bsd_conditional_no_point_audit
         ),
         residual_open_frontier_audit=load_json(args.residual_open_frontier_audit),
+        rank_zero_frontier_queue=load_json(args.rank_zero_frontier_queue),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

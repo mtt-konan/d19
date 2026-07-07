@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=9 \
+  --expect language_audit_files=10 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -514,6 +514,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
   --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
   --path docs/work-logs/323-residual-open-frontier-audit.md \
+  --path docs/work-logs/324-rank-zero-frontier-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -521,7 +522,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=9
+files=10
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -547,6 +548,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
   --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
+  --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -590,8 +592,13 @@ residual_open_frontier_status.open_frontier_cover_count=23
 residual_open_frontier_status.open_frontier_type_counts={'even-rank-gap4-needs-deeper-descent': 4, 'rank-zero-needs-rank-proof': 16, 'rank1-needs-visible-generator-or-descent': 3}
 residual_open_frontier_status.strict_no_point_cover_count=0
 residual_open_frontier_status.proof_status=open-frontier-not-proof
+rank_zero_frontier_status.rank_zero_frontier_cover_count=16
+rank_zero_frontier_status.rank_zero_frontier_target_count=8
+rank_zero_frontier_status.closed_rank_zero_target_count=0
+rank_zero_frontier_status.target_status_counts={'not-retried': 7, 'sage-timeout': 1}
+rank_zero_frontier_status.proof_status=rank-proof-frontier-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=111
+artifact_status.required_file_count=116
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -599,7 +606,9 @@ residual_status.proof_status=candidate-not-proof
 普通话说：这表示“partial result 证据包和措辞边界已经自洽”。其中 4 个 cover 现在是 BSD 条件下最强的无点候选；
 但它们仍然不是严格无点证明，不能放进 strict certificate。剩余 23 个开放 cover
 现在也被分桶成“差 rank-zero 证明”的 16 个、“rank-one 分离问题”的 3 个、
-以及“even rank gap4 deeper descent”的 4 个。
+以及“even rank gap4 deeper descent”的 4 个。其中 16 个 rank-zero cover
+又合并成 8 个 rank 证明目标；最高优先级 `(1625,5643) AA` 已做 Sage
+`second_limit=13,20`、120 秒重试，结果 timeout，没有产生严格 rank-zero 证明。
 
 目标 cover handoff：
 
@@ -777,6 +786,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_audit_mixed_closure_rank0_torsion_preimages.py`
 - `scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py`
 - `scripts/theory/audit_mixed_closure_residual_open_frontier.py`
+- `scripts/theory/summarize_mixed_closure_rank_zero_frontier.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -805,6 +815,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_audit_mixed_closure_rank0_torsion_preimages.py`
 - `tests/test_mixed_closure_bsd_conditional_no_point_audit.py`
 - `tests/test_mixed_closure_residual_open_frontier_audit.py`
+- `tests/test_mixed_closure_rank_zero_frontier_queue.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -832,6 +843,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_rank0_sha2_torsion_preimage_audit.json`
 - `results/mixed_closure_bsd_conditional_no_point_audit.json`
 - `results/mixed_closure_residual_open_frontier_audit.json`
+- `results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl`
+- `results/mixed_closure_rank_zero_frontier_queue.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -878,6 +891,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl321](work-logs/321-rank0-torsion-preimage-audit.md)
 - [wl322](work-logs/322-bsd-conditional-no-point-audit.md)
 - [wl323](work-logs/323-residual-open-frontier-audit.md)
+- [wl324](work-logs/324-rank-zero-frontier-queue.md)
 
 数学总入口：
 
