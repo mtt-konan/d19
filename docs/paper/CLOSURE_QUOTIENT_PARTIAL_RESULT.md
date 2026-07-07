@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=30 \
+  --expect language_audit_files=31 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -517,6 +517,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/342-frontier-strictification-attempt.md \
   --path docs/work-logs/343-frontier-rank-method-probe.md \
   --path docs/work-logs/344-frontier-batch-rank-method-probe.md \
+  --path docs/work-logs/345-frontier-next-action-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -524,7 +525,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 30
+files = 31
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -699,6 +700,28 @@ For each of the 8 targets, the cheap diagnostics remain
 `rank_bounds=[0,2]`, `selmer_rank=4`, and PARI `ellrank=[0,2,0,[]]`.
 This is not a rank-zero proof.
 
+Audit the frontier next-action route:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_next_actions.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --batch-rank-methods results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
+  --out results/mixed_closure_frontier_next_action_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+cheap_rank_method_target_hopping_exhausted = True
+recommended_mainline = escalate-beyond-cheap-rank-methods
+```
+
+This is a routing gate, not a proof. It records that cheap rank-method
+target-hopping has converged and the next mainline should escalate.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -719,6 +742,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
   --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --frontier-strictification-attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --frontier-next-action-audit results/mixed_closure_frontier_next_action_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -799,8 +823,12 @@ frontier_strictification_attempt_status.target_count_with_attempts = 8
 frontier_strictification_attempt_status.attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
 frontier_strictification_attempt_status.strict_certificate_ready_count = 0
 frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
+frontier_next_action_status.ready = True
+frontier_next_action_status.cheap_rank_method_target_hopping_exhausted = True
+frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
+frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 228
+artifact_status.required_file_count = 232
 artifact_status.missing_file_count = 0
 ```
 
@@ -943,6 +971,7 @@ scripts/theory/summarize_mixed_closure_frontier_strictification.py
 scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py
 scripts/theory/sage_probe_mixed_closure_rank_methods.py
 scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py
+scripts/theory/audit_mixed_closure_frontier_next_actions.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1061,6 +1090,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 228
+required_file_count = 232
 missing_files = []
 ```

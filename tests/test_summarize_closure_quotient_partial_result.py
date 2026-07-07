@@ -181,6 +181,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "missing_files": [],
         "violations": [],
     }
+    frontier_next_action_audit = {
+        "status": "ok",
+        "rank_zero_target_count": 8,
+        "rank_zero_batch_target_count": 8,
+        "cheap_rank_method_target_hopping_exhausted": True,
+        "strict_certificate_ready_count": 0,
+        "recommended_mainline": "escalate-beyond-cheap-rank-methods",
+        "violations": [],
+    }
     artifact_audit = {"ready": True, "required_file_count": 224, "missing_files": []}
 
     summary = summarize_partial_result(
@@ -200,6 +209,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         frontier_handoff_audit=frontier_handoff_audit,
         frontier_strictification_queue=frontier_strictification_queue,
         frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
+        frontier_next_action_audit=frontier_next_action_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -369,6 +379,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             },
             "proof_status": "attempt-ledger-not-proof",
         },
+        "frontier_next_action_status": {
+            "ready": True,
+            "rank_zero_target_count": 8,
+            "rank_zero_batch_target_count": 8,
+            "cheap_rank_method_target_hopping_exhausted": True,
+            "strict_certificate_ready_count": 0,
+            "recommended_mainline": "escalate-beyond-cheap-rank-methods",
+            "proof_status": "next-action-routing-not-proof",
+        },
         "artifact_status": {
             "ready": True,
             "required_file_count": 224,
@@ -467,6 +486,12 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "missing_files": [{"path": "missing.json"}],
             "violations": [{"field": "target"}],
         },
+        frontier_next_action_audit={
+            "status": "issues",
+            "cheap_rank_method_target_hopping_exhausted": False,
+            "strict_certificate_ready_count": 1,
+            "violations": [{"field": "rank_zero_target_coverage"}],
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -491,6 +516,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "frontier-handoff-audit-issues",
         "frontier-strictification-queue-issues",
         "frontier-strictification-attempt-audit-issues",
+        "frontier-next-action-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -512,6 +538,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     frontier_handoffs = tmp_path / "frontier_handoffs.json"
     frontier_strictification = tmp_path / "frontier_strictification.json"
     frontier_attempts = tmp_path / "frontier_attempts.json"
+    frontier_next_actions = tmp_path / "frontier_next_actions.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -582,6 +609,15 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"missing_files":[],"violations":[]}\n',
         encoding="utf-8",
     )
+    frontier_next_actions.write_text(
+        '{"status":"ok","rank_zero_target_count":0,'
+        '"rank_zero_batch_target_count":0,'
+        '"cheap_rank_method_target_hopping_exhausted":true,'
+        '"strict_certificate_ready_count":0,'
+        '"recommended_mainline":"escalate-beyond-cheap-rank-methods",'
+        '"violations":[]}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -620,6 +656,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(frontier_strictification),
             "--frontier-strictification-attempt-audit",
             str(frontier_attempts),
+            "--frontier-next-action-audit",
+            str(frontier_next_actions),
             "--artifact-audit",
             str(artifacts),
             "--out",

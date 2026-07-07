@@ -43,6 +43,7 @@ def _blocking_issues(
     frontier_handoff_audit: dict[str, Any],
     frontier_strictification_queue: dict[str, Any],
     frontier_strictification_attempt_audit: dict[str, Any],
+    frontier_next_action_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -183,6 +184,16 @@ def _blocking_issues(
         or frontier_strictification_attempt_audit.get("violations")
     ):
         issues.append("frontier-strictification-attempt-audit-issues")
+    if (
+        frontier_next_action_audit.get("status") != "ok"
+        or frontier_next_action_audit.get("cheap_rank_method_target_hopping_exhausted")
+        is not True
+        or _int_value(frontier_next_action_audit, "strict_certificate_ready_count") != 0
+        or frontier_next_action_audit.get("recommended_mainline")
+        != "escalate-beyond-cheap-rank-methods"
+        or frontier_next_action_audit.get("violations")
+    ):
+        issues.append("frontier-next-action-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -206,6 +217,7 @@ def summarize_partial_result(
     frontier_handoff_audit: dict[str, Any],
     frontier_strictification_queue: dict[str, Any],
     frontier_strictification_attempt_audit: dict[str, Any],
+    frontier_next_action_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -228,6 +240,7 @@ def summarize_partial_result(
         frontier_handoff_audit=frontier_handoff_audit,
         frontier_strictification_queue=frontier_strictification_queue,
         frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
+        frontier_next_action_audit=frontier_next_action_audit,
         artifact_audit=artifact_audit,
     )
     non_rankzero_expected = sum(
@@ -605,6 +618,35 @@ def summarize_partial_result(
             ),
             "proof_status": "attempt-ledger-not-proof",
         },
+        "frontier_next_action_status": {
+            "ready": frontier_next_action_audit.get("status") == "ok"
+            and frontier_next_action_audit.get(
+                "cheap_rank_method_target_hopping_exhausted"
+            )
+            is True
+            and _int_value(frontier_next_action_audit, "strict_certificate_ready_count")
+            == 0
+            and frontier_next_action_audit.get("recommended_mainline")
+            == "escalate-beyond-cheap-rank-methods"
+            and not frontier_next_action_audit.get("violations"),
+            "rank_zero_target_count": _int_value(
+                frontier_next_action_audit, "rank_zero_target_count"
+            ),
+            "rank_zero_batch_target_count": _int_value(
+                frontier_next_action_audit, "rank_zero_batch_target_count"
+            ),
+            "cheap_rank_method_target_hopping_exhausted": frontier_next_action_audit.get(
+                "cheap_rank_method_target_hopping_exhausted"
+            )
+            is True,
+            "strict_certificate_ready_count": _int_value(
+                frontier_next_action_audit, "strict_certificate_ready_count"
+            ),
+            "recommended_mainline": str(
+                frontier_next_action_audit.get("recommended_mainline", "")
+            ),
+            "proof_status": "next-action-routing-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -640,6 +682,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         required=True,
     )
+    parser.add_argument("--frontier-next-action-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -671,6 +714,7 @@ def main() -> int:
         frontier_strictification_attempt_audit=load_json(
             args.frontier_strictification_attempt_audit
         ),
+        frontier_next_action_audit=load_json(args.frontier_next_action_audit),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)
