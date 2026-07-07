@@ -81,12 +81,26 @@ def _two_cover() -> dict[str, object]:
     }
 
 
+def _proof_seed_coverage() -> dict[str, object]:
+    return {
+        "status": "ok",
+        "lambda_class_count": 3,
+        "covered_class_count": 3,
+        "seed_ledger_class_count": 3,
+        "all_routes_have_seed_ledgers": True,
+        "family_exclusion_proved_count": 0,
+        "search_count_used_as_progress": False,
+        "violations": [],
+    }
+
+
 def test_lambda_mainline_gate_accepts_current_objective_shape() -> None:
     audit = audit_lambda_mainline(
         ray_ledger=_ray_ledger(),
         lambda_frontier=_lambda_frontier(),
         route_partition=_partition(),
         two_cover_frontier=_two_cover(),
+        proof_seed_coverage=_proof_seed_coverage(),
     )
 
     assert audit == {
@@ -104,6 +118,7 @@ def test_lambda_mainline_gate_accepts_current_objective_shape() -> None:
             "route_partition_complete": True,
             "search_count_rejected_as_progress": True,
             "two_cover_requires_strict_evidence": True,
+            "proof_seed_coverage_complete": True,
             "family_exclusion_claim_count_zero": True,
         },
         "violations": [],
@@ -120,12 +135,15 @@ def test_lambda_mainline_gate_reports_objective_violations() -> None:
     partition["missing_classes"] = ["13:17"]
     two_cover = _two_cover()
     two_cover["targets"] = [{"candidate_not_proof": False}]
+    proof_seed_coverage = _proof_seed_coverage()
+    proof_seed_coverage["seed_ledger_class_count"] = 2
 
     audit = audit_lambda_mainline(
         ray_ledger=ray_ledger,
         lambda_frontier=lambda_frontier,
         route_partition=partition,
         two_cover_frontier=two_cover,
+        proof_seed_coverage=proof_seed_coverage,
     )
 
     assert audit["status"] == "issues"
@@ -134,6 +152,7 @@ def test_lambda_mainline_gate_reports_objective_violations() -> None:
         "ray-ledger-missing-c-minus-or-c-ratio",
         "lambda-route-partition-incomplete",
         "two-cover-frontier-missing-strict-evidence-boundary",
+        "lambda-proof-seed-coverage-incomplete",
         "family-exclusion-count-nonzero-without-theorem",
     ]
 
@@ -143,11 +162,16 @@ def test_lambda_mainline_gate_cli_writes_audit(tmp_path: Path) -> None:
     frontier = tmp_path / "frontier.json"
     partition = tmp_path / "partition.json"
     two_cover = tmp_path / "two_cover.json"
+    proof_seed_coverage = tmp_path / "proof_seed_coverage.json"
     out = tmp_path / "gate.json"
     ray.write_text(json.dumps(_ray_ledger()), encoding="utf-8")
     frontier.write_text(json.dumps(_lambda_frontier()), encoding="utf-8")
     partition.write_text(json.dumps(_partition()), encoding="utf-8")
     two_cover.write_text(json.dumps(_two_cover()), encoding="utf-8")
+    proof_seed_coverage.write_text(
+        json.dumps(_proof_seed_coverage()),
+        encoding="utf-8",
+    )
 
     result = subprocess.run(
         [
@@ -161,6 +185,8 @@ def test_lambda_mainline_gate_cli_writes_audit(tmp_path: Path) -> None:
             str(partition),
             "--two-cover-frontier",
             str(two_cover),
+            "--proof-seed-coverage",
+            str(proof_seed_coverage),
             "--out",
             str(out),
             "--strict",

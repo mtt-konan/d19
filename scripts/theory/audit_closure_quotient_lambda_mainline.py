@@ -67,7 +67,27 @@ def _two_cover_requires_strict_evidence(two_cover_frontier: dict[str, Any]) -> b
 
 
 def _family_exclusion_count_zero(*payloads: dict[str, Any]) -> bool:
-    return all(int(payload.get("family_exclusion_proved_count", 0)) == 0 for payload in payloads)
+    return all(
+        int(payload.get("family_exclusion_proved_count", 0)) == 0
+        for payload in payloads
+    )
+
+
+def _proof_seed_coverage_complete(
+    *,
+    route_partition: dict[str, Any],
+    proof_seed_coverage: dict[str, Any],
+) -> bool:
+    return (
+        proof_seed_coverage.get("status") == "ok"
+        and proof_seed_coverage.get("all_routes_have_seed_ledgers") is True
+        and not proof_seed_coverage.get("violations")
+        and proof_seed_coverage.get("lambda_class_count")
+        == route_partition.get("lambda_class_count")
+        and proof_seed_coverage.get("seed_ledger_class_count")
+        == route_partition.get("covered_class_count")
+        and proof_seed_coverage.get("search_count_used_as_progress") is False
+    )
 
 
 def audit_lambda_mainline(
@@ -76,6 +96,7 @@ def audit_lambda_mainline(
     lambda_frontier: dict[str, Any],
     route_partition: dict[str, Any],
     two_cover_frontier: dict[str, Any],
+    proof_seed_coverage: dict[str, Any],
 ) -> dict[str, Any]:
     checks = {
         "ray_ledger_has_c_minus": _ray_ledger_has_c_minus(ray_ledger),
@@ -84,10 +105,15 @@ def audit_lambda_mainline(
         "two_cover_requires_strict_evidence": _two_cover_requires_strict_evidence(
             two_cover_frontier
         ),
+        "proof_seed_coverage_complete": _proof_seed_coverage_complete(
+            route_partition=route_partition,
+            proof_seed_coverage=proof_seed_coverage,
+        ),
         "family_exclusion_claim_count_zero": _family_exclusion_count_zero(
             lambda_frontier,
             route_partition,
             two_cover_frontier,
+            proof_seed_coverage,
         ),
     }
     violations = []
@@ -99,6 +125,8 @@ def audit_lambda_mainline(
         violations.append("search-count-not-rejected-as-progress")
     if not checks["two_cover_requires_strict_evidence"]:
         violations.append("two-cover-frontier-missing-strict-evidence-boundary")
+    if not checks["proof_seed_coverage_complete"]:
+        violations.append("lambda-proof-seed-coverage-incomplete")
     if not checks["family_exclusion_claim_count_zero"]:
         violations.append("family-exclusion-count-nonzero-without-theorem")
 
@@ -121,6 +149,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lambda-frontier", type=Path, required=True)
     parser.add_argument("--route-partition", type=Path, required=True)
     parser.add_argument("--two-cover-frontier", type=Path, required=True)
+    parser.add_argument("--proof-seed-coverage", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -133,6 +162,7 @@ def main() -> int:
         lambda_frontier=load_json(args.lambda_frontier),
         route_partition=load_json(args.route_partition),
         two_cover_frontier=load_json(args.two_cover_frontier),
+        proof_seed_coverage=load_json(args.proof_seed_coverage),
     )
     write_json(args.out, audit)
     print(f"wrote closure quotient lambda mainline audit to {args.out}")

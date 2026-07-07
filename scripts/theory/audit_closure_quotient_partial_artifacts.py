@@ -269,6 +269,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/376-root-number-proof-seeds.md"),
     Artifact("worklog", "docs/work-logs/377-two-cover-proof-seeds.md"),
     Artifact("worklog", "docs/work-logs/378-lambda-proof-seed-coverage.md"),
+    Artifact("worklog", "docs/work-logs/379-lambda-mainline-proof-seed-gate.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
