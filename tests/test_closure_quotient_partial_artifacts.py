@@ -140,6 +140,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "scripts/theory/audit_closure_quotient_lambda_route_partition.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_mainline.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_proof_seed_coverage.py" in paths
+    assert (
+        "scripts/theory/audit_closure_quotient_lambda_convergence_priorities.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -185,6 +189,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_lambda_route_partition.py" in paths
     assert "tests/test_closure_quotient_lambda_mainline_gate.py" in paths
     assert "tests/test_closure_quotient_lambda_proof_seed_coverage.py" in paths
+    assert "tests/test_closure_quotient_lambda_convergence_priorities.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -254,6 +259,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/377-two-cover-proof-seeds.md" in paths
     assert "docs/work-logs/378-lambda-proof-seed-coverage.md" in paths
     assert "docs/work-logs/379-lambda-mainline-proof-seed-gate.md" in paths
+    assert "docs/work-logs/380-lambda-convergence-priorities.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -281,6 +287,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_lambda_route_partition_audit.json" in paths
     assert "results/closure_quotient_lambda_mainline_audit.json" in paths
     assert "results/closure_quotient_lambda_proof_seed_coverage_audit.json" in paths
+    assert "results/closure_quotient_lambda_convergence_priorities.json" in paths
     assert "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl" in paths

@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=65 \
+  --expect language_audit_files=66 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=3 \
@@ -561,6 +561,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/377-two-cover-proof-seeds.md \
   --path docs/work-logs/378-lambda-proof-seed-coverage.md \
   --path docs/work-logs/379-lambda-mainline-proof-seed-gate.md \
+  --path docs/work-logs/380-lambda-convergence-priorities.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -568,7 +569,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 65
+files = 66
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1049,7 +1050,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 359
+artifact_status.required_file_count = 363
 artifact_status.missing_file_count = 0
 ```
 
@@ -1099,6 +1100,34 @@ violations = []
 
 This checks that the rank-zero, root-number, and two-cover routes all have
 proof-seed ledgers. It does not prove any family exclusion theorem.
+
+Audit lambda convergence priorities:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_convergence_priorities.py \
+  --proof-seed-coverage results/closure_quotient_lambda_proof_seed_coverage_audit.json \
+  --rank-zero-seeds results/closure_quotient_rank_zero_proof_seeds.json \
+  --rank-zero-identity-audit results/closure_quotient_rank_zero_seed_identity_audit.json \
+  --rank-zero-invariants results/closure_quotient_rank_zero_certifying_invariants.json \
+  --rank-zero-forced-torsion results/closure_quotient_rank_zero_forced_torsion_audit.json \
+  --root-number-seeds results/closure_quotient_root_number_proof_seeds.json \
+  --two-cover-seeds results/closure_quotient_two_cover_proof_seeds.json \
+  --out results/closure_quotient_lambda_convergence_priorities.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+lambda_class_count = 356
+priority_order = ['rank_zero', 'root_number', 'two_cover']
+family_exclusion_proved_count = 0
+```
+
+This fixes the next proof order without claiming completion: rank-zero family
+theorems first, root-number/rank structure second, strict two-cover certificates
+third.
 
 Audit lambda route partition:
 
@@ -1632,6 +1661,7 @@ scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py
 scripts/theory/audit_closure_quotient_lambda_route_partition.py
 scripts/theory/audit_closure_quotient_lambda_mainline.py
 scripts/theory/audit_closure_quotient_lambda_proof_seed_coverage.py
+scripts/theory/audit_closure_quotient_lambda_convergence_priorities.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1745,6 +1775,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 359
+required_file_count = 363
 missing_files = []
 ```

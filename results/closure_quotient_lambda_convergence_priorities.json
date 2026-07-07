@@ -1,0 +1,59 @@
+{
+  "boundary": "This turns the lambda proof-seed ledgers into a convergence priority audit. It does not prove any lambda-family exclusion theorem, and it does not count more search hits as progress.",
+  "checks": {
+    "family_exclusion_claim_count_zero": true,
+    "proof_seed_coverage_complete": true,
+    "rank_zero_boundary_retained": true,
+    "rank_zero_support_ready": true,
+    "root_number_boundary_retained": true,
+    "search_count_rejected_as_progress": true,
+    "two_cover_requires_strict_evidence": true
+  },
+  "convergence_complete": false,
+  "family_exclusion_proved_count": 0,
+  "lambda_class_count": 356,
+  "priority_order": [
+    "rank_zero",
+    "root_number",
+    "two_cover"
+  ],
+  "ready": true,
+  "routes": [
+    {
+      "class_count": 200,
+      "family_exclusion_proved": false,
+      "missing_theorem": "rank-zero primitive lambda family theorem",
+      "model_count": 243,
+      "next_action": "Prove the three rank-zero primitive lambda patterns as family theorems, using the coefficient identities, matched rank-zero invariants, and forced full rational 2-torsion as reviewable inputs.",
+      "priority": 1,
+      "route": "rank_zero",
+      "seed_group_count": 3,
+      "supporting_model_count": 243
+    },
+    {
+      "class_count": 148,
+      "family_exclusion_proved": false,
+      "missing_theorem": "family rank or descent argument beyond parity data",
+      "next_action": "Use the root-number/rank patterns only as structural routing data; add a family rank, visibility, or descent argument before claiming no points.",
+      "priority": 2,
+      "route": "root_number",
+      "seed_group_count": 21,
+      "target_pair_count": 156
+    },
+    {
+      "candidate_cover_total": 18,
+      "class_count": 8,
+      "family_exclusion_proved": false,
+      "missing_theorem": "family 2-cover obstruction or cover-level no-point certificates",
+      "next_action": "Produce a family 2-cover/Selmer obstruction, or reviewable no-point certificates for every listed cover.",
+      "priority": 3,
+      "route": "two_cover",
+      "seed_group_count": 7
+    }
+  ],
+  "search_count_used_as_progress": false,
+  "seed_ledger_class_count": 356,
+  "status": "ok",
+  "total_seed_group_count": 31,
+  "violations": []
+}
