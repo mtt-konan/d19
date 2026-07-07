@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=36 \
+  --expect language_audit_files=37 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -523,6 +523,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/348-rankzero-frontier-long-recheck-8075-8613.md \
   --path docs/work-logs/349-rankzero-frontier-long-recheck-391-9009.md \
   --path docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md \
+  --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -530,7 +531,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 36
+files = 37
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -636,6 +637,7 @@ uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attemp
   --probe sage-rank-methods-t600-8075:results/priority_012_8075_8613_AA_rank_methods_t600_twodescent40.json \
   --probe sage-rank-methods-t600-391:results/priority_013_391_9009_BB_rank_methods_t600_twodescent40.json \
   --probe sage-rank-methods-t600-209-21735:results/priority_017_209_21735_BB_rank_methods_t600_twodescent40.json \
+  --probe sage-rank-methods-t600-5083-12825:results/priority_024_5083_12825_BB_rank_methods_t600_twodescent40.json \
   --batch-probe rankzero-batch-t45:results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
   --out results/mixed_closure_frontier_strictification_attempt_audit.json \
   --strict
@@ -645,9 +647,9 @@ Current result:
 
 ```text
 status = ok
-attempt_count = 15
+attempt_count = 16
 target_count_with_attempts = 8
-attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 6, 'timeout-not-proof': 1}
+attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 7, 'timeout-not-proof': 1}
 strict_certificate_ready_count = 0
 ```
 
@@ -828,9 +830,9 @@ frontier_strictification_status.track_counts = {'even-gap4-deeper-descent': 1, '
 frontier_strictification_status.strict_certificate_ready_count = 0
 frontier_strictification_status.proof_status = strictification-queue-not-proof
 frontier_strictification_attempt_status.ready = True
-frontier_strictification_attempt_status.attempt_count = 15
+frontier_strictification_attempt_status.attempt_count = 16
 frontier_strictification_attempt_status.target_count_with_attempts = 8
-frontier_strictification_attempt_status.attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 6, 'timeout-not-proof': 1}
+frontier_strictification_attempt_status.attempt_status_counts = {'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 7, 'timeout-not-proof': 1}
 frontier_strictification_attempt_status.strict_certificate_ready_count = 0
 frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
 frontier_next_action_status.ready = True
@@ -838,7 +840,7 @@ frontier_next_action_status.cheap_rank_method_target_hopping_exhausted = True
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 242
+artifact_status.required_file_count = 244
 artifact_status.missing_file_count = 0
 ```
 
@@ -1100,6 +1102,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 242
+required_file_count = 244
 missing_files = []
 ```
