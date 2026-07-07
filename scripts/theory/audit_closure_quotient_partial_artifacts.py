@@ -175,6 +175,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
         "worklog",
         "docs/work-logs/358-frontier-external-certificate-intake.md",
     ),
+    Artifact(
+        "worklog",
+        "docs/work-logs/359-summary-gate-external-certificate-intake.md",
+    ),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),

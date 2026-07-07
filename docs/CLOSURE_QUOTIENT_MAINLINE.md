@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=44 \
+  --expect language_audit_files=45 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -549,6 +549,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/356-external-cover-descent-route-audit.md \
   --path docs/work-logs/357-external-cover-certificate-intake.md \
   --path docs/work-logs/358-frontier-external-certificate-intake.md \
+  --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -556,7 +557,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=44
+files=45
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -918,6 +919,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --frontier-strictification-attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
   --frontier-next-action-audit results/mixed_closure_frontier_next_action_audit.json \
+  --external-certificate-frontier-audit results/mixed_closure_external_cover_certificate_frontier_intake.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -1002,8 +1004,15 @@ frontier_next_action_status.cheap_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
+external_certificate_frontier_status.ready=True
+external_certificate_frontier_status.target_count=10
+external_certificate_frontier_status.cover_count=23
+external_certificate_frontier_status.certificate_package_ready_count=0
+external_certificate_frontier_status.missing_certificate_package_count=10
+external_certificate_frontier_status.strict_promotion_ready_count=0
+external_certificate_frontier_status.proof_status=frontier-external-certificates-missing-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=280
+artifact_status.required_file_count=281
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1454,6 +1463,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl356](work-logs/356-external-cover-descent-route-audit.md)
 - [wl357](work-logs/357-external-cover-certificate-intake.md)
 - [wl358](work-logs/358-frontier-external-certificate-intake.md)
+- [wl359](work-logs/359-summary-gate-external-certificate-intake.md)
 
 数学总入口：
 

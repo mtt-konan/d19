@@ -44,6 +44,7 @@ def _blocking_issues(
     frontier_strictification_queue: dict[str, Any],
     frontier_strictification_attempt_audit: dict[str, Any],
     frontier_next_action_audit: dict[str, Any],
+    external_certificate_frontier_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -198,6 +199,33 @@ def _blocking_issues(
         or frontier_next_action_audit.get("violations")
     ):
         issues.append("frontier-next-action-audit-issues")
+    if (
+        external_certificate_frontier_audit.get("status") != "ok"
+        or _int_value(external_certificate_frontier_audit, "target_count")
+        != expected_frontier_groups
+        or _int_value(external_certificate_frontier_audit, "cover_count")
+        != _int_value(residual_open_frontier_audit, "open_frontier_cover_count")
+        or _int_value(
+            external_certificate_frontier_audit,
+            "certificate_package_ready_count",
+        )
+        + _int_value(
+            external_certificate_frontier_audit,
+            "missing_certificate_package_count",
+        )
+        != expected_frontier_groups
+        or _int_value(
+            external_certificate_frontier_audit,
+            "strict_promotion_ready_count",
+        )
+        != 0
+        or _int_value(external_certificate_frontier_audit, "strict_promotion_count")
+        != 0
+        or external_certificate_frontier_audit.get("candidate_not_proof") is not True
+        or external_certificate_frontier_audit.get("missing_handoff_files")
+        or external_certificate_frontier_audit.get("violations")
+    ):
+        issues.append("external-certificate-frontier-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -222,6 +250,7 @@ def summarize_partial_result(
     frontier_strictification_queue: dict[str, Any],
     frontier_strictification_attempt_audit: dict[str, Any],
     frontier_next_action_audit: dict[str, Any],
+    external_certificate_frontier_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -245,6 +274,7 @@ def summarize_partial_result(
         frontier_strictification_queue=frontier_strictification_queue,
         frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
         frontier_next_action_audit=frontier_next_action_audit,
+        external_certificate_frontier_audit=external_certificate_frontier_audit,
         artifact_audit=artifact_audit,
     )
     non_rankzero_expected = sum(
@@ -659,6 +689,63 @@ def summarize_partial_result(
             ),
             "proof_status": "next-action-routing-not-proof",
         },
+        "external_certificate_frontier_status": {
+            "ready": external_certificate_frontier_audit.get("status") == "ok"
+            and _int_value(external_certificate_frontier_audit, "target_count")
+            == expected_frontier_groups
+            and _int_value(external_certificate_frontier_audit, "cover_count")
+            == _int_value(residual_open_frontier_audit, "open_frontier_cover_count")
+            and _int_value(
+                external_certificate_frontier_audit,
+                "certificate_package_ready_count",
+            )
+            + _int_value(
+                external_certificate_frontier_audit,
+                "missing_certificate_package_count",
+            )
+            == expected_frontier_groups
+            and _int_value(
+                external_certificate_frontier_audit,
+                "strict_promotion_ready_count",
+            )
+            == 0
+            and _int_value(
+                external_certificate_frontier_audit, "strict_promotion_count"
+            )
+            == 0
+            and external_certificate_frontier_audit.get("candidate_not_proof")
+            is True
+            and not external_certificate_frontier_audit.get("missing_handoff_files")
+            and not external_certificate_frontier_audit.get("violations"),
+            "target_count": _int_value(
+                external_certificate_frontier_audit, "target_count"
+            ),
+            "cover_count": _int_value(
+                external_certificate_frontier_audit, "cover_count"
+            ),
+            "certificate_package_ready_count": _int_value(
+                external_certificate_frontier_audit,
+                "certificate_package_ready_count",
+            ),
+            "missing_certificate_package_count": _int_value(
+                external_certificate_frontier_audit,
+                "missing_certificate_package_count",
+            ),
+            "strict_promotion_ready_count": _int_value(
+                external_certificate_frontier_audit,
+                "strict_promotion_ready_count",
+            ),
+            "strict_promotion_count": _int_value(
+                external_certificate_frontier_audit, "strict_promotion_count"
+            ),
+            "candidate_not_proof": external_certificate_frontier_audit.get(
+                "candidate_not_proof"
+            )
+            is True,
+            "proof_status": str(
+                external_certificate_frontier_audit.get("proof_status", "")
+            ),
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -695,6 +782,11 @@ def parse_args() -> argparse.Namespace:
         required=True,
     )
     parser.add_argument("--frontier-next-action-audit", type=Path, required=True)
+    parser.add_argument(
+        "--external-certificate-frontier-audit",
+        type=Path,
+        required=True,
+    )
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -727,6 +819,9 @@ def main() -> int:
             args.frontier_strictification_attempt_audit
         ),
         frontier_next_action_audit=load_json(args.frontier_next_action_audit),
+        external_certificate_frontier_audit=load_json(
+            args.external_certificate_frontier_audit
+        ),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

@@ -172,6 +172,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/356-external-cover-descent-route-audit.md" in paths
     assert "docs/work-logs/357-external-cover-certificate-intake.md" in paths
     assert "docs/work-logs/358-frontier-external-certificate-intake.md" in paths
+    assert "docs/work-logs/359-summary-gate-external-certificate-intake.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
