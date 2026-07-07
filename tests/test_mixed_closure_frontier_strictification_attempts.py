@@ -64,6 +64,44 @@ def _rank_zero_probe() -> dict[str, object]:
     }
 
 
+def _rank_method_timeout_probe() -> dict[str, object]:
+    return {
+        "A": 1625,
+        "B": 5643,
+        "curve": "AA",
+        "status": "ok",
+        "method_status_counts": {
+            "rank_bounds:ok": 1,
+            "rank_proof:runtime-error": 1,
+            "two_descent:timeout": 1,
+        },
+        "method_results": [
+            {"method": "rank_bounds", "status": "ok", "rank_bounds": [0, 2]},
+            {
+                "method": "rank_proof",
+                "status": "runtime-error",
+                "error": "rank not provably correct",
+            },
+            {"method": "two_descent", "status": "timeout", "timeout_seconds": 90},
+        ],
+        "rank_zero_proof_candidate": False,
+        "boundary": "rank method timeout is not a proof",
+    }
+
+
+def _rank_method_zero_probe() -> dict[str, object]:
+    return {
+        "A": 1625,
+        "B": 5643,
+        "curve": "AA",
+        "status": "ok",
+        "method_status_counts": {"rank_proof:ok": 1},
+        "method_results": [{"method": "rank_proof", "status": "ok", "rank": 0}],
+        "rank_zero_proof_candidate": True,
+        "boundary": "rank proof candidate needs downstream audit",
+    }
+
+
 def test_audit_attempts_records_timeout_as_nonproof(tmp_path: Path) -> None:
     probe_path = tmp_path / "probe.json"
     probe_path.write_text(json.dumps(_timeout_probe()) + "\n", encoding="utf-8")
@@ -92,6 +130,7 @@ def test_audit_attempts_records_timeout_as_nonproof(tmp_path: Path) -> None:
                 "status": "timeout",
                 "rank_bounds": [],
                 "rank_proof_status": "",
+                "method_status_counts": {},
                 "two_descent_status": "",
                 "strict_certificate_ready": False,
                 "proof_status": "timeout-not-proof",
@@ -123,6 +162,50 @@ def test_audit_attempts_marks_rank_zero_probe_as_ready_candidate(tmp_path: Path)
     assert audit["attempt_status_counts"] == {"rank-zero-proof-candidate": 1}
     assert audit["attempts"][0]["proof_status"] == "rank-zero-proof-candidate"
     assert audit["attempts"][0]["strict_certificate_ready"] is True
+
+
+def test_audit_attempts_records_rank_method_timeout_as_nonproof(tmp_path: Path) -> None:
+    probe_path = tmp_path / "rank_methods.json"
+    probe_path.write_text(
+        json.dumps(_rank_method_timeout_probe()) + "\n",
+        encoding="utf-8",
+    )
+
+    audit = audit_attempts(
+        strictification_queue=_queue(),
+        probes=[("sage-rank-methods", probe_path)],
+    )
+
+    assert audit["status"] == "ok"
+    assert audit["strict_certificate_ready_count"] == 0
+    assert audit["candidate_not_proof"] is True
+    assert audit["attempt_status_counts"] == {"rank-method-timeout-not-proof": 1}
+    assert audit["attempts"][0]["proof_status"] == "rank-method-timeout-not-proof"
+    assert audit["attempts"][0]["method_status_counts"] == {
+        "rank_bounds:ok": 1,
+        "rank_proof:runtime-error": 1,
+        "two_descent:timeout": 1,
+    }
+
+
+def test_audit_attempts_marks_rank_method_zero_probe_as_ready_candidate(
+    tmp_path: Path,
+) -> None:
+    probe_path = tmp_path / "rank_methods.json"
+    probe_path.write_text(
+        json.dumps(_rank_method_zero_probe()) + "\n",
+        encoding="utf-8",
+    )
+
+    audit = audit_attempts(
+        strictification_queue=_queue(),
+        probes=[("sage-rank-methods", probe_path)],
+    )
+
+    assert audit["strict_certificate_ready_count"] == 1
+    assert audit["candidate_not_proof"] is False
+    assert audit["attempt_status_counts"] == {"rank-zero-proof-candidate": 1}
+    assert audit["attempts"][0]["proof_status"] == "rank-zero-proof-candidate"
 
 
 def test_audit_attempts_reports_probe_for_unknown_target(tmp_path: Path) -> None:

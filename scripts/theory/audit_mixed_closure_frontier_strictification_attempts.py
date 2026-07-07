@@ -69,6 +69,13 @@ def _proof_status(probe: dict[str, Any]) -> str:
         return "timeout-not-proof"
     if probe.get("status") != "ok":
         return "attempt-error-not-proof"
+    if probe.get("rank_zero_proof_candidate") is True:
+        return "rank-zero-proof-candidate"
+    method_results = list(probe.get("method_results", []))
+    if method_results:
+        if any(str(result.get("status", "")) == "timeout" for result in method_results):
+            return "rank-method-timeout-not-proof"
+        return "rank-method-open-not-proof"
     sage = probe.get("sage", {})
     rank_bounds = _int_list(sage.get("rank_bounds", []))
     if rank_bounds == [0, 0] and str(sage.get("rank_proof_status", "")) == "ok":
@@ -93,6 +100,9 @@ def _attempt_summary(
         "status": str(probe.get("status", "")),
         "rank_bounds": _int_list(sage.get("rank_bounds", [])),
         "rank_proof_status": str(sage.get("rank_proof_status", "")),
+        "method_status_counts": dict(
+            sorted(probe.get("method_status_counts", {}).items())
+        ),
         "two_descent_status": str(sage.get("two_descent", {}).get("status", ""))
         if isinstance(sage.get("two_descent"), dict)
         else "",

@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=28 \
+  --expect language_audit_files=29 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -533,6 +533,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/340-frontier-handoff-audit.md \
   --path docs/work-logs/341-frontier-strictification-queue.md \
   --path docs/work-logs/342-frontier-strictification-attempt.md \
+  --path docs/work-logs/343-frontier-rank-method-probe.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -540,7 +541,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=28
+files=29
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -638,6 +639,7 @@ first_target={'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proo
 uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
   --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
   --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
+  --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
   --out results/mixed_closure_frontier_strictification_attempt_audit.json \
   --strict
 ```
@@ -646,14 +648,40 @@ uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attemp
 
 ```text
 status=ok
-attempt_count=1
+attempt_count=2
 target_count_with_attempts=1
-attempt_status_counts={'timeout-not-proof': 1}
+attempt_status_counts={'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
 strict_certificate_ready_count=0
 ```
 
 这记录了 `(1625,5643) AA` 的短 two-descent 尝试：180 秒预算内 timeout。
 它不是 rank proof，也不是 cover no-point proof。
+
+第一目标逐方法 rank probe：
+
+```bash
+uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
+  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
+  --out results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
+  --sage sage \
+  --timeout 90 \
+  --method rank_bounds \
+  --method rank_proof \
+  --method selmer_rank \
+  --method two_descent \
+  --two-descent-second-limit 20 \
+  --dot-sage /private/tmp/d19-dot-sage
+```
+
+当前结果：
+
+```text
+method_status_counts={'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
+rank_zero_proof_candidate=False
+```
+
+普通话说：`rank_bounds` 和 `selmer_rank` 这两个诊断能跑通；严格 rank proof
+没有出来，`two_descent` 在 90 秒内 timeout。
 
 partial-result 总摘要：
 
@@ -749,13 +777,13 @@ frontier_strictification_status.track_counts={'even-gap4-deeper-descent': 1, 'ra
 frontier_strictification_status.strict_certificate_ready_count=0
 frontier_strictification_status.proof_status=strictification-queue-not-proof
 frontier_strictification_attempt_status.ready=True
-frontier_strictification_attempt_status.attempt_count=1
+frontier_strictification_attempt_status.attempt_count=2
 frontier_strictification_attempt_status.target_count_with_attempts=1
-frontier_strictification_attempt_status.attempt_status_counts={'timeout-not-proof': 1}
+frontier_strictification_attempt_status.attempt_status_counts={'rank-method-timeout-not-proof': 1, 'timeout-not-proof': 1}
 frontier_strictification_attempt_status.strict_certificate_ready_count=0
 frontier_strictification_attempt_status.proof_status=attempt-ledger-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=220
+artifact_status.required_file_count=224
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -798,6 +826,8 @@ strictification queue 进一步把这 10 个目标排成可攻队列：先攻 `(
 分离目标和 1 个 even gap4 deeper descent 目标。
 第一条实际 attempt 已记录：`sage-twodescent20` 在 180 秒预算内 timeout，所以
 `strict_certificate_ready_count=0` 仍保持不变。
+随后逐方法 probe 显示 `rank_bounds` 与 `selmer_rank` 可计算，但 `rank_proof`
+仍为 runtime-error，`two_descent` 在 90 秒预算内 timeout。
 
 目标 cover handoff：
 
@@ -981,6 +1011,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_frontier_handoffs.py`
 - `scripts/theory/summarize_mixed_closure_frontier_strictification.py`
 - `scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py`
+- `scripts/theory/sage_probe_mixed_closure_rank_methods.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1015,6 +1046,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_frontier_handoff_audit.py`
 - `tests/test_mixed_closure_frontier_strictification_queue.py`
 - `tests/test_mixed_closure_frontier_strictification_attempts.py`
+- `tests/test_sage_probe_mixed_closure_rank_methods.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1060,6 +1092,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_frontier_strictification_queue.json`
 - `results/mixed_closure_frontier_strictification_attempt_audit.json`
 - `results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json`
+- `results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1140,6 +1173,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl340](work-logs/340-frontier-handoff-audit.md)
 - [wl341](work-logs/341-frontier-strictification-queue.md)
 - [wl342](work-logs/342-frontier-strictification-attempt.md)
+- [wl343](work-logs/343-frontier-rank-method-probe.md)
 
 数学总入口：
 

@@ -86,6 +86,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "scripts/theory/audit_mixed_closure_frontier_handoffs.py" in paths
     assert "scripts/theory/summarize_mixed_closure_frontier_strictification.py" in paths
     assert "scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py" in paths
+    assert "scripts/theory/sage_probe_mixed_closure_rank_methods.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -100,6 +101,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_mixed_closure_frontier_handoff_audit.py" in paths
     assert "tests/test_mixed_closure_frontier_strictification_queue.py" in paths
     assert "tests/test_mixed_closure_frontier_strictification_attempts.py" in paths
+    assert "tests/test_sage_probe_mixed_closure_rank_methods.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -132,6 +134,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/340-frontier-handoff-audit.md" in paths
     assert "docs/work-logs/341-frontier-strictification-queue.md" in paths
     assert "docs/work-logs/342-frontier-strictification-attempt.md" in paths
+    assert "docs/work-logs/343-frontier-rank-method-probe.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -161,6 +164,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/mixed_closure_frontier_strictification_attempt_audit.json" in paths
     assert (
         "results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json"
+        in paths
+    )
+    assert (
+        "results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json"
         in paths
     )
     assert (

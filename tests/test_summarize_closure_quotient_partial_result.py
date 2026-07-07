@@ -169,15 +169,18 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
     }
     frontier_strictification_attempt_audit = {
         "status": "ok",
-        "attempt_count": 1,
+        "attempt_count": 2,
         "target_count_with_attempts": 1,
         "strict_certificate_ready_count": 0,
         "candidate_not_proof": True,
-        "attempt_status_counts": {"timeout-not-proof": 1},
+        "attempt_status_counts": {
+            "rank-method-timeout-not-proof": 1,
+            "timeout-not-proof": 1,
+        },
         "missing_files": [],
         "violations": [],
     }
-    artifact_audit = {"ready": True, "required_file_count": 220, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 224, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -354,16 +357,19 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "frontier_strictification_attempt_status": {
             "ready": True,
-            "attempt_count": 1,
+            "attempt_count": 2,
             "target_count_with_attempts": 1,
             "strict_certificate_ready_count": 0,
             "candidate_not_proof": True,
-            "attempt_status_counts": {"timeout-not-proof": 1},
+            "attempt_status_counts": {
+                "rank-method-timeout-not-proof": 1,
+                "timeout-not-proof": 1,
+            },
             "proof_status": "attempt-ledger-not-proof",
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 220,
+            "required_file_count": 224,
             "missing_file_count": 0,
         },
         "boundary": (
