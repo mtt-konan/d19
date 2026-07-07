@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=47 \
+  --expect language_audit_files=50 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -564,6 +564,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
   --path docs/work-logs/362-external-cover-descent-packages.md \
   --path docs/work-logs/363-closure-quotient-ray-ledger.md \
+  --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -571,7 +572,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=49
+files=50
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1054,10 +1055,35 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=298
+artifact_status.required_file_count=302
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Lambda frontier：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_lambda_frontier.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_lambda_frontier.json \
+  --strict
+```
+
+当前结果：
+
+```text
+lambda_class_count=356
+track_counts={
+  'rank-zero-family-generalization': 200,
+  'root-number-rank-structure-triage': 148,
+  'two-cover-or-reviewable-no-point-certificate': 8
+}
+family_exclusion_proved_count=0
+```
+
+普通话说：这是后续 `lambda=A/B` 层面的任务队列，不是证明。以后主进展只算
+整族 rank-zero 机制、严格 root-number/parity + rank/descent 论证、整族 2-cover/Selmer
+障碍，或者可审阅的 cover-level no-point 证书。
 
 Ray ledger / `c_-/c_+` 收尾：
 
@@ -1370,6 +1396,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_paper_structure.py`
 - `scripts/theory/audit_closure_quotient_partial_dependencies.py`
 - `scripts/theory/summarize_closure_quotient_ray_ledger.py`
+- `scripts/theory/summarize_closure_quotient_lambda_frontier.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1417,6 +1444,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_paper_structure_audit.py`
 - `tests/test_closure_quotient_partial_dependency_audit.py`
 - `tests/test_closure_quotient_ray_ledger.py`
+- `tests/test_closure_quotient_lambda_frontier.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1485,6 +1513,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_partial_artifact_audit.json`
 - `results/closure_quotient_partial_dependency_audit.json`
 - `results/closure_quotient_ray_ledger.json`
+- `results/closure_quotient_lambda_frontier.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1589,6 +1618,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl361](work-logs/361-partial-result-dependency-audit.md)
 - [wl362](work-logs/362-external-cover-descent-packages.md)
 - [wl363](work-logs/363-closure-quotient-ray-ledger.md)
+- [wl364](work-logs/364-closure-quotient-lambda-frontier.md)
 
 数学总入口：
 

@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=47 \
+  --expect language_audit_files=50 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -545,6 +545,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/361-partial-result-dependency-audit.md \
   --path docs/work-logs/362-external-cover-descent-packages.md \
   --path docs/work-logs/363-closure-quotient-ray-ledger.md \
+  --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -552,7 +553,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 49
+files = 50
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1033,9 +1034,33 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 298
+artifact_status.required_file_count = 302
 artifact_status.missing_file_count = 0
 ```
+
+Summarize the lambda frontier:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_lambda_frontier.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_lambda_frontier.json \
+  --strict
+```
+
+Current result:
+
+```text
+lambda_class_count = 356
+track_counts = {
+  'rank-zero-family-generalization': 200,
+  'root-number-rank-structure-triage': 148,
+  'two-cover-or-reviewable-no-point-certificate': 8
+}
+family_exclusion_proved_count = 0
+```
+
+This is a routing ledger for future family-level proof work, not a family
+exclusion theorem.
 
 Summarize the primitive ray ledger:
 
@@ -1256,6 +1281,7 @@ scripts/theory/audit_mixed_closure_priority_handoffs.py
 scripts/theory/audit_closure_quotient_paper_structure.py
 scripts/theory/audit_closure_quotient_partial_dependencies.py
 scripts/theory/summarize_closure_quotient_ray_ledger.py
+scripts/theory/summarize_closure_quotient_lambda_frontier.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1369,6 +1395,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 298
+required_file_count = 302
 missing_files = []
 ```
