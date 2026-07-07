@@ -1,0 +1,47 @@
+{
+  "boundary": "This audits symbolic 2-isogeny target templates for the rank-zero primitive lambda families. It does not compute Selmer groups, prove a rank upper bound, or prove any lambda-family exclusion theorem.",
+  "family_exclusion_proved_count": 0,
+  "isogeny_template_check_count": 729,
+  "isogeny_template_verified_count": 729,
+  "isogeny_template_violation_count": 0,
+  "kernel_count": 3,
+  "model_counts_by_curve": {
+    "AA": 125,
+    "BB": 118
+  },
+  "primitive_model_count": 243,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "symbolic_inputs_ready": true,
+  "templates": {
+    "kernel_minus_p": {
+      "a4_square": "(4*(T^2 + 4*L^2))^2",
+      "kernel_root": "-p",
+      "symbolic_a2": "32*L^2 - 8*T^2",
+      "symbolic_a4": "16*(T^2 + 4*L^2)^2",
+      "target_model": "y^2 = x^3 + 4p*x^2 + 16*sqrt_q^2*x"
+    },
+    "kernel_neg_2sqrt_q": {
+      "a4_square": "(16*L^2)^2",
+      "kernel_root": "-2*sqrt_q",
+      "symbolic_a2": "16*(T^2 + 2*L^2)",
+      "symbolic_a4": "256*L^4",
+      "target_model": "y^2 = x^3 + (-2p + 12*sqrt_q)*x^2 + (p + 2*sqrt_q)^2*x"
+    },
+    "kernel_pos_2sqrt_q": {
+      "a4_square": "(4*T^2)^2",
+      "kernel_root": "2*sqrt_q",
+      "symbolic_a2": "-8*(T^2 + 8*L^2)",
+      "symbolic_a4": "16*T^4",
+      "target_model": "y^2 = x^3 + (-2p - 12*sqrt_q)*x^2 + (p - 2*sqrt_q)^2*x"
+    }
+  },
+  "verified_by_kernel": {
+    "kernel_minus_p": 243,
+    "kernel_neg_2sqrt_q": 243,
+    "kernel_pos_2sqrt_q": 243
+  },
+  "violations": []
+}

@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=68 \
+  --expect language_audit_files=69 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=3 \
@@ -583,6 +583,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/380-lambda-convergence-priorities.md \
   --path docs/work-logs/381-rank-zero-family-obligations.md \
   --path docs/work-logs/382-rank-zero-symbolic-descent-inputs.md \
+  --path docs/work-logs/383-rank-zero-isogeny-templates.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -590,7 +591,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=68
+files=69
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1073,7 +1074,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=371
+artifact_status.required_file_count=375
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1438,6 +1439,30 @@ family_exclusion_proved_count=0
 `p=8L^2-2T^2`、`sqrt_q=T^2+4L^2`。2-torsion root differences 统一为
 `-16L^2`、`4T^2`、`4(T^2+4L^2)`。这已经是 Selmer/rank upper bound 的符号输入，
 但还不是 Selmer/rank upper bound 本身。
+
+Rank-zero isogeny template audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py \
+  --symbolic-inputs results/closure_quotient_rank_zero_symbolic_descent_inputs.json \
+  --out results/closure_quotient_rank_zero_isogeny_templates.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+primitive_model_count=243
+isogeny_template_verified_count=729
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：每个本原模型有 3 个 rational 2-torsion kernel；这一步把 243 个模型全部转成
+2-isogeny 目标模板。目标曲线 `a4` 项分别是
+`(4*(T^2+4L^2))^2`、`(4T^2)^2`、`(16L^2)^2`。它仍只是 Selmer/rank upper
+bound 的入口，不是 rank-zero 证明。
 
 Rank-zero family candidate list：
 
@@ -1831,6 +1856,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_family_obligations.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_symbolic_descent_inputs.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -1896,6 +1922,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_seed_identities.py`
 - `tests/test_closure_quotient_rank_zero_family_obligations.py`
 - `tests/test_closure_quotient_rank_zero_symbolic_descent_inputs.py`
+- `tests/test_closure_quotient_rank_zero_isogeny_templates.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -1982,6 +2009,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_seed_identity_audit.json`
 - `results/closure_quotient_rank_zero_family_obligations.json`
 - `results/closure_quotient_rank_zero_symbolic_descent_inputs.json`
+- `results/closure_quotient_rank_zero_isogeny_templates.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
@@ -2113,6 +2141,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl380](work-logs/380-lambda-convergence-priorities.md)
 - [wl381](work-logs/381-rank-zero-family-obligations.md)
 - [wl382](work-logs/382-rank-zero-symbolic-descent-inputs.md)
+- [wl383](work-logs/383-rank-zero-isogeny-templates.md)
 
 数学总入口：
 
