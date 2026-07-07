@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=53 \
+  --expect language_audit_files=54 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -568,6 +568,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
   --path docs/work-logs/366-rank-zero-family-candidates.md \
   --path docs/work-logs/367-rank-zero-primitive-models.md \
+  --path docs/work-logs/368-root-number-lambda-triage.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -575,7 +576,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=53
+files=54
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1058,10 +1059,32 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=314
+artifact_status.required_file_count=318
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Root-number lambda triage：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_root_number_lambda_triage.json \
+  --strict
+```
+
+当前结果：
+
+```text
+target_class_count=148
+target_pair_count=156
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步只给 `observed-open` 比例类做 root-number / rank-key 分流。
+root number 不是证明，只用来决定下一步应该尝试哪种整族 rank/descent 问题。
 
 Rank-zero primitive model index：
 
@@ -1470,6 +1493,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_ray_scale_invariance.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py`
+- `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1521,6 +1545,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_ray_scale_invariance.py`
 - `tests/test_closure_quotient_rank_zero_family_candidates.py`
 - `tests/test_closure_quotient_rank_zero_primitive_models.py`
+- `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1593,6 +1618,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_ray_scale_invariance_audit.json`
 - `results/closure_quotient_rank_zero_family_candidates.json`
 - `results/closure_quotient_rank_zero_primitive_models.json`
+- `results/closure_quotient_root_number_lambda_triage.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1701,6 +1727,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl365](work-logs/365-closure-quotient-ray-scale-invariance.md)
 - [wl366](work-logs/366-rank-zero-family-candidates.md)
 - [wl367](work-logs/367-rank-zero-primitive-models.md)
+- [wl368](work-logs/368-root-number-lambda-triage.md)
 
 数学总入口：
 

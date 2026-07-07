@@ -112,6 +112,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py"
         in paths
     )
+    assert (
+        "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -146,6 +150,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_ray_scale_invariance.py" in paths
     assert "tests/test_closure_quotient_rank_zero_family_candidates.py" in paths
     assert "tests/test_closure_quotient_rank_zero_primitive_models.py" in paths
+    assert "tests/test_closure_quotient_root_number_lambda_triage.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -203,6 +208,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/365-closure-quotient-ray-scale-invariance.md" in paths
     assert "docs/work-logs/366-rank-zero-family-candidates.md" in paths
     assert "docs/work-logs/367-rank-zero-primitive-models.md" in paths
+    assert "docs/work-logs/368-root-number-lambda-triage.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -219,6 +225,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_ray_scale_invariance_audit.json" in paths
     assert "results/closure_quotient_rank_zero_family_candidates.json" in paths
     assert "results/closure_quotient_rank_zero_primitive_models.json" in paths
+    assert "results/closure_quotient_root_number_lambda_triage.json" in paths
     assert "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl" in paths
