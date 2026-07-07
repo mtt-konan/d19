@@ -1514,6 +1514,32 @@ family_exclusion_proved_count=0
 普通话说：这把 9 个 Selmer 义务导出成 proof package index。后续应该补可审阅的
 uniform isogeny-Selmer transcript，而不是继续追加单点 rank rows。
 
+Rank-zero Selmer package materialization：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py \
+  --package-index results/closure_quotient_rank_zero_selmer_package_index.json \
+  --packages-dir results/closure_quotient_rank_zero_selmer_packages \
+  --out results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+open_package_count=9
+materialized_json_count=9
+materialized_markdown_count=9
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步把总表里的 9 个 open package 落成 9 个 JSON 任务文件和 9 个
+Markdown 审阅页。每个文件都列出 family、kernel、目标曲线模板和必须补的 transcript 字段。
+它方便后续逐个关闭证明义务，但本身仍不证明 Selmer bound，也不排除任何 `lambda` family。
+
 Rank-zero family candidate list：
 
 ```bash
@@ -1909,6 +1935,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py`
 - `scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py`
+- `scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -1977,6 +2004,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_isogeny_templates.py`
 - `tests/test_closure_quotient_rank_zero_selmer_obligations.py`
 - `tests/test_closure_quotient_rank_zero_selmer_package_index.py`
+- `tests/test_closure_quotient_rank_zero_selmer_package_materialization.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2066,6 +2094,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_isogeny_templates.json`
 - `results/closure_quotient_rank_zero_selmer_obligations.json`
 - `results/closure_quotient_rank_zero_selmer_package_index.json`
+- `results/closure_quotient_rank_zero_selmer_package_materialization.json`
+- `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`

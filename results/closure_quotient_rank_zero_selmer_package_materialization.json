@@ -1,0 +1,86 @@
+{
+  "boundary": "This materializes reviewable task files for the open rank-zero isogeny-Selmer obligations. It does not compute Selmer groups, prove rank zero, or prove any lambda-family exclusion.",
+  "checks": {
+    "all_packages_open": true,
+    "family_exclusion_claim_count_zero": true,
+    "package_count_matches_index": true,
+    "package_index_ready": true,
+    "search_count_rejected_as_progress": true,
+    "selmer_rank_upper_bound_count_zero": true
+  },
+  "family_exclusion_proved_count": 0,
+  "materialized_json_count": 9,
+  "materialized_markdown_count": 9,
+  "open_package_count": 9,
+  "package_count": 9,
+  "packages": [
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-minus-p.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-minus-p.md",
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-neg-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-neg-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-pos-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-pos-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-minus-p.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-minus-p.md",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-minus-p.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-minus-p.md",
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-neg-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-neg-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    },
+    {
+      "json_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-pos-2sqrt-q.json",
+      "markdown_path": "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-pos-2sqrt-q.md",
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "status": "open",
+      "transcript_status": "missing"
+    }
+  ],
+  "packages_dir": "results/closure_quotient_rank_zero_selmer_packages",
+  "ready": true,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}

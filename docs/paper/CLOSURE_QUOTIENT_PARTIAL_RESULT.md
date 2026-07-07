@@ -1250,6 +1250,32 @@ family_exclusion_proved_count = 0
 
 This turns the nine open Selmer obligations into reviewable proof-package inputs.
 
+Materialize rank-zero Selmer proof packages:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py \
+  --package-index results/closure_quotient_rank_zero_selmer_package_index.json \
+  --packages-dir results/closure_quotient_rank_zero_selmer_packages \
+  --out results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+open_package_count = 9
+materialized_json_count = 9
+materialized_markdown_count = 9
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+This writes one JSON task file and one Markdown review file for each open
+package. These files record the formulas and required transcript fields; they
+do not prove any Selmer bound or family exclusion.
+
 Audit lambda route partition:
 
 ```bash
@@ -1780,6 +1806,7 @@ scripts/theory/audit_closure_quotient_rank_zero_symbolic_descent_inputs.py
 scripts/theory/audit_closure_quotient_rank_zero_isogeny_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py
 scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
+scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py

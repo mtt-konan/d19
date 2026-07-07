@@ -164,6 +164,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py"
         in paths
     )
+    assert (
+        "scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -215,6 +219,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_rank_zero_isogeny_templates.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_obligations.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_package_index.py" in paths
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_package_materialization.py"
+        in paths
+    )
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -323,6 +331,29 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_rank_zero_isogeny_templates.json" in paths
     assert "results/closure_quotient_rank_zero_selmer_obligations.json" in paths
     assert "results/closure_quotient_rank_zero_selmer_package_index.json" in paths
+    assert (
+        "results/closure_quotient_rank_zero_selmer_package_materialization.json"
+        in paths
+    )
+    for package_id in [
+        "rank-zero-selmer-AA-kernel-minus-p",
+        "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+        "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+        "rank-zero-selmer-AA-BB-kernel-minus-p",
+        "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+        "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+        "rank-zero-selmer-BB-kernel-minus-p",
+        "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+        "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+    ]:
+        assert (
+            f"results/closure_quotient_rank_zero_selmer_packages/{package_id}.json"
+            in paths
+        )
+        assert (
+            f"results/closure_quotient_rank_zero_selmer_packages/{package_id}.md"
+            in paths
+        )
     assert "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl" in paths

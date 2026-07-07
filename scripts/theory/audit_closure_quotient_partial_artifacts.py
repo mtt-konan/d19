@@ -114,6 +114,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -196,6 +200,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("test", "tests/test_closure_quotient_rank_zero_isogeny_templates.py"),
     Artifact("test", "tests/test_closure_quotient_rank_zero_selmer_obligations.py"),
     Artifact("test", "tests/test_closure_quotient_rank_zero_selmer_package_index.py"),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_selmer_package_materialization.py",
+    ),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_proof_seeds.py"),
     Artifact("test", "tests/test_closure_quotient_two_cover_lambda_frontier.py"),
@@ -306,6 +314,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/383-rank-zero-isogeny-templates.md"),
     Artifact("worklog", "docs/work-logs/384-rank-zero-selmer-obligations.md"),
     Artifact("worklog", "docs/work-logs/385-rank-zero-selmer-package-index.md"),
+    Artifact("worklog", "docs/work-logs/386-rank-zero-selmer-package-materialization.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -472,6 +481,82 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("result", "results/closure_quotient_rank_zero_isogeny_templates.json"),
     Artifact("result", "results/closure_quotient_rank_zero_selmer_obligations.json"),
     Artifact("result", "results/closure_quotient_rank_zero_selmer_package_index.json"),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_package_materialization.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-minus-p.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-minus-p.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-neg-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-neg-2sqrt-q.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-pos-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-kernel-pos-2sqrt-q.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-minus-p.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-minus-p.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-minus-p.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-minus-p.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-neg-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-neg-2sqrt-q.md",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-pos-2sqrt-q.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_packages/rank-zero-selmer-BB-kernel-pos-2sqrt-q.md",
+    ),
     Artifact("result", "results/closure_quotient_root_number_lambda_triage.json"),
     Artifact("result", "results/closure_quotient_root_number_proof_seeds.json"),
     Artifact("result", "results/closure_quotient_two_cover_lambda_frontier.json"),

@@ -1,0 +1,29 @@
+{
+  "boundary": "This materializes reviewable task files for the open rank-zero isogeny-Selmer obligations. It does not compute Selmer groups, prove rank zero, or prove any lambda-family exclusion.",
+  "candidate_class_count": 82,
+  "family_exclusion_proved": false,
+  "family_pattern": "AA",
+  "kernel": "kernel_pos_2sqrt_q",
+  "model_count": 82,
+  "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+  "proof_claim": "none",
+  "required_output": "reviewable transcript proving the uniform isogeny-Selmer rank upper bound for this family/kernel",
+  "required_transcript_fields": [
+    "statement",
+    "isogeny_setup",
+    "local_squareclass_conditions",
+    "selmer_bound_argument",
+    "rank_zero_conclusion",
+    "review_notes"
+  ],
+  "selmer_rank_upper_bound_proved": false,
+  "status": "open",
+  "symbolic_model": {
+    "L_role": "A for AA, B for BB; AA+BB requires both sides to close",
+    "T": "A+B",
+    "kernel_root": "2*sqrt_q",
+    "target_a2": "-8*(T^2 + 8*L^2)",
+    "target_a4": "16*T^4"
+  },
+  "transcript_status": "missing"
+}
