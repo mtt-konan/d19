@@ -1,0 +1,64 @@
+{
+  "boundary": "This audits the open isogeny-Selmer rank-bound obligations after the rank-zero isogeny templates have been verified. It does not compute Selmer groups, prove rank zero, or prove any lambda-family exclusion.",
+  "checks": {
+    "family_exclusion_claim_count_zero": true,
+    "family_obligations_ready": true,
+    "isogeny_templates_ready": true,
+    "search_count_rejected_as_progress": true,
+    "selmer_rank_upper_bound_count_zero": true
+  },
+  "families": [
+    {
+      "candidate_class_count": 82,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform isogeny-Selmer rank upper bound for every listed kernel",
+      "model_count": 82,
+      "pattern": "AA",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ],
+      "selmer_rank_upper_bound_proved": false
+    },
+    {
+      "candidate_class_count": 43,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform isogeny-Selmer rank upper bound for every listed kernel",
+      "model_count": 86,
+      "pattern": "AA+BB",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ],
+      "selmer_rank_upper_bound_proved": false
+    },
+    {
+      "candidate_class_count": 75,
+      "family_exclusion_proved": false,
+      "missing_theorem": "uniform isogeny-Selmer rank upper bound for every listed kernel",
+      "model_count": 75,
+      "pattern": "BB",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ],
+      "selmer_rank_upper_bound_proved": false
+    }
+  ],
+  "family_exclusion_proved_count": 0,
+  "family_obligation_count": 3,
+  "isogeny_template_verified_count": 729,
+  "kernel_count": 3,
+  "open_selmer_obligation_count": 9,
+  "primitive_model_count": 243,
+  "rank_zero_selmer_obligations_complete": false,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_obligation_count": 9,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}
