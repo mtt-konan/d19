@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=38 \
+  --expect language_audit_files=39 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -543,6 +543,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md \
   --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
   --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
+  --path docs/work-logs/353-frontier-escalation-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -550,7 +551,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=38
+files=39
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -757,6 +758,33 @@ recommended_mainline=escalate-beyond-cheap-rank-methods
 rank-method 长跑都已经收敛；下一步不应继续做同类加时，而应升级到更强 descent、
 外部严格 rank proof、cover-level no-point certificate，以及 non-rankzero 两条专门路线。
 
+frontier escalation queue：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_escalation_queue.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --next-action-audit results/mixed_closure_frontier_next_action_audit.json \
+  --out results/mixed_closure_frontier_escalation_queue.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+target_count=10
+cover_count=23
+rank_zero_target_count=8
+rank_zero_rank_method_target_hopping_exhausted=True
+strict_certificate_ready_count=0
+route_counts={'even-gap4-deeper-descent-or-cover-descent': 1, 'rank-one-generator-sha2-separation-or-cover-descent': 1, 'rank-zero-external-rank-proof-or-cover-descent': 8}
+```
+
+普通话说：这一步把“换证明武器”落成队列。8 个 rank-zero 目标走外部严格 rank proof
+或逐 cover no-point certificate；1 个 rank-one 目标走 visible generator/Sha[2] 分离；
+1 个 even-gap4 目标走 deeper descent 或独立 Sha[2] 障碍。它仍然不是证明。
+
 partial-result 总摘要：
 
 ```bash
@@ -863,7 +891,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=246
+artifact_status.required_file_count=250
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1098,6 +1126,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/sage_probe_mixed_closure_rank_methods.py`
 - `scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py`
 - `scripts/theory/audit_mixed_closure_frontier_next_actions.py`
+- `scripts/theory/audit_mixed_closure_frontier_escalation_queue.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -1135,6 +1164,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_sage_probe_mixed_closure_rank_methods.py`
 - `tests/test_batch_sage_probe_mixed_closure_rank_methods.py`
 - `tests/test_mixed_closure_frontier_next_action_audit.py`
+- `tests/test_mixed_closure_frontier_escalation_queue.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1190,6 +1220,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/priority_025_5301_38675_BB_rank_methods_t600_twodescent40.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
+- `results/mixed_closure_frontier_escalation_queue.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1280,6 +1311,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl350](work-logs/350-rankzero-frontier-long-recheck-209-21735.md)
 - [wl351](work-logs/351-rankzero-frontier-long-recheck-5083-12825.md)
 - [wl352](work-logs/352-rankzero-frontier-long-recheck-5301-38675.md)
+- [wl353](work-logs/353-frontier-escalation-queue.md)
 
 数学总入口：
 

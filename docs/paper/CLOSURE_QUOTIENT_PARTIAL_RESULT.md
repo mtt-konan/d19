@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=38 \
+  --expect language_audit_files=39 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -525,6 +525,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md \
   --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
   --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
+  --path docs/work-logs/353-frontier-escalation-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -532,7 +533,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 38
+files = 39
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -739,6 +740,31 @@ target-hopping and same-level rank-method long rechecks have converged without a
 strict certificate. The next mainline should escalate to stronger descent,
 external strict rank proof, or cover-level no-point certificates.
 
+Audit the frontier escalation queue:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_escalation_queue.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --next-action-audit results/mixed_closure_frontier_next_action_audit.json \
+  --out results/mixed_closure_frontier_escalation_queue.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+target_count = 10
+cover_count = 23
+rank_zero_target_count = 8
+rank_zero_rank_method_target_hopping_exhausted = True
+strict_certificate_ready_count = 0
+route_counts = {'even-gap4-deeper-descent-or-cover-descent': 1, 'rank-one-generator-sha2-separation-or-cover-descent': 1, 'rank-zero-external-rank-proof-or-cover-descent': 8}
+```
+
+This queue records the next strict evidence route. It is not a proof.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -846,7 +872,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted = Tru
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 246
+artifact_status.required_file_count = 250
 artifact_status.missing_file_count = 0
 ```
 
@@ -990,6 +1016,7 @@ scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py
 scripts/theory/sage_probe_mixed_closure_rank_methods.py
 scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py
 scripts/theory/audit_mixed_closure_frontier_next_actions.py
+scripts/theory/audit_mixed_closure_frontier_escalation_queue.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1108,6 +1135,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 246
+required_file_count = 250
 missing_files = []
 ```
