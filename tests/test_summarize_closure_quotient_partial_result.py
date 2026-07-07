@@ -98,7 +98,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "rank_zero_frontier_cover_count": 16,
         "rank_zero_frontier_target_count": 8,
         "closed_rank_zero_target_count": 0,
-        "target_status_counts": {"not-retried": 2, "sage-timeout": 6},
+        "target_status_counts": {"not-retried": 1, "sage-timeout": 7},
     }
     non_rankzero_frontier_queue = {
         "status": "ok",
@@ -110,7 +110,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "target_status_counts": {"sage-timeout": 2},
     }
-    artifact_audit = {"ready": True, "required_file_count": 136, "missing_files": []}
+    artifact_audit = {"ready": True, "required_file_count": 138, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -210,7 +210,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "rank_zero_frontier_cover_count": 16,
             "rank_zero_frontier_target_count": 8,
             "closed_rank_zero_target_count": 0,
-            "target_status_counts": {"not-retried": 2, "sage-timeout": 6},
+            "target_status_counts": {"not-retried": 1, "sage-timeout": 7},
             "proof_status": "rank-proof-frontier-not-proof",
         },
         "non_rankzero_frontier_status": {
@@ -226,7 +226,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 136,
+            "required_file_count": 138,
             "missing_file_count": 0,
         },
         "boundary": (
