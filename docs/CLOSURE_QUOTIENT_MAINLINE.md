@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=55 \
+  --expect language_audit_files=56 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -570,6 +570,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/367-rank-zero-primitive-models.md \
   --path docs/work-logs/368-root-number-lambda-triage.md \
   --path docs/work-logs/369-two-cover-lambda-frontier.md \
+  --path docs/work-logs/370-lambda-route-partition-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -577,7 +578,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=55
+files=56
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1060,10 +1061,39 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=322
+artifact_status.required_file_count=326
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Lambda route partition audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_route_partition.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --rank-zero-candidates results/closure_quotient_rank_zero_family_candidates.json \
+  --root-number-triage results/closure_quotient_root_number_lambda_triage.json \
+  --two-cover-frontier results/closure_quotient_two_cover_lambda_frontier.json \
+  --out results/closure_quotient_lambda_route_partition_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+lambda_class_count=356
+rank_zero_class_count=200
+root_number_class_count=148
+two_cover_class_count=8
+covered_class_count=356
+missing_classes=[]
+overlap_classes=[]
+unexpected_classes=[]
+family_exclusion_proved_count=0
+```
+
+普通话说：这确认 356 个本原比例类已经完整分到三条路线里，没有丢类或重复类。
+它检查路线分桶自洽，不证明整族排除。
 
 Two-cover / Selmer lambda frontier：
 
@@ -1518,6 +1548,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
+- `scripts/theory/audit_closure_quotient_lambda_route_partition.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1571,6 +1602,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_primitive_models.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
+- `tests/test_closure_quotient_lambda_route_partition.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1645,6 +1677,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_primitive_models.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
+- `results/closure_quotient_lambda_route_partition_audit.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1755,6 +1788,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl367](work-logs/367-rank-zero-primitive-models.md)
 - [wl368](work-logs/368-root-number-lambda-triage.md)
 - [wl369](work-logs/369-two-cover-lambda-frontier.md)
+- [wl370](work-logs/370-lambda-route-partition-audit.md)
 
 数学总入口：
 
