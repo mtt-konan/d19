@@ -98,6 +98,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/audit_external_cover_certificate_frontier_intake.py"
         in paths
     )
+    assert "scripts/theory/audit_closure_quotient_paper_structure.py" in paths
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -124,6 +125,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "tests/test_audit_external_cover_certificate_frontier_intake.py"
         in paths
     )
+    assert "tests/test_closure_quotient_paper_structure_audit.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -173,6 +175,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/357-external-cover-certificate-intake.md" in paths
     assert "docs/work-logs/358-frontier-external-certificate-intake.md" in paths
     assert "docs/work-logs/359-summary-gate-external-certificate-intake.md" in paths
+    assert "docs/work-logs/360-paper-structure-audit.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -180,6 +183,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/mixed_closure_rank0_sha2_torsion_preimage_audit.json" in paths
     assert "results/mixed_closure_bsd_conditional_no_point_audit.json" in paths
     assert "results/mixed_closure_residual_open_frontier_audit.json" in paths
+    assert "results/closure_quotient_paper_structure_audit.json" in paths
     assert "results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_1625_5643_AA_s20_40_t600.jsonl" in paths
     assert "results/sage_rankzero_frontier_recheck_567_3757_BB_s13_20_t120.jsonl" in paths

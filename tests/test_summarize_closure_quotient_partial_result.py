@@ -206,6 +206,16 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "missing_handoff_files": [],
         "proof_status": "frontier-external-certificates-missing-not-proof",
     }
+    paper_structure_audit = {
+        "status": "ok",
+        "ready": True,
+        "required_section_count": 5,
+        "matched_section_count": 5,
+        "required_claim_count": 14,
+        "matched_claim_count": 14,
+        "missing_sections": [],
+        "missing_claims": [],
+    }
     artifact_audit = {"ready": True, "required_file_count": 224, "missing_files": []}
 
     summary = summarize_partial_result(
@@ -227,6 +237,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
         frontier_next_action_audit=frontier_next_action_audit,
         external_certificate_frontier_audit=external_certificate_frontier_audit,
+        paper_structure_audit=paper_structure_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -418,6 +429,15 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "candidate_not_proof": True,
             "proof_status": "frontier-external-certificates-missing-not-proof",
         },
+        "paper_structure_status": {
+            "ready": True,
+            "required_section_count": 5,
+            "matched_section_count": 5,
+            "required_claim_count": 14,
+            "matched_claim_count": 14,
+            "missing_section_count": 0,
+            "missing_claim_count": 0,
+        },
         "artifact_status": {
             "ready": True,
             "required_file_count": 224,
@@ -533,6 +553,16 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "missing_handoff_files": [{"path": "missing.json"}],
             "violations": [{"field": "target"}],
         },
+        paper_structure_audit={
+            "status": "issues",
+            "ready": False,
+            "required_section_count": 5,
+            "matched_section_count": 4,
+            "required_claim_count": 14,
+            "matched_claim_count": 13,
+            "missing_sections": ["paper path"],
+            "missing_claims": ["bounded search boundary"],
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -559,6 +589,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "frontier-strictification-attempt-audit-issues",
         "frontier-next-action-audit-issues",
         "external-certificate-frontier-audit-issues",
+        "paper-structure-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -582,6 +613,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     frontier_attempts = tmp_path / "frontier_attempts.json"
     frontier_next_actions = tmp_path / "frontier_next_actions.json"
     external_certificates = tmp_path / "external_certificates.json"
+    paper_structure = tmp_path / "paper_structure.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -672,6 +704,13 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"missing_handoff_files":[],"violations":[]}\n',
         encoding="utf-8",
     )
+    paper_structure.write_text(
+        '{"status":"ok","ready":true,'
+        '"required_section_count":5,"matched_section_count":5,'
+        '"required_claim_count":14,"matched_claim_count":14,'
+        '"missing_sections":[],"missing_claims":[]}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -714,6 +753,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(frontier_next_actions),
             "--external-certificate-frontier-audit",
             str(external_certificates),
+            "--paper-structure-audit",
+            str(paper_structure),
             "--artifact-audit",
             str(artifacts),
             "--out",
