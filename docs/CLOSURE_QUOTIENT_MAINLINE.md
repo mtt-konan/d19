@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=423
+artifact_status.required_file_count=427
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1617,6 +1617,29 @@ local_condition_proved_count=0
 所以 9 个 package 现在对应 27 个奇素数小任务和 9 个 2-adic 小任务。它仍然只是 checklist，
 还没有关闭任何 local condition。
 
+Rank-zero Selmer odd-prime valuation audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py \
+  --odd-prime-cases results/closure_quotient_rank_zero_selmer_odd_prime_cases.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_valuations.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+odd_prime_valuation_case_count=27
+local_condition_proved_count=0
+```
+
+普通话说：这一步把 27 个奇素数小任务继续整理成 valuation 形状：在每个
+kernel 和每个 `ell|L`、`ell|T`、`ell|T^2+4L^2` 分支里，记录 `a2`、`a4`
+和二次判别式哪些是单位、哪些带有 valuation。它只是以后写局部证明时的坐标纸，
+不是 local Selmer image，也没有关闭任何 family。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -2041,6 +2064,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2114,6 +2138,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
+- `tests/test_closure_quotient_rank_zero_selmer_odd_prime_valuations.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2209,6 +2234,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
+- `results/closure_quotient_rank_zero_selmer_odd_prime_valuations.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
