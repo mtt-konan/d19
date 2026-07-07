@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=23 \
+  --expect language_audit_files=24 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -528,6 +528,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
   --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
+  --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -535,7 +536,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=23
+files=24
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -650,7 +651,7 @@ residual_frontier_strategy_status.strict_promotion_count=0
 residual_frontier_strategy_status.next_strategy_counts={'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status=strategy-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=151
+artifact_status.required_file_count=194
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -678,6 +679,10 @@ descent 工具或 cover-level 证明。
 cover `4,3` 的 maps 在 Sage 中验证通过，bad-prime local witnesses 全部找到，
 bounded handoff probe 仍为 `rank_bounds=[0,2]` 且 `rank_proof_status=runtime-error`。
 这只是高质量交接材料，不是 residual no-point proof。
+随后 8 个 rank-zero frontier targets 全部完成同格式 handoff：每个目标都有
+JSON/Sage/Magma handoff、map verification、bad-prime local witness probe 和 bounded
+Sage handoff probe。共同状态仍是 `strict_proof_status=open`、
+`rank_bounds=[0,2]`、`rank_proof_status=runtime-error`、`cover_point_counts=[0,0]`。
 
 目标 cover handoff：
 
@@ -943,6 +948,13 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_sage_probe.json`
 - `results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_map_verify.json`
 - `results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_local_witnesses.json`
+- `results/mixed_closure_residual_handoffs/priority_006_567_3757_BB_covers_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_009_5075_17901_AA_covers_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_012_8075_8613_AA_covers_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_013_391_9009_BB_covers_4_3.json`
+- `results/mixed_closure_residual_handoffs/priority_017_209_21735_BB_covers_3_4.json`
+- `results/mixed_closure_residual_handoffs/priority_024_5083_12825_BB_covers_3_4.json`
+- `results/mixed_closure_residual_handoffs/priority_025_5301_38675_BB_covers_4_3.json`
 - `results/mixed_closure_even_model_identity_audit.json`
 
 论文草稿：
@@ -996,6 +1008,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl335](work-logs/335-rankzero-frontier-recheck-5301-38675.md)
 - [wl336](work-logs/336-residual-frontier-strategy-audit.md)
 - [wl337](work-logs/337-frontier-target-handoff-1625-5643.md)
+- [wl338](work-logs/338-all-rankzero-frontier-handoffs.md)
 
 数学总入口：
 

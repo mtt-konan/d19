@@ -121,6 +121,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md" in paths
     assert "docs/work-logs/336-residual-frontier-strategy-audit.md" in paths
     assert "docs/work-logs/337-frontier-target-handoff-1625-5643.md" in paths
+    assert "docs/work-logs/338-all-rankzero-frontier-handoffs.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -181,6 +182,30 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "results/mixed_closure_residual_handoffs/"
         "priority_005_1625_5643_AA_covers_4_3_local_witnesses.json"
     ) in paths
+    for name in [
+        "priority_006_567_3757_BB_covers_4_3",
+        "priority_009_5075_17901_AA_covers_4_3",
+        "priority_012_8075_8613_AA_covers_4_3",
+        "priority_013_391_9009_BB_covers_4_3",
+        "priority_017_209_21735_BB_covers_3_4",
+        "priority_024_5083_12825_BB_covers_3_4",
+        "priority_025_5301_38675_BB_covers_4_3",
+    ]:
+        assert f"results/mixed_closure_residual_handoffs/{name}.json" in paths
+        assert f"results/mixed_closure_residual_handoffs/{name}.sage" in paths
+        assert f"results/mixed_closure_residual_handoffs/{name}.magma" in paths
+        assert (
+            f"results/mixed_closure_residual_handoffs/{name}_sage_probe.json"
+            in paths
+        )
+        assert (
+            f"results/mixed_closure_residual_handoffs/{name}_map_verify.json"
+            in paths
+        )
+        assert (
+            f"results/mixed_closure_residual_handoffs/{name}_local_witnesses.json"
+            in paths
+        )
 
 
 def test_parse_required_artifact_requires_category_and_path() -> None:

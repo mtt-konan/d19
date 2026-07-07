@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=23 \
+  --expect language_audit_files=24 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -510,6 +510,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
   --path docs/work-logs/336-residual-frontier-strategy-audit.md \
   --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
+  --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -517,7 +518,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 23
+files = 24
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -635,7 +636,7 @@ residual_frontier_strategy_status.strict_promotion_count = 0
 residual_frontier_strategy_status.next_strategy_counts = {'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status = strategy-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 151
+artifact_status.required_file_count = 194
 artifact_status.missing_file_count = 0
 ```
 
@@ -674,6 +675,9 @@ The first external rank/cover-level target `(1625,5643) AA` now has a handoff fo
 covers `4,3`: Sage verifies the stored maps, finds local witnesses at the bad
 primes, and still reports only diagnostic rank bounds `[0,2]` with
 `rank_proof_status = runtime-error`.
+All 8 rank-zero frontier targets now have the same handoff package shape. In
+each case the maps verify, local witnesses exist at the checked bad primes, and
+the bounded Sage probe remains diagnostic rather than proof.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -871,6 +875,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 151
+required_file_count = 194
 missing_files = []
 ```
