@@ -41,7 +41,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
 
 ```text
 ready=True
-required_file_count=107
+required_file_count=111
 missing_files=[]
 ```
 
@@ -59,6 +59,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
   --residual-cover-map-verify results/mixed_closure_residual_cover_map_verify.json \
   --rank0-torsion-preimage-audit results/mixed_closure_rank0_sha2_torsion_preimage_audit.json \
   --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
+  --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -70,7 +71,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python \
 ready_for_partial_result=True
 blocking_issues=[]
 artifact_status.ready=True
-artifact_status.required_file_count=107
+artifact_status.required_file_count=111
 artifact_status.missing_file_count=0
 ```
 

@@ -36,6 +36,7 @@ def _blocking_issues(
     residual_cover_map_verify: dict[str, Any],
     rank0_torsion_preimage_audit: dict[str, Any],
     bsd_conditional_no_point_audit: dict[str, Any],
+    residual_open_frontier_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -85,6 +86,19 @@ def _blocking_issues(
         != _int_value(selmer_gap_ledger, "rank0_sha2_gap2_cover_total")
     ):
         issues.append("bsd-conditional-no-point-audit-issues")
+    if (
+        residual_open_frontier_audit.get("status") != "ok"
+        or _int_value(residual_open_frontier_audit, "candidate_cover_total")
+        != _int_value(priority_summary, "candidate_cover_total")
+        or _int_value(residual_open_frontier_audit, "conditional_no_point_cover_count")
+        != _int_value(
+            bsd_conditional_no_point_audit,
+            "bsd_conditional_no_point_cover_count",
+        )
+        or _int_value(residual_open_frontier_audit, "strict_no_point_cover_count")
+        != 0
+    ):
+        issues.append("residual-open-frontier-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -101,6 +115,7 @@ def summarize_partial_result(
     residual_cover_map_verify: dict[str, Any],
     rank0_torsion_preimage_audit: dict[str, Any],
     bsd_conditional_no_point_audit: dict[str, Any],
+    residual_open_frontier_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -116,6 +131,7 @@ def summarize_partial_result(
         residual_cover_map_verify=residual_cover_map_verify,
         rank0_torsion_preimage_audit=rank0_torsion_preimage_audit,
         bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
+        residual_open_frontier_audit=residual_open_frontier_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -256,6 +272,42 @@ def summarize_partial_result(
             is True,
             "proof_status": "conditional-not-proof",
         },
+        "residual_open_frontier_status": {
+            "ready": residual_open_frontier_audit.get("status") == "ok"
+            and _int_value(residual_open_frontier_audit, "candidate_cover_total")
+            == _int_value(priority_summary, "candidate_cover_total")
+            and _int_value(
+                residual_open_frontier_audit, "conditional_no_point_cover_count"
+            )
+            == _int_value(
+                bsd_conditional_no_point_audit,
+                "bsd_conditional_no_point_cover_count",
+            )
+            and _int_value(
+                residual_open_frontier_audit, "strict_no_point_cover_count"
+            )
+            == 0,
+            "candidate_cover_total": _int_value(
+                residual_open_frontier_audit, "candidate_cover_total"
+            ),
+            "conditional_no_point_cover_count": _int_value(
+                residual_open_frontier_audit, "conditional_no_point_cover_count"
+            ),
+            "strict_no_point_cover_count": _int_value(
+                residual_open_frontier_audit, "strict_no_point_cover_count"
+            ),
+            "open_frontier_cover_count": _int_value(
+                residual_open_frontier_audit, "open_frontier_cover_count"
+            ),
+            "open_frontier_type_counts": dict(
+                sorted(
+                    residual_open_frontier_audit.get(
+                        "open_frontier_type_counts", {}
+                    ).items()
+                )
+            ),
+            "proof_status": "open-frontier-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -280,6 +332,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--residual-cover-map-verify", type=Path, required=True)
     parser.add_argument("--rank0-torsion-preimage-audit", type=Path, required=True)
     parser.add_argument("--bsd-conditional-no-point-audit", type=Path, required=True)
+    parser.add_argument("--residual-open-frontier-audit", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -300,6 +353,7 @@ def main() -> int:
         bsd_conditional_no_point_audit=load_json(
             args.bsd_conditional_no_point_audit
         ),
+        residual_open_frontier_audit=load_json(args.residual_open_frontier_audit),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)
