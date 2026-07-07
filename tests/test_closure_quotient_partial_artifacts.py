@@ -121,6 +121,9 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py" in paths
+    )
+    assert (
         "scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py"
         in paths
     )
@@ -170,6 +173,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_rank_zero_primitive_models.py" in paths
     assert "tests/test_closure_quotient_rank_zero_proof_seeds.py" in paths
     assert "tests/test_closure_quotient_rank_zero_certifying_invariants.py" in paths
+    assert "tests/test_closure_quotient_rank_zero_forced_torsion.py" in paths
     assert "tests/test_closure_quotient_rank_zero_seed_identities.py" in paths
     assert "tests/test_closure_quotient_root_number_lambda_triage.py" in paths
     assert "tests/test_closure_quotient_two_cover_lambda_frontier.py" in paths
@@ -239,6 +243,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/372-rank-zero-proof-seeds.md" in paths
     assert "docs/work-logs/373-rank-zero-seed-identities.md" in paths
     assert "docs/work-logs/374-rank-zero-certifying-invariants.md" in paths
+    assert "docs/work-logs/375-rank-zero-forced-torsion.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -257,6 +262,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_rank_zero_primitive_models.json" in paths
     assert "results/closure_quotient_rank_zero_proof_seeds.json" in paths
     assert "results/closure_quotient_rank_zero_certifying_invariants.json" in paths
+    assert "results/closure_quotient_rank_zero_forced_torsion_audit.json" in paths
     assert "results/closure_quotient_rank_zero_seed_identity_audit.json" in paths
     assert "results/closure_quotient_root_number_lambda_triage.json" in paths
     assert "results/closure_quotient_two_cover_lambda_frontier.json" in paths

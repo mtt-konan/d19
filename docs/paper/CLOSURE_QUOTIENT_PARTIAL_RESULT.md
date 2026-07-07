@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=60 \
+  --expect language_audit_files=61 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -556,6 +556,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/372-rank-zero-proof-seeds.md \
   --path docs/work-logs/373-rank-zero-seed-identities.md \
   --path docs/work-logs/374-rank-zero-certifying-invariants.md \
+  --path docs/work-logs/375-rank-zero-forced-torsion.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -563,7 +564,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 60
+files = 61
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1044,7 +1045,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 342
+artifact_status.required_file_count = 346
 artifact_status.missing_file_count = 0
 ```
 
@@ -1231,6 +1232,30 @@ family_exclusion_proved_count = 0
 This collapses the certifying rank rows to primitive `class+curve` lambda
 models. The shared observed target is rank `0/0`, torsion order `4`, and root
 number `1`; this is a family-proof target, not a proved family theorem.
+
+Audit forced torsion in rank-zero primitive models:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --certifying-invariants results/closure_quotient_rank_zero_certifying_invariants.json \
+  --out results/closure_quotient_rank_zero_forced_torsion_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+primitive_model_count = 243
+forced_full_two_torsion_count = 243
+observed_exact_torsion_order_four_count = 243
+family_exclusion_proved_count = 0
+```
+
+The full rational 2-torsion is forced by
+`X^3+pX^2-4qX-4pq=(X+p)(X^2-4q)` and `q=sqrt_q^2`. Thus torsion order `4`
+should not be treated as the main family-proof signal; the rank-zero family
+problem remains the rank statement.
 
 Summarize rank-zero family candidates:
 
@@ -1526,6 +1551,7 @@ scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py
 scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py
 scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py
 scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py
+scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py
 scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -1644,6 +1670,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 342
+required_file_count = 346
 missing_files = []
 ```

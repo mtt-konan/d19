@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=60 \
+  --expect language_audit_files=61 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -575,6 +575,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/372-rank-zero-proof-seeds.md \
   --path docs/work-logs/373-rank-zero-seed-identities.md \
   --path docs/work-logs/374-rank-zero-certifying-invariants.md \
+  --path docs/work-logs/375-rank-zero-forced-torsion.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -582,7 +583,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=60
+files=61
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1065,7 +1066,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=342
+artifact_status.required_file_count=346
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1262,6 +1263,29 @@ family_exclusion_proved_count=0
 普通话说：275 条 certifying rank 行折叠到 243 个本原 `class+curve` 模型。
 这些本原模型在当前数据里共同是 rank `0/0`、torsion order `4`、root number `1`。
 这是后续 rank-zero 家族证明的结构目标，不是已经完成的整族证明。
+
+Rank-zero forced torsion audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --certifying-invariants results/closure_quotient_rank_zero_certifying_invariants.json \
+  --out results/closure_quotient_rank_zero_forced_torsion_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+primitive_model_count=243
+forced_full_two_torsion_count=243
+observed_exact_torsion_order_four_count=243
+family_exclusion_proved_count=0
+```
+
+普通话说：完整 rational 2-torsion 来自公式
+`X^3+pX^2-4qX-4pq=(X+p)(X^2-4q)` 和 `q=sqrt_q^2`，不是新证明线索。
+当前数据额外观察到没有额外 torsion；rank-zero 家族证明仍要解释的是 rank 为 0。
 
 Rank-zero family candidate list：
 
@@ -1651,6 +1675,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_rank_zero_certifying_invariants.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_forced_torsion.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -1709,6 +1734,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_primitive_models.py`
 - `tests/test_closure_quotient_rank_zero_proof_seeds.py`
 - `tests/test_closure_quotient_rank_zero_certifying_invariants.py`
+- `tests/test_closure_quotient_rank_zero_forced_torsion.py`
 - `tests/test_closure_quotient_rank_zero_seed_identities.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -1788,6 +1814,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_primitive_models.json`
 - `results/closure_quotient_rank_zero_proof_seeds.json`
 - `results/closure_quotient_rank_zero_certifying_invariants.json`
+- `results/closure_quotient_rank_zero_forced_torsion_audit.json`
 - `results/closure_quotient_rank_zero_seed_identity_audit.json`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_two_cover_lambda_frontier.json`
@@ -1908,6 +1935,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl372](work-logs/372-rank-zero-proof-seeds.md)
 - [wl373](work-logs/373-rank-zero-seed-identities.md)
 - [wl374](work-logs/374-rank-zero-certifying-invariants.md)
+- [wl375](work-logs/375-rank-zero-forced-torsion.md)
 
 数学总入口：
 
