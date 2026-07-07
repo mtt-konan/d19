@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 415
+artifact_status.required_file_count = 419
 artifact_status.missing_file_count = 0
 ```
 
@@ -1303,6 +1303,28 @@ family_exclusion_proved_count = 0
 This records symbolic support candidates for future local Selmer conditions.
 The common candidate bad factors are `2, L, T, T^2+4L^2`. This is not a local
 condition computation or a Selmer bound.
+
+Audit rank-zero Selmer coprime supports:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_coprime_supports.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+coprime_support_entry_count = 9
+local_condition_proved_count = 0
+```
+
+For primitive `A:B`, the odd-prime support splits into primes dividing `L`,
+primes dividing `T`, and primes dividing `T^2+4L^2`; the prime `2` remains the
+separate 2-adic case. This is still not a local condition proof.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -1861,6 +1883,7 @@ scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py

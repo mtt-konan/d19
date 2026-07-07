@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=415
+artifact_status.required_file_count=419
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1570,6 +1570,29 @@ isogeny-Selmer transcript 时，候选坏因子统一是
 `kernel_neg_2sqrt_q -> T^2+4L^2`。这只是 local support candidates，不是
 local condition 证明。
 
+Rank-zero Selmer coprime-support audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_coprime_supports.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+coprime_support_entry_count=9
+local_condition_proved_count=0
+```
+
+普通话说：因为比例 `A:B` 是本原的，所以 `L` 与 `T=A+B` 互素，`L` 与
+`T^2+4L^2` 互素，而 `T` 与 `T^2+4L^2` 的公共因子只可能来自 `2`。因此未来
+局部检查里，奇素数可以分成三类：整除 `L`、整除 `T`、整除 `T^2+4L^2`；
+只有 `2` 要单独做 2-adic 分析。这仍然只是 symbolic partition，不是 Selmer local condition。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -1992,6 +2015,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2063,6 +2087,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_package_materialization.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
+- `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2156,6 +2181,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_intake.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
+- `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
@@ -2295,6 +2321,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl387](work-logs/387-rank-zero-selmer-transcript-intake.md)
 - [wl388](work-logs/388-lambda-mainline-transcript-intake-gate.md)
 - [wl389](work-logs/389-rank-zero-selmer-local-supports.md)
+- [wl390](work-logs/390-rank-zero-selmer-coprime-supports.md)
 
 数学总入口：
 

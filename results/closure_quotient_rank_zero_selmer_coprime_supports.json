@@ -1,0 +1,99 @@
+{
+  "boundary": "This audits symbolic coprime support partitions for future rank-zero isogeny-Selmer local checks. It does not compute local Selmer images, prove a Selmer rank bound, prove rank zero, or prove any lambda-family exclusion.",
+  "coprime_support_entry_count": 9,
+  "entries": [
+    {
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "two_adic_check_required": true
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "odd_prime_partition_applies": true,
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "two_adic_check_required": true
+    }
+  ],
+  "family_exclusion_proved_count": 0,
+  "local_condition_proved_count": 0,
+  "odd_prime_partition": [
+    "odd primes dividing L",
+    "odd primes dividing T",
+    "odd primes dividing T^2 + 4*L^2"
+  ],
+  "package_count": 9,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "support_candidates_not_conditions": true,
+  "support_entry_count": 9,
+  "symbolic_coprimality_facts": [
+    {
+      "reason": "gcd(L, T)=gcd(L, A+B)=gcd(A, B) for primitive A:B",
+      "statement": "gcd(L, T) = 1"
+    },
+    {
+      "reason": "any common prime divides L and T^2, hence divides gcd(L,T)",
+      "statement": "gcd(L, T^2 + 4*L^2) = 1"
+    },
+    {
+      "reason": "any common prime divides T and 4*L^2; odd common primes divide gcd(T,L)",
+      "statement": "gcd(T, T^2 + 4*L^2) divides 4"
+    }
+  ],
+  "two_adic_exception": true,
+  "violations": []
+}
