@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=58 \
+  --expect language_audit_files=59 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -554,6 +554,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/370-lambda-route-partition-audit.md \
   --path docs/work-logs/371-lambda-mainline-audit.md \
   --path docs/work-logs/372-rank-zero-proof-seeds.md \
+  --path docs/work-logs/373-rank-zero-seed-identities.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -561,7 +562,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 58
+files = 59
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1042,7 +1043,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 334
+artifact_status.required_file_count = 338
 artifact_status.missing_file_count = 0
 ```
 
@@ -1181,6 +1182,27 @@ family_exclusion_proved_count = 0
 This groups the 200 rank-zero candidates into three proof-seed patterns:
 `AA` has 82 classes, `AA+BB` has 43 classes, and `BB` has 75 classes. It is a
 ledger for future family proof work, not a family exclusion theorem.
+
+Audit rank-zero seed identities:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py \
+  --primitive-models results/closure_quotient_rank_zero_primitive_models.json \
+  --out results/closure_quotient_rank_zero_seed_identity_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+coefficient_identity_verified_count = 243
+coefficient_identity_violation_count = 0
+p_sign_novel_signal_count = 0
+```
+
+This audit shows that the observed `p` signs are forced by the ordered
+primitive ray `0<a<b`: AA has negative `p`, and BB has positive `p`. The sign
+pattern is not a rank-zero family proof signal.
 
 Summarize rank-zero family candidates:
 
@@ -1475,6 +1497,7 @@ scripts/theory/audit_closure_quotient_ray_scale_invariance.py
 scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py
 scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py
 scripts/theory/summarize_closure_quotient_rank_zero_proof_seeds.py
+scripts/theory/audit_closure_quotient_rank_zero_seed_identities.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
 scripts/theory/audit_closure_quotient_lambda_route_partition.py
@@ -1592,6 +1615,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 334
+required_file_count = 338
 missing_files = []
 ```
