@@ -180,6 +180,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py"
         in paths
     )
+    assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -241,6 +245,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert "tests/test_closure_quotient_rank_zero_selmer_local_supports.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py" in paths
+    assert "tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py" in paths
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "tests/test_mixed_closure_residual_selmer_gap_ledger.py" in paths
     assert "docs/work-logs/313-priority-handoff-probe-audit.md" in paths
@@ -363,6 +368,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert "results/closure_quotient_rank_zero_selmer_local_supports.json" in paths
     assert "results/closure_quotient_rank_zero_selmer_coprime_supports.json" in paths
+    assert "results/closure_quotient_rank_zero_selmer_odd_prime_cases.json" in paths
     for package_id in [
         "rank-zero-selmer-AA-kernel-minus-p",
         "rank-zero-selmer-AA-kernel-neg-2sqrt-q",

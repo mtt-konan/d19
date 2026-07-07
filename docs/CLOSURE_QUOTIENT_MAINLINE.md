@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=419
+artifact_status.required_file_count=423
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1593,6 +1593,30 @@ local_condition_proved_count=0
 局部检查里，奇素数可以分成三类：整除 `L`、整除 `T`、整除 `T^2+4L^2`；
 只有 `2` 要单独做 2-adic 分析。这仍然只是 symbolic partition，不是 Selmer local condition。
 
+Rank-zero Selmer odd-prime case audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py \
+  --coprime-supports results/closure_quotient_rank_zero_selmer_coprime_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_cases.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+odd_prime_case_count=27
+two_adic_case_count=9
+local_condition_proved_count=0
+```
+
+普通话说：这一步把每个 package 的局部检查拆成 3 个奇素数 open case：
+`ell|L`、`ell|T`、`ell|T^2+4L^2`，再加 1 个 `ell=2` 的 2-adic open case。
+所以 9 个 package 现在对应 27 个奇素数小任务和 9 个 2-adic 小任务。它仍然只是 checklist，
+还没有关闭任何 local condition。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -2016,6 +2040,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2088,6 +2113,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
+- `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2182,6 +2208,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
+- `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`
@@ -2322,6 +2349,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl388](work-logs/388-lambda-mainline-transcript-intake-gate.md)
 - [wl389](work-logs/389-rank-zero-selmer-local-supports.md)
 - [wl390](work-logs/390-rank-zero-selmer-coprime-supports.md)
+- [wl391](work-logs/391-rank-zero-selmer-odd-prime-cases.md)
 
 数学总入口：
 

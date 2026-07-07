@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 419
+artifact_status.required_file_count = 423
 artifact_status.missing_file_count = 0
 ```
 
@@ -1325,6 +1325,28 @@ local_condition_proved_count = 0
 For primitive `A:B`, the odd-prime support splits into primes dividing `L`,
 primes dividing `T`, and primes dividing `T^2+4L^2`; the prime `2` remains the
 separate 2-adic case. This is still not a local condition proof.
+
+Audit rank-zero Selmer odd-prime cases:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py \
+  --coprime-supports results/closure_quotient_rank_zero_selmer_coprime_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_cases.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+odd_prime_case_count = 27
+two_adic_case_count = 9
+local_condition_proved_count = 0
+```
+
+This records the open local-case checklist for future transcripts. It does not
+close any local condition.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -1884,6 +1906,7 @@ scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py

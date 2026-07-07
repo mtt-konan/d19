@@ -1,0 +1,357 @@
+{
+  "boundary": "This audits open odd-prime and 2-adic checklist cases for future rank-zero isogeny-Selmer transcripts. It does not compute local Selmer images, prove local conditions, prove a Selmer rank bound, or prove any lambda-family exclusion.",
+  "case_checklist_not_proof": true,
+  "case_entries": [
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-L",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | L",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2",
+      "required_transcript_section": "local_squareclass_conditions"
+    }
+  ],
+  "coprime_support_entry_count": 9,
+  "family_exclusion_proved_count": 0,
+  "local_condition_proved_count": 0,
+  "odd_prime_case_count": 27,
+  "odd_prime_cases": [
+    {
+      "case_label": "odd-prime-divides-L",
+      "prime_condition": "ell odd and ell | L"
+    },
+    {
+      "case_label": "odd-prime-divides-T",
+      "prime_condition": "ell odd and ell | T"
+    },
+    {
+      "case_label": "odd-prime-divides-T2-plus-4L2",
+      "prime_condition": "ell odd and ell | T^2 + 4*L^2"
+    }
+  ],
+  "package_count": 9,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "two_adic_case_count": 9,
+  "two_adic_entries": [
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_minus_p",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_neg_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    },
+    {
+      "case_label": "prime-2-adic",
+      "case_status": "open",
+      "kernel": "kernel_pos_2sqrt_q",
+      "local_condition_proved": false,
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "prime_condition": "ell = 2",
+      "required_transcript_section": "local_squareclass_conditions"
+    }
+  ],
+  "violations": []
+}
