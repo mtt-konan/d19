@@ -94,6 +94,30 @@ def _long_two_descent_targets(
     ]
 
 
+def _rank_zero_next_actions(
+    *,
+    rank_zero_targets: list[dict[str, Any]],
+    attempt_audit: dict[str, Any],
+    rank_method_hopping_exhausted: bool,
+) -> dict[str, Any]:
+    if rank_method_hopping_exhausted:
+        return {
+            "rank_method_attempt_target_count": int(
+                attempt_audit.get("target_count_with_attempts", 0)
+            ),
+            "rank_method_attempt_status": "exhausted-without-proof",
+            "required_strict_evidence": RANK_ZERO_REQUIRED_EVIDENCE,
+            "next_action": (
+                "Stop rank-method target hopping; use stronger descent, an external "
+                "rank proof, or cover-level no-rational-point certificates."
+            ),
+        }
+    return {
+        "long_two_descent_targets": _long_two_descent_targets(rank_zero_targets),
+        "required_strict_evidence": RANK_ZERO_REQUIRED_EVIDENCE,
+    }
+
+
 def audit_next_actions(
     *,
     strictification_queue: dict[str, Any],
@@ -164,6 +188,11 @@ def audit_next_actions(
         and len(rank_zero_targets) > 0
         and int(attempt_audit.get("strict_certificate_ready_count", 0)) == 0
     )
+    rank_method_hopping_exhausted = (
+        cheap_exhausted
+        and int(attempt_audit.get("target_count_with_attempts", 0))
+        >= len(rank_zero_targets)
+    )
     status = "ok" if not violations else "issues"
     return {
         "status": status,
@@ -171,16 +200,20 @@ def audit_next_actions(
         "rank_zero_target_count": len(rank_zero_targets),
         "rank_zero_batch_target_count": len(batch_keys & rank_zero_keys),
         "cheap_rank_method_target_hopping_exhausted": cheap_exhausted,
+        "rank_zero_rank_method_target_hopping_exhausted": (
+            rank_method_hopping_exhausted
+        ),
         "strict_certificate_ready_count": int(
             attempt_audit.get("strict_certificate_ready_count", 0)
         ),
         "recommended_mainline": "escalate-beyond-cheap-rank-methods"
         if cheap_exhausted
         else "complete-or-fix-frontier-diagnostics",
-        "rank_zero_next_actions": {
-            "long_two_descent_targets": _long_two_descent_targets(rank_zero_targets),
-            "required_strict_evidence": RANK_ZERO_REQUIRED_EVIDENCE,
-        },
+        "rank_zero_next_actions": _rank_zero_next_actions(
+            rank_zero_targets=rank_zero_targets,
+            attempt_audit=attempt_audit,
+            rank_method_hopping_exhausted=rank_method_hopping_exhausted,
+        ),
         "non_rankzero_next_actions": [
             {
                 **_target_dict(target),

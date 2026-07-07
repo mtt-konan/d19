@@ -188,6 +188,10 @@ def _blocking_issues(
         frontier_next_action_audit.get("status") != "ok"
         or frontier_next_action_audit.get("cheap_rank_method_target_hopping_exhausted")
         is not True
+        or frontier_next_action_audit.get(
+            "rank_zero_rank_method_target_hopping_exhausted"
+        )
+        is not True
         or _int_value(frontier_next_action_audit, "strict_certificate_ready_count") != 0
         or frontier_next_action_audit.get("recommended_mainline")
         != "escalate-beyond-cheap-rank-methods"
@@ -624,6 +628,10 @@ def summarize_partial_result(
                 "cheap_rank_method_target_hopping_exhausted"
             )
             is True
+            and frontier_next_action_audit.get(
+                "rank_zero_rank_method_target_hopping_exhausted"
+            )
+            is True
             and _int_value(frontier_next_action_audit, "strict_certificate_ready_count")
             == 0
             and frontier_next_action_audit.get("recommended_mainline")
@@ -637,6 +645,10 @@ def summarize_partial_result(
             ),
             "cheap_rank_method_target_hopping_exhausted": frontier_next_action_audit.get(
                 "cheap_rank_method_target_hopping_exhausted"
+            )
+            is True,
+            "rank_zero_rank_method_target_hopping_exhausted": frontier_next_action_audit.get(
+                "rank_zero_rank_method_target_hopping_exhausted"
             )
             is True,
             "strict_certificate_ready_count": _int_value(

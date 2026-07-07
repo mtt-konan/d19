@@ -186,6 +186,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "rank_zero_target_count": 8,
         "rank_zero_batch_target_count": 8,
         "cheap_rank_method_target_hopping_exhausted": True,
+        "rank_zero_rank_method_target_hopping_exhausted": True,
         "strict_certificate_ready_count": 0,
         "recommended_mainline": "escalate-beyond-cheap-rank-methods",
         "violations": [],
@@ -384,6 +385,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "rank_zero_target_count": 8,
             "rank_zero_batch_target_count": 8,
             "cheap_rank_method_target_hopping_exhausted": True,
+            "rank_zero_rank_method_target_hopping_exhausted": True,
             "strict_certificate_ready_count": 0,
             "recommended_mainline": "escalate-beyond-cheap-rank-methods",
             "proof_status": "next-action-routing-not-proof",
@@ -613,6 +615,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '{"status":"ok","rank_zero_target_count":0,'
         '"rank_zero_batch_target_count":0,'
         '"cheap_rank_method_target_hopping_exhausted":true,'
+        '"rank_zero_rank_method_target_hopping_exhausted":true,'
         '"strict_certificate_ready_count":0,'
         '"recommended_mainline":"escalate-beyond-cheap-rank-methods",'
         '"violations":[]}\n',

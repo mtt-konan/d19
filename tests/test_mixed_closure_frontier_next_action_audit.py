@@ -120,17 +120,20 @@ def test_audit_next_actions_marks_cheap_rank_methods_exhausted() -> None:
     assert audit["rank_zero_target_count"] == 2
     assert audit["rank_zero_batch_target_count"] == 2
     assert audit["cheap_rank_method_target_hopping_exhausted"] is True
+    assert audit["rank_zero_rank_method_target_hopping_exhausted"] is True
     assert audit["strict_certificate_ready_count"] == 0
     assert audit["recommended_mainline"] == "escalate-beyond-cheap-rank-methods"
     assert audit["rank_zero_next_actions"] == {
-        "long_two_descent_targets": [
-            {"A": 1625, "B": 5643, "curve": "AA", "timeout_seconds": 600},
-            {"A": 567, "B": 3757, "curve": "BB", "timeout_seconds": 120},
-        ],
+        "rank_method_attempt_target_count": 2,
+        "rank_method_attempt_status": "exhausted-without-proof",
         "required_strict_evidence": [
             "strict elliptic rank proof closing rank_bounds to [0,0]",
             "or a cover-level no-rational-point certificate for every listed cover",
         ],
+        "next_action": (
+            "Stop rank-method target hopping; use stronger descent, an external "
+            "rank proof, or cover-level no-rational-point certificates."
+        ),
     }
     assert audit["non_rankzero_next_actions"] == [
         {
@@ -144,6 +147,31 @@ def test_audit_next_actions_marks_cheap_rank_methods_exhausted() -> None:
             ),
         }
     ]
+
+
+def test_audit_next_actions_marks_rank_method_target_hopping_exhausted() -> None:
+    attempt = _attempt_audit()
+    attempt["target_count_with_attempts"] = 2
+
+    audit = audit_next_actions(
+        strictification_queue=_queue(),
+        attempt_audit=attempt,
+        batch_rank_methods=_batch_rank_methods(),
+    )
+
+    assert audit["rank_zero_rank_method_target_hopping_exhausted"] is True
+    assert audit["rank_zero_next_actions"] == {
+        "rank_method_attempt_target_count": 2,
+        "rank_method_attempt_status": "exhausted-without-proof",
+        "required_strict_evidence": [
+            "strict elliptic rank proof closing rank_bounds to [0,0]",
+            "or a cover-level no-rational-point certificate for every listed cover",
+        ],
+        "next_action": (
+            "Stop rank-method target hopping; use stronger descent, an external "
+            "rank proof, or cover-level no-rational-point certificates."
+        ),
+    }
 
 
 def test_audit_next_actions_reports_incomplete_batch_coverage() -> None:

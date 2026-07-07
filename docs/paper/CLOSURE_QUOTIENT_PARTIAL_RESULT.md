@@ -730,11 +730,14 @@ Current result:
 ```text
 status = ok
 cheap_rank_method_target_hopping_exhausted = True
+rank_zero_rank_method_target_hopping_exhausted = True
 recommended_mainline = escalate-beyond-cheap-rank-methods
 ```
 
 This is a routing gate, not a proof. It records that cheap rank-method
-target-hopping has converged and the next mainline should escalate.
+target-hopping and same-level rank-method long rechecks have converged without a
+strict certificate. The next mainline should escalate to stronger descent,
+external strict rank proof, or cover-level no-point certificates.
 
 Summarize the full partial-result gate:
 
@@ -839,6 +842,7 @@ frontier_strictification_attempt_status.strict_certificate_ready_count = 0
 frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
 frontier_next_action_status.ready = True
 frontier_next_action_status.cheap_rank_method_target_hopping_exhausted = True
+frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted = True
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True

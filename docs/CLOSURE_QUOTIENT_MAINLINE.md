@@ -749,11 +749,13 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_
 ```text
 status=ok
 cheap_rank_method_target_hopping_exhausted=True
+rank_zero_rank_method_target_hopping_exhausted=True
 recommended_mainline=escalate-beyond-cheap-rank-methods
 ```
 
-普通话说：便宜 rank-method 的“换目标试一试”已经收敛；下一步应升级到长时或外部严格
-rank proof、cover-level no-point certificate，以及 non-rankzero 两条专门路线。
+普通话说：便宜 rank-method 的“换目标试一试”和 8 个 rank-zero 目标的同级
+rank-method 长跑都已经收敛；下一步不应继续做同类加时，而应升级到更强 descent、
+外部严格 rank proof、cover-level no-point certificate，以及 non-rankzero 两条专门路线。
 
 partial-result 总摘要：
 
@@ -857,6 +859,7 @@ frontier_strictification_attempt_status.strict_certificate_ready_count=0
 frontier_strictification_attempt_status.proof_status=attempt-ledger-not-proof
 frontier_next_action_status.ready=True
 frontier_next_action_status.cheap_rank_method_target_hopping_exhausted=True
+frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted=True
 frontier_next_action_status.recommended_mainline=escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status=next-action-routing-not-proof
 artifact_status.ready=True
