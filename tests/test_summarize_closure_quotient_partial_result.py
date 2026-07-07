@@ -100,7 +100,16 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         "closed_rank_zero_target_count": 0,
         "target_status_counts": {"not-retried": 7, "sage-timeout": 1},
     }
-    artifact_audit = {"ready": True, "required_file_count": 116, "missing_files": []}
+    non_rankzero_frontier_queue = {
+        "status": "ok",
+        "non_rankzero_frontier_cover_count": 7,
+        "non_rankzero_frontier_target_count": 2,
+        "target_type_counts": {
+            "even-rank-gap4-needs-deeper-descent": 1,
+            "rank1-needs-visible-generator-or-descent": 1,
+        },
+    }
+    artifact_audit = {"ready": True, "required_file_count": 120, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -114,6 +123,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
         residual_open_frontier_audit=residual_open_frontier_audit,
         rank_zero_frontier_queue=rank_zero_frontier_queue,
+        non_rankzero_frontier_queue=non_rankzero_frontier_queue,
         artifact_audit=artifact_audit,
     )
 
@@ -202,9 +212,19 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             "target_status_counts": {"not-retried": 7, "sage-timeout": 1},
             "proof_status": "rank-proof-frontier-not-proof",
         },
+        "non_rankzero_frontier_status": {
+            "ready": True,
+            "non_rankzero_frontier_cover_count": 7,
+            "non_rankzero_frontier_target_count": 2,
+            "target_type_counts": {
+                "even-rank-gap4-needs-deeper-descent": 1,
+                "rank1-needs-visible-generator-or-descent": 1,
+            },
+            "proof_status": "non-rankzero-frontier-not-proof",
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 116,
+            "required_file_count": 120,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -263,6 +283,10 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "rank_zero_frontier_cover_count": 15,
             "closed_rank_zero_target_count": 1,
         },
+        non_rankzero_frontier_queue={
+            "status": "error",
+            "non_rankzero_frontier_cover_count": 6,
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -282,6 +306,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "bsd-conditional-no-point-audit-issues",
         "residual-open-frontier-audit-issues",
         "rank-zero-frontier-queue-issues",
+        "non-rankzero-frontier-queue-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -298,6 +323,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     bsd_no_points = tmp_path / "bsd_no_points.json"
     open_frontier = tmp_path / "open_frontier.json"
     rank_zero_frontier = tmp_path / "rank_zero_frontier.json"
+    non_rankzero_frontier = tmp_path / "non_rankzero_frontier.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -340,6 +366,10 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"closed_rank_zero_target_count":0}\n',
         encoding="utf-8",
     )
+    non_rankzero_frontier.write_text(
+        '{"status":"ok","non_rankzero_frontier_cover_count":0}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -368,6 +398,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(open_frontier),
             "--rank-zero-frontier-queue",
             str(rank_zero_frontier),
+            "--non-rankzero-frontier-queue",
+            str(non_rankzero_frontier),
             "--artifact-audit",
             str(artifacts),
             "--out",

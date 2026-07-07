@@ -38,6 +38,7 @@ def _blocking_issues(
     bsd_conditional_no_point_audit: dict[str, Any],
     residual_open_frontier_audit: dict[str, Any],
     rank_zero_frontier_queue: dict[str, Any],
+    non_rankzero_frontier_queue: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -111,6 +112,21 @@ def _blocking_issues(
         or _int_value(rank_zero_frontier_queue, "closed_rank_zero_target_count") != 0
     ):
         issues.append("rank-zero-frontier-queue-issues")
+    non_rankzero_expected = sum(
+        int(residual_open_frontier_audit.get("open_frontier_type_counts", {}).get(key, 0))
+        for key in (
+            "rank1-needs-visible-generator-or-descent",
+            "even-rank-gap4-needs-deeper-descent",
+        )
+    )
+    if (
+        non_rankzero_frontier_queue.get("status") != "ok"
+        or _int_value(
+            non_rankzero_frontier_queue, "non_rankzero_frontier_cover_count"
+        )
+        != non_rankzero_expected
+    ):
+        issues.append("non-rankzero-frontier-queue-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -129,6 +145,7 @@ def summarize_partial_result(
     bsd_conditional_no_point_audit: dict[str, Any],
     residual_open_frontier_audit: dict[str, Any],
     rank_zero_frontier_queue: dict[str, Any],
+    non_rankzero_frontier_queue: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -146,7 +163,15 @@ def summarize_partial_result(
         bsd_conditional_no_point_audit=bsd_conditional_no_point_audit,
         residual_open_frontier_audit=residual_open_frontier_audit,
         rank_zero_frontier_queue=rank_zero_frontier_queue,
+        non_rankzero_frontier_queue=non_rankzero_frontier_queue,
         artifact_audit=artifact_audit,
+    )
+    non_rankzero_expected = sum(
+        int(residual_open_frontier_audit.get("open_frontier_type_counts", {}).get(key, 0))
+        for key in (
+            "rank1-needs-visible-generator-or-descent",
+            "even-rank-gap4-needs-deeper-descent",
+        )
     )
 
     return {
@@ -346,6 +371,25 @@ def summarize_partial_result(
             ),
             "proof_status": "rank-proof-frontier-not-proof",
         },
+        "non_rankzero_frontier_status": {
+            "ready": non_rankzero_frontier_queue.get("status") == "ok"
+            and _int_value(
+                non_rankzero_frontier_queue, "non_rankzero_frontier_cover_count"
+            )
+            == non_rankzero_expected,
+            "non_rankzero_frontier_cover_count": _int_value(
+                non_rankzero_frontier_queue, "non_rankzero_frontier_cover_count"
+            ),
+            "non_rankzero_frontier_target_count": _int_value(
+                non_rankzero_frontier_queue, "non_rankzero_frontier_target_count"
+            ),
+            "target_type_counts": dict(
+                sorted(
+                    non_rankzero_frontier_queue.get("target_type_counts", {}).items()
+                )
+            ),
+            "proof_status": "non-rankzero-frontier-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -372,6 +416,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--bsd-conditional-no-point-audit", type=Path, required=True)
     parser.add_argument("--residual-open-frontier-audit", type=Path, required=True)
     parser.add_argument("--rank-zero-frontier-queue", type=Path, required=True)
+    parser.add_argument("--non-rankzero-frontier-queue", type=Path, required=True)
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -394,6 +439,7 @@ def main() -> int:
         ),
         residual_open_frontier_audit=load_json(args.residual_open_frontier_audit),
         rank_zero_frontier_queue=load_json(args.rank_zero_frontier_queue),
+        non_rankzero_frontier_queue=load_json(args.non_rankzero_frontier_queue),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)

@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=10 \
+  --expect language_audit_files=11 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -515,6 +515,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
   --path docs/work-logs/323-residual-open-frontier-audit.md \
   --path docs/work-logs/324-rank-zero-frontier-queue.md \
+  --path docs/work-logs/325-non-rankzero-frontier-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -522,7 +523,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=10
+files=11
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 4,
@@ -549,6 +550,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -597,8 +599,12 @@ rank_zero_frontier_status.rank_zero_frontier_target_count=8
 rank_zero_frontier_status.closed_rank_zero_target_count=0
 rank_zero_frontier_status.target_status_counts={'not-retried': 7, 'sage-timeout': 1}
 rank_zero_frontier_status.proof_status=rank-proof-frontier-not-proof
+non_rankzero_frontier_status.non_rankzero_frontier_cover_count=7
+non_rankzero_frontier_status.non_rankzero_frontier_target_count=2
+non_rankzero_frontier_status.target_type_counts={'even-rank-gap4-needs-deeper-descent': 1, 'rank1-needs-visible-generator-or-descent': 1}
+non_rankzero_frontier_status.proof_status=non-rankzero-frontier-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=116
+artifact_status.required_file_count=120
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -609,6 +615,8 @@ residual_status.proof_status=candidate-not-proof
 以及“even rank gap4 deeper descent”的 4 个。其中 16 个 rank-zero cover
 又合并成 8 个 rank 证明目标；最高优先级 `(1625,5643) AA` 已做 Sage
 `second_limit=13,20`、120 秒重试，结果 timeout，没有产生严格 rank-zero 证明。
+另外 7 个非 rank-zero cover 合并成 2 个目标：`(209,5355) BB` 的 rank1/Sha[2]
+分离目标，以及 `(1449,12155) BB` 的 even gap4 deeper descent 目标。
 
 目标 cover handoff：
 
@@ -787,6 +795,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py`
 - `scripts/theory/audit_mixed_closure_residual_open_frontier.py`
 - `scripts/theory/summarize_mixed_closure_rank_zero_frontier.py`
+- `scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -816,6 +825,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_bsd_conditional_no_point_audit.py`
 - `tests/test_mixed_closure_residual_open_frontier_audit.py`
 - `tests/test_mixed_closure_rank_zero_frontier_queue.py`
+- `tests/test_mixed_closure_non_rankzero_frontier_queue.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -845,6 +855,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_residual_open_frontier_audit.json`
 - `results/sage_rankzero_frontier_recheck_s13_20_t120.jsonl`
 - `results/mixed_closure_rank_zero_frontier_queue.json`
+- `results/mixed_closure_non_rankzero_frontier_queue.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -892,6 +903,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl322](work-logs/322-bsd-conditional-no-point-audit.md)
 - [wl323](work-logs/323-residual-open-frontier-audit.md)
 - [wl324](work-logs/324-rank-zero-frontier-queue.md)
+- [wl325](work-logs/325-non-rankzero-frontier-queue.md)
 
 数学总入口：
 

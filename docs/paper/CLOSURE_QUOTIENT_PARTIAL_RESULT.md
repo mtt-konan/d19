@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=10 \
+  --expect language_audit_files=11 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -497,6 +497,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
   --path docs/work-logs/323-residual-open-frontier-audit.md \
   --path docs/work-logs/324-rank-zero-frontier-queue.md \
+  --path docs/work-logs/325-non-rankzero-frontier-queue.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -504,7 +505,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 10
+files = 11
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -533,6 +534,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --bsd-conditional-no-point-audit results/mixed_closure_bsd_conditional_no_point_audit.json \
   --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
   --rank-zero-frontier-queue results/mixed_closure_rank_zero_frontier_queue.json \
+  --non-rankzero-frontier-queue results/mixed_closure_non_rankzero_frontier_queue.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -582,8 +584,12 @@ rank_zero_frontier_status.rank_zero_frontier_target_count = 8
 rank_zero_frontier_status.closed_rank_zero_target_count = 0
 rank_zero_frontier_status.target_status_counts = {'not-retried': 7, 'sage-timeout': 1}
 rank_zero_frontier_status.proof_status = rank-proof-frontier-not-proof
+non_rankzero_frontier_status.non_rankzero_frontier_cover_count = 7
+non_rankzero_frontier_status.non_rankzero_frontier_target_count = 2
+non_rankzero_frontier_status.target_type_counts = {'even-rank-gap4-needs-deeper-descent': 1, 'rank1-needs-visible-generator-or-descent': 1}
+non_rankzero_frontier_status.proof_status = non-rankzero-frontier-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 116
+artifact_status.required_file_count = 120
 artifact_status.missing_file_count = 0
 ```
 
@@ -604,6 +610,10 @@ obstruction.
 The 16 rank-zero-frontier covers share 8 elliptic rank targets. The current queue
 records one Sage retry on `(1625,5643) AA` with `second_limit=13,20` and a 120-second
 timeout; it did not close the rank bound.
+
+The 7 non-rank-zero residual covers share 2 elliptic targets: `(209,5355) BB` for
+the rank-one/Sha[2] separation problem, and `(1449,12155) BB` for the even gap4
+deeper-descent problem.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -681,6 +691,7 @@ scripts/theory/sage_audit_mixed_closure_rank0_torsion_preimages.py
 scripts/theory/audit_mixed_closure_bsd_conditional_no_points.py
 scripts/theory/audit_mixed_closure_residual_open_frontier.py
 scripts/theory/summarize_mixed_closure_rank_zero_frontier.py
+scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -799,6 +810,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 116
+required_file_count = 120
 missing_files = []
 ```
