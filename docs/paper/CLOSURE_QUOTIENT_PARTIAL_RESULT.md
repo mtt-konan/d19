@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=46 \
+  --expect language_audit_files=47 \
   --expect language_candidate_not_proof_hits=6 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -542,6 +542,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/358-frontier-external-certificate-intake.md \
   --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
   --path docs/work-logs/360-paper-structure-audit.md \
+  --path docs/work-logs/361-partial-result-dependency-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -549,7 +550,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 46
+files = 47
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 6,
@@ -1030,8 +1031,27 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 285
+artifact_status.required_file_count = 290
 artifact_status.missing_file_count = 0
+```
+
+Audit partial-result dependency traceability:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_partial_dependencies.py \
+  --summary results/closure_quotient_partial_result_summary.json \
+  --artifact-audit results/closure_quotient_partial_artifact_audit.json \
+  --root . \
+  --out results/closure_quotient_partial_dependency_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+dependency_count = 8
+missing_summary_statuses = 0
 ```
 
 The word `ready` here means the stored evidence and wording gates are internally
@@ -1186,6 +1206,7 @@ scripts/theory/prioritize_mixed_closure_residual_covers.py
 scripts/theory/audit_mixed_closure_residual_language.py
 scripts/theory/audit_mixed_closure_priority_handoffs.py
 scripts/theory/audit_closure_quotient_paper_structure.py
+scripts/theory/audit_closure_quotient_partial_dependencies.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1299,6 +1320,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 285
+required_file_count = 290
 missing_files = []
 ```

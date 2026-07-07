@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=46 \
+  --expect language_audit_files=47 \
   --expect language_candidate_not_proof_hits=6 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -551,6 +551,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/358-frontier-external-certificate-intake.md \
   --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
   --path docs/work-logs/360-paper-structure-audit.md \
+  --path docs/work-logs/361-partial-result-dependency-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -558,7 +559,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=46
+files=47
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 6,
@@ -1041,9 +1042,28 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=285
+artifact_status.required_file_count=290
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
+```
+
+Partial-result dependency audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_partial_dependencies.py \
+  --summary results/closure_quotient_partial_result_summary.json \
+  --artifact-audit results/closure_quotient_partial_artifact_audit.json \
+  --root . \
+  --out results/closure_quotient_partial_dependency_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+dependency_count=8
+missing_summary_statuses=0
 ```
 
 普通话说：这表示“partial result 证据包和措辞边界已经自洽”。其中 4 个 cover 现在是 BSD 条件下最强的无点候选；
@@ -1288,6 +1308,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_residual_language.py`
 - `scripts/theory/audit_mixed_closure_priority_handoffs.py`
 - `scripts/theory/audit_closure_quotient_paper_structure.py`
+- `scripts/theory/audit_closure_quotient_partial_dependencies.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1332,6 +1353,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_language_audit.py`
 - `tests/test_mixed_closure_priority_handoff_audit.py`
 - `tests/test_closure_quotient_paper_structure_audit.py`
+- `tests/test_closure_quotient_partial_dependency_audit.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1396,6 +1418,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_external_cover_certificate_frontier_intake.json`
 - `results/mixed_closure_external_cover_certificate_template_index.json`
 - `results/closure_quotient_paper_structure_audit.json`
+- `results/closure_quotient_partial_artifact_audit.json`
+- `results/closure_quotient_partial_dependency_audit.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1497,6 +1521,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl358](work-logs/358-frontier-external-certificate-intake.md)
 - [wl359](work-logs/359-summary-gate-external-certificate-intake.md)
 - [wl360](work-logs/360-paper-structure-audit.md)
+- [wl361](work-logs/361-partial-result-dependency-audit.md)
 
 数学总入口：
 
