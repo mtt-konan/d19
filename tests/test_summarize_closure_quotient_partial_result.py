@@ -167,7 +167,17 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         },
         "blocking_issues": [],
     }
-    artifact_audit = {"ready": True, "required_file_count": 215, "missing_files": []}
+    frontier_strictification_attempt_audit = {
+        "status": "ok",
+        "attempt_count": 1,
+        "target_count_with_attempts": 1,
+        "strict_certificate_ready_count": 0,
+        "candidate_not_proof": True,
+        "attempt_status_counts": {"timeout-not-proof": 1},
+        "missing_files": [],
+        "violations": [],
+    }
+    artifact_audit = {"ready": True, "required_file_count": 220, "missing_files": []}
 
     summary = summarize_partial_result(
         claim_audit=claim_audit,
@@ -185,6 +195,7 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
         residual_frontier_strategy_audit=residual_frontier_strategy_audit,
         frontier_handoff_audit=frontier_handoff_audit,
         frontier_strictification_queue=frontier_strictification_queue,
+        frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
         artifact_audit=artifact_audit,
     )
 
@@ -341,9 +352,18 @@ def test_summarize_partial_result_marks_ready_when_gates_are_clean() -> None:
             },
             "proof_status": "strictification-queue-not-proof",
         },
+        "frontier_strictification_attempt_status": {
+            "ready": True,
+            "attempt_count": 1,
+            "target_count_with_attempts": 1,
+            "strict_certificate_ready_count": 0,
+            "candidate_not_proof": True,
+            "attempt_status_counts": {"timeout-not-proof": 1},
+            "proof_status": "attempt-ledger-not-proof",
+        },
         "artifact_status": {
             "ready": True,
-            "required_file_count": 215,
+            "required_file_count": 220,
             "missing_file_count": 0,
         },
         "boundary": (
@@ -431,6 +451,14 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
             "candidate_not_proof": False,
             "blocking_issues": ["frontier-handoff-audit-issues"],
         },
+        frontier_strictification_attempt_audit={
+            "status": "issues",
+            "attempt_count": 1,
+            "strict_certificate_ready_count": 1,
+            "candidate_not_proof": False,
+            "missing_files": [{"path": "missing.json"}],
+            "violations": [{"field": "target"}],
+        },
         artifact_audit={
             "ready": False,
             "missing_files": [{"path": "results/missing.json"}],
@@ -454,6 +482,7 @@ def test_summarize_partial_result_reports_blocking_issues() -> None:
         "residual-frontier-strategy-audit-issues",
         "frontier-handoff-audit-issues",
         "frontier-strictification-queue-issues",
+        "frontier-strictification-attempt-audit-issues",
         "artifact-audit-missing-files",
     ]
 
@@ -474,6 +503,7 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
     frontier_strategy = tmp_path / "frontier_strategy.json"
     frontier_handoffs = tmp_path / "frontier_handoffs.json"
     frontier_strictification = tmp_path / "frontier_strictification.json"
+    frontier_attempts = tmp_path / "frontier_attempts.json"
     artifacts = tmp_path / "artifacts.json"
     out = tmp_path / "summary.json"
     claim.write_text('{"mismatches":[{"field":"x"}],"claim_values":{}}\n', encoding="utf-8")
@@ -538,6 +568,12 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
         '"blocking_issues":[]}\n',
         encoding="utf-8",
     )
+    frontier_attempts.write_text(
+        '{"status":"ok","attempt_count":1,"target_count_with_attempts":1,'
+        '"strict_certificate_ready_count":0,"candidate_not_proof":true,'
+        '"missing_files":[],"violations":[]}\n',
+        encoding="utf-8",
+    )
     artifacts.write_text('{"ready":true,"missing_files":[]}\n', encoding="utf-8")
 
     result = subprocess.run(
@@ -574,6 +610,8 @@ def test_summary_cli_strict_exits_nonzero_when_not_ready(tmp_path: Path) -> None
             str(frontier_handoffs),
             "--frontier-strictification-queue",
             str(frontier_strictification),
+            "--frontier-strictification-attempt-audit",
+            str(frontier_attempts),
             "--artifact-audit",
             str(artifacts),
             "--out",

@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=27 \
+  --expect language_audit_files=28 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -514,6 +514,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --path docs/work-logs/340-frontier-handoff-audit.md \
   --path docs/work-logs/341-frontier-strictification-queue.md \
+  --path docs/work-logs/342-frontier-strictification-attempt.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -521,7 +522,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 27
+files = 28
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -615,6 +616,29 @@ first_target = {'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-pr
 This queue says which strict proof object is needed next. It is not itself a
 proof.
 
+Audit the first strictification attempt:
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
+  --out results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+attempt_count = 1
+target_count_with_attempts = 1
+attempt_status_counts = {'timeout-not-proof': 1}
+strict_certificate_ready_count = 0
+```
+
+The underlying Sage handoff probe used `two_descent_second_limit=20` and a
+180-second timeout on `(1625,5643) AA`; it timed out. This is not a rank proof.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -634,6 +658,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
   --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --frontier-strictification-attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -708,8 +733,14 @@ frontier_strictification_status.cover_count = 23
 frontier_strictification_status.track_counts = {'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
 frontier_strictification_status.strict_certificate_ready_count = 0
 frontier_strictification_status.proof_status = strictification-queue-not-proof
+frontier_strictification_attempt_status.ready = True
+frontier_strictification_attempt_status.attempt_count = 1
+frontier_strictification_attempt_status.target_count_with_attempts = 1
+frontier_strictification_attempt_status.attempt_status_counts = {'timeout-not-proof': 1}
+frontier_strictification_attempt_status.strict_certificate_ready_count = 0
+frontier_strictification_attempt_status.proof_status = attempt-ledger-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 215
+artifact_status.required_file_count = 220
 artifact_status.missing_file_count = 0
 ```
 
@@ -760,6 +791,8 @@ The frontier handoff audit now checks these 10 handoff groups and 23 covers as
 The strictification queue orders the same 10 targets by the strict proof object
 needed next: 8 rank-zero rank proofs, 1 rank-one/Sha[2] separation, and 1 even
 gap4 deeper descent.
+The first recorded attempt, `sage-twodescent20` on `(1625,5643) AA`, timed out
+under a 180-second budget and therefore leaves `strict_certificate_ready_count = 0`.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -841,6 +874,7 @@ scripts/theory/summarize_mixed_closure_non_rankzero_frontier.py
 scripts/theory/audit_mixed_closure_residual_frontier_strategy.py
 scripts/theory/audit_mixed_closure_frontier_handoffs.py
 scripts/theory/summarize_mixed_closure_frontier_strictification.py
+scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -959,6 +993,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 215
+required_file_count = 220
 missing_files = []
 ```

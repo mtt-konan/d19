@@ -480,7 +480,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=27 \
+  --expect language_audit_files=28 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -532,6 +532,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
   --path docs/work-logs/340-frontier-handoff-audit.md \
   --path docs/work-logs/341-frontier-strictification-queue.md \
+  --path docs/work-logs/342-frontier-strictification-attempt.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -539,7 +540,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=27
+files=28
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 5,
@@ -631,6 +632,29 @@ first_target={'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proo
 普通话说：这一步把“下一步怎么严谨收敛”排成队列。它不证明任何新 cover 无点；
 它只说明每个目标需要什么严格证据才允许升级。
 
+第一目标 strictification attempt ledger：
+
+```bash
+uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
+  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
+  --out results/mixed_closure_frontier_strictification_attempt_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+attempt_count=1
+target_count_with_attempts=1
+attempt_status_counts={'timeout-not-proof': 1}
+strict_certificate_ready_count=0
+```
+
+这记录了 `(1625,5643) AA` 的短 two-descent 尝试：180 秒预算内 timeout。
+它不是 rank proof，也不是 cover no-point proof。
+
 partial-result 总摘要：
 
 ```bash
@@ -650,6 +674,7 @@ uv run python scripts/theory/summarize_closure_quotient_partial_result.py \
   --residual-frontier-strategy-audit results/mixed_closure_residual_frontier_strategy_audit.json \
   --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
   --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
+  --frontier-strictification-attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
   --artifact-audit results/closure_quotient_partial_artifact_audit.json \
   --out results/closure_quotient_partial_result_summary.json \
   --strict
@@ -723,8 +748,14 @@ frontier_strictification_status.cover_count=23
 frontier_strictification_status.track_counts={'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
 frontier_strictification_status.strict_certificate_ready_count=0
 frontier_strictification_status.proof_status=strictification-queue-not-proof
+frontier_strictification_attempt_status.ready=True
+frontier_strictification_attempt_status.attempt_count=1
+frontier_strictification_attempt_status.target_count_with_attempts=1
+frontier_strictification_attempt_status.attempt_status_counts={'timeout-not-proof': 1}
+frontier_strictification_attempt_status.strict_certificate_ready_count=0
+frontier_strictification_attempt_status.proof_status=attempt-ledger-not-proof
 artifact_status.ready=True
-artifact_status.required_file_count=215
+artifact_status.required_file_count=220
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -765,6 +796,8 @@ frontier handoff 内容审计现在把这些 10 个 handoff group、23 个 cover
 strictification queue 进一步把这 10 个目标排成可攻队列：先攻 `(1625,5643) AA`
 的 rank-zero proof 或 cover-level no-point certificate；另外保留 1 个 rank-one/Sha[2]
 分离目标和 1 个 even gap4 deeper descent 目标。
+第一条实际 attempt 已记录：`sage-twodescent20` 在 180 秒预算内 timeout，所以
+`strict_certificate_ready_count=0` 仍保持不变。
 
 目标 cover handoff：
 
@@ -947,6 +980,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_mixed_closure_residual_frontier_strategy.py`
 - `scripts/theory/audit_mixed_closure_frontier_handoffs.py`
 - `scripts/theory/summarize_mixed_closure_frontier_strictification.py`
+- `scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py`
 - `scripts/theory/sage_probe_mixed_closure_local_witnesses.py`
 - `scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py`
 - `scripts/theory/prioritize_mixed_closure_residual_covers.py`
@@ -980,6 +1014,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_mixed_closure_residual_frontier_strategy.py`
 - `tests/test_mixed_closure_frontier_handoff_audit.py`
 - `tests/test_mixed_closure_frontier_strictification_queue.py`
+- `tests/test_mixed_closure_frontier_strictification_attempts.py`
 - `tests/test_sage_probe_mixed_closure_local_witnesses.py`
 - `tests/test_mixed_closure_residual_selmer_gap_ledger.py`
 - `tests/test_prioritize_mixed_closure_residual_covers.py`
@@ -1023,6 +1058,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/mixed_closure_residual_frontier_strategy_audit.json`
 - `results/mixed_closure_frontier_handoff_audit.json`
 - `results/mixed_closure_frontier_strictification_queue.json`
+- `results/mixed_closure_frontier_strictification_attempt_audit.json`
+- `results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json`
 - `results/mixed_closure_priority_handoff_audit_top4.json`
 - `results/mixed_closure_rank0_certificate_audit.json`
 - `results/pari_bsd_mixed_aabb_t10.jsonl`
@@ -1102,6 +1139,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl339](work-logs/339-non-rankzero-frontier-handoffs.md)
 - [wl340](work-logs/340-frontier-handoff-audit.md)
 - [wl341](work-logs/341-frontier-strictification-queue.md)
+- [wl342](work-logs/342-frontier-strictification-attempt.md)
 
 数学总入口：
 

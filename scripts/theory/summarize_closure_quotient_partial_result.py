@@ -42,6 +42,7 @@ def _blocking_issues(
     residual_frontier_strategy_audit: dict[str, Any],
     frontier_handoff_audit: dict[str, Any],
     frontier_strictification_queue: dict[str, Any],
+    frontier_strictification_attempt_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> list[str]:
     issues: list[str] = []
@@ -169,6 +170,19 @@ def _blocking_issues(
         or frontier_strictification_queue.get("blocking_issues")
     ):
         issues.append("frontier-strictification-queue-issues")
+    if (
+        frontier_strictification_attempt_audit.get("status") != "ok"
+        or _int_value(frontier_strictification_attempt_audit, "attempt_count") < 1
+        or _int_value(
+            frontier_strictification_attempt_audit, "strict_certificate_ready_count"
+        )
+        != 0
+        or frontier_strictification_attempt_audit.get("candidate_not_proof")
+        is not True
+        or frontier_strictification_attempt_audit.get("missing_files")
+        or frontier_strictification_attempt_audit.get("violations")
+    ):
+        issues.append("frontier-strictification-attempt-audit-issues")
     if artifact_audit.get("ready") is not True:
         issues.append("artifact-audit-missing-files")
     return issues
@@ -191,6 +205,7 @@ def summarize_partial_result(
     residual_frontier_strategy_audit: dict[str, Any],
     frontier_handoff_audit: dict[str, Any],
     frontier_strictification_queue: dict[str, Any],
+    frontier_strictification_attempt_audit: dict[str, Any],
     artifact_audit: dict[str, Any],
 ) -> dict[str, Any]:
     claim_values = claim_audit.get("claim_values", {})
@@ -212,6 +227,7 @@ def summarize_partial_result(
         residual_frontier_strategy_audit=residual_frontier_strategy_audit,
         frontier_handoff_audit=frontier_handoff_audit,
         frontier_strictification_queue=frontier_strictification_queue,
+        frontier_strictification_attempt_audit=frontier_strictification_attempt_audit,
         artifact_audit=artifact_audit,
     )
     non_rankzero_expected = sum(
@@ -553,6 +569,42 @@ def summarize_partial_result(
             "first_target": frontier_strictification_queue.get("first_target"),
             "proof_status": "strictification-queue-not-proof",
         },
+        "frontier_strictification_attempt_status": {
+            "ready": frontier_strictification_attempt_audit.get("status") == "ok"
+            and _int_value(frontier_strictification_attempt_audit, "attempt_count")
+            >= 1
+            and _int_value(
+                frontier_strictification_attempt_audit,
+                "strict_certificate_ready_count",
+            )
+            == 0
+            and frontier_strictification_attempt_audit.get("candidate_not_proof")
+            is True
+            and not frontier_strictification_attempt_audit.get("missing_files")
+            and not frontier_strictification_attempt_audit.get("violations"),
+            "attempt_count": _int_value(
+                frontier_strictification_attempt_audit, "attempt_count"
+            ),
+            "target_count_with_attempts": _int_value(
+                frontier_strictification_attempt_audit, "target_count_with_attempts"
+            ),
+            "strict_certificate_ready_count": _int_value(
+                frontier_strictification_attempt_audit,
+                "strict_certificate_ready_count",
+            ),
+            "candidate_not_proof": frontier_strictification_attempt_audit.get(
+                "candidate_not_proof"
+            )
+            is True,
+            "attempt_status_counts": dict(
+                sorted(
+                    frontier_strictification_attempt_audit.get(
+                        "attempt_status_counts", {}
+                    ).items()
+                )
+            ),
+            "proof_status": "attempt-ledger-not-proof",
+        },
         "artifact_status": {
             "ready": artifact_audit.get("ready") is True,
             "required_file_count": _int_value(artifact_audit, "required_file_count"),
@@ -583,6 +635,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--residual-frontier-strategy-audit", type=Path, required=True)
     parser.add_argument("--frontier-handoff-audit", type=Path, required=True)
     parser.add_argument("--frontier-strictification-queue", type=Path, required=True)
+    parser.add_argument(
+        "--frontier-strictification-attempt-audit",
+        type=Path,
+        required=True,
+    )
     parser.add_argument("--artifact-audit", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
@@ -611,6 +668,9 @@ def main() -> int:
         ),
         frontier_handoff_audit=load_json(args.frontier_handoff_audit),
         frontier_strictification_queue=load_json(args.frontier_strictification_queue),
+        frontier_strictification_attempt_audit=load_json(
+            args.frontier_strictification_attempt_audit
+        ),
         artifact_audit=load_json(args.artifact_audit),
     )
     write_json(args.out, summary)
