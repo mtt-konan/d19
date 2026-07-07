@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=50 \
+  --expect language_audit_files=51 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -546,6 +546,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/362-external-cover-descent-packages.md \
   --path docs/work-logs/363-closure-quotient-ray-ledger.md \
   --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
+  --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -553,7 +554,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 50
+files = 51
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1034,9 +1035,33 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 302
+artifact_status.required_file_count = 306
 artifact_status.missing_file_count = 0
 ```
+
+Audit scale invariance along primitive rays:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_ray_scale_invariance.py \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/closure_quotient_ray_scale_invariance_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+observed_ray_count = 356
+multi_scale_ray_count = 14
+coefficient_identity_verified_count = 1536
+coefficient_identity_violation_count = 0
+rank_key_consistent_group_count = 56
+rank_key_inconsistent_group_count = 0
+```
+
+The quotient models for `(A,B)=d(a,b)` are isomorphic to the primitive ray model
+under `N=d n` and `y=d^2 y0`.
 
 Summarize the lambda frontier:
 
@@ -1282,6 +1307,7 @@ scripts/theory/audit_closure_quotient_paper_structure.py
 scripts/theory/audit_closure_quotient_partial_dependencies.py
 scripts/theory/summarize_closure_quotient_ray_ledger.py
 scripts/theory/summarize_closure_quotient_lambda_frontier.py
+scripts/theory/audit_closure_quotient_ray_scale_invariance.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1395,6 +1421,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 302
+required_file_count = 306
 missing_files = []
 ```

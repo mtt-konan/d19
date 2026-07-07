@@ -490,7 +490,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=50 \
+  --expect language_audit_files=51 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -565,6 +565,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/362-external-cover-descent-packages.md \
   --path docs/work-logs/363-closure-quotient-ray-ledger.md \
   --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
+  --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -572,7 +573,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=50
+files=51
 violations=0
 required_boundary_hits={
   'candidate_not_proof': 7,
@@ -1055,10 +1056,35 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=302
+artifact_status.required_file_count=306
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
+
+Ray scale-invariance audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_ray_scale_invariance.py \
+  --rank-jsonl results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl \
+  --rank-jsonl results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl \
+  --out results/closure_quotient_ray_scale_invariance_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+observed_ray_count=356
+multi_scale_ray_count=14
+coefficient_identity_verified_count=1536
+coefficient_identity_violation_count=0
+rank_key_consistent_group_count=56
+rank_key_inconsistent_group_count=0
+```
+
+普通话说：若 `(A,B)=d(a,b)`，则四次商曲线通过 `N=d n, y=d^2 y0`
+同构到本原 ray 的曲线；系数满足 `coeff_scaled[N^i]=d^(4-i)*coeff_primitive[n^i]`。
+所以同一个本原 ray 上继续增加 scale 样本，不应算作新的结构进展。
 
 Lambda frontier：
 
@@ -1397,6 +1423,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_partial_dependencies.py`
 - `scripts/theory/summarize_closure_quotient_ray_ledger.py`
 - `scripts/theory/summarize_closure_quotient_lambda_frontier.py`
+- `scripts/theory/audit_closure_quotient_ray_scale_invariance.py`
 - `scripts/theory/summarize_closure_quotient_partial_result.py`
 - `scripts/theory/audit_mixed_closure_even_model_identities.py`
 - `scripts/theory/audit_closure_quotient_partial_artifacts.py`
@@ -1445,6 +1472,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_partial_dependency_audit.py`
 - `tests/test_closure_quotient_ray_ledger.py`
 - `tests/test_closure_quotient_lambda_frontier.py`
+- `tests/test_closure_quotient_ray_scale_invariance.py`
 - `tests/test_summarize_closure_quotient_partial_result.py`
 - `tests/test_mixed_closure_even_model_identity_audit.py`
 - `tests/test_closure_quotient_partial_artifacts.py`
@@ -1514,6 +1542,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_partial_dependency_audit.json`
 - `results/closure_quotient_ray_ledger.json`
 - `results/closure_quotient_lambda_frontier.json`
+- `results/closure_quotient_ray_scale_invariance_audit.json`
 - `results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json`
 - `results/mixed_closure_frontier_next_action_audit.json`
 - `results/mixed_closure_frontier_escalation_queue.json`
@@ -1619,6 +1648,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl362](work-logs/362-external-cover-descent-packages.md)
 - [wl363](work-logs/363-closure-quotient-ray-ledger.md)
 - [wl364](work-logs/364-closure-quotient-lambda-frontier.md)
+- [wl365](work-logs/365-closure-quotient-ray-scale-invariance.md)
 
 数学总入口：
 
