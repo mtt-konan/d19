@@ -306,6 +306,9 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/383-rank-zero-isogeny-templates.md" in paths
     assert "docs/work-logs/384-rank-zero-selmer-obligations.md" in paths
     assert "docs/work-logs/385-rank-zero-selmer-package-index.md" in paths
+    assert "docs/work-logs/386-rank-zero-selmer-package-materialization.md" in paths
+    assert "docs/work-logs/387-rank-zero-selmer-transcript-intake.md" in paths
+    assert "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths

@@ -90,6 +90,27 @@ def _proof_seed_coverage_complete(
     )
 
 
+def _rank_zero_transcript_intake_boundary(
+    rank_zero_transcript_intake: dict[str, Any],
+) -> bool:
+    return (
+        rank_zero_transcript_intake.get("status") == "ok"
+        and rank_zero_transcript_intake.get("candidate_not_proof") is True
+        and int(rank_zero_transcript_intake.get("strict_promotion_ready_count", 0))
+        == 0
+        and int(rank_zero_transcript_intake.get("strict_promotion_count", 0)) == 0
+        and int(
+            rank_zero_transcript_intake.get(
+                "selmer_rank_upper_bound_proved_count",
+                0,
+            )
+        )
+        == 0
+        and int(rank_zero_transcript_intake.get("family_exclusion_proved_count", 0))
+        == 0
+    )
+
+
 def audit_lambda_mainline(
     *,
     ray_ledger: dict[str, Any],
@@ -97,6 +118,7 @@ def audit_lambda_mainline(
     route_partition: dict[str, Any],
     two_cover_frontier: dict[str, Any],
     proof_seed_coverage: dict[str, Any],
+    rank_zero_transcript_intake: dict[str, Any],
 ) -> dict[str, Any]:
     checks = {
         "ray_ledger_has_c_minus": _ray_ledger_has_c_minus(ray_ledger),
@@ -109,11 +131,15 @@ def audit_lambda_mainline(
             route_partition=route_partition,
             proof_seed_coverage=proof_seed_coverage,
         ),
+        "rank_zero_transcript_intake_boundary": (
+            _rank_zero_transcript_intake_boundary(rank_zero_transcript_intake)
+        ),
         "family_exclusion_claim_count_zero": _family_exclusion_count_zero(
             lambda_frontier,
             route_partition,
             two_cover_frontier,
             proof_seed_coverage,
+            rank_zero_transcript_intake,
         ),
     }
     violations = []
@@ -127,6 +153,8 @@ def audit_lambda_mainline(
         violations.append("two-cover-frontier-missing-strict-evidence-boundary")
     if not checks["proof_seed_coverage_complete"]:
         violations.append("lambda-proof-seed-coverage-incomplete")
+    if not checks["rank_zero_transcript_intake_boundary"]:
+        violations.append("rank-zero-transcript-intake-overclaims-proof")
     if not checks["family_exclusion_claim_count_zero"]:
         violations.append("family-exclusion-count-nonzero-without-theorem")
 
@@ -150,6 +178,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--route-partition", type=Path, required=True)
     parser.add_argument("--two-cover-frontier", type=Path, required=True)
     parser.add_argument("--proof-seed-coverage", type=Path, required=True)
+    parser.add_argument("--rank-zero-transcript-intake", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -163,6 +192,7 @@ def main() -> int:
         route_partition=load_json(args.route_partition),
         two_cover_frontier=load_json(args.two_cover_frontier),
         proof_seed_coverage=load_json(args.proof_seed_coverage),
+        rank_zero_transcript_intake=load_json(args.rank_zero_transcript_intake),
     )
     write_json(args.out, audit)
     print(f"wrote closure quotient lambda mainline audit to {args.out}")

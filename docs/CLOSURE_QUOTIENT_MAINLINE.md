@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=383
+artifact_status.required_file_count=411
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1090,6 +1090,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closur
   --route-partition results/closure_quotient_lambda_route_partition_audit.json \
   --two-cover-frontier results/closure_quotient_two_cover_lambda_frontier.json \
   --proof-seed-coverage results/closure_quotient_lambda_proof_seed_coverage_audit.json \
+  --rank-zero-transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
   --out results/closure_quotient_lambda_mainline_audit.json \
   --strict
 ```
@@ -1107,12 +1108,14 @@ checks={
   'search_count_rejected_as_progress': True,
   'two_cover_requires_strict_evidence': True,
   'proof_seed_coverage_complete': True,
+  'rank_zero_transcript_intake_boundary': True,
   'family_exclusion_claim_count_zero': True
 }
 ```
 
 普通话说：这个总 gate 确认 closure quotient 已收成 `lambda=A/B` 层面的结构证明主线；
-它仍然不证明任何比例类已经整族排除。
+它现在也检查 rank-zero transcript intake 的边界：即使以后有 transcript 材料，也不能自动
+升级成 Selmer bound、rank-zero 定理或 `lambda` family 排除。它仍然不证明任何比例类已经整族排除。
 
 Lambda proof seed coverage audit：
 
@@ -2258,6 +2261,9 @@ factor_concordant / GEN-CLOSURE 后
 - [wl383](work-logs/383-rank-zero-isogeny-templates.md)
 - [wl384](work-logs/384-rank-zero-selmer-obligations.md)
 - [wl385](work-logs/385-rank-zero-selmer-package-index.md)
+- [wl386](work-logs/386-rank-zero-selmer-package-materialization.md)
+- [wl387](work-logs/387-rank-zero-selmer-transcript-intake.md)
+- [wl388](work-logs/388-lambda-mainline-transcript-intake-gate.md)
 
 数学总入口：
 

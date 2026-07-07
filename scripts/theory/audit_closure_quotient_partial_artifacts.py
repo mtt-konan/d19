@@ -324,6 +324,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/385-rank-zero-selmer-package-index.md"),
     Artifact("worklog", "docs/work-logs/386-rank-zero-selmer-package-materialization.md"),
     Artifact("worklog", "docs/work-logs/387-rank-zero-selmer-transcript-intake.md"),
+    Artifact("worklog", "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),

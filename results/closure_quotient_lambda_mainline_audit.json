@@ -1,0 +1,22 @@
+{
+  "boundary": "This audits that the closure quotient work is organized as a lambda-level structural proof mainline. It does not prove any lambda-family exclusion.",
+  "checks": {
+    "family_exclusion_claim_count_zero": true,
+    "proof_seed_coverage_complete": true,
+    "rank_zero_transcript_intake_boundary": true,
+    "ray_ledger_has_c_minus": true,
+    "route_partition_complete": true,
+    "search_count_rejected_as_progress": true,
+    "two_cover_requires_strict_evidence": true
+  },
+  "covered_class_count": 356,
+  "lambda_class_count": 356,
+  "ready": true,
+  "route_counts": {
+    "rank-zero-family-generalization": 200,
+    "root-number-rank-structure-triage": 148,
+    "two-cover-or-reviewable-no-point-certificate": 8
+  },
+  "status": "ok",
+  "violations": []
+}

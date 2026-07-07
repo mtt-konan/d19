@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 383
+artifact_status.required_file_count = 411
 artifact_status.missing_file_count = 0
 ```
 
@@ -1068,6 +1068,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closur
   --route-partition results/closure_quotient_lambda_route_partition_audit.json \
   --two-cover-frontier results/closure_quotient_two_cover_lambda_frontier.json \
   --proof-seed-coverage results/closure_quotient_lambda_proof_seed_coverage_audit.json \
+  --rank-zero-transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
   --out results/closure_quotient_lambda_mainline_audit.json \
   --strict
 ```
@@ -1082,6 +1083,9 @@ violations = []
 ```
 
 This is the current evidence-boundary gate for the lambda-level mainline.
+It includes the rank-zero transcript-intake boundary: transcript material can be
+accepted for review, but this gate does not verify Selmer mathematics or promote
+family exclusions.
 
 Audit lambda proof seed coverage:
 

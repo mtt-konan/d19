@@ -94,6 +94,20 @@ def _proof_seed_coverage() -> dict[str, object]:
     }
 
 
+def _rank_zero_transcript_intake() -> dict[str, object]:
+    return {
+        "status": "ok",
+        "package_count": 9,
+        "transcript_package_ready_count": 0,
+        "strict_promotion_ready_count": 0,
+        "strict_promotion_count": 0,
+        "selmer_rank_upper_bound_proved_count": 0,
+        "family_exclusion_proved_count": 0,
+        "candidate_not_proof": True,
+        "proof_status": "rank-zero-selmer-transcripts-missing-not-proof",
+    }
+
+
 def test_lambda_mainline_gate_accepts_current_objective_shape() -> None:
     audit = audit_lambda_mainline(
         ray_ledger=_ray_ledger(),
@@ -101,6 +115,7 @@ def test_lambda_mainline_gate_accepts_current_objective_shape() -> None:
         route_partition=_partition(),
         two_cover_frontier=_two_cover(),
         proof_seed_coverage=_proof_seed_coverage(),
+        rank_zero_transcript_intake=_rank_zero_transcript_intake(),
     )
 
     assert audit == {
@@ -119,6 +134,7 @@ def test_lambda_mainline_gate_accepts_current_objective_shape() -> None:
             "search_count_rejected_as_progress": True,
             "two_cover_requires_strict_evidence": True,
             "proof_seed_coverage_complete": True,
+            "rank_zero_transcript_intake_boundary": True,
             "family_exclusion_claim_count_zero": True,
         },
         "violations": [],
@@ -137,6 +153,8 @@ def test_lambda_mainline_gate_reports_objective_violations() -> None:
     two_cover["targets"] = [{"candidate_not_proof": False}]
     proof_seed_coverage = _proof_seed_coverage()
     proof_seed_coverage["seed_ledger_class_count"] = 2
+    rank_zero_transcript_intake = _rank_zero_transcript_intake()
+    rank_zero_transcript_intake["strict_promotion_ready_count"] = 1
 
     audit = audit_lambda_mainline(
         ray_ledger=ray_ledger,
@@ -144,6 +162,7 @@ def test_lambda_mainline_gate_reports_objective_violations() -> None:
         route_partition=partition,
         two_cover_frontier=two_cover,
         proof_seed_coverage=proof_seed_coverage,
+        rank_zero_transcript_intake=rank_zero_transcript_intake,
     )
 
     assert audit["status"] == "issues"
@@ -153,6 +172,7 @@ def test_lambda_mainline_gate_reports_objective_violations() -> None:
         "lambda-route-partition-incomplete",
         "two-cover-frontier-missing-strict-evidence-boundary",
         "lambda-proof-seed-coverage-incomplete",
+        "rank-zero-transcript-intake-overclaims-proof",
         "family-exclusion-count-nonzero-without-theorem",
     ]
 
@@ -163,6 +183,7 @@ def test_lambda_mainline_gate_cli_writes_audit(tmp_path: Path) -> None:
     partition = tmp_path / "partition.json"
     two_cover = tmp_path / "two_cover.json"
     proof_seed_coverage = tmp_path / "proof_seed_coverage.json"
+    rank_zero_transcript_intake = tmp_path / "rank_zero_transcript_intake.json"
     out = tmp_path / "gate.json"
     ray.write_text(json.dumps(_ray_ledger()), encoding="utf-8")
     frontier.write_text(json.dumps(_lambda_frontier()), encoding="utf-8")
@@ -170,6 +191,10 @@ def test_lambda_mainline_gate_cli_writes_audit(tmp_path: Path) -> None:
     two_cover.write_text(json.dumps(_two_cover()), encoding="utf-8")
     proof_seed_coverage.write_text(
         json.dumps(_proof_seed_coverage()),
+        encoding="utf-8",
+    )
+    rank_zero_transcript_intake.write_text(
+        json.dumps(_rank_zero_transcript_intake()),
         encoding="utf-8",
     )
 
@@ -187,6 +212,8 @@ def test_lambda_mainline_gate_cli_writes_audit(tmp_path: Path) -> None:
             str(two_cover),
             "--proof-seed-coverage",
             str(proof_seed_coverage),
+            "--rank-zero-transcript-intake",
+            str(rank_zero_transcript_intake),
             "--out",
             str(out),
             "--strict",
