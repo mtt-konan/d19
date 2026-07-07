@@ -469,7 +469,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=52 \
+  --expect language_audit_files=53 \
   --expect language_candidate_not_proof_hits=7 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=2 \
@@ -548,6 +548,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
   --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
   --path docs/work-logs/366-rank-zero-family-candidates.md \
+  --path docs/work-logs/367-rank-zero-primitive-models.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -555,7 +556,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 52
+files = 53
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 7,
@@ -1036,9 +1037,30 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 310
+artifact_status.required_file_count = 314
 artifact_status.missing_file_count = 0
 ```
+
+Summarize primitive models for rank-zero family candidates:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py \
+  --candidates results/closure_quotient_rank_zero_family_candidates.json \
+  --out results/closure_quotient_rank_zero_primitive_models.json \
+  --strict
+```
+
+Current result:
+
+```text
+candidate_class_count = 200
+model_count = 243
+model_counts_by_curve = {'AA': 125, 'BB': 118}
+family_exclusion_proved_count = 0
+```
+
+This fixes the primitive AA/BB models for future family-level rank-zero proof
+work.
 
 Summarize rank-zero family candidates:
 
@@ -1331,6 +1353,7 @@ scripts/theory/summarize_closure_quotient_ray_ledger.py
 scripts/theory/summarize_closure_quotient_lambda_frontier.py
 scripts/theory/audit_closure_quotient_ray_scale_invariance.py
 scripts/theory/summarize_closure_quotient_rank_zero_family_candidates.py
+scripts/theory/summarize_closure_quotient_rank_zero_primitive_models.py
 scripts/theory/summarize_closure_quotient_partial_result.py
 scripts/theory/audit_mixed_closure_even_model_identities.py
 scripts/theory/audit_closure_quotient_partial_artifacts.py
@@ -1444,6 +1467,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 310
+required_file_count = 314
 missing_files = []
 ```
