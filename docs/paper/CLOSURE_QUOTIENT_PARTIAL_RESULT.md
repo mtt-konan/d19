@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=40 \
+  --expect language_audit_files=41 \
   --expect language_candidate_not_proof_hits=5 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -527,6 +527,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
   --path docs/work-logs/353-frontier-escalation-queue.md \
   --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
+  --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -534,7 +535,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 40
+files = 41
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 5,
@@ -775,6 +776,32 @@ route_counts = {'even-gap4-deeper-descent-or-cover-descent': 1, 'rank-one-genera
 
 This queue records the next strict evidence route. It is not a proof.
 
+Audit Sage cover-level tool capability for the first escalation target:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_sage_cover_tool_capabilities.py \
+  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
+  --out results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
+  --sage sage \
+  --timeout 30 \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+cover_count = 2
+genus_one_cover_count = 2
+sage_direct_no_point_capable_count = 0
+strict_certificate_ready_count = 0
+recommended_next_tool = magma-or-specialized-cover-descent
+```
+
+This is a tool-capability audit, not a proof. It records that Sage's built-in
+interfaces here expose bounded point search, but not a direct cover-level
+no-point certificate route.
+
 Summarize the full partial-result gate:
 
 ```bash
@@ -882,7 +909,7 @@ frontier_next_action_status.rank_zero_rank_method_target_hopping_exhausted = Tru
 frontier_next_action_status.recommended_mainline = escalate-beyond-cheap-rank-methods
 frontier_next_action_status.proof_status = next-action-routing-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 262
+artifact_status.required_file_count = 266
 artifact_status.missing_file_count = 0
 ```
 
@@ -1028,6 +1055,7 @@ scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py
 scripts/theory/audit_mixed_closure_frontier_next_actions.py
 scripts/theory/audit_mixed_closure_frontier_escalation_queue.py
 scripts/theory/probe_mwrank_mixed_closure_rank.py
+scripts/theory/audit_sage_cover_tool_capabilities.py
 scripts/theory/sage_probe_mixed_closure_local_witnesses.py
 scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py
 scripts/theory/prioritize_mixed_closure_residual_covers.py
@@ -1146,6 +1174,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 262
+required_file_count = 266
 missing_files = []
 ```
