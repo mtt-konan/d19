@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=431
+artifact_status.required_file_count=435
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1663,6 +1663,31 @@ local_lemma_proved_count=0
 每条 lemma 覆盖同一 valuation 形状下的多个 package。这一步仍然没有证明任何
 local condition，只是把后续证明从“逐 package”收敛成“逐 lemma”。
 
+Rank-zero Selmer odd-prime reduction-shape audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py \
+  --odd-prime-lemma-queue results/closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_lemma_obligation_count=9
+reduction_shape_count=9
+reduction_shape_proved_count=9
+local_condition_proved_count=0
+```
+
+普通话说：这一步开始证明 9 条 odd-prime lemma 的共同代数入口。对每条分支，
+目标三次式 `x*(x^2+a2*x+a4)` 在相应的 `ell` 条件下都化成
+`x*(x-r)^2` 或 `x^2*(x-s)`。这说明奇素数分支都有明确双根的 nodal reduction
+形状。它还不是 isogeny-Selmer local image 证明；下一步要把这个双根形状转成
+local squareclass condition。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -2089,6 +2114,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2164,6 +2190,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_valuations.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py`
+- `tests/test_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2261,6 +2288,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_valuations.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.json`
+- `results/closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`

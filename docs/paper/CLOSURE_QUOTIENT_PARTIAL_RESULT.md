@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 431
+artifact_status.required_file_count = 435
 artifact_status.missing_file_count = 0
 ```
 
@@ -1391,6 +1391,28 @@ local_lemma_proved_count = 0
 This collapses repeated package-level valuation cases into nine uniform
 `kernel x odd-prime support` lemma obligations. It is not a local-condition
 proof.
+
+Audit rank-zero Selmer odd-prime reduction shapes:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py \
+  --odd-prime-lemma-queue results/closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_lemma_obligation_count = 9
+reduction_shape_count = 9
+reduction_shape_proved_count = 9
+local_condition_proved_count = 0
+```
+
+This proves the displayed reduced cubic factorization shape for each odd-prime
+lemma branch. It does not prove the required isogeny-Selmer local image.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -1953,6 +1975,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -2074,6 +2097,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 431
+required_file_count = 435
 missing_files = []
 ```
