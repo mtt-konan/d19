@@ -652,6 +652,7 @@ uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
   --method rank_bounds \
   --method rank_proof \
   --method selmer_rank \
+  --method pari_ellrank \
   --method two_descent \
   --two-descent-second-limit 20 \
   --dot-sage /private/tmp/d19-dot-sage
@@ -660,7 +661,7 @@ uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
 Current result:
 
 ```text
-method_status_counts = {'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
+method_status_counts = {'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
 rank_zero_proof_candidate = False
 ```
 
@@ -818,9 +819,9 @@ needed next: 8 rank-zero rank proofs, 1 rank-one/Sha[2] separation, and 1 even
 gap4 deeper descent.
 The first recorded attempt, `sage-twodescent20` on `(1625,5643) AA`, timed out
 under a 180-second budget and therefore leaves `strict_certificate_ready_count = 0`.
-The follow-up rank-method probe shows `rank_bounds` and `selmer_rank` complete,
-while `rank_proof` remains a runtime error and `two_descent` times out under a
-90-second method budget.
+The follow-up rank-method probe shows `rank_bounds`, PARI `ellrank`, and
+`selmer_rank` complete, while `rank_proof` remains a runtime error and
+`two_descent` times out under a 90-second method budget.
 
 Export the current strict-proof handoff for the smallest residual target:
 

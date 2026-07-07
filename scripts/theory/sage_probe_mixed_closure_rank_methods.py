@@ -15,7 +15,13 @@ from typing import Any
 Run = Callable[..., subprocess.CompletedProcess[str]]
 
 MARKER = "SAGE_RANK_METHOD_JSON "
-DEFAULT_METHODS = ("rank_bounds", "rank_proof", "selmer_rank", "two_descent")
+DEFAULT_METHODS = (
+    "rank_bounds",
+    "rank_proof",
+    "selmer_rank",
+    "pari_ellrank",
+    "two_descent",
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -65,7 +71,7 @@ def _sage_method_program(
     )
     return f"""
 import json
-from sage.all import EllipticCurve
+from sage.all import EllipticCurve, pari
 
 model = {json.dumps(model)}
 method = {json.dumps(method)}
@@ -83,6 +89,13 @@ try:
         payload["rank"] = int(E.rank(proof=False))
     elif method == "selmer_rank":
         payload["selmer_rank"] = int(E.selmer_rank())
+    elif method == "pari_ellrank":
+        pari_curve = pari("ellinit")(model)
+        ellrank = pari('ellrank')(pari_curve)
+        values = [ellrank[i] for i in range(len(ellrank))]
+        payload["ellrank"] = [str(value) for value in values]
+        payload["rank_bounds"] = [int(values[0]), int(values[1])]
+        payload["sha2_lower"] = int(values[2])
     elif method == "two_descent":
         if two_descent_second_limit is None:
             result = E.two_descent(verbose=False)

@@ -668,6 +668,7 @@ uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
   --method rank_bounds \
   --method rank_proof \
   --method selmer_rank \
+  --method pari_ellrank \
   --method two_descent \
   --two-descent-second-limit 20 \
   --dot-sage /private/tmp/d19-dot-sage
@@ -676,12 +677,12 @@ uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
 当前结果：
 
 ```text
-method_status_counts={'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
+method_status_counts={'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
 rank_zero_proof_candidate=False
 ```
 
-普通话说：`rank_bounds` 和 `selmer_rank` 这两个诊断能跑通；严格 rank proof
-没有出来，`two_descent` 在 90 秒内 timeout。
+普通话说：`rank_bounds`、PARI `ellrank=[0,2,0,[]]` 和 `selmer_rank`
+这些诊断能跑通；严格 rank proof 没有出来，`two_descent` 在 90 秒内 timeout。
 
 partial-result 总摘要：
 
@@ -826,8 +827,8 @@ strictification queue 进一步把这 10 个目标排成可攻队列：先攻 `(
 分离目标和 1 个 even gap4 deeper descent 目标。
 第一条实际 attempt 已记录：`sage-twodescent20` 在 180 秒预算内 timeout，所以
 `strict_certificate_ready_count=0` 仍保持不变。
-随后逐方法 probe 显示 `rank_bounds` 与 `selmer_rank` 可计算，但 `rank_proof`
-仍为 runtime-error，`two_descent` 在 90 秒预算内 timeout。
+随后逐方法 probe 显示 `rank_bounds`、PARI `ellrank` 与 `selmer_rank` 可计算，
+但 `rank_proof` 仍为 runtime-error，`two_descent` 在 90 秒预算内 timeout。
 
 目标 cover handoff：
 

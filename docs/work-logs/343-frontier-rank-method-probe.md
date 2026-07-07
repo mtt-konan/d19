@@ -16,6 +16,7 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache DOT_SAGE=/private/tmp/d19-dot-sage uv run
   --method rank_bounds \
   --method rank_proof \
   --method selmer_rank \
+  --method pari_ellrank \
   --method two_descent \
   --two-descent-second-limit 20 \
   --dot-sage /private/tmp/d19-dot-sage
@@ -25,7 +26,7 @@ Output:
 
 ```text
 status=ok
-method_status_counts={'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
+method_status_counts={'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
 rank_zero_proof_candidate=False
 ```
 
@@ -39,6 +40,6 @@ strict_certificate_ready_count=0
 
 ## Boundary
 
-This improves diagnosis only. `rank_bounds` and `selmer_rank` completing are not
-rank-zero certificates. `rank_proof` still does not prove rank zero, and
-`two_descent` timed out under this short budget.
+This improves diagnosis only. `rank_bounds`, PARI `ellrank=[0,2,0,[]]`, and
+`selmer_rank` completing are not rank-zero certificates. `rank_proof` still does
+not prove rank zero, and `two_descent` timed out under this short budget.

@@ -164,6 +164,18 @@ def test_sage_method_program_includes_two_descent_second_limit() -> None:
     assert "two_descent_second_limit = 20" in program
 
 
+def test_sage_method_program_supports_pari_ellrank() -> None:
+    program = _sage_method_program(
+        model=[0, 1, 0, -1, 0],
+        method="pari_ellrank",
+        two_descent_second_limit=None,
+    )
+
+    assert 'method = "pari_ellrank"' in program
+    assert "pari('ellrank')" in program
+    assert 'payload["rank_bounds"]' in program
+
+
 def test_write_json_writes_sorted_rank_method_probe(tmp_path: Path) -> None:
     out = tmp_path / "probe.json"
 
