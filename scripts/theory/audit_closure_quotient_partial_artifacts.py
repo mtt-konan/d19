@@ -120,6 +120,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md"),
     Artifact("worklog", "docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md"),
     Artifact("worklog", "docs/work-logs/336-residual-frontier-strategy-audit.md"),
+    Artifact("worklog", "docs/work-logs/337-frontier-target-handoff-1625-5643.md"),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_summary.json"),
@@ -208,6 +209,30 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "handoff",
         "results/mixed_closure_residual_handoffs/priority_001_115_297_AA_covers_3_4_local_witnesses.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.sage",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.magma",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_sage_probe.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_map_verify.json",
+    ),
+    Artifact(
+        "handoff",
+        "results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3_local_witnesses.json",
     ),
     Artifact(
         "handoff",

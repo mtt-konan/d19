@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=22 \
+  --expect language_audit_files=23 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -509,6 +509,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
   --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
   --path docs/work-logs/336-residual-frontier-strategy-audit.md \
+  --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -516,7 +517,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 22
+files = 23
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -634,7 +635,7 @@ residual_frontier_strategy_status.strict_promotion_count = 0
 residual_frontier_strategy_status.next_strategy_counts = {'even_gap4_deeper_descent_or_sha2_obstruction': 1, 'external_rank_proof_or_cover_level_descent': 8, 'rank1_generator_or_sha2_separation': 1}
 residual_frontier_strategy_status.proof_status = strategy-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 144
+artifact_status.required_file_count = 151
 artifact_status.missing_file_count = 0
 ```
 
@@ -669,6 +670,10 @@ targets therefore still need stronger descent tooling or a cover-level proof.
 The strategy audit records the combined 10 frontier targets as
 `exhausted-without-proof`: the local short Sage queue is exhausted, but the
 residual no-point problem is still open.
+The first external rank/cover-level target `(1625,5643) AA` now has a handoff for
+covers `4,3`: Sage verifies the stored maps, finds local witnesses at the bad
+primes, and still reports only diagnostic rank bounds `[0,2]` with
+`rank_proof_status = runtime-error`.
 
 Export the current strict-proof handoff for the smallest residual target:
 
@@ -866,6 +871,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 144
+required_file_count = 151
 missing_files = []
 ```
