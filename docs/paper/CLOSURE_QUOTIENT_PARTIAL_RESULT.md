@@ -460,7 +460,7 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=18 \
+  --expect language_audit_files=19 \
   --expect language_candidate_not_proof_hits=4 \
   --expect language_sha2_candidate_hits=5 \
   --expect language_bounded_search_not_proof_hits=1 \
@@ -505,6 +505,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/work-logs/330-rankzero-frontier-long-recheck-1625-5643.md \
   --path docs/work-logs/331-rankzero-frontier-recheck-8075-8613.md \
   --path docs/work-logs/332-rankzero-frontier-recheck-391-9009.md \
+  --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -512,7 +513,7 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 18
+files = 19
 violations = 0
 required_boundary_hits = {
   'candidate_not_proof': 4,
@@ -589,7 +590,7 @@ residual_open_frontier_status.proof_status = open-frontier-not-proof
 rank_zero_frontier_status.rank_zero_frontier_cover_count = 16
 rank_zero_frontier_status.rank_zero_frontier_target_count = 8
 rank_zero_frontier_status.closed_rank_zero_target_count = 0
-rank_zero_frontier_status.target_status_counts = {'not-retried': 3, 'sage-timeout': 5}
+rank_zero_frontier_status.target_status_counts = {'not-retried': 2, 'sage-timeout': 6}
 rank_zero_frontier_status.proof_status = rank-proof-frontier-not-proof
 non_rankzero_frontier_status.non_rankzero_frontier_cover_count = 7
 non_rankzero_frontier_status.non_rankzero_frontier_target_count = 2
@@ -597,7 +598,7 @@ non_rankzero_frontier_status.target_type_counts = {'even-rank-gap4-needs-deeper-
 non_rankzero_frontier_status.target_status_counts = {'sage-timeout': 2}
 non_rankzero_frontier_status.proof_status = non-rankzero-frontier-not-proof
 artifact_status.ready = True
-artifact_status.required_file_count = 134
+artifact_status.required_file_count = 136
 artifact_status.missing_file_count = 0
 ```
 
@@ -617,7 +618,7 @@ obstruction.
 
 The 16 rank-zero-frontier covers share 8 elliptic rank targets. The current queue
 records Sage retries on `(1625,5643) AA`, `(567,3757) BB`, and `(5075,17901) AA`
-and `(8075,8613) AA`, plus `(391,9009) BB`, with `second_limit=13,20` and a
+and `(8075,8613) AA`, plus `(391,9009) BB` and `(209,21735) BB`, with `second_limit=13,20` and a
 120-second budget. All timed out. The top target
 `(1625,5643) AA` was also retried with `second_limit=20,40` and a 600-second
 budget; it still timed out, so it did not close the rank bound.
@@ -825,6 +826,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 134
+required_file_count = 136
 missing_files = []
 ```
