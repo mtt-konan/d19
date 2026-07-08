@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 516
+artifact_status.required_file_count = 520
 artifact_status.missing_file_count = 0
 ```
 
@@ -1452,6 +1452,34 @@ primary_remaining_proof_field = selmer_bound_argument
 This identifies the next proof-writing blocker more precisely: the core missing
 content is the 9 package-level `selmer_bound_argument` fields. The other
 package-specific fields are statement and review wrappers.
+
+Audit rank-zero Selmer bound argument queue:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_queue.py \
+  --field-decomposition results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json \
+  --transcript-bridge results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --isogeny-setup-templates results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --family-conclusion-templates results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json \
+  --out results/closure_quotient_rank_zero_selmer_bound_argument_queue.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+bound_argument_task_count = 9
+open_bound_argument_task_count = 9
+kernel_template_reuse_count = 3
+family_conclusion_target_count = 3
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+This makes the remaining work concrete: 9 package-level bound arguments are
+open. The shared setup fields are kernel templates, and the family conclusions
+remain open until those arguments are written and reviewed.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2609,6 +2637,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 516
+required_file_count = 520
 missing_files = []
 ```

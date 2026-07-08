@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=516
+artifact_status.required_file_count=520
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1725,6 +1725,34 @@ primary_remaining_proof_field=selmer_bound_argument
 `isogeny_setup` 是 kernel 共享，`rank_zero_conclusion` 是 family 聚合，真正还要逐 package
 攻的核心证明字段是 `selmer_bound_argument`。所以下一步不该继续扩 package，而是写 9 个
 可审阅的 Selmer bound argument。
+
+Rank-zero Selmer bound argument queue：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_queue.py \
+  --field-decomposition results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json \
+  --transcript-bridge results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --isogeny-setup-templates results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --family-conclusion-templates results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json \
+  --out results/closure_quotient_rank_zero_selmer_bound_argument_queue.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+bound_argument_task_count=9
+open_bound_argument_task_count=9
+kernel_template_reuse_count=3
+family_conclusion_target_count=3
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步把“9 个 package 缺 `selmer_bound_argument`”变成了明确队列。共享 setup
+字段已经按 3 个 kernel 模板复用，3 个 family 结论仍然 open；后面要收敛的是逐 package
+写出可审阅的 Selmer bound 论证，不是继续累计搜索命中。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2971,6 +2999,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl413](work-logs/413-rank-zero-selmer-isogeny-setup-templates.md)
 - [wl414](work-logs/414-rank-zero-selmer-family-conclusion-templates.md)
 - [wl415](work-logs/415-rank-zero-selmer-transcript-field-decomposition.md)
+- [wl416](work-logs/416-rank-zero-selmer-bound-argument-queue.md)
 
 数学总入口：
 
