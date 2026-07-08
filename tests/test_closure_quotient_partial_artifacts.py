@@ -200,6 +200,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py"
         in paths
     )
+    assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -276,6 +280,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "tests/test_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py"
+        in paths
+    )
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py"
         in paths
     )
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
@@ -364,6 +372,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/394-rank-zero-selmer-odd-prime-reduction-shapes.md" in paths
     assert "docs/work-logs/395-rank-zero-selmer-odd-prime-local-image-schemas.md" in paths
     assert "docs/work-logs/396-rank-zero-selmer-tangent-squareclass-correction.md" in paths
+    assert "docs/work-logs/397-rank-zero-selmer-tangent-one-normal-forms.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -423,6 +432,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json"
+        in paths
+    )
+    assert (
+        "results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json"
         in paths
     )
     for package_id in [

@@ -150,6 +150,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py",
     ),
     Artifact(
@@ -267,6 +271,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "test",
         "tests/test_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py",
+    ),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py",
     ),
     Artifact("test", "tests/test_closure_quotient_root_number_lambda_triage.py"),
     Artifact("test", "tests/test_closure_quotient_root_number_proof_seeds.py"),
@@ -403,6 +411,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "worklog",
         "docs/work-logs/396-rank-zero-selmer-tangent-squareclass-correction.md",
+    ),
+    Artifact(
+        "worklog",
+        "docs/work-logs/397-rank-zero-selmer-tangent-one-normal-forms.md",
     ),
     Artifact("result", "results/mixed_closure_rank_hard_cases_320_torsion_cert.jsonl"),
     Artifact("result", "results/mixed_closure_rank_localglobal_residual64_torsion_cert.jsonl"),
@@ -609,6 +621,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json",
     ),
     Artifact(
         "result",

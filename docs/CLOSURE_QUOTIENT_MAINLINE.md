@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=440
+artifact_status.required_file_count=444
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1712,6 +1712,29 @@ local_condition_proved_count=0
 后续不该再逐 package 写同一件事，而应证明这 4 个 2-isogeny local squareclass
 image 定理；这里仍未关闭任何 local condition。
 
+Rank-zero Selmer tangent-one normal-form audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_schema_count=4
+tangent_one_schema_count=2
+normal_form_proved_count=2
+local_image_schema_proved_count=0
+```
+
+普通话说：tangent squareclass 为 `1` 的两个 schema 可以用平方单位缩放成标准节点模型：
+`Y^2=X*(X-1)^2` 和 `Y^2=X^2*(X-1)`。这是 local-image 证明前的可审阅代数准备；
+还没有证明任何 2-isogeny local squareclass image。
+
 Rank-zero Selmer transcript intake audit：
 
 ```bash
@@ -2140,6 +2163,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py`
 - `scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py`
 - `scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py`
 - `scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py`
@@ -2217,6 +2241,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py`
+- `tests/test_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py`
 - `tests/test_closure_quotient_root_number_lambda_triage.py`
 - `tests/test_closure_quotient_root_number_proof_seeds.py`
 - `tests/test_closure_quotient_two_cover_lambda_frontier.py`
@@ -2316,6 +2341,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json`
+- `results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json`
 - `results/closure_quotient_rank_zero_selmer_packages/`
 - `results/closure_quotient_root_number_lambda_triage.json`
 - `results/closure_quotient_root_number_proof_seeds.json`

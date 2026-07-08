@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 440
+artifact_status.required_file_count = 444
 artifact_status.missing_file_count = 0
 ```
 
@@ -1436,6 +1436,28 @@ local_condition_proved_count = 0
 This reduces the odd-prime local-image work to four nodal model schemas:
 the double root is either nonzero or zero, and the tangent squareclass is
 separately `1` or `-1`. The local-image theorem is still open.
+
+Audit rank-zero Selmer tangent-one normal forms:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_schema_count = 4
+tangent_one_schema_count = 2
+normal_form_proved_count = 2
+local_image_schema_proved_count = 0
+```
+
+This proves the square-unit coordinate normalization for the two tangent-one
+schemas. The local-image theorem is still open.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2000,6 +2022,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_valuations.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_lemma_queue.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_reduction_shapes.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.py
 scripts/theory/summarize_closure_quotient_root_number_lambda_triage.py
 scripts/theory/summarize_closure_quotient_root_number_proof_seeds.py
 scripts/theory/summarize_closure_quotient_two_cover_lambda_frontier.py
@@ -2121,6 +2144,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 440
+required_file_count = 444
 missing_files = []
 ```
