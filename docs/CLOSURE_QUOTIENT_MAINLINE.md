@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=448
+artifact_status.required_file_count=452
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1759,6 +1759,30 @@ local_image_schema_proved_count=0
 `X` 平方类平凡，第二个模型的单位分支上 `X-1` 平方类平凡。这只关闭两个单位
 分支；`X` 非单位、`X-1` 非单位和 tangent squareclass `-1` 的 schema 仍然
 没有被 local-image 定理覆盖。
+
+Rank-zero Selmer tangent-one non-node branch audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.py \
+  --tangent-one-normal-forms results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_normal_form_count=2
+nonnode_branch_count=2
+nonnode_squareclass_consequence_proved_count=2
+local_image_schema_proved_count=0
+```
+
+普通话说：单位假设其实可以放宽成“除数不为零”。第一个标准模型只要
+`X-1 != 0`，就有 `X=(Y/(X-1))^2`；第二个标准模型只要 `X != 0`，就有
+`X-1=(Y/X)^2`。所以两个 tangent-one 标准模型的非节点分支已经有平方类结论。
+还没有覆盖的是节点分支本身，以及 tangent squareclass `-1` 的两个 schema。
 
 Rank-zero Selmer transcript intake audit：
 
