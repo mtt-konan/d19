@@ -110,9 +110,10 @@ def test_rank_zero_selmer_odd_prime_reduction_shapes_prove_nodal_forms() -> None
         "reduced_cubic_factorization": "x*(x - 4*T^2)^2",
         "double_root": "4*T^2",
         "simple_root": "0",
+        "tangent_squareclass": "1",
         "double_root_unit": True,
         "simple_root_unit": False,
-        "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+        "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
         "reduction_shape_proved": True,
         "local_condition_proved": False,
         "next_local_gap": (
@@ -124,6 +125,7 @@ def test_rank_zero_selmer_odd_prime_reduction_shapes_prove_nodal_forms() -> None
         "x^2*(x - 64*L^2)"
     )
     assert audit["reduction_entries"][1]["double_root"] == "0"
+    assert audit["reduction_entries"][1]["tangent_squareclass"] == "-1"
     assert audit["reduction_entries"][1]["simple_root_unit"] is True
 
 

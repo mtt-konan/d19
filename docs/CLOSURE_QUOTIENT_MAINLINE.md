@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=439
+artifact_status.required_file_count=440
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1684,9 +1684,9 @@ local_condition_proved_count=0
 
 普通话说：这一步开始证明 9 条 odd-prime lemma 的共同代数入口。对每条分支，
 目标三次式 `x*(x^2+a2*x+a4)` 在相应的 `ell` 条件下都化成
-`x*(x-r)^2` 或 `x^2*(x-s)`。这说明奇素数分支都有明确双根的 nodal reduction
-形状。它还不是 isogeny-Selmer local image 证明；下一步要把这个双根形状转成
-local squareclass condition。
+`x*(x-r)^2` 或 `x^2*(x-s)`。同时记录节点切线平方类：6 条是 `1`，3 条是
+`-1`。它还不是 isogeny-Selmer local image 证明；下一步要把这个双根形状和切线
+平方类转成 local squareclass condition。
 
 Rank-zero Selmer odd-prime local-image schema audit：
 
@@ -1702,15 +1702,15 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closur
 ```text
 status=ok
 input_reduction_shape_count=9
-local_image_schema_count=2
+local_image_schema_count=4
 local_image_schema_proved_count=0
 local_condition_proved_count=0
 ```
 
-普通话说：9 条 odd-prime reduction shape 现在只剩两种真正要证明的 local-image
-模板：`y^2=x*(x-r)^2` 且 `r` 是 local unit，以及 `y^2=x^2*(x-s)` 且 `s`
-是 local unit。后续不该再逐 package 写同一件事，而应证明这两个 2-isogeny
-local squareclass image 定理；这里仍未关闭任何 local condition。
+普通话说：9 条 odd-prime reduction shape 现在收敛成 4 个真正要证明的 local-image
+模板：双根在非零点或零点，再分别按 tangent squareclass `1` / `-1` 分开。
+后续不该再逐 package 写同一件事，而应证明这 4 个 2-isogeny local squareclass
+image 定理；这里仍未关闭任何 local condition。
 
 Rank-zero Selmer transcript intake audit：
 

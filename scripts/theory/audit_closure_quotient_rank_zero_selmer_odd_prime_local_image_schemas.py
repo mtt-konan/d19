@@ -17,22 +17,50 @@ BOUNDARY = (
 )
 
 SCHEMAS = {
-    "split-nodal-cubic-with-nonzero-double-root": {
-        "schema_id": "odd-prime-local-image-nonzero-double-root",
-        "model_shape": "y^2 = x*(x-r)^2 with r a local unit",
-        "unit_hypothesis": "r is nonzero modulo ell",
+    ("nodal-cubic-with-nonzero-double-root", "1"): {
+        "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+        "model_shape": (
+            "y^2 = x*(x-r)^2 with r a local unit and tangent squareclass 1"
+        ),
+        "unit_hypothesis": "r is nonzero modulo ell and r is a square modulo ell",
         "required_theorem": (
-            "compute the 2-isogeny local squareclass image for the split nodal "
-            "unit-double-root model"
+            "compute the 2-isogeny local squareclass image for the nodal "
+            "unit-double-root model with tangent squareclass 1"
         ),
     },
-    "split-nodal-cubic-with-zero-double-root": {
-        "schema_id": "odd-prime-local-image-zero-double-root",
-        "model_shape": "y^2 = x^2*(x-s) with s a local unit",
-        "unit_hypothesis": "s is nonzero modulo ell",
+    ("nodal-cubic-with-nonzero-double-root", "-1"): {
+        "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+        "model_shape": (
+            "y^2 = x*(x-r)^2 with r a local unit and tangent squareclass -1"
+        ),
+        "unit_hypothesis": (
+            "r is nonzero modulo ell and r has squareclass -1 modulo ell"
+        ),
         "required_theorem": (
-            "compute the 2-isogeny local squareclass image for the split nodal "
-            "zero-double-root model"
+            "compute the 2-isogeny local squareclass image for the nodal "
+            "unit-double-root model with tangent squareclass -1"
+        ),
+    },
+    ("nodal-cubic-with-zero-double-root", "1"): {
+        "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+        "model_shape": (
+            "y^2 = x^2*(x-s) with s a local unit and tangent squareclass 1"
+        ),
+        "unit_hypothesis": "-s is a square modulo ell",
+        "required_theorem": (
+            "compute the 2-isogeny local squareclass image for the nodal "
+            "zero-double-root model with tangent squareclass 1"
+        ),
+    },
+    ("nodal-cubic-with-zero-double-root", "-1"): {
+        "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+        "model_shape": (
+            "y^2 = x^2*(x-s) with s a local unit and tangent squareclass -1"
+        ),
+        "unit_hypothesis": "-s has squareclass -1 modulo ell",
+        "required_theorem": (
+            "compute the 2-isogeny local squareclass image for the nodal "
+            "zero-double-root model with tangent squareclass -1"
         ),
     },
 }
@@ -57,11 +85,16 @@ def _ready(reduction_shapes: dict[str, Any]) -> bool:
     )
 
 
-def _schema_entry(shape: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
-    template = SCHEMAS[shape]
+def _schema_entry(
+    key: tuple[str, str],
+    rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    shape, tangent_squareclass = key
+    template = SCHEMAS[key]
     return {
         "schema_id": template["schema_id"],
         "nodal_reduction_shape": shape,
+        "tangent_squareclass": tangent_squareclass,
         "model_shape": template["model_shape"],
         "unit_hypothesis": template["unit_hypothesis"],
         "covered_reduction_shape_count": len(rows),
@@ -88,27 +121,39 @@ def audit_rank_zero_selmer_odd_prime_local_image_schemas(
 
     unknown_shapes = sorted(
         {
-            str(row.get("nodal_reduction_shape", ""))
+            (
+                str(row.get("nodal_reduction_shape", "")),
+                str(row.get("tangent_squareclass", "")),
+            )
             for row in reduction_entries
-            if str(row.get("nodal_reduction_shape", "")) not in SCHEMAS
+            if (
+                str(row.get("nodal_reduction_shape", "")),
+                str(row.get("tangent_squareclass", "")),
+            )
+            not in SCHEMAS
         }
     )
     if unknown_shapes:
-        violations.append(f"unknown_nodal_reduction_shapes={unknown_shapes}")
+        violations.append(f"unknown_local_image_schema_keys={unknown_shapes}")
 
-    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in reduction_entries:
-        shape = str(row.get("nodal_reduction_shape", ""))
-        if shape in SCHEMAS:
-            grouped[shape].append(row)
+        key = (
+            str(row.get("nodal_reduction_shape", "")),
+            str(row.get("tangent_squareclass", "")),
+        )
+        if key in SCHEMAS:
+            grouped[key].append(row)
 
     schemas = [
-        _schema_entry(shape, grouped[shape])
-        for shape in [
-            "split-nodal-cubic-with-nonzero-double-root",
-            "split-nodal-cubic-with-zero-double-root",
+        _schema_entry(key, grouped[key])
+        for key in [
+            ("nodal-cubic-with-nonzero-double-root", "1"),
+            ("nodal-cubic-with-nonzero-double-root", "-1"),
+            ("nodal-cubic-with-zero-double-root", "1"),
+            ("nodal-cubic-with-zero-double-root", "-1"),
         ]
-        if shape in grouped
+        if key in grouped
     ]
     status = "ok" if not violations else "issues"
     return {

@@ -363,6 +363,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/393-rank-zero-selmer-odd-prime-lemma-queue.md" in paths
     assert "docs/work-logs/394-rank-zero-selmer-odd-prime-reduction-shapes.md" in paths
     assert "docs/work-logs/395-rank-zero-selmer-odd-prime-local-image-schemas.md" in paths
+    assert "docs/work-logs/396-rank-zero-selmer-tangent-squareclass-correction.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths

@@ -14,14 +14,15 @@
       "local_condition_proved": false,
       "mod_relation": "L == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | L",
       "reduced_a2": "-8*T^2",
       "reduced_a4": "16*T^4",
       "reduced_cubic_factorization": "x*(x - 4*T^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "1"
     },
     {
       "case_label": "odd-prime-divides-T",
@@ -32,14 +33,15 @@
       "local_condition_proved": false,
       "mod_relation": "T == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | T",
       "reduced_a2": "32*L^2",
       "reduced_a4": "256*L^4",
       "reduced_cubic_factorization": "x*(x + 16*L^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "-1"
     },
     {
       "case_label": "odd-prime-divides-T2-plus-4L2",
@@ -50,14 +52,15 @@
       "local_condition_proved": false,
       "mod_relation": "T^2 + 4*L^2 == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-zero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-zero-double-root",
       "prime_condition": "ell odd and ell | T^2 + 4*L^2",
       "reduced_a2": "64*L^2",
       "reduced_a4": "0",
       "reduced_cubic_factorization": "x^2*(x + 64*L^2)",
       "reduction_shape_proved": true,
       "simple_root": "-64*L^2",
-      "simple_root_unit": true
+      "simple_root_unit": true,
+      "tangent_squareclass": "1"
     },
     {
       "case_label": "odd-prime-divides-L",
@@ -68,14 +71,15 @@
       "local_condition_proved": false,
       "mod_relation": "L == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-zero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-zero-double-root",
       "prime_condition": "ell odd and ell | L",
       "reduced_a2": "16*T^2",
       "reduced_a4": "0",
       "reduced_cubic_factorization": "x^2*(x + 16*T^2)",
       "reduction_shape_proved": true,
       "simple_root": "-16*T^2",
-      "simple_root_unit": true
+      "simple_root_unit": true,
+      "tangent_squareclass": "1"
     },
     {
       "case_label": "odd-prime-divides-T",
@@ -86,14 +90,15 @@
       "local_condition_proved": false,
       "mod_relation": "T == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | T",
       "reduced_a2": "32*L^2",
       "reduced_a4": "256*L^4",
       "reduced_cubic_factorization": "x*(x + 16*L^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "-1"
     },
     {
       "case_label": "odd-prime-divides-T2-plus-4L2",
@@ -104,14 +109,15 @@
       "local_condition_proved": false,
       "mod_relation": "T^2 + 4*L^2 == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | T^2 + 4*L^2",
       "reduced_a2": "-32*L^2",
       "reduced_a4": "256*L^4",
       "reduced_cubic_factorization": "x*(x - 16*L^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "1"
     },
     {
       "case_label": "odd-prime-divides-L",
@@ -122,14 +128,15 @@
       "local_condition_proved": false,
       "mod_relation": "L == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | L",
       "reduced_a2": "-8*T^2",
       "reduced_a4": "16*T^4",
       "reduced_cubic_factorization": "x*(x - 4*T^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "1"
     },
     {
       "case_label": "odd-prime-divides-T",
@@ -140,14 +147,15 @@
       "local_condition_proved": false,
       "mod_relation": "T == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-zero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-zero-double-root",
       "prime_condition": "ell odd and ell | T",
       "reduced_a2": "-64*L^2",
       "reduced_a4": "0",
       "reduced_cubic_factorization": "x^2*(x - 64*L^2)",
       "reduction_shape_proved": true,
       "simple_root": "64*L^2",
-      "simple_root_unit": true
+      "simple_root_unit": true,
+      "tangent_squareclass": "-1"
     },
     {
       "case_label": "odd-prime-divides-T2-plus-4L2",
@@ -158,14 +166,15 @@
       "local_condition_proved": false,
       "mod_relation": "T^2 + 4*L^2 == 0 mod ell",
       "next_local_gap": "derive the required isogeny-Selmer local squareclass image from this nodal reduction shape",
-      "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
       "prime_condition": "ell odd and ell | T^2 + 4*L^2",
       "reduced_a2": "-32*L^2",
       "reduced_a4": "256*L^4",
       "reduced_cubic_factorization": "x*(x - 16*L^2)^2",
       "reduction_shape_proved": true,
       "simple_root": "0",
-      "simple_root_unit": false
+      "simple_root_unit": false,
+      "tangent_squareclass": "1"
     }
   ],
   "reduction_shape_count": 9,

@@ -39,10 +39,11 @@ def _reduction_shapes() -> dict[str, object]:
                 "reduced_cubic_factorization": "x*(x - 4*T^2)^2",
                 "double_root": "4*T^2",
                 "simple_root": "0",
+                "tangent_squareclass": "1",
                 "double_root_unit": True,
                 "simple_root_unit": False,
                 "nodal_reduction_shape": (
-                    "split-nodal-cubic-with-nonzero-double-root"
+                    "nodal-cubic-with-nonzero-double-root"
                 ),
                 "reduction_shape_proved": True,
                 "local_condition_proved": False,
@@ -62,9 +63,10 @@ def _reduction_shapes() -> dict[str, object]:
                 "reduced_cubic_factorization": "x^2*(x - 64*L^2)",
                 "double_root": "0",
                 "simple_root": "64*L^2",
+                "tangent_squareclass": "-1",
                 "double_root_unit": False,
                 "simple_root_unit": True,
-                "nodal_reduction_shape": "split-nodal-cubic-with-zero-double-root",
+                "nodal_reduction_shape": "nodal-cubic-with-zero-double-root",
                 "reduction_shape_proved": True,
                 "local_condition_proved": False,
                 "next_local_gap": (
@@ -76,7 +78,7 @@ def _reduction_shapes() -> dict[str, object]:
     }
 
 
-def test_rank_zero_selmer_odd_prime_local_image_schemas_group_two_theorems() -> None:
+def test_rank_zero_selmer_odd_prime_local_image_schemas_group_tangent_squareclasses() -> None:
     audit = audit_rank_zero_selmer_odd_prime_local_image_schemas(
         odd_prime_reduction_shapes=_reduction_shapes(),
     )
@@ -91,25 +93,26 @@ def test_rank_zero_selmer_odd_prime_local_image_schemas_group_two_theorems() -> 
     assert audit["local_image_schemas_not_conditions"] is True
     assert audit["boundary"] == BOUNDARY
     assert audit["schemas"][0] == {
-        "schema_id": "odd-prime-local-image-nonzero-double-root",
-        "nodal_reduction_shape": "split-nodal-cubic-with-nonzero-double-root",
-        "model_shape": "y^2 = x*(x-r)^2 with r a local unit",
-        "unit_hypothesis": "r is nonzero modulo ell",
+        "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+        "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
+        "tangent_squareclass": "1",
+        "model_shape": "y^2 = x*(x-r)^2 with r a local unit and tangent squareclass 1",
+        "unit_hypothesis": "r is nonzero modulo ell and r is a square modulo ell",
         "covered_reduction_shape_count": 1,
         "covered_lemma_ids": ["odd-prime-lemma-kernel-minus-p-divides-L"],
         "required_theorem": (
-            "compute the 2-isogeny local squareclass image for the split nodal "
-            "unit-double-root model"
+            "compute the 2-isogeny local squareclass image for the nodal "
+            "unit-double-root model with tangent squareclass 1"
         ),
         "proof_status": "open",
         "local_image_schema_proved": False,
         "local_condition_proved": False,
     }
     assert audit["schemas"][1]["schema_id"] == (
-        "odd-prime-local-image-zero-double-root"
+        "odd-prime-local-image-zero-double-root-tangent--1"
     )
     assert audit["schemas"][1]["model_shape"] == (
-        "y^2 = x^2*(x-s) with s a local unit"
+        "y^2 = x^2*(x-s) with s a local unit and tangent squareclass -1"
     )
 
 

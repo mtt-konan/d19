@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 439
+artifact_status.required_file_count = 440
 artifact_status.missing_file_count = 0
 ```
 
@@ -1428,14 +1428,14 @@ Current result:
 ```text
 status = ok
 input_reduction_shape_count = 9
-local_image_schema_count = 2
+local_image_schema_count = 4
 local_image_schema_proved_count = 0
 local_condition_proved_count = 0
 ```
 
-This reduces the odd-prime local-image work to two nodal model schemas:
-`y^2=x*(x-r)^2` with `r` a local unit, and `y^2=x^2*(x-s)` with `s` a local
-unit. The local-image theorem is still open.
+This reduces the odd-prime local-image work to four nodal model schemas:
+the double root is either nonzero or zero, and the tangent squareclass is
+separately `1` or `-1`. The local-image theorem is still open.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2121,6 +2121,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 439
+required_file_count = 440
 missing_files = []
 ```
