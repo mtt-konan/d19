@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=520
+artifact_status.required_file_count=524
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1753,6 +1753,39 @@ family_exclusion_proved_count=0
 普通话说：这一步把“9 个 package 缺 `selmer_bound_argument`”变成了明确队列。共享 setup
 字段已经按 3 个 kernel 模板复用，3 个 family 结论仍然 open；后面要收敛的是逐 package
 写出可审阅的 Selmer bound 论证，不是继续累计搜索命中。
+
+Rank-zero Selmer bound argument sections：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_sections.py \
+  --bound-argument-queue results/closure_quotient_rank_zero_selmer_bound_argument_queue.json \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --tangent-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --tangent-minus-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --out results/closure_quotient_rank_zero_selmer_bound_argument_sections.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+bound_argument_outline_count=9
+open_bound_argument_outline_count=9
+required_section_per_outline_count=5
+required_section_count=45
+shared_odd_prime_local_image_schema_count=4
+reduction_partition_outline_count=4
+formal_lift_compatibility_proved_count=0
+local_image_schema_proved_count=0
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：这一步把每个 `selmer_bound_argument` 再拆成 5 段：共享 isogeny setup 引用、
+odd-prime local image 定理、formal lift compatibility、2-adic local condition、global Selmer
+dimension bound。odd-prime 已有 4 个 schema 和 4 个 reduction partition outline，但它们还不是
+证明；后面要真正写的是这些段落，不是延长搜索。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2654,6 +2687,8 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_queue.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_sections.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2738,6 +2773,8 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `tests/test_closure_quotient_rank_zero_selmer_family_conclusion_templates.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
+- `tests/test_closure_quotient_rank_zero_selmer_bound_argument_queue.py`
+- `tests/test_closure_quotient_rank_zero_selmer_bound_argument_sections.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2844,6 +2881,8 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json`
 - `results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json`
+- `results/closure_quotient_rank_zero_selmer_bound_argument_queue.json`
+- `results/closure_quotient_rank_zero_selmer_bound_argument_sections.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -3000,6 +3039,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl414](work-logs/414-rank-zero-selmer-family-conclusion-templates.md)
 - [wl415](work-logs/415-rank-zero-selmer-transcript-field-decomposition.md)
 - [wl416](work-logs/416-rank-zero-selmer-bound-argument-queue.md)
+- [wl417](work-logs/417-rank-zero-selmer-bound-argument-sections.md)
 
 数学总入口：
 

@@ -1,0 +1,303 @@
+{
+  "argument_outlines": [
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA+BB",
+      "kernel": "kernel_minus_p",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA+BB",
+      "kernel": "kernel_neg_2sqrt_q",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA+BB",
+      "kernel": "kernel_pos_2sqrt_q",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA",
+      "kernel": "kernel_minus_p",
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA",
+      "kernel": "kernel_neg_2sqrt_q",
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "AA",
+      "kernel": "kernel_pos_2sqrt_q",
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "BB",
+      "kernel": "kernel_minus_p",
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "BB",
+      "kernel": "kernel_neg_2sqrt_q",
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    },
+    {
+      "acceptable_next_evidence": "reviewable package-level Selmer bound argument transcript",
+      "family_exclusion_proved": false,
+      "family_pattern": "BB",
+      "kernel": "kernel_pos_2sqrt_q",
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "proof_status": "sections-open-not-proof",
+      "reduction_partition_outline_count": 4,
+      "required_argument": "selmer_bound_argument",
+      "required_sections": [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "global_selmer_dimension_bound"
+      ],
+      "selmer_rank_upper_bound_proved": false,
+      "shared_odd_prime_local_image_schema_count": 4,
+      "status": "open"
+    }
+  ],
+  "bound_argument_outline_count": 9,
+  "boundary": "This decomposes each open rank-zero Selmer bound argument into reviewable proof sections. It does not prove local-image theorems, formal lift compatibility, dyadic local conditions, Selmer rank bounds, rank zero, or any lambda-family exclusion.",
+  "checks": {
+    "bound_argument_queue_ready": true,
+    "local_image_schemas_not_conditions": true,
+    "odd_prime_local_image_schemas_ready": true,
+    "primary_remaining_proof_field_is_selmer_bound_argument": true,
+    "tangent_minus_one_reduction_partition_not_local_image": true,
+    "tangent_minus_one_reduction_partition_ready": true,
+    "tangent_one_reduction_partition_not_local_image": true,
+    "tangent_one_reduction_partition_ready": true
+  },
+  "family_exclusion_proved_count": 0,
+  "formal_lift_compatibility_proved_count": 0,
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "open_bound_argument_outline_count": 9,
+  "ready": true,
+  "reduction_partition_outline_count": 4,
+  "reduction_partition_outlines": [
+    {
+      "candidate_sources": {
+        "nu": "non-node branch",
+        "trivial": "node center"
+      },
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+      "standard_model": "Y^2 = nu*X*(X - 1)^2",
+      "tracked_coordinate": "X"
+    },
+    {
+      "candidate_squareclass_set": [
+        "trivial"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+      "standard_model": "Y^2 = X*(X - 1)^2",
+      "tracked_coordinate": "X"
+    },
+    {
+      "candidate_sources": {
+        "nu": "non-node branch",
+        "trivial": "node center"
+      },
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+      "standard_model": "Y^2 = nu*X^2*(1 - X)",
+      "tracked_coordinate": "1 - X"
+    },
+    {
+      "candidate_squareclass_set": [
+        "trivial"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+      "standard_model": "Y^2 = X^2*(1 - X)",
+      "tracked_coordinate": "1 - X"
+    }
+  ],
+  "required_section_count": 45,
+  "required_section_per_outline_count": 5,
+  "required_sections": [
+    "shared_isogeny_setup_reference",
+    "odd_prime_local_image_theorems",
+    "formal_lift_compatibility",
+    "dyadic_local_condition",
+    "global_selmer_dimension_bound"
+  ],
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "shared_odd_prime_local_image_schema_count": 4,
+  "status": "ok",
+  "violations": []
+}

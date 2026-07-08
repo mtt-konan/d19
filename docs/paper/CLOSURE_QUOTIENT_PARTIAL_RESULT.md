@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 520
+artifact_status.required_file_count = 524
 artifact_status.missing_file_count = 0
 ```
 
@@ -1480,6 +1480,39 @@ family_exclusion_proved_count = 0
 This makes the remaining work concrete: 9 package-level bound arguments are
 open. The shared setup fields are kernel templates, and the family conclusions
 remain open until those arguments are written and reviewed.
+
+Audit rank-zero Selmer bound argument sections:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_sections.py \
+  --bound-argument-queue results/closure_quotient_rank_zero_selmer_bound_argument_queue.json \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --tangent-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --tangent-minus-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --out results/closure_quotient_rank_zero_selmer_bound_argument_sections.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+bound_argument_outline_count = 9
+open_bound_argument_outline_count = 9
+required_section_per_outline_count = 5
+required_section_count = 45
+shared_odd_prime_local_image_schema_count = 4
+reduction_partition_outline_count = 4
+formal_lift_compatibility_proved_count = 0
+local_image_schema_proved_count = 0
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+Each open bound argument now has five required proof sections: shared isogeny
+setup reference, odd-prime local-image theorems, formal lift compatibility,
+dyadic local condition, and global Selmer dimension bound. These are outlines,
+not proofs.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2637,6 +2670,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 520
+required_file_count = 524
 missing_files = []
 ```
