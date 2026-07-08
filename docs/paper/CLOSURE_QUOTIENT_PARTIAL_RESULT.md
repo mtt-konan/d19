@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 504
+artifact_status.required_file_count = 508
 artifact_status.missing_file_count = 0
 ```
 
@@ -1377,6 +1377,30 @@ transcript_package_ready_count = 0
 This splits the transcript work into 3 shared local-squareclass templates and
 9 package-specific nonlocal sections. The local part is no longer 9 independent
 tasks. No transcript package is ready yet, and no theorem claim is promoted.
+
+Audit rank-zero Selmer isogeny-setup templates:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py \
+  --materialization results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --kernel-local-schemas results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+package_count = 9
+kernel_schema_count = 3
+setup_template_count = 3
+shared_isogeny_setup_template_count = 3
+```
+
+The `isogeny_setup` transcript section also collapses to 3 shared kernel
+templates. This reduces transcript duplication but does not prove a Selmer
+bound.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2402,6 +2426,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
 scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
@@ -2531,6 +2556,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 504
+required_file_count = 508
 missing_files = []
 ```

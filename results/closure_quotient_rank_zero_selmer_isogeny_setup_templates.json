@@ -1,0 +1,66 @@
+{
+  "boundary": "This groups transcript isogeny-setup inputs by kernel template. It does not prove a local condition, prove a Selmer rank bound, prove rank zero, or prove any lambda-family exclusion.",
+  "family_exclusion_proved_count": 0,
+  "kernel_schema_count": 3,
+  "package_count": 9,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "setup_template_count": 3,
+  "setup_templates": [
+    {
+      "kernel": "kernel_minus_p",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-minus-p",
+      "package_count": 3,
+      "package_ids": [
+        "rank-zero-selmer-AA-BB-kernel-minus-p",
+        "rank-zero-selmer-AA-kernel-minus-p",
+        "rank-zero-selmer-BB-kernel-minus-p"
+      ],
+      "symbolic_model": {
+        "L_role": "A for AA, B for BB; AA+BB requires both sides to close",
+        "T": "A+B",
+        "kernel_root": "-p",
+        "target_a2": "32*L^2 - 8*T^2",
+        "target_a4": "16*(T^2 + 4*L^2)^2"
+      }
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-neg-2sqrt-q",
+      "package_count": 3,
+      "package_ids": [
+        "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+        "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+        "rank-zero-selmer-BB-kernel-neg-2sqrt-q"
+      ],
+      "symbolic_model": {
+        "L_role": "A for AA, B for BB; AA+BB requires both sides to close",
+        "T": "A+B",
+        "kernel_root": "-2*sqrt_q",
+        "target_a2": "16*(T^2 + 2*L^2)",
+        "target_a4": "256*L^4"
+      }
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-pos-2sqrt-q",
+      "package_count": 3,
+      "package_ids": [
+        "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+        "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+        "rank-zero-selmer-BB-kernel-pos-2sqrt-q"
+      ],
+      "symbolic_model": {
+        "L_role": "A for AA, B for BB; AA+BB requires both sides to close",
+        "T": "A+B",
+        "kernel_root": "2*sqrt_q",
+        "target_a2": "-8*(T^2 + 8*L^2)",
+        "target_a4": "16*T^4"
+      }
+    }
+  ],
+  "shared_isogeny_setup_template_count": 3,
+  "status": "ok",
+  "violations": []
+}

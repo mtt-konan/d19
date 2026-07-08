@@ -189,6 +189,11 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/"
+        "audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py"
+        in paths
+    )
+    assert (
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py"
         in paths
     )
@@ -331,6 +336,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "tests/test_closure_quotient_rank_zero_selmer_transcript_bridge.py"
+        in paths
+    )
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py"
         in paths
     )
     assert "tests/test_closure_quotient_rank_zero_selmer_local_supports.py" in paths
@@ -478,6 +487,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/410-rank-zero-family-theorem-readiness.md" in paths
     assert "docs/work-logs/411-rank-zero-selmer-kernel-local-schemas.md" in paths
     assert "docs/work-logs/412-rank-zero-selmer-transcript-bridge.md" in paths
+    assert "docs/work-logs/413-rank-zero-selmer-isogeny-setup-templates.md" in paths
     assert "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md" in paths
     assert "docs/work-logs/389-rank-zero-selmer-local-supports.md" in paths
     assert "docs/work-logs/390-rank-zero-selmer-coprime-supports.md" in paths
@@ -548,6 +558,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/closure_quotient_rank_zero_selmer_transcript_bridge.json"
+        in paths
+    )
+    assert (
+        "results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json"
         in paths
     )
     assert (

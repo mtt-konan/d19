@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=504
+artifact_status.required_file_count=508
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1647,6 +1647,30 @@ transcript_package_ready_count=0
 这一栏已经不该理解成 9 份互相独立的工作，而是 3 个 kernel 共享模板；剩下的
 `statement / isogeny_setup / selmer_bound_argument / rank_zero_conclusion /
 review_notes` 仍然是 9 个 package 各自要补的字段。当前 9 个 package 仍然全部缺 transcript。
+
+Rank-zero Selmer isogeny-setup template audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py \
+  --materialization results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --kernel-local-schemas results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+kernel_schema_count=3
+setup_template_count=3
+shared_isogeny_setup_template_count=3
+```
+
+普通话说：`isogeny_setup` 这一栏也从 9 份平铺收缩成 3 个 kernel 共享模板。
+同一个 kernel 下，`symbolic_model` 完全一致；因此后续 transcript 至少有两块已经能复用：
+`local_squareclass_conditions` 和 `isogeny_setup`。这仍然只是模板整理，不是 Selmer bound。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2545,6 +2569,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2626,6 +2651,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `tests/test_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_bridge.py`
+- `tests/test_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2729,6 +2755,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_family_theorem_readiness.json`
 - `results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_bridge.json`
+- `results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -2881,6 +2908,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl410](work-logs/410-rank-zero-family-theorem-readiness.md)
 - [wl411](work-logs/411-rank-zero-selmer-kernel-local-schemas.md)
 - [wl412](work-logs/412-rank-zero-selmer-transcript-bridge.md)
+- [wl413](work-logs/413-rank-zero-selmer-isogeny-setup-templates.md)
 
 数学总入口：
 
