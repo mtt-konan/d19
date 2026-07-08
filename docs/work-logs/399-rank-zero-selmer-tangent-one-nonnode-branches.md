@@ -31,7 +31,7 @@ local_image_schema_proved_count=0
 
 ```text
 Y^2 = X*(X - 1)^2,   X - 1 != 0  =>  X = (Y/(X - 1))^2
-Y^2 = X^2*(X - 1),   X != 0      =>  X - 1 = (Y/X)^2
+Y^2 = X^2*(1 - X),   X != 0      =>  1 - X = (Y/X)^2
 ```
 
 所以两个 tangent-one 标准模型的非节点分支都已经有平方类结论。还没处理的是

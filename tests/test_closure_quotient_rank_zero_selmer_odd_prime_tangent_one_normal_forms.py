@@ -121,7 +121,7 @@ def test_tangent_one_normal_forms_export_two_standard_models() -> None:
         ),
     }
     assert audit["normal_form_entries"][1]["standard_model"] == (
-        "Y^2 = X^2*(X - 1)"
+        "Y^2 = X^2*(1 - X)"
     )
 
 

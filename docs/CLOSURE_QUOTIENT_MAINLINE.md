@@ -1732,7 +1732,7 @@ local_image_schema_proved_count=0
 ```
 
 普通话说：tangent squareclass 为 `1` 的两个 schema 可以用平方单位缩放成标准节点模型：
-`Y^2=X*(X-1)^2` 和 `Y^2=X^2*(X-1)`。这是 local-image 证明前的可审阅代数准备；
+`Y^2=X*(X-1)^2` 和 `Y^2=X^2*(1-X)`。这是 local-image 证明前的可审阅代数准备；
 还没有证明任何 2-isogeny local squareclass image。
 
 Rank-zero Selmer tangent-one unit-branch audit：
@@ -1754,10 +1754,10 @@ unit_branch_squareclass_consequence_proved_count=2
 local_image_schema_proved_count=0
 ```
 
-普通话说：在两个 tangent-one 标准模型中，如果 `X` 和 `X-1` 都是单位，
-就能分别得到 `X=(Y/(X-1))^2` 和 `X-1=(Y/X)^2`。所以第一个模型的单位分支上
-`X` 平方类平凡，第二个模型的单位分支上 `X-1` 平方类平凡。这只关闭两个单位
-分支；`X` 非单位、`X-1` 非单位和 tangent squareclass `-1` 的 schema 仍然
+普通话说：在两个 tangent-one 标准模型中，如果 `X` 和对应的另一个因子都是单位，
+就能分别得到 `X=(Y/(X-1))^2` 和 `1-X=(Y/X)^2`。所以第一个模型的单位分支上
+`X` 平方类平凡，第二个模型的单位分支上 `1-X` 平方类平凡。这只关闭两个单位
+分支；`X` 非单位、对应另一个因子非单位和 tangent squareclass `-1` 的 schema 仍然
 没有被 local-image 定理覆盖。
 
 Rank-zero Selmer tangent-one non-node branch audit：
@@ -1781,7 +1781,7 @@ local_image_schema_proved_count=0
 
 普通话说：单位假设其实可以放宽成“除数不为零”。第一个标准模型只要
 `X-1 != 0`，就有 `X=(Y/(X-1))^2`；第二个标准模型只要 `X != 0`，就有
-`X-1=(Y/X)^2`。所以两个 tangent-one 标准模型的非节点分支已经有平方类结论。
+`1-X=(Y/X)^2`。所以两个 tangent-one 标准模型的非节点分支已经有平方类结论。
 还没有覆盖的是节点分支本身，以及 tangent squareclass `-1` 的两个 schema。
 
 Rank-zero Selmer tangent-one node-value audit：
@@ -1806,7 +1806,7 @@ local_image_schema_proved_count=0
 
 普通话说：两个节点本身的 reduction 值可以直接记录：第一个标准模型节点是
 `(X,Y)=(1,0)`，所以 `X=1`；第二个标准模型节点是 `(X,Y)=(0,0)`，所以
-`X-1=-1`。这还不是局部像证明，因为真正要分析的是原光滑曲线中约化到节点
+`1-X=1`。这还不是局部像证明，因为真正要分析的是原光滑曲线中约化到节点
 附近的局部点。
 
 Rank-zero Selmer tangent-one punctured-node audit：
@@ -1856,7 +1856,8 @@ local_image_schema_proved_count=0
 ```
 
 普通话说：reduction 层已经收成两个候选集合：`Y^2=X*(X-1)^2` 追踪 `X` 时只剩
-平凡平方类；`Y^2=X^2*(X-1)` 追踪 `X-1` 时候选是平凡平方类和 `-1`。这只是
+平凡平方类；`Y^2=X^2*(1-X)` 追踪 `1-X` 时也只剩平凡平方类。这里顺手修正了
+早前把第二个标准形写成 `X^2*(X-1)` 的符号错误。这只是
 reduction-level ledger，还没证明这些候选能作为原曲线的 local image 定理。
 
 Rank-zero Selmer transcript intake audit：

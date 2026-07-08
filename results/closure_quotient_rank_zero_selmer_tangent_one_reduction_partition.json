@@ -28,8 +28,7 @@
     },
     {
       "candidate_squareclass_set": [
-        "trivial",
-        "-1"
+        "trivial"
       ],
       "formal_lift_compatibility_proved": false,
       "local_image_schema_proved": false,
@@ -41,8 +40,8 @@
       ],
       "remaining_gap": "promote reduction-level partition through formal lifts",
       "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-      "standard_model": "Y^2 = X^2*(X - 1)",
-      "tracked_coordinate": "X - 1"
+      "standard_model": "Y^2 = X^2*(1 - X)",
+      "tracked_coordinate": "1 - X"
     }
   ],
   "ready": true,

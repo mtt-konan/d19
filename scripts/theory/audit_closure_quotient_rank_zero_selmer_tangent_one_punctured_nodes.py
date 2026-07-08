@@ -37,7 +37,7 @@ PUNCTURED_NODE_TARGETS = (
     },
     {
         "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-        "standard_model": "Y^2 = X^2*(X - 1)",
+        "standard_model": "Y^2 = X^2*(1 - X)",
         "node_id": "tangent-one-zero-double-root-node",
         "punctured_neighborhood_hypothesis": (
             "X is nonzero and has positive valuation"
@@ -45,11 +45,11 @@ PUNCTURED_NODE_TARGETS = (
         "controlled_by_nonnode_branch_id": (
             "tangent-one-zero-double-root-nonnode-branch"
         ),
-        "identity": "X - 1 = (Y/X)^2",
+        "identity": "1 - X = (Y/X)^2",
         "squareclass_consequence": (
-            "X - 1 has trivial local squareclass on the punctured node neighborhood"
+            "1 - X has trivial local squareclass on the punctured node neighborhood"
         ),
-        "node_center_value": "X - 1 = -1",
+        "node_center_value": "1 - X = 1",
         "punctured_node_neighborhood_control_proved": True,
         "node_center_lift_analysis_proved": False,
         "remaining_gap": "prove formal lift compatibility at the node center",

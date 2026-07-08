@@ -24,7 +24,7 @@ NORMAL_FORMS = {
     "odd-prime-local-image-zero-double-root-tangent-1": {
         "unit_square_root_required": "choose u with u^2 = -s",
         "coordinate_change": "x = -u^2*X, y = u^3*Y",
-        "standard_model": "Y^2 = X^2*(X - 1)",
+        "standard_model": "Y^2 = X^2*(1 - X)",
     },
 }
 

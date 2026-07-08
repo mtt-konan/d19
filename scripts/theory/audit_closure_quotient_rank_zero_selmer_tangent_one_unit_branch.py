@@ -33,18 +33,18 @@ UNIT_BRANCH_TARGETS = (
     },
     {
         "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-        "standard_model": "Y^2 = X^2*(X - 1)",
+        "standard_model": "Y^2 = X^2*(1 - X)",
         "branch_id": "tangent-one-zero-double-root-unit-branch",
-        "branch_hypothesis": "X and X - 1 are local units",
-        "identity": "X - 1 = (Y/X)^2",
+        "branch_hypothesis": "X and 1 - X are local units",
+        "identity": "1 - X = (Y/X)^2",
         "squareclass_consequence": (
-            "X - 1 has trivial local squareclass on this branch"
+            "1 - X has trivial local squareclass on this branch"
         ),
         "branch_squareclass_consequence_proved": True,
         "local_image_schema_proved": False,
         "uncovered_branches": [
             "X nonunit branch",
-            "X - 1 nonunit branch",
+            "1 - X nonunit branch",
             "tangent-squareclass -1 schemas",
         ],
     },

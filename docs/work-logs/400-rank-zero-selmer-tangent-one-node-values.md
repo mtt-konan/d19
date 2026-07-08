@@ -31,7 +31,7 @@ local_image_schema_proved_count=0
 
 ```text
 Y^2 = X*(X - 1)^2    node (X,Y)=(1,0), so X=1
-Y^2 = X^2*(X - 1)    node (X,Y)=(0,0), so X-1=-1
+Y^2 = X^2*(1 - X)    node (X,Y)=(0,0), so 1-X=1
 ```
 
 这只说明 reduction 层的节点值。真正难的是：原来的光滑曲线里，那些约化到节点

@@ -6,7 +6,7 @@ On the standard tangent-one models
 
 ```text
 Y^2 = X*(X - 1)^2
-Y^2 = X^2*(X - 1)
+Y^2 = X^2*(1 - X)
 ```
 
 what can be proved immediately on the branch where both `X` and `X - 1`
@@ -39,13 +39,13 @@ local_image_schema_proved_count=0
 Y^2 = X*(X - 1)^2
 X = (Y/(X - 1))^2
 
-Y^2 = X^2*(X - 1)
-X - 1 = (Y/X)^2
+Y^2 = X^2*(1 - X)
+1 - X = (Y/X)^2
 ```
 
 因此第一个模型的单位分支上 `X` 平方类是平凡的，第二个模型的单位分支上
-`X - 1` 平方类是平凡的。这只是分支级结论；它没有覆盖 `X` 非单位、
-`X - 1` 非单位，也没有覆盖 tangent squareclass 为 `-1` 的两个 schema。
+`1 - X` 平方类是平凡的。这只是分支级结论；它没有覆盖 `X` 非单位、
+对应另一个因子非单位，也没有覆盖 tangent squareclass 为 `-1` 的两个 schema。
 
 ## Boundary
 

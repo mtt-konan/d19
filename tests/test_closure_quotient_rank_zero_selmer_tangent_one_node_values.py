@@ -41,7 +41,7 @@ def _normal_forms() -> dict[str, object]:
             },
             {
                 "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-                "standard_model": "Y^2 = X^2*(X - 1)",
+                "standard_model": "Y^2 = X^2*(1 - X)",
                 "normal_form_proved": True,
                 "local_image_schema_proved": False,
             },
@@ -79,11 +79,11 @@ def test_tangent_one_node_values_record_reduction_values_only() -> None:
         },
         {
             "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-            "standard_model": "Y^2 = X^2*(X - 1)",
+            "standard_model": "Y^2 = X^2*(1 - X)",
             "node_id": "tangent-one-zero-double-root-node",
             "node_coordinates": {"X": "0", "Y": "0"},
-            "coordinate_value": "X - 1 = -1",
-            "squareclass_value": "-1",
+            "coordinate_value": "1 - X = 1",
+            "squareclass_value": "trivial",
             "node_reduction_value_proved": True,
             "local_lift_analysis_proved": False,
             "remaining_gap": "formal neighborhood of the node and tangent-squareclass -1 schemas",

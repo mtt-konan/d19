@@ -23,7 +23,7 @@
       "standard_model": "Y^2 = X*(X - 1)^2"
     },
     {
-      "coordinate_value": "X - 1 = -1",
+      "coordinate_value": "1 - X = 1",
       "local_lift_analysis_proved": false,
       "node_coordinates": {
         "X": "0",
@@ -33,8 +33,8 @@
       "node_reduction_value_proved": true,
       "remaining_gap": "formal neighborhood of the node and tangent-squareclass -1 schemas",
       "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-      "squareclass_value": "-1",
-      "standard_model": "Y^2 = X^2*(X - 1)"
+      "squareclass_value": "trivial",
+      "standard_model": "Y^2 = X^2*(1 - X)"
     }
   ],
   "node_values_not_local_images": true,

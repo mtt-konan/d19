@@ -34,12 +34,12 @@ NONNODE_BRANCH_TARGETS = (
     },
     {
         "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-        "standard_model": "Y^2 = X^2*(X - 1)",
+        "standard_model": "Y^2 = X^2*(1 - X)",
         "branch_id": "tangent-one-zero-double-root-nonnode-branch",
         "branch_hypothesis": "X is nonzero in the local field",
-        "identity": "X - 1 = (Y/X)^2",
+        "identity": "1 - X = (Y/X)^2",
         "squareclass_consequence": (
-            "X - 1 has trivial local squareclass on every non-node branch"
+            "1 - X has trivial local squareclass on every non-node branch"
         ),
         "covered_previous_unit_branch_id": (
             "tangent-one-zero-double-root-unit-branch"

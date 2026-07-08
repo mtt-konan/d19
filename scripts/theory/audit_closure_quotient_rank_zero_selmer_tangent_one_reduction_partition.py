@@ -26,11 +26,11 @@ PARTITION_TARGETS = (
     },
     {
         "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-        "standard_model": "Y^2 = X^2*(X - 1)",
-        "tracked_coordinate": "X - 1",
+        "standard_model": "Y^2 = X^2*(1 - X)",
+        "tracked_coordinate": "1 - X",
         "nonnode_branch_id": "tangent-one-zero-double-root-nonnode-branch",
         "node_id": "tangent-one-zero-double-root-node",
-        "candidate_squareclass_set": ["trivial", "-1"],
+        "candidate_squareclass_set": ["trivial"],
     },
 )
 

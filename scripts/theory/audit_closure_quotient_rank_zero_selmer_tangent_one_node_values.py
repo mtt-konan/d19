@@ -31,11 +31,11 @@ NODE_VALUE_TARGETS = (
     },
     {
         "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-        "standard_model": "Y^2 = X^2*(X - 1)",
+        "standard_model": "Y^2 = X^2*(1 - X)",
         "node_id": "tangent-one-zero-double-root-node",
         "node_coordinates": {"X": "0", "Y": "0"},
-        "coordinate_value": "X - 1 = -1",
-        "squareclass_value": "-1",
+        "coordinate_value": "1 - X = 1",
+        "squareclass_value": "trivial",
         "node_reduction_value_proved": True,
         "local_lift_analysis_proved": False,
         "remaining_gap": (

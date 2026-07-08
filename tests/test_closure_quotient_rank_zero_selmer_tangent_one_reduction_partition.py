@@ -40,7 +40,7 @@ def _nonnode_branches() -> dict[str, object]:
                 "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
                 "branch_id": "tangent-one-zero-double-root-nonnode-branch",
                 "squareclass_consequence": (
-                    "X - 1 has trivial local squareclass on every non-node branch"
+                    "1 - X has trivial local squareclass on every non-node branch"
                 ),
                 "local_image_schema_proved": False,
             },
@@ -69,8 +69,8 @@ def _node_values() -> dict[str, object]:
             {
                 "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
                 "node_id": "tangent-one-zero-double-root-node",
-                "coordinate_value": "X - 1 = -1",
-                "squareclass_value": "-1",
+                "coordinate_value": "1 - X = 1",
+                "squareclass_value": "trivial",
                 "local_lift_analysis_proved": False,
             },
         ],
@@ -106,7 +106,7 @@ def _punctured_nodes() -> dict[str, object]:
                     "tangent-one-zero-double-root-nonnode-branch"
                 ),
                 "squareclass_consequence": (
-                    "X - 1 has trivial local squareclass on the punctured node neighborhood"
+                    "1 - X has trivial local squareclass on the punctured node neighborhood"
                 ),
                 "node_center_lift_analysis_proved": False,
             },
@@ -147,14 +147,14 @@ def test_tangent_one_reduction_partition_records_candidate_squareclasses() -> No
         },
         {
             "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-            "standard_model": "Y^2 = X^2*(X - 1)",
-            "tracked_coordinate": "X - 1",
+            "standard_model": "Y^2 = X^2*(1 - X)",
+            "tracked_coordinate": "1 - X",
             "reduction_pieces": [
                 "non-node branch",
                 "punctured node neighborhood",
                 "node center",
             ],
-            "candidate_squareclass_set": ["trivial", "-1"],
+            "candidate_squareclass_set": ["trivial"],
             "reduction_partition_exhausted": True,
             "formal_lift_compatibility_proved": False,
             "local_image_schema_proved": False,

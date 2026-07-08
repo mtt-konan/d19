@@ -46,12 +46,12 @@ def _nonnode_branches() -> dict[str, object]:
             },
             {
                 "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-                "standard_model": "Y^2 = X^2*(X - 1)",
+                "standard_model": "Y^2 = X^2*(1 - X)",
                 "branch_id": "tangent-one-zero-double-root-nonnode-branch",
                 "branch_hypothesis": "X is nonzero in the local field",
-                "identity": "X - 1 = (Y/X)^2",
+                "identity": "1 - X = (Y/X)^2",
                 "squareclass_consequence": (
-                    "X - 1 has trivial local squareclass on every non-node branch"
+                    "1 - X has trivial local squareclass on every non-node branch"
                 ),
                 "branch_squareclass_consequence_proved": True,
                 "local_image_schema_proved": False,
@@ -88,11 +88,11 @@ def _node_values() -> dict[str, object]:
             },
             {
                 "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-                "standard_model": "Y^2 = X^2*(X - 1)",
+                "standard_model": "Y^2 = X^2*(1 - X)",
                 "node_id": "tangent-one-zero-double-root-node",
                 "node_coordinates": {"X": "0", "Y": "0"},
-                "coordinate_value": "X - 1 = -1",
-                "squareclass_value": "-1",
+                "coordinate_value": "1 - X = 1",
+                "squareclass_value": "trivial",
                 "node_reduction_value_proved": True,
                 "local_lift_analysis_proved": False,
             },
@@ -134,17 +134,17 @@ def test_tangent_one_punctured_nodes_record_controlled_neighborhoods() -> None:
         },
         {
             "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
-            "standard_model": "Y^2 = X^2*(X - 1)",
+            "standard_model": "Y^2 = X^2*(1 - X)",
             "node_id": "tangent-one-zero-double-root-node",
             "punctured_neighborhood_hypothesis": "X is nonzero and has positive valuation",
             "controlled_by_nonnode_branch_id": (
                 "tangent-one-zero-double-root-nonnode-branch"
             ),
-            "identity": "X - 1 = (Y/X)^2",
+            "identity": "1 - X = (Y/X)^2",
             "squareclass_consequence": (
-                "X - 1 has trivial local squareclass on the punctured node neighborhood"
+                "1 - X has trivial local squareclass on the punctured node neighborhood"
             ),
-            "node_center_value": "X - 1 = -1",
+            "node_center_value": "1 - X = 1",
             "punctured_node_neighborhood_control_proved": True,
             "node_center_lift_analysis_proved": False,
             "remaining_gap": "prove formal lift compatibility at the node center",

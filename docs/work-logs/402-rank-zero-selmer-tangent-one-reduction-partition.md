@@ -32,12 +32,15 @@ local_image_schema_proved_count=0
 
 ```text
 Y^2 = X*(X - 1)^2      tracked X      candidates {trivial}
-Y^2 = X^2*(X - 1)      tracked X - 1  candidates {trivial, -1}
+Y^2 = X^2*(1 - X)      tracked 1 - X  candidates {trivial}
 ```
 
 这把前面几层的分支信息汇总成了 ledger：非节点、穿孔节点邻域、节点中心都已经
 在 reduction 层登记。还没证明的是这些 reduction 层候选如何通过原曲线的
 formal lifts 变成真正的 local image。
+
+Note: this corrects the earlier sign convention for the zero-double-root
+tangent-one normal form. The coordinate change gives `1-X`, not `X-1`.
 
 ## Boundary
 

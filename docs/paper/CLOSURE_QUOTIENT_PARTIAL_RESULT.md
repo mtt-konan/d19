@@ -1478,9 +1478,9 @@ unit_branch_squareclass_consequence_proved_count = 2
 local_image_schema_proved_count = 0
 ```
 
-On the two tangent-one standard models, the unit branch with both `X` and
-`X - 1` units gives `X = (Y/(X - 1))^2` and `X - 1 = (Y/X)^2`; hence the
-displayed squareclass is trivial on each unit branch. These are only
+On the two tangent-one standard models, the unit branches give
+`X = (Y/(X - 1))^2` and `1 - X = (Y/X)^2`; hence the displayed squareclass
+is trivial on each unit branch. These are only
 branch-level consequences, not the local-image theorem.
 
 Audit rank-zero Selmer tangent-one non-node branches:
@@ -1503,8 +1503,8 @@ local_image_schema_proved_count = 0
 ```
 
 On `Y^2 = X*(X - 1)^2`, every branch with `X - 1 != 0` gives
-`X = (Y/(X - 1))^2`. On `Y^2 = X^2*(X - 1)`, every branch with `X != 0`
-gives `X - 1 = (Y/X)^2`. These cover the non-node tangent-one branches,
+`X = (Y/(X - 1))^2`. On `Y^2 = X^2*(1 - X)`, every branch with `X != 0`
+gives `1 - X = (Y/X)^2`. These cover the non-node tangent-one branches,
 but they are still not the local-image theorem.
 
 Audit rank-zero Selmer tangent-one node values:
@@ -1528,8 +1528,8 @@ local_image_schema_proved_count = 0
 ```
 
 The node values are reduction-level data: `(X,Y)=(1,0)` gives `X=1` on
-`Y^2 = X*(X - 1)^2`, and `(X,Y)=(0,0)` gives `X-1=-1` on
-`Y^2 = X^2*(X - 1)`. This does not prove the local squareclass image for
+`Y^2 = X*(X - 1)^2`, and `(X,Y)=(0,0)` gives `1-X=1` on
+`Y^2 = X^2*(1 - X)`. This does not prove the local squareclass image for
 local points lifting to the node.
 
 Audit rank-zero Selmer tangent-one punctured nodes:
@@ -1580,8 +1580,9 @@ local_image_schema_proved_count = 0
 
 At the reduction level, the tangent-one standard models now have candidate
 squareclass sets `{trivial}` for tracked `X` on `Y^2 = X*(X - 1)^2`, and
-`{trivial, -1}` for tracked `X - 1` on `Y^2 = X^2*(X - 1)`. This remains a
-reduction-level ledger, not a local-image theorem.
+`{trivial}` for tracked `1 - X` on `Y^2 = X^2*(1 - X)`. This also corrects
+the earlier sign convention for the zero-double-root tangent-one normal form;
+it remains a reduction-level ledger, not a local-image theorem.
 
 Audit rank-zero Selmer transcript intake:
 

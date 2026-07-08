@@ -31,11 +31,14 @@ local_image_schema_proved_count=0
 
 ```text
 y^2 = x*(x-r)^2  ->  Y^2 = X*(X-1)^2
-y^2 = x^2*(x-s)  ->  Y^2 = X^2*(X-1)
+y^2 = x^2*(x-s)  ->  Y^2 = X^2*(1-X)
 ```
 
 这是真正 local-image 证明前的一段可审阅代数准备。下一步才是计算这两个标准
 节点模型的 2-isogeny local squareclass image。
+
+Note: the zero-double-root sign is `1-X`: with `u^2=-s` and
+`x=-u^2X, y=u^3Y`, substituting gives `Y^2=X^2(1-X)`.
 
 ## Boundary
 
