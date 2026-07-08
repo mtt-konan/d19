@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=480
+artifact_status.required_file_count=484
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1957,6 +1957,33 @@ local_image_schema_proved_count=0
 非节点分支要求 tracked coordinate 的平方类是 `nu`，但节点附近又强制它是
 trivial；`trivial != nu`，所以两个穿孔节点邻域都被平方类矛盾排除。
 这仍然没有证明节点中心 formal lift，也没有证明完整 local image。
+
+Rank-zero Selmer tangent-minus-one reduction partition audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_minus_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --punctured-nodes results/closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+reduction_partition_count=2
+reduction_partition_exhausted_count=2
+punctured_node_neighborhood_excluded_count=2
+formal_lift_compatibility_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：`-1` 情况在 reduction 层现在收束成两个候选来源：非节点分支给 `nu`，
+节点中心给 trivial，穿孔节点邻域被 `trivial != nu` 排除。因此两个标准模型的
+reduction-level candidate squareclass set 都是 `{nu, trivial}`。这只是局部工具
+ledger 的收尾，还没有把 formal lift 提升成完整 local image。
 
 Rank-zero Selmer transcript intake audit：
 

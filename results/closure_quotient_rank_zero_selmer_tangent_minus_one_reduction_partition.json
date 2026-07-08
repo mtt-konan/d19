@@ -1,0 +1,73 @@
+{
+  "boundary": "This audits reduction-level squareclass partitions for the tangent-minus-one standard nodal models. It records candidate squareclass sets and excluded punctured neighborhoods only at the reduction level; it does not prove formal lift compatibility, a local image, local condition, Selmer rank bound, or lambda-family exclusion.",
+  "candidate_squareclass_set_count": 2,
+  "family_exclusion_proved_count": 0,
+  "formal_lift_compatibility_proved_count": 0,
+  "input_node_value_count": 2,
+  "input_nonnode_branch_count": 2,
+  "input_punctured_node_count": 2,
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "nonsquare_parameter_retained": true,
+  "partition_entries": [
+    {
+      "candidate_sources": {
+        "nu": "non-node branch",
+        "trivial": "node center"
+      },
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+      "standard_model": "Y^2 = nu*X*(X - 1)^2",
+      "tracked_coordinate": "X"
+    },
+    {
+      "candidate_sources": {
+        "nu": "non-node branch",
+        "trivial": "node center"
+      },
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_partition_exhausted": true,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "remaining_gap": "promote reduction-level partition through formal lifts",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+      "standard_model": "Y^2 = nu*X^2*(1 - X)",
+      "tracked_coordinate": "1 - X"
+    }
+  ],
+  "punctured_node_neighborhood_excluded_count": 2,
+  "ready": true,
+  "reduction_partition_count": 2,
+  "reduction_partition_exhausted_count": 2,
+  "reduction_partition_not_local_image": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}

@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 480
+artifact_status.required_file_count = 484
 artifact_status.missing_file_count = 0
 ```
 
@@ -1683,6 +1683,34 @@ units are squares at odd primes. The non-node identities require the same
 tracked coordinate to have squareclass `nu`. Since `nu` is nonsquare, both
 punctured node neighborhoods are excluded by squareclass contradiction. This
 still does not prove node-center formal lifts or a full local image theorem.
+
+Audit rank-zero Selmer tangent-minus-one reduction partition:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_minus_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --punctured-nodes results/closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+reduction_partition_count = 2
+reduction_partition_exhausted_count = 2
+punctured_node_neighborhood_excluded_count = 2
+formal_lift_compatibility_proved_count = 0
+local_image_schema_proved_count = 0
+```
+
+At the reduction level, both tangent-minus-one standard families have candidate
+squareclass set `{nu, trivial}`: `nu` comes from the non-node branch, `trivial`
+comes from the node center, and the punctured node neighborhood is excluded by
+`trivial != nu`. This is still only a reduction-level ledger, not a full local
+image theorem.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2369,6 +2397,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 480
+required_file_count = 484
 missing_files = []
 ```
