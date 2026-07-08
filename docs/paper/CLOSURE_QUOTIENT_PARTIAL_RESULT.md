@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 524
+artifact_status.required_file_count = 528
 artifact_status.missing_file_count = 0
 ```
 
@@ -1513,6 +1513,35 @@ Each open bound argument now has five required proof sections: shared isogeny
 setup reference, odd-prime local-image theorems, formal lift compatibility,
 dyadic local condition, and global Selmer dimension bound. These are outlines,
 not proofs.
+
+Audit rank-zero Selmer formal-lift queue:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_formal_lift_queue.py \
+  --bound-argument-sections results/closure_quotient_rank_zero_selmer_bound_argument_sections.json \
+  --tangent-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --tangent-minus-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --out results/closure_quotient_rank_zero_selmer_formal_lift_queue.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+covered_bound_argument_outline_count = 9
+formal_lift_task_count = 4
+open_formal_lift_task_count = 4
+reduction_partition_exhausted_count = 4
+formal_lift_compatibility_proved_count = 0
+local_image_schema_proved_count = 0
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+The formal-lift queue isolates the next shared odd-prime theorem work: four
+reduction partitions must be promoted through formal lifts before the
+local-image schemas can be used in a Selmer bound argument.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2670,6 +2699,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 524
+required_file_count = 528
 missing_files = []
 ```

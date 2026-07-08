@@ -1,0 +1,117 @@
+{
+  "boundary": "This turns reduction-level squareclass partitions into formal-lift compatibility theorem tasks. It does not prove formal lift compatibility, prove local-image schemas, prove local conditions, prove a Selmer rank bound, or prove any lambda-family exclusion.",
+  "checks": {
+    "bound_argument_sections_ready": true,
+    "formal_lift_section_present": true,
+    "tangent_minus_one_reduction_partition_not_local_image": true,
+    "tangent_minus_one_reduction_partition_ready": true,
+    "tangent_one_reduction_partition_not_local_image": true,
+    "tangent_one_reduction_partition_ready": true
+  },
+  "covered_bound_argument_outline_count": 9,
+  "family_exclusion_proved_count": 0,
+  "formal_lift_compatibility_proved_count": 0,
+  "formal_lift_task_count": 4,
+  "formal_lift_tasks": [
+    {
+      "acceptable_next_evidence": "reviewable formal-lift compatibility theorem for this local-image schema",
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "required_section": "formal_lift_compatibility",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+      "source_partition": "tangent_minus_one_reduction_partition",
+      "standard_model": "Y^2 = nu*X*(X - 1)^2",
+      "status": "open",
+      "task_id": "formal-lift-odd-prime-local-image-nonzero-double-root-tangent--1",
+      "tracked_coordinate": "X"
+    },
+    {
+      "acceptable_next_evidence": "reviewable formal-lift compatibility theorem for this local-image schema",
+      "candidate_squareclass_set": [
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "required_section": "formal_lift_compatibility",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+      "source_partition": "tangent_one_reduction_partition",
+      "standard_model": "Y^2 = X*(X - 1)^2",
+      "status": "open",
+      "task_id": "formal-lift-odd-prime-local-image-nonzero-double-root-tangent-1",
+      "tracked_coordinate": "X"
+    },
+    {
+      "acceptable_next_evidence": "reviewable formal-lift compatibility theorem for this local-image schema",
+      "candidate_squareclass_set": [
+        "nu",
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [
+        "punctured node neighborhood"
+      ],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "required_section": "formal_lift_compatibility",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+      "source_partition": "tangent_minus_one_reduction_partition",
+      "standard_model": "Y^2 = nu*X^2*(1 - X)",
+      "status": "open",
+      "task_id": "formal-lift-odd-prime-local-image-zero-double-root-tangent--1",
+      "tracked_coordinate": "1 - X"
+    },
+    {
+      "acceptable_next_evidence": "reviewable formal-lift compatibility theorem for this local-image schema",
+      "candidate_squareclass_set": [
+        "trivial"
+      ],
+      "excluded_reduction_pieces": [],
+      "formal_lift_compatibility_proved": false,
+      "local_image_schema_proved": false,
+      "reduction_pieces": [
+        "non-node branch",
+        "punctured node neighborhood",
+        "node center"
+      ],
+      "required_section": "formal_lift_compatibility",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+      "source_partition": "tangent_one_reduction_partition",
+      "standard_model": "Y^2 = X^2*(1 - X)",
+      "status": "open",
+      "task_id": "formal-lift-odd-prime-local-image-zero-double-root-tangent-1",
+      "tracked_coordinate": "1 - X"
+    }
+  ],
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "open_formal_lift_task_count": 4,
+  "ready": true,
+  "reduction_partition_exhausted_count": 4,
+  "required_section": "formal_lift_compatibility",
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}

@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=524
+artifact_status.required_file_count=528
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1786,6 +1786,35 @@ family_exclusion_proved_count=0
 odd-prime local image 定理、formal lift compatibility、2-adic local condition、global Selmer
 dimension bound。odd-prime 已有 4 个 schema 和 4 个 reduction partition outline，但它们还不是
 证明；后面要真正写的是这些段落，不是延长搜索。
+
+Rank-zero Selmer formal-lift queue：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_formal_lift_queue.py \
+  --bound-argument-sections results/closure_quotient_rank_zero_selmer_bound_argument_sections.json \
+  --tangent-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --tangent-minus-one-reduction-partition results/closure_quotient_rank_zero_selmer_tangent_minus_one_reduction_partition.json \
+  --out results/closure_quotient_rank_zero_selmer_formal_lift_queue.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+covered_bound_argument_outline_count=9
+formal_lift_task_count=4
+open_formal_lift_task_count=4
+reduction_partition_exhausted_count=4
+formal_lift_compatibility_proved_count=0
+local_image_schema_proved_count=0
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：odd-prime local-image 方向的下一道共同门槛被压成 4 个 formal-lift theorem
+task。它们要把 reduction-level partition 提升为局部域里的可用控制。当前这仍然只是任务队列，
+没有 formal lift、local image 或 Selmer bound 被证明。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2689,6 +2718,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_queue.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_bound_argument_sections.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_formal_lift_queue.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2775,6 +2805,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
 - `tests/test_closure_quotient_rank_zero_selmer_bound_argument_queue.py`
 - `tests/test_closure_quotient_rank_zero_selmer_bound_argument_sections.py`
+- `tests/test_closure_quotient_rank_zero_selmer_formal_lift_queue.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2883,6 +2914,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json`
 - `results/closure_quotient_rank_zero_selmer_bound_argument_queue.json`
 - `results/closure_quotient_rank_zero_selmer_bound_argument_sections.json`
+- `results/closure_quotient_rank_zero_selmer_formal_lift_queue.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -3040,6 +3072,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl415](work-logs/415-rank-zero-selmer-transcript-field-decomposition.md)
 - [wl416](work-logs/416-rank-zero-selmer-bound-argument-queue.md)
 - [wl417](work-logs/417-rank-zero-selmer-bound-argument-sections.md)
+- [wl418](work-logs/418-rank-zero-selmer-formal-lift-queue.md)
 
 数学总入口：
 

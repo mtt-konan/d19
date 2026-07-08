@@ -214,6 +214,11 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/"
+        "audit_closure_quotient_rank_zero_selmer_formal_lift_queue.py"
+        in paths
+    )
+    assert (
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py"
         in paths
     )
@@ -378,6 +383,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "tests/test_closure_quotient_rank_zero_selmer_bound_argument_sections.py"
         in paths
     )
+    assert "tests/test_closure_quotient_rank_zero_selmer_formal_lift_queue.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_local_supports.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py" in paths
@@ -528,6 +534,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/415-rank-zero-selmer-transcript-field-decomposition.md" in paths
     assert "docs/work-logs/416-rank-zero-selmer-bound-argument-queue.md" in paths
     assert "docs/work-logs/417-rank-zero-selmer-bound-argument-sections.md" in paths
+    assert "docs/work-logs/418-rank-zero-selmer-formal-lift-queue.md" in paths
     assert "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md" in paths
     assert "docs/work-logs/389-rank-zero-selmer-local-supports.md" in paths
     assert "docs/work-logs/390-rank-zero-selmer-coprime-supports.md" in paths
@@ -618,6 +625,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/closure_quotient_rank_zero_selmer_bound_argument_sections.json"
+        in paths
+    )
+    assert (
+        "results/closure_quotient_rank_zero_selmer_formal_lift_queue.json"
         in paths
     )
     assert (
