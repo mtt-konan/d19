@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=472
+artifact_status.required_file_count=476
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1905,6 +1905,32 @@ local_image_schema_proved_count=0
 普通话说：在 `-1` 的两个标准族里，非节点分支给出 `nu*X` 或 `nu*(1-X)` 是平方。
 所以对应 tracked coordinate 的平方类是 `nu`。这仍然只是 branch-level 结论；
 节点中心和 local image 定理都还没关闭。
+
+Rank-zero Selmer tangent-minus-one node value audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.py \
+  --tangent-minus-one-normal-forms results/closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_normal_form_count=2
+node_value_count=2
+node_reduction_value_proved_count=2
+node_local_lift_analysis_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：`-1` 的两个标准族在节点中心处仍然给出 tracked coordinate 等于 `1`：
+`Y^2=nu*X*(X-1)^2` 的节点是 `(X,Y)=(1,0)`，tracked value 是 `X=1`；
+`Y^2=nu*X^2*(1-X)` 的节点是 `(X,Y)=(0,0)`，tracked value 是 `1-X=1`。
+因此节点中心平方类是 trivial。和上一层合起来，reduction-level 图像是：
+非节点分支给 `nu`，节点中心给 trivial；这还不是 formal lift 或 local image。
 
 Rank-zero Selmer transcript intake audit：
 

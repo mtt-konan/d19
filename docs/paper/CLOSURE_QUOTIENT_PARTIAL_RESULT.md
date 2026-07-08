@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 472
+artifact_status.required_file_count = 476
 artifact_status.missing_file_count = 0
 ```
 
@@ -1630,6 +1630,32 @@ local_image_schema_proved_count = 0
 On the non-node branches, the displayed identities show `nu*X` or
 `nu*(1-X)` is a square. Thus the tracked coordinate has local squareclass
 `nu`, still only as a branch-level consequence.
+
+Audit rank-zero Selmer tangent-minus-one node values:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.py \
+  --tangent-minus-one-normal-forms results/closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_normal_form_count = 2
+node_value_count = 2
+node_reduction_value_proved_count = 2
+node_local_lift_analysis_proved_count = 0
+local_image_schema_proved_count = 0
+```
+
+At the node centers, the tracked coordinate is `1` in both tangent-minus-one
+standard families: `X=1` for `Y^2 = nu*X*(X-1)^2`, and `1-X=1` for
+`Y^2 = nu*X^2*(1-X)`. Thus the node-center squareclass is trivial. Together
+with the non-node branch audit, this gives a reduction-level picture only:
+non-node branches give `nu`, while node centers give trivial.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2316,6 +2342,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 472
+required_file_count = 476
 missing_files = []
 ```
