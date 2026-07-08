@@ -1749,15 +1749,16 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closur
 ```text
 status=ok
 input_normal_form_count=2
-unit_branch_count=1
-unit_branch_squareclass_consequence_proved_count=1
+unit_branch_count=2
+unit_branch_squareclass_consequence_proved_count=2
 local_image_schema_proved_count=0
 ```
 
-普通话说：在标准模型 `Y^2=X*(X-1)^2` 中，如果 `X` 和 `X-1` 都是单位，
-那么 `X=(Y/(X-1))^2`，所以这个分支上的 `X` 平方类是平凡的。这只关闭
-一个单位分支；`X` 非单位、`X-1` 非单位、另一个 tangent-one 标准模型和
-tangent squareclass `-1` 的 schema 仍然没有被 local-image 定理覆盖。
+普通话说：在两个 tangent-one 标准模型中，如果 `X` 和 `X-1` 都是单位，
+就能分别得到 `X=(Y/(X-1))^2` 和 `X-1=(Y/X)^2`。所以第一个模型的单位分支上
+`X` 平方类平凡，第二个模型的单位分支上 `X-1` 平方类平凡。这只关闭两个单位
+分支；`X` 非单位、`X-1` 非单位和 tangent squareclass `-1` 的 schema 仍然
+没有被 local-image 定理覆盖。
 
 Rank-zero Selmer transcript intake audit：
 

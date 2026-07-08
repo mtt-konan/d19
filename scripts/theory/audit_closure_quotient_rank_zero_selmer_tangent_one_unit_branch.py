@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the tangent-one standard model unit-branch squareclass consequence."""
+"""Audit tangent-one standard model unit-branch squareclass consequences."""
 
 from __future__ import annotations
 
@@ -9,29 +9,46 @@ from pathlib import Path
 from typing import Any
 
 BOUNDARY = (
-    "This audits one unit-branch squareclass consequence on the tangent-one "
-    "standard nodal model. It proves only the displayed branch identity; it "
+    "This audits unit-branch squareclass consequences on the tangent-one "
+    "standard nodal models. It proves only the displayed branch identities; it "
     "does not prove a local image, local condition, Selmer rank bound, or "
     "lambda-family exclusion."
 )
 
-TARGET_SCHEMA_ID = "odd-prime-local-image-nonzero-double-root-tangent-1"
-TARGET_STANDARD_MODEL = "Y^2 = X*(X - 1)^2"
-
-UNIT_BRANCH_ENTRY = {
-    "branch_id": "tangent-one-nonzero-double-root-unit-branch",
-    "branch_hypothesis": "X and X - 1 are local units",
-    "identity": "X = (Y/(X - 1))^2",
-    "squareclass_consequence": "X has trivial local squareclass on this branch",
-    "branch_squareclass_consequence_proved": True,
-    "local_image_schema_proved": False,
-    "uncovered_branches": [
-        "X nonunit branch",
-        "X - 1 nonunit branch",
-        "zero-double-root tangent-one standard model",
-        "tangent-squareclass -1 schemas",
-    ],
-}
+UNIT_BRANCH_TARGETS = (
+    {
+        "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+        "standard_model": "Y^2 = X*(X - 1)^2",
+        "branch_id": "tangent-one-nonzero-double-root-unit-branch",
+        "branch_hypothesis": "X and X - 1 are local units",
+        "identity": "X = (Y/(X - 1))^2",
+        "squareclass_consequence": "X has trivial local squareclass on this branch",
+        "branch_squareclass_consequence_proved": True,
+        "local_image_schema_proved": False,
+        "uncovered_branches": [
+            "X nonunit branch",
+            "X - 1 nonunit branch",
+            "tangent-squareclass -1 schemas",
+        ],
+    },
+    {
+        "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+        "standard_model": "Y^2 = X^2*(X - 1)",
+        "branch_id": "tangent-one-zero-double-root-unit-branch",
+        "branch_hypothesis": "X and X - 1 are local units",
+        "identity": "X - 1 = (Y/X)^2",
+        "squareclass_consequence": (
+            "X - 1 has trivial local squareclass on this branch"
+        ),
+        "branch_squareclass_consequence_proved": True,
+        "local_image_schema_proved": False,
+        "uncovered_branches": [
+            "X nonunit branch",
+            "X - 1 nonunit branch",
+            "tangent-squareclass -1 schemas",
+        ],
+    },
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -50,11 +67,16 @@ def _normal_forms_ready(normal_forms: dict[str, Any]) -> bool:
     return normal_forms.get("status") == "ok" and normal_forms.get("ready") is True
 
 
-def _target_entry(normal_forms: dict[str, Any]) -> dict[str, Any] | None:
+def _target_entry(
+    normal_forms: dict[str, Any],
+    *,
+    schema_id: str,
+    standard_model: str,
+) -> dict[str, Any] | None:
     for entry in normal_forms.get("normal_form_entries", []):
         if (
-            str(entry.get("schema_id", "")) == TARGET_SCHEMA_ID
-            and str(entry.get("standard_model", "")) == TARGET_STANDARD_MODEL
+            str(entry.get("schema_id", "")) == schema_id
+            and str(entry.get("standard_model", "")) == standard_model
         ):
             return dict(entry)
     return None
@@ -74,19 +96,19 @@ def audit_rank_zero_selmer_tangent_one_unit_branch(
     if int(tangent_one_normal_forms.get("local_condition_proved_count", 0) or 0) != 0:
         violations.append("local_condition_claim_count_nonzero")
 
-    target = _target_entry(tangent_one_normal_forms)
-    if target is None:
-        violations.append("target_tangent_one_standard_model_missing")
-
     entries: list[dict[str, Any]] = []
-    if target is not None:
-        entries.append(
-            {
-                "schema_id": TARGET_SCHEMA_ID,
-                "standard_model": TARGET_STANDARD_MODEL,
-                **UNIT_BRANCH_ENTRY,
-            }
+    for target in UNIT_BRANCH_TARGETS:
+        normal_form = _target_entry(
+            tangent_one_normal_forms,
+            schema_id=str(target["schema_id"]),
+            standard_model=str(target["standard_model"]),
         )
+        if normal_form is None:
+            violations.append(
+                f"target_tangent_one_standard_model_missing={target['schema_id']}"
+            )
+            continue
+        entries.append(dict(target))
 
     status = "ok" if not violations else "issues"
     return {

@@ -72,7 +72,7 @@ def _normal_forms() -> dict[str, object]:
     }
 
 
-def test_tangent_one_unit_branch_records_only_unit_squareclass_consequence() -> None:
+def test_tangent_one_unit_branch_records_only_unit_squareclass_consequences() -> None:
     audit = audit_rank_zero_selmer_tangent_one_unit_branch(
         tangent_one_normal_forms=_normal_forms(),
     )
@@ -80,8 +80,8 @@ def test_tangent_one_unit_branch_records_only_unit_squareclass_consequence() -> 
     assert audit["status"] == "ok"
     assert audit["ready"] is True
     assert audit["input_normal_form_count"] == 2
-    assert audit["unit_branch_count"] == 1
-    assert audit["unit_branch_squareclass_consequence_proved_count"] == 1
+    assert audit["unit_branch_count"] == 2
+    assert audit["unit_branch_squareclass_consequence_proved_count"] == 2
     assert audit["local_image_schema_proved_count"] == 0
     assert audit["local_condition_proved_count"] == 0
     assert audit["selmer_rank_upper_bound_proved_count"] == 0
@@ -99,10 +99,26 @@ def test_tangent_one_unit_branch_records_only_unit_squareclass_consequence() -> 
             "uncovered_branches": [
                 "X nonunit branch",
                 "X - 1 nonunit branch",
-                "zero-double-root tangent-one standard model",
                 "tangent-squareclass -1 schemas",
             ],
-        }
+        },
+        {
+            "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+            "standard_model": "Y^2 = X^2*(X - 1)",
+            "branch_id": "tangent-one-zero-double-root-unit-branch",
+            "branch_hypothesis": "X and X - 1 are local units",
+            "identity": "X - 1 = (Y/X)^2",
+            "squareclass_consequence": (
+                "X - 1 has trivial local squareclass on this branch"
+            ),
+            "branch_squareclass_consequence_proved": True,
+            "local_image_schema_proved": False,
+            "uncovered_branches": [
+                "X nonunit branch",
+                "X - 1 nonunit branch",
+                "tangent-squareclass -1 schemas",
+            ],
+        },
     ]
     assert audit["branch_results_not_local_images"] is True
     assert audit["search_count_used_as_progress"] is False
@@ -142,7 +158,7 @@ def test_tangent_one_unit_branch_cli_writes_audit(tmp_path: Path) -> None:
         check=True,
     )
 
-    assert "unit_branch_squareclass_consequence_proved_count=1" in result.stdout
+    assert "unit_branch_squareclass_consequence_proved_count=2" in result.stdout
     payload = json.loads(out.read_text(encoding="utf-8"))
     assert payload["branch_results_not_local_images"] is True
 

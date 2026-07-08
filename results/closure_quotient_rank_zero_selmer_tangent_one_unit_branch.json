@@ -1,5 +1,5 @@
 {
-  "boundary": "This audits one unit-branch squareclass consequence on the tangent-one standard nodal model. It proves only the displayed branch identity; it does not prove a local image, local condition, Selmer rank bound, or lambda-family exclusion.",
+  "boundary": "This audits unit-branch squareclass consequences on the tangent-one standard nodal models. It proves only the displayed branch identities; it does not prove a local image, local condition, Selmer rank bound, or lambda-family exclusion.",
   "branch_results_not_local_images": true,
   "family_exclusion_proved_count": 0,
   "input_normal_form_count": 2,
@@ -9,7 +9,7 @@
   "search_count_used_as_progress": false,
   "selmer_rank_upper_bound_proved_count": 0,
   "status": "ok",
-  "unit_branch_count": 1,
+  "unit_branch_count": 2,
   "unit_branch_entries": [
     {
       "branch_hypothesis": "X and X - 1 are local units",
@@ -23,11 +23,25 @@
       "uncovered_branches": [
         "X nonunit branch",
         "X - 1 nonunit branch",
-        "zero-double-root tangent-one standard model",
+        "tangent-squareclass -1 schemas"
+      ]
+    },
+    {
+      "branch_hypothesis": "X and X - 1 are local units",
+      "branch_id": "tangent-one-zero-double-root-unit-branch",
+      "branch_squareclass_consequence_proved": true,
+      "identity": "X - 1 = (Y/X)^2",
+      "local_image_schema_proved": false,
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+      "squareclass_consequence": "X - 1 has trivial local squareclass on this branch",
+      "standard_model": "Y^2 = X^2*(X - 1)",
+      "uncovered_branches": [
+        "X nonunit branch",
+        "X - 1 nonunit branch",
         "tangent-squareclass -1 schemas"
       ]
     }
   ],
-  "unit_branch_squareclass_consequence_proved_count": 1,
+  "unit_branch_squareclass_consequence_proved_count": 2,
   "violations": []
 }

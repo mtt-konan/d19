@@ -1473,15 +1473,15 @@ Current result:
 ```text
 status = ok
 input_normal_form_count = 2
-unit_branch_count = 1
-unit_branch_squareclass_consequence_proved_count = 1
+unit_branch_count = 2
+unit_branch_squareclass_consequence_proved_count = 2
 local_image_schema_proved_count = 0
 ```
 
-On the standard model `Y^2 = X*(X - 1)^2`, the unit branch with both
-`X` and `X - 1` units gives `X = (Y/(X - 1))^2`; hence `X` has trivial
-local squareclass on that branch. This is only a branch-level consequence,
-not the local-image theorem.
+On the two tangent-one standard models, the unit branch with both `X` and
+`X - 1` units gives `X = (Y/(X - 1))^2` and `X - 1 = (Y/X)^2`; hence the
+displayed squareclass is trivial on each unit branch. These are only
+branch-level consequences, not the local-image theorem.
 
 Audit rank-zero Selmer transcript intake:
 
