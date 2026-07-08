@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=456
+artifact_status.required_file_count=460
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1808,6 +1808,31 @@ local_image_schema_proved_count=0
 `(X,Y)=(1,0)`，所以 `X=1`；第二个标准模型节点是 `(X,Y)=(0,0)`，所以
 `X-1=-1`。这还不是局部像证明，因为真正要分析的是原光滑曲线中约化到节点
 附近的局部点。
+
+Rank-zero Selmer tangent-one punctured-node audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_punctured_nodes.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_punctured_nodes.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_nonnode_branch_count=2
+input_node_value_count=2
+punctured_node_neighborhood_control_proved_count=2
+node_center_lift_analysis_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：节点附近但不等于节点中心的局部点，不需要新搜索；它们已经被
+non-node 恒等式控制。剩下的问题更窄：节点中心的 formal lift / compatibility，
+以及 tangent squareclass `-1` 的两个 schema。
 
 Rank-zero Selmer transcript intake audit：
 
