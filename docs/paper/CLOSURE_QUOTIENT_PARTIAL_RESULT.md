@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 492
+artifact_status.required_file_count = 496
 artifact_status.missing_file_count = 0
 ```
 
@@ -1761,6 +1761,39 @@ This records the review gate for future Selmer transcripts. A complete
 transcript package can be accepted as review material, but this audit does not
 verify the Selmer mathematics or promote a family exclusion.
 
+Audit rank-zero family theorem readiness:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py \
+  --lambda-handoff results/closure_quotient_lambda_structural_handoff_audit.json \
+  --family-obligations results/closure_quotient_rank_zero_family_obligations.json \
+  --symbolic-inputs results/closure_quotient_rank_zero_symbolic_descent_inputs.json \
+  --isogeny-templates results/closure_quotient_rank_zero_isogeny_templates.json \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --selmer-obligations results/closure_quotient_rank_zero_selmer_obligations.json \
+  --transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --out results/closure_quotient_rank_zero_family_theorem_readiness.json \
+  --strict
+```
+
+Current result:
+
+```text
+rank_zero_input_chain_ready = True
+rank_zero_family_theorem_ready = False
+rank_zero_route_class_count = 200
+family_obligation_count = 3
+selmer_obligation_count = 9
+missing_transcript_package_count = 9
+local_condition_proved_count = 0
+selmer_rank_upper_bound_proved_count = 0
+family_exclusion_proved_count = 0
+```
+
+This confirms that the rank-zero input chain is organized, but it is still not
+a rank-zero family theorem. The blocker is the missing set of 9 reviewable
+Selmer transcripts or an external theorem certificate, not more height search.
+
 Audit lambda route partition:
 
 ```bash
@@ -2317,6 +2350,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_obligations.py
 scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
+scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
@@ -2446,6 +2480,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 492
+required_file_count = 496
 missing_files = []
 ```

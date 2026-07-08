@@ -175,6 +175,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py"
+        in paths
+    )
+    assert (
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py"
         in paths
     )
@@ -305,6 +309,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py"
+        in paths
+    )
+    assert (
+        "tests/test_closure_quotient_rank_zero_family_theorem_readiness.py"
         in paths
     )
     assert "tests/test_closure_quotient_rank_zero_selmer_local_supports.py" in paths
@@ -449,6 +457,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/385-rank-zero-selmer-package-index.md" in paths
     assert "docs/work-logs/386-rank-zero-selmer-package-materialization.md" in paths
     assert "docs/work-logs/387-rank-zero-selmer-transcript-intake.md" in paths
+    assert "docs/work-logs/410-rank-zero-family-theorem-readiness.md" in paths
     assert "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md" in paths
     assert "docs/work-logs/389-rank-zero-selmer-local-supports.md" in paths
     assert "docs/work-logs/390-rank-zero-selmer-coprime-supports.md" in paths
@@ -509,6 +518,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert "results/closure_quotient_rank_zero_selmer_transcript_intake.json" in paths
+    assert (
+        "results/closure_quotient_rank_zero_family_theorem_readiness.json"
+        in paths
+    )
     assert (
         "results/closure_quotient_rank_zero_selmer_transcript_template_index.json"
         in paths

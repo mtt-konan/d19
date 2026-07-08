@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=492
+artifact_status.required_file_count=496
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -2036,6 +2036,40 @@ strict_promotion_ready_count=0
 package id、transcript 文件、类型和字段检查；通过以后也只是 `needs-math-review`，不会自动
 把 rank-zero 或 `lambda` family 排除写成定理。当前没有 transcript，所以 9 个仍然全部 open。
 
+Rank-zero family theorem readiness audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py \
+  --lambda-handoff results/closure_quotient_lambda_structural_handoff_audit.json \
+  --family-obligations results/closure_quotient_rank_zero_family_obligations.json \
+  --symbolic-inputs results/closure_quotient_rank_zero_symbolic_descent_inputs.json \
+  --isogeny-templates results/closure_quotient_rank_zero_isogeny_templates.json \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --selmer-obligations results/closure_quotient_rank_zero_selmer_obligations.json \
+  --transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --out results/closure_quotient_rank_zero_family_theorem_readiness.json \
+  --strict
+```
+
+当前结果：
+
+```text
+rank_zero_input_chain_ready=True
+rank_zero_family_theorem_ready=False
+rank_zero_route_class_count=200
+family_obligation_count=3
+selmer_obligation_count=9
+missing_transcript_package_count=9
+local_condition_proved_count=0
+selmer_rank_upper_bound_proved_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：rank-zero 主线的输入已经排好，但还没有变成定理。200 个 `lambda`
+类被压成 `AA`、`AA+BB`、`BB` 三个整族入口；每个入口要处理 3 个 kernel，所以是
+9 个 Selmer 证明包。当前缺的不是更长搜索时间，而是可审阅的 Selmer transcript 或
+外部 rank-zero theorem certificate。
+
 Rank-zero family candidate list：
 
 ```bash
@@ -2457,6 +2491,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py`
 - `scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2535,6 +2570,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_package_index.py`
 - `tests/test_closure_quotient_rank_zero_selmer_package_materialization.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
+- `tests/test_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2635,6 +2671,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_package_materialization.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_intake.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
+- `results/closure_quotient_rank_zero_family_theorem_readiness.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -2784,6 +2821,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl389](work-logs/389-rank-zero-selmer-local-supports.md)
 - [wl390](work-logs/390-rank-zero-selmer-coprime-supports.md)
 - [wl391](work-logs/391-rank-zero-selmer-odd-prime-cases.md)
+- [wl410](work-logs/410-rank-zero-family-theorem-readiness.md)
 
 数学总入口：
 

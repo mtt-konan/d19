@@ -1,0 +1,68 @@
+{
+  "boundary": "This audits the input chain for future rank-zero primitive lambda-family theorems. It does not prove local conditions, Selmer rank bounds, rank zero, no-point statements, or lambda-family exclusions.",
+  "checks": {
+    "family_obligations_ready": true,
+    "isogeny_templates_ready": true,
+    "lambda_rank_zero_route_ready": true,
+    "local_supports_remain_candidates": true,
+    "selmer_obligations_open": true,
+    "symbolic_inputs_ready": true,
+    "transcripts_missing_not_proof": true
+  },
+  "family_exclusion_proved_count": 0,
+  "family_obligation_count": 3,
+  "local_condition_proved_count": 0,
+  "missing_transcript_package_count": 9,
+  "next_blocker": "rank-zero-selmer-transcripts-missing-not-proof",
+  "open_selmer_obligation_count": 9,
+  "primitive_model_count": 243,
+  "rank_zero_family_theorem_ready": false,
+  "rank_zero_input_chain_ready": true,
+  "rank_zero_route_class_count": 200,
+  "readiness_rows": [
+    {
+      "acceptable_next_evidence": "uniform isogeny-Selmer rank-bound transcript or external reviewable rank-zero theorem certificate",
+      "candidate_class_count": 82,
+      "family_exclusion_proved": false,
+      "model_count": 82,
+      "pattern": "AA",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ]
+    },
+    {
+      "acceptable_next_evidence": "uniform isogeny-Selmer rank-bound transcript or external reviewable rank-zero theorem certificate",
+      "candidate_class_count": 43,
+      "family_exclusion_proved": false,
+      "model_count": 86,
+      "pattern": "AA+BB",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ]
+    },
+    {
+      "acceptable_next_evidence": "uniform isogeny-Selmer rank-bound transcript or external reviewable rank-zero theorem certificate",
+      "candidate_class_count": 75,
+      "family_exclusion_proved": false,
+      "model_count": 75,
+      "pattern": "BB",
+      "required_kernel_obligations": [
+        "kernel_minus_p",
+        "kernel_neg_2sqrt_q",
+        "kernel_pos_2sqrt_q"
+      ]
+    }
+  ],
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_obligation_count": 9,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "strict_promotion_ready_count": 0,
+  "transcript_package_ready_count": 0,
+  "violations": []
+}

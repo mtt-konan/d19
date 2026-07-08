@@ -123,6 +123,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py",
     ),
     Artifact(
@@ -289,6 +293,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "test",
         "tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py",
+    ),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_family_theorem_readiness.py",
     ),
     Artifact(
         "test",
@@ -472,6 +480,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "worklog",
         "docs/work-logs/409-closure-quotient-lambda-structural-handoff.md",
+    ),
+    Artifact(
+        "worklog",
+        "docs/work-logs/410-rank-zero-family-theorem-readiness.md",
     ),
     Artifact("worklog", "docs/work-logs/381-rank-zero-family-obligations.md"),
     Artifact("worklog", "docs/work-logs/382-rank-zero-symbolic-descent-inputs.md"),
@@ -726,6 +738,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/closure_quotient_rank_zero_selmer_transcript_template_index.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_family_theorem_readiness.json",
     ),
     Artifact(
         "result",
