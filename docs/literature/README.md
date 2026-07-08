@@ -66,4 +66,4 @@ literature/
 
 ## 相关 worklog
 
-- `docs/work-logs/032-literature-review.md` — 本次文献调研的工作日志
+- `docs/work-logs/028-proof-status-ec-foundation-consolidated.md` — 本次文献调研的工作日志

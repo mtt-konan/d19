@@ -60,27 +60,21 @@ uv run ruff format .
 
 ## 文档
 
-如果你只想快速搞清楚“现在到底主线是哪条、代码从哪看、别把路线混了”，先读 [docs/DIRECTIONS.md](docs/DIRECTIONS.md)。
+如果你只想快速搞清楚“现在到底主线是哪条、下一步做什么”，先读 [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)。
 
 | 文档 | 内容 |
 |------|------|
-| [docs/DIRECTIONS.md](docs/DIRECTIONS.md) | 项目方向总地图：当前主线、基线、暂停路线，以及每条线对应的代码、测试、脚本和入口 |
-| [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 项目当前主线、基线、暂停路线，以及现在真正的瓶颈 |
-| [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) | **当前重点**：短中期可落地的理论方向（因子分解攻击、Gaussian 整数筛、2-descent 等） |
-| [docs/THEORY_DIRECTIONS_ADVANCED.md](docs/THEORY_DIRECTIONS_ADVANCED.md) | **长期突破**：可能撬动 Harborth 猜想本身的方向（Heegner 点 / Chabauty / Brauer–Manin / K3 曲面） |
-| [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md) | 当前已经基本确认的工程和数学结论，优先看高置信结论 |
+| [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 当前主线、已经证明什么、还没证明什么 |
+| [docs/OPEN_DIRECTIONS.md](docs/OPEN_DIRECTIONS.md) | 当前下一步和停止条件 |
+| [docs/CLOSURE_QUOTIENT_MAINLINE.md](docs/CLOSURE_QUOTIENT_MAINLINE.md) | closure quotient / rank-zero Selmer 主线细账 |
 | [docs/MATH.md](docs/MATH.md) | 数学总库：参数化推导、chain 化简、concordant 椭圆曲线等推导 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 工程结构参考：代码分区、实现入口、兼容层现状 |
-| [docs/SEARCH_METHODS.md](docs/SEARCH_METHODS.md) | 5 个子命令分别做什么，只讲方法，不负责判断当前优先级 |
-| [docs/METHOD_COMPARISON.md](docs/METHOD_COMPARISON.md) | 5 条方法的实测对比：各自在找什么、产出什么、速度如何 |
-| [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |
 | [docs/archive/](docs/archive/) | 历史文档与实验记录（参考用，不是当前主线） |
+| [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |
 
 当前建议的阅读顺序是：
 
-1. [docs/DIRECTIONS.md](docs/DIRECTIONS.md)
-2. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
-3. [docs/THEORY_DIRECTIONS.md](docs/THEORY_DIRECTIONS.md) ← 短中期可落地的方向
-4. [docs/THEORY_DIRECTIONS_ADVANCED.md](docs/THEORY_DIRECTIONS_ADVANCED.md) ← **长期突破方向**，看完上一份再看
-5. [docs/CURRENT_FINDINGS.md](docs/CURRENT_FINDINGS.md)
-6. [docs/MATH.md](docs/MATH.md)（需要数学细节时）
+1. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
+2. [docs/OPEN_DIRECTIONS.md](docs/OPEN_DIRECTIONS.md)
+3. [docs/CLOSURE_QUOTIENT_MAINLINE.md](docs/CLOSURE_QUOTIENT_MAINLINE.md)
+4. [docs/MATH.md](docs/MATH.md)（需要数学细节时）

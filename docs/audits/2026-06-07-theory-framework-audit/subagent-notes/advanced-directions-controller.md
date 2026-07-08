@@ -2,13 +2,13 @@ Slice:
 advanced-directions-controller（controller 本地补审；原计划第 7 个 subagent 因 agent 数量限制未启动）
 
 Files inspected:
-- `docs/THEORY_DIRECTIONS.md`
-- `docs/THEORY_DIRECTIONS_ADVANCED.md`
+- `docs/archive/THEORY_DIRECTIONS.md`
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md`
 - `docs/OPEN_DIRECTIONS.md`
 - `docs/PROJECT_STATUS.md`
-- `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md`
-- `docs/work-logs/090-f2-chabauty-tooling-survey.md`
-- `docs/work-logs/092-direction5-heegner-decider-redundant.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
 - `src/rational_distance/concordant/heegner_height.py`
 - `src/rational_distance/proof_status/methods.py`
 - `tests/test_proof_status.py`

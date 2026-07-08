@@ -43,9 +43,9 @@ Documents:
 - `theorem-targets.md`: the next proof targets that survived this follow-up.
 - `center-line-impossibility.md`: local d19 translation of Yang Ji's midline theorem.
 - `commands-run.md`: commands and verification.
-- `../../work-logs/106-d4-point-plot-and-centerline-branch.md`: D4 point plot and center-line theorem note.
-- `../../work-logs/204-d4-invariant-coordinate-summary.md`: D4 invariant table follow-up for the 480 point orbits.
-- `../../work-logs/205-closure-first-near-miss-equationization.md`: equation ledger for three low-delta / high-repeat near-miss templates.
+- `../../work-logs/105-sum-ab-fixed-ratio-consolidated.md`: D4 point plot and center-line theorem note.
+- `../../work-logs/203-wl218-full-plane-reciprocal-consolidated.md`: D4 invariant table follow-up for the 480 point orbits.
+- `../../work-logs/203-wl218-full-plane-reciprocal-consolidated.md`: equation ledger for three low-delta / high-repeat near-miss templates.
 
 Code/results:
 

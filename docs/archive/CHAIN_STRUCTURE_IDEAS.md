@@ -66,7 +66,7 @@ N² + B² = □    (C₄)    ↔ 还原 T₄
 
 ## 二、想法 1 — 4 个 hypotenuse 的联合性质
 
-> **实证更新 (2026-05, worklog [034](work-logs/034-hypotenuse-identity.md))**：
+> **实证更新 (2026-05, worklog [034](work-logs/028-proof-status-ec-foundation-consolidated.md))**：
 > 在 1005 个长方形 4-chain (`max_val=5000`) 上验证：
 > - **恒等式 A 和 C 100% 数值通过** ✅（代数推导无误，是 d19 项目对 chain 结构的真实代数贡献）
 > - **§2.4 "h_i 的奇素因子 ≡ 1 (mod 4)" 假设错误** ❌
@@ -188,7 +188,7 @@ Peschmann 2026 §7 在 perfect cuboid 上看到完全同类现象：他的 quart
 
 ## 四、想法 3 — 2-descent on $E_{A,B}$
 
-> **工具更新 (2026-05, worklog [035](work-logs/035-pari-selmer-api.md))**：
+> **工具更新 (2026-05, worklog [035](work-logs/028-proof-status-ec-foundation-consolidated.md))**：
 > 经过 PARI API 探查，**无需装 SageMath** 即可拿到 2-descent 全部输出：
 > - `pari.ellrank(E, effort)` 已经返回 4 元组 `[rank_lo, rank_hi, sha2_lo, gens]`
 > - `pari.ell2cover(E)` 直接给出 Selmer 群的 quartic covers（= Sage `E.two_descent()` 的核心输出）
@@ -237,7 +237,7 @@ Peschmann **Theorem 6.2**（2-descent obstruction）：若某个 2-descent 标�
 
 ## 五、想法 4 — 对偶 EC 视角
 
-> **实证更新 (2026-05, worklog [033](work-logs/033-dual-ec-probe.md))**：
+> **实证更新 (2026-05, worklog [033](work-logs/028-proof-status-ec-foundation-consolidated.md))**：
 > 在 150 个 D4-distinct chain near-miss 候选上跑双 EC rank 联合分布，
 > **0 个 dual EC 是 certified rank=0**。所有看似 rank=0 的样本在
 > PARI `ellrank(E, effort=2)` 下都升级到 rank=2。
@@ -330,10 +330,10 @@ Peschmann 2026 在 perfect cuboid 上**没有**用到对偶视角 — 他的 qua
 
 | 想法 | 是否可马上动手 | 工作量 | 文献是否做过 | 优先级 |
 |---|---|---|---|---|
-| ~~**1** hypotenuse 恒等式 + blocker prime~~ | ✅ | 已做 | 没做过 | △ 恒等式 ✅ / blocker 论证 ✗ ([wl 034](work-logs/034-hypotenuse-identity.md)) |
+| ~~**1** hypotenuse 恒等式 + blocker prime~~ | ✅ | 已做 | 没做过 | △ 恒等式 ✅ / blocker 论证 ✗ ([wl 034](work-logs/028-proof-status-ec-foundation-consolidated.md)) |
 | **2** 正方形条件强度 | 不需动手（写 intro）| — | 同 Peschmann §7 | — |
-| **3** 2-descent on $E_{A,B}$ | ✅（**PARI 已自带**，见 [wl 035](work-logs/035-pari-selmer-api.md)）| 半天-1 天 | Peschmann §6 已用 | ⭐⭐⭐（最高） |
-| ~~**4** 对偶 EC 视角~~ | ✅ | 已做 | **没做过** | ✗ 已实证否定 ([wl 033](work-logs/033-dual-ec-probe.md)) |
+| **3** 2-descent on $E_{A,B}$ | ✅（**PARI 已自带**，见 [wl 035](work-logs/028-proof-status-ec-foundation-consolidated.md)）| 半天-1 天 | Peschmann §6 已用 | ⭐⭐⭐（最高） |
+| ~~**4** 对偶 EC 视角~~ | ✅ | 已做 | **没做过** | ✗ 已实证否定 ([wl 033](work-logs/028-proof-status-ec-foundation-consolidated.md)) |
 
 **推荐起手顺序（2026-05 更新）**：
 
@@ -348,10 +348,10 @@ Peschmann 2026 在 perfect cuboid 上**没有**用到对偶视角 — 他的 qua
 
 ## 八、相关 worklog
 
-- `work-logs/032-literature-review.md` — 本 ideas 的上下文（文献调研）
-- `work-logs/033-dual-ec-probe.md` — 想法 4 实证：dual EC rank 联合分布，**0 个 free obstruction**
-- `work-logs/034-hypotenuse-identity.md` — 想法 1 实证：恒等式 A/C 100% 验证 ✅，但 §2.4 blocker prime 论证基础假设错误 ❌
-- `work-logs/035-pari-selmer-api.md` — 想法 3 工具发现：PARI 已自带 ell2cover/Sha2，**无需装 Sage**
-- `work-logs/036-compute-rank-fix-and-ell2cover-batch.md` — compute_rank 4-tuple 修复 + 320 hard_case ell2cover 批量，发现 2 个 sha2=2 case
-- `work-logs/037-finite-descent-on-hard-cases.md` — Peschmann §7(2) 风格两层 modular search，320 hard_case × N ≤ 10^8 零 chain solution
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — 本 ideas 的上下文（文献调研）
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — 想法 4 实证：dual EC rank 联合分布，**0 个 free obstruction**
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — 想法 1 实证：恒等式 A/C 100% 验证 ✅，但 §2.4 blocker prime 论证基础假设错误 ❌
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — 想法 3 工具发现：PARI 已自带 ell2cover/Sha2，**无需装 Sage**
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — compute_rank 4-tuple 修复 + 320 hard_case ell2cover 批量，发现 2 个 sha2=2 case
+- `work-logs/028-proof-status-ec-foundation-consolidated.md` — Peschmann §7(2) 风格两层 modular search，320 hard_case × N ≤ 10^8 零 chain solution
 - 后续动手时新建 `work-logs/038-...`（Heegner 完整版 / Cassels-Tate / Brauer-Manin / 更大 N_max）

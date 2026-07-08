@@ -123,7 +123,7 @@ The `safe-filters` slice was first completed locally in `safe-filters-controller
 
 ## Recommended Next Actions
 
-1. Update or label `docs/MULTI_CONCORDANT_N_STRATEGY.md` as historical inside-square/sum-only unless rewritten around GEN-CLOSURE.
+1. Update or label `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md` as historical inside-square/sum-only unless rewritten around GEN-CLOSURE.
 2. Rebuild or relabel `results/proof_status.db` and `results/chain.db`; add semantic/version provenance to `results/catalog.json`.
 3. H2 mitigated 2026-06-09: `run_safe_sieve` now skips non-coprime input. Keep this guard, and keep arbitrary-pair/full-space methods separate from coprime-only safe_sieve.
 4. Mark `dual_closure_sieve` and `prove_no_solution_multi_first.py` as legacy sum-only, or upgrade to full-plane and rerun.

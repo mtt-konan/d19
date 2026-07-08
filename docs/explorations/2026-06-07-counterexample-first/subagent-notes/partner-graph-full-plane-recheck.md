@@ -16,7 +16,7 @@ Recheck whether old partner graph / `G_M` / island no-hit and delta claims used 
 
 Files inspected:
 
-- `docs/PARTNER_GRAPH_THEORY.md`
+- `docs/archive/PARTNER_GRAPH_THEORY.md`
 - `scripts/partner/full_gm_closure_scan.py`
 - `scripts/partner/full_gm_delta_stats.py`
 - `scripts/partner/comp0_island_analysis.py`
@@ -26,11 +26,11 @@ Files inspected:
 - `src/rational_distance/concordant/analysis.py`
 - `src/rational_distance/concordant/factor_search.py`
 - `src/rational_distance/results/gm_closure_delta.py`
-- `docs/work-logs/063-full-gm-closure-scan-no-counterexample.md`
-- `docs/work-logs/066-gm-clarify-and-delta-near-miss.md`
-- `docs/work-logs/093-closure-necessity-linear-relations-A9.md`
-- `docs/work-logs/094-gen-closure-landing-A9.md`
-- `docs/work-logs/094-k9-k10-ellrank-full-audit.md`
+- `docs/work-logs/053-partner-graph-fast-core-consolidated.md`
+- `docs/work-logs/053-partner-graph-fast-core-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
 - `results/partner/partner_full_bfs_summary.json`
 - `results/partner/full_gm_closure_scan_summary.json`
 - `results/partner/full_gm_delta_summary.json`
@@ -111,10 +111,10 @@ Bounded sample counts:
 Observed patterns:
 
 - The old partner `G_M` no-hit and delta statements are correct for `N_i + N_j = A+B`, but they are not full-plane GEN-CLOSURE statements. The code evidence is direct in `scripts/partner/full_gm_closure_scan.py:34-37`, `scripts/partner/full_gm_delta_stats.py:67-69`, and `src/rational_distance/results/gm_closure_delta.py:26-31`.
-- `docs/PARTNER_GRAPH_THEORY.md:317-326` still presents the Harborth translation as only `N1+N2=A+B`, and `docs/PARTNER_GRAPH_THEORY.md:341-342` says the scanned range has no Harborth counterexample. That statement should be downgraded or annotated with the later wl093 full-plane correction.
-- wl063 is also sum-only. It says the tool checks `N_i + N_j == A + B` at `docs/work-logs/063-full-gm-closure-scan-no-counterexample.md:10-14`, then phrases the result as `0` counterexamples at `docs/work-logs/063-full-gm-closure-scan-no-counterexample.md:20-22`.
-- wl066 is sum-only delta. It defines delta as `(A+B)-(N_i+N_j)` at `docs/work-logs/066-gm-clarify-and-delta-near-miss.md:135-143` and reports `0` hits / min `|delta|=1` at `docs/work-logs/066-gm-clarify-and-delta-near-miss.md:152-157`.
-- wl093 fixed the semantics. It says the old predicate only checked `N1+N2=A+B` at `docs/work-logs/093-closure-necessity-linear-relations-A9.md:15-19`, gives the full-plane condition at `docs/work-logs/093-closure-necessity-linear-relations-A9.md:21-29`, and explicitly says the large-scale `max_hyp=5e6` extension is still sum-only while full-plane scale remains `max_hyp=2000` at `docs/work-logs/093-closure-necessity-linear-relations-A9.md:169-173`.
+- `docs/archive/PARTNER_GRAPH_THEORY.md:317-326` still presents the Harborth translation as only `N1+N2=A+B`, and `docs/archive/PARTNER_GRAPH_THEORY.md:341-342` says the scanned range has no Harborth counterexample. That statement should be downgraded or annotated with the later wl093 full-plane correction.
+- wl063 is also sum-only. It says the tool checks `N_i + N_j == A + B` at `docs/work-logs/053-partner-graph-fast-core-consolidated.md:10-14`, then phrases the result as `0` counterexamples at `docs/work-logs/053-partner-graph-fast-core-consolidated.md:20-22`.
+- wl066 is sum-only delta. It defines delta as `(A+B)-(N_i+N_j)` at `docs/work-logs/053-partner-graph-fast-core-consolidated.md:135-143` and reports `0` hits / min `|delta|=1` at `docs/work-logs/053-partner-graph-fast-core-consolidated.md:152-157`.
+- wl093 fixed the semantics. It says the old predicate only checked `N1+N2=A+B` at `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:15-19`, gives the full-plane condition at `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:21-29`, and explicitly says the large-scale `max_hyp=5e6` extension is still sum-only while full-plane scale remains `max_hyp=2000` at `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:169-173`.
 - Near-misses appear in all four full-plane relation families in the bounded partner sample. This matters because the old `full_gm_delta_top.jsonl` only ranks the `sum=A+B` relation.
 - Some full-plane near-misses use equal `N` on sum relations, such as `(153,560)` with `(204,204)`. Any full-plane scan should mirror `analysis.gen_closure_hit`, not the old `combinations(ns, 2)` loop alone.
 - High `k` did not produce a hit in this sample. The bounded sample included all `16` wl063 K9/K10 sample hubs and still found no full-plane closure hit.

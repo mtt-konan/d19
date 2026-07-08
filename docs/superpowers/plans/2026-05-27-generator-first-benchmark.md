@@ -25,7 +25,7 @@
   - Unit tests for pair generation semantics.
   - Small integration test for benchmark row names and counts.
 
-- Create: `docs/work-logs/072-generator-first-candidate-benchmark.md`
+- Create: `docs/work-logs/053-partner-graph-fast-core-consolidated.md`
   - Records the experiment purpose, domain distinction, and commands to run.
   - Records actual benchmark numbers after running the 2k and 10k commands.
 
@@ -510,7 +510,7 @@ Expected: commit succeeds.
 ### Task 4: Document the experiment result and domain distinction
 
 **Files:**
-- Create: `docs/work-logs/072-generator-first-candidate-benchmark.md`
+- Create: `docs/work-logs/053-partner-graph-fast-core-consolidated.md`
 
 - [ ] **Step 1: Generate the worklog from benchmark JSON**
 
@@ -542,7 +542,7 @@ def table_for(path: Path) -> str:
     return "\n".join(lines)
 
 
-out = Path("docs/work-logs/072-generator-first-candidate-benchmark.md")
+out = Path("docs/work-logs/053-partner-graph-fast-core-consolidated.md")
 text = f"""# Worklog 072: Generator-first candidate benchmark
 
 ## Goal
@@ -597,7 +597,7 @@ print(out)
 PY
 ````
 
-Expected: creates `docs/work-logs/072-generator-first-candidate-benchmark.md` from the recorded JSON benchmark outputs.
+Expected: creates `docs/work-logs/053-partner-graph-fast-core-consolidated.md` from the recorded JSON benchmark outputs.
 
 - [ ] **Step 2: Verify the worklog records the known 10k multi-N count**
 
@@ -606,7 +606,7 @@ Run:
 ```bash
 python - <<'PY'
 from pathlib import Path
-text = Path('docs/work-logs/072-generator-first-candidate-benchmark.md').read_text()
+text = Path('docs/work-logs/053-partner-graph-fast-core-consolidated.md').read_text()
 assert 'multi_n         10000        854' in text
 assert 'proof_status --max-hyp' in text
 print('worklog records 10k multi-N count and domain distinction')
@@ -620,7 +620,7 @@ Expected: prints `worklog records 10k multi-N count and domain distinction`.
 Run:
 
 ```bash
-git add docs/work-logs/072-generator-first-candidate-benchmark.md
+git add docs/work-logs/053-partner-graph-fast-core-consolidated.md
 git commit -m "docs: document generator-first candidate benchmark"
 ```
 

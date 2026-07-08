@@ -27,8 +27,8 @@
 - `tests/test_half_points.py` — verifies half-point enumeration and signatures on known examples.
 
 ### Existing files to modify
-- `docs/MULTI_CONCORDANT_N_STRATEGY.md` — add one short note pointing to the new `results/README.md` and lookup/analyze commands.
-- `docs/work-logs/046-multi-concordant-n-scan-10k.md` — add one short “authoritative storage” section pointing to the catalog.
+- `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md` — add one short note pointing to the new `results/README.md` and lookup/analyze commands.
+- `docs/work-logs/028-proof-status-ec-foundation-consolidated.md` — add one short “authoritative storage” section pointing to the catalog.
 
 ---
 
@@ -587,8 +587,8 @@ git commit -m "feat: add half-point analysis for multi-N pairs"
 ### Task 4: Link the new catalog and tools from existing docs
 
 **Files:**
-- Modify: `docs/MULTI_CONCORDANT_N_STRATEGY.md`
-- Modify: `docs/work-logs/046-multi-concordant-n-scan-10k.md`
+- Modify: `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md`
+- Modify: `docs/work-logs/028-proof-status-ec-foundation-consolidated.md`
 
 - [ ] **Step 1: Add a short “authoritative storage” note to the strategy doc**
 
@@ -643,7 +643,7 @@ Expected: all tests pass; `ruff check` reports `All checks passed!`.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add docs/MULTI_CONCORDANT_N_STRATEGY.md docs/work-logs/046-multi-concordant-n-scan-10k.md
+git add docs/archive/MULTI_CONCORDANT_N_STRATEGY.md docs/work-logs/028-proof-status-ec-foundation-consolidated.md
 
 git commit -m "docs: index multi-N results and helper tools"
 ```

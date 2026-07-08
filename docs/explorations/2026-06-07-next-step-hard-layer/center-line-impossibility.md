@@ -311,7 +311,7 @@ k, inside n=k+1, outside n=k-1, Yang Ji prime-pair covered?, open residue classe
 That first table is recorded in:
 
 ```text
-docs/work-logs/203-a-kb-yang-ji-prime-pair-coverage.md
+docs/work-logs/203-wl218-full-plane-reciprocal-consolidated.md
 ```
 
 This turns the center-line proof note into a template instead of a new search

@@ -5,23 +5,23 @@ Files inspected:
 - `README.md`
 - `docs/MATH.md`
 - `docs/GLOSSARY.md`
-- `docs/DIRECTIONS.md`
-- `docs/CURRENT_FINDINGS.md`
+- `docs/archive/DIRECTIONS.md`
+- `docs/archive/CURRENT_FINDINGS.md`
 - `docs/PROJECT_STATUS.md`
-- `docs/MULTI_CONCORDANT_N_STRATEGY.md`
-- `docs/work-logs/073-dual-closure-sieve-and-n-side-theory.md`
-- `docs/work-logs/074-path-a-k2-closure-fiber-analysis.md`
-- `docs/work-logs/075-theory-direction-survey-and-path-a-pickup.md`
-- `docs/work-logs/076-conjecture-a1-proof-sketch.md`
-- `docs/work-logs/077-direction-2-height-bound-and-pivot-to-path-b.md`
-- `docs/work-logs/078-path-b-mod-p2-kill-audit.md`
-- `docs/work-logs/079-path-b-phase4a-multi-n-mod-pattern.md`
-- `docs/work-logs/080-path-b-closeout-and-recap-073-079.md`
-- `docs/work-logs/081-path-a-pickup-algebraic-step-a-strict.md`
-- `docs/work-logs/082-path-a-A2-hard-proven-Gaussian.md`
-- `docs/work-logs/083-conjecture-a1-fully-proven.md`
-- `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md`
-- Current-fix context: `docs/work-logs/093-closure-necessity-linear-relations-A9.md`, `docs/work-logs/094-gen-closure-landing-A9.md`
+- `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- Current-fix context: `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`, `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
 - `src/rational_distance/concordant/analysis.py`
 - `src/rational_distance/concordant/chain_closure_sieve.py`
 - `src/rational_distance/concordant/dual_closure_sieve.py`
@@ -67,10 +67,10 @@ Fatal findings:
 1. The old closure reduction `N1+N2=A+B` is not a full-plane Harborth condition.
 
    Evidence:
-   - `docs/MULTI_CONCORDANT_N_STRATEGY.md:66-90` states `反例 => ... N1 + N2 = A + B` as the key necessary condition.
-   - `docs/work-logs/073-dual-closure-sieve-and-n-side-theory.md:75-90` and `docs/work-logs/073-dual-closure-sieve-and-n-side-theory.md:230-238` use the same sum-only closure in the claimed effective lemma for reduced coprime pairs up to 2,000,000.
-   - `docs/work-logs/074-path-a-k2-closure-fiber-analysis.md:14-23`, `docs/work-logs/075-theory-direction-survey-and-path-a-pickup.md:49-57`, `docs/work-logs/077-direction-2-height-bound-and-pivot-to-path-b.md:46-53`, and `docs/work-logs/078-path-b-mod-p2-kill-audit.md:94-102` all build on the sum-only form.
-   - The current correction says this explicitly: `docs/MATH.md:252-260` and `docs/work-logs/093-closure-necessity-linear-relations-A9.md:15-24` state that sum closure only covers points inside the unit square, while the full-plane condition is `{N1+N2, |N1-N2|} intersect {A+B, |A-B|} != empty`.
+   - `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md:66-90` states `反例 => ... N1 + N2 = A + B` as the key necessary condition.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:75-90` and `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:230-238` use the same sum-only closure in the claimed effective lemma for reduced coprime pairs up to 2,000,000.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:14-23`, `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:49-57`, `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:46-53`, and `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:94-102` all build on the sum-only form.
+   - The current correction says this explicitly: `docs/MATH.md:252-260` and `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:15-24` state that sum closure only covers points inside the unit square, while the full-plane condition is `{N1+N2, |N1-N2|} intersect {A+B, |A-B|} != empty`.
    - Code evidence: `src/rational_distance/concordant/analysis.py:284-295` says `check_chain_compatibility` is the sum-only inside-square check; `src/rational_distance/concordant/analysis.py:298-315` implements `gen_closure_hit` for the full-plane GEN-CLOSURE condition.
 
    Impact:
@@ -83,7 +83,7 @@ Fatal findings:
    - `src/rational_distance/concordant/fast_multi_n.py:185-191` documents that it returns reduced coprime pairs; `src/rational_distance/concordant/fast_multi_n.py:214-219` skips even-even and non-coprime candidates.
    - `docs/MATH.md:498-513` says directly that `gcd(A,B)=1` is a search-space normalization, not a lossless reduction.
    - `src/rational_distance/concordant/safe_pair_sieve.py:3-17` says the reduced-pair sieve is sound only on coprime input and that non-coprime `(A,B)` is the §8.6 gap.
-   - `docs/work-logs/093-closure-necessity-linear-relations-A9.md:31-34` and `docs/work-logs/094-gen-closure-landing-A9.md:94-96` state that GEN-CLOSURE fixes inside vs outside, but does not fix gcd-scaling.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:31-34` and `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:94-96` state that GEN-CLOSURE fixes inside vs outside, but does not fix gcd-scaling.
    - `src/rational_distance/proof_status/methods.py:19-27` likewise limits the all-rank factor decider to reduced coprime legs and calls out non-coprime legs as a separate sub-problem.
 
    Impact:
@@ -123,9 +123,9 @@ Medium/low findings:
 1. wl081-wl083's A1 "strict proof" is already invalidated by wl084.
 
    Evidence:
-   - `docs/work-logs/083-conjecture-a1-fully-proven.md:56-85` states Theorem A1 as proven for reduced coprime safe-pass pairs with exactly two concordant N.
-   - `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md:73-92` says the proof chain is not strict and the key Gaussian uniqueness step fails.
-   - `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md:127-140` gives the honest status: empirical A1 still holds up to the tested range, strict proof not complete.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:56-85` states Theorem A1 as proven for reduced coprime safe-pass pairs with exactly two concordant N.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:73-92` says the proof chain is not strict and the key Gaussian uniqueness step fails.
+   - `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:127-140` gives the honest status: empirical A1 still holds up to the tested range, strict proof not complete.
 
    Impact:
    This is not a separate closure-reduction bug, but the main ledger should not list A1 as a theorem. It should be "empirical up to max_hyp=1M; proof gap open."
@@ -145,7 +145,7 @@ Medium/low findings:
    Evidence:
    - `src/rational_distance/_legacy/search_chain.py:451-458` returns only cycles with all four values distinct and `ac != bd`.
    - `tests/test_chain.py:31-37` and `tests/test_chain_fast.py:86-91` enforce the distinct-value exclusion.
-   - `docs/work-logs/034-hypotenuse-identity.md:18-20` records repeated-value cycles as degenerate.
+   - `docs/work-logs/028-proof-status-ec-foundation-consolidated.md:18-20` records repeated-value cycles as degenerate.
 
    Impact:
    This is acceptable as a baseline convention if the ledger says so. It should not be used as a proof of the full rational-distance problem unless a separate theorem excludes the symmetric/repeated-leg cases.

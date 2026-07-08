@@ -1,7 +1,7 @@
 # 搜索方法词典
 
 这份文档只解释项目里 5 个子命令分别做什么。  
-它不负责决定当前主线，也不负责写项目现状。那些内容请看 [docs/DIRECTIONS.md](./DIRECTIONS.md) 和 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md)。
+它不负责决定当前主线，也不负责写项目现状。那些内容请看 [docs/PROJECT_STATUS.md](../PROJECT_STATUS.md)。
 
 ## 一、先看状态标签
 

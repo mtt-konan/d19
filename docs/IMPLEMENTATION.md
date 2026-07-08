@@ -1,7 +1,7 @@
 # 工程结构参考
 
 这份文档只说明一件事：代码现在怎么分区、入口在哪里、兼容层怎么理解。
-它不负责判断“当前先推进哪条线”，那个请看 [docs/DIRECTIONS.md](./DIRECTIONS.md) 和 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md)。
+它不负责判断“当前先推进哪条线”，那个请看 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md)。
 
 ## 一、先看总原则
 
@@ -124,13 +124,13 @@
   - 默认只把 survivor 写进 SQLite
   - `--fast-core-only` 只写 summary JSON，不跑 survivor 审计
   - 长跑命令建议显式加 `PARI_MT_ENGINE=single`，表达要关闭 PARI 内部多线程的运行意图；实际关闭点在 `concordant.analysis._ensure_pari()`，创建 `Pari()` 后会显式执行 `default(nbthreads,1)`
-  - 详细命令见 [docs/PROOF_STATUS_FAST_MODE.md](./PROOF_STATUS_FAST_MODE.md)
+  - 详细命令见 [docs/archive/PROOF_STATUS_FAST_MODE.md](./archive/PROOF_STATUS_FAST_MODE.md)
 - `ab_sieve_methods.py` / `ab_sieve_benchmark.py` / `benchmark_ab_sieve_orders.py` 是这轮新增的**实验 benchmark 层**：
   - 默认把 AB sieve core 当成 3 层：`safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`
   - 默认 core order search 因而是 `3! = 6`
   - `--head-only`、`--safe-top2-only` 等模式仍保留，但它们现在更偏 split 诊断和历史对照
   - 不会自动改写 `workflow.py` 的默认生产顺序
-- 详见 [docs/THEORY_DIRECTIONS_ADVANCED.md](./THEORY_DIRECTIONS_ADVANCED.md) 中各方向的"实现状态"说明。
+- 详见 [docs/OPEN_DIRECTIONS.md](./OPEN_DIRECTIONS.md) 中当前方向说明。
 
 ### 5. `shared`
 
@@ -245,4 +245,4 @@
 
 - `docs/work-logs/` 反映的是每次提交当时的结构和判断。
 - 如果历史日志和当前目录结构不完全一致，以当前源码和本文件为准。
-- 当前主线与状态判断仍以 [docs/DIRECTIONS.md](./DIRECTIONS.md) 和 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md) 为准。
+- 当前主线与状态判断仍以 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md) 为准。

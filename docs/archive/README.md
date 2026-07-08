@@ -17,6 +17,10 @@
 | `CHAIN_FAST_SAFE_FILTERS.md` | chain-fast 当前 safe_sieve 的可证明性说明 | 参考用 |
 | `SEARCH_METHODS.md` | 5 个 CLI 子命令的词典（parametric / ec / chain / chain-fast / concordant） | 参考用 |
 | `METHOD_COMPARISON.md` | 5 个方法的实测时间与适用场景对比 | 参考用 |
+| `DIRECTIONS.md` / `EXPLORATION_MAP.md` | 旧路线入口与探索地图 | 已归档 |
+| `THEORY_DIRECTIONS*.md` / `OPEN_DIRECTIONS` 旧长清单 | 旧理论路线清单 | 已归档 |
+| `CURRENT_FINDINGS.md` / `MULTI_CONCORDANT_N_STRATEGY.md` / `PARTNER_GRAPH_THEORY.md` / `PROOF_STATUS_FAST_MODE.md` | 旧主线说明与工程说明 | 已归档 |
+| `MULTI_N_FILTER_LADDER.md` | multi-N 阶梯与 pivot-on-N 快速算法记录 | 已归档 |
 
 ## 何时查看
 
@@ -30,8 +34,6 @@
 
 当前应该优先看的文档在 `docs/` 根目录：
 
-- `THEORY_DIRECTIONS.md` ← **当前重点**
-- `PROJECT_STATUS.md`
-- `CURRENT_FINDINGS.md`
-- `MATH.md`
-
+- `../OPEN_DIRECTIONS.md` ← **当前重点**
+- `../PROJECT_STATUS.md`
+- `../MATH.md`

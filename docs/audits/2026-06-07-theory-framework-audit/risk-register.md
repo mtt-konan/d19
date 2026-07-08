@@ -10,16 +10,16 @@ Claim:
 旧策略把 Harborth 反例的闭合条件写成 `N1 + N2 = A + B`。
 
 Where it appears:
-- `docs/MULTI_CONCORDANT_N_STRATEGY.md:64-92`
-- `docs/work-logs/073-dual-closure-sieve-and-n-side-theory.md:75-112`
-- `docs/work-logs/073-dual-closure-sieve-and-n-side-theory.md:228-238`
+- `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md:64-92`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:75-112`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:228-238`
 - `src/rational_distance/concordant/dual_closure_sieve.py:10-18`
 
 Why it matters:
 普通话说，这一步把“点在正方形内部”的闭合方式，当成了“平面里任何位置”的闭合方式。正方形外的点满足差关系，不一定满足和关系。若把旧说法当成全平面证明，会漏掉外部反例。
 
 Evidence:
-- wl093 明确纠正：sum-only 只覆盖正方形内，full-plane 条件是 `{N1+N2, |N1-N2|} ∩ {A+B, |A-B|} != empty`，见 `docs/work-logs/093-closure-necessity-linear-relations-A9.md:15-34`。
+- wl093 明确纠正：sum-only 只覆盖正方形内，full-plane 条件是 `{N1+N2, |N1-N2|} ∩ {A+B, |A-B|} != empty`，见 `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:15-34`。
 - `MATH.md` 已把这个 caveat 写进 §7 注释，见 `docs/MATH.md:252-260`。
 - current production `proof_status` 已修复，`run_chain_closure_mod_sieve` 用 `full_plane=True`，`run_factor_concordant` 用 `gen_closure_hit`，见 `src/rational_distance/proof_status/methods.py:137-170` 和 `src/rational_distance/proof_status/methods.py:213-287`。
 
@@ -56,7 +56,7 @@ Why it matters:
 Evidence:
 - `MATH.md` 明确说最小反例只保证 `gcd(A,B,N1,N2)=1`，推不出 `gcd(A,B)=1`。
 - `generate_ab_pairs()` 直接输出 reduced/coprime pair。
-- wl104 已补上 full-space finite scans，但仍说缺少 "闭合永不发生" 的全局证明，见 `docs/work-logs/104-phase-summary-coprime-to-fullspace.md:66-74`。
+- wl104 已补上 full-space finite scans，但仍说缺少 "闭合永不发生" 的全局证明，见 `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:66-74`。
 
 Reproduction or check:
 - `PYTHONPATH=src uv run python` 探针显示非互素 `(6,15)` 有 concordant `N=8`；旧 coprime-only safe classification 会把它标成 `mixed_parity`。
@@ -87,7 +87,7 @@ Why it matters:
 当前代码已经把 reduced coprime pair 的 `factor_concordant` 变成 terminal GEN-CLOSURE 判定器。旧 DB 的 `hard_case` 若被当成当前状态，会误导路线优先级。
 
 Evidence:
-- wl094 说 `max_hyp=2000` 当前默认 pipeline 应为 `99,311 no_solution, 0 hard_case`，见 `docs/work-logs/094-gen-closure-landing-A9.md:53-66`。
+- wl094 说 `max_hyp=2000` 当前默认 pipeline 应为 `99,311 no_solution, 0 hard_case`，见 `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:53-66`。
 - 本次 SQLite 查询现有 DB：`hard_case=4653`，`factor_concordant inconclusive=4989`。
 
 Reproduction or check:
@@ -243,8 +243,8 @@ Claim:
 wl083 says A1 is fully proven; wl084 retracts the strict proof.
 
 Where it appears:
-- `docs/work-logs/083-conjecture-a1-fully-proven.md`
-- `docs/work-logs/084-A1-bug-finding-and-honest-reassessment.md:73-92`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md`
+- `docs/work-logs/073-gen-closure-modular-fullspace-consolidated.md:73-92`
 
 Why it matters:
 Rank explanations built on A1 must stay empirical/open, not theorem-level.
@@ -260,8 +260,8 @@ Claim:
 Some docs call `K_n` a subgraph/clique or call finite windows "full G_M".
 
 Where it appears:
-- `docs/PARTNER_GRAPH_THEORY.md:134-155`
-- `docs/work-logs/063-full-gm-closure-scan-no-counterexample.md`
+- `docs/archive/PARTNER_GRAPH_THEORY.md:134-155`
+- `docs/work-logs/053-partner-graph-fast-core-consolidated.md`
 
 Why it matters:
 `K_n` is a shared-partner star in `G_M`, not necessarily a clique. Finite window scans are strong experiments, not infinite graph proofs.
@@ -277,9 +277,9 @@ Claim:
 Advanced docs both mark Heegner-height no-solution upgrade redundant and later describe adding height bounds to upgrade no-solution.
 
 Where it appears:
-- `docs/THEORY_DIRECTIONS_ADVANCED.md:17-24`
-- `docs/THEORY_DIRECTIONS_ADVANCED.md:145-156`
-- `docs/THEORY_DIRECTIONS_ADVANCED.md:398-420`
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md:17-24`
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md:145-156`
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md:398-420`
 
 Why it matters:
 Heegner currently does not prove no-solution; factor_concordant already exhausts integer `N` for reduced legs.
@@ -308,11 +308,11 @@ Claim:
 The fixed-ratio route studies `A=kB` with integer `k`. This is a useful slice, but it does not cover every normalized square candidate.
 
 Where it appears:
-- `docs/work-logs/107-theory-transfer-routes-and-fixed-ratio.md`
-- `docs/work-logs/110-fixed-ratio-reciprocal-orbit-proof-boundary.md`
-- `docs/work-logs/111-fixed-ratio-cross-orbit-line-problem.md`
-- `docs/work-logs/115-rational-ratio-upgrade-strategy.md:11-27`
-- `docs/work-logs/116-rational-ratio-module-and-proof-boundary.md:5-19`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md:11-27`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md:5-19`
 - `src/rational_distance/concordant/rational_ratio.py:1-6`
 
 Why it matters:
@@ -347,8 +347,8 @@ Claim:
 Some integer `k` arguments use facts such as `k^2+1` not being a rational square. That fact fails for rational `λ`.
 
 Where it appears:
-- `docs/work-logs/115-rational-ratio-upgrade-strategy.md:105-142`
-- `docs/work-logs/116-rational-ratio-module-and-proof-boundary.md:134-173`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md:105-142`
+- `docs/work-logs/105-sum-ab-fixed-ratio-consolidated.md:134-173`
 - `src/rational_distance/concordant/rational_ratio.py:254-293`
 
 Why it matters:

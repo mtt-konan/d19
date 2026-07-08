@@ -1877,6 +1877,10 @@ rank-zero-selmer-BB-kernel-minus-p
   -> partial-reviewable-segment-not-proof
 rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q
   -> partial-reviewable-segment-not-proof
+rank-zero-selmer-AA-BB-kernel-minus-p
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q
+  -> partial-reviewable-segment-not-proof
 ```
 
 这表示 `AA / kernel_minus_p`、`AA / kernel_neg_2sqrt_q` 和
@@ -1885,9 +1889,13 @@ kernel_neg_2sqrt_q` 和 `BB / kernel_pos_2sqrt_q` 也有了可审阅 odd-prime
 formal-lift proof；`BB / kernel_minus_p` 也补上了同一层证明。但这些都仍然不是完整
 transcript，更不是 Selmer bound 或 rank-zero 定理。
 
-`AA+BB / kernel_neg_2sqrt_q` 现在也有了第一段可审阅 odd-prime valuation-support
+`AA+BB / kernel_neg_2sqrt_q` 是 `AA+BB` 的第一段可审阅 odd-prime valuation-support
 formal-lift proof。它只说明这个 kernel 在 `AA+BB` common-source 条件下没有奇素数
 valuation support；它还没有处理 `2`、单位符号、global Selmer bound 或 rank-zero。
+`AA+BB / kernel_minus_p` 也有了同类 proof，用的是
+`gcd(T^2+4A^2, T^2+4B^2)` 没有奇素数因子的交集论证。
+`AA+BB / kernel_pos_2sqrt_q` 现在也有了可审阅 support-bound proof；它不声称
+没有奇素数 support，只把剩余尾部压到 `ell | T, ell == 1 mod 4`。
 
 `wl448` 再往 family 层压了一步：把这 9 个 package 的 intake 进度重新按
 
@@ -1899,13 +1907,13 @@ AA, AA+BB, BB
 
 ```text
 AA     -> 3 packages, 3 reviewable-segment packages, 0 transcript-ready
-AA+BB  -> 3 packages, 1 reviewable-segment package, 0 transcript-ready
+AA+BB  -> 3 packages, 3 reviewable-segment packages, 0 transcript-ready
 BB     -> 3 packages, 3 reviewable-segment packages, 0 transcript-ready
 ```
 
 `wl449` 和 `wl451` 给出后两个 concrete proof anchor，`wl450` 与 `wl452` 记录因此产生的
 family-level 变化。`AA` 与 `BB` 现在都做到 `3/3` package 有 partial transcript；
-`AA+BB` 则刚开始，有 `1/3` package-level reviewable segment。它们都还不是完整
+`AA+BB` 现在也有 `3/3` package-level reviewable segments。它们都还不是完整
 transcript，更不是 family theorem。
 
 `wl453` 把这件事再压到更具体的 transcript 字段层：在三条 rank-zero family 里，只有 `AA`
@@ -1917,14 +1925,15 @@ formal_lift_compatibility
 
 这一段做到 `3/3` package 全覆盖。`wl454`、`wl455` 和 `wl456` 则把 `BB / kernel_neg_2sqrt_q`、
 `BB / kernel_pos_2sqrt_q` 与 `BB / kernel_minus_p` 的同一段写成 package 级可审阅
-proof，使 `BB` 也达到 `3/3`。于是 `AA` 和 `BB` 的下一步都不该再回到
+proof，使 `BB` 也达到 `3/3`。`wl457`、`wl458` 和 `wl459` 把 `AA+BB` 的三段
+odd-prime formal-lift support 也写成可审阅 package proof。于是三条 family 的下一步
+都不该再回到
 odd-prime formal lift，而应该直接转向：
 
 - dyadic local condition，
 - global Selmer dimension bound，
 - rank-zero conclusion。
 
-`AA+BB` 已经有第一段 reviewable formal-lift segment，但还没有完成三 kernel 覆盖；
 这仍然不是完整 transcript 或 rank-zero theorem。
 
 Rank-zero family theorem readiness audit：
@@ -2653,11 +2662,15 @@ factor_concordant / GEN-CLOSURE 后
 - [wl455](work-logs/455-bb-pos-kernel-formal-lift-reviewable-proof.md)
 - [wl456](work-logs/456-bb-minus-p-formal-lift-reviewable-proof.md)
 - [wl457](work-logs/457-aa-bb-neg-kernel-formal-lift-reviewable-proof.md)
+- [wl458](work-logs/458-aa-bb-minus-p-formal-lift-reviewable-proof.md)
+- [wl459](work-logs/459-aa-bb-pos-kernel-formal-lift-reviewable-proof.md)
+- [wl460](work-logs/460-aa-bb-minus-p-dyadic-opposite-mod4-reviewable-proof.md)
+- [wl461](work-logs/461-aa-bb-minus-p-dyadic-same-mod4-local-obstruction.md)
+- [wl462](work-logs/462-aa-bb-same-mod4-cross-kernel-compatibility.md)
 
 ## Minimal reviewable package segments
 
-`wl431`, `wl449`, `wl451`, `wl454`, `wl455`, `wl456`, and `wl457` now freeze seven concrete package segments in reviewable
-form:
+`wl431`, `wl449`, `wl451`, `wl454`, `wl455`, `wl456`, `wl457`, `wl458`, and `wl459` now freeze nine odd-prime package segments in reviewable form:
 
 ```text
 rank-zero-selmer-AA-kernel-minus-p / formal_lift_compatibility
@@ -2667,11 +2680,47 @@ rank-zero-selmer-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
 rank-zero-selmer-BB-kernel-pos-2sqrt-q / formal_lift_compatibility
 rank-zero-selmer-BB-kernel-minus-p / formal_lift_compatibility
 rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-AA-BB-kernel-minus-p / formal_lift_compatibility
+rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q / formal_lift_compatibility
 ```
 
-This still does not promote any audit counter. It only means seven of the open
+This still does not promote any audit counter. It only means nine of the open
 package transcript segments are now written as line-by-line odd-prime proofs
 instead of short "proof shape" memos.
+
+`wl460` adds the first dyadic branch segment:
+
+```text
+rank-zero-selmer-AA-BB-kernel-minus-p / dyadic_opposite_mod4_branch
+```
+
+It proves only the `odd-odd, A != B mod 4` branch of the subgroup-relative
+claim
+
+```text
+x_minus_p(Q_2) ∩ {1,-1,2,-2} = {1}.
+```
+
+The same-mod-4 branch, the Selmer lift, and the global rank-zero bound remain
+open.
+
+`wl461` records the complementary local obstruction:
+
+```text
+rank-zero-selmer-AA-BB-kernel-minus-p / dyadic_same_mod4_local_obstruction
+```
+
+For `odd-odd, A == B mod 4`, the local class `2` is explicitly admissible
+on both one-sided `kernel_minus_p` models. Thus the naive one-kernel singleton
+theorem is false on this branch; the remaining work must use cross-kernel or
+Selmer-level compatibility rather than more samples of the same local image.
+
+`wl462` adds that cross-kernel compatibility at the common-source point level:
+on the same-mod-4 branch, `x_pos_2sqrt_q` contributes only class `{1}` and
+`x_neg_2sqrt_q` contributes only `{1,-1}` inside `{1,-1,2,-2}`. Therefore the
+locally admissible `x_minus_p=2` from `wl461` violates the product relation
+for an actual common-source point. The remaining gap is now specifically the
+Selmer lift of this compatibility, not another local sample.
 
 `wl442` first pushed the `AA / kernel_neg_2sqrt_q` segment back into package
 materialization, and `wl450` records the same upgrade for
@@ -2703,16 +2752,19 @@ rank-zero-selmer-BB-kernel-minus-p / formal_lift_compatibility
 After regeneration, all three packages appear as `transcript_status = partial`.
 This is a `3/3` odd-prime formal-lift state for `BB`, not a `BB` family theorem.
 
-`wl457` gives the first package-level `AA+BB` proof anchor:
+`wl457`, `wl458`, and `wl459` give the three package-level `AA+BB` proof anchors:
 
 ```text
 rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-AA-BB-kernel-minus-p / formal_lift_compatibility
+rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q / formal_lift_compatibility
 ```
 
-This segment is narrower than a full local-image theorem: it proves no
-odd-prime valuation support for `kernel_neg_2sqrt_q` under the common-source
-`AA+BB` condition. It does not decide the prime `2`, unit/sign classes, or the
-global Selmer bound.
+These segments are narrower than full local-image theorems: they prove no
+odd-prime valuation support for `kernel_neg_2sqrt_q` and `kernel_minus_p`
+under the common-source `AA+BB` condition, and they bound the
+`kernel_pos_2sqrt_q` odd support by `ell | T, ell == 1 mod 4`. They do not
+decide the prime `2`, unit/sign classes, or the global Selmer bound.
 
 ## Rank-zero next target
 
@@ -2883,6 +2935,49 @@ still not a dyadic theorem, but it does narrow the next theorem target again:
 ```text
 rank-zero-selmer-AA-BB-kernel-minus-p / odd-odd / same-mod-4 branch.
 ```
+
+`wl460` closes the complementary half of that split as a reviewable local
+proof. If `A` and `B` are odd and opposite modulo `4`, then `T=A+B` is
+divisible by `4`; for the one-sided `kernel_minus_p` model this forces
+
+```text
+x_minus_p(Q_2) ∩ {1,-1,2,-2} = {1}
+```
+
+on both the `L=A` and `L=B` sides. The proof is still subgroup-relative: it
+allows full `Q_2` classes outside `{1,-1,2,-2}` and does not touch the
+same-mod-4 branch where the finite sanity checks still see class `2`.
+
+`wl461` proves that the same-mod-4 warning is real, not just a finite-check
+artifact. For `T=2s` with `s` odd and any odd `L`, the explicit local value
+
+```text
+x = -224
+```
+
+has squareclass `2` and gives a `Q_2` point on the one-sided
+`kernel_minus_p` model. Therefore, when `A` and `B` are odd and equal modulo
+`4`, class `2` survives both the `L=A` and `L=B` local conditions. This rules
+out the naive same-mod-4 singleton theorem and pushes the remaining branch to
+cross-kernel or Selmer-lift compatibility.
+
+`wl462` then closes this same branch at the genuine common-source point level.
+For `T=2s` with `s` odd and `L` odd, the other two one-sided kernels satisfy
+
+```text
+x_pos_2sqrt_q(Q_2) ∩ {1,-1,2,-2} ⊆ {1}
+x_neg_2sqrt_q(Q_2) ∩ {1,-1,2,-2} ⊆ {1,-1}.
+```
+
+So the locally admissible `x_minus_p=2` from `wl461` cannot satisfy
+
+```text
+x_minus_p * x_pos_2sqrt_q * x_neg_2sqrt_q = 1
+```
+
+for an actual common-source point. The remaining same-mod-4 gap is therefore
+not a local-image gap; it is exactly the missing Selmer-layer lift of this
+cross-kernel compatibility.
 
 ## AA family odd-prime local image matrix
 

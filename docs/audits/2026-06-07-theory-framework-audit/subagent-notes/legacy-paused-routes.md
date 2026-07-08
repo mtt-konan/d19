@@ -3,7 +3,7 @@ legacy-paused-routes: parametric / ec / chain paused routes.
 
 Files inspected:
 - README.md
-- docs/DIRECTIONS.md
+- docs/archive/DIRECTIONS.md
 - docs/PROJECT_STATUS.md
 - docs/IMPLEMENTATION.md
 - docs/archive/SEARCH_METHODS.md
@@ -28,17 +28,17 @@ Files inspected:
 - docs/work-logs/archive/023-chain-fast-mod-sieve-experiment.md
 - docs/work-logs/archive/024-chain-fast-100k-structure-findings.md
 - docs/work-logs/archive/025-chain-fast-safe-pair-sieve.md
-- docs/work-logs/028-proof-status-pipeline.md
-- docs/work-logs/029-legacy-stub-cleanup.md
-- docs/work-logs/033-dual-ec-probe.md
-- docs/work-logs/034-hypotenuse-identity.md
-- docs/work-logs/035-pari-selmer-api.md
-- docs/work-logs/036-compute-rank-fix-and-ell2cover-batch.md
-- docs/work-logs/037-finite-descent-on-hard-cases.md
-- docs/work-logs/040-chain-closure-mod-sieve.md
-- docs/work-logs/041-parallel-pipeline-and-max-hyp-10k.md
-- docs/work-logs/043-post-wl042-direction-map.md
-- docs/work-logs/053-round2-archive-src-legacy.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/028-proof-status-ec-foundation-consolidated.md
+- docs/work-logs/053-partner-graph-fast-core-consolidated.md
 - src/rational_distance/_legacy/*.py
 - src/rational_distance/ec_search/*.py
 - src/rational_distance/cli/search/*runner.py
@@ -76,13 +76,13 @@ Fatal findings:
 
 High-risk findings:
 - None found that would force changing the main paused-route claim.
-- The main claim "parametric / ec / chain are paused rather than dead" is supported by current docs and tests. Current docs say `paused` routes are retained and not the main focus: README.md:5-10, docs/DIRECTIONS.md:5-10, docs/PROJECT_STATUS.md:14-24, docs/archive/SEARCH_METHODS.md:14-19.
+- The main claim "parametric / ec / chain are paused rather than dead" is supported by current docs and tests. Current docs say `paused` routes are retained and not the main focus: README.md:5-10, docs/archive/DIRECTIONS.md:5-10, docs/PROJECT_STATUS.md:14-24, docs/archive/SEARCH_METHODS.md:14-19.
 
 Medium/low findings:
-- Medium: README links two archived method docs as if they still live at top-level `docs/`. README.md:74-75 points to `docs/SEARCH_METHODS.md` and `docs/METHOD_COMPARISON.md`, but both paths are absent in the current filesystem; docs/DIRECTIONS.md:36 correctly points readers to `docs/archive/SEARCH_METHODS.md` as archived reference. This is not a math issue, but it can make a reader miss the "archived, reference only" status and over-trust old method-comparison wording.
+- Medium: README links two archived method docs as if they still live at top-level `docs/`. README.md:74-75 points to `docs/SEARCH_METHODS.md` and `docs/METHOD_COMPARISON.md`, but both paths are absent in the current filesystem; docs/archive/DIRECTIONS.md:36 correctly points readers to `docs/archive/SEARCH_METHODS.md` as archived reference. This is not a math issue, but it can make a reader miss the "archived, reference only" status and over-trust old method-comparison wording.
 - Medium: docs/PROJECT_STATUS.md has one broad sentence that can be misread as "local sieves cannot prove no-solution for any pair." It says current local sieves can reduce space but "不能证明无解" at docs/PROJECT_STATUS.md:230-235. Later the same document states chain-closure mod p^2 is an unconditional pair-level obstruction with 0 false kills at docs/PROJECT_STATUS.md:413-421. The safe ledger wording should be: these sieves do not prove the global Harborth problem unsolvable, but some do prove individual `(A,B)` pairs impossible.
-- Low: `ec` naming remains easy to confuse. docs/DIRECTIONS.md:68-70 defines paused `ec` as a three-vertex seed/orbit route. docs/PROJECT_STATUS.md:259-266 and docs/work-logs/033-dual-ec-probe.md:1-8 discuss dual/concordant EC rank probes on chain near-misses. Those are related mathematical tools but not the same paused CLI route. Any ledger claim saying "EC failed" should specify which EC layer failed.
-- Low: `_legacy` and `deprecated` wording can sound like "mathematically dead" even though it is mostly repo zoning. docs/IMPLEMENTATION.md:217-220 says `_legacy/` should receive no new code but still has real callers. docs/work-logs/053-round2-archive-src-legacy.md:126-132 says old tests still cover `_legacy/` and are useful as regression tests. Prefer "legacy implementation / compatibility zone" over "dead route" in the main ledger.
+- Low: `ec` naming remains easy to confuse. docs/archive/DIRECTIONS.md:68-70 defines paused `ec` as a three-vertex seed/orbit route. docs/PROJECT_STATUS.md:259-266 and docs/work-logs/028-proof-status-ec-foundation-consolidated.md:1-8 discuss dual/concordant EC rank probes on chain near-misses. Those are related mathematical tools but not the same paused CLI route. Any ledger claim saying "EC failed" should specify which EC layer failed.
+- Low: `_legacy` and `deprecated` wording can sound like "mathematically dead" even though it is mostly repo zoning. docs/IMPLEMENTATION.md:217-220 says `_legacy/` should receive no new code but still has real callers. docs/work-logs/053-partner-graph-fast-core-consolidated.md:126-132 says old tests still cover `_legacy/` and are useful as regression tests. Prefer "legacy implementation / compatibility zone" over "dead route" in the main ledger.
 
 Non-issues worth noting:
 - The core status docs already frame paused as focus/priority. README.md:10 says parametric/ec/chain are retained as research tools and background routes. docs/PROJECT_STATUS.md:97 says they still have value for validation, seeds, and structure understanding, while docs/PROJECT_STATUS.md:130-137 explains the current priority is concordant plus chain-fast baseline.
@@ -90,8 +90,8 @@ Non-issues worth noting:
 - `ec` remains a real three-vertex tool, not a removed idea. Its old foundation says it extends from bounded seed points along elliptic-curve orbits: docs/work-logs/archive/010-ec-search-foundation.md:9-13. Current implementation still has a canonical `ec_search/` package and a compatibility re-export: src/rational_distance/ec_search/workflow.py:179-193 and src/rational_distance/_legacy/search_ec.py:1-10. Tests cover seed equations, known seed recovery, D4 deduplication, DB resume, and analysis output: tests/test_ec.py:82-115, tests/test_ec.py:141-183, tests/test_ec.py:197-227, tests/test_ec.py:356-405.
 - `chain` being paused is justified as role change, not deletion. The route intentionally searches rectangle/general 4-cycles unless `--require-square` is supplied: docs/archive/SEARCH_METHODS.md:95-99 and src/rational_distance/_legacy/search_chain.py:1-19. It produced useful structure: cross-product family exclusion is proven in docs/work-logs/archive/015-cross-product-family-exclusion.md:25-41, and the O(n^4) chain view led to the O(n^2) chain-fast reduction in docs/work-logs/archive/017-chain-reduction-math.md:121-132.
 - Old bounded "no result" statements are properly bounded in the inspected sources. For example, chain only claims no fifth-constraint hit up to `max_val=500` in docs/work-logs/archive/014-pythagorean-chain-search.md:39-46, and chain-fast only says tested `max_hyp <= 20000` found no solution in docs/work-logs/archive/018-chain-fast-implementation.md:51-53.
-- The old rank-filter / dual-EC negative result is idea-specific. wl033 first saw apparent rank-0 cases, then showed they were unproven/default-effort artifacts and all upgraded under deeper effort: docs/work-logs/033-dual-ec-probe.md:67-107. It explicitly warns default `ellrank` lower=0 is not rank=0 at docs/work-logs/033-dual-ec-probe.md:121-140. wl036 records the fix: effort=1 default and full 4-tuple return at docs/work-logs/036-compute-rank-fix-and-ell2cover-batch.md:33-63.
-- The hypotenuse blocker-prime path was partly corrected, not erased. wl034 confirms identities A and C on 1005 chains at docs/work-logs/034-hypotenuse-identity.md:37-53, but rejects the blocker-prime premise because non-primitive hypotenuse scale can carry arbitrary prime factors at docs/work-logs/034-hypotenuse-identity.md:57-107.
+- The old rank-filter / dual-EC negative result is idea-specific. wl033 first saw apparent rank-0 cases, then showed they were unproven/default-effort artifacts and all upgraded under deeper effort: docs/work-logs/028-proof-status-ec-foundation-consolidated.md:67-107. It explicitly warns default `ellrank` lower=0 is not rank=0 at docs/work-logs/028-proof-status-ec-foundation-consolidated.md:121-140. wl036 records the fix: effort=1 default and full 4-tuple return at docs/work-logs/028-proof-status-ec-foundation-consolidated.md:33-63.
+- The hypotenuse blocker-prime path was partly corrected, not erased. wl034 confirms identities A and C on 1005 chains at docs/work-logs/028-proof-status-ec-foundation-consolidated.md:37-53, but rejects the blocker-prime premise because non-primitive hypotenuse scale can carry arbitrary prime factors at docs/work-logs/028-proof-status-ec-foundation-consolidated.md:57-107.
 - The four requested test files pass now: `70 passed in 5.61s` for `tests/test_parametric.py`, `tests/test_ec.py`, `tests/test_chain.py`, and `tests/test_cli.py`.
 
 Open uncertainties:

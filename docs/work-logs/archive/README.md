@@ -1,8 +1,8 @@
 # 历史 worklog 归档（wl001-027）
 
 这里收集 d19 早期到 chain-fast 时代结束之间的全部 worklog。当前主线已经迁移到
-`proof_status` / `concordant` / `multi-N` / `F₂-rank`，对应 worklog 是
-**wl028-049**，仍在 `docs/work-logs/` 根目录。
+压缩后的 `docs/work-logs/` 根目录；从 wl028 开始不再保留一轮一个文件的流水账，
+而是按阶段读 consolidated worklog。
 
 下面这批是历史档案，**不再作为当前研究入口**，但保留是为：
 
@@ -58,26 +58,11 @@
 ## 当前主线 worklog（不在本目录）
 
 ```text
-028-proof-status-pipeline.md           proof_status 框架奠基
-029-legacy-stub-cleanup.md
-030-large-range-proof-stats.md
-031-heegner-height-diagnostic.md
-032-literature-review.md
-033-dual-ec-probe.md
-034-hypotenuse-identity.md
-035-pari-selmer-api.md
-036-compute-rank-fix-and-ell2cover-batch.md
-037-finite-descent-on-hard-cases.md
-038-large-scale-sha2-pattern-hunt.md
-039-ell2cover-sha2-explicit.md
-040-chain-closure-mod-sieve.md
-041-parallel-pipeline-and-max-hyp-10k.md
-042-sha2-clean-13-deep-dive.md
-043-post-wl042-direction-map.md
-044-generator-lattice-search-x1.md
-045-parallel-infrastructure.md
-046-multi-concordant-n-scan-10k.md
-047-literature-and-multi-n-tooling.md
-048-fast-pivot-on-n-scanner.md
-049-f2-rank-classifier-on-multi-n-catalog.md
+028-proof-status-ec-foundation-consolidated.md
+053-partner-graph-fast-core-consolidated.md
+073-gen-closure-modular-fullspace-consolidated.md
+105-sum-ab-fixed-ratio-consolidated.md
+162-r-lambda-centerline-consolidated.md
+203-wl218-full-plane-reciprocal-consolidated.md
+294-closure-quotient-foundation-consolidated.md
 ```

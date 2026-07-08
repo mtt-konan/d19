@@ -35,8 +35,8 @@
 
 ## Branches That Need Wording Updates
 
-- `docs/MULTI_CONCORDANT_N_STRATEGY.md`: update sum-only closure to GEN-CLOSURE or mark as historical inside-square strategy.
-- `docs/PARTNER_GRAPH_THEORY.md`: replace `K_n clique/subgraph` language with `k=n shared-partner hub/star`.
-- `docs/THEORY_DIRECTIONS_ADVANCED.md`: reconcile Heegner status: diagnostic after wl092, not current no-solution upgrade path.
+- `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md`: update sum-only closure to GEN-CLOSURE or mark as historical inside-square strategy.
+- `docs/archive/PARTNER_GRAPH_THEORY.md`: replace `K_n clique/subgraph` language with `k=n shared-partner hub/star`.
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md`: reconcile Heegner status: diagnostic after wl092, not current no-solution upgrade path.
 - `results/README.md` / `results/catalog.json`: mark `chain.db` and `proof_status.db` provenance/staleness.
 - `README.md`: fix links to archived method docs (`docs/archive/SEARCH_METHODS.md`, `docs/archive/METHOD_COMPARISON.md`).

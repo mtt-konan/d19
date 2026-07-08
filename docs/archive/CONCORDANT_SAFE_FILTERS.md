@@ -225,6 +225,6 @@
 ## 10. 相关文档
 
 - 项目现状：[docs/PROJECT_STATUS.md](./PROJECT_STATUS.md)
-- 当前高置信结论：[docs/CURRENT_FINDINGS.md](./CURRENT_FINDINGS.md)
+- 当前状态入口：[docs/PROJECT_STATUS.md](../PROJECT_STATUS.md)
 - 空筛实验记录：[docs/work-logs/026-concordant-local-sieve-mod1680.md](./work-logs/026-concordant-local-sieve-mod1680.md)
 - 新筛实验记录：[docs/work-logs/027-concordant-safe-pair-sieve.md](./work-logs/027-concordant-safe-pair-sieve.md)

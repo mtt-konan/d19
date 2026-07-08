@@ -197,18 +197,18 @@ For each one, classify it as `proven`, `empirical`, `engineering baseline`,
 Use these files as the first-pass source map:
 
 - `README.md`
-- `docs/DIRECTIONS.md`
+- `docs/archive/DIRECTIONS.md`
 - `docs/PROJECT_STATUS.md`
-- `docs/CURRENT_FINDINGS.md`
+- `docs/archive/CURRENT_FINDINGS.md`
 - `docs/GLOSSARY.md`
 - `docs/MATH.md`
-- `docs/MULTI_CONCORDANT_N_STRATEGY.md`
-- `docs/MULTI_N_FILTER_LADDER.md`
-- `docs/PARTNER_GRAPH_THEORY.md`
-- `docs/PROOF_STATUS_FAST_MODE.md`
+- `docs/archive/MULTI_CONCORDANT_N_STRATEGY.md`
+- `docs/archive/MULTI_N_FILTER_LADDER.md`
+- `docs/archive/PARTNER_GRAPH_THEORY.md`
+- `docs/archive/PROOF_STATUS_FAST_MODE.md`
 - `docs/OPEN_DIRECTIONS.md`
-- `docs/THEORY_DIRECTIONS.md`
-- `docs/THEORY_DIRECTIONS_ADVANCED.md`
+- `docs/archive/THEORY_DIRECTIONS.md`
+- `docs/archive/THEORY_DIRECTIONS_ADVANCED.md`
 - `docs/IMPLEMENTATION.md`
 - recent worklogs, especially `docs/work-logs/073-*.md` through
   `docs/work-logs/104-*.md`
@@ -495,9 +495,9 @@ After starting the goal, the first actual audit turn should do this:
 
 ```text
 先建立 claim ledger，不急着证明任何一个分支对错。请读取 README.md、
-docs/DIRECTIONS.md、docs/PROJECT_STATUS.md、docs/CURRENT_FINDINGS.md、
-docs/MULTI_CONCORDANT_N_STRATEGY.md、docs/PROOF_STATUS_FAST_MODE.md、
-docs/PARTNER_GRAPH_THEORY.md 和最近 073-104 的 worklogs 索引，整理当前
+docs/archive/DIRECTIONS.md、docs/PROJECT_STATUS.md、docs/archive/CURRENT_FINDINGS.md、
+docs/archive/MULTI_CONCORDANT_N_STRATEGY.md、docs/archive/PROOF_STATUS_FAST_MODE.md、
+docs/archive/PARTNER_GRAPH_THEORY.md 和最近 073-104 的 worklogs 索引，整理当前
 顶层结论、依赖关系、风险点。第一轮只产出审查地图，不做大规模实验。
 ```
 
