@@ -1,0 +1,42 @@
+{
+  "boundary": "This decomposes rank-zero Selmer transcript fields into shared kernel templates, family-level conclusions, and package-specific fields. It does not prove local conditions, Selmer rank bounds, rank zero, or any lambda-family exclusion.",
+  "checks": {
+    "family_conclusion_templates_ready": true,
+    "isogeny_setup_templates_ready": true,
+    "rank_zero_conclusion_claim_count_zero": true,
+    "strict_promotion_ready_count_zero": true,
+    "transcript_bridge_ready": true,
+    "transcript_intake_ready": true,
+    "transcript_packages_not_ready": true
+  },
+  "family_aggregated_field_count": 1,
+  "family_conclusion_template_count": 3,
+  "family_exclusion_proved_count": 0,
+  "field_decomposition": {
+    "family_aggregated_fields": [
+      "rank_zero_conclusion"
+    ],
+    "kernel_shared_fields": [
+      "local_squareclass_conditions",
+      "isogeny_setup"
+    ],
+    "package_specific_fields": [
+      "statement",
+      "selmer_bound_argument",
+      "review_notes"
+    ]
+  },
+  "kernel_shared_field_count": 2,
+  "kernel_shared_template_count": 3,
+  "package_specific_field_count": 3,
+  "package_specific_open_field_obligation_count": 27,
+  "primary_remaining_proof_field": "selmer_bound_argument",
+  "ready": true,
+  "required_transcript_field_count": 6,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "strict_promotion_ready_count": 0,
+  "transcript_package_ready_count": 0,
+  "violations": []
+}

@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=512
+artifact_status.required_file_count=516
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1696,6 +1696,35 @@ rank_zero_conclusion_proved_count=0
 `AA`、`AA+BB`、`BB` 各自都要等 3 个 kernel-bound package 全部 ready，才有资格进入
 rank-zero 结论审阅。当前 9 个 package 都没有 transcript，所以 3 个 family conclusion
 也全部 open。
+
+Rank-zero Selmer transcript field decomposition audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py \
+  --transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --transcript-bridge results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --isogeny-setup-templates results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --family-conclusion-templates results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json \
+  --out results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+required_transcript_field_count=6
+kernel_shared_field_count=2
+family_aggregated_field_count=1
+package_specific_field_count=3
+package_specific_open_field_obligation_count=27
+primary_remaining_proof_field=selmer_bound_argument
+```
+
+普通话说：transcript 的 6 个字段现在分清楚了：`local_squareclass_conditions` 和
+`isogeny_setup` 是 kernel 共享，`rank_zero_conclusion` 是 family 聚合，真正还要逐 package
+攻的核心证明字段是 `selmer_bound_argument`。所以下一步不该继续扩 package，而是写 9 个
+可审阅的 Selmer bound argument。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2596,6 +2625,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2679,6 +2709,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_bridge.py`
 - `tests/test_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py`
 - `tests/test_closure_quotient_rank_zero_selmer_family_conclusion_templates.py`
+- `tests/test_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2784,6 +2815,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_bridge.json`
 - `results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json`
 - `results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json`
+- `results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -2938,6 +2970,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl412](work-logs/412-rank-zero-selmer-transcript-bridge.md)
 - [wl413](work-logs/413-rank-zero-selmer-isogeny-setup-templates.md)
 - [wl414](work-logs/414-rank-zero-selmer-family-conclusion-templates.md)
+- [wl415](work-logs/415-rank-zero-selmer-transcript-field-decomposition.md)
 
 数学总入口：
 

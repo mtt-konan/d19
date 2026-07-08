@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 512
+artifact_status.required_file_count = 516
 artifact_status.missing_file_count = 0
 ```
 
@@ -1425,6 +1425,33 @@ rank_zero_conclusion_proved_count = 0
 The `rank_zero_conclusion` transcript field aggregates at the family level:
 `AA`, `AA+BB`, and `BB` each require all three kernel-bound packages. All three
 family conclusions remain open.
+
+Audit rank-zero Selmer transcript field decomposition:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py \
+  --transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --transcript-bridge results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --isogeny-setup-templates results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json \
+  --family-conclusion-templates results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json \
+  --out results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+required_transcript_field_count = 6
+kernel_shared_field_count = 2
+family_aggregated_field_count = 1
+package_specific_field_count = 3
+primary_remaining_proof_field = selmer_bound_argument
+```
+
+This identifies the next proof-writing blocker more precisely: the core missing
+content is the 9 package-level `selmer_bound_argument` fields. The other
+package-specific fields are statement and review wrappers.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2452,6 +2479,7 @@ scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
@@ -2581,6 +2609,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 512
+required_file_count = 516
 missing_files = []
 ```

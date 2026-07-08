@@ -199,6 +199,11 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         in paths
     )
     assert (
+        "scripts/theory/"
+        "audit_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py"
+        in paths
+    )
+    assert (
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py"
         in paths
     )
@@ -351,6 +356,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "tests/test_closure_quotient_rank_zero_selmer_family_conclusion_templates.py"
         in paths
     )
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_transcript_field_decomposition.py"
+        in paths
+    )
     assert "tests/test_closure_quotient_rank_zero_selmer_local_supports.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py" in paths
     assert "tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py" in paths
@@ -498,6 +507,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/412-rank-zero-selmer-transcript-bridge.md" in paths
     assert "docs/work-logs/413-rank-zero-selmer-isogeny-setup-templates.md" in paths
     assert "docs/work-logs/414-rank-zero-selmer-family-conclusion-templates.md" in paths
+    assert "docs/work-logs/415-rank-zero-selmer-transcript-field-decomposition.md" in paths
     assert "docs/work-logs/388-lambda-mainline-transcript-intake-gate.md" in paths
     assert "docs/work-logs/389-rank-zero-selmer-local-supports.md" in paths
     assert "docs/work-logs/390-rank-zero-selmer-coprime-supports.md" in paths
@@ -576,6 +586,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json"
+        in paths
+    )
+    assert (
+        "results/closure_quotient_rank_zero_selmer_transcript_field_decomposition.json"
         in paths
     )
     assert (
