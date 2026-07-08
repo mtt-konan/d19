@@ -3083,6 +3083,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl426](work-logs/426-aa-family-odd-prime-local-image-matrix.md)
 - [wl427](work-logs/427-aa-family-odd-support-separation.md)
 - [wl428](work-logs/428-aa-family-odd-support-dimension-bound.md)
+- [wl429](work-logs/429-bb-family-odd-prime-transport.md)
 
 ## AA family odd-prime local image matrix
 
@@ -3145,6 +3146,36 @@ This follows because the three possible odd support sets are disjoint and
 each allowed odd prime contributes at most one F2 valuation-parity coordinate.
 普通话说：奇素数这部分已经被压成一个明确上界；但它还不是总 Selmer rank，因为
 `2`、单位符号、三 kernel 之间的全局关系都还没进来。
+
+## BB odd-prime transport
+
+The same odd-prime formal-lift proofs transport from `AA` to `BB` by the
+symbolic substitution `L=A -> L=B`, because the shared kernel templates depend
+only on `L`, `T=A+B`, and the primitive coprime-support facts. So `BB` inherits:
+
+```text
+bad factor              kernel_minus_p      kernel_pos_2sqrt_q                    kernel_neg_2sqrt_q
+B                       {1}                 {1}                                   full
+T                       {1, -1}             unit classes if -1 nonsquare; full    {1, -1}
+T^2 + 4*B^2             full                {1}                                   {1}
+```
+
+and therefore the odd support separation
+
+```text
+kernel_minus_p        odd support only from primes dividing T^2 + 4*B^2
+kernel_pos_2sqrt_q    odd support only from primes ell | T with ell == 1 mod 4
+kernel_neg_2sqrt_q    odd support only from primes dividing B
+```
+
+together with the bound
+
+```text
+omega_odd(T^2 + 4*B^2) + omega_{1 mod 4}(T) + omega_odd(B).
+```
+
+Boundary: this transports only the odd-prime input. It is still not a dyadic
+condition, global Selmer bound, rank-zero theorem, or lambda-family exclusion.
 
 数学总入口：
 
