@@ -345,14 +345,43 @@ corrected package-specific formal-lift statement for the zero-double-root
 case; it replaces the earlier reduction-level `{trivial}` expectation rather
 than promoting it.
 
+### Selmer-bound integration note
+
+The three odd-prime pieces for this package now read:
+
+```text
+ell | L                 local image for x: {1}
+ell | T                 local image for x: {1, -1}
+ell | T^2 + 4*L^2       local image for x: full Q_ell*/Q_ell*2
+```
+
+Therefore the old reduction-level route cannot supply a uniform
+`global_selmer_dimension_bound` for this package by simply promoting the
+zero-double-root `{trivial}` candidate. At every odd prime dividing
+`T^2 + 4*L^2`, the local condition accepts every local squareclass, so a
+global Selmer candidate may have an independent odd valuation at that prime
+unless another argument removes it.
+
+In ordinary terms: the `T^2 + 4*L^2` primes are not restrictions for this
+kernel; they are potential free generators. A rank-zero Selmer argument for
+the `AA / kernel_minus_p` package must therefore either:
+
+- combine this kernel with another independent kernel or family-level
+  argument,
+- prove a separate global relation killing the `T^2 + 4*L^2` generators, or
+- route these lambda classes through root-number or 2-cover exclusions.
+
+This note does not prove or disprove the final rank-zero statement. It fixes
+the input to the still-open `global_selmer_dimension_bound`: the full-image
+case must be counted as no local restriction, not as a one-class restriction.
+
 ### Remaining Gaps
 
 This does not prove the whole package. The following parts remain open:
 
-- integration of the full-image `ell | T^2 + 4*L^2` odd-prime case into the
-  Selmer bound argument
+- a corrected `global_selmer_dimension_bound` that accounts for full-image
+  primes dividing `T^2 + 4*L^2`
 - the `ell=2` local condition
-- the global Selmer dimension bound
 - the rank-zero conclusion
 - any `lambda`-family exclusion
 
