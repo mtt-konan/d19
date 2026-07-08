@@ -28,6 +28,69 @@ Status: open
 
 ## Partial Transcript: formal_lift_compatibility
 
+### Subclaim: odd prime `ell | L`
+
+- package: `rank-zero-selmer-AA-kernel-pos-2sqrt-q`
+- local case: odd prime `ell | L`
+- assumptions: `A:B` is primitive, `L=A`, `T=A+B`; hence `T` is an
+  `ell`-adic unit in this case
+- target model:
+
+```text
+y^2 = x^3 - 8*(T^2 + 8*L^2)*x^2 + 16*T^4*x
+```
+
+The mod-`ell` reduction shape is
+
+```text
+x*(x - 4*T^2)^2.
+```
+
+The tracked squareclass is the squareclass of `x` away from the kernel point
+`x=0`.
+
+### Claim
+
+For every odd-prime local field `K` with valuation above such an `ell`, every
+`K`-point on the displayed model with `x != 0` has `x` in the trivial class
+of `K*/K*2`.
+
+### Proof
+
+Write
+
+```text
+a2 = -8*(T^2 + 8*L^2)
+a4 = 16*T^4
+r  = 4*T^2.
+```
+
+Since `ell | L` and `A:B` is primitive, `T` is an `ell`-adic unit. Hence
+`r` is a square unit. The quadratic factor satisfies the exact identity
+
+```text
+x^2 + a2*x + a4 = (x - r)^2 - 64*L^2*x.
+```
+
+Let `P=(x,y)` be a local point with `x != 0`.
+
+If `x-r` is a unit, then the quadratic factor is congruent to `(x-r)^2`
+modulo the maximal ideal, hence is a square in `K*` by the odd-prime
+square-lifting criterion. Since
+
+```text
+y^2 = x * (x^2 + a2*x + a4),
+```
+
+the element `x` is also a square.
+
+If `x-r` is not a unit, then `x` has the same non-zero residue as the square
+unit `r`, so `x` is a square in `K*`.
+
+Thus every non-kernel local point has trivial tracked squareclass. This
+proves the `ell | L` formal-lift subclaim for
+`rank-zero-selmer-AA-kernel-pos-2sqrt-q`.
+
 ### Subclaim: odd prime `ell | T^2 + 4*L^2`
 
 This records the local subclaim needed after the `AA / kernel_minus_p`
@@ -112,7 +175,7 @@ These two cases cover every non-kernel local point. Therefore the
 
 This does not prove the whole package. The following parts remain open:
 
-- the other odd-prime formal-lift cases for this package
+- the `ell | T` zero-double-root odd-prime formal-lift case for this package
 - the `ell=2` local condition
 - the global Selmer dimension bound
 - the rank-zero conclusion
