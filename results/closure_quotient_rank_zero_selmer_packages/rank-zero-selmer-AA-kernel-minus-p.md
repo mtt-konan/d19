@@ -239,18 +239,118 @@ a square unit in this package. The example above therefore also blocks the
 raw standard-model candidate `{trivial}` from being promoted through formal
 lifts without extra valuation or component data.
 
-Therefore the `ell | T^2 + 4*L^2` formal-lift subclaim remains open in a
-sharper sense: it cannot be closed by either naive original-coordinate
-parameter. Any later theorem must use a corrected local image statement,
-for example one that records component/valuation information in addition to
-the reduction-level squareclass. No local-image theorem is claimed for this
-case here.
+Therefore the `ell | T^2 + 4*L^2` formal-lift subclaim cannot be closed by
+either naive original-coordinate parameter. The corrected package-specific
+local image is the full local squareclass group, as proved next.
+
+### Subclaim: odd prime `ell | T^2 + 4*L^2`
+
+Assume `ell` is odd and `ell | T^2 + 4*L^2`. Since `A:B` is primitive and
+`L=A`, both `L` and `T` are `ell`-adic units. Work over `K=Q_ell`, write
+`O` for its valuation ring, `pi` for a uniformizer, and
+
+```text
+d  = T^2 + 4*L^2
+s  = 64*L^2
+a2 = 32*L^2 - 8*T^2 = s - 8*d
+a4 = 16*d^2.
+```
+
+Then `v(d) >= 1`, `s` is a square unit, `a2` is a square unit because
+`a2/s == 1 mod pi`, and `a4` is a square.
+
+The corrected local-image statement is:
+
+```text
+{ squareclasses of x(P) : P in E(Q_ell), x(P) != 0 } = Q_ell*/Q_ell*2.
+```
+
+In words: this zero-double-root branch imposes no squareclass restriction on
+the original isogeny-descent coordinate `x`.
+
+The inclusion from left to right is tautological. It remains to show that
+each of the four odd-prime squareclasses occurs.
+
+First, the trivial class occurs. Choose
+
+```text
+x = pi^(2*N) * u
+```
+
+with `N > v(d)` and `u` a square unit. Then
+
+```text
+x^2 + a2*x + a4 = a4 * (1 + a2*x/a4 + x^2/a4).
+```
+
+The parenthesized factor is congruent to `1 mod pi`, hence is a square in
+`Q_ell`. Since both `x` and `a4` are squares, the right-hand side
+
+```text
+x * (x^2 + a2*x + a4)
+```
+
+is a square.
+
+Second, both ramified classes occur. Let
+
+```text
+x = pi*u
+```
+
+for an arbitrary unit `u`. Then
+
+```text
+x^2 + a2*x + a4
+  = a2*pi*u * (1 + pi*u/a2 + 16*d^2/(a2*pi*u)).
+```
+
+The parenthesized factor is again congruent to `1 mod pi`, hence is a
+square. Because `a2` is a square unit, the whole right-hand side is
+
+```text
+pi*u * a2*pi*u * square = a2*(pi*u)^2*square,
+```
+
+so it is a square. Taking `u` square gives the class of `pi`; taking `u`
+non-square gives the other ramified class.
+
+It remains to realize the non-square unit class. Reduce modulo `ell`.
+Because `T^2 + 4*L^2 == 0 mod ell` and `L` is a unit, `-1` is a square in
+the residue field. The following finite-field fact applies: if `k` is the
+residue field and `s` is a square unit in `k`, then there exists
+`x0 in k*` such that `x0` is non-square and `x0 + s` is a non-zero square.
+Indeed, after scaling by the square `s`, this asks for a square `t` with
+`t-1` non-square. The character count is
+
+```text
+#{t in k*, t != 1 : chi(t)=1 and chi(t-1)=-1} = (#k - 1)/4,
+```
+
+using `chi(-1)=1`, so such a `t` exists.
+
+Choose any lift `x in O*` of this `x0`. Modulo `ell`,
+
+```text
+x * (x^2 + a2*x + a4) == x0^2 * (x0 + s).
+```
+
+The residue on the right is a non-zero square, so the right-hand side of
+the curve equation is a square in `Q_ell`. Thus this lifted point realizes
+the non-square unit class.
+
+All four squareclasses occur. Hence the `ell | T^2 + 4*L^2` case has full
+local image for `rank-zero-selmer-AA-kernel-minus-p`. This proves the
+corrected package-specific formal-lift statement for the zero-double-root
+case; it replaces the earlier reduction-level `{trivial}` expectation rather
+than promoting it.
 
 ### Remaining Gaps
 
 This does not prove the whole package. The following parts remain open:
 
-- the corrected `ell | T^2 + 4*L^2` odd-prime formal-lift case for this package
+- integration of the full-image `ell | T^2 + 4*L^2` odd-prime case into the
+  Selmer bound argument
 - the `ell=2` local condition
 - the global Selmer dimension bound
 - the rank-zero conclusion
