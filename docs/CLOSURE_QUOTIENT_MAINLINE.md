@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=500
+artifact_status.required_file_count=504
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1620,6 +1620,33 @@ local_condition_proved_count=0
 9 套不同模板，而是按 `kernel` 收缩成 3 套统一 schema。也就是说，后续 transcript 的
 局部部分更像“3 套 kernel 模板复用”，不是“9 份各写一遍”。这仍然只是 schema ledger，
 不是 local condition 证明。
+
+Rank-zero Selmer transcript bridge audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py \
+  --materialization results/closure_quotient_rank_zero_selmer_package_materialization.json \
+  --kernel-local-schemas results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json \
+  --transcript-intake results/closure_quotient_rank_zero_selmer_transcript_intake.json \
+  --out results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+package_count=9
+kernel_schema_count=3
+shared_local_squareclass_template_count=3
+package_specific_transcript_count=9
+transcript_package_ready_count=0
+```
+
+普通话说：这一步进一步把 transcript 任务拆开了。`local_squareclass_conditions`
+这一栏已经不该理解成 9 份互相独立的工作，而是 3 个 kernel 共享模板；剩下的
+`statement / isogeny_setup / selmer_bound_argument / rank_zero_conclusion /
+review_notes` 仍然是 9 个 package 各自要补的字段。当前 9 个 package 仍然全部缺 transcript。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2517,6 +2544,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2597,6 +2625,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `tests/test_closure_quotient_rank_zero_family_theorem_readiness.py`
 - `tests/test_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
+- `tests/test_closure_quotient_rank_zero_selmer_transcript_bridge.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2699,6 +2728,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
 - `results/closure_quotient_rank_zero_family_theorem_readiness.json`
 - `results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json`
+- `results/closure_quotient_rank_zero_selmer_transcript_bridge.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -2850,6 +2880,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl391](work-logs/391-rank-zero-selmer-odd-prime-cases.md)
 - [wl410](work-logs/410-rank-zero-family-theorem-readiness.md)
 - [wl411](work-logs/411-rank-zero-selmer-kernel-local-schemas.md)
+- [wl412](work-logs/412-rank-zero-selmer-transcript-bridge.md)
 
 数学总入口：
 

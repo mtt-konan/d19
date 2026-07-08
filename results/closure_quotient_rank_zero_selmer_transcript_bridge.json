@@ -1,0 +1,170 @@
+{
+  "boundary": "This audits how rank-zero Selmer transcript tasks reuse shared kernel-local schemas. It does not compute local Selmer images, prove a local condition, prove a Selmer rank bound, prove rank zero, or prove any lambda-family exclusion.",
+  "bridge_rows": [
+    {
+      "kernel": "kernel_minus_p",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-minus-p",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-neg-2sqrt-q",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-pos-2sqrt-q",
+      "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_minus_p",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-minus-p",
+      "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-neg-2sqrt-q",
+      "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-pos-2sqrt-q",
+      "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_minus_p",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-minus-p",
+      "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_neg_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-neg-2sqrt-q",
+      "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    },
+    {
+      "kernel": "kernel_pos_2sqrt_q",
+      "kernel_schema_id": "rank-zero-selmer-local-support-kernel-pos-2sqrt-q",
+      "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+      "package_specific_transcript_fields": [
+        "statement",
+        "isogeny_setup",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes"
+      ],
+      "shared_transcript_fields": [
+        "local_squareclass_conditions"
+      ],
+      "strict_promotion_ready": false,
+      "transcript_package_ready": false
+    }
+  ],
+  "family_exclusion_proved_count": 0,
+  "kernel_schema_count": 3,
+  "package_count": 9,
+  "package_specific_transcript_count": 9,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "shared_local_squareclass_template_count": 3,
+  "status": "ok",
+  "strict_promotion_ready_count": 0,
+  "transcript_package_ready_count": 0,
+  "violations": []
+}
