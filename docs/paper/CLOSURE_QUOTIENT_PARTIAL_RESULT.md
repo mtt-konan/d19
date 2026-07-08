@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 444
+artifact_status.required_file_count = 448
 artifact_status.missing_file_count = 0
 ```
 
@@ -1458,6 +1458,30 @@ local_image_schema_proved_count = 0
 
 This proves the square-unit coordinate normalization for the two tangent-one
 schemas. The local-image theorem is still open.
+
+Audit rank-zero Selmer tangent-one unit branch:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_unit_branch.py \
+  --tangent-one-normal-forms results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_unit_branch.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_normal_form_count = 2
+unit_branch_count = 1
+unit_branch_squareclass_consequence_proved_count = 1
+local_image_schema_proved_count = 0
+```
+
+On the standard model `Y^2 = X*(X - 1)^2`, the unit branch with both
+`X` and `X - 1` units gives `X = (Y/(X - 1))^2`; hence `X` has trivial
+local squareclass on that branch. This is only a branch-level consequence,
+not the local-image theorem.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2144,6 +2168,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 444
+required_file_count = 448
 missing_files = []
 ```

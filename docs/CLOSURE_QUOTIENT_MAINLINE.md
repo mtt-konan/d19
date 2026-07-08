@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=444
+artifact_status.required_file_count=448
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1734,6 +1734,30 @@ local_image_schema_proved_count=0
 普通话说：tangent squareclass 为 `1` 的两个 schema 可以用平方单位缩放成标准节点模型：
 `Y^2=X*(X-1)^2` 和 `Y^2=X^2*(X-1)`。这是 local-image 证明前的可审阅代数准备；
 还没有证明任何 2-isogeny local squareclass image。
+
+Rank-zero Selmer tangent-one unit-branch audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_unit_branch.py \
+  --tangent-one-normal-forms results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_unit_branch.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_normal_form_count=2
+unit_branch_count=1
+unit_branch_squareclass_consequence_proved_count=1
+local_image_schema_proved_count=0
+```
+
+普通话说：在标准模型 `Y^2=X*(X-1)^2` 中，如果 `X` 和 `X-1` 都是单位，
+那么 `X=(Y/(X-1))^2`，所以这个分支上的 `X` 平方类是平凡的。这只关闭
+一个单位分支；`X` 非单位、`X-1` 非单位、另一个 tangent-one 标准模型和
+tangent squareclass `-1` 的 schema 仍然没有被 local-image 定理覆盖。
 
 Rank-zero Selmer transcript intake audit：
 
