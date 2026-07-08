@@ -3084,6 +3084,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl427](work-logs/427-aa-family-odd-support-separation.md)
 - [wl428](work-logs/428-aa-family-odd-support-dimension-bound.md)
 - [wl429](work-logs/429-bb-family-odd-prime-transport.md)
+- [wl430](work-logs/430-aa-bb-odd-support-collapse.md)
 
 ## AA family odd-prime local image matrix
 
@@ -3176,6 +3177,39 @@ omega_odd(T^2 + 4*B^2) + omega_{1 mod 4}(T) + omega_odd(B).
 
 Boundary: this transports only the odd-prime input. It is still not a dyadic
 condition, global Selmer bound, rank-zero theorem, or lambda-family exclusion.
+
+## AA+BB odd support collapse
+
+When both `AA` and `BB` constraints must hold simultaneously, the odd-prime
+support collapses to:
+
+```text
+kernel_minus_p        no odd-prime support
+kernel_neg_2sqrt_q    no odd-prime support
+kernel_pos_2sqrt_q    odd support only from primes ell | T with ell == 1 mod 4
+```
+
+The key points are:
+
+- `kernel_neg_2sqrt_q` would need an odd prime dividing both `A` and `B`,
+  impossible because `gcd(A,B)=1`;
+- `kernel_minus_p` would need an odd prime dividing both
+  `T^2 + 4*A^2` and `T^2 + 4*B^2`, but the odd part of this gcd is `1`;
+- `kernel_pos_2sqrt_q` has the same allowed odd support on both sides, namely
+  `ell | T` with `ell == 1 mod 4`.
+
+So the odd-valuation part of the `AA+BB` candidate space has dimension at
+most
+
+```text
+omega_{1 mod 4}(T).
+```
+
+普通话说：`AA+BB` 比单边强得多。奇素数层面上，只剩 `kernel_pos_2sqrt_q` 的 `T`
+里 `1 mod 4` 素数还可能留下自由变量。
+
+Boundary: this is still not the full Selmer bound. The prime `2`, unit/sign
+classes, and remaining global relations are still open.
 
 数学总入口：
 
