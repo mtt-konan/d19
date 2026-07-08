@@ -159,11 +159,51 @@ Thus every non-kernel local point in the `ell | T` case has tracked
 squareclass in `{1, -1}`. This proves the formal-lift compatibility subclaim
 for the `ell | T` case of `rank-zero-selmer-AA-kernel-minus-p`.
 
+### Review note: the remaining zero-double-root case needs a different lift parameter
+
+The remaining odd-prime case is `ell | T^2 + 4*L^2`. Its reduction shape is
+
+```text
+x^2*(x + 64*L^2).
+```
+
+This is the zero-double-root tangent-one schema. It must not be treated by
+copying the previous two arguments with either `x` or `x + 64*L^2` as an
+unqualified tracked squareclass.
+
+Concrete check: take `ell=5`, `L=1`, `T=1`, so `T^2 + 4*L^2=5`. For
+
+```text
+x = -9949
+```
+
+the right-hand side of the package model has
+
+```text
+v_5(x^3 + a2*x^2 + a4*x) = 2
+unit part = 4 mod 5,
+```
+
+so it is a square in `Q_5`. Thus there is a `Q_5`-point with this `x`. But
+
+```text
+x + 64*L^2 = -9885
+v_5(x + 64*L^2) = 1,
+```
+
+so `x + 64*L^2` is not a square in `Q_5`. This rules out the naive
+formal-lift statement that the zero-double-root case is controlled just by
+the squareclass of `x + 64*L^2`.
+
+Therefore the `ell | T^2 + 4*L^2` formal-lift subclaim remains open and needs
+the correct local descent parameter or an additional normalization argument.
+No local-image theorem is claimed for this case here.
+
 ### Remaining Gaps
 
 This does not prove the whole package. The following parts remain open:
 
-- the `ell | T^2 + 4*L^2` odd-prime case for this package
+- the `ell | T^2 + 4*L^2` odd-prime formal-lift case for this package
 - the `ell=2` local condition
 - the global Selmer dimension bound
 - the rank-zero conclusion
