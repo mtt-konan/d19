@@ -1,0 +1,49 @@
+{
+  "boundary": "This audits squareclass contradictions on punctured neighborhoods of the tangent-minus-one nodes by comparing the non-node branch identities with the trivial squareclass of principal units near the node. It does not prove node-center lift analysis, a local image, local condition, Selmer rank bound, or lambda-family exclusion.",
+  "family_exclusion_proved_count": 0,
+  "input_node_value_count": 2,
+  "input_nonnode_branch_count": 2,
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "node_center_lift_analysis_proved_count": 0,
+  "nonsquare_parameter_retained": true,
+  "punctured_node_entries": [
+    {
+      "controlled_by_nonnode_branch_id": "tangent-minus-one-nonzero-double-root-nonnode-branch",
+      "near_node_squareclass": "X has trivial squareclass",
+      "node_center_lift_analysis_proved": false,
+      "node_center_value": "X = 1",
+      "node_id": "tangent-minus-one-nonzero-double-root-node",
+      "nonnode_required_squareclass": "X has squareclass nu",
+      "punctured_neighborhood_hypothesis": "X - 1 has positive valuation",
+      "punctured_node_neighborhood_excluded": true,
+      "remaining_gap": "prove formal lift compatibility at the node center",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+      "squareclass_contradiction": "trivial != nu",
+      "standard_model": "Y^2 = nu*X*(X - 1)^2"
+    },
+    {
+      "controlled_by_nonnode_branch_id": "tangent-minus-one-zero-double-root-nonnode-branch",
+      "near_node_squareclass": "1 - X has trivial squareclass",
+      "node_center_lift_analysis_proved": false,
+      "node_center_value": "1 - X = 1",
+      "node_id": "tangent-minus-one-zero-double-root-node",
+      "nonnode_required_squareclass": "1 - X has squareclass nu",
+      "punctured_neighborhood_hypothesis": "X has positive valuation",
+      "punctured_node_neighborhood_excluded": true,
+      "remaining_gap": "prove formal lift compatibility at the node center",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+      "squareclass_contradiction": "trivial != nu",
+      "standard_model": "Y^2 = nu*X^2*(1 - X)"
+    }
+  ],
+  "punctured_node_neighborhood_count": 2,
+  "punctured_node_neighborhood_excluded_count": 2,
+  "punctured_node_results_not_local_images": true,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "squareclass_contradiction_proved_count": 2,
+  "status": "ok",
+  "violations": []
+}

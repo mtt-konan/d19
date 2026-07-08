@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 476
+artifact_status.required_file_count = 480
 artifact_status.missing_file_count = 0
 ```
 
@@ -1656,6 +1656,33 @@ standard families: `X=1` for `Y^2 = nu*X*(X-1)^2`, and `1-X=1` for
 `Y^2 = nu*X^2*(1-X)`. Thus the node-center squareclass is trivial. Together
 with the non-node branch audit, this gives a reduction-level picture only:
 non-node branches give `nu`, while node centers give trivial.
+
+Audit rank-zero Selmer tangent-minus-one punctured nodes:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_minus_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_nonnode_branch_count = 2
+input_node_value_count = 2
+punctured_node_neighborhood_excluded_count = 2
+node_center_lift_analysis_proved_count = 0
+local_image_schema_proved_count = 0
+```
+
+Near the node, the tracked coordinate has trivial squareclass because principal
+units are squares at odd primes. The non-node identities require the same
+tracked coordinate to have squareclass `nu`. Since `nu` is nonsquare, both
+punctured node neighborhoods are excluded by squareclass contradiction. This
+still does not prove node-center formal lifts or a full local image theorem.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2342,6 +2369,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 476
+required_file_count = 480
 missing_files = []
 ```

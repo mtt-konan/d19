@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=476
+artifact_status.required_file_count=480
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1931,6 +1931,32 @@ local_image_schema_proved_count=0
 `Y^2=nu*X^2*(1-X)` 的节点是 `(X,Y)=(0,0)`，tracked value 是 `1-X=1`。
 因此节点中心平方类是 trivial。和上一层合起来，reduction-level 图像是：
 非节点分支给 `nu`，节点中心给 trivial；这还不是 formal lift 或 local image。
+
+Rank-zero Selmer tangent-minus-one punctured node audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_minus_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_minus_one_node_values.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_punctured_nodes.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_nonnode_branch_count=2
+input_node_value_count=2
+punctured_node_neighborhood_excluded_count=2
+node_center_lift_analysis_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：在奇素数局部域里，足够靠近 `1` 的单位是平方。`-1` 情况下，
+非节点分支要求 tracked coordinate 的平方类是 `nu`，但节点附近又强制它是
+trivial；`trivial != nu`，所以两个穿孔节点邻域都被平方类矛盾排除。
+这仍然没有证明节点中心 formal lift，也没有证明完整 local image。
 
 Rank-zero Selmer transcript intake audit：
 
