@@ -3073,6 +3073,34 @@ factor_concordant / GEN-CLOSURE 后
 - [wl416](work-logs/416-rank-zero-selmer-bound-argument-queue.md)
 - [wl417](work-logs/417-rank-zero-selmer-bound-argument-sections.md)
 - [wl418](work-logs/418-rank-zero-selmer-formal-lift-queue.md)
+- [wl419](work-logs/419-aa-minus-p-zero-double-root-obstruction.md)
+- [wl420](work-logs/420-aa-minus-p-zero-double-root-full-image.md)
+- [wl421](work-logs/421-aa-minus-p-selmer-bound-integration-note.md)
+- [wl422](work-logs/422-aa-sqrt-kernels-d-prime-local-kill.md)
+- [wl423](work-logs/423-aa-pos-kernel-l-prime-formal-lift.md)
+- [wl424](work-logs/424-aa-pos-kernel-t-prime-zero-double-root.md)
+- [wl425](work-logs/425-aa-neg-kernel-odd-prime-formal-lifts.md)
+- [wl426](work-logs/426-aa-family-odd-prime-local-image-matrix.md)
+
+## AA family odd-prime local image matrix
+
+The three `AA` rank-zero Selmer packages now have reviewed odd-prime
+formal-lift inputs. The family-level matrix is:
+
+```text
+bad factor              kernel_minus_p      kernel_pos_2sqrt_q                    kernel_neg_2sqrt_q
+L                       {1}                 {1}                                   full
+T                       {1, -1}             unit classes if -1 nonsquare; full    {1, -1}
+T^2 + 4*L^2             full                {1}                                   {1}
+```
+
+普通话说：`minus_p` 管不住 `T^2+4L^2` 的奇素数，但两个 square-root kernel 能管住；
+`neg_2sqrt_q` 管不住 `L` 的奇素数，但另外两个 kernel 能管住。真正还需要在 global
+Selmer bound 里仔细处理的是 `T` 的奇素数，尤其是 `-1` 的本地平方类。
+
+Boundary: this is only the odd-prime formal-lift input. It does not prove the
+dyadic local condition, global Selmer bound, rank zero, root-number
+exclusion, 2-cover exclusion, or lambda-family exclusion.
 
 数学总入口：
 
