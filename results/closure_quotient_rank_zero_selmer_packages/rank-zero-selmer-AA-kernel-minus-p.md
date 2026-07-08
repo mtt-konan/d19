@@ -159,7 +159,7 @@ Thus every non-kernel local point in the `ell | T` case has tracked
 squareclass in `{1, -1}`. This proves the formal-lift compatibility subclaim
 for the `ell | T` case of `rank-zero-selmer-AA-kernel-minus-p`.
 
-### Review note: the remaining zero-double-root case needs a different lift parameter
+### Obstruction: the zero-double-root case is not controlled by the naive lift parameters
 
 The remaining odd-prime case is `ell | T^2 + 4*L^2`. Its reduction shape is
 
@@ -169,7 +169,36 @@ x^2*(x + 64*L^2).
 
 This is the zero-double-root tangent-one schema. It must not be treated by
 copying the previous two arguments with either `x` or `x + 64*L^2` as an
-unqualified tracked squareclass.
+unqualified tracked squareclass. Both naive choices give false formal-lift
+statements.
+
+First, `x` itself is not forced to be a square. Take `ell=5`, `L=1`,
+`T=1`, so `T^2 + 4*L^2=5`. Then
+
+```text
+a2 = 24
+a4 = 400
+y^2 = x^3 + 24*x^2 + 400*x.
+```
+
+For
+
+```text
+x = 2
+```
+
+the right-hand side is
+
+```text
+2^3 + 24*2^2 + 400*2 = 904.
+```
+
+It has `v_5(904)=0` and residue `904 == 4 mod 5`. Since `4` is a non-zero
+square modulo `5`, the odd-prime square-lifting criterion says `904` is a
+square in `Q_5`. Hence there is a `Q_5`-point on the package model with
+this `x`. But `x=2` has non-square residue modulo `5`, so `x` is not a
+square in `Q_5`. Thus the zero-double-root formal lift cannot claim that
+the original isogeny-descent coordinate `x` always has trivial squareclass.
 
 Concrete check: take `ell=5`, `L=1`, `T=1`, so `T^2 + 4*L^2=5`. For
 
@@ -195,15 +224,33 @@ so `x + 64*L^2` is not a square in `Q_5`. This rules out the naive
 formal-lift statement that the zero-double-root case is controlled just by
 the squareclass of `x + 64*L^2`.
 
-Therefore the `ell | T^2 + 4*L^2` formal-lift subclaim remains open and needs
-the correct local descent parameter or an additional normalization argument.
-No local-image theorem is claimed for this case here.
+The standard tangent-one normalization also shows why this is the same
+obstruction, not a harmless sign issue. Since `64*L^2` is a square unit, the
+change
+
+```text
+X = -x/(64*L^2)
+1 - X = (x + 64*L^2)/(64*L^2)
+```
+
+identifies the reduced shape with `Y^2 = X^2*(1-X)` up to a square scaling.
+Thus the abstract tracked coordinate `1-X` differs from `x + 64*L^2` only by
+a square unit in this package. The example above therefore also blocks the
+raw standard-model candidate `{trivial}` from being promoted through formal
+lifts without extra valuation or component data.
+
+Therefore the `ell | T^2 + 4*L^2` formal-lift subclaim remains open in a
+sharper sense: it cannot be closed by either naive original-coordinate
+parameter. Any later theorem must use a corrected local image statement,
+for example one that records component/valuation information in addition to
+the reduction-level squareclass. No local-image theorem is claimed for this
+case here.
 
 ### Remaining Gaps
 
 This does not prove the whole package. The following parts remain open:
 
-- the `ell | T^2 + 4*L^2` odd-prime formal-lift case for this package
+- the corrected `ell | T^2 + 4*L^2` odd-prime formal-lift case for this package
 - the `ell=2` local condition
 - the global Selmer dimension bound
 - the rank-zero conclusion
