@@ -1,641 +1,208 @@
 # 数学参考文档
 
-本文档覆盖该项目所涉及的全部数学内容：问题背景、参数化推导、距离公式、已知定理与未解方向。
+这份文档只保留项目数学骨架。当前证明主线见
+[PROJECT_STATUS.md](./PROJECT_STATUS.md) 和
+[CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
 
----
+## 1. Harborth 问题
 
-## 一、问题陈述
+Harborth 猜想：平面内不存在一点到单位正方形四个顶点的距离全为有理数。
 
-**Harborth 猜想（1993）**：平面内不存在任何一点，使得它到单位正方形四个顶点的距离全为有理数。
+单位正方形顶点取
 
-设单位正方形顶点为：
-```
-A = (0, 0)     B = (1, 0)
-D = (0, 1)     C = (1, 1)
-```
-对于平面内任意点 P = (x, y)，四个距离为：
-```
-d(A) = √(x² + y²)
-d(B) = √((x-1)² + y²)
-d(C) = √((x-1)² + (y-1)²)
-d(D) = √(x² + (y-1)²)
+```text
+A=(0,0), B=(1,0), C=(1,1), D=(0,1)
 ```
 
-目前已知：
-- **三顶点解存在无穷多个**（可由椭圆曲线参数族生成）
-- **四顶点解从未被找到**，但也未被严格证明不存在
-- 若四顶点解存在，则 x、y 必须都是有理数（由任意三个距离有理即可推出）
+点 `P=(x,y)` 到四顶点距离平方为
 
-本项目的策略：穷举三顶点解，同时判断第四个距离是否有理，逐步缩小搜索范围。
-
----
-
-## 二、参数化方案
-
-### 2.1 思路来源
-
-由于 x、y 必须是有理数，设 x = X/N、y = Y/N（通分后）。d(A) 有理要求 X² + Y² = □（完全平方数），即分子是某个整数的平方乘以公分母的平方。
-
-这直接指向**勾股数三元组**：若 p² + q² = r²，令 X = p、Y = q、N = r，则 d(A) = √(p²+q²)/r... 不够。我们需要更灵活的比例因子。
-
-### 2.2 参数化构造
-
-取**本原勾股数三元组** (p, q, r)，满足 p² + q² = r²，gcd(p, q) = 1，p, q, r > 0。
-
-令比例因子 k = a/b（其中 gcd(a, b) = 1，a, b > 0），定义：
-
-```
-P = (x, y) = (a·p/(b·r),  a·q/(b·r))
+```text
+dA^2 = x^2 + y^2
+dB^2 = (x-1)^2 + y^2
+dC^2 = (x-1)^2 + (y-1)^2
+dD^2 = x^2 + (y-1)^2
 ```
 
-**为什么 d(A) 自动有理：**
-```
-d(A)² = x² + y² = (a·p/(b·r))² + (a·q/(b·r))²
-       = a²(p² + q²) / (b·r)²
-       = a²·r² / (b·r)²        ← 因为 p² + q² = r²
-       = a²/b²
+已知三顶点有理距离点有无穷多个；四顶点有理距离点尚未找到，也尚未被全局证明不存在。
 
-∴ d(A) = a/b = k  ∈ ℚ
-```
+## 2. 三顶点参数化
 
-**覆盖性**：对任意有理点 P = (x, y) 满足 d(A) = k ∈ ℚ，必有 x = k·cos θ、y = k·sin θ，其中 cos θ 和 sin θ 均需有理。这等价于存在本原勾股数三元组 (p, q, r) 使得 cos θ = p/r 或 q/r，从而参数化覆盖所有情况（两种方向 (p,q,r) 和 (q,p,r) 均需生成）。
+若 `dA` 有理，可用本原勾股三元组 `(p,q,r)` 和有理比例 `k=a/b` 写
 
----
-
-## 三、三个距离公式推导
-
-以下推导将其余三个距离化为纯整数完全平方判断，这是速度优化的数学基础。
-
-记 ar = a·r，bp = b·p，bq = b·q，br = b·r。
-
-### 3.1 d(B) 的推导
-
-```
-d(B)² = (x-1)² + y²
-       = (ap/(br) - 1)² + (aq/(br))²
-       = ((ap - br)/(br))² + (aq/(br))²
-       = [(ap - br)² + (aq)²] / (br)²
-       = [(ar·p/r - br)·... 
+```text
+x = ap/(br)
+y = aq/(br)
+p^2 + q^2 = r^2
+gcd(p,q)=1
 ```
 
-换写为整数形式（分子 × (br)²）：
-```
-tB = (ar - bp)² + (bq)²
-```
+于是
 
-**d(B) ∈ ℚ ⟺ tB 是完全平方数。**
-
-证明：d(B)² = tB/(br)²，其中 br ∈ ℤ。d(B) = √(tB)/br ∈ ℚ 当且仅当 √tB ∈ ℚ，即 tB = □。
-
-### 3.2 d(D) 的推导
-
-```
-d(D)² = x² + (y-1)²
-       = [(aq - br)² + (ap)²] / (br)²
-tD    = (ar - bq)² + (bp)²
+```text
+dA = a/b
 ```
 
-**d(D) ∈ ℚ ⟺ tD 是完全平方数。**
+其余三个距离化为整数完全平方判断：
 
-注意 tB 和 tD 的对称性：交换 p↔q 则 tB↔tD，这正是我们同时生成 (p,q,r) 和 (q,p,r) 两种方向的原因。
-
-### 3.3 d(C) 的推导
-
-```
-d(C)² = (x-1)² + (y-1)²
-       = [(ap - br)² + (aq - br)²] / (br)²
+```text
+tB = (ar - bp)^2 + (bq)^2
+tD = (ar - bq)^2 + (bp)^2
+tC = (ar - b(p+q))^2 + (b(p-q))^2
 ```
 
-展开合并：
-```
-(ap - br)² + (aq - br)²
-= a²p² - 2abpr + b²r² + a²q² - 2abqr + b²r²
-= a²(p²+q²) - 2abr(p+q) + 2b²r²
-= a²r²  - 2abr(p+q) + 2b²r²        ← 用 p²+q²=r²
-= r²[a² - 2ab(p+q)/r + 2b²]
-```
+即
 
-改写为更适合计算的等价形式（可验证代数等价）：
-```
-tC = (ar - b(p+q))² + (b(p-q))²
+```text
+dB rational <=> tB is square
+dD rational <=> tD is square
+dC rational <=> tC is square
 ```
 
-验证：展开得 a²r² - 2abr(p+q) + b²(p+q)² + b²(p-q)² = a²r² - 2abr(p+q) + b²·2(p²+q²) = a²r² - 2abr(p+q) + 2b²r²  ✓
+工程上全部用整数 `isqrt` 判断。
 
-**d(C) ∈ ℚ ⟺ tC 是完全平方数。**
+## 3. D4 对称
 
-### 3.4 汇总
+正方形有 8 个 D4 对称。若一个点满足三顶点有理距离，其 D4 像也满足同类条件。
 
-| 距离 | 分子（需为完全平方数） |
-|------|----------------------|
-| d(A) | 自动有理，= a/b |
-| d(B) | tB = (ar − bp)² + (bq)² |
-| d(D) | tD = (ar − bq)² + (bp)² |
-| d(C) | tC = (ar − b(p+q))² + (b(p−q))² |
+常用去重方式：
 
-所有判断均可用整数 `isqrt` 完成，无需 Fraction 运算。
-
----
-
-## 四、侧边排除定理
-
-### 4.1 定理陈述
-
-**定理**：若平面内一点 P 到单位正方形任意三个顶点的距离均为有理数，则 P 不在四条延伸边 x=0、x=1、y=0、y=1 上。
-
-### 4.2 证明思路（椭圆曲线方法）
-
-对于落在边 x=t（t∈{0,1}）上的点 P=(t,y)，到三个顶点的距离均有理的条件化为：
-```
-t² + y²      = r₁²    (有理)
-(t-1)² + y²  = r₂²    (有理)
-t² + (y-1)²  = r₃²    (有理)
+```text
+canonical_xy(x,y) = min(D4 orbit of (x,y))
 ```
 
-由前两式得 r₁² - r₂² = 1 - 2t，从而 r₁, r₂ 的关系确定，再代入第三式化简。
+轨道大小可能为 `8,4,2,1`，分别对应一般位置、落在对称轴、落在多个对称轴、顶点等特殊情形。
 
-对 t=0 和 t=1 两种情况分别可化为椭圆曲线方程，通过分析该曲线上的有理点（具体方法涉及椭圆曲线的 Mordell-Weil 定理和 descent），可证明这些方程无有理解（或仅有平凡解对应顶点本身）。
+## 4. Chain 化简
 
-### 4.3 参数化中的等价条件
+内部四顶点反例通分后可转成正整数 chain：
 
-在参数 P = (ap/br, aq/br) 中：
-```
-x = 1  ⟺  ap = br  ⟺  a·p = b·r
-y = 1  ⟺  aq = br  ⟺  a·q = b·r
-x = 0 或 y = 0：由于 a, b, p, q, r 均为正整数，不可能出现
-```
-
-因此在搜索时，凡满足 a·p == b·r 或 a·q == b·r 的 (a,b) 对直接跳过。
-
-### 4.4 实际影响
-
-此过滤对结果纯净度影响显著：`--scale 80` 时从 402 个结果降至 118 个（37 个 D4 等价类）。过滤比例虽小（约 0.0001% 的候选点），但全部都是理论上不可能是解的"噪音"。
-
----
-
-## 五、D4 对称群
-
-### 5.1 对称性来源
-
-单位正方形具有 D4 对称群（阶8），包含 4 个旋转和 4 个反射。若 P 到某三个顶点的距离有理，则对称像也满足同等条件（只是对应的顶点发生置换）。
-
-### 5.2 八个变换
-
-| 变换 | 公式 | 几何意义 |
-|------|------|---------|
-| 恒等 | (x, y) | — |
-| 沿 x=½ 翻转 | (1−x, y) | 左右镜像 |
-| 沿 y=½ 翻转 | (x, 1−y) | 上下镜像 |
-| 180° 旋转 | (1−x, 1−y) | 中心旋转 |
-| 沿主对角线翻转 | (y, x) | 沿 y=x 镜像 |
-| 沿副对角线翻转 | (1−y, 1−x) | 沿 y=1−x 镜像 |
-| 90° 顺时针 | (y, 1−x) | 旋转 |
-| 90° 逆时针 | (1−y, x) | 旋转 |
-
-### 5.3 轨道大小
-
-理论上每个轨道大小整除 8（Lagrange 定理）。实际可以是：
-- **大小 8**：一般位置的点
-- **大小 4**：点落在某条对称轴上（如 x=½ 或 y=x）
-- **大小 2**：点落在两条对称轴的交点（如正方形中心）
-- **大小 1**：顶点本身
-
-在搜索结果中偶尔出现"大小 2"的轨道，原因是该点的其余对称像坐标为负数或超出 k 的搜索范围，未被当前参数设置覆盖——这是搜索范围的限制，不是数学错误。
-
-### 5.4 去重方法
-
-取 D4 轨道中字典序最小的像作为**轨道代表元**（canonical form）：
-```python
-canonical_xy(x, y) = min(d4_images(x, y))   # 字典序比较 Fraction 二元组
+```text
+a^2+b^2 = square
+b^2+c^2 = square
+c^2+d^2 = square
+d^2+a^2 = square
+a+c = b+d
 ```
 
----
+注意：`a+c=b+d` 是内部点的和闭合。全平面还要考虑差闭合；完整语言是 GEN-CLOSURE：
 
-## 六、已知结果与未解方向
-
-### 6.1 三顶点解
-
-存在无穷多个三顶点解（到任意三个顶点距离均有理）。这些解可由特定椭圆曲线的正秩有理点参数化生成。
-
-本项目在 `--scale 80` 下找到 37 个 D4 等价类（覆盖 118 个点），随着 scale 增大，等价类数量持续增长，尚未见饱和迹象。
-
-### 6.2 椭圆曲线方法
-
-对固定的本原三元组 (p, q, r) 和已知的三顶点解，令 k = a/b 为变量，"第四个距离也有理"的条件化为：
-
-```
-某个关于 k 的二次 Diophantine 方程的判别式为完全平方数
+```text
+{N1+N2, |N1-N2|} intersects {A+B, |A-B|}
 ```
 
-这等价于在某条椭圆曲线 E 上找有理点。若该曲线的 Mordell-Weil 秩 > 0，则存在无穷多个满足条件的 k，从而得到无穷族四顶点候选解。
+用两条本源三元组确定
 
-**椭圆曲线方法与穷举搜索的关系**：
-- 穷举搜索：有限参数范围内逐个验证，进展可视
-- 椭圆曲线：针对具体三元组的代数求解，可能直接得到超出穷举范围的解
+```text
+A = q1 q2
+B = p1 p2
+N = p2(p1-q1) + q1 q2
+```
 
-两者互补；椭圆曲线方法是下一阶段的研究方向。
+则合法后续三元组要求
 
-### 6.3 与 Harborth 猜想的关系
+```text
+A^2 + N^2 = square
+B^2 + N^2 = square
+```
 
-当前负结果（未找到四顶点解）与猜想一致，但不能排除：
-1. 四顶点解存在但参数超出当前 scale
-2. 解在参数化的"覆盖盲区"中（理论上不存在盲区，但实践中 scale 有限）
+也就是 `(A,B)` 的 concordant `N`。这把原来的四元组搜索压成了“找同时和 A、B 成勾股的 N”。
 
-随着 scale 增大（64GB RAM 机器可跑 scale=500+），以及后续引入椭圆曲线方法，将进一步压缩解存在的可能空间。
+## 5. Concordant 椭圆曲线
 
----
+给定 `A != B`，concordant 问题是求
 
-## 七、Pythagorean 4-cycle 的代数化简
+```text
+N^2 + A^2 = S^2
+N^2 + B^2 = T^2
+```
 
-本节记录将四顶点 chain 搜索从"四元组枚举"化简为"本源三元组对枚举"的完整推导。
+令
 
-> ⚠️ **隐含前提：反例在正方形内部**（wl093 / OPEN_DIRECTIONS A.9）。本节要求
-> $a,b,c,d$ 全为**正**整数且满足**和闭合** $a+c=b+d$。几何上 $(a,b,c,d)\propto(x,y,1-x,1-y)$，
-> 全正 $\Leftrightarrow 0<x<1,\,0<y<1$，即反例点落在单位正方形内部，此时和闭合自动成立。
-> 落在正方形**外**的反例满足的是**差关系**（如 $|N_1-N_2|=A+B$），本节的 chain 模型与
-> 现有闭合判据（`check_chain_compatibility` 的 `b=A+B-N`）都**不覆盖**。全平面的充要必要
-> 条件是 $\{N_1+N_2,|N_1-N_2|\}\cap\{A+B,|A-B|\}\neq\varnothing$（GEN-CLOSURE，见 wl093）。
-> **wl094 已落地**：生产判据已升级为查全平面四关系（`chain_closure_sieve` 的
-> `full_plane=` 参数 + `analysis.gen_closure_hit`），`run_factor_concordant` 据此对**互素腿**
-> 做穷尽判定（max_hyp=2000 全部 `no_solution`、0 hard_case）；仅 §8.6 gcd-scaling（非互素腿）
-> 仍是 gap。
+```text
+X = N^2
+Y = N*S*T
+```
 
-### 7.1 建模
+得到椭圆曲线
 
-设四个正整数 $a, b, c, d$ 互不相同且 $ac \neq bd$，满足：
+```text
+E_{A,B}: Y^2 = X(X+A^2)(X+B^2)
+```
 
-$$a^2+b^2=x_1^2,\quad b^2+c^2=x_2^2,\quad c^2+d^2=x_3^2,\quad d^2+a^2=x_4^2,\quad a+c=b+d$$
+重要警告：曲线上 `X=N^2` 的点只说明
 
-用本源三元组 $T_i = (p_i, q_i, h_i)$ 和缩放因子 $k_i$ 参数化：
+```text
+(N^2+A^2)(N^2+B^2)
+```
 
-$$a=k_1p_1,\ b=k_1q_1=k_2p_2,\ c=k_2q_2=k_3p_3,\ d=k_3q_3=k_4p_4,\ a=k_4q_4$$
+是平方，不自动说明两个因子分别是平方。因此从曲线点回到 concordant `N` 时必须再做整数平方检查。
 
-由链式约束：$k_2 = k_1q_1/p_2$，$k_3 = k_1q_1q_2/(p_2p_3)$，$k_4 = k_1q_1q_2q_3/(p_2p_3p_4)$
+generic torsion 结构为
 
-**闭合条件**（$k_4q_4 = k_1p_1$）：$q_1q_2q_3q_4 = p_1p_2p_3p_4$
+```text
+Z/2Z x Z/4Z
+```
 
-### 7.2 必须四个不同的本源三元组
+其中 2-torsion 的 `X` 坐标是 `0,-A^2,-B^2`，4-torsion 出现在 `X=+-AB`。
 
-$a+c=b+d$ 等价于：
+## 6. Closure Quotient
 
-$$k_1(p_1-q_1) + k_3(p_3-q_3) = 0$$
+旧 `E_{A,B}` 忘掉闭合腿。closure quotient 把
 
-由于 $p_i \neq q_i$，$(p_1-q_1)$ 与 $(p_3-q_3)$ 必须**异号**（对角三元组方向相反）。
-同理 $(p_2-q_2)$ 与 $(p_4-q_4)$ 异号。因此对角位置的三元组必然不同。
+```text
+M = c - N
+c in {A+B, |A-B|}
+```
 
-### 7.3 核心化简：引入中间量 $N$
+放回对象中。四条商曲线为
 
-将 $k_2, k_3$ 代入 $a+c=b+d$ 并消去 $k_1$，得纯粹关于本源腿的方程：
+```text
+AA: y^2 = (N^2+A^2)(M^2+A^2)
+BB: y^2 = (N^2+B^2)(M^2+B^2)
+AB: y^2 = (N^2+A^2)(M^2+B^2)
+BA: y^2 = (N^2+B^2)(M^2+A^2)
+```
 
-$$p_2 p_3(p_1-q_1) + q_1 q_2(p_3-q_3) = 0$$
+当前严格可用判据是：
 
-整理为 $T_3$ 的腿比 — 由此定义关键量 $N$：
+```text
+AA/BB rank=0 + torsion pullback
+```
 
-$$\frac{p_3}{q_3} = \frac{q_1 q_2}{N}, \qquad N := p_2(p_1-q_1) + q_1 q_2$$
+它能列尽对应四次曲线的仿射有理点。当前已认证行只回拉到中点，随后由 Yang Ji 中线定理排除。`AB/BA` 有万能点，不能作为 rank-zero 刀。
 
-由闭合条件进一步得 $T_4$ 的腿比：
+细节见 [CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
 
-$$\frac{p_4}{q_4} = \frac{N}{p_1 p_2}$$
+## 7. 模定理与 gcd 警告
 
-**$T_1, T_2$ 确定后，$T_3$ 和 $T_4$ 的形态完全确定。**
+若 `gcd(A,B)=1` 且 `N` 是 concordant 值，则
 
-### 7.4 $N$ 的三明治性质
+```text
+12 | N
+```
 
-设 $A := q_1q_2$（小腿积），$B := p_1p_2$（大腿积），约定 $p_i > q_i$，则：
+证明只用平方数模 `3` 和模 `8`。非互素情形需用
 
-$$N - A = p_2(p_1-q_1) > 0, \qquad B - N = q_1(p_2-q_2) > 0$$
+```text
+g = gcd(A,B)
+```
 
-因此 $A < N < B$：$N$ 严格夹在两腿积之间。
+修正：
 
-### 7.5 两个完全平方条件（决定搜索算法）
+```text
+3 not divide g => 3 | N
+4 not divide g => 4 | N
+```
 
-$T_3, T_4$ 合法等价于：
+因此把搜索限制到 `gcd(A,B)=1` 不是 WLOG。整体最小反例只保证四个量共同互素，不保证腿对 `(A,B)` 互素。非互素腿正是旧筛法的主要盲区。
 
-$$A^2 + N^2 \text{ 是完全平方数} \qquad (C_3)$$
-$$N^2 + B^2 \text{ 是完全平方数} \qquad (C_4)$$
+## 8. 当前数学瓶颈
 
-设 $g_i$ 为对应的公约数，则还原：
+项目现在不缺样本，缺的是能跨 ratio family 生效的证明。当前主线瓶颈是：
 
-$$T_3 = \left(\frac{A}{g_3},\frac{N}{g_3},\frac{\sqrt{A^2+N^2}}{g_3}\right), \quad
-T_4 = \left(\frac{N}{g_4},\frac{B}{g_4},\frac{\sqrt{N^2+B^2}}{g_4}\right)$$
+```text
+AA/BB rank-zero family theorem
+  via local image + dyadic condition + Selmer dimension bound
+```
 
-异号条件被 $A < N < B$ 自动满足，无需额外验证。
-
-### 7.6 代数恒等式
-
-由 $(C_3)(C_4)$ 及 Brahmagupta–Fibonacci 恒等式：
-
-$$(h_3 h_4)^2 = (AB+N^2)^2 + (N(B-A))^2$$
-
-即 $h_3 \cdot h_4$ 本身也是一个勾股斜边。另有差值关系：
-
-$$h_3^2 - h_4^2 = A^2 - B^2 = (q_1q_2-p_1p_2)(q_1q_2+p_1p_2)$$
-
-### 7.7 算法意义
-
-| 方法 | 枚举维度 | 复杂度（$h \leq M$）|
-|------|---------|---------------------|
-| 原 chain 搜索 | 所有整数四元组 $(a,b,c,d)$ | $O(M^4)$ |
-| 化简后搜索 | 本源三元组对 $(T_1, T_2)$ | $O(M^2)$ |
-
-本源三元组在 $h \leq M$ 内约有 $O(M)$ 个，化简后复杂度降低约四个数量级。
-
----
-
-## 八、椭圆曲线 concordant 分析
-
-工程入口、路线关系与推荐阅读顺序请先看 [docs/PROJECT_STATUS.md](./PROJECT_STATUS.md)；本节只记录数学定义与推导，不重复项目叙事。
-
-### 8.1 Concordant 问题
-
-给定正整数 $A, B$（$A \neq B$），**concordant 问题**求整数 $N$ 使得：
-
-$$N^2 + A^2 = S^2, \quad N^2 + B^2 = T^2$$
-
-即 $N$ 同时与 $A$ 和 $B$ 组成勾股数。
-
-### 8.2 Weierstrass 模型
-
-令 $X = N^2$，$Y = N \cdot S \cdot T$，则：
-
-$$Y^2 = N^2 \cdot (N^2 + A^2)(N^2 + B^2) = X(X + A^2)(X + B^2)$$
-
-展开得 **Weierstrass 标准形式**：
-
-$$E: \quad Y^2 = X^3 + (A^2 + B^2)X^2 + A^2 B^2 X$$
-
-### 8.3 挠群结构
-
-$E$ 的挠子群为 $\mathbb{Z}/2\mathbb{Z} \times \mathbb{Z}/4\mathbb{Z}$：
-
-- **2-挠点**：$(0, 0)$，$(-A^2, 0)$，$(-B^2, 0)$
-- **4-挠点**：$(AB, \pm AB(A+B))$，$(-AB, \pm AB(A-B))$
-
-验证：$2 \cdot (AB, AB(A+B)) = (0, 0)$，因此 $(AB, AB(A+B))$ 是 4 阶点。
-
-### 8.4 Cubic 与 concordant 的关系（关键注意）
-
-曲线上 $X = N^2$（正完全平方数）的有理点**不保证** $N$ 是 concordant 的！
-
-曲线方程仅保证 $(N^2 + A^2)(N^2 + B^2)$ 是完全平方数，
-但不保证 $N^2 + A^2$ 和 $N^2 + B^2$ **各自**是完全平方数。
-
-反例：$A = 1, B = 4, N = 2$：
-
-$$(4 + 1)(4 + 16) = 5 \cdot 20 = 100 = 10^2 \quad \checkmark$$
-$$4 + 1 = 5 \quad \text{(不是平方数)} \quad \times$$
-
-因此找到 $X = N^2$ 后，必须额外验证 `isqrt` 检查。
-
-### 8.4.1 闭合曲线 $C_\lambda$：把被忘掉的闭合关系放回对象里
-
-旧的 concordant 曲线 $E_{A,B}$ 只问一件事：有没有某个 $N$ 让
-
-$$N^2+A^2=\square,\qquad N^2+B^2=\square.$$
-
-它没有记录闭合腿
-
-$$M=A+B-N.$$
-
-所以 $E_{A,B}$ 能解释“半解”为什么多，却不能直接判断完整正方形闭合。要研究正方形内部的闭合解，
-应固定比例
-
-$$\lambda=\frac AB$$
-
-并同时要求 $N$ 和 $M$ 两边都通过平方条件。等价地，可用整数版本
-
-$$C^+_{A,B}:\quad
-\begin{cases}
-y_1^2=N^2+A^2,\\
-y_2^2=N^2+B^2,\\
-y_3^2=(A+B-N)^2+A^2,\\
-y_4^2=(A+B-N)^2+B^2.
-\end{cases}$$
-
-这里上标 $+$ 表示内部的“和闭合”关系 $N+M=A+B$。全平面 GEN-CLOSURE 还包含差关系，
-例如 $|N-M|=A+B$ 或 $|N-M|=|A-B|$；那些关系给出同型的闭合曲线，只是把 $M$ 的线性表达式换掉。
-
-**比例不变性。** 若把 $(A,B,N,y_i)$ 同乘有理数 $t$，四个方程保持同形。因此 $C^+_{A,B}$ 只依赖
-$A/B$，可记为 $C^+_\lambda$。普通话说：固定一条比例射线后，证明 $C^+_\lambda$ 只有平凡点，
-就一次关掉这条射线上的所有整数缩放。
-
-**与反例的关系。** 若正方形内部存在四顶点有理距离点，则通分后得到某个正整数三元组
-$(A,B,N)$，其中 $M=A+B-N>0$，并给出 $C^+_{A,B}(\mathbb Q)$ 的仿射点。反过来，若
-$C^+_{A,B}$ 有仿射有理点，且 $N>0$、$M>0$，四个右侧确为有理平方，则清分母后得到一个内部
-闭合 chain 候选。
-
-**几何大小。** $C^+_{A,B}$ 是 $N$-直线上的四个二次双覆盖的纤维积。一般位置下分歧点为
-
-$$\pm iA,\quad \pm iB,\quad (A+B)\pm iA,\quad (A+B)\pm iB,$$
-
-共 $8$ 个点，覆盖群为 $(\mathbb Z/2\mathbb Z)^4$。Riemann-Hurwitz 给亏格 $17$。这解释了为什么
-逐条 $C^+_\lambda$ 可以有限化，但不能指望像椭圆曲线那样轻松枚举全族。
-
-**四条闭合商曲线。** 取任意两个平方条件相乘，可得到 genus-one 商曲线。真正看见闭合关系的是
-下面四条：
-
-$$Q_{AA}:\ y^2=(N^2+A^2)((A+B-N)^2+A^2),$$
-$$Q_{BB}:\ y^2=(N^2+B^2)((A+B-N)^2+B^2),$$
-$$Q_{AB}:\ y^2=(N^2+A^2)((A+B-N)^2+B^2),$$
-$$Q_{BA}:\ y^2=(N^2+B^2)((A+B-N)^2+A^2).$$
-
-这四条曲线是当前新的实验入口。`scripts/theory/rank_mixed_closure_curves.py` 已对 archived `320` 个
-hard-case pair 和 wl100 的 `64` 个 local-global residual pair 跑过 `ellfromeqn + ellrank + ellrootno`：
-
-- `AA/BB` 出现大量 certified rank `0`。
-- 320 hard cases 中 `AA/BB` 的 `216` 条 rank `0` 商曲线、64 residual pair 中 `AA/BB` 的 `59` 条
-  rank `0` 商曲线，已经用 centered even quartic 的 torsion 回拉严格认证：
-  全部仿射回拉点都只是中点 $N=M=(A+B)/2$，没有完整闭合平方点。
-- `AB/BA` 在这两批样本里都没有 rank `0`。
-
-这说明闭合商曲线确实提供了旧 $E_{A,B}$ 看不到的新信号，但还不是通用的 `proof_status` 判定方法：
-`AB/BA` 没有命中 rank `0`；320 hard cases 里 `0/2`、`1/3` 这些 rank 上下界不闭合的行经
-`ellrank(effort=4)` 复核仍未收紧，后续需要更直接的 2-descent / Selmer / 模型化处理。
-64 residual pair 这批则全部 rank 上下界闭合。压缩记录见
-[wl290, wl294-wl321](./work-logs/294-closure-quotient-foundation-consolidated.md)。主线入口见
-[docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
-
-`AB/BA` 的正 rank 现象已有结构解释：二者共享
-$Y^2=X^3+CX^2-DX-CD$，其中 $C=2(A^2+AB+B^2)$、$D=(2AB)^2$，并带显式点
-$P=(-(A^2+B^2),(A+B)^2(B-A))$。特化 `(A,B)=(7,45)` 已验证该点非 torsion；
-当前两批样本的 `384` 个 distinct pair 中也全部非 torsion。因此 `AB/BA` 先降级为结构解释，
-不作为 rank-zero 排除工具。
-
-**`AA/BB rank=0` torsion 回拉引理（当前可用口径）。** 对 `AA` 或 `BB`，令
-
-$$t=2N-(A+B),\qquad z=4y.$$
-
-则商曲线化为偶四次
-
-$$z^2=t^4+pt^2+q,$$
-
-其中 $L=A$ 对应 `AA`，$L=B$ 对应 `BB`，
-
-$$p=8L^2-2(A+B)^2,\qquad q=((A+B)^2+4L^2)^2.$$
-
-它对应椭圆曲线
-
-$$E:\quad V^2=X^3+pX^2-4qX-4pq,$$
-
-映射可取
-
-$$X=2(z+t^2),\qquad V=2t(X+p),$$
-
-且在仿射部分可反解为
-
-$$t=\frac{V}{2(X+p)},\qquad z=\frac X2-t^2,\qquad N=\frac{A+B+t}{2}.$$
-
-因此，当 PARI 认证 `rank_lower=rank_upper=0` 时，$E(\mathbb Q)$ 由 torsion 点给出。枚举 `elltors(E)`，
-再按上面的反向公式回拉，就列尽原 `AA/BB` 四次曲线的仿射有理点。这里有两个边界点要单独处理：
-椭圆曲线单位元不给仿射点；`X=-p` 让反向公式分母为 `0`，它对应四次曲线的无穷远点。
-
-在当前两批样本里，所有 rank `0` 的 `AA/BB` 行只回拉出
-$N=M=(A+B)/2$ 的两个仿射点，且这两个点不满足四个平方条件。因此这些行能严格排除完整内部闭合点。
-
-注意这个引理只管非奇异 `AA/BB` 且 rank 已认证为 `0` 的行。它没有证明所有 pair 无闭合点，也没有给
-`AB/BA` rank 正的结构解释。以后写论文时，应把“无 full-closed square 点”作为判据，把“全部是中点”
-作为当前样本里的更强现象。
-
-### 8.5 关键实验发现
-
-**Rank 过滤器无效**：对 chain-fast 的 $\max\_hyp = 500$ 产生的所有 2800 个
-原始 $(A, B)$ 对，每个的秩均 $\geq 1$。过滤率为 **0%**。
-
-这意味着 concordant $N$ 值对于所有 chain 产生的 $(A, B)$ 对都存在，
-瓶颈不在 concordant 解的存在性，而在 chain 约束（$C_1 + C_2$）的兼容性。
-
-**示例**：$(A, B) = (264, 420)$，秩 $= 2$：
-
-| $N$ | $S = \sqrt{N^2 + 264^2}$ | $T = \sqrt{N^2 + 420^2}$ | $b = A+B-N$ | $C_1: B^2+b^2=\square$ | $C_2: b^2+A^2=\square$ |
-|-----|--------------------------|--------------------------|-------------|------------------------|------------------------|
-| 77  | 275 | 427 | 607 | ✗ | ✗ |
-| 315 | 411 | 525 | 369 | ✗ | ✗ |
-| 352 | 440 | 548 | 332 | ✗ | ✗ |
-
-所有 concordant $N$ 值均无法同时满足 chain 约束。
-
-### 8.5.1 互素腿 concordant $N$ 的 mod-12 定理 (wl097)
-
-**定理**：设 $\gcd(A,B)=1$，且存在整数使 $N^2+A^2=\square$ 与 $N^2+B^2=\square$（即 $N$ 是 $(A,B)$
-的一个 concordant 值），则 $12 \mid N$。
-
-**证明**。分别证 $3\mid N$ 与 $4\mid N$。
-
-*(a) $3\mid N$.* 平方数模 $3$ 属于 $\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$，则
-$N^2+A^2\equiv 1+1=2\pmod 3$，非平方数，矛盾；故 $3\mid N$ 或 $3\mid A$。同理由 $N^2+B^2=\square$ 得
-$3\mid N$ 或 $3\mid B$。若 $3\nmid N$，则必同时 $3\mid A$ 且 $3\mid B$，与 $\gcd(A,B)=1$ 矛盾。故 $3\mid N$。
-
-*(b) $4\mid N$.* $\gcd(A,B)=1$ 蕴含 $A,B$ 不全为偶，取其中的奇数 $C$，则 $C^2\equiv 1\pmod 8$。平方数模
-$8$ 属于 $\{0,1,4\}$。考查 $N^2+C^2=\square$：$N$ 奇时 $N^2\equiv1$，和 $\equiv2\pmod8$（✗）；$N\equiv2\pmod4$
-时 $N^2\equiv4$，和 $\equiv5\pmod8$（✗）；仅 $N\equiv0\pmod4$ 时 $N^2\equiv0$，和 $\equiv1\pmod8$ 可行。
-故 $4\mid N$。
-
-合并 $(a)(b)$ 得 $12\mid N$。$\blacksquare$
-
-**互素是必要的（边界 = §8.6）**：两步都用到了 $\gcd(A,B)=1$——(a) 阻止 $3$ 同时整除 $A,B$，(b) 保证
-存在奇腿。去掉互素则两步皆塌，定理失效：
-- $(A,B)=(6,15)$（$\gcd=3$，两者皆 $3$ 的倍数）有 concordant $N=8$，$3\nmid 8$（$8^2+6^2=10^2$，$8^2+15^2=17^2$）——(a) 失效；
-- $(A,B)=(8,20)$（$\gcd=4$，两者皆偶）有 concordant $N=15$，$15$ 为奇（$15^2+8^2=17^2$，$15^2+20^2=25^2$）——(b) 失效。
-
-这正是 §8.6 gcd-scaling 漏洞的算术根源：判定器在约化（互素）腿上享有 $12\mid N$，而非互素腿
-$(gA',gB')$ 不受此律约束，其 concordant $N$ 可不被 $12$ 整除、约化后不可见。
-
-**推论（闭合的模障碍）**：互素腿下任意两个 concordant 值满足 $12\mid(N_i\pm N_j)$，故 GEN-CLOSURE
-四关系（§7 注 / wl093）要成立必须 $12\mid(A+B)$ 或 $12\mid|A-B|$。实证：catalog 的 10,333 个互素对里仅
-$30$ 个满足 $12\mid(A+B)$，且这 $30$ 个 closure 仍为 $0$——mod 12 一步排除约 99.7% 的互素对。经验面见
-wl096（>$1.16\times10^6$ 个 concordant $N$ 跨 hyp $\le 5\times10^6$ 与 7M BFS，零例外）。
-
-**与 `safe_sieve` 的关系**：上述推论的 mod-2 / mod-4 部分（$12\mid N_i,N_j$ ⟹ $N_i+N_j$ 必偶且
-$4\mid(N_i+N_j)$ ⟹ 闭合需 $A+B$ 偶且 $4\mid(A+B)$）**逐字就是** `safe_pair_sieve.classify_reduced_pair`
-的两条拒绝规则（`mixed_parity`、`odd_odd_wrong_mod4`）。所以 `safe_sieve` 是本定理的推论，其 soundness
-**仅对互素腿**成立（实证：hyp $\le 2\times10^6$ 内被它拒掉的 222,922 个互素多-N 对，真有 closure 的为 0）。
-非互素腿上它失去依据：both-even 对直接 `pass`，且 mod-12 已塌。
-
-### 8.5.2 非互素腿 concordant $N$ 的 gcd-aware mod-12 定理 (wl098)
-
-§8.5.1 的互素定理只是 $g=1$ 的特例。把同一套 mod-3 / mod-8 论证按「$\gcd(A,B)$ 是否含
-因子 $3$、是否含因子 $4$」重做一遍，得到**适用于任意 $(A,B)$** 的推广。
-
-**定理**：设 $g=\gcd(A,B)$，$N$ 为 $(A,B)$ 的 concordant 值（$N^2+A^2=\square$、$N^2+B^2=\square$）。则
-- 若 $3\nmid g$，则 $3\mid N$；
-- 若 $4\nmid g$，则 $4\mid N$。
-
-特别地 $3\nmid g$ 且 $4\nmid g$ $\Rightarrow$ $12\mid N$；$g=1$ 即 §8.5.1 的互素定理。
-
-**证明**。
-*(a) 3-部分.* 平方数模 $3\in\{0,1\}$。由 $N^2+A^2=\square$：若 $3\nmid N$ 且 $3\nmid A$ 则和 $\equiv 2$（✗），
-故 $3\mid N$ 或 $3\mid A$；同理 $3\mid N$ 或 $3\mid B$。若 $3\nmid N$ 则 $3\mid A$ 且 $3\mid B$，即 $3\mid g$。
-逆否即 $3\nmid g\Rightarrow 3\mid N$。
-
-*(b) 4-部分.* 设 $4\nmid g$，即 $v_2(g)=\min(v_2(A),v_2(B))\le 1$，故存在一条腿 $C$ 使 $v_2(C)\le 1$。
-- $v_2(C)=0$（$C$ 奇）：$C^2\equiv 1\pmod 8$；平方数模 $8\in\{0,1,4\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv2$（✗），
-  $N\equiv2\pmod4\to$ 和 $\equiv5$（✗），仅 $N\equiv0\pmod4$ 时和 $\equiv1$ 可行 $\Rightarrow 4\mid N$。
-- $v_2(C)=1$（$C\equiv2\pmod4$）：$C=2C'$（$C'$ 奇），$C'^2\equiv1\pmod8\Rightarrow C^2=4C'^2\equiv4\pmod{16}$；
-  平方数模 $16\in\{0,1,4,9\}$，看 $N^2+C^2=\square$：$N$ 奇 $\to$ 和 $\equiv5,13$（✗），$N\equiv2\pmod4\to N^2\equiv4$、和 $\equiv8$（✗），
-  仅 $N\equiv0\pmod4$ 时和 $\equiv4$ 可行 $\Rightarrow 4\mid N$。
-
-两种情形皆得 $4\mid N$。$\blacksquare$
-
-**边界**：$3\mid g$ 时 (a) 失效（例 $(6,15)$，$g=3$，$N=8$，$3\nmid8$）；$4\mid g$ 时 (b) 失效
-（例 $(8,20)$，$g=4$，$N=15$，$4\nmid15$）。
-
-**推论（非互素腿按 $g$ 二分）**：当 $\gcd(A,B)$ 与 $12$ 互素（含 $g=2,5,7,10,11,\dots$）时 $12\mid N$ 仍成立，
-故闭合仍需 $12\mid(A+B)$ 或 $12\mid|A-B|$——这一大类非互素腿与互素腿享有**同样的 mod-12 障碍**。
-真正放松约束的只有 $3\mid g$ 或 $4\mid g$ 的子类。于是 §8.6 的硬区被精确缩小到「$g$ 含 $3$ 或 $4$」那部分。
-
-**实证**：wl056 的 $1{,}802$ 个非互素对（$3{,}779$ 个 $N$）+ 独立 brute 重扫 $A<B\le 1200$
-（$8{,}371$ 对 / $9{,}277$ 个 $N$）逐 $N$ 断言，**零反例**；非互素对的实际 GEN-CLOSURE（完整 concordant 集）
-$0$ 命中、`chain_closure` 模 $p^2$ sound-杀 $1645/1802$（wl098）。
-
-**2-adic 精化（wl099）**：当 $v_2(g)=1$（即 $A,B$ 同含恰好一个因子 $2$，最小腿 $\equiv2\pmod4$）时，
-不仅 $4\mid N$，实际 $8\mid N$。证明：取最小腿 $C=2C'$（$C'$ 奇），由主定理 $4\mid N$，写 $N=4m$；
-$N^2+C^2=h^2\Rightarrow 16m^2+4C'^2=h^2\Rightarrow h=2h'$，$h'^2=4m^2+C'^2$。$C'$ 奇 $\Rightarrow C'^2\equiv1\pmod8$；
-若 $m$ 奇则 $4m^2\equiv4\pmod8$，$h'^2\equiv5\pmod8$（非 QR ✗）$\Rightarrow m$ 偶 $\Rightarrow 8\mid N$。$\blacksquare$
-（$v_2(g)=0$ 时为 $4\mid N$ 且紧；$v_2(g)\ge2$ 时 $N$ 可为奇 — 实测各层 $\min v_2(N)$ 恰为 $2,3$，$\ge2$ 层有奇 $N$。
-mod 9 / mod 27 也无法在 $3\mid g$ 层补回 $3\mid N$：$v_3(g)=1$ 层仅 $\approx45\%$ 仍 $3\mid N$。**故 prime-level 律到顶**。）
-
-**保证除数 $D_g$ 与 sound 的 gcd-aware 闭合筛（wl099）**：综合上述，每个 concordant $N$ 被
-$$D_g=P_2(g)\cdot P_3(g),\quad P_2(g)=\begin{cases}4&v_2(g)=0\\8&v_2(g)=1\\1&v_2(g)\ge2\end{cases},\quad P_3(g)=\begin{cases}3&v_3(g)=0\\1&v_3(g)\ge1\end{cases}$$
-整除（$g=1\Rightarrow D_g=12$，回到 §8.5.1；$g=2\Rightarrow D_g=24$）。于是任意闭合值 $N_i\pm N_j$ 被 $D_g$ 整除，
-闭合**必须** $D_g\mid(A+B)$（正方形内 sum）或 $D_g\mid|A-B|$（全平面）。这给出一条**对任意 $(A,B)$ sound**
-的筛 `safe_pair_sieve.gcd_aware_kills`（互素时即旧 `safe_sieve`）。
-
-实证（1,802 非互素对）：$D_g\mid N$ **零反例**（+ brute $A<B\le1200$ 零反例）；$D_g$ 筛（$O(1)$）杀 $1138$，
-其中 **$73$ 个是 `chain_closure` 模 $p^2$ 漏掉的**（互补）；二者并联后仅 $84$ 个落到穷尽 GEN-CLOSURE（$0$ 闭合）。
-$D_g$ 取值杀数：$\{3{:}408,\,4{:}367,\,8{:}132,\,12{:}133,\,24{:}98\}$。
-
-### 8.6 gcd 归约 与「coprime-$(A,B)$ 并非 WLOG」警告
-
-$E_{kA, kB} \cong E_{A, B}$（经 $(X, Y) \to (X/k^2, Y/k^3)$ 同构），
-因此**秩**不变。但 concordant $N$ 值依赖于具体的 $(A, B)$：
-$(kA, kB)$ 的 concordant $N$ 不是 $k$ 的倍数时，在归约后的曲线上不可见。
-
-**⚠️ 由此推出一个必须显式记录的限制：把搜索 / 筛限制在 $\gcd(A,B)=1$ 上「并非 WLOG」。**
-反例是整数方形配置，整体放缩时四个量同乘一个因子，故**最小**反例只保证四数整体互素
-$\gcd(A,B,N_1,N_2)=1$，**推不出** $\gcd(A,B)=1$。§7 中 $A=q_1q_2$、$B=p_1p_2$ 是两个本原三元组的腿积，
-跨三元组的公因子可让 $\gcd(A,B)>1$ 同时仍 $\gcd(A,B,N_1,N_2)=1$（例：$A,B$ 皆偶而某 $N$ 为奇）。
-因此 $\gcd(A,B)=1$ 是**搜索空间的归一化选择**，不是无损归约；非互素 $(A,B)$ 半空间未被
-「先枚举互素 $(A,B)$ 再筛」（`generate_ab_pairs` / `fast_multi_concordant_pairs` 只产约化互素对）这条线
-覆盖——这正是 §8.6 漏洞，与 §8.5.1 的 mod-12 定理只在互素腿成立、`safe_sieve` 只在互素腿 sound 是**同一件事**。
-**覆盖全的方向是直接生成 multi-N pair**（partner 图 / 穷举扫描，wl058–wl096）：它天然把非互素 $(A,B)$
-收入顶点集（7M BFS 的 comp0 即 99.5% 为非互素），故 closure 经验扫描其实覆盖了非互素半空间（到 7M 仍 0 命中）；
-缺的只是一个**覆盖非互素腿的解析证明**。
-
-**§8.6 残余的结构（wl100）**：在 1,802 个非互素多-N 对上跑 sound 三段筛
-`gcd_aware_kills (D_g) → chain_closure 模 p² → GEN-CLOSURE`：$D_g$ 筛 + STANDARD 模筛后剩 $84$，
-其中 $64$ 个被**任何模数都杀不掉**（$p^2\le300$ + 素数幂共 $74$ 个模），即闭合同余在**每个模下都局部可解**——
-这是真正的**局部-整体（local-global）gap**，故任何 mod-$p^k$ 筛都无法清掉它，与模方法的能力上限有关，不是筛没调好。
-但这批残余的完整 concordant 集极小（$57$ 个恰 $2$ 个 $N$、$6$ 个 $3$ 个、$1$ 个 $4$ 个；$39/64$ 满足 $12\mid g$，
-此时 $D_g=1$ 整除性失效），故 **GEN-CLOSURE（完整整数枚举）开箱即用、sound、$0.05$ ms/对、$0$ 闭合**。
-**结论**：模筛只是 $O(1)$/$O(\text{素数})$ 的预筛（杀 $1718/1802$），GEN-CLOSURE 才是 sound 完备判定器，
-且因残余 concordant 集极小而廉价——这正是大规模扫描应采用的三段管线。
-
-### 8.7 实现
-
-- `src/rational_distance/concordant/analysis.py`：通过 `cypari2` (PARI/GP) 计算秩、
-  生成元，并搜索 concordant $N$
-- `src/rational_distance/concordant/pairs.py`：从 chain-fast 的三元组对构造提取去重原始 $(A, B)$ 对
-- `src/rational_distance/concordant/workflow.py`：把单对分析、批量诊断和 CLI 流程串起来
-- `src/rational_distance/concordant_ec.py` 与 `src/rational_distance/pair_generator.py`：
-  仍保留为旧导入路径的兼容入口
-- CLI：`scripts/search.py concordant --pair 264,420 --ec-bound 400000`
+若 global Selmer dimension bound 做不出来，继续增加 certificate count、required count 或局部 package 数，都只是材料堆积，不是 Harborth 全局证明。
