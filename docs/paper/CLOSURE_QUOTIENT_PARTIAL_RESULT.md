@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 488
+artifact_status.required_file_count = 492
 artifact_status.missing_file_count = 0
 ```
 
@@ -1137,6 +1137,31 @@ family_exclusion_proved_count = 0
 This fixes the next proof order without claiming completion: rank-zero family
 theorems first, root-number/rank structure second, strict two-cover certificates
 third.
+
+Audit lambda structural handoff:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_structural_handoff.py \
+  --c-ratio-coverage results/closure_quotient_c_ratio_coverage_audit.json \
+  --lambda-frontier results/closure_quotient_lambda_frontier.json \
+  --route-partition results/closure_quotient_lambda_route_partition_audit.json \
+  --convergence-priorities results/closure_quotient_lambda_convergence_priorities.json \
+  --out results/closure_quotient_lambda_structural_handoff_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+lambda_structural_handoff_ready = True
+orientation_gap_class_count = 356
+handed_to_structural_route_count = 356
+unhandled_orientation_gap_count = 0
+family_exclusion_proved_count = 0
+```
+
+This verifies that all c-ratio orientation gaps have been routed to lambda-level
+structural proof work. It does not prove any lambda-family exclusion.
 
 Audit rank-zero family obligations:
 
@@ -2421,6 +2446,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 488
+required_file_count = 492
 missing_files = []
 ```

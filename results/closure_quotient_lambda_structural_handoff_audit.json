@@ -1,0 +1,59 @@
+{
+  "boundary": "This audits that c_+/c_- orientation gaps are handed off to lambda-level structural routes. It does not prove any lambda-family exclusion, add no-point certificates, or count search growth as progress.",
+  "checks": {
+    "c_ratio_coverage_ready": true,
+    "convergence_priorities_ready": true,
+    "family_exclusion_claim_count_zero": true,
+    "lambda_frontier_ready": true,
+    "orientation_gap_classes_handled": true,
+    "route_partition_ready_for_handoff": true
+  },
+  "closure_quotient_promoted_to_lambda_proof": false,
+  "convergence_complete": false,
+  "family_exclusion_proved_count": 0,
+  "handed_to_structural_route_count": 356,
+  "handoff_rows": [
+    {
+      "acceptable_evidence": "family rank-zero proof over oriented lambda classes",
+      "class_count": 200,
+      "family_exclusion_proved": false,
+      "priority": 1,
+      "route": "rank_zero",
+      "structural_goal": "rank-zero primitive lambda family theorem"
+    },
+    {
+      "acceptable_evidence": "root-number/parity plus rank or descent theorem",
+      "class_count": 148,
+      "family_exclusion_proved": false,
+      "priority": 2,
+      "route": "root_number",
+      "structural_goal": "family rank or descent argument beyond parity data"
+    },
+    {
+      "acceptable_evidence": "family 2-cover/Selmer obstruction or reviewable no-point certificates",
+      "class_count": 8,
+      "family_exclusion_proved": false,
+      "priority": 3,
+      "route": "two_cover",
+      "structural_goal": "family 2-cover obstruction or cover-level no-point certificates"
+    }
+  ],
+  "lambda_structural_handoff_ready": true,
+  "no_point_certificate_added_count": 0,
+  "orientation_gap_class_count": 356,
+  "priority_order": [
+    "rank_zero",
+    "root_number",
+    "two_cover"
+  ],
+  "ready": true,
+  "route_counts": {
+    "rank-zero-family-generalization": 200,
+    "root-number-rank-structure-triage": 148,
+    "two-cover-or-reviewable-no-point-certificate": 8
+  },
+  "search_count_used_as_progress": false,
+  "status": "ok",
+  "unhandled_orientation_gap_count": 0,
+  "violations": []
+}

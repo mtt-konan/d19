@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=488
+artifact_status.required_file_count=492
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1166,6 +1166,33 @@ family_exclusion_proved_count=0
 
 普通话说：下一步先攻 rank-zero 的 3 个整族模式；root-number 只能当结构路线，
 不能单独证明无点；two-cover 只接受 family obstruction 或逐 cover 的可审阅 no-point 证书。
+
+Lambda structural handoff audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_lambda_structural_handoff.py \
+  --c-ratio-coverage results/closure_quotient_c_ratio_coverage_audit.json \
+  --lambda-frontier results/closure_quotient_lambda_frontier.json \
+  --route-partition results/closure_quotient_lambda_route_partition_audit.json \
+  --convergence-priorities results/closure_quotient_lambda_convergence_priorities.json \
+  --out results/closure_quotient_lambda_structural_handoff_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+lambda_structural_handoff_ready=True
+orientation_gap_class_count=356
+handed_to_structural_route_count=356
+unhandled_orientation_gap_count=0
+family_exclusion_proved_count=0
+```
+
+普通话说：`c_+/c_-` 留下的 356 个方向缺口已经全部交给 λ 层面的结构路线：
+200 个走 rank-zero family theorem，148 个走 root-number/rank/descent 结构，
+8 个走 two-cover obstruction 或可审阅 no-point certificate。这个 handoff 只证明路线
+交接完整，不证明任何 λ 整族排除。
 
 Lambda route partition audit：
 

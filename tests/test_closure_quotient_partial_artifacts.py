@@ -139,6 +139,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert "scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_route_partition.py" in paths
+    assert "scripts/theory/audit_closure_quotient_lambda_structural_handoff.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_mainline.py" in paths
     assert "scripts/theory/audit_closure_quotient_lambda_proof_seed_coverage.py" in paths
     assert (
@@ -289,6 +290,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_two_cover_lambda_frontier.py" in paths
     assert "tests/test_closure_quotient_two_cover_proof_seeds.py" in paths
     assert "tests/test_closure_quotient_lambda_route_partition.py" in paths
+    assert "tests/test_closure_quotient_lambda_structural_handoff.py" in paths
     assert "tests/test_closure_quotient_lambda_mainline_gate.py" in paths
     assert "tests/test_closure_quotient_lambda_proof_seed_coverage.py" in paths
     assert "tests/test_closure_quotient_lambda_convergence_priorities.py" in paths
@@ -439,6 +441,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/378-lambda-proof-seed-coverage.md" in paths
     assert "docs/work-logs/379-lambda-mainline-proof-seed-gate.md" in paths
     assert "docs/work-logs/380-lambda-convergence-priorities.md" in paths
+    assert "docs/work-logs/409-closure-quotient-lambda-structural-handoff.md" in paths
     assert "docs/work-logs/381-rank-zero-family-obligations.md" in paths
     assert "docs/work-logs/382-rank-zero-symbolic-descent-inputs.md" in paths
     assert "docs/work-logs/383-rank-zero-isogeny-templates.md" in paths
@@ -492,6 +495,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_two_cover_lambda_frontier.json" in paths
     assert "results/closure_quotient_two_cover_proof_seeds.json" in paths
     assert "results/closure_quotient_lambda_route_partition_audit.json" in paths
+    assert "results/closure_quotient_lambda_structural_handoff_audit.json" in paths
     assert "results/closure_quotient_lambda_mainline_audit.json" in paths
     assert "results/closure_quotient_lambda_proof_seed_coverage_audit.json" in paths
     assert "results/closure_quotient_lambda_convergence_priorities.json" in paths

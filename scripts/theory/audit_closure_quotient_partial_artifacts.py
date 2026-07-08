@@ -210,6 +210,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
         "scripts/theory/summarize_closure_quotient_two_cover_proof_seeds.py",
     ),
     Artifact("script", "scripts/theory/audit_closure_quotient_lambda_route_partition.py"),
+    Artifact(
+        "script",
+        "scripts/theory/audit_closure_quotient_lambda_structural_handoff.py",
+    ),
     Artifact("script", "scripts/theory/audit_closure_quotient_lambda_mainline.py"),
     Artifact("script", "scripts/theory/audit_closure_quotient_lambda_proof_seed_coverage.py"),
     Artifact(
@@ -363,6 +367,7 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("test", "tests/test_closure_quotient_two_cover_lambda_frontier.py"),
     Artifact("test", "tests/test_closure_quotient_two_cover_proof_seeds.py"),
     Artifact("test", "tests/test_closure_quotient_lambda_route_partition.py"),
+    Artifact("test", "tests/test_closure_quotient_lambda_structural_handoff.py"),
     Artifact("test", "tests/test_closure_quotient_lambda_mainline_gate.py"),
     Artifact("test", "tests/test_closure_quotient_lambda_proof_seed_coverage.py"),
     Artifact("test", "tests/test_closure_quotient_lambda_convergence_priorities.py"),
@@ -464,6 +469,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("worklog", "docs/work-logs/378-lambda-proof-seed-coverage.md"),
     Artifact("worklog", "docs/work-logs/379-lambda-mainline-proof-seed-gate.md"),
     Artifact("worklog", "docs/work-logs/380-lambda-convergence-priorities.md"),
+    Artifact(
+        "worklog",
+        "docs/work-logs/409-closure-quotient-lambda-structural-handoff.md",
+    ),
     Artifact("worklog", "docs/work-logs/381-rank-zero-family-obligations.md"),
     Artifact("worklog", "docs/work-logs/382-rank-zero-symbolic-descent-inputs.md"),
     Artifact("worklog", "docs/work-logs/383-rank-zero-isogeny-templates.md"),
@@ -867,6 +876,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact("result", "results/closure_quotient_two_cover_lambda_frontier.json"),
     Artifact("result", "results/closure_quotient_two_cover_proof_seeds.json"),
     Artifact("result", "results/closure_quotient_lambda_route_partition_audit.json"),
+    Artifact(
+        "result",
+        "results/closure_quotient_lambda_structural_handoff_audit.json",
+    ),
     Artifact("result", "results/closure_quotient_lambda_mainline_audit.json"),
     Artifact("result", "results/closure_quotient_lambda_proof_seed_coverage_audit.json"),
     Artifact("result", "results/closure_quotient_lambda_convergence_priorities.json"),
