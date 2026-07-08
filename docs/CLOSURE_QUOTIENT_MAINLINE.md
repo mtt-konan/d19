@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=460
+artifact_status.required_file_count=464
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1833,6 +1833,31 @@ local_image_schema_proved_count=0
 普通话说：节点附近但不等于节点中心的局部点，不需要新搜索；它们已经被
 non-node 恒等式控制。剩下的问题更窄：节点中心的 formal lift / compatibility，
 以及 tangent squareclass `-1` 的两个 schema。
+
+Rank-zero Selmer tangent-one reduction-partition audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json \
+  --punctured-nodes results/closure_quotient_rank_zero_selmer_tangent_one_punctured_nodes.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+reduction_partition_count=2
+reduction_partition_exhausted_count=2
+formal_lift_compatibility_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：reduction 层已经收成两个候选集合：`Y^2=X*(X-1)^2` 追踪 `X` 时只剩
+平凡平方类；`Y^2=X^2*(X-1)` 追踪 `X-1` 时候选是平凡平方类和 `-1`。这只是
+reduction-level ledger，还没证明这些候选能作为原曲线的 local image 定理。
 
 Rank-zero Selmer transcript intake audit：
 

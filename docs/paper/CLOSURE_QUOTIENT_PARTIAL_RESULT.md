@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 460
+artifact_status.required_file_count = 464
 artifact_status.missing_file_count = 0
 ```
 
@@ -1556,6 +1556,32 @@ local_image_schema_proved_count = 0
 The punctured neighborhoods of the tangent-one nodes are controlled by the
 non-node identities. This narrows the remaining tangent-one gap to node-center
 formal lift compatibility; it still does not prove the local-image theorem.
+
+Audit rank-zero Selmer tangent-one reduction partition:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.py \
+  --nonnode-branches results/closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.json \
+  --node-values results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json \
+  --punctured-nodes results/closure_quotient_rank_zero_selmer_tangent_one_punctured_nodes.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_reduction_partition.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+reduction_partition_count = 2
+reduction_partition_exhausted_count = 2
+formal_lift_compatibility_proved_count = 0
+local_image_schema_proved_count = 0
+```
+
+At the reduction level, the tangent-one standard models now have candidate
+squareclass sets `{trivial}` for tracked `X` on `Y^2 = X*(X - 1)^2`, and
+`{trivial, -1}` for tracked `X - 1` on `Y^2 = X^2*(X - 1)`. This remains a
+reduction-level ledger, not a local-image theorem.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2242,6 +2268,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 460
+required_file_count = 464
 missing_files = []
 ```
