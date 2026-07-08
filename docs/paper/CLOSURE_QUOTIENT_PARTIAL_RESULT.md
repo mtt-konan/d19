@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 452
+artifact_status.required_file_count = 456
 artifact_status.missing_file_count = 0
 ```
 
@@ -1506,6 +1506,31 @@ On `Y^2 = X*(X - 1)^2`, every branch with `X - 1 != 0` gives
 `X = (Y/(X - 1))^2`. On `Y^2 = X^2*(X - 1)`, every branch with `X != 0`
 gives `X - 1 = (Y/X)^2`. These cover the non-node tangent-one branches,
 but they are still not the local-image theorem.
+
+Audit rank-zero Selmer tangent-one node values:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_node_values.py \
+  --tangent-one-normal-forms results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_normal_form_count = 2
+node_value_count = 2
+node_reduction_value_proved_count = 2
+node_local_lift_analysis_proved_count = 0
+local_image_schema_proved_count = 0
+```
+
+The node values are reduction-level data: `(X,Y)=(1,0)` gives `X=1` on
+`Y^2 = X*(X - 1)^2`, and `(X,Y)=(0,0)` gives `X-1=-1` on
+`Y^2 = X^2*(X - 1)`. This does not prove the local squareclass image for
+local points lifting to the node.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2192,6 +2217,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 452
+required_file_count = 456
 missing_files = []
 ```

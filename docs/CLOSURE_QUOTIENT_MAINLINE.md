@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=452
+artifact_status.required_file_count=456
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1783,6 +1783,31 @@ local_image_schema_proved_count=0
 `X-1 != 0`，就有 `X=(Y/(X-1))^2`；第二个标准模型只要 `X != 0`，就有
 `X-1=(Y/X)^2`。所以两个 tangent-one 标准模型的非节点分支已经有平方类结论。
 还没有覆盖的是节点分支本身，以及 tangent squareclass `-1` 的两个 schema。
+
+Rank-zero Selmer tangent-one node-value audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_node_values.py \
+  --tangent-one-normal-forms results/closure_quotient_rank_zero_selmer_odd_prime_tangent_one_normal_forms.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_normal_form_count=2
+node_value_count=2
+node_reduction_value_proved_count=2
+node_local_lift_analysis_proved_count=0
+local_image_schema_proved_count=0
+```
+
+普通话说：两个节点本身的 reduction 值可以直接记录：第一个标准模型节点是
+`(X,Y)=(1,0)`，所以 `X=1`；第二个标准模型节点是 `(X,Y)=(0,0)`，所以
+`X-1=-1`。这还不是局部像证明，因为真正要分析的是原光滑曲线中约化到节点
+附近的局部点。
 
 Rank-zero Selmer transcript intake audit：
 

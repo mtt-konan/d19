@@ -1,0 +1,46 @@
+{
+  "boundary": "This audits reduction-level node values on the tangent-one standard nodal models. It proves only the displayed node coordinates and coordinate values; it does not prove node lift analysis, a local image, local condition, Selmer rank bound, or lambda-family exclusion.",
+  "family_exclusion_proved_count": 0,
+  "input_normal_form_count": 2,
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "node_local_lift_analysis_proved_count": 0,
+  "node_reduction_value_proved_count": 2,
+  "node_value_count": 2,
+  "node_value_entries": [
+    {
+      "coordinate_value": "X = 1",
+      "local_lift_analysis_proved": false,
+      "node_coordinates": {
+        "X": "1",
+        "Y": "0"
+      },
+      "node_id": "tangent-one-nonzero-double-root-node",
+      "node_reduction_value_proved": true,
+      "remaining_gap": "formal neighborhood of the node and tangent-squareclass -1 schemas",
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent-1",
+      "squareclass_value": "trivial",
+      "standard_model": "Y^2 = X*(X - 1)^2"
+    },
+    {
+      "coordinate_value": "X - 1 = -1",
+      "local_lift_analysis_proved": false,
+      "node_coordinates": {
+        "X": "0",
+        "Y": "0"
+      },
+      "node_id": "tangent-one-zero-double-root-node",
+      "node_reduction_value_proved": true,
+      "remaining_gap": "formal neighborhood of the node and tangent-squareclass -1 schemas",
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent-1",
+      "squareclass_value": "-1",
+      "standard_model": "Y^2 = X^2*(X - 1)"
+    }
+  ],
+  "node_values_not_local_images": true,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}

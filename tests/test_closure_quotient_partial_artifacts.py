@@ -212,6 +212,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.py"
         in paths
     )
+    assert (
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_one_node_values.py"
+        in paths
+    )
     assert "scripts/theory/sage_probe_mixed_closure_local_witnesses.py" in paths
     assert "scripts/theory/summarize_mixed_closure_residual_selmer_gaps.py" in paths
     assert "tests/test_mixed_closure_priority_handoff_audit.py" in paths
@@ -300,6 +304,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "tests/test_closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.py"
+        in paths
+    )
+    assert (
+        "tests/test_closure_quotient_rank_zero_selmer_tangent_one_node_values.py"
         in paths
     )
     assert "tests/test_sage_probe_mixed_closure_local_witnesses.py" in paths
@@ -391,6 +399,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/397-rank-zero-selmer-tangent-one-normal-forms.md" in paths
     assert "docs/work-logs/398-rank-zero-selmer-tangent-one-unit-branch.md" in paths
     assert "docs/work-logs/399-rank-zero-selmer-tangent-one-nonnode-branches.md" in paths
+    assert "docs/work-logs/400-rank-zero-selmer-tangent-one-node-values.md" in paths
     assert "results/mixed_closure_priority_handoff_audit_top4.json" in paths
     assert "results/mixed_closure_aabb_residual_local_witnesses.json" in paths
     assert "results/mixed_closure_residual_selmer_gap_ledger.json" in paths
@@ -462,6 +471,10 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     )
     assert (
         "results/closure_quotient_rank_zero_selmer_tangent_one_nonnode_branches.json"
+        in paths
+    )
+    assert (
+        "results/closure_quotient_rank_zero_selmer_tangent_one_node_values.json"
         in paths
     )
     for package_id in [
