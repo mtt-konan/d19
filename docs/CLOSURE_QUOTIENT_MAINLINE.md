@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=464
+artifact_status.required_file_count=468
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1859,6 +1859,29 @@ local_image_schema_proved_count=0
 平凡平方类；`Y^2=X^2*(1-X)` 追踪 `1-X` 时也只剩平凡平方类。这里顺手修正了
 早前把第二个标准形写成 `X^2*(X-1)` 的符号错误。这只是
 reduction-level ledger，还没证明这些候选能作为原曲线的 local image 定理。
+
+Rank-zero Selmer tangent-minus-one normal-form audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.py \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+input_schema_count=4
+tangent_minus_one_schema_count=2
+normal_form_proved_count=2
+local_image_schema_proved_count=0
+```
+
+普通话说：tangent squareclass `-1` 的两个 schema 也能正规化，但必须保留一个
+nonsquare unit `nu`：非零双根标准族是 `Y^2=nu*X*(X-1)^2`，零双根标准族是
+`Y^2=nu*X^2*(1-X)`。这不是 tangent-one 情况，也还不是 local image 定理。
 
 Rank-zero Selmer transcript intake audit：
 

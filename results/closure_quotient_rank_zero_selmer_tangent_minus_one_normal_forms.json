@@ -1,0 +1,45 @@
+{
+  "boundary": "This audits normal-form reductions for tangent-squareclass-minus-one odd-prime local-image schemas. It absorbs only the square-unit part and retains a nonsquare unit parameter nu; it does not prove local images, local conditions, Selmer rank bounds, or lambda-family exclusions.",
+  "family_exclusion_proved_count": 0,
+  "input_schema_count": 4,
+  "local_condition_proved_count": 0,
+  "local_image_schema_proved_count": 0,
+  "nonsquare_parameter_retained": true,
+  "normal_form_count": 2,
+  "normal_form_entries": [
+    {
+      "coordinate_change": "x = nu*u^2*X, y = nu*u^3*Y",
+      "local_image_schema_proved": false,
+      "next_gap": "compute the 2-isogeny local squareclass image with nonsquare unit parameter nu",
+      "nodal_reduction_shape": "nodal-cubic-with-nonzero-double-root",
+      "nonsquare_unit_parameter": "nu",
+      "normal_form_proved": true,
+      "schema_id": "odd-prime-local-image-nonzero-double-root-tangent--1",
+      "source_model_shape": "y^2 = x*(x-r)^2 with r a local unit and tangent squareclass -1",
+      "standard_model": "Y^2 = nu*X*(X - 1)^2",
+      "tangent_squareclass": "-1",
+      "unit_square_root_required": "choose u with u^2 = r/nu"
+    },
+    {
+      "coordinate_change": "x = -nu*u^2*X, y = nu*u^3*Y",
+      "local_image_schema_proved": false,
+      "next_gap": "compute the 2-isogeny local squareclass image with nonsquare unit parameter nu",
+      "nodal_reduction_shape": "nodal-cubic-with-zero-double-root",
+      "nonsquare_unit_parameter": "nu",
+      "normal_form_proved": true,
+      "schema_id": "odd-prime-local-image-zero-double-root-tangent--1",
+      "source_model_shape": "y^2 = x^2*(x-s) with s a local unit and tangent squareclass -1",
+      "standard_model": "Y^2 = nu*X^2*(1 - X)",
+      "tangent_squareclass": "-1",
+      "unit_square_root_required": "choose u with u^2 = (-s)/nu"
+    }
+  ],
+  "normal_form_proved_count": 2,
+  "normal_forms_not_local_images": true,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "tangent_minus_one_schema_count": 2,
+  "violations": []
+}

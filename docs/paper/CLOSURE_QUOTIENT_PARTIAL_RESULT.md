@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 464
+artifact_status.required_file_count = 468
 artifact_status.missing_file_count = 0
 ```
 
@@ -1583,6 +1583,30 @@ squareclass sets `{trivial}` for tracked `X` on `Y^2 = X*(X - 1)^2`, and
 `{trivial}` for tracked `1 - X` on `Y^2 = X^2*(1 - X)`. This also corrects
 the earlier sign convention for the zero-double-root tangent-one normal form;
 it remains a reduction-level ledger, not a local-image theorem.
+
+Audit rank-zero Selmer tangent-minus-one normal forms:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.py \
+  --odd-prime-local-image-schemas results/closure_quotient_rank_zero_selmer_odd_prime_local_image_schemas.json \
+  --out results/closure_quotient_rank_zero_selmer_tangent_minus_one_normal_forms.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+input_schema_count = 4
+tangent_minus_one_schema_count = 2
+normal_form_proved_count = 2
+local_image_schema_proved_count = 0
+```
+
+For tangent squareclass `-1`, the square-unit part can be normalized only after
+retaining a nonsquare unit parameter `nu`: the two standard families are
+`Y^2 = nu*X*(X - 1)^2` and `Y^2 = nu*X^2*(1 - X)`. This is not a local-image
+theorem.
 
 Audit rank-zero Selmer transcript intake:
 
@@ -2269,6 +2293,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 464
+required_file_count = 468
 missing_files = []
 ```
