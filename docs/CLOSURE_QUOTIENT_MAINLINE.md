@@ -3082,6 +3082,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl425](work-logs/425-aa-neg-kernel-odd-prime-formal-lifts.md)
 - [wl426](work-logs/426-aa-family-odd-prime-local-image-matrix.md)
 - [wl427](work-logs/427-aa-family-odd-support-separation.md)
+- [wl428](work-logs/428-aa-family-odd-support-dimension-bound.md)
 
 ## AA family odd-prime local image matrix
 
@@ -3130,6 +3131,20 @@ Boundary: this is still not a Selmer rank bound. Before dyadic and global
 relations, the possible odd support can still grow with
 `omega(T^2+4L^2)`, `omega(L)`, and the number of `ell == 1 mod 4` primes
 dividing `T`.
+
+## AA family odd support dimension bound
+
+Let `D = T^2 + 4*L^2`. The odd-valuation part of the three-kernel Selmer
+candidate space has dimension at most
+
+```text
+omega_odd(D) + omega_{1 mod 4}(T) + omega_odd(L).
+```
+
+This follows because the three possible odd support sets are disjoint and
+each allowed odd prime contributes at most one F2 valuation-parity coordinate.
+普通话说：奇素数这部分已经被压成一个明确上界；但它还不是总 Selmer rank，因为
+`2`、单位符号、三 kernel 之间的全局关系都还没进来。
 
 数学总入口：
 
