@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 508
+artifact_status.required_file_count = 512
 artifact_status.missing_file_count = 0
 ```
 
@@ -1401,6 +1401,30 @@ shared_isogeny_setup_template_count = 3
 The `isogeny_setup` transcript section also collapses to 3 shared kernel
 templates. This reduces transcript duplication but does not prove a Selmer
 bound.
+
+Audit rank-zero Selmer family-conclusion templates:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py \
+  --selmer-obligations results/closure_quotient_rank_zero_selmer_obligations.json \
+  --transcript-bridge results/closure_quotient_rank_zero_selmer_transcript_bridge.json \
+  --out results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+family_conclusion_template_count = 3
+kernel_bound_package_count = 9
+open_family_conclusion_count = 3
+rank_zero_conclusion_proved_count = 0
+```
+
+The `rank_zero_conclusion` transcript field aggregates at the family level:
+`AA`, `AA+BB`, and `BB` each require all three kernel-bound packages. All three
+family conclusions remain open.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2427,6 +2451,7 @@ scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_bridge.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
@@ -2556,6 +2581,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 508
+required_file_count = 512
 missing_files = []
 ```

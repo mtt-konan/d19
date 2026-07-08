@@ -1,0 +1,93 @@
+{
+  "boundary": "This audits how package-level isogeny-Selmer bound tasks aggregate into family-level rank-zero conclusion templates. It does not prove a Selmer rank bound, prove rank zero, or prove any lambda-family exclusion.",
+  "family_conclusion_template_count": 3,
+  "family_conclusion_templates": [
+    {
+      "candidate_class_count": 82,
+      "family_pattern": "AA",
+      "model_count": 82,
+      "rank_zero_conclusion_proved": false,
+      "rank_zero_conclusion_ready": false,
+      "remaining_transcript_field": "rank_zero_conclusion",
+      "required_kernel_bound_packages": [
+        {
+          "kernel": "kernel_minus_p",
+          "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_neg_2sqrt_q",
+          "package_id": "rank-zero-selmer-AA-kernel-neg-2sqrt-q",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_pos_2sqrt_q",
+          "package_id": "rank-zero-selmer-AA-kernel-pos-2sqrt-q",
+          "transcript_package_ready": false
+        }
+      ],
+      "required_kernel_count": 3
+    },
+    {
+      "candidate_class_count": 43,
+      "family_pattern": "AA+BB",
+      "model_count": 86,
+      "rank_zero_conclusion_proved": false,
+      "rank_zero_conclusion_ready": false,
+      "remaining_transcript_field": "rank_zero_conclusion",
+      "required_kernel_bound_packages": [
+        {
+          "kernel": "kernel_minus_p",
+          "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_neg_2sqrt_q",
+          "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_pos_2sqrt_q",
+          "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+          "transcript_package_ready": false
+        }
+      ],
+      "required_kernel_count": 3
+    },
+    {
+      "candidate_class_count": 75,
+      "family_pattern": "BB",
+      "model_count": 75,
+      "rank_zero_conclusion_proved": false,
+      "rank_zero_conclusion_ready": false,
+      "remaining_transcript_field": "rank_zero_conclusion",
+      "required_kernel_bound_packages": [
+        {
+          "kernel": "kernel_minus_p",
+          "package_id": "rank-zero-selmer-BB-kernel-minus-p",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_neg_2sqrt_q",
+          "package_id": "rank-zero-selmer-BB-kernel-neg-2sqrt-q",
+          "transcript_package_ready": false
+        },
+        {
+          "kernel": "kernel_pos_2sqrt_q",
+          "package_id": "rank-zero-selmer-BB-kernel-pos-2sqrt-q",
+          "transcript_package_ready": false
+        }
+      ],
+      "required_kernel_count": 3
+    }
+  ],
+  "family_exclusion_proved_count": 0,
+  "kernel_bound_package_count": 9,
+  "open_family_conclusion_count": 3,
+  "rank_zero_conclusion_proved_count": 0,
+  "ready": true,
+  "search_count_used_as_progress": false,
+  "selmer_rank_upper_bound_proved_count": 0,
+  "status": "ok",
+  "violations": []
+}

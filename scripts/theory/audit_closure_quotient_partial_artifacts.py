@@ -139,6 +139,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     ),
     Artifact(
         "script",
+        "scripts/theory/audit_closure_quotient_rank_zero_selmer_family_conclusion_templates.py",
+    ),
+    Artifact(
+        "script",
         "scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py",
     ),
     Artifact(
@@ -321,6 +325,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "test",
         "tests/test_closure_quotient_rank_zero_selmer_isogeny_setup_templates.py",
+    ),
+    Artifact(
+        "test",
+        "tests/test_closure_quotient_rank_zero_selmer_family_conclusion_templates.py",
     ),
     Artifact(
         "test",
@@ -520,6 +528,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "worklog",
         "docs/work-logs/413-rank-zero-selmer-isogeny-setup-templates.md",
+    ),
+    Artifact(
+        "worklog",
+        "docs/work-logs/414-rank-zero-selmer-family-conclusion-templates.md",
     ),
     Artifact("worklog", "docs/work-logs/381-rank-zero-family-obligations.md"),
     Artifact("worklog", "docs/work-logs/382-rank-zero-symbolic-descent-inputs.md"),
@@ -790,6 +802,10 @@ DEFAULT_REQUIRED_ARTIFACTS: tuple[Artifact, ...] = (
     Artifact(
         "result",
         "results/closure_quotient_rank_zero_selmer_isogeny_setup_templates.json",
+    ),
+    Artifact(
+        "result",
+        "results/closure_quotient_rank_zero_selmer_family_conclusion_templates.json",
     ),
     Artifact(
         "result",
