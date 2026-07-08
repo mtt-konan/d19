@@ -71,6 +71,37 @@ def _write_packages(root: Path) -> None:
         )
 
 
+def _write_partial_package(root: Path, package_id: str) -> None:
+    payload = {
+        "package_id": package_id,
+        "status": "open",
+        "transcript_status": "partial",
+        "required_transcript_fields": [
+            "statement",
+            "isogeny_setup",
+            "local_squareclass_conditions",
+            "selmer_bound_argument",
+            "rank_zero_conclusion",
+            "review_notes",
+        ],
+        "reviewable_segments": [
+            {
+                "required_field": "selmer_bound_argument",
+                "proof_section": "formal_lift_compatibility",
+                "segment_status": "reviewable-proof",
+                "proof_path": "docs/work-logs/example-proof.md",
+                "segment_scope": "odd-prime only",
+                "summary": "odd-prime segment only",
+            }
+        ],
+        "selmer_rank_upper_bound_proved": False,
+        "family_exclusion_proved": False,
+    }
+    (
+        root / "packages" / f"{package_id}.json"
+    ).write_text(json.dumps(payload), encoding="utf-8")
+
+
 def _transcript_index(transcript_path: Path) -> dict[str, object]:
     return {
         "packages": [
@@ -112,6 +143,7 @@ def test_transcript_intake_without_index_keeps_all_packages_open(tmp_path: Path)
         "strict_promotion_count": 0,
         "selmer_rank_upper_bound_proved_count": 0,
         "family_exclusion_proved_count": 0,
+        "packages_with_reviewable_segment_count": 0,
         "candidate_not_proof": True,
         "proof_status": "rank-zero-selmer-transcripts-missing-not-proof",
         "packages": [
@@ -120,6 +152,7 @@ def test_transcript_intake_without_index_keeps_all_packages_open(tmp_path: Path)
                 "transcript_package_ready": False,
                 "strict_promotion_ready": False,
                 "proof_status": "no-transcript-package-not-proof",
+                "reviewable_segment_count": 0,
                 "missing_fields": [
                     "statement",
                     "isogeny_setup",
@@ -134,6 +167,7 @@ def test_transcript_intake_without_index_keeps_all_packages_open(tmp_path: Path)
                 "transcript_package_ready": False,
                 "strict_promotion_ready": False,
                 "proof_status": "no-transcript-package-not-proof",
+                "reviewable_segment_count": 0,
                 "missing_fields": [
                     "statement",
                     "isogeny_setup",
@@ -177,6 +211,35 @@ def test_transcript_intake_counts_ready_package_but_never_promotes(
     )
     assert audit["packages"][0]["missing_fields"] == []
     assert audit["violations"] == []
+
+
+def test_transcript_intake_records_reviewable_partial_segment_without_promotion(
+    tmp_path: Path,
+) -> None:
+    _write_packages(tmp_path)
+    _write_partial_package(tmp_path, "rank-zero-selmer-AA-kernel-minus-p")
+
+    audit = audit_rank_zero_selmer_transcript_intake(
+        materialization=_materialization(),
+        transcript_index=None,
+        root=tmp_path,
+    )
+
+    assert audit["status"] == "ok"
+    assert audit["packages_with_reviewable_segment_count"] == 1
+    assert audit["transcript_package_ready_count"] == 0
+    assert audit["packages"][0]["reviewable_segment_count"] == 1
+    assert audit["packages"][0]["proof_status"] == (
+        "partial-reviewable-segment-not-proof"
+    )
+    assert audit["packages"][0]["missing_fields"] == [
+        "statement",
+        "isogeny_setup",
+        "local_squareclass_conditions",
+        "selmer_bound_argument",
+        "rank_zero_conclusion",
+        "review_notes",
+    ]
 
 
 def test_transcript_intake_rejects_bad_transcript_package(tmp_path: Path) -> None:

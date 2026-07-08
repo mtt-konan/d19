@@ -16,6 +16,16 @@
     "rank_zero_conclusion",
     "review_notes"
   ],
+  "reviewable_segments": [
+    {
+      "proof_path": "docs/work-logs/454-bb-neg-kernel-formal-lift-reviewable-proof.md",
+      "proof_section": "formal_lift_compatibility",
+      "required_field": "selmer_bound_argument",
+      "segment_scope": "odd-prime only",
+      "segment_status": "reviewable-proof",
+      "summary": "The BB odd-prime formal-lift compatibility segment is written as a line-by-line proof for the neg kernel; the dyadic place, the global Selmer bound, and rank zero remain open."
+    }
+  ],
   "selmer_rank_upper_bound_proved": false,
   "status": "open",
   "symbolic_model": {
@@ -25,5 +35,5 @@
     "target_a2": "16*(T^2 + 2*L^2)",
     "target_a4": "256*L^4"
   },
-  "transcript_status": "missing"
+  "transcript_status": "partial"
 }

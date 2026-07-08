@@ -71,8 +71,8 @@ a4 = 256*L^4
 Q(x) = x^2 + a2*x + a4.
 ```
 
-Here `s` and `a2` are square units, and `a4` is a square with valuation
-`4*e`.
+Here `s` is a square unit. Also `a2/s` is congruent to `1`, so `a2` is a
+square unit, and `a4` is a square with valuation `4*e`.
 
 Let `P=(x,y)` be a local point with `x != 0`, and put `m=v(x)`.
 
@@ -82,8 +82,9 @@ If `m < 0`, then
 Q(x) = x^2 * (1 + a2/x + a4/x^2),
 ```
 
-where the parenthesized factor is congruent to `1`, hence a square. The
-curve equation then forces `x` to be a square.
+where `v(a2/x)>0` and `v(a4/x^2)>0`, so the parenthesized factor is
+congruent to `1`, hence a square. The curve equation then forces `x` itself
+to be a square.
 
 If `0 < m < 4*e`, then
 
@@ -94,7 +95,7 @@ Q(x) = a2*x * (1 + x/a2 + a4/(a2*x)).
 The parenthesized factor is again a square, and `a2` is a square unit.
 Therefore `x*Q(x)` is automatically a square for every squareclass of such
 an `x`. Taking `x=pi*u`, with `u` square or nonsquare, realizes the two
-ramified squareclasses.
+odd-valuation squareclasses.
 
 If `m > 4*e`, then
 
@@ -102,23 +103,25 @@ If `m > 4*e`, then
 Q(x) = a4 * (1 + a2*x/a4 + x^2/a4),
 ```
 
-so the curve equation forces `x` to be a square. The boundary case
-`m=4*e` has even valuation and therefore gives only unit classes.
+where `v(a2*x/a4)>0` and `v(x^2/a4)>0`. So the parenthesized factor is again
+congruent to `1`, hence a square, and the curve equation forces `x` to be a
+square. The boundary case `m=4*e` has even valuation and therefore gives only
+unit classes.
 
-The two unit classes occur as follows. The trivial class occurs by choosing
-`x` with sufficiently large negative even valuation.
+The trivial squareclass occurs by choosing `x` with sufficiently large
+negative even valuation.
 
 For a nonsquare unit class, first suppose `-1` is a square in the residue
-field. Since `s` is a square unit, there exists `x0 in k*` with `x0`
-nonsquare and `x0+s` a non-zero square; after scaling `s` to `1`, the number
+field. Since `s` is a square unit, it is enough to find `x0 in k*` with `x0`
+nonsquare and `x0+1` a non-zero square; after scaling back by `s`, the number
 of such residues is
 
 ```text
 (#k - 1)/4,
 ```
 
-which is positive because `#k` is odd and `-1` square implies `#k >= 5`.
-Lifting such an `x0` gives
+which is positive because `-1` square implies `#k == 1 mod 4`, hence `#k >=
+5`. Lifting such an `x0` gives
 
 ```text
 x * Q(x) == x0^2 * (x0 + s) mod ell,
@@ -128,13 +131,13 @@ a non-zero square residue, so Hensel square-lifting gives a local point with
 `x` in a nonsquare unit class.
 
 Now suppose `-1` is not a square in the residue field. Then the class of
-`-s` is the nonsquare unit class. Take
+`-s` is the nonsquare unit class. Choose an integral unit `c` so that
+`c+32` has non-zero square residue, and take
 
 ```text
 x = -s + c*L^2
 ```
 
-with `c` an integral unit chosen so that `c+32` has non-zero square residue.
 Then `x` has the nonsquare unit class. Writing `delta=c*L^2`, the expansion
 
 ```text
@@ -148,7 +151,7 @@ gives
 Q(x)/L^2 == -s*(c+32) mod ell.
 ```
 
-Hence
+Hence `Q(x)` has the same nonsquare unit class as `x`, so
 
 ```text
 x*Q(x) == (-s) * L^2 * (-s)*(c+32) mod squares,
@@ -305,8 +308,16 @@ This does not prove the whole package. The following parts remain open:
 - the rank-zero conclusion
 - any `lambda`-family exclusion
 
+## Partial Transcript Segments
+
+- `selmer_bound_argument` / `formal_lift_compatibility`
+  - status = reviewable-proof
+  - proof_path = docs/work-logs/431-aa-neg-kernel-formal-lift-reviewable-proof.md
+  - scope = odd-prime only
+  - summary = The odd-prime formal-lift compatibility segment is written as a line-by-line proof; the dyadic place, the global Selmer bound, and rank zero remain open.
+
 ## Boundary
 
-transcript_status = missing
+transcript_status = partial
 
 No Selmer rank upper bound is proved by this file. No rank-zero theorem or lambda-family exclusion is claimed here.

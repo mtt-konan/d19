@@ -469,10 +469,10 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=71 \
-  --expect language_candidate_not_proof_hits=7 \
-  --expect language_sha2_candidate_hits=5 \
-  --expect language_bounded_search_not_proof_hits=3 \
+  --expect language_audit_files=5 \
+  --expect language_candidate_not_proof_hits=5 \
+  --expect language_sha2_candidate_hits=8 \
+  --expect language_bounded_search_not_proof_hits=2 \
   --expect language_bsd_not_strict_certificate_hits=1 \
   --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
@@ -498,75 +498,9 @@ Audit residual wording so evidence is not promoted to proof:
 uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/CLOSURE_QUOTIENT_MAINLINE.md \
   --path docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
-  --path docs/work-logs/304-mixed-closure-residual-evidence-audit.md \
-  --path docs/work-logs/305-sage-residual-handoff-probe.md \
-  --path docs/work-logs/306-mixed-residual-cover-priority-queue.md \
-  --path docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md \
-  --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
-  --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
-  --path docs/work-logs/323-residual-open-frontier-audit.md \
-  --path docs/work-logs/324-rank-zero-frontier-queue.md \
-  --path docs/work-logs/325-non-rankzero-frontier-queue.md \
-  --path docs/work-logs/326-rank1-frontier-recheck.md \
-  --path docs/work-logs/327-even-gap4-frontier-recheck.md \
-  --path docs/work-logs/328-rankzero-frontier-recheck-567-3757.md \
-  --path docs/work-logs/329-rankzero-frontier-recheck-5075-17901.md \
-  --path docs/work-logs/330-rankzero-frontier-long-recheck-1625-5643.md \
-  --path docs/work-logs/331-rankzero-frontier-recheck-8075-8613.md \
-  --path docs/work-logs/332-rankzero-frontier-recheck-391-9009.md \
-  --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
-  --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
-  --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
-  --path docs/work-logs/336-residual-frontier-strategy-audit.md \
-  --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
-  --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
-  --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
-  --path docs/work-logs/340-frontier-handoff-audit.md \
-  --path docs/work-logs/341-frontier-strictification-queue.md \
-  --path docs/work-logs/342-frontier-strictification-attempt.md \
-  --path docs/work-logs/343-frontier-rank-method-probe.md \
-  --path docs/work-logs/344-frontier-batch-rank-method-probe.md \
-  --path docs/work-logs/345-frontier-next-action-audit.md \
-  --path docs/work-logs/346-rankzero-frontier-long-recheck-567-3757.md \
-  --path docs/work-logs/347-rankzero-frontier-long-recheck-5075-17901.md \
-  --path docs/work-logs/348-rankzero-frontier-long-recheck-8075-8613.md \
-  --path docs/work-logs/349-rankzero-frontier-long-recheck-391-9009.md \
-  --path docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md \
-  --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
-  --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
-  --path docs/work-logs/353-frontier-escalation-queue.md \
-  --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
-  --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
-  --path docs/work-logs/356-external-cover-descent-route-audit.md \
-  --path docs/work-logs/357-external-cover-certificate-intake.md \
-  --path docs/work-logs/358-frontier-external-certificate-intake.md \
-  --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
-  --path docs/work-logs/360-paper-structure-audit.md \
-  --path docs/work-logs/361-partial-result-dependency-audit.md \
-  --path docs/work-logs/362-external-cover-descent-packages.md \
-  --path docs/work-logs/363-closure-quotient-ray-ledger.md \
-  --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
-  --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
-  --path docs/work-logs/366-rank-zero-family-candidates.md \
-  --path docs/work-logs/367-rank-zero-primitive-models.md \
-  --path docs/work-logs/368-root-number-lambda-triage.md \
-  --path docs/work-logs/369-two-cover-lambda-frontier.md \
-  --path docs/work-logs/370-lambda-route-partition-audit.md \
-  --path docs/work-logs/371-lambda-mainline-audit.md \
-  --path docs/work-logs/372-rank-zero-proof-seeds.md \
-  --path docs/work-logs/373-rank-zero-seed-identities.md \
-  --path docs/work-logs/374-rank-zero-certifying-invariants.md \
-  --path docs/work-logs/375-rank-zero-forced-torsion.md \
-  --path docs/work-logs/376-root-number-proof-seeds.md \
-  --path docs/work-logs/377-two-cover-proof-seeds.md \
-  --path docs/work-logs/378-lambda-proof-seed-coverage.md \
-  --path docs/work-logs/379-lambda-mainline-proof-seed-gate.md \
-  --path docs/work-logs/380-lambda-convergence-priorities.md \
-  --path docs/work-logs/381-rank-zero-family-obligations.md \
-  --path docs/work-logs/382-rank-zero-symbolic-descent-inputs.md \
-  --path docs/work-logs/383-rank-zero-isogeny-templates.md \
-  --path docs/work-logs/384-rank-zero-selmer-obligations.md \
-  --path docs/work-logs/385-rank-zero-selmer-package-index.md \
+  --path docs/work-logs/294-closure-quotient-foundation-consolidated.md \
+  --path docs/work-logs/322-residual-frontier-consolidated.md \
+  --path docs/work-logs/363-lambda-mainline-consolidated.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -574,12 +508,12 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 Current result:
 
 ```text
-files = 71
+files = 5
 violations = 0
 required_boundary_hits = {
-  'candidate_not_proof': 7,
-  'sha2_candidate': 5,
-  'bounded_search_not_proof': 3,
+  'candidate_not_proof': 5,
+  'sha2_candidate': 8,
+  'bounded_search_not_proof': 2,
   'bsd_not_strict_certificate': 1
 }
 ```
@@ -588,352 +522,22 @@ This wording audit does not verify the mathematics. It only guards the paper
 language against turning bounded search, BSD-conditional diagnostics, or
 `Sha[2]` candidates into proof claims.
 
-Audit the residual frontier proof strategy:
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_residual_frontier_strategy.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --out results/mixed_closure_residual_frontier_strategy_audit.json \
-  --strict
-```
-
-Current result:
+Residual frontier consolidated status:
 
 ```text
-short_sage_retry_status = exhausted-without-proof
-short_sage_retry_target_count = 10
-short_sage_retry_timeout_target_count = 10
-strict_promotion_count = 0
-next_strategy_counts = {
-  'external_rank_proof_or_cover_level_descent': 8,
-  'rank1_generator_or_sha2_separation': 1,
-  'even_gap4_deeper_descent_or_sha2_obstruction': 1
-}
-```
-
-This is routing information, not a proof.
-
-Audit the frontier handoff packages:
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_frontier_handoffs.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --out results/mixed_closure_frontier_handoff_audit.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-handoff_group_count = 10
-target_cover_count = 23
-map_verified_group_count = 10
-local_witnessed_group_count = 10
-bounded_probe_group_count = 10
-strict_promotion_count = 0
-missing_files = []
-violations = []
-```
-
-This checks package consistency only. It does not prove that the residual
-2-covers have no rational point.
-
-Build the frontier strictification queue:
-
-```bash
-uv run python scripts/theory/summarize_mixed_closure_frontier_strictification.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --out results/mixed_closure_frontier_strictification_queue.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-target_count = 10
-cover_count = 23
-track_counts = {'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+frontier_target_count = 10
+frontier_cover_count = 23
 strict_certificate_ready_count = 0
-first_target = {'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proof', 'priorities': [5, 7], 'cover_indices': [3, 4]}
-```
-
-This queue says which strict proof object is needed next. It is not itself a
-proof.
-
-Audit the first strictification attempt:
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
-  --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
-  --probe mwrank-default-1625:results/priority_005_1625_5643_AA_mwrank_rank_probe.json \
-  --probe mwrank-b20-x30-t60-1625:results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json \
-  --probe mwrank-default-567:results/priority_006_567_3757_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5075:results/priority_009_5075_17901_AA_mwrank_rank_probe.json \
-  --probe mwrank-default-8075:results/priority_012_8075_8613_AA_mwrank_rank_probe.json \
-  --probe mwrank-default-391:results/priority_013_391_9009_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-209-21735:results/priority_017_209_21735_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5083-12825:results/priority_024_5083_12825_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5301-38675:results/priority_025_5301_38675_BB_mwrank_rank_probe.json \
-  --probe sage-rank-methods-t600-567:results/priority_006_567_3757_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5075:results/priority_009_5075_17901_AA_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-8075:results/priority_012_8075_8613_AA_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-391:results/priority_013_391_9009_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-209-21735:results/priority_017_209_21735_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5083-12825:results/priority_024_5083_12825_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5301-38675:results/priority_025_5301_38675_BB_rank_methods_t600_twodescent40.json \
-  --batch-probe rankzero-batch-t45:results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --out results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-attempt_count = 26
-target_count_with_attempts = 8
-attempt_status_counts = {'open-rank-bounds-not-proof': 7, 'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 3}
-strict_certificate_ready_count = 0
-```
-
-The underlying Sage handoff probe used `two_descent_second_limit=20` and a
-180-second timeout on `(1625,5643) AA`; it timed out. This is not a rank proof.
-
-Run the same target through separate Sage rank-method subprocesses:
-
-```bash
-uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
-  --sage sage \
-  --timeout 90 \
-  --method rank_bounds \
-  --method rank_proof \
-  --method selmer_rank \
-  --method pari_ellrank \
-  --method two_descent \
-  --two-descent-second-limit 20 \
-  --dot-sage /private/tmp/d19-dot-sage
-```
-
-Current result:
-
-```text
-method_status_counts = {'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
-rank_zero_proof_candidate = False
-```
-
-Batch-run the cheap rank methods over all 8 rank-zero frontier targets:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache DOT_SAGE=/private/tmp/d19-dot-sage uv run python scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --out results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --sage sage \
-  --timeout 45 \
-  --method rank_bounds \
-  --method selmer_rank \
-  --method pari_ellrank \
-  --track rank-zero-rank-proof \
-  --limit 8 \
-  --dot-sage /private/tmp/d19-dot-sage \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-target_count = 8
-method_status_counts = {'pari_ellrank:ok': 8, 'rank_bounds:ok': 8, 'selmer_rank:ok': 8}
 rank_zero_proof_candidate_count = 0
+external_certificate_ready_count = 0
 ```
 
-For each of the 8 targets, the cheap diagnostics remain
-`rank_bounds=[0,2]`, `selmer_rank=4`, and PARI `ellrank=[0,2,0,[]]`.
-This is not a rank-zero proof.
-
-Audit the frontier next-action route:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_next_actions.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --batch-rank-methods results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --out results/mixed_closure_frontier_next_action_audit.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-cheap_rank_method_target_hopping_exhausted = True
-rank_zero_rank_method_target_hopping_exhausted = True
-recommended_mainline = escalate-beyond-cheap-rank-methods
-```
-
-This is a routing gate, not a proof. It records that cheap rank-method
-target-hopping and same-level rank-method long rechecks have converged without a
-strict certificate. The next mainline should escalate to stronger descent,
-external strict rank proof, or cover-level no-point certificates.
-
-Audit the frontier escalation queue:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_escalation_queue.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --next-action-audit results/mixed_closure_frontier_next_action_audit.json \
-  --out results/mixed_closure_frontier_escalation_queue.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-target_count = 10
-cover_count = 23
-rank_zero_target_count = 8
-rank_zero_rank_method_target_hopping_exhausted = True
-strict_certificate_ready_count = 0
-route_counts = {'even-gap4-deeper-descent-or-cover-descent': 1, 'rank-one-generator-sha2-separation-or-cover-descent': 1, 'rank-zero-external-rank-proof-or-cover-descent': 8}
-```
-
-This queue records the next strict evidence route. It is not a proof.
-
-Audit Sage cover-level tool capability for the first escalation target:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_sage_cover_tool_capabilities.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
-  --sage sage \
-  --timeout 30 \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-cover_count = 2
-genus_one_cover_count = 2
-sage_direct_no_point_capable_count = 0
-strict_certificate_ready_count = 0
-recommended_next_tool = magma-or-specialized-cover-descent
-```
-
-This is a tool-capability audit, not a proof. It records that Sage's built-in
-interfaces here expose bounded point search, but not a direct cover-level
-no-point certificate route.
-
-Audit the external cover-descent route for the same escalation target:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_descent_route.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --sage-cover-capability-audit results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
-  --out results/priority_005_1625_5643_AA_external_cover_descent_route.json \
-  --magma magma \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-local_magma_available = False
-proof_status = external-tool-gap-open
-recommended_next_action = obtain-magma-or-specialized-cover-descent-environment
-```
-
-This is a route audit, not a proof. It records that this local machine still
-lacks the external cover-descent environment needed for a reproducible
-no-point or rank-closing transcript.
-
-Audit external cover-certificate intake for the same target:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_intake.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_external_cover_certificate_intake.json \
-  --template-out results/priority_005_1625_5643_AA_external_cover_certificate_template.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-certificate_package_ready = False
-strict_promotion_ready = False
-```
-
-This is an intake gate, not a mathematical verifier. It creates the expected
-external-certificate package shape and prevents incomplete external evidence
-from being promoted.
-
-Audit frontier-wide external cover-certificate intake:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_frontier_intake.py \
-  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --certificate-dir results/mixed_closure_external_certificates \
-  --out results/mixed_closure_external_cover_certificate_frontier_intake.json \
-  --template-index-out results/mixed_closure_external_cover_certificate_template_index.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-target_count = 10
-cover_count = 23
-certificate_package_ready_count = 0
-strict_promotion_ready_count = 0
-```
-
-This extends the external evidence intake from one target to the full residual
-frontier. It is not a proof and currently records no strict promotion.
-
-Audit the paper-note structure:
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_paper_structure.py \
-  --paper docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
-  --claim-audit results/closure_quotient_paper_claim_audit.json \
-  --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
-  --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --external-certificate-frontier-audit results/mixed_closure_external_cover_certificate_frontier_intake.json \
-  --out results/closure_quotient_paper_structure_audit.json \
-  --strict
-```
-
-Current result:
-
-```text
-status = ok
-matched_section_count = 5
-matched_claim_count = 14
-```
-
-This is a paper-structure gate, not a mathematical verifier.
+The former wl322-wl362 details are now consolidated in
+[wl322-wl362](../work-logs/322-residual-frontier-consolidated.md). The retained
+claim is only that the residual frontier did not close under Sage/mwrank probes
+or bounded search, and that future promotion requires external no-point
+certificates, strict rank proofs, or stronger descent transcripts. The external
+intake gate is not a mathematical verifier.
 
 Summarize the full partial-result gate:
 
@@ -1055,7 +659,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 528
+artifact_status.required_file_count = 408
 artifact_status.missing_file_count = 0
 ```
 
@@ -2699,6 +2303,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 528
+required_file_count = 408
 missing_files = []
 ```

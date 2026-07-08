@@ -106,8 +106,7 @@ M = A+B-N
 当前正式入口是：
 
 - [docs/CLOSURE_QUOTIENT_MAINLINE.md](CLOSURE_QUOTIENT_MAINLINE.md)
-- [wl290](work-logs/290-mixed-closure-quotient-rank-smoke.md)
-- [wl294](work-logs/294-tmp-mixed-closure-answer.md)
+- [wl290, wl294-wl321](work-logs/294-closure-quotient-foundation-consolidated.md)
 
 已经确认的口径：
 

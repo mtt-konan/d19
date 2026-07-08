@@ -6,7 +6,7 @@
 - 哪些闭合商曲线已经能给出严格判据；
 - 哪些地方还只是实验信号，不能写进 `proof_status`。
 
-如果只想看临时判断，读 [wl294](work-logs/294-tmp-mixed-closure-answer.md)。如果要接着做这条线，
+如果只想看这一阶段的压缩记录，读 [wl290, wl294-wl321](work-logs/294-closure-quotient-foundation-consolidated.md)。如果要接着做这条线，
 从本文开始。若要写成论文段落，读 [closure quotient partial result](paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md)。
 
 ## 1. 主线位置
@@ -490,10 +490,10 @@ uv run python scripts/theory/audit_closure_quotient_paper_claims.py \
   --expect priority_top_cover_index=3 \
   --expect priority_top4_bsd_rank0_rows=4 \
   --expect language_audit_violations=0 \
-  --expect language_audit_files=71 \
-  --expect language_candidate_not_proof_hits=7 \
-  --expect language_sha2_candidate_hits=5 \
-  --expect language_bounded_search_not_proof_hits=3 \
+  --expect language_audit_files=5 \
+  --expect language_candidate_not_proof_hits=5 \
+  --expect language_sha2_candidate_hits=8 \
+  --expect language_bounded_search_not_proof_hits=2 \
   --expect language_bsd_not_strict_certificate_hits=1 \
   --expect even_model_identities_verified=1 \
   --expect bsd_ok_rows=2 \
@@ -517,75 +517,9 @@ residual 语言边界审计：
 uv run python scripts/theory/audit_mixed_closure_residual_language.py \
   --path docs/CLOSURE_QUOTIENT_MAINLINE.md \
   --path docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
-  --path docs/work-logs/304-mixed-closure-residual-evidence-audit.md \
-  --path docs/work-logs/305-sage-residual-handoff-probe.md \
-  --path docs/work-logs/306-mixed-residual-cover-priority-queue.md \
-  --path docs/work-logs/307-priority-handoff-export-and-second-sage-probe.md \
-  --path docs/work-logs/308-priority-queue-paper-claim-gate.md \
-  --path docs/work-logs/322-bsd-conditional-no-point-audit.md \
-  --path docs/work-logs/323-residual-open-frontier-audit.md \
-  --path docs/work-logs/324-rank-zero-frontier-queue.md \
-  --path docs/work-logs/325-non-rankzero-frontier-queue.md \
-  --path docs/work-logs/326-rank1-frontier-recheck.md \
-  --path docs/work-logs/327-even-gap4-frontier-recheck.md \
-  --path docs/work-logs/328-rankzero-frontier-recheck-567-3757.md \
-  --path docs/work-logs/329-rankzero-frontier-recheck-5075-17901.md \
-  --path docs/work-logs/330-rankzero-frontier-long-recheck-1625-5643.md \
-  --path docs/work-logs/331-rankzero-frontier-recheck-8075-8613.md \
-  --path docs/work-logs/332-rankzero-frontier-recheck-391-9009.md \
-  --path docs/work-logs/333-rankzero-frontier-recheck-209-21735.md \
-  --path docs/work-logs/334-rankzero-frontier-recheck-5083-12825.md \
-  --path docs/work-logs/335-rankzero-frontier-recheck-5301-38675.md \
-  --path docs/work-logs/336-residual-frontier-strategy-audit.md \
-  --path docs/work-logs/337-frontier-target-handoff-1625-5643.md \
-  --path docs/work-logs/338-all-rankzero-frontier-handoffs.md \
-  --path docs/work-logs/339-non-rankzero-frontier-handoffs.md \
-  --path docs/work-logs/340-frontier-handoff-audit.md \
-  --path docs/work-logs/341-frontier-strictification-queue.md \
-  --path docs/work-logs/342-frontier-strictification-attempt.md \
-  --path docs/work-logs/343-frontier-rank-method-probe.md \
-  --path docs/work-logs/344-frontier-batch-rank-method-probe.md \
-  --path docs/work-logs/345-frontier-next-action-audit.md \
-  --path docs/work-logs/346-rankzero-frontier-long-recheck-567-3757.md \
-  --path docs/work-logs/347-rankzero-frontier-long-recheck-5075-17901.md \
-  --path docs/work-logs/348-rankzero-frontier-long-recheck-8075-8613.md \
-  --path docs/work-logs/349-rankzero-frontier-long-recheck-391-9009.md \
-  --path docs/work-logs/350-rankzero-frontier-long-recheck-209-21735.md \
-  --path docs/work-logs/351-rankzero-frontier-long-recheck-5083-12825.md \
-  --path docs/work-logs/352-rankzero-frontier-long-recheck-5301-38675.md \
-  --path docs/work-logs/353-frontier-escalation-queue.md \
-  --path docs/work-logs/354-mwrank-frontier-rank-probe.md \
-  --path docs/work-logs/355-sage-cover-tool-capability-audit.md \
-  --path docs/work-logs/356-external-cover-descent-route-audit.md \
-  --path docs/work-logs/357-external-cover-certificate-intake.md \
-  --path docs/work-logs/358-frontier-external-certificate-intake.md \
-  --path docs/work-logs/359-summary-gate-external-certificate-intake.md \
-  --path docs/work-logs/360-paper-structure-audit.md \
-  --path docs/work-logs/361-partial-result-dependency-audit.md \
-  --path docs/work-logs/362-external-cover-descent-packages.md \
-  --path docs/work-logs/363-closure-quotient-ray-ledger.md \
-  --path docs/work-logs/364-closure-quotient-lambda-frontier.md \
-  --path docs/work-logs/365-closure-quotient-ray-scale-invariance.md \
-  --path docs/work-logs/366-rank-zero-family-candidates.md \
-  --path docs/work-logs/367-rank-zero-primitive-models.md \
-  --path docs/work-logs/368-root-number-lambda-triage.md \
-  --path docs/work-logs/369-two-cover-lambda-frontier.md \
-  --path docs/work-logs/370-lambda-route-partition-audit.md \
-  --path docs/work-logs/371-lambda-mainline-audit.md \
-  --path docs/work-logs/372-rank-zero-proof-seeds.md \
-  --path docs/work-logs/373-rank-zero-seed-identities.md \
-  --path docs/work-logs/374-rank-zero-certifying-invariants.md \
-  --path docs/work-logs/375-rank-zero-forced-torsion.md \
-  --path docs/work-logs/376-root-number-proof-seeds.md \
-  --path docs/work-logs/377-two-cover-proof-seeds.md \
-  --path docs/work-logs/378-lambda-proof-seed-coverage.md \
-  --path docs/work-logs/379-lambda-mainline-proof-seed-gate.md \
-  --path docs/work-logs/380-lambda-convergence-priorities.md \
-  --path docs/work-logs/381-rank-zero-family-obligations.md \
-  --path docs/work-logs/382-rank-zero-symbolic-descent-inputs.md \
-  --path docs/work-logs/383-rank-zero-isogeny-templates.md \
-  --path docs/work-logs/384-rank-zero-selmer-obligations.md \
-  --path docs/work-logs/385-rank-zero-selmer-package-index.md \
+  --path docs/work-logs/294-closure-quotient-foundation-consolidated.md \
+  --path docs/work-logs/322-residual-frontier-consolidated.md \
+  --path docs/work-logs/363-lambda-mainline-consolidated.md \
   --out results/mixed_closure_residual_language_audit.json \
   --strict
 ```
@@ -593,369 +527,37 @@ uv run python scripts/theory/audit_mixed_closure_residual_language.py \
 当前结果：
 
 ```text
-files=71
+files=5
 violations=0
 required_boundary_hits={
-  'candidate_not_proof': 7,
-  'sha2_candidate': 5,
-  'bounded_search_not_proof': 3,
+  'candidate_not_proof': 5,
+  'sha2_candidate': 8,
+  'bounded_search_not_proof': 2,
   'bsd_not_strict_certificate': 1
 }
 ```
 
 这一步只审计措辞，防止把 bounded search / BSD 条件诊断 / Sha[2] candidate 写成证明。
 
-residual frontier 策略审计：
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_residual_frontier_strategy.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --out results/mixed_closure_residual_frontier_strategy_audit.json \
-  --strict
-```
-
-当前结果：
+residual frontier 合并状态：
 
 ```text
-short_sage_retry_status=exhausted-without-proof
-short_sage_retry_target_count=10
-short_sage_retry_timeout_target_count=10
-strict_promotion_count=0
-next_strategy_counts={
-  'external_rank_proof_or_cover_level_descent': 8,
-  'rank1_generator_or_sha2_separation': 1,
-  'even_gap4_deeper_descent_or_sha2_obstruction': 1
-}
-```
-
-这一步只做 proof-work 路由：短时 Sage 队列已经扫完，但没有产生严格证明。
-
-frontier handoff 内容审计：
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_frontier_handoffs.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --priorities results/mixed_closure_aabb_residual_cover_priorities.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --out results/mixed_closure_frontier_handoff_audit.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-handoff_group_count=10
-target_cover_count=23
-map_verified_group_count=10
-local_witnessed_group_count=10
-bounded_probe_group_count=10
-strict_promotion_count=0
-missing_files=[]
-violations=[]
-```
-
-这一步检查 10 个 frontier handoff 包的内容是否和队列一致。它仍然不是无点证明；
-`bounded_probe_group_count=10` 的意思只是 bounded Sage probe 已经复跑并留下诊断。
-
-frontier strictification queue：
-
-```bash
-uv run python scripts/theory/summarize_mixed_closure_frontier_strictification.py \
-  --rank-zero-queue results/mixed_closure_rank_zero_frontier_queue.json \
-  --non-rankzero-queue results/mixed_closure_non_rankzero_frontier_queue.json \
-  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --out results/mixed_closure_frontier_strictification_queue.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-target_count=10
-cover_count=23
-track_counts={'even-gap4-deeper-descent': 1, 'rank-one-sha2-separation': 1, 'rank-zero-rank-proof': 8}
+frontier_target_count=10
+frontier_cover_count=23
 strict_certificate_ready_count=0
-first_target={'A': 1625, 'B': 5643, 'curve': 'AA', 'track': 'rank-zero-rank-proof', 'priorities': [5, 7], 'cover_indices': [3, 4]}
-```
-
-普通话说：这一步把“下一步怎么严谨收敛”排成队列。它不证明任何新 cover 无点；
-它只说明每个目标需要什么严格证据才允许升级。
-
-第一目标 strictification attempt ledger：
-
-```bash
-uv run python scripts/theory/audit_mixed_closure_frontier_strictification_attempts.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --probe sage-twodescent20:results/priority_005_1625_5643_AA_covers_4_3_twodescent20_probe.json \
-  --probe sage-rank-methods-t90:results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
-  --probe mwrank-default-1625:results/priority_005_1625_5643_AA_mwrank_rank_probe.json \
-  --probe mwrank-b20-x30-t60-1625:results/priority_005_1625_5643_AA_mwrank_b20_x30_t60_probe.json \
-  --probe mwrank-default-567:results/priority_006_567_3757_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5075:results/priority_009_5075_17901_AA_mwrank_rank_probe.json \
-  --probe mwrank-default-8075:results/priority_012_8075_8613_AA_mwrank_rank_probe.json \
-  --probe mwrank-default-391:results/priority_013_391_9009_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-209-21735:results/priority_017_209_21735_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5083-12825:results/priority_024_5083_12825_BB_mwrank_rank_probe.json \
-  --probe mwrank-default-5301-38675:results/priority_025_5301_38675_BB_mwrank_rank_probe.json \
-  --probe sage-rank-methods-t600-567:results/priority_006_567_3757_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5075:results/priority_009_5075_17901_AA_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-8075:results/priority_012_8075_8613_AA_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-391:results/priority_013_391_9009_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-209-21735:results/priority_017_209_21735_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5083-12825:results/priority_024_5083_12825_BB_rank_methods_t600_twodescent40.json \
-  --probe sage-rank-methods-t600-5301-38675:results/priority_025_5301_38675_BB_rank_methods_t600_twodescent40.json \
-  --batch-probe rankzero-batch-t45:results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --out results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-attempt_count=26
-target_count_with_attempts=8
-attempt_status_counts={'open-rank-bounds-not-proof': 7, 'rank-method-open-not-proof': 8, 'rank-method-timeout-not-proof': 8, 'timeout-not-proof': 3}
-strict_certificate_ready_count=0
-```
-
-这记录了 `(1625,5643) AA` 的短 two-descent 尝试：180 秒预算内 timeout。
-它不是 rank proof，也不是 cover no-point proof。
-
-第一目标逐方法 rank probe：
-
-```bash
-uv run python scripts/theory/sage_probe_mixed_closure_rank_methods.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_rank_methods_t90_twodescent20.json \
-  --sage sage \
-  --timeout 90 \
-  --method rank_bounds \
-  --method rank_proof \
-  --method selmer_rank \
-  --method pari_ellrank \
-  --method two_descent \
-  --two-descent-second-limit 20 \
-  --dot-sage /private/tmp/d19-dot-sage
-```
-
-当前结果：
-
-```text
-method_status_counts={'pari_ellrank:ok': 1, 'rank_bounds:ok': 1, 'rank_proof:runtime-error': 1, 'selmer_rank:ok': 1, 'two_descent:timeout': 1}
-rank_zero_proof_candidate=False
-```
-
-普通话说：`rank_bounds`、PARI `ellrank=[0,2,0,[]]` 和 `selmer_rank`
-这些诊断能跑通；严格 rank proof 没有出来，`two_descent` 在 90 秒内 timeout。
-
-8 个 rank-zero frontier targets 的批量便宜 rank probe：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache DOT_SAGE=/private/tmp/d19-dot-sage uv run python scripts/theory/batch_sage_probe_mixed_closure_rank_methods.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --out results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --sage sage \
-  --timeout 45 \
-  --method rank_bounds \
-  --method selmer_rank \
-  --method pari_ellrank \
-  --track rank-zero-rank-proof \
-  --limit 8 \
-  --dot-sage /private/tmp/d19-dot-sage \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-target_count=8
-method_status_counts={'pari_ellrank:ok': 8, 'rank_bounds:ok': 8, 'selmer_rank:ok': 8}
 rank_zero_proof_candidate_count=0
+external_certificate_ready_count=0
 ```
 
-普通话说：8 个 rank-zero 目标全部仍是同一种开放形态：
-`rank_bounds=[0,2]`、`selmer_rank=4`、PARI `ellrank=[0,2,0,[]]`。
-这说明便宜诊断没有挑出已经闭合的目标；它仍然只是诊断，不是 rank-zero 证明。
+普通话说：原 wl322-wl362 的细节已经合并到
+[wl322-wl362](work-logs/322-residual-frontier-consolidated.md)。这一段不再保留每次
+Sage/mwrank 重跑、handoff、外部证书模板和 paper gate 的流水账。主线结论是：
 
-frontier next-action audit：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_next_actions.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --batch-rank-methods results/mixed_closure_rank_zero_frontier_batch_rank_methods_t45.json \
-  --out results/mixed_closure_frontier_next_action_audit.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-cheap_rank_method_target_hopping_exhausted=True
-rank_zero_rank_method_target_hopping_exhausted=True
-recommended_mainline=escalate-beyond-cheap-rank-methods
-```
-
-普通话说：便宜 rank-method 的“换目标试一试”和 8 个 rank-zero 目标的同级
-rank-method 长跑都已经收敛；下一步不应继续做同类加时，而应升级到更强 descent、
-外部严格 rank proof、cover-level no-point certificate，以及 non-rankzero 两条专门路线。
-
-frontier escalation queue：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_mixed_closure_frontier_escalation_queue.py \
-  --strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --attempt-audit results/mixed_closure_frontier_strictification_attempt_audit.json \
-  --next-action-audit results/mixed_closure_frontier_next_action_audit.json \
-  --out results/mixed_closure_frontier_escalation_queue.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-target_count=10
-cover_count=23
-rank_zero_target_count=8
-rank_zero_rank_method_target_hopping_exhausted=True
-strict_certificate_ready_count=0
-route_counts={'even-gap4-deeper-descent-or-cover-descent': 1, 'rank-one-generator-sha2-separation-or-cover-descent': 1, 'rank-zero-external-rank-proof-or-cover-descent': 8}
-```
-
-普通话说：这一步把“换证明武器”落成队列。8 个 rank-zero 目标走外部严格 rank proof
-或逐 cover no-point certificate；1 个 rank-one 目标走 visible generator/Sha[2] 分离；
-1 个 even-gap4 目标走 deeper descent 或独立 Sha[2] 障碍。它仍然不是证明。
-
-Sage cover tool capability audit：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_sage_cover_tool_capabilities.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
-  --sage sage \
-  --timeout 30 \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-cover_count=2
-genus_one_cover_count=2
-sage_direct_no_point_capable_count=0
-strict_certificate_ready_count=0
-recommended_next_tool=magma-or-specialized-cover-descent
-```
-
-普通话说：Sage 能识别这些 quartic 是 genus-one cover，但这里只有有界找点接口，
-没有直接 no-point 证明所需的 local/descent/Jacobian rank 接口。因此 cover-level
-收敛下一步应转向 Magma 或专门的 Mordell-Weil sieve / cover descent。
-
-External cover descent route audit：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_descent_route.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --sage-cover-capability-audit results/priority_005_1625_5643_AA_cover_tool_capabilities.json \
-  --out results/priority_005_1625_5643_AA_external_cover_descent_route.json \
-  --magma magma \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-local_magma_available=False
-proof_status=external-tool-gap-open
-recommended_next_action=obtain-magma-or-specialized-cover-descent-environment
-```
-
-普通话说：这一步把“下一步该跑什么才算数”固定下来。本机没有 Magma，
-Sage 当前也没有直接证书接口；所以下一份能推动证明的产物必须是外部
-cover descent / Mordell-Weil sieve transcript，且需要给出逐 cover no-point
-certificate，或把源椭圆 rank bounds 严格闭到 `[0,0]` 后再做 torsion-preimage audit。
-
-External cover certificate intake：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_intake.py \
-  --handoff results/mixed_closure_residual_handoffs/priority_005_1625_5643_AA_covers_4_3.json \
-  --out results/priority_005_1625_5643_AA_external_cover_certificate_intake.json \
-  --template-out results/priority_005_1625_5643_AA_external_cover_certificate_template.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-certificate_package_ready=False
-strict_promotion_ready=False
-```
-
-普通话说：现在还没有外部 no-point 证书包。这个脚本生成未来证书包模板，
-并检查目标、cover 覆盖、证书类型、结果字段和 transcript 文件是否齐全。
-即使字段齐全，它也只把证书包标成“可审阅”，不自己验证外部数学。
-
-Frontier external cover certificate intake：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_external_cover_certificate_frontier_intake.py \
-  --frontier-handoff-audit results/mixed_closure_frontier_handoff_audit.json \
-  --handoff-dir results/mixed_closure_residual_handoffs \
-  --certificate-dir results/mixed_closure_external_certificates \
-  --out results/mixed_closure_external_cover_certificate_frontier_intake.json \
-  --template-index-out results/mixed_closure_external_cover_certificate_template_index.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-target_count=10
-cover_count=23
-certificate_package_ready_count=0
-strict_promotion_ready_count=0
-```
-
-普通话说：全部 residual frontier 现在都有统一外部证书入口。它覆盖 10 个目标、
-23 个 cover；当前还没有任何外部证书包 ready，所以没有新的严格提升。
-
-Paper structure audit：
-
-```bash
-UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_paper_structure.py \
-  --paper docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md \
-  --claim-audit results/closure_quotient_paper_claim_audit.json \
-  --residual-open-frontier-audit results/mixed_closure_residual_open_frontier_audit.json \
-  --frontier-strictification-queue results/mixed_closure_frontier_strictification_queue.json \
-  --external-certificate-frontier-audit results/mixed_closure_external_cover_certificate_frontier_intake.json \
-  --out results/closure_quotient_paper_structure_audit.json \
-  --strict
-```
-
-当前结果：
-
-```text
-status=ok
-matched_section_count=5
-matched_claim_count=14
-```
-
-普通话说：这只检查论文稿结构和关键边界文字是否到位，不验证数学。
+- 逐 cover 严格化没有闭合；
+- bounded search、BSD 条件诊断、local witness、timeout 都不能升级成证明；
+- 后续若还走 residual frontier，只接受外部 no-point certificate、严格 rank proof，
+  或更强 descent transcript；
+- 当前 closure quotient 主线已经转到 `lambda=A/B`、rank-zero/Selmer family proof。
 
 partial-result 总摘要：
 
@@ -1076,7 +678,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=528
+artifact_status.required_file_count=408
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -2253,7 +1855,77 @@ strict_promotion_ready_count=0
 
 普通话说：这一步给 9 个 package 加了一道“材料入口”。以后即便有 transcript，也要先通过
 package id、transcript 文件、类型和字段检查；通过以后也只是 `needs-math-review`，不会自动
-把 rank-zero 或 `lambda` family 排除写成定理。当前没有 transcript，所以 9 个仍然全部 open。
+把 rank-zero 或 `lambda` family 排除写成定理。当前没有完整 transcript，所以 9 个仍然全部
+open。
+
+`wl447` 进一步把这个边界说清楚：虽然 `transcript_package_ready_count` 仍然是 `0`，但 intake
+现在不会再把已有 partial work 当成“完全空白”。当前仓库状态里：
+
+```text
+packages_with_reviewable_segment_count = 5
+rank-zero-selmer-AA-kernel-minus-p
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-AA-kernel-neg-2sqrt-q
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-AA-kernel-pos-2sqrt-q
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-BB-kernel-neg-2sqrt-q
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-BB-kernel-pos-2sqrt-q
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-BB-kernel-minus-p
+  -> partial-reviewable-segment-not-proof
+rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q
+  -> partial-reviewable-segment-not-proof
+```
+
+这表示 `AA / kernel_minus_p`、`AA / kernel_neg_2sqrt_q` 和
+`AA / kernel_pos_2sqrt_q` 都已经有一段可审阅 proof 接进 intake 链条；`BB /
+kernel_neg_2sqrt_q` 和 `BB / kernel_pos_2sqrt_q` 也有了可审阅 odd-prime
+formal-lift proof；`BB / kernel_minus_p` 也补上了同一层证明。但这些都仍然不是完整
+transcript，更不是 Selmer bound 或 rank-zero 定理。
+
+`AA+BB / kernel_neg_2sqrt_q` 现在也有了第一段可审阅 odd-prime valuation-support
+formal-lift proof。它只说明这个 kernel 在 `AA+BB` common-source 条件下没有奇素数
+valuation support；它还没有处理 `2`、单位符号、global Selmer bound 或 rank-zero。
+
+`wl448` 再往 family 层压了一步：把这 9 个 package 的 intake 进度重新按
+
+```text
+AA, AA+BB, BB
+```
+
+三条 rank-zero 主线汇总。当前结果是：
+
+```text
+AA     -> 3 packages, 3 reviewable-segment packages, 0 transcript-ready
+AA+BB  -> 3 packages, 1 reviewable-segment package, 0 transcript-ready
+BB     -> 3 packages, 3 reviewable-segment packages, 0 transcript-ready
+```
+
+`wl449` 和 `wl451` 给出后两个 concrete proof anchor，`wl450` 与 `wl452` 记录因此产生的
+family-level 变化。`AA` 与 `BB` 现在都做到 `3/3` package 有 partial transcript；
+`AA+BB` 则刚开始，有 `1/3` package-level reviewable segment。它们都还不是完整
+transcript，更不是 family theorem。
+
+`wl453` 把这件事再压到更具体的 transcript 字段层：在三条 rank-zero family 里，只有 `AA`
+已经把 odd-prime
+
+```text
+formal_lift_compatibility
+```
+
+这一段做到 `3/3` package 全覆盖。`wl454`、`wl455` 和 `wl456` 则把 `BB / kernel_neg_2sqrt_q`、
+`BB / kernel_pos_2sqrt_q` 与 `BB / kernel_minus_p` 的同一段写成 package 级可审阅
+proof，使 `BB` 也达到 `3/3`。于是 `AA` 和 `BB` 的下一步都不该再回到
+odd-prime formal lift，而应该直接转向：
+
+- dyadic local condition，
+- global Selmer dimension bound，
+- rank-zero conclusion。
+
+`AA+BB` 已经有第一段 reviewable formal-lift segment，但还没有完成三 kernel 覆盖；
+这仍然不是完整 transcript 或 rank-zero theorem。
 
 Rank-zero family theorem readiness audit：
 
@@ -2965,126 +2637,252 @@ factor_concordant / GEN-CLOSURE 后
 
 工作日志：
 
-- [wl290](work-logs/290-mixed-closure-quotient-rank-smoke.md)
-- [wl294](work-logs/294-tmp-mixed-closure-answer.md)
-- [wl295](work-logs/295-sage-mixed-closure-residual-rank-recheck.md)
-- [wl296](work-logs/296-mixed-closure-residual-cover-summary.md)
-- [wl297](work-logs/297-mixed-closure-cover-map-handoff.md)
-- [wl298](work-logs/298-mixed-closure-rank0-certificate-audit.md)
-- [wl299](work-logs/299-mixed-closure-pari-bsd-diagnostics.md)
-- [wl300](work-logs/300-closure-quotient-paper-claim-audit.md)
-- [wl301](work-logs/301-mixed-closure-residual-handoff.md)
-- [wl302](work-logs/302-mixed-closure-even-model-identity-audit.md)
-- [wl303](work-logs/303-mixed-closure-rank0-classification-detail-audit.md)
-- [wl304](work-logs/304-mixed-closure-residual-evidence-audit.md)
-- [wl305](work-logs/305-sage-residual-handoff-probe.md)
-- [wl306](work-logs/306-mixed-residual-cover-priority-queue.md)
-- [wl307](work-logs/307-priority-handoff-export-and-second-sage-probe.md)
-- [wl308](work-logs/308-priority-queue-paper-claim-gate.md)
-- [wl309](work-logs/309-residual-language-overclaim-audit.md)
-- [wl310](work-logs/310-language-audit-paper-claim-gate.md)
-- [wl311](work-logs/311-closure-quotient-partial-result-summary.md)
-- [wl312](work-logs/312-closure-quotient-partial-artifact-audit.md)
-- [wl313](work-logs/313-priority-handoff-probe-audit.md)
-- [wl314](work-logs/314-sage-cover-map-identity-verification.md)
-- [wl315](work-logs/315-sage-local-witness-probe.md)
-- [wl316](work-logs/316-all-residual-local-witnesses.md)
-- [wl317](work-logs/317-residual-local-witness-paper-claim-gate.md)
-- [wl318](work-logs/318-residual-selmer-gap-ledger.md)
-- [wl319](work-logs/319-all-residual-cover-map-verification.md)
-- [wl320](work-logs/320-residual-selmer-gap-frontier-split.md)
-- [wl321](work-logs/321-rank0-torsion-preimage-audit.md)
-- [wl322](work-logs/322-bsd-conditional-no-point-audit.md)
-- [wl323](work-logs/323-residual-open-frontier-audit.md)
-- [wl324](work-logs/324-rank-zero-frontier-queue.md)
-- [wl325](work-logs/325-non-rankzero-frontier-queue.md)
-- [wl326](work-logs/326-rank1-frontier-recheck.md)
-- [wl327](work-logs/327-even-gap4-frontier-recheck.md)
-- [wl328](work-logs/328-rankzero-frontier-recheck-567-3757.md)
-- [wl329](work-logs/329-rankzero-frontier-recheck-5075-17901.md)
-- [wl330](work-logs/330-rankzero-frontier-long-recheck-1625-5643.md)
-- [wl331](work-logs/331-rankzero-frontier-recheck-8075-8613.md)
-- [wl332](work-logs/332-rankzero-frontier-recheck-391-9009.md)
-- [wl333](work-logs/333-rankzero-frontier-recheck-209-21735.md)
-- [wl334](work-logs/334-rankzero-frontier-recheck-5083-12825.md)
-- [wl335](work-logs/335-rankzero-frontier-recheck-5301-38675.md)
-- [wl336](work-logs/336-residual-frontier-strategy-audit.md)
-- [wl337](work-logs/337-frontier-target-handoff-1625-5643.md)
-- [wl338](work-logs/338-all-rankzero-frontier-handoffs.md)
-- [wl339](work-logs/339-non-rankzero-frontier-handoffs.md)
-- [wl340](work-logs/340-frontier-handoff-audit.md)
-- [wl341](work-logs/341-frontier-strictification-queue.md)
-- [wl342](work-logs/342-frontier-strictification-attempt.md)
-- [wl343](work-logs/343-frontier-rank-method-probe.md)
-- [wl344](work-logs/344-frontier-batch-rank-method-probe.md)
-- [wl345](work-logs/345-frontier-next-action-audit.md)
-- [wl346](work-logs/346-rankzero-frontier-long-recheck-567-3757.md)
-- [wl347](work-logs/347-rankzero-frontier-long-recheck-5075-17901.md)
-- [wl348](work-logs/348-rankzero-frontier-long-recheck-8075-8613.md)
-- [wl349](work-logs/349-rankzero-frontier-long-recheck-391-9009.md)
-- [wl350](work-logs/350-rankzero-frontier-long-recheck-209-21735.md)
-- [wl351](work-logs/351-rankzero-frontier-long-recheck-5083-12825.md)
-- [wl352](work-logs/352-rankzero-frontier-long-recheck-5301-38675.md)
-- [wl353](work-logs/353-frontier-escalation-queue.md)
-- [wl354](work-logs/354-mwrank-frontier-rank-probe.md)
-- [wl355](work-logs/355-sage-cover-tool-capability-audit.md)
-- [wl356](work-logs/356-external-cover-descent-route-audit.md)
-- [wl357](work-logs/357-external-cover-certificate-intake.md)
-- [wl358](work-logs/358-frontier-external-certificate-intake.md)
-- [wl359](work-logs/359-summary-gate-external-certificate-intake.md)
-- [wl360](work-logs/360-paper-structure-audit.md)
-- [wl361](work-logs/361-partial-result-dependency-audit.md)
-- [wl362](work-logs/362-external-cover-descent-packages.md)
-- [wl363](work-logs/363-closure-quotient-ray-ledger.md)
-- [wl364](work-logs/364-closure-quotient-lambda-frontier.md)
-- [wl365](work-logs/365-closure-quotient-ray-scale-invariance.md)
-- [wl366](work-logs/366-rank-zero-family-candidates.md)
-- [wl367](work-logs/367-rank-zero-primitive-models.md)
-- [wl368](work-logs/368-root-number-lambda-triage.md)
-- [wl369](work-logs/369-two-cover-lambda-frontier.md)
-- [wl370](work-logs/370-lambda-route-partition-audit.md)
-- [wl371](work-logs/371-lambda-mainline-audit.md)
-- [wl372](work-logs/372-rank-zero-proof-seeds.md)
-- [wl373](work-logs/373-rank-zero-seed-identities.md)
-- [wl374](work-logs/374-rank-zero-certifying-invariants.md)
-- [wl375](work-logs/375-rank-zero-forced-torsion.md)
-- [wl376](work-logs/376-root-number-proof-seeds.md)
-- [wl377](work-logs/377-two-cover-proof-seeds.md)
-- [wl378](work-logs/378-lambda-proof-seed-coverage.md)
-- [wl379](work-logs/379-lambda-mainline-proof-seed-gate.md)
-- [wl380](work-logs/380-lambda-convergence-priorities.md)
-- [wl381](work-logs/381-rank-zero-family-obligations.md)
-- [wl382](work-logs/382-rank-zero-symbolic-descent-inputs.md)
-- [wl383](work-logs/383-rank-zero-isogeny-templates.md)
-- [wl384](work-logs/384-rank-zero-selmer-obligations.md)
-- [wl385](work-logs/385-rank-zero-selmer-package-index.md)
-- [wl386](work-logs/386-rank-zero-selmer-package-materialization.md)
-- [wl387](work-logs/387-rank-zero-selmer-transcript-intake.md)
-- [wl388](work-logs/388-lambda-mainline-transcript-intake-gate.md)
-- [wl389](work-logs/389-rank-zero-selmer-local-supports.md)
-- [wl390](work-logs/390-rank-zero-selmer-coprime-supports.md)
-- [wl391](work-logs/391-rank-zero-selmer-odd-prime-cases.md)
-- [wl410](work-logs/410-rank-zero-family-theorem-readiness.md)
-- [wl411](work-logs/411-rank-zero-selmer-kernel-local-schemas.md)
-- [wl412](work-logs/412-rank-zero-selmer-transcript-bridge.md)
-- [wl413](work-logs/413-rank-zero-selmer-isogeny-setup-templates.md)
-- [wl414](work-logs/414-rank-zero-selmer-family-conclusion-templates.md)
-- [wl415](work-logs/415-rank-zero-selmer-transcript-field-decomposition.md)
-- [wl416](work-logs/416-rank-zero-selmer-bound-argument-queue.md)
-- [wl417](work-logs/417-rank-zero-selmer-bound-argument-sections.md)
-- [wl418](work-logs/418-rank-zero-selmer-formal-lift-queue.md)
-- [wl419](work-logs/419-aa-minus-p-zero-double-root-obstruction.md)
-- [wl420](work-logs/420-aa-minus-p-zero-double-root-full-image.md)
-- [wl421](work-logs/421-aa-minus-p-selmer-bound-integration-note.md)
-- [wl422](work-logs/422-aa-sqrt-kernels-d-prime-local-kill.md)
-- [wl423](work-logs/423-aa-pos-kernel-l-prime-formal-lift.md)
-- [wl424](work-logs/424-aa-pos-kernel-t-prime-zero-double-root.md)
-- [wl425](work-logs/425-aa-neg-kernel-odd-prime-formal-lifts.md)
-- [wl426](work-logs/426-aa-family-odd-prime-local-image-matrix.md)
-- [wl427](work-logs/427-aa-family-odd-support-separation.md)
-- [wl428](work-logs/428-aa-family-odd-support-dimension-bound.md)
-- [wl429](work-logs/429-bb-family-odd-prime-transport.md)
-- [wl430](work-logs/430-aa-bb-odd-support-collapse.md)
+- [wl290, wl294-wl321](work-logs/294-closure-quotient-foundation-consolidated.md)
+- [wl322-wl362](work-logs/322-residual-frontier-consolidated.md)
+- [wl363-wl385, wl408-wl409](work-logs/363-lambda-mainline-consolidated.md)
+- [wl386-wl393, wl410-wl418](work-logs/386-rank-zero-selmer-package-consolidated.md)
+- [wl394-wl407](work-logs/394-rank-zero-odd-prime-reduction-consolidated.md)
+- [wl419-wl430](work-logs/419-aa-bb-odd-prime-formal-lift-consolidated.md)
+- [wl431](work-logs/431-aa-neg-kernel-formal-lift-reviewable-proof.md)
+- [wl432-wl438](work-logs/432-aa-bb-common-source-two-primary-consolidated.md)
+- [wl439-wl446](work-logs/443-aa-bb-dyadic-target-consolidated.md)
+- [wl442, wl447-wl448, wl450, wl452-wl453](work-logs/447-rank-zero-formal-lift-coverage-consolidated.md)
+- [wl449](work-logs/449-aa-pos-kernel-formal-lift-reviewable-proof.md)
+- [wl451](work-logs/451-aa-minus-p-formal-lift-reviewable-proof.md)
+- [wl454](work-logs/454-bb-neg-kernel-formal-lift-reviewable-proof.md)
+- [wl455](work-logs/455-bb-pos-kernel-formal-lift-reviewable-proof.md)
+- [wl456](work-logs/456-bb-minus-p-formal-lift-reviewable-proof.md)
+- [wl457](work-logs/457-aa-bb-neg-kernel-formal-lift-reviewable-proof.md)
+
+## Minimal reviewable package segments
+
+`wl431`, `wl449`, `wl451`, `wl454`, `wl455`, `wl456`, and `wl457` now freeze seven concrete package segments in reviewable
+form:
+
+```text
+rank-zero-selmer-AA-kernel-minus-p / formal_lift_compatibility
+rank-zero-selmer-AA-kernel-neg-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-AA-kernel-pos-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-BB-kernel-pos-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-BB-kernel-minus-p / formal_lift_compatibility
+rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+```
+
+This still does not promote any audit counter. It only means seven of the open
+package transcript segments are now written as line-by-line odd-prime proofs
+instead of short "proof shape" memos.
+
+`wl442` first pushed the `AA / kernel_neg_2sqrt_q` segment back into package
+materialization, and `wl450` records the same upgrade for
+`AA / kernel_pos_2sqrt_q`. `wl452` records the same upgrade for
+`AA / kernel_minus_p`. After regeneration, all three `AA` packages now appear as
+
+```text
+transcript_status = partial
+```
+
+with recorded reviewable segments
+
+```text
+selmer_bound_argument / formal_lift_compatibility
+```
+
+linking to `wl431`, `wl449`, and `wl451` respectively. This is still not a
+full transcript or a proof promotion; it just means the `AA` family no longer
+looks blank at package level.
+
+`wl454`, `wl455`, and `wl456` give the three package-level `BB` proof anchors:
+
+```text
+rank-zero-selmer-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-BB-kernel-pos-2sqrt-q / formal_lift_compatibility
+rank-zero-selmer-BB-kernel-minus-p / formal_lift_compatibility
+```
+
+After regeneration, all three packages appear as `transcript_status = partial`.
+This is a `3/3` odd-prime formal-lift state for `BB`, not a `BB` family theorem.
+
+`wl457` gives the first package-level `AA+BB` proof anchor:
+
+```text
+rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q / formal_lift_compatibility
+```
+
+This segment is narrower than a full local-image theorem: it proves no
+odd-prime valuation support for `kernel_neg_2sqrt_q` under the common-source
+`AA+BB` condition. It does not decide the prime `2`, unit/sign classes, or the
+global Selmer bound.
+
+## Rank-zero next target
+
+`wl432` fixes the next structural theorem target inside the rank-zero route:
+attack `AA+BB` first. The reason is simple: after `wl430`, `AA+BB` is the only
+seed group whose odd-prime burden has already collapsed to the single source
+
+```text
+ell | T, ell == 1 mod 4
+```
+
+inside `kernel_pos_2sqrt_q`. So the remaining difficulty is no longer "more
+odd-prime cases", but the dyadic place, unit/sign classes, and any global
+relation among the three kernel coordinates.
+
+`wl433` sharpens the last phrase: any future global relation should first be
+written on the source-curve differences
+
+```text
+X-(-p), X-(2*sqrt_q), X-(-2*sqrt_q)
+```
+
+and only then transported through the three 2-isogeny setups. The package-level
+tracked `x` coordinates live on the codomain curves, so they are not the raw
+source differences.
+
+`wl434` gives the first actual relation on that layer: for a common source
+point, the three kernel target coordinates satisfy
+
+```text
+x_minus_p * x_pos_2sqrt_q * x_neg_2sqrt_q = Y^2,
+```
+
+so their squareclass product is trivial. This is still weaker than a Selmer
+bound, but it is now a concrete global-compatibility identity rather than just
+a direction note.
+
+`wl435` combines that identity with the `AA+BB` odd-support collapse. The
+result is stronger than the odd-prime local picture alone:
+
+```text
+for a genuine common source rational point in AA+BB,
+all three kernel coordinates have trivial odd-valuation part.
+```
+
+So the remaining rank-zero gap is no longer "odd primes on kernel_pos_2sqrt_q
+for actual points". The real gap is now whether this common-source compatibility
+can be lifted from Mordell-Weil points to the global Selmer layer, together
+with the dyadic and unit/sign constraints.
+
+`wl436` makes that compression explicit: the `AA+BB` target is now best viewed
+as a conditional 2-primary Selmer compatibility gap. In other words, after the
+odd-prime work and the common-source product relation, the next real theorem
+target is no longer "more odd-prime control", but a Selmer-level lift of the
+common-source compatibility together with the dyadic/unit-sign analysis.
+
+`wl437` makes the common-source side finite: for actual rational points in
+`AA+BB`, the three kernel coordinates lie in the subgroup
+
+```text
+{1, -1, 2, -2}
+```
+
+and satisfy one product relation, leaving only 16 possible 2-primary
+squareclass triples. So the next honest question is no longer about odd-prime
+support at all, but which of those 16 patterns survive the dyadic and
+Selmer-level compatibility filters.
+
+`wl438` compresses those 16 raw assignments further to 5 multiplicative types.
+So the dyadic/Selmer lift stage does not start from 16 unrelated boxes; it
+starts from 5 common-source pattern types, and only drops to the full 16-way
+split if the kernel-specific local analysis really needs that much detail.
+
+`wl439` shows a lower bound on what a purely independent dyadic filter could
+achieve: to kill all 16 common-source patterns while leaving each kernel local
+image nonempty, one must forbid at least 6 kernel/class atoms, i.e. at least 2
+classes on each kernel. So weak single-kernel dyadic exclusions are not enough
+by themselves; the realistic endgame still needs either strong per-kernel
+dyadic theorems or cross-kernel/Selmer compatibility.
+
+`wl440` turns that into a concrete per-kernel target matrix. The 5 common-source
+pattern types correspond to the support sets
+
+```text
+{1}, {1,-1}, {1,2}, {1,-2}, {-1,2,-2},
+```
+
+seen on each kernel. So the next dyadic theorem task is no longer abstract: it
+is to decide which of those support sets each kernel's dyadic image can or
+cannot admit, and where cross-kernel compatibility must do the rest.
+
+`wl441` compresses the 12 minimal independent-dyadic witnesses to 6 pair
+profiles and then 3 complementary pair families. So even the independent
+dyadic route no longer looks like a 12-case scatter. If that route is viable
+at all, it should probably organize around one of those 3 pair families rather
+than around isolated raw witnesses.
+
+The sharper Selmer-relevant correction is that the all-trivial pattern should
+be retained, not killed. With `(1,1,1)` kept and only the other 15 patterns
+targeted, `wl441` gives 4 minimal support shapes:
+
+```text
+{1}, {1}, {1,-1,2,-2}
+{1}, {1,-1}, {1,2,-2}
+{1}, {1,2}, {1,-1,-2}
+{1}, {1,-2}, {1,-1,2}
+```
+
+So the next dyadic theorem target is narrower than the raw pair-family route:
+prove one kernel has a very small dyadic image, then use the other two kernels
+and cross-kernel/Selmer compatibility to remove the nontrivial patterns.
+
+`wl443` chooses the first such theorem target:
+
+```text
+rank-zero-selmer-AA-BB-kernel-minus-p
+dyadic local image for x_minus_p intersects {1,-1,2,-2} only in {1}
+```
+
+The reason is that `x_minus_p` and `x_neg_2sqrt_q` already have no odd-prime
+support in `AA+BB`, while `x_pos_2sqrt_q` still has the possible
+`ell | T, ell == 1 mod 4` tail. So the smallest next move is not another
+combinatorial split; it is one singleton 2-adic local-image theorem for the
+globally relevant subgroup of `x_minus_p`.
+
+This is not a claim that the full `Q_2*/Q_2*2` local image is `{1}`. Classes
+outside the rational 2-primary subgroup may exist locally; after odd support
+collapse, the relevant question is the intersection with `{1,-1,2,-2}`.
+
+`wl444` gives a finite sanity check supporting exactly that boundary. For the
+sample primitive pairs `1:2`, `1:4`, `3:5`, `5:7`, the observed intersection
+
+```text
+x_minus_p(Q_2) ∩ {1,-1,2,-2}
+```
+
+is only `{1}`, while the same check already sees a full-`Q_2` local class `5`
+at `1:2`. So the subgroup-relative statement is still plausible, and the
+full-`Q_2` singleton statement is the wrong theorem target.
+
+`wl445` sharpens the next move further. Grouping by all 48 primitive residue
+classes modulo `8`, the common relevant intersection is still `{1}`, but 8
+classes retain an extra observed class `2`, and all 8 lie in the `odd-odd`
+bucket. So the next theorem target is not a uniform coarse parity lemma. The
+real remaining dyadic branch is the `odd-odd` case for
+
+```text
+rank-zero-selmer-AA-BB-kernel-minus-p.
+```
+
+`wl446` splits that last `odd-odd` bucket once more. Among the 16 primitive
+odd-odd residue classes mod `8`, only the same-mod-4 half still shows the
+extra observed class `2`:
+
+```text
+1:1, 1:5, 3:3, 3:7, 5:1, 5:5, 7:3, 7:7   mod 8.
+```
+
+The opposite-mod-4 half
+
+```text
+1:3, 1:7, 3:1, 3:5, 5:3, 5:7, 7:1, 7:5   mod 8
+```
+
+already has observed relevant intersection `{1}` at this finite level. This is
+still not a dyadic theorem, but it does narrow the next theorem target again:
+
+```text
+rank-zero-selmer-AA-BB-kernel-minus-p / odd-odd / same-mod-4 branch.
+```
 
 ## AA family odd-prime local image matrix
 

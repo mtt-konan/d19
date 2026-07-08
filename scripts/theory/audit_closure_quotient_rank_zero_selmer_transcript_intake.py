@@ -69,6 +69,10 @@ def _missing_fields(
     ]
 
 
+def _reviewable_segments(package_payload: dict[str, Any]) -> list[dict[str, Any]]:
+    return list(package_payload.get("reviewable_segments", []))
+
+
 def _package_violations(
     *,
     package_id: str,
@@ -186,6 +190,7 @@ def audit_rank_zero_selmer_transcript_intake(
             str(field)
             for field in package_payload.get("required_transcript_fields", [])
         ]
+        reviewable_segments = _reviewable_segments(package_payload)
         transcript_row = transcript_rows.get(package_id)
         missing_fields = _missing_fields(
             required_fields=required_fields,
@@ -207,9 +212,14 @@ def audit_rank_zero_selmer_transcript_intake(
                 "proof_status": (
                     "transcript-package-ready-needs-math-review"
                     if package_ready
-                    else "no-transcript-package-not-proof"
+                    else (
+                        "partial-reviewable-segment-not-proof"
+                        if reviewable_segments
+                        else "no-transcript-package-not-proof"
+                    )
                 ),
                 "missing_fields": missing_fields,
+                "reviewable_segment_count": len(reviewable_segments),
             }
         )
 
@@ -224,6 +234,9 @@ def audit_rank_zero_selmer_transcript_intake(
         )
 
     ready_count = sum(1 for package in packages if package["transcript_package_ready"])
+    reviewable_segment_package_count = sum(
+        1 for package in packages if int(package["reviewable_segment_count"]) > 0
+    )
     status = "ok" if not violations else "issues"
     return {
         "status": status,
@@ -236,6 +249,7 @@ def audit_rank_zero_selmer_transcript_intake(
         "strict_promotion_count": 0,
         "selmer_rank_upper_bound_proved_count": 0,
         "family_exclusion_proved_count": 0,
+        "packages_with_reviewable_segment_count": reviewable_segment_package_count,
         "candidate_not_proof": True,
         "proof_status": _overall_proof_status(
             ready_count=ready_count,

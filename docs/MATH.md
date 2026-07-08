@@ -451,8 +451,8 @@ hard-case pair 和 wl100 的 `64` 个 local-global residual pair 跑过 `ellfrom
 这说明闭合商曲线确实提供了旧 $E_{A,B}$ 看不到的新信号，但还不是通用的 `proof_status` 判定方法：
 `AB/BA` 没有命中 rank `0`；320 hard cases 里 `0/2`、`1/3` 这些 rank 上下界不闭合的行经
 `ellrank(effort=4)` 复核仍未收紧，后续需要更直接的 2-descent / Selmer / 模型化处理。
-64 residual pair 这批则全部 rank 上下界闭合。实验记录见
-[wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)。主线入口见
+64 residual pair 这批则全部 rank 上下界闭合。压缩记录见
+[wl290, wl294-wl321](./work-logs/294-closure-quotient-foundation-consolidated.md)。主线入口见
 [docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)。
 
 `AB/BA` 的正 rank 现象已有结构解释：二者共享

@@ -319,8 +319,16 @@ This does not prove the whole package. The following parts remain open:
 - the rank-zero conclusion
 - any `lambda`-family exclusion
 
+## Partial Transcript Segments
+
+- `selmer_bound_argument` / `formal_lift_compatibility`
+  - status = reviewable-proof
+  - proof_path = docs/work-logs/449-aa-pos-kernel-formal-lift-reviewable-proof.md
+  - scope = odd-prime only
+  - summary = The odd-prime formal-lift compatibility segment is written as a line-by-line proof; the dyadic place, the global Selmer bound, and rank zero remain open.
+
 ## Boundary
 
-transcript_status = missing
+transcript_status = partial
 
 No Selmer rank upper bound is proved by this file. No rank-zero theorem or lambda-family exclusion is claimed here.

@@ -118,6 +118,102 @@ def test_materialize_rank_zero_selmer_packages_writes_json_and_markdown(
     assert "No Selmer rank upper bound is proved by this file." in markdown
 
 
+def test_materialize_rank_zero_selmer_packages_preserves_reviewable_segment(
+    tmp_path: Path,
+) -> None:
+    packages_dir = tmp_path / "packages"
+    segment_index = {
+        "status": "ok",
+        "ready": True,
+        "segments": [
+            {
+                "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+                "required_field": "selmer_bound_argument",
+                "proof_section": "formal_lift_compatibility",
+                "segment_status": "reviewable-proof",
+                "proof_path": "docs/work-logs/example-proof.md",
+                "segment_scope": "odd-prime only",
+                "summary": "one reviewable segment is written; dyadic/global remain open",
+            }
+        ],
+    }
+
+    manifest = materialize_rank_zero_selmer_packages(
+        package_index=_package_index(),
+        packages_dir=packages_dir,
+        segment_index=segment_index,
+    )
+
+    assert manifest["status"] == "ok"
+
+    json_path = packages_dir / "rank-zero-selmer-AA-kernel-minus-p.json"
+    markdown_path = packages_dir / "rank-zero-selmer-AA-kernel-minus-p.md"
+    package_payload = json.loads(json_path.read_text(encoding="utf-8"))
+    assert package_payload["transcript_status"] == "partial"
+    assert package_payload["proof_claim"] == "none"
+    assert package_payload["reviewable_segments"] == [
+        {
+            "required_field": "selmer_bound_argument",
+            "proof_section": "formal_lift_compatibility",
+            "segment_status": "reviewable-proof",
+            "proof_path": "docs/work-logs/example-proof.md",
+            "segment_scope": "odd-prime only",
+            "summary": "one reviewable segment is written; dyadic/global remain open",
+        }
+    ]
+
+    markdown = markdown_path.read_text(encoding="utf-8")
+    assert "## Partial Transcript Segments" in markdown
+    assert "`selmer_bound_argument` / `formal_lift_compatibility`" in markdown
+    assert "proof_path = docs/work-logs/example-proof.md" in markdown
+    assert "transcript_status = partial" in markdown
+
+
+def test_materialize_rank_zero_selmer_packages_preserves_existing_partial_transcript(
+    tmp_path: Path,
+) -> None:
+    packages_dir = tmp_path / "packages"
+    packages_dir.mkdir()
+    markdown_path = packages_dir / "rank-zero-selmer-AA-kernel-minus-p.md"
+    markdown_path.write_text(
+        "# rank-zero-selmer-AA-kernel-minus-p\n\n"
+        "## Partial Transcript: formal_lift_compatibility\n\n"
+        "detailed proof body\n\n"
+        "## Boundary\n\n"
+        "transcript_status = missing\n",
+        encoding="utf-8",
+    )
+
+    segment_index = {
+        "status": "ok",
+        "ready": True,
+        "segments": [
+            {
+                "package_id": "rank-zero-selmer-AA-kernel-minus-p",
+                "required_field": "selmer_bound_argument",
+                "proof_section": "formal_lift_compatibility",
+                "segment_status": "reviewable-proof",
+                "proof_path": "docs/work-logs/example-proof.md",
+                "segment_scope": "odd-prime only",
+                "summary": "one reviewable segment is written; dyadic/global remain open",
+            }
+        ],
+    }
+
+    materialize_rank_zero_selmer_packages(
+        package_index=_package_index(),
+        packages_dir=packages_dir,
+        segment_index=segment_index,
+    )
+
+    markdown = markdown_path.read_text(encoding="utf-8")
+    assert "## Partial Transcript: formal_lift_compatibility" in markdown
+    assert "detailed proof body" in markdown
+    assert "## Partial Transcript Segments" in markdown
+    assert "proof_path = docs/work-logs/example-proof.md" in markdown
+    assert "transcript_status = partial" in markdown
+
+
 def test_materialize_rank_zero_selmer_packages_reports_bad_index(
     tmp_path: Path,
 ) -> None:

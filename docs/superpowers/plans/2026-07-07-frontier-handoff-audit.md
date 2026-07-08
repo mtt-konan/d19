@@ -49,7 +49,7 @@ Expected: PASS.
 - Modify: `tests/test_summarize_closure_quotient_partial_result.py`
 - Modify: `docs/CLOSURE_QUOTIENT_MAINLINE.md`
 - Modify: `docs/paper/CLOSURE_QUOTIENT_PARTIAL_RESULT.md`
-- Create: `docs/work-logs/340-frontier-handoff-audit.md`
+- Create: `docs/work-logs/322-residual-frontier-consolidated.md`
 
 - [ ] **Step 1: Add the audit to artifact and summary gates**
 

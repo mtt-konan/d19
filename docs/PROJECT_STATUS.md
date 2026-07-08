@@ -61,8 +61,7 @@
 2026-07 又把 `tmp.txt` 里更具体的闭合商曲线方向收成了 `concordant` 的正式子方向：
 
 - 入口文档：[docs/CLOSURE_QUOTIENT_MAINLINE.md](./CLOSURE_QUOTIENT_MAINLINE.md)
-- 临时判断记录：[wl294](./work-logs/294-tmp-mixed-closure-answer.md)
-- 实验与严格回拉记录：[wl290](./work-logs/290-mixed-closure-quotient-rank-smoke.md)
+- 压缩记录：[wl290, wl294-wl321](./work-logs/294-closure-quotient-foundation-consolidated.md)
 
 这个子方向问的是：旧曲线只看 `N`，如果把闭合腿 `M=A+B-N` 也放进同一条曲线，会多出什么判据。
 当前结论很具体：
