@@ -3081,6 +3081,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl424](work-logs/424-aa-pos-kernel-t-prime-zero-double-root.md)
 - [wl425](work-logs/425-aa-neg-kernel-odd-prime-formal-lifts.md)
 - [wl426](work-logs/426-aa-family-odd-prime-local-image-matrix.md)
+- [wl427](work-logs/427-aa-family-odd-support-separation.md)
 
 ## AA family odd-prime local image matrix
 
@@ -3101,6 +3102,34 @@ Selmer bound 里仔细处理的是 `T` 的奇素数，尤其是 `-1` 的本地�
 Boundary: this is only the odd-prime formal-lift input. It does not prove the
 dyadic local condition, global Selmer bound, rank zero, root-number
 exclusion, 2-cover exclusion, or lambda-family exclusion.
+
+## AA family odd support separation
+
+Combining the matrix with the primitive coprime-support facts
+
+```text
+gcd(L, T) = 1
+gcd(L, T^2 + 4*L^2) = 1
+gcd(T, T^2 + 4*L^2) divides 4
+```
+
+gives the odd-prime support separation:
+
+```text
+kernel_minus_p        odd support only from primes dividing T^2 + 4*L^2
+kernel_pos_2sqrt_q    odd support only from primes ell | T with ell == 1 mod 4
+kernel_neg_2sqrt_q    odd support only from primes dividing L
+```
+
+Here "support" means odd valuation in the relevant global squareclass,
+ignoring the prime `2` and unit signs. Local images `{1}` and `{1, -1}` force
+even valuation; full image does not. For `kernel_pos_2sqrt_q` at `ell | T`,
+full image occurs exactly when `-1` is a local square, i.e. `ell == 1 mod 4`.
+
+Boundary: this is still not a Selmer rank bound. Before dyadic and global
+relations, the possible odd support can still grow with
+`omega(T^2+4L^2)`, `omega(L)`, and the number of `ell == 1 mod 4` primes
+dividing `T`.
 
 数学总入口：
 
