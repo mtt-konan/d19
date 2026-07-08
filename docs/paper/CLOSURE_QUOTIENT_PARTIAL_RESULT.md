@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 496
+artifact_status.required_file_count = 500
 artifact_status.missing_file_count = 0
 ```
 
@@ -1328,6 +1328,29 @@ family_exclusion_proved_count = 0
 This records symbolic support candidates for future local Selmer conditions.
 The common candidate bad factors are `2, L, T, T^2+4L^2`. This is not a local
 condition computation or a Selmer bound.
+
+Audit rank-zero Selmer kernel-local schemas:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json \
+  --strict
+```
+
+Current result:
+
+```text
+status = ok
+family_pattern_count = 3
+kernel_schema_count = 3
+shared_kernel_schema_count = 3
+local_condition_proved_count = 0
+```
+
+This shows that the 9 package-level local-support rows collapse to 3 shared
+kernel schemas. The local symbolic structure is kernel-driven here, not
+family-pattern-driven. This is still a schema ledger, not a local condition.
 
 Audit rank-zero Selmer coprime supports:
 
@@ -2351,6 +2374,7 @@ scripts/theory/export_closure_quotient_rank_zero_selmer_package_index.py
 scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py
 scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py
+scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py
 scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py
@@ -2480,6 +2504,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 496
+required_file_count = 500
 missing_files = []
 ```

@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=496
+artifact_status.required_file_count=500
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -1596,6 +1596,30 @@ isogeny-Selmer transcript 时，候选坏因子统一是
 `kernel_minus_p -> -1`，`kernel_pos_2sqrt_q -> T^2+4L^2`，
 `kernel_neg_2sqrt_q -> T^2+4L^2`。这只是 local support candidates，不是
 local condition 证明。
+
+Rank-zero Selmer kernel-local schema audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py \
+  --local-supports results/closure_quotient_rank_zero_selmer_local_supports.json \
+  --out results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json \
+  --strict
+```
+
+当前结果：
+
+```text
+status=ok
+family_pattern_count=3
+kernel_schema_count=3
+shared_kernel_schema_count=3
+local_condition_proved_count=0
+```
+
+普通话说：`AA`、`AA+BB`、`BB` 这 3 个 family pattern 在局部候选这层并没有分裂成
+9 套不同模板，而是按 `kernel` 收缩成 3 套统一 schema。也就是说，后续 transcript 的
+局部部分更像“3 套 kernel 模板复用”，不是“9 份各写一遍”。这仍然只是 schema ledger，
+不是 local condition 证明。
 
 Rank-zero Selmer coprime-support audit：
 
@@ -2492,6 +2516,7 @@ factor_concordant / GEN-CLOSURE 后
 - `scripts/theory/materialize_closure_quotient_rank_zero_selmer_packages.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_family_theorem_readiness.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_local_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2571,6 +2596,7 @@ factor_concordant / GEN-CLOSURE 后
 - `tests/test_closure_quotient_rank_zero_selmer_package_materialization.py`
 - `tests/test_closure_quotient_rank_zero_selmer_transcript_intake.py`
 - `tests/test_closure_quotient_rank_zero_family_theorem_readiness.py`
+- `tests/test_closure_quotient_rank_zero_selmer_kernel_local_schemas.py`
 - `tests/test_closure_quotient_rank_zero_selmer_local_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_coprime_supports.py`
 - `tests/test_closure_quotient_rank_zero_selmer_odd_prime_cases.py`
@@ -2672,6 +2698,7 @@ factor_concordant / GEN-CLOSURE 后
 - `results/closure_quotient_rank_zero_selmer_transcript_intake.json`
 - `results/closure_quotient_rank_zero_selmer_transcript_template_index.json`
 - `results/closure_quotient_rank_zero_family_theorem_readiness.json`
+- `results/closure_quotient_rank_zero_selmer_kernel_local_schemas.json`
 - `results/closure_quotient_rank_zero_selmer_local_supports.json`
 - `results/closure_quotient_rank_zero_selmer_coprime_supports.json`
 - `results/closure_quotient_rank_zero_selmer_odd_prime_cases.json`
@@ -2822,6 +2849,7 @@ factor_concordant / GEN-CLOSURE 后
 - [wl390](work-logs/390-rank-zero-selmer-coprime-supports.md)
 - [wl391](work-logs/391-rank-zero-selmer-odd-prime-cases.md)
 - [wl410](work-logs/410-rank-zero-family-theorem-readiness.md)
+- [wl411](work-logs/411-rank-zero-selmer-kernel-local-schemas.md)
 
 数学总入口：
 
