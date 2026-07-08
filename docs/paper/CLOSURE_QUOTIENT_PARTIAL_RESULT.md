@@ -1055,7 +1055,7 @@ paper_structure_status.matched_section_count = 5
 paper_structure_status.matched_claim_count = 14
 paper_structure_status.missing_claim_count = 0
 artifact_status.ready = True
-artifact_status.required_file_count = 484
+artifact_status.required_file_count = 488
 artifact_status.missing_file_count = 0
 ```
 
@@ -2059,6 +2059,30 @@ residual_candidate_pair_count = 8
 Here `c_- = |A-B|`, and `c_+/c_-` records the unordered primitive ratio class
 `{A:B, B:A}`. This is a ledger key, not a family-level theorem.
 
+Audit c-ratio coverage:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_c_ratio_coverage.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_c_ratio_coverage_audit.json \
+  --strict
+```
+
+Current result:
+
+```text
+defined_c_ratio_class_count = 356
+lambda_orientation_gap_class_count = 356
+strict_unordered_class_count = 200
+residual_unordered_class_count = 8
+open_unordered_class_count = 156
+lambda_family_exclusion_proved_count = 0
+```
+
+The c-ratio ledger covers unordered classes, not oriented `lambda=A/B`
+families. In the current ledger every defined c-ratio class has an orientation
+gap, so no lambda-family exclusion is proved by this audit.
+
 Export external cover-descent task packages:
 
 ```bash
@@ -2397,6 +2421,6 @@ Current output:
 
 ```text
 ready = True
-required_file_count = 484
+required_file_count = 488
 missing_files = []
 ```

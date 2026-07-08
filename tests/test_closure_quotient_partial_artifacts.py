@@ -102,6 +102,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "scripts/theory/audit_closure_quotient_paper_structure.py" in paths
     assert "scripts/theory/audit_closure_quotient_partial_dependencies.py" in paths
     assert "scripts/theory/summarize_closure_quotient_ray_ledger.py" in paths
+    assert "scripts/theory/audit_closure_quotient_c_ratio_coverage.py" in paths
     assert "scripts/theory/summarize_closure_quotient_lambda_frontier.py" in paths
     assert "scripts/theory/audit_closure_quotient_ray_scale_invariance.py" in paths
     assert (
@@ -274,6 +275,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "tests/test_closure_quotient_paper_structure_audit.py" in paths
     assert "tests/test_closure_quotient_partial_dependency_audit.py" in paths
     assert "tests/test_closure_quotient_ray_ledger.py" in paths
+    assert "tests/test_closure_quotient_c_ratio_coverage.py" in paths
     assert "tests/test_closure_quotient_lambda_frontier.py" in paths
     assert "tests/test_closure_quotient_ray_scale_invariance.py" in paths
     assert "tests/test_closure_quotient_rank_zero_family_candidates.py" in paths
@@ -419,6 +421,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "docs/work-logs/361-partial-result-dependency-audit.md" in paths
     assert "docs/work-logs/362-external-cover-descent-packages.md" in paths
     assert "docs/work-logs/363-closure-quotient-ray-ledger.md" in paths
+    assert "docs/work-logs/408-closure-quotient-c-ratio-coverage.md" in paths
     assert "docs/work-logs/364-closure-quotient-lambda-frontier.md" in paths
     assert "docs/work-logs/365-closure-quotient-ray-scale-invariance.md" in paths
     assert "docs/work-logs/366-rank-zero-family-candidates.md" in paths
@@ -475,6 +478,7 @@ def test_default_artifact_manifest_includes_priority_handoff_audit() -> None:
     assert "results/closure_quotient_partial_dependency_audit.json" in paths
     assert "results/mixed_closure_external_cover_descent_package_index.json" in paths
     assert "results/closure_quotient_ray_ledger.json" in paths
+    assert "results/closure_quotient_c_ratio_coverage_audit.json" in paths
     assert "results/closure_quotient_lambda_frontier.json" in paths
     assert "results/closure_quotient_ray_scale_invariance_audit.json" in paths
     assert "results/closure_quotient_rank_zero_family_candidates.json" in paths

@@ -1076,7 +1076,7 @@ paper_structure_status.matched_section_count=5
 paper_structure_status.matched_claim_count=14
 paper_structure_status.missing_claim_count=0
 artifact_status.ready=True
-artifact_status.required_file_count=484
+artifact_status.required_file_count=488
 artifact_status.missing_file_count=0
 residual_status.proof_status=candidate-not-proof
 ```
@@ -2106,6 +2106,30 @@ residual_candidate_pair_count=8
 `c_+/c_-` 识别的是无向比例类 `{A:B, B:A}`，不能单独区分 `lambda` 和 `1/lambda`。
 所以它是比例类索引，不是整族证明。后续主线应研究哪些 `lambda` 类能被 rank-zero /
 root-number / 2-cover 机制整族排除；剩余类只接受可审阅的 no-point 证书。
+
+C-ratio coverage audit：
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closure_quotient_c_ratio_coverage.py \
+  --ray-ledger results/closure_quotient_ray_ledger.json \
+  --out results/closure_quotient_c_ratio_coverage_audit.json \
+  --strict
+```
+
+当前结果：
+
+```text
+defined_c_ratio_class_count=356
+lambda_orientation_gap_class_count=356
+strict_unordered_class_count=200
+residual_unordered_class_count=8
+open_unordered_class_count=156
+lambda_family_exclusion_proved_count=0
+```
+
+普通话说：`c_+/c_-` 已经覆盖 356 个观测到的无向比例类，但所有 356 个类都只观察到
+一个方向；缺的方向就是 `lambda` 和 `1/lambda` 之间的差别。因此这一步明确阻止把
+`c_+/c_-` ledger 冒充成 `lambda=A/B` 整族证明。
 
 External cover-descent package export：
 
