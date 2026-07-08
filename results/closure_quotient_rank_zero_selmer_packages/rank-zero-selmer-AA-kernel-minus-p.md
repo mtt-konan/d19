@@ -26,6 +26,101 @@ Status: open
 - rank_zero_conclusion
 - review_notes
 
+## Partial Transcript: formal_lift_compatibility
+
+### Scope
+
+This proves one local subclaim for the `selmer_bound_argument` section.
+
+- package: `rank-zero-selmer-AA-kernel-minus-p`
+- local case: odd prime `ell | L`
+- assumptions: `ell` is odd, `A:B` is primitive, `L=A`, `T=A+B`, so `T` is an
+  `ell`-adic unit when `ell | L`
+- target model:
+
+```text
+y^2 = x^3 + (32*L^2 - 8*T^2)*x^2 + 16*(T^2 + 4*L^2)^2*x
+```
+
+This is the package case whose mod-`ell` reduction shape is
+
+```text
+x*(x - 4*T^2)^2.
+```
+
+The tracked squareclass is the squareclass of `x` away from the kernel point
+`x=0`.
+
+### Claim
+
+For every odd-prime local field `K` with valuation ring `O`, uniformizer above
+`ell`, and `ell | L`, every `K`-point on the displayed model with `x != 0`
+has `x` in the trivial class of `K*/K*2`.
+
+Equivalently, the formal lift from the nodal reduction
+`x*(x - 4*T^2)^2` does not introduce a new squareclass in this local case.
+The reduction-level candidate squareclass set `["trivial"]` is therefore
+compatible with all formal lifts for this case.
+
+### Proof
+
+Write
+
+```text
+a2 = 32*L^2 - 8*T^2
+a4 = 16*(T^2 + 4*L^2)^2
+r  = 4*(T^2 + 4*L^2).
+```
+
+Since `ell | L` and `gcd(L,T)=1`, `T` is a unit in `O`. Hence `r` is also a
+unit, and its residue is `4*T^2`, a non-zero square in the residue field.
+
+The quadratic factor satisfies the exact identity
+
+```text
+x^2 + a2*x + a4 = (x - r)^2 + 64*L^2*x.
+```
+
+Let `P=(x,y)` be a `K`-point with `x != 0`. The curve equation is
+
+```text
+y^2 = x * (x^2 + a2*x + a4).
+```
+
+There are two cases.
+
+First suppose `x-r` is a unit. Then the identity above shows
+
+```text
+x^2 + a2*x + a4 == (x-r)^2 mod ell,
+```
+
+with non-zero square residue. Because `ell` is odd, Hensel's square-lifting
+criterion says `x^2 + a2*x + a4` is a square in `K*`. Since its product with
+`x` is `y^2`, the element `x` is also a square in `K*`.
+
+Now suppose `x-r` is not a unit. Then `x` and `r` have the same non-zero
+residue. The residue of `r` is `4*T^2`, a square. Again by the odd-prime
+unit square criterion, `x` is a square in `K*`.
+
+These two cases cover every `x`. Therefore every non-kernel local point has
+trivial tracked squareclass. The kernel point `x=0` is not an element of
+`K*/K*2`; it is handled separately by the isogeny-descent boundary convention
+and does not add a non-trivial squareclass.
+
+This proves the formal-lift compatibility subclaim for the `ell | L` case of
+`rank-zero-selmer-AA-kernel-minus-p`.
+
+### Remaining Gaps
+
+This does not prove the whole package. The following parts remain open:
+
+- the `ell | T` and `ell | T^2 + 4*L^2` odd-prime cases for this package
+- the `ell=2` local condition
+- the global Selmer dimension bound
+- the rank-zero conclusion
+- any `lambda`-family exclusion
+
 ## Boundary
 
 transcript_status = missing
