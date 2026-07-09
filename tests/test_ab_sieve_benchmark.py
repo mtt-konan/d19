@@ -120,8 +120,6 @@ def test_legacy_baseline_matches_default_pipeline() -> None:
         "f2_rank",
         "rank_zero",
         "heegner",
-        "chabauty",
-        "brauer_manin",
     )
 
 

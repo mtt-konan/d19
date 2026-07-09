@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pypdf import PdfReader
-
 
 def extract_pdf_text(pdf_path: str | Path) -> str:
     """Extract text from every page of a PDF.
@@ -13,6 +11,14 @@ def extract_pdf_text(pdf_path: str | Path) -> str:
     The extractor intentionally keeps page boundaries visible. This makes it easier
     to grep generated text files and to cite page-local context while reading papers.
     """
+    try:
+        from pypdf import PdfReader
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "PDF extraction requires the optional literature dependencies. "
+            "Run with `uv run --group literature python scripts/utility/extract_pdf_text.py ...`."
+        ) from exc
+
     path = Path(pdf_path)
     reader = PdfReader(str(path))
     chunks: list[str] = []

@@ -13,8 +13,6 @@ Methods are listed in increasing order of cost and mathematical depth:
                           and apply the full-plane GEN-CLOSURE decider
 4. ``rank_zero``        — call PARI ellrank; if proven rank == 0 ⇒ no_solution
 5. ``heegner``          — rank-one generator + canonical-height diagnostics
-6. ``chabauty_stub``    — placeholder for Quadratic Chabauty
-7. ``brauer_manin_stub``— placeholder for Brauer–Manin obstruction
 
 Since wl094, ``factor_concordant`` is an exhaustive, all-ranks, Magma-free
 decider over the reduced (coprime) legs: it enumerates *every* concordant N and
@@ -674,39 +672,6 @@ def run_f2_rank(
 
 
 # ---------------------------------------------------------------------------
-# Methods 5-6: stubs for the remaining advanced theoretical directions
-# ---------------------------------------------------------------------------
-
-
-def run_chabauty_stub(_A: int, _B: int) -> MethodResult:
-    """Placeholder for Chabauty / Quadratic Chabauty.
-
-    See docs/THEORY_DIRECTIONS_ADVANCED.md (方向七).
-    """
-    return MethodResult(
-        method="chabauty",
-        outcome="skipped",
-        details={"reason": "not_implemented"},
-        elapsed_s=0.0,
-        notes="Chabauty / QC not yet implemented (planned via SageMath qc_mod).",
-    )
-
-
-def run_brauer_manin_stub(_A: int, _B: int) -> MethodResult:
-    """Placeholder for Brauer–Manin obstruction.
-
-    See docs/THEORY_DIRECTIONS_ADVANCED.md (方向八).
-    """
-    return MethodResult(
-        method="brauer_manin",
-        outcome="skipped",
-        details={"reason": "not_implemented"},
-        elapsed_s=0.0,
-        notes="Brauer–Manin obstruction not yet implemented (planned via Magma).",
-    )
-
-
-# ---------------------------------------------------------------------------
 # Method registry
 # ---------------------------------------------------------------------------
 
@@ -723,16 +688,12 @@ DEFAULT_METHOD_PIPELINE: tuple[tuple[str, MethodFn], ...] = (
     ("f2_rank", run_f2_rank),
     ("rank_zero", run_rank_zero),
     ("heegner", run_heegner_stub),
-    ("chabauty", run_chabauty_stub),
-    ("brauer_manin", run_brauer_manin_stub),
 )
 
 
 __all__ = [
     "DEFAULT_METHOD_PIPELINE",
     "MethodFn",
-    "run_brauer_manin_stub",
-    "run_chabauty_stub",
     "run_chain_closure_mod_sieve",
     "run_f2_rank",
     "run_factor_concordant",

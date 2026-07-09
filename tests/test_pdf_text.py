@@ -5,8 +5,12 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
+
+pytest.importorskip("pypdf")
 
 from rational_distance.literature.pdf_text import extract_pdf_text, write_pdf_text
 

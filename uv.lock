@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12"
 
 [[package]]
@@ -186,7 +186,6 @@ source = { virtual = "." }
 dependencies = [
     { name = "cypari2" },
     { name = "numpy" },
-    { name = "pypdf" },
     { name = "sympy" },
     { name = "tqdm" },
 ]
@@ -198,6 +197,9 @@ dev = [
     { name = "ruff" },
     { name = "setuptools" },
 ]
+literature = [
+    { name = "pypdf" },
+]
 viz = [
     { name = "matplotlib" },
     { name = "networkx" },
@@ -208,7 +210,6 @@ viz = [
 requires-dist = [
     { name = "cypari2", specifier = ">=2.2.0" },
     { name = "numpy", specifier = ">=1.24" },
-    { name = "pypdf", specifier = ">=6.12.1" },
     { name = "sympy", specifier = ">=1.14.0" },
     { name = "tqdm", specifier = ">=4.67.3" },
 ]
@@ -220,6 +221,7 @@ dev = [
     { name = "ruff", specifier = ">=0.12.0" },
     { name = "setuptools", specifier = ">=82.0.1" },
 ]
+literature = [{ name = "pypdf", specifier = ">=6.12.1" }]
 viz = [
     { name = "matplotlib", specifier = ">=3.10.9" },
     { name = "networkx", specifier = ">=3.6.1" },

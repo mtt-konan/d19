@@ -29,8 +29,6 @@ def test_default_method_pipeline_names_are_stable() -> None:
         "f2_rank",
         "rank_zero",
         "heegner",
-        "chabauty",
-        "brauer_manin",
     )
 
 
@@ -434,20 +432,6 @@ class TestAdvancedMethods:
         result = run_heegner_stub(264, 420)
         assert result.method == "heegner"
         assert result.outcome != "no_solution"
-
-    def test_chabauty_stub(self):
-        from rational_distance.proof_status.methods import run_chabauty_stub
-
-        result = run_chabauty_stub(264, 420)
-        assert result.method == "chabauty"
-        assert result.outcome == "skipped"
-
-    def test_brauer_manin_stub(self):
-        from rational_distance.proof_status.methods import run_brauer_manin_stub
-
-        result = run_brauer_manin_stub(264, 420)
-        assert result.method == "brauer_manin"
-        assert result.outcome == "skipped"
 
 
 # ---------------------------------------------------------------------------

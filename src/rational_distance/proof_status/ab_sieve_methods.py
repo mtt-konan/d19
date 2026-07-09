@@ -6,8 +6,6 @@ from dataclasses import dataclass
 
 from rational_distance.concordant.factor_search import find_concordant_by_factorization
 from rational_distance.proof_status.methods import (
-    run_brauer_manin_stub,
-    run_chabauty_stub,
     run_chain_closure_mod_sieve,
     run_f2_rank,
     run_factor_concordant,
@@ -114,8 +112,6 @@ METHOD_REGISTRY: dict[str, ContextMethod] = {
     "f2_rank": run_f2_rank_ctx,
     "rank_zero": run_rank_zero_ctx,
     "heegner": lambda A, B, _ctx: run_heegner_height(A, B),
-    "chabauty": lambda A, B, _ctx: run_chabauty_stub(A, B),
-    "brauer_manin": lambda A, B, _ctx: run_brauer_manin_stub(A, B),
 }
 
 

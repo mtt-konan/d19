@@ -104,7 +104,7 @@
 - [src/rational_distance/proof_status/](../src/rational_distance/proof_status)
   - `types.py`：`PairProofStatus` / `MethodResult` 等数据类
   - `schema.py`：SQLite schema、DAO（`pair_proof_status`、`pair_method_attempts`）
-  - `methods.py`：6 个判定方法（`safe_sieve` / `factor_concordant` / `rank_zero` / 三个 stub）
+  - `methods.py`：当前默认判定流水线（`safe_sieve` / `chain_closure_mod_sieve` / `factor_concordant` / `multi_n_sieve` / `f2_rank` / `rank_zero` / `heegner`）
   - `workflow.py`：pipeline 编排，遇 terminal outcome 即停
   - `fast_core.py`：`--fast-core` 使用的核心筛并行 runner，只返回计数和 survivor
   - `ab_sieve_methods.py`：把前四层 sieve 拆成可重排的 context-aware benchmark 方法
@@ -118,7 +118,7 @@
 实现备注：
 
 - 它**不是搜索器**，而是"判定 + 落库"工具，跟 `chain-fast` / `concordant` 不互相替代。
-- `safe_sieve` 与 `factor_concordant` 都是 PARI-free 的严格必要条件；`rank_zero` 通过 `cypari2` 调 PARI；其余三个（Heegner / Chabauty / Brauer–Manin）是 stub，留接口给后续 SageMath / Magma 集成。
+- `safe_sieve`、`chain_closure_mod_sieve`、`factor_concordant`、`multi_n_sieve` 与 `f2_rank` 都是 PARI-free 层；`rank_zero` 通过 `cypari2` 调 PARI；`heegner` 是保守诊断层，不给 negative proof。Chabauty / Brauer-Manin 仍是研究方向，不作为运行时空占位方法记录。
 - `scripts/prove_no_solution.py --fast-core` 是大范围 `(A,B)` 诊断入口：
   - 全量只跑 `safe_sieve` / `chain_closure_mod_sieve` / `factor_concordant`
   - 默认只把 survivor 写进 SQLite
