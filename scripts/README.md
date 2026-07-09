@@ -84,48 +84,14 @@ F₂-rank 工具:
 - `rank_mixed_closure_curves.py` — 闭合条件混合商曲线 rank 实验 (wl290)
 
 Rank-zero Selmer / AA+BB audit helpers:
-- `audit_closure_quotient_rank_zero_aa_bb_wl481_m_tail_explicit_matrix_builder.py` — wl481 M_tail 显式矩阵与有限样本 kernel 诊断
-- `audit_closure_quotient_rank_zero_aa_bb_wl482_m_tail_kernel_classification_gate.py` — wl482 AA A=3,B=1 的 `u_3` kernel 分类门
-- `audit_closure_quotient_rank_zero_aa_bb_wl483_local_hilbert_row_decision_gate.py` — wl483 判断当前 local/Hilbert row ledger 是否能杀掉 `u_3`
-- `audit_closure_quotient_rank_zero_aa_bb_wl484_u3_obstruction_route_entry_audit.py` — wl484 记录 `u_3` 完整 d-坐标候选并选择 obstruction workflow gate
-- `audit_closure_quotient_rank_zero_aa_bb_wl485_explicit_cd_cover_equation_instantiation.py` — wl485 写出 `d=(3,3,1)` 的显式 `C_d` cover 方程
-- `audit_closure_quotient_rank_zero_aa_bb_wl486_local_solubility_gate.py` — wl486 在 `infinity,2,3,13` 记录显式 local solubility 证书
-- `audit_closure_quotient_rank_zero_aa_bb_wl487_route_impact_of_global_point.py` — wl487 记录 `u_3` cover 全局点对 M_tail / obstruction route 的影响
-- `audit_closure_quotient_rank_zero_aa_bb_wl488_select_next_complete_d_coordinate_route_after_u3_global_point.py` — wl488 在 `u_3` 全局点后选择 AA+BB closure/pullback/common-source 下一路由门
-- `audit_closure_quotient_rank_zero_aa_bb_wl489_closure_pullback_common_source_constraints_for_global_c_d_point.py` — wl489 检查 `u_3` 全局点的 AA pullback 与 AA+BB common-source 约束
-- `audit_closure_quotient_rank_zero_aa_bb_wl490_route_impact_after_wl489_admissibility_failure.py` — wl490 在 `u_3` 点级 admissibility 失败后更新 route ledgers 并选择 reusable filter 下一门
-- `audit_closure_quotient_rank_zero_aa_bb_wl491_ambient_c_d_to_aa_bb_admissibility_filter.py` — wl491 定义 ambient `C_d` 点进入 AA+BB admissible ledger 前的 reusable filter，并回归 `u_3` 为 not_admissible
-- `audit_closure_quotient_rank_zero_aa_bb_wl492_route_selection_after_admissibility_filter.py` — wl492 在 filter 存在且已知 ambient ledger 已过滤后，选择从现有 `M_tail` diagnostics 建候选队列
-- `audit_closure_quotient_rank_zero_aa_bb_wl493_candidate_queue_from_existing_m_tail_diagnostics.py` — wl493 从现有 wl481 `M_tail` kernel diagnostics 建队列，并将已处理的 `u_3` 降级/排除出 active queue
-- `audit_closure_quotient_rank_zero_aa_bb_wl494_extend_or_refresh_m_tail_diagnostics.py` — wl494 用有界 primitive AA/BB 样本网格刷新 `M_tail` diagnostics，记录新 active supports 与已处理 `u_3`
-- `audit_closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.py` — wl495 将 wl494 的 refreshed `v_5` supports 先过 ambient `C_d` solubility，再只对已证全局点应用 wl491 filter
-- `audit_closure_quotient_rank_zero_aa_bb_wl496_resolve_wl495_deferred_v5_ambient_c_d_global_solubility_ledgers.py` — wl496 解决 wl495 两个 deferred `v_5` ambient `C_d` ledgers，记录其共同 `L=4,T=5,d=(5,1,5)` cover 为 globally not soluble
-- `audit_closure_quotient_rank_zero_aa_bb_wl497_post_wl496_route_choice_audit.py` — wl497 在 `u_3` 和有界 refreshed `v_5` supports 均已处置后选择下一窄门为 structured `M_tail` diagnostic extension，但不执行该门
-- `audit_closure_quotient_rank_zero_aa_bb_wl498_structure_next_m_tail_diagnostic_extension_plan.py` — wl498 定义下一批 `M_tail` diagnostic extension 的 finite-shell axes、exclusion ledger、duplicate-support guard、未来输出 schema 和 routing contract，但不刷新新网格
-- `audit_closure_quotient_rank_zero_aa_bb_wl499_execute_finite_m_tail_diagnostic_extension_from_wl498_plan.py` — wl499 按 wl498 plan 执行 `max(A,B)=5` finite primitive shell，记录 active `u_5` M_tail diagnostic supports，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl500_route_active_u5_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.py` — wl500 将 wl499 两个 active `u_5` supports 路由过 ambient `C_d` solubility；共同 `L=5,T=8,d=(5,5,1)` cover 被记录为 globally not soluble，因此不应用 wl491
-- `audit_closure_quotient_rank_zero_aa_bb_wl501_post_wl500_route_choice_audit.py` — wl501 在 shell-5 `u_5` ledgers 均已 refuted 后选择下一窄门为按 wl498 plan 执行下一个 finite `M_tail` shell，但不执行该门
-- `audit_closure_quotient_rank_zero_aa_bb_wl502_execute_next_finite_m_tail_shell_from_wl498_plan.py` — wl502 按 wl501 gate 执行 `max(A,B)=6` finite primitive shell，应用 wl498 duplicate guard 和 wl501 closed-ledger exclusions，记录空的 M_tail diagnostic support queues，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl503_post_wl502_empty_shell_route_choice_audit.py` — wl503 在 shell-6 空队列后选择下一窄门为按 wl498 plan 稍后执行 `max(A,B)=7` finite `M_tail` shell，但不执行 shell 7
-- `audit_closure_quotient_rank_zero_aa_bb_wl504_execute_next_finite_m_tail_shell_from_wl498_plan.py` — wl504 按 wl503 gate 执行 `max(A,B)=7` finite primitive shell，应用 wl498 duplicate guard 和 wl503 closed-ledger exclusions，记录 shell-7 active/excluded M_tail diagnostic support queues，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.py` — wl505 将 12 个 active shell-7 supports 先过 ambient `C_d` solubility，再只对已证全局点应用 wl491 filter
-- `audit_closure_quotient_rank_zero_aa_bb_wl506_resolve_shell7_deferred_ambient_c_d_global_solubility_ledgers.py` — wl506 解决 wl505 四个 deferred shell-7 ambient `C_d` ledgers：两个 refuted，两个 global but not AA+BB-admissible
-- `audit_closure_quotient_rank_zero_aa_bb_wl507_post_wl506_route_choice_audit.py` — wl507 在 shell-7 active/deferred ledgers 全部处置后选择下一窄门为按 wl498 plan 执行 shell `max(A,B)=8`，但不执行 shell 8
-- `audit_closure_quotient_rank_zero_aa_bb_wl508_execute_next_finite_m_tail_shell_from_wl498_plan.py` — wl508 按 wl507 gate 执行 `max(A,B)=8` finite primitive shell，记录空 active queue 和两个 pure `u_3` processed exclusions，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl509_post_wl508_empty_shell_route_choice_audit.py` — wl509 在 shell-8 active queue 为空且 pure `u_3` outputs 已 processed 后选择下一窄门为按 wl498 plan 执行 shell `max(A,B)=9`，但不执行 shell 9
-- `audit_closure_quotient_rank_zero_aa_bb_wl510_execute_next_finite_m_tail_shell_from_wl498_plan.py` — wl510 按 wl509 gate 执行 `max(A,B)=9` finite primitive shell，记录 8 个 active shell-9 M_tail diagnostic supports，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl511_route_active_shell9_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.py` — wl511 将 8 个 active shell-9 supports 先过 ambient `C_d` solubility，再只对已证全局点应用 wl491 filter
-- `audit_closure_quotient_rank_zero_aa_bb_wl512_resolve_shell9_deferred_ambient_c_d_global_solubility_ledgers.py` — wl512 分类 wl511 四个 deferred shell-9 ambient `C_d` ledgers：两个 `v_13` refuted，两个 `u_7` 继续 deferred
-- `audit_closure_quotient_rank_zero_aa_bb_wl513_post_wl512_route_choice_audit.py` — wl513 在两个 shell-9 `u_7` ledgers 仍 deferred 后选择下一窄门为 targeted resolution of the shared `L=7,T=16,d=(7,7,1)` cover，但不进入该门
-- `audit_closure_quotient_rank_zero_aa_bb_wl514_resolve_remaining_shell9_u7_ambient_c_d_global_solubility_ledger.py` — wl514 进入 wl513 选定窄门，用 mod-17 Mordell-Weil sieve no-lift certificate 解决 shared shell-9 `u_7` cover 为 globally not soluble，并停止在 post-wl514 route choice 前
-- `audit_closure_quotient_rank_zero_aa_bb_wl515_post_wl514_route_choice_audit.py` — wl515 在 shell-9 deferred ambient `C_d` ledgers 全部分类后选择下一窄门为按 wl498 plan 执行 shell `max(A,B)=10`，但不执行 shell 10
-- `audit_closure_quotient_rank_zero_aa_bb_wl516_execute_next_finite_m_tail_shell_from_wl498_plan.py` — wl516 按 wl515 gate 执行 `max(A,B)=10` finite primitive shell，记录 10 个 active shell-10 M_tail diagnostic supports，并停止在 ambient `C_d` / wl491 之前
-- `audit_closure_quotient_rank_zero_aa_bb_wl517_route_active_shell10_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.py` — wl517 将 10 个 active shell-10 supports 先过 ambient `C_d` solubility，再只对已证全局点应用 wl491 filter
-- `audit_closure_quotient_rank_zero_aa_bb_wl518_support_family_synthesis_after_wl517.py` — wl518 将 wl491-wl517 ledger outputs 按 support family / cover family 聚合，选择 shared shell-10 `u_5` deferred cover resolution 为下一窄门但不进入
-- `audit_closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_ambient_c_d_global_solubility_cover.py` — wl519 进入 wl518 选定窄门，用 exact rational ambient `C_d` point 解决 shared shell-10 `u_5` cover 为 globally soluble，并对两个 mirror entries 应用 wl491 后归入 not AA+BB-admissible ledgers
-- `audit_closure_quotient_rank_zero_aa_bb_wl520_post_wl519_route_choice_audit.py` — wl520 在 shared shell-10 `u_5` cover 已分类后选择 post-classification support/cover-family synthesis 为下一窄门，但不进入该 synthesis 或执行 shell 11
-- `audit_closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.py` — wl521 进入 wl520 选定 synthesis，按 support/cover family 重聚合 wl491-wl519 ledgers，记录无 deferred/admissible cover family，并只选择后续 finite shell `max(A,B)=11` 而不执行 shell 11
-- `audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py` — wl522 用 wl521 作为 latest state，把 wl491-wl521 ledgers 压成 support/cover taxonomy，区分 ambient refutation 与 AA+BB common-source admissibility failure，并只选择 unproved common-source square obstruction lemma candidate 而不进入证明或执行 shell 11
+- `wl481-wl490` complete d-coordinate setup and first ambient `u_3` route.
+- `wl491-wl522` AA+BB admissibility filter, finite `M_tail` shell routing,
+  and support/cover taxonomy. Read
+  `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md` first.
+- Latest compact executable checkpoint:
+  `audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`.
+- Current next gate: try the named common-source square obstruction lemma; do
+  not execute shell 11 from this index alone.
 
 ### `modular/` — Path B / mod p² 实证
 
