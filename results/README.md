@@ -1,6 +1,8 @@
 # results/ — 输出索引与可信度说明
 
-按主题分目录. 顶层只放主索引 (catalog) + 数据库 + 子目录入口.
+按主题分目录. 这个目录放本机生成的实验输出; git 里默认只保留这份
+`README.md`. 需要重跑、分享或归档具体输出时, 用对应 `scripts/` 入口重新生成,
+或通过外部存储/压缩包交付, 不要直接把大批 `results/` 产物提交进仓库.
 
 ## 先读这个：哪些结果能当证据？
 
@@ -15,7 +17,7 @@
 
 | 文件 | 用途 |
 |------|------|
-| `catalog.json` | 主结果目录 (机器可读索引) |
+| `catalog.json` | 主结果目录 (机器可读索引); 本机生成, 默认不跟踪 |
 | `chain.db` | legacy chain-fast SQLite 结果库；历史线索，不是当前 schema 证据 |
 | `proof_status.db` (+ shm/wal) | stale proof-status workflow 快照；历史线索，不是当前结论 |
 | `proof_status_multi_1m.db` | non-coprime/full-space 相关旧快照；引用前必须核对生成脚本和语义 |
@@ -125,12 +127,14 @@ F₂-rank 数据再加:
 
 ## .gitignore
 
-大体原则是：大型运行产物和本机 DB 不进 git；README、catalog、少量归档/基准小文件可能已经被跟踪，用于说明 provenance。判断一个文件是否跟踪，用：
+大体原则是：运行产物和本机 DB 不进 git；`results/README.md` 是默认保留的目录说明。
+判断一个文件是否跟踪，用：
 
 ```bash
 git ls-files results
 ```
 
-所有可复现实验数据应能通过 `scripts/` 中对应入口重新生成。
+所有可复现实验数据应能通过 `scripts/` 中对应入口重新生成。若确实需要把小型
+canonical fixture 放进 `results/`, 需要显式说明用途并用 `git add -f` 加入。
 
 需要分享 / 跨机器复现时, 用 rsync / Zenodo / S3, 不要进 git.

@@ -23,6 +23,9 @@ scripts/multi_n/_concordant_gen.c
 # Generated search outputs
 /results*.json
 /*_results.json
+/results/**
+!/results/
+!/results/README.md
 /tmp.txt
 /outputs/
 .cache/
