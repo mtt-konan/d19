@@ -76,7 +76,8 @@ def _run_concordant_factor(
 
         iterator = enumerate(pairs_to_analyze)
         if not args.no_progress:
-            from tqdm import tqdm
+            from rational_distance.progress import optional_tqdm as tqdm
+
             iterator = tqdm(list(iterator), desc="Factor search", leave=False)
 
         n_with_concordant = 0
@@ -408,7 +409,7 @@ def _run_concordant(args: argparse.Namespace) -> None:
 
         iterator = enumerate(pairs_to_analyze)
         if not args.no_progress:
-            from tqdm import tqdm
+            from rational_distance.progress import optional_tqdm as tqdm
 
             iterator = tqdm(list(iterator), desc="EC analysis", leave=False)
 

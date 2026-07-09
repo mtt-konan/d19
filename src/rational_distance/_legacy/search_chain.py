@@ -50,7 +50,8 @@ from dataclasses import asdict, dataclass, field
 from math import gcd
 
 import numpy as np
-from tqdm import tqdm
+
+from rational_distance.progress import optional_tqdm as tqdm
 
 # ── Primitive decomposition helper ───────────────────────────────────────────
 
