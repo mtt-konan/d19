@@ -154,11 +154,8 @@
 脚本层：
 
 - [scripts/search.py](../scripts/search.py)
-- [scripts/archive/analyze_ec_db.py](../scripts/archive/analyze_ec_db.py)
-- [scripts/archive/analyze_chain_db.py](../scripts/archive/analyze_chain_db.py)
 - [scripts/benchmark/benchmark_parallel_executor.py](../scripts/benchmark/benchmark_parallel_executor.py)
 - [scripts/archive/compare_parametric.py](../scripts/archive/compare_parametric.py)
-- [scripts/archive/visualize.py](../scripts/archive/visualize.py)
 
 实现备注：
 
@@ -210,11 +207,11 @@
 - 每个文件 9 行，纯 `from rational_distance._legacy.* import *` 转发
 - 目的：让 `from rational_distance.search_ec import ec_search` 这种历史导入路径继续可用
 
-**真实 re-export 列表（4 个）**：
+**真实 legacy 包**：
 
 - 集中在 [src/rational_distance/_legacy/](../src/rational_distance/_legacy)
-- 完整的 `from X import (...)` + `__all__` 列表都在这里
-- 这个子目录里**不应该有任何新代码**——它是一个标记为 deprecated 的迁移地带
+- 这里仍承载旧 CLI、数据库层和测试会 import 的实现
+- 这个子目录里**不应该有任何新代码**，但也不能仅凭名字直接删除
 
 它们当前仍有真实调用方，包括测试、数据库层（`chain_db.py`、`ec_db.py`）和部分 CLI runners。
 所以“包目录已经更清楚了”不等于“这些文件已经可以直接删”。
