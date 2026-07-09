@@ -1,13 +1,12 @@
-# 忽略本目录所有 PDF，但保留 README.md、.gitignore 和抽取文本
+# Ignore local PDF and extracted-text caches. Keep only README.md and .gitignore.
 *.pdf
 *.PDF
+*.txt
 
 # 不忽略说明文件
 !README.md
 !.gitignore
-!*.txt
 
-# 注：PDF 是二进制，不适合直接 review。
+# 注：PDF 是二进制，不适合直接 review；抽取文本可再生成。
 # 需要文本时运行：
-#   uv run python scripts/extract_pdf_text.py docs/literature/pdfs/<paper>.pdf
-# 生成的 .txt 可以 grep 和 review；需要时可提交作为阅读缓存。
+#   uv run --group literature python scripts/utility/extract_pdf_text.py docs/literature/pdfs/<paper>.pdf

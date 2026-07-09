@@ -17,7 +17,7 @@ literature/
 │   ├── bremner-ulas-2016.md      （5 点 rational distance）
 │   ├── chang-2024-4regular.md    （明确说 Harborth 4-regular open）
 │   └── greenfeld-2024.md         （整数距离集密度）
-└── pdfs/                  # PDF 全文（gitignore 不上传 GitHub）
+└── pdfs/                  # 本地 PDF/text cache（不上传 GitHub）
     ├── README.md          # PDF 放置约定
     └── .gitignore
 ```
@@ -48,7 +48,7 @@ literature/
 
 **第二遍**（追溯奠基）：
 3. `bremner-guy-1989.md`（拿到全文后）— 确认 4-chain 问题的真正起源
-4. `ono-1996-concordant.md` — 协调形式问题的现代起点，PDF/text 已在 `pdfs/` 目录
+4. `ono-1996-concordant.md` — 协调形式问题的现代起点；PDF/text 可放本地 `pdfs/` cache
 
 **第三遍**（最新动态）：
 5. `chang-2024-4regular.md` — Harborth 在图绘领域 2024 年的状态
@@ -62,6 +62,7 @@ literature/
 - 文件名格式：`{作者}-{年份}-{短标题}.pdf`，例如 `bremner-guy-1989-delta-lambda.pdf`
 - PDF 不入 git（受 `.gitignore` 控制），但 `.txt` 抽取文本可以入 git 供 grep/review
 - 抽取文本：`uv run --group literature python scripts/utility/extract_pdf_text.py docs/literature/pdfs/*.pdf`
+- PDF 和抽取 `.txt` 默认都是本地 cache，不入版本控制。
 - 大于 100MB 的不要放，应放外部存储（Zenodo 等）
 
 ## 相关 worklog

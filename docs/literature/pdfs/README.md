@@ -1,87 +1,41 @@
-# PDF 存放约定
+# PDF Cache
 
-本目录用于存放文献全文 PDF。
+This directory is for local literature PDF and extracted-text caches. The cache
+is intentionally not tracked, except for this README and `.gitignore`.
 
-## 命名规范
+## Naming
 
+```text
+{first-author-last-name-lowercase}-{year}-{short-keywords}.pdf
+{first-author-last-name-lowercase}-{year}-{short-keywords}.txt
 ```
-{第一作者姓氏小写}-{年份}-{短关键词}.pdf
-```
 
-示例：
-- `bremner-guy-1989-delta-lambda.pdf`
+Examples:
+
 - `peschmann-2026-quartic-reductions.pdf`
 - `knaf-selder-spindler-2019-algorithm.pdf`
 - `ono-1996-eulers-concordant-forms.pdf`
 
-## 文本抽取
+## Text Extraction
 
-本项目提供了统一脚本：
+Use:
 
 ```bash
-uv run --group literature python scripts/utility/extract_pdf_text.py docs/literature/pdfs/ono-1996-eulers-concordant-forms.pdf
 uv run --group literature python scripts/utility/extract_pdf_text.py docs/literature/pdfs/*.pdf
 ```
 
-默认输出到同目录同名 `.txt` 文件。例如：
+The extractor writes `.txt` files next to the PDFs. Those text files are also a
+local cache by default; keep durable reading notes in `docs/literature/notes/`
+and bibliographic metadata in `docs/literature/references.bib`.
 
-```text
-ono-1996-eulers-concordant-forms.pdf
-ono-1996-eulers-concordant-forms.txt
-```
+## Git Policy
 
-抽取器用 `pypdf`，不依赖系统命令 `pdftotext`。
+Do not track PDFs or extracted `.txt` caches here. Reasons:
 
-## Git 处理
+1. PDFs are binary and often copyright-sensitive.
+2. Extracted text can be regenerated from local PDFs.
+3. Durable review material belongs in notes, not a cache directory.
+4. Metadata and source URLs belong in `../references.bib` or the relevant note.
 
-本目录的 PDF **不入版本控制**（受 `.gitignore` 控制）。`.txt` 抽取文本可以入版本控制，用来 grep、review 和引用。
-原因：
-1. PDF 文件体积大、二进制改不易 diff
-2. 抽取文本可以 diff，也能被代码检索工具读取
-3. 许多文献有版权限制，不应散播 PDF
-4. 关键 metadata 已在 `../references.bib` 里
-
-如果有需要团队共享但 GitHub 不便上传的 PDF：
-- 用 Zenodo / Google Drive / OneDrive 等外部存储
-- 在 `../notes/{paper}.md` 里写明本地路径 / 外部链接
-
-## 当前应优先获取的 PDF
-
-按优先级排序：
-
-1. ⭐⭐⭐ **bremner-guy-1989-delta-lambda.pdf**
-   - 全名：Bremner, A. & Guy, R. K. (1989). The delta-lambda configurations in tiling the square. J. Number Theory 32(3), 263-280.
-   - 获取途径：
-     - ScienceDirect (有机构订阅): https://www.sciencedirect.com/science/article/pii/0022314X89900838
-     - CORE Reader (免费但慢): https://core.ac.uk/reader/82053950
-     - ASU 作者主页: https://asu.elsevierpure.com/en/publications/the-delta-lambda-configurations-in-tiling-the-square
-
-2. ⭐⭐⭐ **peschmann-2026-quartic-reductions.pdf**
-   - 全名：Peschmann (2026). Quartic reductions and elliptic obstructions for perfect Euler bricks. arXiv:2604.09328
-   - 获取途径：https://arxiv.org/pdf/2604.09328
-   - HTML 版（已读完）：https://arxiv.org/html/2604.09328v1
-   - 配套代码：https://github.com/renpe/euler-brick-obstructions
-   - 数据：https://renepeschmann.de/research
-
-3. ⭐⭐⭐ **ono-1996-eulers-concordant-forms.pdf** ✅ 已获取
-   - 全名：Ono, K. (1996). Euler's concordant forms. Acta Arithmetica 78(2), 101-123.
-   - 本地路径：`ono-1996-eulers-concordant-forms.pdf`
-   - 获取途径：
-     - Acta Arithmetica mirror: http://matwbn.icm.edu.pl/ksiazki/aa/aa78/aa7821.pdf
-     - EUDML: https://eudml.org/doc/206936
-     - ResearchGate: https://www.researchgate.net/publication/228792276
-     - Academia: https://www.academia.edu/73654253
-
-4. ⭐⭐ **knaf-selder-spindler-2019-algorithm.pdf**
-   - 全名：Knaf, Selder, Spindler (2019). An Algorithm to Find Rational Points on Elliptic Curves Related to the Concordant Form Problem. arXiv:1907.02148
-   - 获取途径：https://arxiv.org/pdf/1907.02148
-
-5. ⭐⭐ **bremner-ulas-2016-rational-distances.pdf**
-   - 全名：Bremner, Ulas (2016). Points at rational distances from the vertices of certain geometric objects. J. Number Theory 158, 104-133.
-   - 获取途径：
-     - arXiv: https://arxiv.org/pdf/1502.07312
-     - ScienceDirect: https://www.sciencedirect.com/science/article/pii/S0022314X15002243
-
-6. ⭐⭐ **chang-2024-harborth-4regular.pdf**
-   - 全名：Chang (2024). Harborth's Conjecture for 4-Regular Planar Graphs. LIPIcs GD 2024.
-   - 获取途径：https://drops.dagstuhl.de/storage/00lipics/lipics-vol320-gd2024/LIPIcs.GD.2024.38/LIPIcs.GD.2024.38.pdf
+For exact sources and recommended downloads, read `../references.bib` and
+`../notes/*.md`.
