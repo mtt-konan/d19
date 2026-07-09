@@ -65,16 +65,19 @@ uv run ruff format .
 | 文档 | 内容 |
 |------|------|
 | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) | 当前主线、已经证明什么、还没证明什么 |
+| [docs/NEXT_RESEARCH_GATE.md](docs/NEXT_RESEARCH_GATE.md) | 下一窄门：`wl521` 已完成 post-`wl519` support/cover-family synthesis；shell 11 只被选作后续有限壳，未执行 |
 | [docs/OPEN_DIRECTIONS.md](docs/OPEN_DIRECTIONS.md) | 当前下一步和停止条件 |
 | [docs/CLOSURE_QUOTIENT_MAINLINE.md](docs/CLOSURE_QUOTIENT_MAINLINE.md) | closure quotient / rank-zero Selmer 主线细账 |
 | [docs/MATH.md](docs/MATH.md) | 数学总库：参数化推导、chain 化简、concordant 椭圆曲线等推导 |
 | [docs/IMPLEMENTATION.md](docs/IMPLEMENTATION.md) | 工程结构参考：代码分区、实现入口、兼容层现状 |
+| [AGENTS.md](AGENTS.md) | agent 接手规则、禁止过度声称、测试和 worklog 约定 |
 | [docs/archive/](docs/archive/) | 历史文档与实验记录（参考用，不是当前主线） |
 | [docs/work-logs/](docs/work-logs/) | 各版本工作日志（不可修改） |
 
 当前建议的阅读顺序是：
 
 1. [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)
-2. [docs/OPEN_DIRECTIONS.md](docs/OPEN_DIRECTIONS.md)
-3. [docs/CLOSURE_QUOTIENT_MAINLINE.md](docs/CLOSURE_QUOTIENT_MAINLINE.md)
-4. [docs/MATH.md](docs/MATH.md)（需要数学细节时）
+2. [docs/NEXT_RESEARCH_GATE.md](docs/NEXT_RESEARCH_GATE.md)
+3. [docs/OPEN_DIRECTIONS.md](docs/OPEN_DIRECTIONS.md)
+4. [docs/CLOSURE_QUOTIENT_MAINLINE.md](docs/CLOSURE_QUOTIENT_MAINLINE.md)
+5. [docs/MATH.md](docs/MATH.md)（需要数学细节时）
