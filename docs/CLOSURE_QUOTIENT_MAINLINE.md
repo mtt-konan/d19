@@ -335,6 +335,20 @@ theorem-candidate：
 `common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families`，
 但没有进入证明、没有执行 shell 11、没有选择 final obstruction candidate，也没有
 证明 Selmer 上界或 family rank-zero theorem。
+`wl523` 只尝试这个 named theorem-candidate 的 statement/proof-layer 拆分：
+点级 common-source square obstruction 已经由 `wl491` contract 给出，centered-even
+pullback 得到有理 `N,M` 后，opposite-side product 不是平方就不能进入 AA+BB
+admissible ledger；但这不是 uniform cover-family theorem，15 个 not-admissible
+cover families 仍只是 finite taxonomy data。它没有执行 shell 11、没有计算新
+support、没有测试新 ambient `C_d`、没有对新点应用 `wl491`、没有选择 final
+candidate，也没有证明 Selmer 上界或 family theorem。`wl524` 只做 post-`wl523`
+route choice：比较 uniform cover-family squareclass lemma attempt、稍后返回
+finite shell 11 `M_tail` diagnostics、proof-level local / Hilbert row work、final
+obstruction candidate selection；选择下一窄门为稍后尝试新的 uniform cover-family
+squareclass obstruction lemma，但不进入该证明尝试。shell 11 被 defer，local /
+Hilbert row work 等待 named Selmer row gap，final candidate selection 被 reject。
+`wl524` 没有证明 uniform lemma、没有执行 shell 11、没有选择 final candidate、
+没有产生 Selmer 上界或 family rank-zero theorem。
 
 ## 6. 不要再主线化的东西
 

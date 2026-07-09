@@ -3,12 +3,12 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-wl523 Route Choice
+## P0: Uniform Cover-Family Squareclass Lemma Attempt
 
 Current gate:
 
 ```text
-post_wl523_route_choice_not_entered_here
+attempt_uniform_cover_family_squareclass_obstruction_lemma
 ```
 
 Input state:
@@ -27,9 +27,10 @@ common_source_square_obstruction_for_globally_soluble_not_admissible_cover_famil
 opposite-side common-source product blocks AA+BB admissibility. It also records
 that this is not a uniform cover-family theorem.
 
-This direction should decide whether to attempt a new uniform squareclass
-lemma for those cover families, or return later to finite `M_tail` shell
-diagnostics.
+`wl524` decided the route choice and selected a later attempt at a new uniform
+squareclass lemma for those cover families. That proof attempt has not been
+entered. It must not use the 15 cover-family count as proof, and it must not
+claim a theorem-level Selmer upper bound unless one is actually proved.
 
 Do not turn this into shell 11, new support computation, new ambient `C_d`
 solubility tests, final-candidate selection, or broad Selmer/rank diagnostics.
@@ -59,8 +60,9 @@ max(A,B) = 11
 ```
 
 This is lower priority than the post-`wl523` route choice. Execute shell 11
-only if the user explicitly chooses this route, and keep it classified as
-finite `M_tail` diagnostic work rather than Selmer theorem progress.
+only if the user explicitly chooses this route or the selected uniform lemma
+attempt is abandoned, and keep it classified as finite `M_tail` diagnostic
+work rather than Selmer theorem progress.
 
 ## Closed Or Paused Directions
 

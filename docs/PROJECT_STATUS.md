@@ -66,7 +66,7 @@ The current narrow gate is more specific and is recorded in
 [NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md):
 
 ```text
-post_wl523_route_choice_not_entered_here
+attempt_uniform_cover_family_squareclass_obstruction_lemma
 ```
 
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
@@ -83,11 +83,17 @@ uniform cover-family reading is still unproved and would need a new lemma. It
 is not a Selmer upper bound, not a rank-zero theorem, and not a family
 exclusion.
 
+`wl524` chose the next narrow route: attempt that new uniform cover-family
+squareclass obstruction lemma later, using `wl523` as input. It did not enter
+the proof attempt, execute shell 11, compute supports, test new ambient
+`C_d` solubility, apply `wl491` to a new point, select a final obstruction
+candidate, or claim theorem-level Selmer progress.
+
 ## Current Stop Rules
 
 Do not execute shell 11, compute new supports, test new ambient `C_d`
 solubility, apply `wl491` to a new point, select a final obstruction candidate,
 or run broad rank/Selmer diagnostics unless the user explicitly asks for that
-route. The next narrow mathematical move, if selected, is a post-`wl523` route
-choice: attempt a new uniform cover-family squareclass lemma, or return later
-to finite-shell diagnostics.
+route. The next narrow mathematical move, if selected, is only the selected
+uniform cover-family squareclass lemma attempt; do not treat the `wl522`
+finite taxonomy or `wl524` route choice as proof of that lemma.

@@ -89,11 +89,12 @@ Rank-zero Selmer / AA+BB audit helpers:
   and support/cover taxonomy. Read
   `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md` first.
 - Latest compact executable checkpoint:
-  `audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`.
-- Current next gate: post-`wl523` route choice. The point-level
-  common-source square obstruction is already handled by `wl491`; the uniform
-  cover-family version is not proved. Do not execute shell 11 from this index
-  alone.
+  `audit_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.py`.
+- Current next gate: attempt a uniform cover-family squareclass obstruction
+  lemma using `wl523` as input. `wl524` selected that gate but did not enter
+  it. The point-level common-source square obstruction is already handled by
+  `wl491`; the uniform cover-family version is not proved. Do not execute
+  shell 11 from this index alone.
 
 ### `modular/` — Path B / mod p² 实证
 

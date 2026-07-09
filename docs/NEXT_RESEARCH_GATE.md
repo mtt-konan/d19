@@ -5,7 +5,28 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl523` is present, the current handoff is:
+If `wl524` is present, the current handoff is:
+
+```text
+attempt_uniform_cover_family_squareclass_obstruction_lemma
+```
+
+`wl524` is only a route-choice audit. It uses `wl523` as input, compares the
+post-`wl523` options, and selects a later attempt at a new uniform
+cover-family squareclass obstruction lemma as the next narrow gate. That gate
+is not entered in `wl524`.
+
+The selected later question is whether the opposite-side common-source
+product can be proved non-square uniformly on the named globally soluble but
+not AA+BB-admissible cover families, without treating finite counts as proof
+and without claiming a Selmer upper bound. Returning to finite shell 11
+`M_tail` diagnostics is deferred. Proof-level local / Hilbert row work is
+deferred until a specific Selmer row obligation is named. Final obstruction
+candidate selection is rejected because there is no AA+BB-admissible cover
+family, no genuinely deferred cover family, and no active final obstruction
+candidate.
+
+If `wl523` is present but `wl524` is not present, the current handoff is:
 
 ```text
 post_wl523_route_choice_not_entered_here
@@ -91,10 +112,13 @@ For the full route history, read:
 
 - `docs/work-logs/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
 - `docs/work-logs/523-try-common-source-square-obstruction-lemma-candidate.md`
+- `docs/work-logs/524-post-wl523-route-choice-audit.md`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl523_common_source_obstruction.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice.py`
 - `docs/work-logs/README.md`
 
 ## Do Not Reopen
@@ -129,8 +153,11 @@ complete d-container
   -> AA+BB common-source admissibility filter (wl491)
   -> support/cover taxonomy (wl522)
   -> point-level common-source square obstruction statement (wl523)
-  -> post-wl523 route choice not entered
+  -> post-wl523 route choice selects uniform cover-family lemma attempt (wl524)
+  -> uniform cover-family squareclass obstruction lemma attempt not entered
 ```
 
-The next task, if chosen, is route-choice work only. It is not another finite
-shell computation and not a Selmer-family theorem claim.
+The next task, if chosen, is the selected proof-attempt gate only. It is not
+another finite shell computation, not a new point-level filter run, and not a
+Selmer-family theorem claim unless a rigorous Selmer upper bound is actually
+proved.

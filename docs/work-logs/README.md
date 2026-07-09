@@ -40,12 +40,14 @@ entries.
              recast, wl465 pseudo-Selmer container audit, wl471-wl490
              complete d-coordinate row-obligation logs, and
              491-522-aa-bb-admissibility-taxonomy-consolidated.md plus
-             the wl523 common-source obstruction statement log.
+             the wl523 common-source obstruction statement log and wl524
+             post-wl523 route-choice audit.
 
-491-523  AA+BB admissibility filter, finite M_tail shell routing,
+491-524  AA+BB admissibility filter, finite M_tail shell routing,
          support/cover taxonomy, and common-source obstruction statement
          -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
-         -> latest checkpoint: 523-try-common-source-square-obstruction-lemma-candidate.md
+         -> 523-try-common-source-square-obstruction-lemma-candidate.md
+         -> latest checkpoint: 524-post-wl523-route-choice-audit.md
 ```
 
 ## Reading Rule
