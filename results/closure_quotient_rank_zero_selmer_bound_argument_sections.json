@@ -5,7 +5,19 @@
       "family_exclusion_proved": false,
       "family_pattern": "AA+BB",
       "kernel": "kernel_minus_p",
+      "next_proof_target": "Prove that every relevant AA+BB Selmer candidate satisfies the common-source two-primary compatibility, so the point-level collapse to (1,1,1) becomes a Selmer-layer constraint.",
       "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+      "point_level_collapse_input": {
+        "remaining_triples": [
+          {
+            "x_minus_p": "1",
+            "x_neg_2sqrt_q": "1",
+            "x_pos_2sqrt_q": "1"
+          }
+        ],
+        "selmer_lift_proved": false,
+        "source": "wl460-wl463"
+      },
       "proof_status": "sections-open-not-proof",
       "reduction_partition_outline_count": 4,
       "required_argument": "selmer_bound_argument",
@@ -14,6 +26,7 @@
         "odd_prime_local_image_theorems",
         "formal_lift_compatibility",
         "dyadic_local_condition",
+        "common_source_two_primary_selmer_lift",
         "global_selmer_dimension_bound"
       ],
       "selmer_rank_upper_bound_proved": false,
@@ -25,7 +38,19 @@
       "family_exclusion_proved": false,
       "family_pattern": "AA+BB",
       "kernel": "kernel_neg_2sqrt_q",
+      "next_proof_target": "Prove that every relevant AA+BB Selmer candidate satisfies the common-source two-primary compatibility, so the point-level collapse to (1,1,1) becomes a Selmer-layer constraint.",
       "package_id": "rank-zero-selmer-AA-BB-kernel-neg-2sqrt-q",
+      "point_level_collapse_input": {
+        "remaining_triples": [
+          {
+            "x_minus_p": "1",
+            "x_neg_2sqrt_q": "1",
+            "x_pos_2sqrt_q": "1"
+          }
+        ],
+        "selmer_lift_proved": false,
+        "source": "wl460-wl463"
+      },
       "proof_status": "sections-open-not-proof",
       "reduction_partition_outline_count": 4,
       "required_argument": "selmer_bound_argument",
@@ -34,6 +59,7 @@
         "odd_prime_local_image_theorems",
         "formal_lift_compatibility",
         "dyadic_local_condition",
+        "common_source_two_primary_selmer_lift",
         "global_selmer_dimension_bound"
       ],
       "selmer_rank_upper_bound_proved": false,
@@ -45,7 +71,19 @@
       "family_exclusion_proved": false,
       "family_pattern": "AA+BB",
       "kernel": "kernel_pos_2sqrt_q",
+      "next_proof_target": "Prove that every relevant AA+BB Selmer candidate satisfies the common-source two-primary compatibility, so the point-level collapse to (1,1,1) becomes a Selmer-layer constraint.",
       "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
+      "point_level_collapse_input": {
+        "remaining_triples": [
+          {
+            "x_minus_p": "1",
+            "x_neg_2sqrt_q": "1",
+            "x_pos_2sqrt_q": "1"
+          }
+        ],
+        "selmer_lift_proved": false,
+        "source": "wl460-wl463"
+      },
       "proof_status": "sections-open-not-proof",
       "reduction_partition_outline_count": 4,
       "required_argument": "selmer_bound_argument",
@@ -54,6 +92,7 @@
         "odd_prime_local_image_theorems",
         "formal_lift_compatibility",
         "dyadic_local_condition",
+        "common_source_two_primary_selmer_lift",
         "global_selmer_dimension_bound"
       ],
       "selmer_rank_upper_bound_proved": false,
@@ -286,7 +325,7 @@
       "tracked_coordinate": "1 - X"
     }
   ],
-  "required_section_count": 45,
+  "required_section_count": 48,
   "required_section_per_outline_count": 5,
   "required_sections": [
     "shared_isogeny_setup_reference",

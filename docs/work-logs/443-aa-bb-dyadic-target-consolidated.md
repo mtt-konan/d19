@@ -88,6 +88,17 @@ So the live dyadic branch is:
 odd-odd same-mod-4 for x_minus_p.
 ```
 
+Follow-up: this live branch is not a one-kernel singleton theorem. The
+same-mod-4 branch has an explicit local class `2` on both one-sided
+`kernel_minus_p` models (`wl461`), so the next obstruction must be
+cross-kernel or Selmer-level compatibility rather than more local sampling.
+
+Second follow-up: `wl462` proves the cross-kernel obstruction for genuine
+common-source points. On the same-mod-4 branch, the other two kernels force
+`x_pos_2sqrt_q` into `{1}` and `x_neg_2sqrt_q` into `{1,-1}` inside the
+relevant subgroup, so `x_minus_p=2` violates the product relation. The
+remaining gap is the Selmer-layer lift of that compatibility.
+
 ## Boundary
 
 This consolidation keeps the dyadic target and finite sanity checks. It does

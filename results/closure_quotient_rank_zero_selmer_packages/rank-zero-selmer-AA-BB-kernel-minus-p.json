@@ -16,6 +16,32 @@
     "rank_zero_conclusion",
     "review_notes"
   ],
+  "reviewable_segments": [
+    {
+      "proof_path": "docs/work-logs/458-aa-bb-minus-p-formal-lift-reviewable-proof.md",
+      "proof_section": "formal_lift_compatibility",
+      "required_field": "selmer_bound_argument",
+      "segment_scope": "odd-prime valuation support only",
+      "segment_status": "reviewable-proof",
+      "summary": "The AA+BB odd-prime formal-lift compatibility segment is written as a line-by-line support-collapse proof for the minus-p kernel; the dyadic place, unit/sign classes, the global Selmer bound, and rank zero remain open."
+    },
+    {
+      "proof_path": "docs/work-logs/460-aa-bb-minus-p-dyadic-opposite-mod4-reviewable-proof.md",
+      "proof_section": "dyadic_opposite_mod4_branch",
+      "required_field": "local_squareclass_conditions",
+      "segment_scope": "AA+BB x_minus_p odd-odd opposite-mod-4 branch over {1,-1,2,-2}",
+      "segment_status": "reviewable-proof",
+      "summary": "The AA+BB x_minus_p dyadic opposite-mod-4 branch is written as a line-by-line proof that the Q2 image intersects {1,-1,2,-2} only in {1}; the same-mod-4 branch, Selmer lift, global Selmer bound, and rank zero remain open."
+    },
+    {
+      "proof_path": "docs/work-logs/461-aa-bb-minus-p-dyadic-same-mod4-local-obstruction.md",
+      "proof_section": "dyadic_same_mod4_local_obstruction",
+      "required_field": "local_squareclass_conditions",
+      "segment_scope": "AA+BB x_minus_p odd-odd same-mod-4 branch over {1,-1,2,-2}",
+      "segment_status": "reviewable-proof",
+      "summary": "The AA+BB x_minus_p same-mod-4 dyadic branch is written as a line-by-line local obstruction proof: class 2 is locally admissible on both one-sided models, so the naive one-kernel singleton theorem is false; cross-kernel or Selmer-level compatibility remains necessary."
+    }
+  ],
   "selmer_rank_upper_bound_proved": false,
   "status": "open",
   "symbolic_model": {
@@ -25,5 +51,5 @@
     "target_a2": "32*L^2 - 8*T^2",
     "target_a4": "16*(T^2 + 4*L^2)^2"
   },
-  "transcript_status": "missing"
+  "transcript_status": "partial"
 }

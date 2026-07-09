@@ -23,6 +23,25 @@ REQUIRED_SECTIONS = [
     "dyadic_local_condition",
     "global_selmer_dimension_bound",
 ]
+AA_BB_REQUIRED_SECTIONS = [
+    "shared_isogeny_setup_reference",
+    "odd_prime_local_image_theorems",
+    "formal_lift_compatibility",
+    "dyadic_local_condition",
+    "common_source_two_primary_selmer_lift",
+    "global_selmer_dimension_bound",
+]
+AA_BB_POINT_LEVEL_COLLAPSE_INPUT = {
+    "source": "wl460-wl463",
+    "remaining_triples": [
+        {
+            "x_minus_p": "1",
+            "x_pos_2sqrt_q": "1",
+            "x_neg_2sqrt_q": "1",
+        }
+    ],
+    "selmer_lift_proved": False,
+}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -94,12 +113,16 @@ def _outline(
     shared_schema_count: int,
     reduction_partition_count: int,
 ) -> dict[str, Any]:
-    return {
+    family_pattern = str(task.get("family_pattern", ""))
+    required_sections = (
+        AA_BB_REQUIRED_SECTIONS if family_pattern == "AA+BB" else REQUIRED_SECTIONS
+    )
+    outline = {
         "package_id": str(task.get("package_id", "")),
-        "family_pattern": str(task.get("family_pattern", "")),
+        "family_pattern": family_pattern,
         "kernel": str(task.get("kernel", "")),
         "required_argument": PRIMARY_REMAINING_PROOF_FIELD,
-        "required_sections": REQUIRED_SECTIONS,
+        "required_sections": required_sections,
         "shared_odd_prime_local_image_schema_count": shared_schema_count,
         "reduction_partition_outline_count": reduction_partition_count,
         "acceptable_next_evidence": str(task.get("acceptable_next_evidence", "")),
@@ -108,6 +131,14 @@ def _outline(
         "selmer_rank_upper_bound_proved": False,
         "family_exclusion_proved": False,
     }
+    if family_pattern == "AA+BB":
+        outline["point_level_collapse_input"] = AA_BB_POINT_LEVEL_COLLAPSE_INPUT
+        outline["next_proof_target"] = (
+            "Prove that every relevant AA+BB Selmer candidate satisfies the "
+            "common-source two-primary compatibility, so the point-level collapse "
+            "to (1,1,1) becomes a Selmer-layer constraint."
+        )
+    return outline
 
 
 def audit_rank_zero_selmer_bound_argument_sections(
@@ -196,7 +227,9 @@ def audit_rank_zero_selmer_bound_argument_sections(
             1 for outline in argument_outlines if outline["status"] == "open"
         ),
         "required_section_per_outline_count": len(REQUIRED_SECTIONS),
-        "required_section_count": len(argument_outlines) * len(REQUIRED_SECTIONS),
+        "required_section_count": sum(
+            len(outline["required_sections"]) for outline in argument_outlines
+        ),
         "shared_odd_prime_local_image_schema_count": shared_schema_count,
         "reduction_partition_outline_count": len(reduction_entries),
         "formal_lift_compatibility_proved_count": 0,

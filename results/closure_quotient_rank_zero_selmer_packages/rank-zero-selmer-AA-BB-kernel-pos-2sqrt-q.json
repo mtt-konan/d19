@@ -16,6 +16,16 @@
     "rank_zero_conclusion",
     "review_notes"
   ],
+  "reviewable_segments": [
+    {
+      "proof_path": "docs/work-logs/459-aa-bb-pos-kernel-formal-lift-reviewable-proof.md",
+      "proof_section": "formal_lift_compatibility",
+      "required_field": "selmer_bound_argument",
+      "segment_scope": "odd-prime valuation support only",
+      "segment_status": "reviewable-proof",
+      "summary": "The AA+BB odd-prime formal-lift compatibility segment is written as a line-by-line support-bound proof for the pos kernel; only primes ell | T with ell == 1 mod 4 can contribute odd valuation, while the dyadic place, unit/sign classes, the global Selmer bound, and rank zero remain open."
+    }
+  ],
   "selmer_rank_upper_bound_proved": false,
   "status": "open",
   "symbolic_model": {
@@ -25,5 +35,5 @@
     "target_a2": "-8*(T^2 + 8*L^2)",
     "target_a4": "16*T^4"
   },
-  "transcript_status": "missing"
+  "transcript_status": "partial"
 }

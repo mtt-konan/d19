@@ -20,15 +20,15 @@ The odd-prime work leaves `AA+BB` with less odd support than either one-sided
 family. The remaining gap is now best described as:
 
 ```text
-remaining_gap_kind = 2-primary Selmer compatibility gap
+remaining_gap_kind = Selmer-layer lift of point-level collapse
 ```
 
-with three missing pieces:
+The current compressed target is:
 
 ```text
-1. lift common-source compatibility to the Selmer layer
-2. prove the dyadic local condition
-3. control unit/sign classes
+Prove the AA+BB Selmer-layer lift: every relevant Selmer candidate satisfies
+the common-source two-primary compatibility whose point-level collapse leaves
+only (1,1,1).
 ```
 
 ## Source-Side Relation
@@ -90,6 +90,18 @@ fully_mixed_nontrivial      size 6
 
 Plain meaning: after the common-source reduction, the hard part is no longer a
 wide odd-prime problem. It is a small 2-primary pattern problem.
+
+Follow-up through `wl460-wl463`: the local/common-source point-level work
+collapses those nontrivial 2-primary patterns further. For genuine `AA+BB`
+common-source rational points, the only remaining 2-primary triple is:
+
+```text
+(x_minus_p, x_pos_2sqrt_q, x_neg_2sqrt_q) = (1, 1, 1).
+```
+
+So this file's older "small 2-primary pattern problem" should now be read as
+the historical reduction step, not the live target. The live target is the
+Selmer-layer lift of this point-level collapse.
 
 ## Boundary
 

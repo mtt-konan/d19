@@ -61,6 +61,34 @@ def _bound_argument_queue() -> dict[str, object]:
     }
 
 
+def _aa_bb_bound_argument_queue() -> dict[str, object]:
+    payload = _bound_argument_queue()
+    payload["tasks"] = [
+        {
+            "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
+            "family_pattern": "AA+BB",
+            "kernel": "kernel_minus_p",
+            "kernel_schema_id": "schema-kernel_minus_p",
+            "shared_setup_fields": [
+                "local_squareclass_conditions",
+                "isogeny_setup",
+            ],
+            "target_family_conclusion": "AA+BB",
+            "required_argument": "selmer_bound_argument",
+            "acceptable_next_evidence": (
+                "reviewable AA+BB Selmer-layer lift of the point-level "
+                "two-primary collapse"
+            ),
+            "status": "open",
+            "selmer_rank_upper_bound_proved": False,
+            "family_exclusion_proved": False,
+        }
+    ]
+    payload["bound_argument_task_count"] = 1
+    payload["open_bound_argument_task_count"] = 1
+    return payload
+
+
 def _odd_prime_local_image_schemas() -> dict[str, object]:
     return {
         "status": "ok",
@@ -207,6 +235,45 @@ def test_bound_argument_sections_reject_local_image_claims() -> None:
 
     assert audit["status"] == "issues"
     assert audit["violations"] == ["local_image_schema_claim_count_nonzero"]
+
+
+def test_bound_argument_sections_specialize_aa_bb_selmer_lift_target() -> None:
+    sections = _sections_module()
+
+    audit = sections.audit_rank_zero_selmer_bound_argument_sections(
+        bound_argument_queue=_aa_bb_bound_argument_queue(),
+        odd_prime_local_image_schemas=_odd_prime_local_image_schemas(),
+        tangent_one_reduction_partition=_tangent_one_reduction_partition(),
+        tangent_minus_one_reduction_partition=_tangent_minus_one_reduction_partition(),
+    )
+
+    outline = audit["argument_outlines"][0]
+    assert audit["required_section_count"] == 6
+    assert outline["package_id"] == "rank-zero-selmer-AA-BB-kernel-minus-p"
+    assert outline["required_sections"] == [
+        "shared_isogeny_setup_reference",
+        "odd_prime_local_image_theorems",
+        "formal_lift_compatibility",
+        "dyadic_local_condition",
+        "common_source_two_primary_selmer_lift",
+        "global_selmer_dimension_bound",
+    ]
+    assert outline["point_level_collapse_input"] == {
+        "source": "wl460-wl463",
+        "remaining_triples": [
+            {
+                "x_minus_p": "1",
+                "x_pos_2sqrt_q": "1",
+                "x_neg_2sqrt_q": "1",
+            }
+        ],
+        "selmer_lift_proved": False,
+    }
+    assert outline["next_proof_target"] == (
+        "Prove that every relevant AA+BB Selmer candidate satisfies the "
+        "common-source two-primary compatibility, so the point-level collapse "
+        "to (1,1,1) becomes a Selmer-layer constraint."
+    )
 
 
 def test_bound_argument_sections_cli_writes_audit(tmp_path: Path) -> None:

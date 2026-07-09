@@ -26,22 +26,21 @@ UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run python scripts/theory/audit_closur
 ```text
 status=ok
 family_count=3
-reviewable_formal_lift_package_count=7
+reviewable_formal_lift_package_count=9
 ```
 
 The family rows are:
 
 ```text
 AA     -> 3/3 packages have reviewable formal-lift segments
-AA+BB  -> 1/3
+AA+BB  -> 3/3 packages have reviewable formal-lift segments
 BB     -> 3/3 packages have reviewable formal-lift segments
 ```
 
 ## Result
 
-The `AA` and `BB` families have both completed the odd-prime
+The `AA`, `AA+BB`, and `BB` families have completed the odd-prime
 `formal_lift_compatibility` segment across all three Selmer packages.
-`AA+BB` now has its first package-level segment at this field.
 
 In ordinary language: this is not a rank-zero proof. It only says which
 odd-prime proof segments are now written clearly enough to review:
@@ -49,19 +48,26 @@ odd-prime proof segments are now written clearly enough to review:
 ```text
 AA: complete at this segment layer
 BB: complete at this segment layer
-AA+BB: started at this segment layer
+AA+BB: complete at this segment layer
 ```
 
-So `AA` and `BB` should not keep revisiting odd-prime formal lift. Their next
-blockers are:
+So none of the three rank-zero families should keep revisiting odd-prime
+formal lift as the next main task. Their next blockers are:
 
 - dyadic local condition,
 - global Selmer dimension bound,
 - rank-zero conclusion.
 
-For `AA+BB`, the immediate state is `1/3`: the `kernel_neg_2sqrt_q` odd-prime
-valuation support segment is reviewable, while `kernel_minus_p` and
-`kernel_pos_2sqrt_q` remain open at this package layer.
+For `AA+BB`, the completed narrow layer is:
+
+```text
+kernel_neg_2sqrt_q    no odd-prime valuation support
+kernel_minus_p        no odd-prime valuation support
+kernel_pos_2sqrt_q    support only from ell | T, ell == 1 mod 4
+```
+
+This last line is deliberately weaker than "no odd support"; it records the
+remaining odd-prime tail that the dyadic/global work must still handle.
 
 ## Boundary
 

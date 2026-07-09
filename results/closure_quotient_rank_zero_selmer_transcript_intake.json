@@ -61,8 +61,8 @@
         "review_notes"
       ],
       "package_id": "rank-zero-selmer-AA-BB-kernel-minus-p",
-      "proof_status": "no-transcript-package-not-proof",
-      "reviewable_segment_count": 0,
+      "proof_status": "partial-reviewable-segment-not-proof",
+      "reviewable_segment_count": 3,
       "strict_promotion_ready": false,
       "transcript_package_ready": false
     },
@@ -91,8 +91,8 @@
         "review_notes"
       ],
       "package_id": "rank-zero-selmer-AA-BB-kernel-pos-2sqrt-q",
-      "proof_status": "no-transcript-package-not-proof",
-      "reviewable_segment_count": 0,
+      "proof_status": "partial-reviewable-segment-not-proof",
+      "reviewable_segment_count": 1,
       "strict_promotion_ready": false,
       "transcript_package_ready": false
     },
@@ -142,7 +142,7 @@
       "transcript_package_ready": false
     }
   ],
-  "packages_with_reviewable_segment_count": 7,
+  "packages_with_reviewable_segment_count": 9,
   "proof_status": "rank-zero-selmer-transcripts-missing-not-proof",
   "ready": true,
   "selmer_rank_upper_bound_proved_count": 0,
