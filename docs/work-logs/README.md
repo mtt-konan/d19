@@ -37,7 +37,9 @@ entries.
 386-430+  rank-zero Selmer / odd-prime / dyadic package work
           -> the 386, 394, 419, 432, 443, 447 consolidated logs,
              plus surviving reviewable proof logs, wl464 complete 2-descent
-             recast, and wl465 pseudo-Selmer container audit.
+             recast, wl465 pseudo-Selmer container audit, and wl471-wl490
+             complete d-coordinate row-obligation / M_tail /
+             obstruction-route audits.
 ```
 
 ## Reading Rule

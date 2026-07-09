@@ -83,6 +83,19 @@ F₂-rank 工具:
 - `k4_rank.py` / `k4_two_descent_rank.py` — k=4 rank 实测
 - `rank_mixed_closure_curves.py` — 闭合条件混合商曲线 rank 实验 (wl290)
 
+Rank-zero Selmer / AA+BB audit helpers:
+- `audit_closure_quotient_rank_zero_aa_bb_wl481_m_tail_explicit_matrix_builder.py` — wl481 M_tail 显式矩阵与有限样本 kernel 诊断
+- `audit_closure_quotient_rank_zero_aa_bb_wl482_m_tail_kernel_classification_gate.py` — wl482 AA A=3,B=1 的 `u_3` kernel 分类门
+- `audit_closure_quotient_rank_zero_aa_bb_wl483_local_hilbert_row_decision_gate.py` — wl483 判断当前 local/Hilbert row ledger 是否能杀掉 `u_3`
+- `audit_closure_quotient_rank_zero_aa_bb_wl484_u3_obstruction_route_entry_audit.py` — wl484 记录 `u_3` 完整 d-坐标候选并选择 obstruction workflow gate
+- `audit_closure_quotient_rank_zero_aa_bb_wl485_explicit_cd_cover_equation_instantiation.py` — wl485 写出 `d=(3,3,1)` 的显式 `C_d` cover 方程
+- `audit_closure_quotient_rank_zero_aa_bb_wl486_local_solubility_gate.py` — wl486 在 `infinity,2,3,13` 记录显式 local solubility 证书
+- `audit_closure_quotient_rank_zero_aa_bb_wl487_route_impact_of_global_point.py` — wl487 记录 `u_3` cover 全局点对 M_tail / obstruction route 的影响
+- `audit_closure_quotient_rank_zero_aa_bb_wl488_select_next_complete_d_coordinate_route_after_u3_global_point.py` — wl488 在 `u_3` 全局点后选择 AA+BB closure/pullback/common-source 下一路由门
+- `audit_closure_quotient_rank_zero_aa_bb_wl489_closure_pullback_common_source_constraints_for_global_c_d_point.py` — wl489 检查 `u_3` 全局点的 AA pullback 与 AA+BB common-source 约束
+- `audit_closure_quotient_rank_zero_aa_bb_wl490_route_impact_after_wl489_admissibility_failure.py` — wl490 在 `u_3` 点级 admissibility 失败后更新 route ledgers 并选择 reusable filter 下一门
+- `audit_closure_quotient_rank_zero_aa_bb_wl490_route_impact_after_wl489_admissibility_failure.py` — wl490 记录 wl489 击杀 `u_3` 后的 ledger 更新并选择 reusable admissibility filter 下一路由
+
 ### `modular/` — Path B / mod p² 实证
 
 | 脚本 | 用途 |

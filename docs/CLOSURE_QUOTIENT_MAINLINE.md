@@ -181,6 +181,16 @@ rank(E_lambda)=0
 - 剩余核心不是继续采样，而是把点级 compatibility lift 到 Selmer 层；
 - 没有 Selmer-layer lift，就没有 rank-zero family theorem。
 
+最近的完整 `d`-坐标主线已经放弃旧 package-`x` 的 `S~` 桥，改走
+`C_d` / `M_tail`。`wl489` 只处理一个点级问题：`AA, A=3, B=1` 的
+`d=(3,3,1)` 全局点可回拉到 `AA` 四次商上的 `N=4, M=0`，但同一
+common source 在 `BB` 侧给出 `(N^2+B^2)(M^2+B^2)=17`，不是平方。
+所以这个点不是 AA+BB common-source 闭合点。`wl490` 只把它从当前
+obstruction / admissible ledgers 移到“ambient globally soluble but not
+AA+BB-admissible”诊断账本，并把下一窄门选为 reusable
+ambient-`C_d`-to-AA+BB admissibility filter；这仍不是 Selmer 上界、
+rank-zero 结论或 family exclusion。
+
 ## 6. 不要再主线化的东西
 
 下面这些不要写成证明进展：
