@@ -22,12 +22,18 @@ read `docs/GLOSSARY.md`.
 The current handoff is:
 
 ```text
-try_common_source_square_obstruction_lemma_candidate_not_entered_here
+post_wl523_route_choice_not_entered_here
 ```
 
-`wl522` is the current checkpoint. It compresses the `wl491`-`wl521` ledgers
-into a support-family / cover-family taxonomy by classification and failure
-mode:
+`wl523` is the current checkpoint. It uses `wl522` as input and tries the
+named common-source square obstruction lemma candidate at the proof/statement
+layer. The point-level obstruction is already provable from the existing
+`wl491` filter: after the centered-even pullback gives rational `N,M`, a
+non-square opposite-side product blocks AA+BB admissibility. Sign or
+positivity failures such as `M_not_positive` are separate from this
+squareclass obstruction.
+
+The `wl522` taxonomy remains the finite input snapshot:
 
 - 43 final candidate-ledger entries.
 - 13 support families.
@@ -38,15 +44,16 @@ mode:
 - No genuinely deferred cover families.
 - No AA+BB-admissible cover families.
 
-The only named theorem-candidate pattern isolated by this checkpoint is:
+The only named theorem-candidate pattern isolated by `wl522` was:
 
 ```text
 common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families
 ```
 
-It has not been proved, and no proof-level work was entered. The next explicit
-task, if chosen, is only to try proving that named common-source square
-obstruction lemma.
+`wl523` proves only the point-level form from existing `wl491` machinery. It
+does not prove a uniform cover-family theorem. The next explicit task, if
+chosen, is only a route choice: either attempt a new uniform cover-family
+squareclass lemma, or later return to the finite-shell route.
 
 ## Do Not Reopen
 
@@ -58,7 +65,8 @@ Unless the user explicitly asks for one of these, do not:
 - apply `wl491` to a new point;
 - select a final obstruction candidate;
 - run broad rank/Selmer diagnostics;
-- treat the 15 not-admissible cover families as a theorem.
+- treat the 15 not-admissible cover families as a theorem;
+- claim that `wl523` proves a uniform cover-family obstruction.
 
 The old package-`x` / `S~` bridge is not a theorem-level Selmer object. Do not
 route new evidence back into that ledger as if it proved a Selmer upper bound.
@@ -109,7 +117,7 @@ Each worklog should answer:
 - What is the next narrow gate, and whether it is entered here.
 
 Do not edit old worklogs except for clear typo/index maintenance. For route
-state after `wl522`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
+state after `wl523`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
 short and point readers to the relevant consolidated worklog.
 
 ## Verification

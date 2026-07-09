@@ -4,7 +4,9 @@
 
 This consolidated worklog is the compact route record for the `wl491`-`wl522`
 interval. It replaces the need to read each short gate-selection worklog before
-understanding the current handoff.
+understanding the taxonomy input to the current handoff. Read
+`523-try-common-source-square-obstruction-lemma-candidate.md` for the current
+post-taxonomy statement-layer decision.
 
 The interval stays inside the complete `d`-coordinate route:
 
@@ -72,6 +74,7 @@ wl519  resolve shared shell-10 u_5 cover as global but not-admissible
 wl520  choose post-classification support/cover synthesis
 wl521  synthesize final candidate ledger and select only later shell 11
 wl522  compress taxonomy and isolate the common-source lemma candidate
+wl523  state the point-level obstruction from wl491; uniform cover-family theorem unproved
 ```
 
 ## Current Taxonomy
@@ -97,7 +100,7 @@ The important separation is:
   globally soluble, but the AA+BB common-source square check fails.
 - `processed_or_duplicate_m_tail_support`: finite `M_tail` bookkeeping only.
 
-## Current Lemma Candidate
+## Lemma Candidate Outcome
 
 The only named theorem-candidate isolated by the interval is:
 
@@ -105,15 +108,17 @@ The only named theorem-candidate isolated by the interval is:
 common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families
 ```
 
-This is only a theorem-candidate. It says what to try next: prove that the
-recorded opposite-side AA/BB common-source product-not-square failures form a
-reusable admissibility obstruction lemma.
+`wl523` records that the point-level obstruction is already provable from the
+existing `wl491` machinery: once the centered-even pullback gives rational
+`N,M`, a non-square opposite-side product blocks AA+BB admissibility. It also
+records that the stronger uniform cover-family theorem is not proved by the
+finite `wl522` taxonomy and would need a new lemma.
 
 ## Boundary
 
 This interval does not prove:
 
-- the common-source square obstruction lemma;
+- a uniform cover-family squareclass obstruction lemma;
 - a new local/Hilbert row;
 - uniform `M_tail` full rank;
 - ambient solubility for any new `C_d` class after `wl522`;
@@ -125,10 +130,10 @@ This interval does not prove:
 - `Sha[2]=0`;
 - any family exclusion theorem.
 
-The next narrow gate is:
+The next narrow gate after `wl523` is:
 
 ```text
-try_common_source_square_obstruction_lemma_candidate_not_entered_here
+post_wl523_route_choice_not_entered_here
 ```
 
 Do not execute shell 11 unless the user explicitly chooses that route.

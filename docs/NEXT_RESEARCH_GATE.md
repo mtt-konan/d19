@@ -5,7 +5,34 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl522` is present, the current handoff is:
+If `wl523` is present, the current handoff is:
+
+```text
+post_wl523_route_choice_not_entered_here
+```
+
+`wl523` tried the named common-source square obstruction lemma candidate at the
+proof/statement layer. The point-level obstruction is already provable from
+the existing `wl491` machinery: after a certified centered-even pullback gives
+rational `N,M`, the opposite-side product
+
+```text
+AA source: (N^2+B^2)(M^2+B^2)
+BB source: (N^2+A^2)(M^2+A^2)
+```
+
+being a non-square in `Q*/Q*2` is sufficient to route the point as
+`not_admissible`. Sign/positivity failures such as `M_not_positive` are
+separate admissibility failures, not squareclass failures.
+
+The stronger cover-family theorem is not proved. The 15 globally soluble but
+not AA+BB-admissible cover families from `wl522` are finite taxonomy data; a
+uniform claim that every rational point on those cover families fails the
+opposite-side squareclass condition would need a new lemma. The next gate, if
+chosen, is only a route choice between attempting that new uniform
+cover-family squareclass lemma and later returning to the finite-shell route.
+
+If `wl522` is present but `wl523` is not present, the current handoff is:
 
 ```text
 try_common_source_square_obstruction_lemma_candidate_not_entered_here
@@ -62,10 +89,12 @@ candidate nor an AA+BB-admissible point.
 
 For the full route history, read:
 
-- `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md`
 - `docs/work-logs/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
+- `docs/work-logs/523-try-common-source-square-obstruction-lemma-candidate.md`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl523_common_source_obstruction.py`
 - `docs/work-logs/README.md`
 
 ## Do Not Reopen
@@ -99,8 +128,9 @@ complete d-container
   -> ambient C_d global points
   -> AA+BB common-source admissibility filter (wl491)
   -> support/cover taxonomy (wl522)
-  -> common-source square obstruction lemma candidate
+  -> point-level common-source square obstruction statement (wl523)
+  -> post-wl523 route choice not entered
 ```
 
-The next task, if chosen, is lemma proof work only. It is not another finite
+The next task, if chosen, is route-choice work only. It is not another finite
 shell computation and not a Selmer-family theorem claim.

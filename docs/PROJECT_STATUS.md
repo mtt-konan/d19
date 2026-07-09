@@ -66,24 +66,28 @@ The current narrow gate is more specific and is recorded in
 [NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md):
 
 ```text
-try_common_source_square_obstruction_lemma_candidate_not_entered_here
+post_wl523_route_choice_not_entered_here
 ```
 
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
-support/cover taxonomy. The taxonomy found no genuinely deferred cover family
-and no AA+BB-admissible cover family. It isolated one unproved lemma candidate:
+support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 
 ```text
 common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families
 ```
 
-That is only a theorem-candidate pattern. It is not a Selmer upper bound, not a
-rank-zero theorem, and not a family exclusion.
+The point-level obstruction is already proved by the existing `wl491`
+machinery: a certified centered-even pullback with non-square opposite-side
+common-source product cannot enter the AA+BB admissible ledger. The stronger
+uniform cover-family reading is still unproved and would need a new lemma. It
+is not a Selmer upper bound, not a rank-zero theorem, and not a family
+exclusion.
 
 ## Current Stop Rules
 
 Do not execute shell 11, compute new supports, test new ambient `C_d`
 solubility, apply `wl491` to a new point, select a final obstruction candidate,
 or run broad rank/Selmer diagnostics unless the user explicitly asks for that
-route. The next narrow mathematical move, if selected, is to try proving the
-named common-source square obstruction lemma.
+route. The next narrow mathematical move, if selected, is a post-`wl523` route
+choice: attempt a new uniform cover-family squareclass lemma, or return later
+to finite-shell diagnostics.

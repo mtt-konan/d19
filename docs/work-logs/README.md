@@ -39,12 +39,13 @@ entries.
              plus surviving reviewable proof logs, wl464 complete 2-descent
              recast, wl465 pseudo-Selmer container audit, wl471-wl490
              complete d-coordinate row-obligation logs, and
-             491-522-aa-bb-admissibility-taxonomy-consolidated.md.
+             491-522-aa-bb-admissibility-taxonomy-consolidated.md plus
+             the wl523 common-source obstruction statement log.
 
-491-522  AA+BB admissibility filter, finite M_tail shell routing, and
-         support/cover taxonomy
+491-523  AA+BB admissibility filter, finite M_tail shell routing,
+         support/cover taxonomy, and common-source obstruction statement
          -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
-         -> latest checkpoint: 522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md
+         -> latest checkpoint: 523-try-common-source-square-obstruction-lemma-candidate.md
 ```
 
 ## Reading Rule
