@@ -62,6 +62,7 @@ candidate nor an AA+BB-admissible point.
 
 For the full route history, read:
 
+- `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md`
 - `docs/work-logs/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`

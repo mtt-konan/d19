@@ -37,9 +37,14 @@ entries.
 386-430+  rank-zero Selmer / odd-prime / dyadic package work
           -> the 386, 394, 419, 432, 443, 447 consolidated logs,
              plus surviving reviewable proof logs, wl464 complete 2-descent
-             recast, wl465 pseudo-Selmer container audit, and wl471-wl522
-             complete d-coordinate row-obligation / M_tail /
-             obstruction-route audits.
+             recast, wl465 pseudo-Selmer container audit, wl471-wl490
+             complete d-coordinate row-obligation logs, and
+             491-522-aa-bb-admissibility-taxonomy-consolidated.md.
+
+491-522  AA+BB admissibility filter, finite M_tail shell routing, and
+         support/cover taxonomy
+         -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
+         -> latest checkpoint: 522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md
 ```
 
 ## Reading Rule
