@@ -12,7 +12,7 @@ class _NullProgress(Iterator[T]):
     def __init__(self, iterable: Iterable[T] | None = None, **_kwargs: Any) -> None:
         self._iterator = iter(iterable) if iterable is not None else iter(())
 
-    def __iter__(self) -> "_NullProgress[T]":
+    def __iter__(self) -> _NullProgress[T]:
         return self
 
     def __next__(self) -> T:
@@ -25,7 +25,7 @@ class _NullProgress(Iterator[T]):
         return None
 
 
-def optional_tqdm(iterable: Iterable[T] | None = None, **kwargs: Any) -> Any:
+def optional_tqdm[T](iterable: Iterable[T] | None = None, **kwargs: Any) -> Any:
     """Return ``tqdm`` when installed, otherwise a no-op progress wrapper."""
     try:
         from tqdm import tqdm
