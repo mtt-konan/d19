@@ -214,7 +214,17 @@ genuinely deferred cover family、没有 AA+BB-admissible cover family，并把 
 隔离 named proof gap，没有执行 shell 11、没有计算新 supports、没有测试新的
 ambient `C_d` solubility、没有选择 final candidate，也没有声明
 Selmer/rank/family theorem；下一窄门只是稍后按既有 `wl498` plan 执行
-`max(A,B)=11` finite shell。
+`max(A,B)=11` finite shell。`wl522` 若存在，则它只做 taxonomy checkpoint：
+用 `wl521` 作 latest state，把 `wl491`-`wl521` ledgers 压成 support/cover
+family、classification、failure-mode taxonomy。结果是 5 个 ambient globally
+not soluble cover families、15 个 globally soluble but not AA+BB-admissible
+cover families、2 个 processed / duplicate cover families、没有 deferred 或
+AA+BB-admissible cover families。它隔离的唯一下一 proof-level theorem-candidate
+是
+`common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families`，
+但没有进入证明、没有执行 shell 11、没有计算新 support、没有测试新的 ambient
+`C_d` solubility、没有选择 final candidate，也没有声明 Selmer/rank/family
+theorem。
 
 ## Historical Routes
 
@@ -311,10 +321,13 @@ Selmer/rank/family theorem；下一窄门只是稍后按既有 `wl498` plan 执�
 28. `wl520` 是否已经选择 post-`wl519` 下一窄门；若已选择，下一步才是
     `wl491`-`wl519` support/cover-family synthesis，不是执行 shell 11 或声明
     family theorem。
-29. `wl521` 是否已经完成 post-`wl519` synthesis；若已完成，下一步才是按
-    `wl498` plan 执行 finite shell `max(A,B)=11`，不是把 `u_5` finite history
-    写成 named proof gap、family theorem 或 Selmer/rank 结论。
-30. `AA/BB/AA+BB` 的 remaining package 是否真的补成完整 local-image theorem。
+29. `wl521` 是否已经完成 post-`wl519` synthesis；若已完成且 `wl522` 尚不存在，
+    下一步才是 taxonomy checkpoint 或显式选择的后续门，不是把 `u_5` finite
+    history 写成 named proof gap、family theorem 或 Selmer/rank 结论。
+30. `wl522` 是否已经隔离 common-source square obstruction theorem-candidate；
+    若已完成，下一步只是尝试该 lemma candidate，不是 shell 11、final
+    obstruction candidate、Selmer 上界或 rank-zero theorem。
+31. `AA/BB/AA+BB` 的 remaining package 是否真的补成完整 local-image theorem。
 32. dyadic local condition 是否能和 odd-prime 段落合并。
 33. global Selmer dimension bound 是否能推出 rank zero。
 

@@ -10,7 +10,7 @@
 当前窄门：
 
 ```text
-execute_next_finite_M_tail_shell_from_wl498_plan_not_entered_here
+try_common_source_square_obstruction_lemma_candidate_not_entered_here
 ```
 
 如果 `wl491` 已存在，这个 filter contract 已经有第一版；后续必须先用它把
@@ -139,7 +139,14 @@ Selmer/rank/family 结论。`wl521` 若存在，则该 synthesis 已经进入并
 AA+BB-admissible cover family；保留下来的 `u_5` 历史只是 finite
 theorem-candidate pattern，不是 theorem，也没有隔离 named proof gap。下一窄门只
 是稍后按既有 `wl498` plan 执行 finite shell `max(A,B)=11`，但 shell 11
-尚未执行。
+尚未执行。`wl522` 若存在，则已经把 `wl491`-`wl521` ledgers 压成
+support/cover taxonomy：5 个 cover families 是 ambient globally not soluble，
+15 个 cover families 是 globally soluble but not AA+BB-admissible，2 个是
+processed / duplicate，且没有 deferred 或 AA+BB-admissible cover family。它
+隔离了唯一下一 theorem-candidate：
+`common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families`，
+但没有进入证明、没有执行 shell 11、没有计算新 support、没有测试新的 ambient
+`C_d` solubility，也没有产生 Selmer/rank/family 结论。
 
 目标：
 
@@ -219,6 +226,10 @@ for AA / BB / AA+BB rank-zero families:
   finite `u_5` mixed refuted/not-admissible history into a named proof gap or
   family theorem; the next explicit work is only the later finite shell
   extension at `max(A,B)=11` from the existing `wl498` plan;
+- if `wl522` is present, do not execute shell 11 and do not treat the taxonomy
+  count as proof progress; the next explicit work is only to try the named
+  common-source square obstruction lemma candidate, without selecting a final
+  obstruction candidate or claiming a Selmer/rank/family theorem;
 - complete dyadic theorem;
 - complete local-image theorem;
 - global Selmer dimension bound;

@@ -9,7 +9,8 @@ The latest committed route reaches `wl490`. The current workspace may also
 contain `wl491`, `wl492`, `wl493`, `wl494`, `wl495`, `wl496`, `wl497`,
 `wl498`, `wl499`, `wl500`, `wl501`, `wl502`, `wl503`, `wl504`, `wl505`,
 `wl506`, `wl507`, `wl508`, `wl509`, `wl510`, `wl511`, `wl512`, `wl513`,
-`wl514`, `wl515`, `wl516`, `wl517`, `wl518`, `wl519`, `wl520`, and `wl521`: `wl491` defines the reusable filter contract,
+`wl514`, `wl515`, `wl516`, `wl517`, `wl518`, `wl519`, `wl520`, `wl521`, and
+`wl522`: `wl491` defines the reusable filter contract,
 `wl492` selects the
 route after that filter has no unfiltered known ambient `C_d` point left to
 process, `wl493` builds the existing-diagnostic candidate queue, `wl494`
@@ -94,7 +95,13 @@ cover has been classified, records no genuinely deferred cover families and no
 AA+BB-admissible cover families, preserves the finite `u_5` mixed
 refuted/not-admissible history only as a theorem-candidate pattern, and selects
 only a later finite shell extension at `max(A,B)=11` from the existing `wl498`
-plan without executing shell 11.
+plan without executing shell 11. `wl522` uses `wl521` as the latest state to
+compress `wl491`-`wl521` into a stable support/cover taxonomy by
+classification and failure mode, distinguishes ambient globally not soluble
+covers from globally soluble but not AA+BB-admissible covers, and isolates the
+unproved theorem-candidate
+`common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families`
+without entering its proof.
 
 The corrected line is no longer the old package-`x` / `S~` bridge. The current
 line is the complete `d`-coordinate route:
@@ -142,6 +149,8 @@ D0 complete d-container
   -> post-wl519 route choice selects post-classification family synthesis
   -> post-wl519 support/cover family synthesis
   -> later finite shell extension at max(A,B)=11 selected but not entered
+  -> support/cover taxonomy to common-source lemma candidate checkpoint
+  -> common-source square obstruction lemma candidate selected but not entered
 ```
 
 The important outcome is:
@@ -173,7 +182,35 @@ ambient globally soluble but not AA+BB-admissible
 
 ## Current Narrow Gate
 
-If `wl521` is present, the current handoff is:
+If `wl522` is present, the current handoff is:
+
+```text
+try_common_source_square_obstruction_lemma_candidate_not_entered_here
+```
+
+The `wl522` checkpoint compressed the `wl491`-`wl521` ledgers by support
+family, cover family, classification, and failure mode. The taxonomy snapshot
+has 43 final candidate-ledger entries, 13 support families, 22 cover families,
+5 ambient-globally-not-soluble cover families, 15 globally soluble but not
+AA+BB-admissible cover families, 2 processed / duplicate cover families, no
+genuinely deferred cover families, and no AA+BB-admissible cover families.
+
+The selected theorem-candidate, not entered and not proved here, is:
+
+```text
+common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families
+```
+
+The next narrow question is whether the recorded opposite-side AA/BB
+common-source product-not-square failures can be stated and proved as a
+reusable admissibility obstruction lemma. Do not execute shell 11 unless that
+is a later explicit task. Do not compute new supports, test new ambient `C_d`
+solubility, apply `wl491` to a new point, select a final obstruction candidate,
+run broad rank/Selmer diagnostics, or claim rank zero, a Selmer upper bound,
+uniform `M_tail` full rank, or family exclusion. Do not treat the finite count
+of 15 not-admissible cover families as theorem progress.
+
+If `wl521` is present but `wl522` is not present, the current handoff is:
 
 ```text
 execute_next_finite_M_tail_shell_from_wl498_plan_not_entered_here

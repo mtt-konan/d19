@@ -125,6 +125,7 @@ Rank-zero Selmer / AA+BB audit helpers:
 - `audit_closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_ambient_c_d_global_solubility_cover.py` — wl519 进入 wl518 选定窄门，用 exact rational ambient `C_d` point 解决 shared shell-10 `u_5` cover 为 globally soluble，并对两个 mirror entries 应用 wl491 后归入 not AA+BB-admissible ledgers
 - `audit_closure_quotient_rank_zero_aa_bb_wl520_post_wl519_route_choice_audit.py` — wl520 在 shared shell-10 `u_5` cover 已分类后选择 post-classification support/cover-family synthesis 为下一窄门，但不进入该 synthesis 或执行 shell 11
 - `audit_closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.py` — wl521 进入 wl520 选定 synthesis，按 support/cover family 重聚合 wl491-wl519 ledgers，记录无 deferred/admissible cover family，并只选择后续 finite shell `max(A,B)=11` 而不执行 shell 11
+- `audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py` — wl522 用 wl521 作为 latest state，把 wl491-wl521 ledgers 压成 support/cover taxonomy，区分 ambient refutation 与 AA+BB common-source admissibility failure，并只选择 unproved common-source square obstruction lemma candidate 而不进入证明或执行 shell 11
 
 ### `modular/` — Path B / mod p² 实证
 

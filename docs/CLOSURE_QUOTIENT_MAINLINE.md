@@ -325,7 +325,16 @@ genuinely deferred cover family、没有 AA+BB-admissible cover family，只保�
 theorem-candidate pattern。这个 pattern 不是 theorem，也没有隔离 named
 proof gap；`wl521` 只选择稍后按既有 `wl498` plan 执行 finite shell
 `max(A,B)=11`，但不执行 shell 11，不计算 supports，不测试 ambient `C_d`，不应用
-`wl491`，不证明 Selmer 上界或 family rank-zero theorem。
+`wl491`，不证明 Selmer 上界或 family rank-zero theorem。`wl522` 只做
+support/cover taxonomy checkpoint：用 `wl521` 作 latest state，把 `wl491`-`wl521`
+ledgers 按 support family、cover family、classification 和 failure mode 压缩。
+结果没有 deferred 或 AA+BB-admissible cover family；5 个 cover families 是
+ambient globally not soluble，15 个 cover families 是 globally soluble but not
+AA+BB-admissible，2 个是 processed / duplicate。它隔离了唯一下一
+theorem-candidate：
+`common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families`，
+但没有进入证明、没有执行 shell 11、没有选择 final obstruction candidate，也没有
+证明 Selmer 上界或 family rank-zero theorem。
 
 ## 6. 不要再主线化的东西
 

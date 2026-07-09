@@ -43,7 +43,33 @@ globally soluble but not AA+BB-admissible. The next gate is:
 extend_or_refresh_M_tail_diagnostics
 ```
 
-If `wl521` is present, the current handoff is:
+If `wl522` is present, the current handoff is:
+
+```text
+try_common_source_square_obstruction_lemma_candidate_not_entered_here
+```
+
+`wl522` used `wl521` as the latest state and compressed the `wl491`-`wl521`
+ledgers into a stable support-family / cover-family taxonomy by
+classification and failure mode. The taxonomy has 43 final candidate-ledger
+entries, 13 support families, 22 cover families, 5 ambient-globally-not-soluble
+cover families, 15 globally soluble but not AA+BB-admissible cover families,
+2 processed / duplicate cover families, no genuinely deferred cover families,
+and no AA+BB-admissible cover families. The one named theorem-candidate pattern
+isolated here is:
+
+```text
+common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families
+```
+
+It has not been proved and no proof-level work was entered. Do not execute
+shell 11, compute new supports, test new ambient `C_d` solubility, apply
+`wl491` to a new point, select a final obstruction candidate, run broad
+rank/Selmer diagnostics, or claim Selmer/family progress. Do not treat the 15
+not-admissible cover families as a theorem; the next explicit task, if chosen,
+is only to try proving the named common-source square obstruction lemma.
+
+If `wl521` is present but `wl522` is not present, the current handoff is:
 
 ```text
 execute_next_finite_M_tail_shell_from_wl498_plan_not_entered_here
