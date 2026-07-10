@@ -42,17 +42,21 @@ entries.
              491-522-aa-bb-admissibility-taxonomy-consolidated.md plus
              the wl523 common-source obstruction statement log, wl524
              post-wl523 route-choice audit, wl525 uniform cover-family
-             squareclass attempt, wl526 post-wl525 route-choice audit, and
-             wl527 function-field proof-data scope.
+             squareclass attempt, wl526 post-wl525 route-choice audit,
+             wl527 function-field proof-data scope, the wl528 first
+             v_5 L=1 T=5 function-field prototype, and the wl529
+             square-locus closure for that same prototype.
 
-491-527  AA+BB admissibility filter, finite M_tail shell routing,
+491-529  AA+BB admissibility filter, finite M_tail shell routing,
          support/cover taxonomy, and common-source obstruction statement
          -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
          -> 523-try-common-source-square-obstruction-lemma-candidate.md
          -> 524-post-wl523-route-choice-audit.md
          -> 525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md
          -> 526-post-wl525-route-choice-audit.md
-         -> latest checkpoint: 527-function-field-squareclass-proof-data-scope.md
+         -> 527-function-field-squareclass-proof-data-scope.md
+         -> 528-v5-l1-t5-function-field-prototype.md
+         -> latest checkpoint: 529-v5-l1-t5-square-locus.md
 ```
 
 ## Reading Rule

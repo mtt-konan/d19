@@ -5,18 +5,18 @@
 - Project phase: exploration
 - Memory landing policy: ask-by-default
 - Module aliases: AA+BB route; complete d-coordinate route; C_d / M_tail route
-- Active version: wl527 checkpoint from project guidance
-- Active run: none
-- Active module: none; activation-only session
+- Active version: wl529 square-locus task complete from the wl528 checkpoint
+- Active run: `wl529-v5-l1-t5-square-locus` complete
+- Active module: AA+BB complete-d route; single `v_5,L=1,T=5,d=(5,1,5)` specialization-square locus over the wl528 prototype
 - Baseline: Project guidance records wl527 as function-field proof-data scoping with 0 of 15 named cover families ready for a uniform squareclass proof attempt.
-- Active hypothesis: none selected for execution
+- Active hypothesis: `wl528` proves generic nonsquareness in the function field, and `wl529` now closes the one-family pointwise gap: the square-locus in the centered-even parameter `t` has only `t=0` over `Q`, and `t=0` has no rational lift to the prototype quartic.
 - Known failures: Finite taxonomy alone does not provide a uniform function-field squareclass certificate.
 - Stable behavior: Keep single-curve Selmer diagnostics, S~, complete d-coordinate C_d ledgers, M_tail diagnostics, AA+BB admissibility, and theorem-level Selmer claims separate.
-- 稳定模块保护判断: Memory activation only; do not resume research, run tests, or modify research artifacts without a concrete user task.
+- 稳定模块保护判断: User explicitly selected this one prototype; do not touch other cover families, shell 11, broad Selmer/rank diagnostics, or old package-x / `S~`.
 - Pressure signals: Avoid route drift and finite-diagnostic accumulation being described as theorem progress.
 - Rejected approaches: Do not revive the old package-x / S~ bridge as a theorem-level Selmer object; do not treat counts as proof.
-- Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof.
-- Evidence links: `AGENTS.md`; `docs/PROJECT_STATUS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/OPEN_DIRECTIONS.md`
+- Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof. `wl529` must keep generic nonsquareness separate from pointwise square-specialization analysis and must state explicitly that divisor parity alone cannot prove every specialization nonsquare.
+- Evidence links: `AGENTS.md`; `docs/PROJECT_STATUS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/OPEN_DIRECTIONS.md`; `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`; `docs/work-logs/528-v5-l1-t5-function-field-prototype.md`
 - Session log: none
-- Next step: Await a concrete user task or an explicit request to resume a research task under external memory.
-- Do not assume: Activation means permission to continue the previous research route.
+- Next step: None for this task; stop without advancing to another route.
+- Do not assume: This one-family closure permits advancing to another cover family or to a uniform theorem without a new explicit user selection.

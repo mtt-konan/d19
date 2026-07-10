@@ -5,6 +5,121 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
+If `wl529` is present, the current handoff is:
+
+```text
+wl529_v5_l1_t5_square_locus_complete_stop
+```
+
+`wl529` keeps the same user-selected prototype from `wl528`. It still touches
+only:
+
+```text
+support=v_5|L=1|T=5|d=(5,1,5)
+```
+
+represented by `AA_A1_B4_v_5_m_tail_refresh_candidate` and
+`BB_A4_B1_v_5_m_tail_refresh_candidate` in `wl495`.
+
+`wl528` already reconstructs the function-field chart
+
+```text
+Q(r,y)/(y^2 - (5*r^4 - 264*r^2 + 2000))
+```
+
+with
+
+```text
+t = y*(r^2+20)/(4*r*(r^2-20))
+N = (5+t)/2
+M = (5-t)/2
+```
+
+and proves the opposite-side product `(N^2+16)(M^2+16)` is nonsquare as a
+function-field element.
+
+`wl529` closes the remaining pointwise specialization gap for this one family.
+It starts from the exact identity
+
+```text
+16*(N^2+16)*(M^2+16) = (t^2+39)^2 + 6400
+```
+
+so the square-specialization locus becomes the genus-one quartic
+
+```text
+U^2 = t^4 + 78*t^2 + 7921
+```
+
+with the smooth intersection-of-quadrics model
+
+```text
+V*Z = T^2 + 39*Z^2
+U^2 = V^2 + 6400*Z^2
+```
+
+and a degree-two map to the elliptic quotient
+
+```text
+Y^2 = X^3 + 78*X^2 + 7921*X
+```
+
+via `X=t^2`, `Y=tU`. This map is used for rational-point classification; it
+is not asserted to be a birational equivalence.
+
+The `wl529` script checks this algebra symbolically, then proves
+
+```text
+rank(E(Q)) = 0
+E(Q)_tors ~= Z/4Z
+E(Q) = {O, (0,0), (89,1424), (89,-1424)}.
+```
+
+Any rational square specialization would map to `E(Q)` with `X=t^2` a rational
+square. The only square `X`-value among finite rational points is `X=0`, so the
+affine square-locus rational points are only
+
+```text
+(t,U) = (0,89), (0,-89).
+```
+
+`wl529` then checks that `t=0` has no rational lift back to the `wl528`
+quartic because writing `x=r^2` gives
+
+```text
+5*x^2 - 264*x + 2000 = 0
+```
+
+with discriminant `2^10*29`, not a rational square.
+
+Therefore the selected prototype has no rational point in the required
+nonexceptional positivity domain `|t|<5` where the opposite-side product is a
+rational square. This closes the one-family square-locus question and stops.
+
+Divisor parity remains separate:
+
+```text
+Divisor parity can prove generic function-field nonsquareness, but by itself it
+cannot rule out every rational specialization landing on a square value.
+```
+
+This is still not a uniform cover-family theorem, not a theorem-level Selmer
+upper bound, not rank zero, not `Sha[2]=0`, and not family exclusion.
+
+Do not advance to another family from `wl529` without a new explicit user
+selection.
+
+If `wl528` is present but `wl529` is not present, the current handoff is:
+
+```text
+wl528_v5_l1_t5_function_field_prototype_partial
+```
+
+`wl528` is the first user-selected prototype after `wl527`. It proves the
+opposite-side product is nonsquare in the prototype function field by a checked
+smooth nonexceptional rational specialization, but it does not yet close the
+pointwise positivity-domain specialization gap.
+
 If `wl527` is present, the current handoff is:
 
 ```text
@@ -208,18 +323,24 @@ For the full route history, read:
 - `docs/work-logs/525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md`
 - `docs/work-logs/526-post-wl525-route-choice-audit.md`
 - `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`
+- `docs/work-logs/528-v5-l1-t5-function-field-prototype.md`
+- `docs/work-logs/529-v5-l1-t5-square-locus.md`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_squareclass_obstruction_lemma.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_function_field_prototype.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl523_common_source_obstruction.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl525_uniform_cover_family_squareclass_obstruction.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_prototype.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`
 - `docs/work-logs/README.md`
 
 ## Do Not Reopen
@@ -238,6 +359,10 @@ Unless the user explicitly asks for one of these, do not:
   progress.
 - treat `wl527` proof-data scoping as a uniform cover-family theorem or as a
   ready proof attempt.
+- treat `wl528` as more than one checked single-prototype nonsquare
+  certificate.
+- treat `wl529` as more than one closed one-family positivity-domain
+  square-locus audit.
 
 Do not go back to the old package-`x` / `S~` bridge as if it were a complete
 Selmer object. `S~` was a pseudo-container; it is not the theorem-level
@@ -260,9 +385,12 @@ complete d-container
   -> uniform cover-family squareclass obstruction attempt fails from finite taxonomy (wl525)
   -> post-wl525 route choice selects minimal function-field proof-data scoping (wl526)
   -> function-field proof-data scoping finds missing model/map/certificate data (wl527)
+  -> one selected v_5 L=1 T=5 function-field nonsquare prototype (wl528)
+  -> same prototype square-locus closes in the nonexceptional positivity domain (wl529)
 ```
 
-`wl527` scopes the proof-data gap and stops. It is not another finite shell
-computation, not a new point-level filter run, not the uniform lemma proof
-itself, and not a Selmer-family theorem claim unless a rigorous Selmer upper
-bound is actually proved.
+`wl529` supplies one closed one-family positivity-domain square-locus audit and
+stops. It is not another finite shell computation, not a new point-level
+filter run, not a divisor-parity theorem, not the uniform lemma itself, and
+not a Selmer-family theorem claim unless a rigorous Selmer upper bound is
+actually proved.

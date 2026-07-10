@@ -374,7 +374,25 @@ function-field models、rational source-side maps、`N,M` function-field
 elements、opposite-side squareclass/divisor-parity certificate 和 exceptional
 specialization / positivity separation。`wl527` 不证明也不 refute uniform
 lemma，不进入下一 roadmap step，不产生 Selmer 上界或 family rank-zero
-theorem。
+theorem。`wl528` 只处理用户明确选中的第一个 prototype：
+`support=v_5|L=1|T=5|d=(5,1,5)`，也就是 `wl495` 里的
+`AA_A1_B4_v_5_m_tail_refresh_candidate` /
+`BB_A4_B1_v_5_m_tail_refresh_candidate`。它从既有 complete `d`-coordinate
+方程重建函数域
+`Q(r,y)/(y^2 - (5*r^4 - 264*r^2 + 2000))`，推导
+`t,N,M` maps，并对 opposite leg-4 product `(N^2+16)(M^2+16)` 给出一个
+checked smooth rational specialization nonsquare certificate：
+`r=10,y=160,t=6,N=11/2,M=-1/2` 时值为 `12025/16`，不是有理平方。
+这只是单个函数域 prototype 的 nonsquare certificate；它不证明 divisor
+parity、不证明 positivity domain 上所有非例外特化都存活、不证明 uniform
+cover-family obstruction，也不产生 Selmer/rank/Sha/family exclusion 结论。
+`wl529` 对同一个 prototype 构造平方特化轨迹
+`U^2=t^4+78t^2+7921`，并通过二次映射 `X=t^2,Y=tU` 到椭圆商曲线
+`Y^2=X^3+78X^2+7921X` 分类有理点。商曲线只有
+`O,(0,0),(89,±1424)`，因此轨迹上只有 `t=0`；可执行的判别式检查又排除
+`t=0` 回拉到 `wl528` quartic。于是这一 family 的 positivity-domain
+平方特化问题关闭，但仍不是 uniform cover-family obstruction 或 Selmer
+family theorem。
 
 ## 6. 不要再主线化的东西
 

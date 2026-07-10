@@ -22,12 +22,18 @@ read `docs/GLOSSARY.md`.
 The current handoff is:
 
 ```text
-wl527_completed_function_field_proof_data_scope_not_ready
+wl529_v5_l1_t5_square_locus_complete_stop
 ```
 
-`wl527` is the current checkpoint. It uses `wl526` as immediate input and
-enters only the proof-data scoping gate selected by `wl526`. It does not build
-function-field models or prove the uniform lemma.
+`wl529` is the current completed one-family square-locus checkpoint. It uses
+the `wl528` prototype and still touches only:
+
+```text
+support=v_5|L=1|T=5|d=(5,1,5)
+```
+
+represented by `AA_A1_B4_v_5_m_tail_refresh_candidate` and
+`BB_A4_B1_v_5_m_tail_refresh_candidate` in `wl495`.
 
 The `wl522` taxonomy remains the finite input snapshot:
 
@@ -70,6 +76,53 @@ exact_missing_data_class =
 
 No next roadmap step is entered in `wl527`.
 
+`wl528` then supplies the first explicitly selected single-family
+function-field prototype. It reconstructs the chart
+
+```text
+Q(r,y)/(y^2 - (5*r^4 - 264*r^2 + 2000))
+```
+
+derives rational maps to
+
+```text
+t = y*(r^2+20)/(4*r*(r^2-20))
+N = (5+t)/2
+M = (5-t)/2
+```
+
+and proves the opposite leg-4 product
+
+```text
+(N^2+16)(M^2+16)
+```
+
+is nonsquare in this prototype function field by a checked smooth
+nonexceptional rational specialization:
+
+```text
+r = 10, y = 160, t = 6, N = 11/2, M = -1/2
+(N^2+16)(M^2+16) = 12025/16
+```
+
+which is not a rational square.
+
+`wl529` analyzes the remaining pointwise square-specialization locus
+
+```text
+U^2 = t^4 + 78*t^2 + 7921
+```
+
+through the degree-two map `X=t^2, Y=tU` to
+`Y^2=X^3+78X^2+7921X`. A rigorous rank-zero and torsion computation on this
+elliptic quotient leaves only `t=0`; an executable discriminant certificate
+then proves that `t=0` has no rational lift to the `wl528` quartic. Thus the
+one-family positivity-domain square-locus question is closed.
+
+This is not a uniform cover-family theorem and not a Selmer/rank/Sha/family
+exclusion claim. Do not advance to another cover family from `wl529` without a
+new explicit user selection.
+
 ## Do Not Reopen
 
 Unless the user explicitly asks for one of these, do not:
@@ -81,11 +134,15 @@ Unless the user explicitly asks for one of these, do not:
 - select a final obstruction candidate;
 - run broad rank/Selmer diagnostics;
 - treat the 15 not-admissible cover families as a theorem;
-- claim that `wl523`, `wl525`, `wl526`, or `wl527` proves a uniform cover-family
-  obstruction;
-- build function-field models or prove the uniform lemma unless that gate is
-  explicitly entered.
+- claim that `wl523`, `wl525`, `wl526`, `wl527`, `wl528`, or `wl529` proves a
+  uniform cover-family obstruction;
+- build additional function-field models or prove the uniform lemma unless
+  that gate is explicitly entered.
 - treat `wl527` proof-data scoping as a ready proof attempt.
+- treat `wl528` as more than one checked single-prototype nonsquare
+  certificate.
+- treat `wl529` as more than one closed one-family positivity-domain
+  square-locus audit.
 
 The old package-`x` / `S~` bridge is not a theorem-level Selmer object. Do not
 route new evidence back into that ledger as if it proved a Selmer upper bound.
@@ -136,8 +193,8 @@ Each worklog should answer:
 - What is the next narrow gate, and whether it is entered here.
 
 Do not edit old worklogs except for clear typo/index maintenance. For route
-state after `wl527`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
-short and point readers to the relevant consolidated worklog.
+state after `wl529`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
+short and point readers to the relevant worklog.
 
 ## Verification
 

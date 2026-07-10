@@ -8,7 +8,7 @@ history belongs in the worklogs, not here.
 Current handoff:
 
 ```text
-wl527_completed_function_field_proof_data_scope_not_ready
+wl529_v5_l1_t5_square_locus_complete_stop
 ```
 
 Input state:
@@ -72,6 +72,60 @@ exceptional specialization / positivity separation. One named row also lacks
 an explicit `d` vector in the `wl522` taxonomy label. `wl527` does not build
 those objects, prove the uniform lemma, refute the possible mathematical
 lemma, or advance to another roadmap step.
+
+`wl528` supplies the first explicitly selected prototype for only:
+
+```text
+support=v_5|L=1|T=5|d=(5,1,5)
+```
+
+It reconstructs the function field
+
+```text
+Q(r,y)/(y^2 - (5*r^4 - 264*r^2 + 2000))
+```
+
+and proves the opposite-side leg-4 product `(N^2+16)(M^2+16)` is nonsquare in
+that function field by the rational specialization `r=10,y=160`, where the
+value is `12025/16`. This is a successful single-prototype nonsquare
+certificate. It is not yet a uniform cover-family theorem because it lacks a
+divisor-parity or specialization-survival argument over every nonexceptional
+rational point in the required positivity domain.
+
+`wl529` then closes exactly that one-family specialization gap for the same
+prototype. It uses the identity
+
+```text
+16*(N^2+16)(M^2+16) = (t^2+39)^2 + 6400
+```
+
+to reduce square specializations to the genus-one quartic
+
+```text
+U^2 = t^4 + 78*t^2 + 7921.
+```
+
+Via the elliptic curve
+
+```text
+Y^2 = X^3 + 78*X^2 + 7921*X
+```
+
+with `X=t^2`, `Y=tU`, the script proves
+
+```text
+E(Q) = {O, (0,0), (89,1424), (89,-1424)}
+```
+
+so the square-locus has only `t=0` over `Q`. That `t=0` value has no rational
+lift back to the `wl528` quartic because the induced `r^2` equation has
+discriminant `2^10*29`, not a square. Therefore the selected prototype has no
+rational square specialization in the required nonexceptional positivity domain
+`|t|<5`.
+
+This closes the one-family square-locus question. It does not prove a
+divisor-parity certificate, a uniform cover-family theorem, or any
+theorem-level Selmer statement. No next roadmap step is entered here.
 
 ## P1: Return To Selmer Family Proof Only With A Named Gap
 

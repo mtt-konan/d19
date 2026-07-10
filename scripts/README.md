@@ -89,14 +89,17 @@ Rank-zero Selmer / AA+BB audit helpers:
   and support/cover taxonomy. Read
   `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md` first.
 - Latest compact executable checkpoint:
-  `audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py`.
+  `audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`.
 - Current handoff:
-  `wl527_completed_function_field_proof_data_scope_not_ready`.
-  `wl527` enters the `wl526` selected proof-data scoping gate and finds the
-  named cover families are not ready for a later uniform squareclass proof
-  attempt: the exact missing class is explicit function-field
-  model/map/squareclass-certificate data. It does not build those models,
-  prove the uniform lemma, execute shell 11, or claim Selmer progress.
+  `wl529_v5_l1_t5_square_locus_complete_stop`.
+  `wl527` found the named cover families were not ready for a later uniform
+  squareclass proof attempt. `wl528` then builds only the first selected
+  `support=v_5|L=1|T=5|d=(5,1,5)` prototype, derives the model/maps/`N,M`,
+  and proves the opposite product is nonsquare in that prototype function
+  field by specialization. `wl529` then classifies the rational points on the
+  specialization-square locus through an elliptic quotient and proves that no
+  square specialization lifts to the prototype in the positivity domain. It
+  does not prove the uniform lemma, execute shell 11, or claim Selmer progress.
 
 ### `modular/` — Path B / mod p² 实证
 
