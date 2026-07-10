@@ -62,11 +62,11 @@ global Selmer dimension bound
 rank-zero conclusion
 ```
 
-The current narrow gate is more specific and is recorded in
+The current narrow handoff is more specific and is recorded in
 [NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md):
 
 ```text
-attempt_uniform_cover_family_squareclass_obstruction_lemma
+wl527_completed_function_field_proof_data_scope_not_ready
 ```
 
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
@@ -89,11 +89,40 @@ the proof attempt, execute shell 11, compute supports, test new ambient
 `C_d` solubility, apply `wl491` to a new point, select a final obstruction
 candidate, or claim theorem-level Selmer progress.
 
+`wl525` entered that selected proof attempt at the cover-family statement
+layer. The attempted promotion failed from the current inputs: the finite
+15 cover-family / 29 entry taxonomy has no cover-family function-field
+squareclass certificate, divisor parity data, or specialization argument. This
+does not mathematically refute a possible future uniform lemma; it only
+refutes promoting the finite taxonomy to that theorem. No next roadmap step is
+entered by `wl525`.
+
+`wl526` is the post-`wl525` route-choice audit. It compares the four explicit
+route families: gather minimal function-field squareclass proof data, return
+to finite shell / `M_tail` diagnostics, name a theorem-level complete-Selmer
+local/Hilbert row obligation, or abandon this obstruction line and select a
+different candidate. It selects only the first as the later narrow gate,
+because that is the smallest move addressing the missing proof-data failure.
+`wl526` does not enter the gate, build function-field models, prove the
+uniform lemma, name a Selmer row, select a candidate, execute shell 11, or
+claim theorem-level progress.
+
+`wl527` enters only the `wl526` selected proof-data scoping gate. It inventories
+the 15 named globally soluble but not AA+BB-admissible cover families and finds
+the current data is not ready for a later uniform squareclass proof attempt:
+zero cover families are ready. The exact missing class is explicit
+cover-family function-field model/map/squareclass-certificate data: models,
+rational source-side maps, `N,M` as function-field elements, an opposite-side
+product squareclass or divisor-parity certificate, and exceptional
+specialization / positivity separation. This is not a proof or refutation of
+the possible uniform lemma, and no next roadmap step is entered.
+
 ## Current Stop Rules
 
 Do not execute shell 11, compute new supports, test new ambient `C_d`
 solubility, apply `wl491` to a new point, select a final obstruction candidate,
 or run broad rank/Selmer diagnostics unless the user explicitly asks for that
-route. The next narrow mathematical move, if selected, is only the selected
-uniform cover-family squareclass lemma attempt; do not treat the `wl522`
-finite taxonomy or `wl524` route choice as proof of that lemma.
+route. After `wl527`, do not treat proof-data scoping as a ready proof attempt.
+Do not treat the `wl522` finite taxonomy, the `wl524` route choice, the failed
+`wl525` promotion attempt, the `wl526` route choice, or the `wl527` scoping
+inventory as proof of a uniform cover-family lemma.

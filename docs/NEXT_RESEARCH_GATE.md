@@ -5,7 +5,98 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl524` is present, the current handoff is:
+If `wl527` is present, the current handoff is:
+
+```text
+wl527_completed_function_field_proof_data_scope_not_ready
+```
+
+`wl527` uses `wl526` as immediate input and enters only the selected
+cover-family function-field proof-data scoping gate. It inventories the 15
+`wl522` globally soluble but not AA+BB-admissible cover families and asks
+whether the current data is ready for a later uniform squareclass proof
+attempt.
+
+The answer is no:
+
+```text
+ready_cover_family_count = 0
+not_ready_cover_family_count = 15
+exact_missing_data_class =
+  uniform_function_field_model_maps_and_squareclass_certificate
+```
+
+The missing data classes are explicit cover-family function-field models,
+rational source-side maps, `N,M` as function-field elements, an opposite-side
+product squareclass or divisor-parity certificate, and exceptional
+specialization / positivity separation. One row,
+`support=u_3|L=3|T=4|d=(?,?,?)`, also lacks an explicit `d` vector in the
+`wl522` taxonomy row.
+
+`wl527` does not prove the uniform lemma, refute the possible mathematical
+lemma, build a function-field engine, execute shell 11, compute new `M_tail`
+supports, test new ambient `C_d` solubility, apply `wl491` to a new point,
+name a theorem-level Selmer row, select a final obstruction candidate, or
+claim theorem-level progress. No next roadmap step is entered here.
+
+If `wl526` is present but `wl527` is not present, the current handoff is:
+
+```text
+gather_minimal_function_field_squareclass_proof_data_for_named_cover_families
+```
+
+`wl526` uses `wl525` as immediate input and is only a route-choice audit. It
+compares exactly four next-route families:
+
+- gather minimal function-field squareclass proof data for the named cover
+  families;
+- return to finite shell / `M_tail` diagnostics;
+- name a theorem-level complete-Selmer local/Hilbert row obligation;
+- abandon this obstruction line and select a different candidate.
+
+The selected later gate is the first route: scope the minimum function-field
+proof data needed for the named cover families. That means an inventory of
+cover-family models, source-side maps, candidate `N,M` function-field
+elements, an opposite-side product squareclass or divisor-parity certificate
+target, and exceptional specialization / positivity separation.
+
+This selected gate is not entered in `wl526`. No function-field models are
+built, no uniform lemma is proved, no complete-Selmer row obligation is named,
+and no candidate is selected or abandoned.
+
+If `wl525` is present but `wl526` is not present, the current handoff is:
+
+```text
+wl525_completed_no_next_gate_entered
+```
+
+`wl525` entered the `wl524` selected gate:
+
+```text
+attempt_uniform_cover_family_squareclass_obstruction_lemma
+```
+
+It tried to promote the point-level `wl491` opposite-side squareclass
+obstruction to a uniform statement over the `wl522` globally soluble but not
+AA+BB-admissible cover families. The attempt failed at the statement/proof
+input layer:
+
+```text
+finite_taxonomy_has_no_uniform_squareclass_certificate
+```
+
+The finite 15 cover-family / 29 entry taxonomy records point-level
+non-admissibility checks. It does not contain cover-family function-field
+models, rational `N,M` maps, divisor parity data, or a specialization argument
+showing that the opposite-side product is non-square for every rational point
+on each cover family. Therefore the finite taxonomy cannot be promoted to a
+uniform theorem from the current inputs.
+
+This does not mathematically refute a possible future uniform lemma. It only
+refutes the attempted proof from `wl523` / `wl524` data. No next roadmap step
+is entered in `wl525`.
+
+If `wl524` is present but `wl525` is not present, the current handoff is:
 
 ```text
 attempt_uniform_cover_family_squareclass_obstruction_lemma
@@ -26,7 +117,8 @@ candidate selection is rejected because there is no AA+BB-admissible cover
 family, no genuinely deferred cover family, and no active final obstruction
 candidate.
 
-If `wl523` is present but `wl524` is not present, the current handoff is:
+If `wl523` is present but `wl524`, `wl525`, `wl526`, and `wl527` are not
+present, the current handoff is:
 
 ```text
 post_wl523_route_choice_not_entered_here
@@ -113,12 +205,21 @@ For the full route history, read:
 - `docs/work-logs/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
 - `docs/work-logs/523-try-common-source-square-obstruction-lemma-candidate.md`
 - `docs/work-logs/524-post-wl523-route-choice-audit.md`
+- `docs/work-logs/525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md`
+- `docs/work-logs/526-post-wl525-route-choice-audit.md`
+- `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`
 - `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_squareclass_obstruction_lemma.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.py`
+- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl523_common_source_obstruction.py`
 - `tests/test_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl525_uniform_cover_family_squareclass_obstruction.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice.py`
+- `tests/test_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data.py`
 - `docs/work-logs/README.md`
 
 ## Do Not Reopen
@@ -135,6 +236,8 @@ Unless the user explicitly asks for one of these, do not:
   exclusion, or Harborth global theorem;
 - treat the finite count of 15 not-admissible cover families as theorem
   progress.
+- treat `wl527` proof-data scoping as a uniform cover-family theorem or as a
+  ready proof attempt.
 
 Do not go back to the old package-`x` / `S~` bridge as if it were a complete
 Selmer object. `S~` was a pseudo-container; it is not the theorem-level
@@ -154,10 +257,12 @@ complete d-container
   -> support/cover taxonomy (wl522)
   -> point-level common-source square obstruction statement (wl523)
   -> post-wl523 route choice selects uniform cover-family lemma attempt (wl524)
-  -> uniform cover-family squareclass obstruction lemma attempt not entered
+  -> uniform cover-family squareclass obstruction attempt fails from finite taxonomy (wl525)
+  -> post-wl525 route choice selects minimal function-field proof-data scoping (wl526)
+  -> function-field proof-data scoping finds missing model/map/certificate data (wl527)
 ```
 
-The next task, if chosen, is the selected proof-attempt gate only. It is not
-another finite shell computation, not a new point-level filter run, and not a
-Selmer-family theorem claim unless a rigorous Selmer upper bound is actually
-proved.
+`wl527` scopes the proof-data gap and stops. It is not another finite shell
+computation, not a new point-level filter run, not the uniform lemma proof
+itself, and not a Selmer-family theorem claim unless a rigorous Selmer upper
+bound is actually proved.

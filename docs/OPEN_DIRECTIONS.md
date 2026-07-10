@@ -3,12 +3,12 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Uniform Cover-Family Squareclass Lemma Attempt
+## P0: Missing Function-Field Proof Data After wl527
 
-Current gate:
+Current handoff:
 
 ```text
-attempt_uniform_cover_family_squareclass_obstruction_lemma
+wl527_completed_function_field_proof_data_scope_not_ready
 ```
 
 Input state:
@@ -28,12 +28,50 @@ opposite-side common-source product blocks AA+BB admissibility. It also records
 that this is not a uniform cover-family theorem.
 
 `wl524` decided the route choice and selected a later attempt at a new uniform
-squareclass lemma for those cover families. That proof attempt has not been
-entered. It must not use the 15 cover-family count as proof, and it must not
-claim a theorem-level Selmer upper bound unless one is actually proved.
+squareclass lemma for those cover families. `wl524` did not enter that proof
+attempt. The attempt must not use the 15 cover-family count as proof, and it
+must not claim a theorem-level Selmer upper bound unless one is actually
+proved.
 
-Do not turn this into shell 11, new support computation, new ambient `C_d`
-solubility tests, final-candidate selection, or broad Selmer/rank diagnostics.
+`wl525` entered the selected attempt and found the precise failure point:
+
+```text
+finite_taxonomy_has_no_uniform_squareclass_certificate
+```
+
+The finite taxonomy does not provide cover-family function-field models,
+rational `N,M` maps, divisor parity data, or a specialization argument for the
+opposite-side product. The uniform lemma is therefore not proved from
+`wl523` / `wl524`. This does not refute the possible lemma; it refutes only
+the finite-taxonomy promotion.
+
+`wl526` made that route choice. It compared exactly four route families and
+selected only a later minimal function-field proof-data scoping gate for the
+named cover families. The selected gate should inventory cover-family models,
+source-side maps, candidate `N,M` function-field elements, the opposite-side
+product squareclass/divisor-parity certificate target, and exceptional
+specialization / positivity separation. `wl526` did not enter that gate, build
+function-field models, prove the uniform lemma, name a theorem-level
+complete-Selmer row, abandon the obstruction line, or select a different
+candidate.
+
+`wl527` entered only that proof-data scoping gate. It found that the current
+data is not ready for a later uniform squareclass proof attempt:
+
+```text
+ready_cover_family_count = 0
+not_ready_cover_family_count = 15
+exact_missing_data_class =
+  uniform_function_field_model_maps_and_squareclass_certificate
+```
+
+The exact missing data classes are explicit cover-family function-field
+models, rational source-side maps on each family, `N,M` as function-field
+elements, an opposite-side product squareclass/divisor-parity certificate, and
+exceptional specialization / positivity separation. One named row also lacks
+an explicit `d` vector in the `wl522` taxonomy label. `wl527` does not build
+those objects, prove the uniform lemma, refute the possible mathematical
+lemma, or advance to another roadmap step.
 
 ## P1: Return To Selmer Family Proof Only With A Named Gap
 
@@ -59,10 +97,10 @@ The previous finite-shell machinery selected a later shell extension at:
 max(A,B) = 11
 ```
 
-This is lower priority than the post-`wl523` route choice. Execute shell 11
-only if the user explicitly chooses this route or the selected uniform lemma
-attempt is abandoned, and keep it classified as finite `M_tail` diagnostic
-work rather than Selmer theorem progress.
+This is lower priority than the explicit post-`wl527` missing function-field
+proof-data gap. Execute shell 11 only if the user explicitly chooses this
+route, and keep it classified as finite `M_tail` diagnostic work rather than
+Selmer theorem progress.
 
 ## Closed Or Paused Directions
 

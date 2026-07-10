@@ -348,7 +348,33 @@ obstruction candidate selection；选择下一窄门为稍后尝试新的 unifor
 squareclass obstruction lemma，但不进入该证明尝试。shell 11 被 defer，local /
 Hilbert row work 等待 named Selmer row gap，final candidate selection 被 reject。
 `wl524` 没有证明 uniform lemma、没有执行 shell 11、没有选择 final candidate、
-没有产生 Selmer 上界或 family rank-zero theorem。
+没有产生 Selmer 上界或 family rank-zero theorem。`wl525` 进入 `wl524`
+选中的 uniform cover-family squareclass obstruction attempt，但在
+statement/proof input 层失败：现有 `wl523` / `wl524` 输入只有点级 `wl491`
+obstruction 和有限 taxonomy count，没有 cover-family function-field models、
+有理 `N,M` maps、divisor parity data 或 specialization argument。因此 15 个
+cover families / 29 个 entries 不能被提升成 uniform theorem。`wl525` 不数学上
+refute 未来可能的 uniform lemma，只 refute 从当前 finite taxonomy 直接推广；
+它没有进入下一 roadmap step，没有执行 shell 11，没有计算新 support，没有测试
+新 ambient `C_d`，没有应用 `wl491` 到新点，也没有产生 Selmer 上界或 family
+rank-zero theorem。`wl526` 只做 post-`wl525` route choice：比较最小
+function-field squareclass proof-data scoping、返回 finite shell / `M_tail`
+diagnostics、命名 theorem-level complete-Selmer local / Hilbert row obligation、
+以及 abandon 当前 obstruction line 后选择别的 candidate。它选择的下一窄门只是
+稍后 scope named cover families 的最小 function-field proof data；不建
+function-field models、不证明 uniform lemma、不命名 Selmer row、不选择新
+candidate、不执行 shell 11，也不产生 theorem-level progress。`wl527` 只进入
+`wl526` 选中的 proof-data scoping gate：对 15 个 named globally soluble but
+not AA+BB-admissible cover families 盘点 cover-family model availability、
+source-side maps、candidate `N,M` function-field elements、opposite-side
+product squareclass / divisor-parity target、以及 exceptional specialization /
+positivity separation。结论是 0 个 cover family ready，精确缺口是
+`uniform_function_field_model_maps_and_squareclass_certificate`：还缺显式
+function-field models、rational source-side maps、`N,M` function-field
+elements、opposite-side squareclass/divisor-parity certificate 和 exceptional
+specialization / positivity separation。`wl527` 不证明也不 refute uniform
+lemma，不进入下一 roadmap step，不产生 Selmer 上界或 family rank-zero
+theorem。
 
 ## 6. 不要再主线化的东西
 

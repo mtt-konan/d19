@@ -22,16 +22,12 @@ read `docs/GLOSSARY.md`.
 The current handoff is:
 
 ```text
-post_wl523_route_choice_not_entered_here
+wl527_completed_function_field_proof_data_scope_not_ready
 ```
 
-`wl523` is the current checkpoint. It uses `wl522` as input and tries the
-named common-source square obstruction lemma candidate at the proof/statement
-layer. The point-level obstruction is already provable from the existing
-`wl491` filter: after the centered-even pullback gives rational `N,M`, a
-non-square opposite-side product blocks AA+BB admissibility. Sign or
-positivity failures such as `M_not_positive` are separate from this
-squareclass obstruction.
+`wl527` is the current checkpoint. It uses `wl526` as immediate input and
+enters only the proof-data scoping gate selected by `wl526`. It does not build
+function-field models or prove the uniform lemma.
 
 The `wl522` taxonomy remains the finite input snapshot:
 
@@ -51,9 +47,28 @@ common_source_square_obstruction_for_globally_soluble_not_admissible_cover_famil
 ```
 
 `wl523` proves only the point-level form from existing `wl491` machinery. It
-does not prove a uniform cover-family theorem. The next explicit task, if
-chosen, is only a route choice: either attempt a new uniform cover-family
-squareclass lemma, or later return to the finite-shell route.
+does not prove a uniform cover-family theorem. `wl525` proves only that the
+finite taxonomy cannot be promoted to that theorem from the current inputs.
+`wl526` then compares four routes and selects only a later gate:
+
+```text
+gather_minimal_function_field_squareclass_proof_data_for_named_cover_families
+```
+
+`wl527` enters that scoping gate and inventories the minimum function-field
+proof data for the named cover families: model inventory, source-side maps,
+candidate `N,M` function-field elements, opposite-side product
+squareclass/divisor-parity target, and exceptional specialization / positivity
+separation. It finds:
+
+```text
+ready_cover_family_count = 0
+not_ready_cover_family_count = 15
+exact_missing_data_class =
+  uniform_function_field_model_maps_and_squareclass_certificate
+```
+
+No next roadmap step is entered in `wl527`.
 
 ## Do Not Reopen
 
@@ -66,7 +81,11 @@ Unless the user explicitly asks for one of these, do not:
 - select a final obstruction candidate;
 - run broad rank/Selmer diagnostics;
 - treat the 15 not-admissible cover families as a theorem;
-- claim that `wl523` proves a uniform cover-family obstruction.
+- claim that `wl523`, `wl525`, `wl526`, or `wl527` proves a uniform cover-family
+  obstruction;
+- build function-field models or prove the uniform lemma unless that gate is
+  explicitly entered.
+- treat `wl527` proof-data scoping as a ready proof attempt.
 
 The old package-`x` / `S~` bridge is not a theorem-level Selmer object. Do not
 route new evidence back into that ledger as if it proved a Selmer upper bound.
@@ -117,7 +136,7 @@ Each worklog should answer:
 - What is the next narrow gate, and whether it is entered here.
 
 Do not edit old worklogs except for clear typo/index maintenance. For route
-state after `wl523`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
+state after `wl527`, keep the full handoff in `docs/NEXT_RESEARCH_GATE.md`
 short and point readers to the relevant consolidated worklog.
 
 ## Verification
