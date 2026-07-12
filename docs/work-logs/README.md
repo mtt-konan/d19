@@ -44,10 +44,11 @@ entries.
              post-wl523 route-choice audit, wl525 uniform cover-family
              squareclass attempt, wl526 post-wl525 route-choice audit,
              wl527 function-field proof-data scope, the wl528 first
-             v_5 L=1 T=5 function-field prototype, and the wl529
-             square-locus closure for that same prototype.
+             v_5 L=1 T=5 function-field prototype, the wl529 square-locus
+             closure for that prototype, and the wl530 M1 symbolic pure-v_ell
+             family derivation.
 
-491-529  AA+BB admissibility filter, finite M_tail shell routing,
+491-547  AA+BB admissibility filter, finite M_tail shell routing,
          support/cover taxonomy, and common-source obstruction statement
          -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
          -> wl491-wl522 detail logs are archived under archive/
@@ -57,7 +58,65 @@ entries.
          -> 526-post-wl525-route-choice-audit.md
          -> 527-function-field-squareclass-proof-data-scope.md
          -> 528-v5-l1-t5-function-field-prototype.md
-         -> latest checkpoint: 529-v5-l1-t5-square-locus.md
+         -> 529-v5-l1-t5-square-locus.md
+         -> 530-m1-pure-v-ell-symbolic-family.md
+         -> 531-m2-pure-v-ell-x-fiber-product-square-lift-proposition.md
+         -> 532-m2-pure-v-ell-q-coordinate-quartic-obstruction.md
+         -> 533-m2-pure-v-ell-one-parameter-conic-quartic-obstruction.md
+         -> 534-m2-pure-v-ell-one-parameter-square-predicate-obstruction.md
+         -> 535-m2-pure-v-ell-q-root-coordinate-square-quartic-obstruction.md
+         -> 536-m2-pure-v-ell-mod-7-local-obstruction.md
+         -> 537-m2-pure-v-ell-mod-11-local-obstruction.md
+         -> 538-m2-pure-v-ell-mod-19-local-obstruction.md
+         -> 539-m2-pure-v-ell-direct-residue-method-classification.md
+         -> 540-m2-pure-v-ell-parameter-prime-valuation-split.md
+         -> 541-m2-pure-v-ell-parameter-prime-local-solubility.md
+         -> 542-m2-pure-v-ell-denominator-splitting-support.md
+         -> 543-m2-pure-v-ell-real-quadratic-square-ideal-descent.md
+         -> 544-m2-pure-v-ell-explicit-two-unit-class-quartic-descent.md
+         -> 545-m2-pure-v-ell-trivial-unit-2-adic-dichotomy.md
+         -> 546-m2-pure-v-ell-trivial-unit-gaussian-double-descent.md
+         -> 547-m2-pure-v-ell-finite-gaussian-s-squareclass-descent.md
+         -> 548-m2-pure-v-ell-dyadic-gaussian-squareclass-elimination.md
+         -> 549-m2-pure-v-ell-odd-gaussian-root-squareclassification.md
+         -> 550-m2-pure-v-ell-common-prime-orientation-local-compatibility.md
+         -> 551-m2-pure-v-ell-global-norm-squareclass-pairing.md
+         -> 552-m2-pure-v-ell-dyadic-unit-class-elimination.md
+         -> 553-m2-pure-v-ell-positivity-transfer-to-unit-class-cone.md
+         -> 554-m2-pure-v-ell-canonical-rational-class-from-coordinate-gcd.md
+         -> 555-m2-pure-v-ell-unit-free-standard-norm-square-equation.md
+         -> 556-m2-pure-v-ell-dyadic-selection-of-gaussian-orientation.md
+         -> 557-m2-pure-v-ell-surviving-orientation-valuation-strata.md
+         -> 558-m2-pure-v-ell-split-prime-global-class-character.md
+         -> 559-m2-pure-v-ell-even-common-valuation-leading-character.md
+         -> 560-m2-pure-v-ell-unified-normalized-split-prime-character.md
+         -> 561-m2-pure-v-ell-global-character-matrix-and-reciprocity-product.md
+         -> 562-m2-pure-v-ell-leading-character-not-fixed-by-local-orientation.md
+         -> 563-m2-pure-v-ell-global-product-squareclass-split.md
+         -> 564-m2-pure-v-ell-dyadic-allocation-in-complementary-split.md
+         -> 565-m2-pure-v-ell-odd-allocation-from-real-coordinate-character.md
+         -> 566-m2-pure-v-ell-quartic-character-for-split-allocation.md
+         -> 567-m2-pure-v-ell-affine-f2-system-for-split-allocation.md
+         -> 568-m2-pure-v-ell-allocation-coupling-redundancy.md
+         -> 569-m2-pure-v-ell-archimedean-selection-of-norm-ratio-branch.md
+         -> 570-m2-pure-v-ell-two-variable-norm-ratio-square-system.md
+         -> 571-m2-pure-v-ell-source-square-multiquadratic-cover-genus.md
+         -> 572-m2-pure-v-ell-exclude-tau-half-by-integrality.md
+         -> 573-m2-pure-v-ell-generic-cover-integral-denominator-coupling.md
+         -> 574-m2-pure-v-ell-common-delta-squareclass-double-split.md
+         -> 575-m2-pure-v-ell-scaled-gaussian-rotation-between-source-pairs.md
+         -> 576-m2-pure-v-ell-odd-prime-side-transport-under-rotation.md
+         -> 577-m2-pure-v-ell-all-odd-k-primes-transport-same-side.md
+         -> 578-m2-pure-v-ell-dyadic-same-side-and-identical-k-allocation.md
+         -> 579-m2-pure-v-ell-common-allocation-mobius-magnitude-curve.md
+         -> 580-m2-pure-v-ell-primitive-reconstruction-and-descent-exhaustion.md
+         -> 581-m2-pure-v-ell-genus-two-character-and-quadratic-elliptic-quotient.md
+         -> 582-m2-pure-v-ell-q-i-elliptic-rational-locus-descent-equivalence.md
+         -> 583-m2-pure-v-ell-source-square-genus-one-torsor-and-square-x-fiber-product.md
+         -> 584-m2-pure-v-ell-prime-coupled-source-elliptic-and-final-norm-intersection.md
+         -> 585-m2-pure-v-ell-genus-seventeen-cover-and-combined-source-norm-elliptic-quotient.md
+         -> 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
+         -> latest checkpoint: 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
 ```
 
 ## Reading Rule

@@ -393,6 +393,17 @@ cover-family obstruction，也不产生 Selmer/rank/Sha/family exclusion 结论�
 `t=0` 回拉到 `wl528` quartic。于是这一 family 的 positivity-domain
 平方特化问题关闭，但仍不是 uniform cover-family obstruction 或 Selmer
 family theorem。
+`wl530` 随后只完成明确选择的 M1：对所有奇素数 `ell` 推导
+`support=v_ell|L=1|T=ell|d=(ell,1,ell)` 的 complete-`d` 方程、函数域
+chart、`t,N,M` maps、opposite leg `ell-1` product、平方轨迹四次曲线及其
+二次椭圆商族，并在 `ell=5` 精确恢复 `wl528`/`wl529`。它不分类一般
+elliptic fiber 的有理点，不进入 M2，也不证明 uniform obstruction 或
+Selmer/rank/Sha/family exclusion 结论。
+`wl531` 再把 M2 精确缩到一个 `X`-fiber-product square-lift proposition；
+`wl532` 又把它继续缩到一个更小的 `Q`-coordinate quartic obstruction：
+所有 `ell ≡ 3 (mod 4)` 的奇素数被严格排除，剩下的 `ell ≡ 1 (mod 4)`
+情形才需要处理最后那条四次平方条件。它仍然不是 uniform exclusion，
+也不是 counterexample，更不是 M3.
 
 ## 6. 不要再主线化的东西
 

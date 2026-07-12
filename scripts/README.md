@@ -89,9 +89,9 @@ Rank-zero Selmer / AA+BB audit helpers:
   and support/cover taxonomy. Read
   `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md` first.
 - Latest compact executable checkpoint:
-  `audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`.
+  `audit_closure_quotient_rank_zero_aa_bb_wl530_wl585_consolidated_checkpoint.py`.
 - Current handoff:
-  `wl529_v5_l1_t5_square_locus_complete_stop`.
+  `wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop`.
   `wl527` found the named cover families were not ready for a later uniform
   squareclass proof attempt. `wl528` then builds only the first selected
   `support=v_5|L=1|T=5|d=(5,1,5)` prototype, derives the model/maps/`N,M`,
@@ -100,6 +100,136 @@ Rank-zero Selmer / AA+BB audit helpers:
   specialization-square locus through an elliptic quotient and proves that no
   square specialization lifts to the prototype in the positivity domain. It
   does not prove the uniform lemma, execute shell 11, or claim Selmer progress.
+  `wl530` derives the exact symbolic pure `v_ell,L=1,T=ell,d=(ell,1,ell)`
+  family and recovers those formulas at `ell=5`. `wl531` then handles M2 only
+  to the exact `X`-fiber-product square-lift proposition: it eliminates the
+  chart variables, handles square-`X`, positivity, and complete-`d` lift
+  compatibility exactly, and stops at one remaining arithmetic proposition.
+  `wl532` shrinks that proposition again: every odd prime `ell ≡ 3 (mod 4)` is
+  excluded exactly, and the remaining `ell ≡ 1 (mod 4)` case is one
+  `Q`-coordinate quartic-square obstruction rather than a proof of uniform
+  exclusion or an M3 step. `wl533` then absorbs the `Q` and `ell-Q` square
+  conditions into one rational parameter, and `wl534` removes the automatic
+  lower-positivity / `Q=0` branches together with the auxiliary `C,Y` variables,
+  leaving one rational parameter with two square predicates and one quartic
+  inequality. `wl535` then removes the representation choice `a^2+b^2=ell`
+  and the affine `u`-chart from the final statement, leaving the direct
+  `q`-root coordinate together with two explicit square predicates, one direct
+  positivity polynomial, and one explicit `q`-coordinate quartic curve
+  equation. `wl536` excludes `ell ≡ 5 (mod 7)` by a direct 7-adic residue
+  argument, and `wl537` independently excludes `ell ≡ 10 (mod 11)`, or
+  `ell ≡ 21 (mod 44)` under the standing mod-4 condition. Both are partial
+  M2 results. `wl538` adds `ell ≡ 15 (mod 19)`, equivalently
+  `ell ≡ 53 (mod 76)`. The full `wl535` proposition remains open.
+  `wl539` then adds `ell ≡ 5 (mod 92)` and proves those four auxiliary pairs
+  exhaust the direct single-prime good-reduction residue method; another table
+  of the same form is not a valid next gate.
+  `wl540` then proves the parameter-prime unit/valuation split and shows that
+  the simple Hensel-root branch can occur only for `ell ≡ 1 (mod 8)`.
+  `wl541` then proves the parameter-prime algebraic square system always has
+  a unit local point, so that place alone is exhausted as an obstruction.
+  `wl542` couples the first two equations globally and proves every denominator
+  prime splits completely in `Q(i,sqrt(ell))`; allowed denominator places then
+  add no further local obstruction to the final square condition.
+  `wl543` then uses prime-discriminant genus theory to turn the real-quadratic
+  square ideal into `alpha=epsilon*beta^2`, leaving at most two totally
+  positive unit squareclasses.
+  `wl544` expands those classes into one or two exact integer quartic systems
+  with full reconstruction of the Gaussian square, `G_ell` square, and
+  positivity.
+  `wl545` then gives the exact mod-8/2-adic parity split on the trivial unit
+  branch and proves the `G` condition adds no further obstruction at `2`.
+  `wl546` then replaces the trivial branch Gaussian square by two exact UFD
+  orientations coupled to the real-quadratic descent.
+  `wl547` then reduces the remaining `G` norm square to finitely many Gaussian
+  squareclasses supported over `2(ell-1)`.
+  `wl548` then proves the dyadic valuation is always even and removes `1+i`
+  from the squarefree support, leaving only selected odd primes over `ell-1`.
+  `wl549` then classifies the forced root-square condition at those odd primes
+  and proves the standalone common-prime residue test is exhausted for every
+  `p ≡ 7 (mod 8)`.
+  `wl550` then proves both fixed Gaussian orientations are locally compatible
+  with every surviving root-square class at the same common prime.
+  `wl551` then uses the global norm square to pair conjugate split-prime
+  generators and reduces the squarefree factor to rational
+  `r|rad(ell-1)` up to a unit.
+  `wl552` then uses dyadic coordinate parity to force the sole Gaussian unit
+  class `eta=i` in both mod-8 branches.
+  `wl553` then transfers positivity to a binary cone in the Gaussian-square
+  coordinates and proves positivity alone is compatible in both branches.
+  `wl554` then proves the rational squarefree class is the canonical odd
+  squarefree kernel of `gcd(ell-1,R)`, not an independent divisor choice.
+  `wl555` then rotates to the unit-free standard norm element
+  `F+iE=r(a+ib)^2` and a single uniform positivity cone.
+  `wl556` then uses dyadic parity to select `R_pi` for `ell ≡ 5 (mod 8)` and
+  `B_pi` for `ell ≡ 1 (mod 8)`, eliminating one orientation per branch.
+  `wl557` then classifies the exact valuation strata inside those surviving
+  orientations and exhausts standalone dyadic analysis.
+  `wl558` then derives the split-prime unit condition
+  `Legendre(F/r,p)=1`, coupling each such place to the canonical global class.
+  `wl559` then classifies the leading characters at positive even common
+  valuations. `wl560` adds odd-common valuation and unifies all odd places
+  over `ell-1` under one normalized split-prime master character.
+  `wl561` then assembles those characters as an `F_2` system and proves the
+  reciprocity product over split primes contained in `r`.
+  `wl562` then gives exact mod-13 witnesses showing local source/orientation
+  data admits both leading row bits in the same valuation stratum.
+  `wl563` then uses the global product coordinate to force complementary
+  squarefree parts and the exact scale equation `gMN=h|QD|`.
+  `wl564` then assigns the factor `2` to one complementary side whenever it
+  occurs, using the mod-8 branch and canonical `r`.
+  `wl565` then assigns every inert odd factor by the normalized real-coordinate
+  character and leaves only split odd allocation unresolved.
+  `wl566` then refines each split factor by an exact quartic-sign rule and
+  leaves a finite coupled quartic-character system.
+  `wl567` then linearizes that system as an affine `F_2` matrix, removing the
+  exponential allocation case split.
+  `wl568` then proves the scale, cone, and actual-factorization affine rows add
+  no independent obstruction and returns the live trivial-unit gate to the
+  selected-orientation/norm-square intersection.
+  `wl569` then proves `F<0`, selects the unique positive ordered norm-ratio
+  branch, and transfers strict positivity to an exact interval for that ratio.
+  `wl570` then eliminates the quartic square root and factors both source
+  squares in one exact two-variable `(X,tau)` system with converse recovery.
+  `wl571` then proves the product quartic is genus one, the complete generic
+  cover is genus five, and `tau=1/2` is the unique genus-one drop.
+  `wl572` then excludes that exceptional branch by integrality and positivity,
+  leaving only the generic genus-five cover.
+  `wl573` then couples the primitive denominators of `q` and `tau` and forces
+  `Delta` to divide the positive homogeneous quartic.
+  `wl574` then gives both source-factor products the same canonical
+  `Delta`-squareclass and bounds their internal gcd support.
+  `wl575` then identifies the exact scaled Gaussian rotation coupling the two
+  source pairs and proves primitive odd-prime determinant support.
+  `wl576` then classifies regular odd-prime side transport and isolates the
+  singular higher-valuation determinant cases.
+  `wl577` then eliminates all odd singular/crossed cases using `Delta|K`,
+  leaving only the factor `2` to compare.
+  `wl578` then proves dyadic same-side transport and makes the two
+  complementary `k`-allocations identical.
+  `wl579` then reduces the remaining projective magnitudes to a smooth
+  genus-one Mobius squareclass curve with strict ordering.
+  `wl580` then proves primitive reconstruction is unique and certifies the
+  allocation/magnitude descent as exhausted after canonical self-consistency.
+  `wl581` then maps the generic genus-five cover to a genus-two character
+  quotient over `Q` and constructs its degree-two elliptic quotient over
+  `Q(i)`, retaining the exact restricted affine candidate image.
+  `wl582` then proves that the `S in Q`, non-two-torsion elliptic locus
+  reconstructs the genus-two rational point exactly, so the apparent
+  quadratic-lift condition is automatic and unrestricted elliptic analysis is
+  exhausted.
+  `wl583` then retains both individual source squares on a genus-one torsor
+  over `Q` and proves that the generic genus-five cover is exactly its
+  connected square-`X` fiber product.
+  `wl584` then imposes the prime formula, identifies the fixed-`ell` source
+  elliptic and its genus-one square-`X` cover, and proves the final norm
+  discriminant is the only remaining independent lift.
+  `wl585` then identifies the exact fixed-`ell` genus-seventeen cover, proves
+  the selected `tau` interval is exactly positivity, and constructs the
+  combined source-norm elliptic quotient over `Q`.
+  The `wl530-wl585` consolidated checkpoint independently rechecks the key
+  algebra, records the full exception audit, and marks the elliptic-quotient
+  subroute exhausted without closing M2.
 
 ### `modular/` — Path B / mod p² 实证
 

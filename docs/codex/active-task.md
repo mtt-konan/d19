@@ -1,16 +1,19 @@
 # Active Task
 
-- Status: complete
-- Updated: 2026-07-10
-- Task id: wl529-v5-l1-t5-square-locus
-- Goal: Recover and complete `wl529` for the existing `wl528` prototype by constructing the specialization-square locus for `(N^2+16)(M^2+16)`, proving or refuting rational square specializations in the required nonexceptional positivity domain `|t|<5`, and stopping after this one-family analysis.
-- Scope: The already selected `support=v_5|L=1|T=5|d=(5,1,5)` prototype only, represented by `AA_A1_B4_v_5_m_tail_refresh_candidate` and `BB_A4_B1_v_5_m_tail_refresh_candidate`.
-- Object layer: one-family square-specialization locus over the `wl528` function-field prototype; not theorem-level Selmer and not old package-x / `S~`.
-- Allowed changes: `wl529` worklog/script/focused test/result JSON, plus handoff docs and this task anchor.
-- Forbidden changes: no shell 11, no new supports, no other cover family, no broad rank/Selmer diagnostics, no old package-x / `S~` bridge, no rank-zero/Sha/family-exclusion/uniform `M_tail` claim, no commit.
-- Stable boundaries: keep generic function-field nonsquareness separate from specialization-square analysis; explicitly record that divisor parity, by itself, does not rule out every rational square specialization.
-- Current step: Complete.
-- Completed steps: Read the `wl528` worklog/script/test and current handoff/context docs; reloaded the route guardrails; derived the key identity `16P = (t^2+39)^2 + 6400`; confirmed the square-locus reduces to a genus-one problem in the centered-even parameter `t`; added the `wl529` worklog/script/test/result artifact; proved the square-locus genus-one certificate and the `t=0` no-lift fact on the prototype quartic; synchronized handoff docs; reran focused `wl528` + `wl529` pytest and targeted ruff.
-- Next exact step: None; stop after reporting the one-family square-locus result.
-- Validation gates: `UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run pytest tests/test_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`; `UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run ruff check scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py tests/test_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`; regenerate the `wl529` result JSON with its script.
-- Stop condition: Stop after this one square-locus analysis, report proved/refuted/model-only status, and do not advance to another family or roadmap step.
+- Status: active
+- Updated: 2026-07-12
+- Task id: m2-wl535-q-root-square-quartic-resolution
+- Goal: Resolve the exact `wl535` q-root-coordinate square/quartic proposition by a uniform proof, a strict counterexample, or one genuinely smaller exact arithmetic obstruction.
+- Scope: Odd primes `ell ≡ 1 (mod 4)`; only `support=v_ell|L=1|T=ell|d=(ell,1,ell)`; only rational `(q,V)` satisfying the four exact `wl535` conditions.
+- Object layer: rational points on the exact `wl535` q-root square/quartic system; not finite search, not a general elliptic quotient diagnostic, and not theorem-level Selmer.
+- Current proof obligation: For every odd prime `ell ≡ 1 (mod 4)`, prove no rational pair `(q,V)` has `ell-q^2` square, `ell*q^2+4` square, `ell*q^4+4*q^2-4*ell>0`, and `V^2=G_ell(q^2)`, or exhibit a strict rational counterexample, or reduce it to one genuinely smaller exact arithmetic lemma.
+- Accepted outcomes: rigorous proof; rigorous counterexample; or precise failure point with one exact missing lemma and proof that all earlier reductions are complete.
+- Allowed changes: one worklog only if a real theorem/counterexample/exact new failure point results; matching audit script/test if a computation is part of the certificate; route handoff synchronization.
+- Forbidden changes: no shell 11, no finite search presented as mathematical progress, no new support family, no broad rank/Selmer diagnostics, no old package-`x` / `S~`, no M3, and no commit.
+- Stable boundaries: `wl529`, `wl530`, `wl531`, `wl532`, `wl533`, `wl534`, and `wl535` are inputs. Preserve the validated q-root equivalence, chart-inverse branches, and all earlier exact lifts unless a concrete error is found.
+- Current step: The `wl530-wl585` consolidated checkpoint independently rechecks the key identities and exceptions and marks the elliptic-quotient subroute exhausted. The exact `wl535` proposition remains open.
+- Completed steps: `wl530` derives M1; `wl531`-`wl535` give the exact q-root proposition; `wl536`-`wl580` exhaust local, descent, valuation, allocation, and reconstruction routes; `wl581`-`wl585` exhaust lower-genus and elliptic-quotient reformulations; the consolidated checkpoint verifies the chain and its claim boundaries.
+- Next exact step: Do not create `wl586` for another equivalent model or quotient. Accept only: a direct proof of `wl535`; a strict counterexample; or a genuinely smaller arithmetic proposition with an explicit proof of which parameter, freedom, or square lift has been removed. M2 and M3 remain closed to advancement until one of these occurs.
+- Validation gates: direct algebra review; explicit positivity, square-X, lift, and all exceptional-denominator handling; focused pytest; targeted ruff; strict certificate if any.
+- Stop condition: A rigorous resolution or one strictly smaller exact lemma is recorded and independently checked; do not enter M3.
+- Delegation preference: all future subagent tasks use `gpt 5.6 luna max`; do not alter tasks already running when this preference was set.
