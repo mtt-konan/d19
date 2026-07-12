@@ -50,6 +50,7 @@ entries.
 491-529  AA+BB admissibility filter, finite M_tail shell routing,
          support/cover taxonomy, and common-source obstruction statement
          -> 491-522-aa-bb-admissibility-taxonomy-consolidated.md
+         -> wl491-wl522 detail logs are archived under archive/
          -> 523-try-common-source-square-obstruction-lemma-candidate.md
          -> 524-post-wl523-route-choice-audit.md
          -> 525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md

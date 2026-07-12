@@ -317,7 +317,7 @@ candidate nor an AA+BB-admissible point.
 
 For the full route history, read:
 
-- `docs/work-logs/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
+- `docs/work-logs/archive/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
 - `docs/work-logs/523-try-common-source-square-obstruction-lemma-candidate.md`
 - `docs/work-logs/524-post-wl523-route-choice-audit.md`
 - `docs/work-logs/525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md`

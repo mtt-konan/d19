@@ -1,8 +1,8 @@
-# 历史 worklog 归档（wl001-027）
+# 历史 worklog 归档
 
-这里收集 d19 早期到 chain-fast 时代结束之间的全部 worklog。当前主线已经迁移到
-压缩后的 `docs/work-logs/` 根目录；从 wl028 开始不再保留一轮一个文件的流水账，
-而是按阶段读 consolidated worklog。
+这里收集已经由 consolidated worklog 取代的明细记录。当前主线保留在
+`docs/work-logs/` 根目录；阅读时先用 consolidated worklog，只有在追溯具体证据
+或失败路径时才进入本目录。
 
 下面这批是历史档案，**不再作为当前研究入口**，但保留是为：
 
@@ -66,3 +66,14 @@
 203-wl218-full-plane-reciprocal-consolidated.md
 294-closure-quotient-foundation-consolidated.md
 ```
+
+## AA+BB admissibility taxonomy（wl491-522）
+
+`wl491-wl522` 的 32 份明细记录保留在本目录。默认入口是：
+
+```text
+../491-522-aa-bb-admissibility-taxonomy-consolidated.md
+```
+
+这些明细用于追溯 admissibility filter、finite `M_tail` shell routing、ambient
+`C_d` classification 和 support/cover taxonomy，不再作为当前研究入口。
