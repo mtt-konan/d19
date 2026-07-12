@@ -318,8 +318,18 @@ The consolidated `wl530-wl585` milestone independently rechecks the algebra
 and exception handling and finds no correctness defect. It also marks the
 elliptic-quotient subroute exhausted: the restricted lift conditions recover
 the full genus-seventeen curve, and no available uniform descent/Chabauty/
-rank tool preserves all prime-family quantifiers. M2 remains open exactly at
-`wl535`; another equivalent model is not progress.
+rank tool preserves all prime-family quantifiers. The proposition at `wl535`
+remains open, but the active strategic gate no longer re-enters it; another
+equivalent model is not progress.
+
+`wl586` compares the pure-`v_5`, pure-`u_7`, and mixed
+`u_3+v_5+w_17` cover families. Its read-only quartic review collapses to the
+existing Gaussian data, so no `wl588` is created. It certifies the current
+pure-`v_ell` equivalent-model, quotient, and parameter-character routes dead.
+The same opposite-side product is generically nonsquare on pure-`u_7` and
+mixed `u_3+v_5+w_17`, but square specializations remain a new double-cover
+problem. The representative-only divisor-parity route is therefore also dead
+as a uniform exclusion mechanism.
 
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
@@ -438,7 +448,7 @@ route. After `wl527`, do not treat proof-data scoping as a ready proof attempt.
 Do not treat the `wl522` finite taxonomy, the `wl524` route choice, the failed
 `wl525` promotion attempt, the `wl526` route choice, or the `wl527` scoping
 inventory as proof of a uniform cover-family lemma.
-The `wl532` task stops at its smaller exact quartic obstruction. Under the
-persistent controller roadmap, the next fresh proof task may address only that
-remaining obstruction; it must not enter another support family or skip ahead
-to M3.
+No live proof route is entered after the `wl586` route-death certificate. A
+future reopening requires parameterized family-level arithmetic controlling
+square specializations across cover families. Supporting models, fixed double
+covers, and maps do not count by themselves, and M3 remains closed.

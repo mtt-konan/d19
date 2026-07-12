@@ -3,13 +3,21 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Remaining q-Root Square/Quartic Obstruction After wl535
+## P0: Cross-Family Common-Source Divisor Parity After wl586
 
 Current handoff:
 
 ```text
-wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop
+wl586_cross_family_truth_audit_and_pure_v_ell_route_death
 ```
+
+The comparison of pure `u_7` against mixed `u_3+v_5+w_17` proves the same
+opposite-side product is a nontrivial function-field squareclass on both
+covers. It does not control square rational specializations, so the
+representative-only route is closed. Reopening requires a parameterized
+family-level input, not another fixed cover.
+
+The exact `wl535` obstruction remains a frozen input:
 
 The remaining exact obstruction is:
 
@@ -241,9 +249,15 @@ all individual lifts; unrestricted rank or point calculations remain outside
 the proof gate.
 
 The `wl530-wl585` consolidated review marks this elliptic-quotient direction
-exhausted. No further equivalent model or quotient should be numbered. Future
-progress must be a direct `wl535` proof, a strict counterexample, or a truly
-smaller arithmetic proposition with the removed freedom or lift identified.
+exhausted. `wl586` then performs a truth audit across pure `v`, pure `u`, and
+mixed `u+v+w` cover families. The read-only quartic review is determined by
+the existing Gaussian factorization, so no `wl588` is created. Parameter
+characters and the restricted elliptic quotient remain pure-`v` tools and are
+route-dead in their current form. The only surviving feasibility candidate is
+common-source function-field divisor parity, which transfers generically to
+two representatives but fails to provide a uniform pointwise exclusion.
+Another equivalent model, quotient, local table, higher character rewrite,
+fixed double cover, or fixed-`ell` rank calculation is not progress.
 
 Input state:
 

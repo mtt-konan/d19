@@ -5,19 +5,19 @@
 - Project phase: exploration
 - Memory landing policy: ask-by-default
 - Module aliases: AA+BB route; complete d-coordinate route; C_d / M_tail route
-- Active version: wl530-wl585 consolidated checkpoint; wl535 remainder still open
-- Active run: `m2-wl535-q-root-square-quartic-proposition` active
-- Active module: AA+BB complete-d route; exact q-root-coordinate square/quartic obstruction for the infinite pure-`v_ell` family
+- Active version: wl586 cross-family truth audit and pure-v_ell route death
+- Active run: `cross-family-aa-bb-route-selection-after-wl586` stopped at route death
+- Active module: AA+BB complete-`d` route; common-source squareclass/divisor-parity comparison across cover families
 - Baseline: Project guidance records wl527 as function-field proof-data scoping with 0 of 15 named cover families ready for a uniform squareclass proof attempt.
-- Active hypothesis: independent review found no algebra defect, but the restricted `wl585` image restores the full problem; the elliptic-quotient subroute is exhausted.
+- Active hypothesis: generic divisor parity transfers across two covers but cannot be promoted to uniform pointwise exclusion without new parameterized family-level arithmetic.
 - Known failures: Finite taxonomy alone does not provide a uniform function-field squareclass certificate.
 - Stable behavior: Keep single-curve Selmer diagnostics, S~, complete d-coordinate C_d ledgers, M_tail diagnostics, AA+BB admissibility, and theorem-level Selmer claims separate.
 - 稳定模块保护判断: `wl529` is a stable completed checkpoint and must not be edited. `wl530` is a symbolic derivation checkpoint only; future work must still keep other support types, shell 11, broad Selmer/rank diagnostics, and old package-x / `S~` outside scope unless explicitly reopened.
 - Pressure signals: Avoid route drift and finite-diagnostic accumulation being described as theorem progress.
 - Rejected approaches: Do not revive the old package-x / S~ bridge as a theorem-level Selmer object; do not treat counts as proof.
 - Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof. A quotient point matters only after the exact wl531 `X`-square, positivity, source-side, opposite-side, and complete-`d` lift conditions are all imposed.
-- Evidence links: `AGENTS.md`; persistent controller objective attachment; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/529-v5-l1-t5-square-locus.md`; `docs/work-logs/530-m1-pure-v-ell-symbolic-family.md`; `docs/work-logs/531-m2-pure-v-ell-x-fiber-product-square-lift-proposition.md`; `docs/work-logs/532-m2-pure-v-ell-q-coordinate-quartic-obstruction.md`; `docs/work-logs/533-m2-pure-v-ell-one-parameter-conic-quartic-obstruction.md`; `docs/work-logs/534-m2-pure-v-ell-one-parameter-square-predicate-obstruction.md`; `docs/work-logs/535-m2-pure-v-ell-q-root-coordinate-square-quartic-obstruction.md`; `docs/work-logs/536-m2-pure-v-ell-mod-7-local-obstruction.md`; `docs/work-logs/537-m2-pure-v-ell-mod-11-local-obstruction.md`; `docs/work-logs/538-m2-pure-v-ell-mod-19-local-obstruction.md`; `docs/work-logs/539-m2-pure-v-ell-direct-residue-method-classification.md`; `docs/work-logs/540-m2-pure-v-ell-parameter-prime-valuation-split.md`; `docs/work-logs/541-m2-pure-v-ell-parameter-prime-local-solubility.md`; `docs/work-logs/542-m2-pure-v-ell-denominator-splitting-support.md`; `docs/work-logs/543-m2-pure-v-ell-real-quadratic-square-ideal-descent.md`; `docs/work-logs/544-m2-pure-v-ell-explicit-two-unit-class-quartic-descent.md`; `docs/work-logs/545-m2-pure-v-ell-trivial-unit-2-adic-dichotomy.md`; `docs/work-logs/546-m2-pure-v-ell-trivial-unit-gaussian-double-descent.md`; `docs/work-logs/547-m2-pure-v-ell-finite-gaussian-s-squareclass-descent.md`; `docs/work-logs/548-m2-pure-v-ell-dyadic-gaussian-squareclass-elimination.md`; `docs/work-logs/549-m2-pure-v-ell-odd-gaussian-root-squareclassification.md`
+- Evidence links: `AGENTS.md`; persistent controller objective attachment; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md`; `docs/work-logs/586-route-selection.md`; `docs/work-logs/archive/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`; `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`
 - Session log: none
-- Next step: Accept only a direct `wl535` proof, strict counterexample, or strictly smaller arithmetic proposition with the removed freedom/lift identified. Do not create another numbered equivalent-model checkpoint or enter M3.
+- Next step: none entered; require a parameterized family-level input controlling square specializations before reopening. Do not re-enter `wl535`.
 - Do not assume: the rejected tangent-cubic birational rewrite is a smaller obstruction or proof progress.
-- Delegation preference: Keep tasks narrow and reviewable; all future subagent tasks use `gpt 5.6 luna max`, while already-running tasks remain unchanged.
+- Delegation preference: Keep tasks narrow and reviewable; all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`, while already-running tasks remain unchanged. `max` is a reasoning level, not part of the model name; `xhigh` is also verified as supported.

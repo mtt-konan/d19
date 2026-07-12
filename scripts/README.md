@@ -230,6 +230,14 @@ Rank-zero Selmer / AA+BB audit helpers:
   The `wl530-wl585` consolidated checkpoint independently rechecks the key
   algebra, records the full exception audit, and marks the elliptic-quotient
   subroute exhausted without closing M2.
+  `wl586` then uses `theory/aa_bb/wl586_route_selection.py`
+  to verify three representative `wl522` cover families against the `wl527`
+  proof-data inventory and the `wl585` restricted-image result. It records the
+  quartic review only as a collapsed read-only candidate, creates no `wl588`,
+  certifies the current pure-`v_ell` route dead, and proves the same generic
+  opposite-side squareclass is nontrivial on pure-`u_7` and mixed
+  `u_3+v_5+w_17`. Because this does not control square specializations, the
+  representative-only divisor-parity route is also closed.
 
 ### `modular/` — Path B / mod p² 实证
 

@@ -116,7 +116,8 @@ entries.
          -> 584-m2-pure-v-ell-prime-coupled-source-elliptic-and-final-norm-intersection.md
          -> 585-m2-pure-v-ell-genus-seventeen-cover-and-combined-source-norm-elliptic-quotient.md
          -> 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
-         -> latest checkpoint: 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
+         -> 586-route-selection.md
+         -> latest checkpoint: 586-route-selection.md
 ```
 
 ## Reading Rule

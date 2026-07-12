@@ -5,11 +5,18 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl535` is present, the current handoff is:
+If `wl586` is present, the current handoff is:
 
 ```text
-wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop
+wl586_cross_family_truth_audit_and_pure_v_ell_route_death
 ```
+
+Do not re-enter `wl535`. The same opposite-side product is generically
+nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
+exclude square specializations. No next route is entered without a
+parameterized family-level input controlling those specializations.
+
+## Historical wl535 Chain
 
 `wl535` takes the exact `wl534` one-parameter square-predicate obstruction and
 removes the last dependence on the chosen sum-of-two-squares chart
@@ -1082,10 +1089,32 @@ genus-seventeen problem. Therefore the elliptic-quotient subroute is
 exhausted_without_uniform_arithmetic_obstruction.
 ```
 
-Do not create `wl586` for another equivalent model or quotient. The only
-accepted next outcomes are a direct proof of `wl535`, a strict counterexample,
-or a genuinely smaller arithmetic proposition with the removed parameter,
-freedom, or square lift proved explicitly. M3 remains closed.
+`wl586` performs the required truth audit and compares three structurally
+different globally soluble but not AA+BB-admissible cover families:
+
+```text
+pure v: support=v_5|L=1|T=5|d=(5,1,5),
+pure u: support=u_7|L=7|T=9|d=(7,7,1),
+mixed:  support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85).
+```
+
+The read-only quartic review collapses to the existing dyadic branch and
+canonical `r`, so the controlling stop rule forbids a `wl588` checkpoint.
+Only the pure-`v` family has post-`wl527` model/map data; the other two still
+have only `L,T,d` labels. Therefore neither the Gaussian parameter character
+nor the restricted elliptic quotient is cross-family ready, and both are
+route-dead in their current form.
+
+Do not re-enter `wl535` on this evidence. The generic divisor-parity invariant
+does transfer to the pure-`u` and mixed representatives, but it does not imply
+that all rational specializations are nonsquare. The selected route is now
+
+```text
+none_without_parameterized_family_level_input.
+```
+
+Analyzing more fixed double covers, ranks, or point tables is not a uniform
+mechanism and must not create another numbered checkpoint. M3 remains closed.
 
 If `wl534` is present, the current handoff is:
 

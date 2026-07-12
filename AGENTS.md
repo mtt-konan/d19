@@ -17,13 +17,37 @@ Read these files before changing research direction:
 For script names and entry points, read `scripts/README.md`. For terminology,
 read `docs/GLOSSARY.md`.
 
+## Delegation Model Contract
+
+For every future Codex CLI subagent task in this repository, use exactly:
+
+```bash
+~/.claude/skills/codex/scripts/ask_codex.sh \
+  --workspace /Users/konan/Desktop/d19 \
+  --model gpt-5.6-luna \
+  --reasoning max \
+  "<focused task>"
+```
+
+Here `gpt-5.6-luna` is the model name and `max` is the reasoning level. Do not
+combine them into a model name such as `gpt-5.6-luna-max`. `xhigh` is also a
+verified reasoning level, but the project default is `max`. Do not modify
+tasks that were already running when this contract was adopted.
+
 ## Current Research Gate
 
 The current handoff is:
 
 ```text
-wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop
+wl586_cross_family_truth_audit_and_pure_v_ell_route_death
 ```
+
+The cross-family audit proves the same opposite-side product is generically
+nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
+control its square specializations. No next route is entered without a
+parameterized family-level input. Do not re-enter `wl535`.
+
+### Frozen wl535 Input
 
 `wl535` removes the final
 dependence on the chosen `a^2+b^2=ell` chart from `wl534` and rewrites the
@@ -527,16 +551,25 @@ ranks or points do not count as progress, and M3 remains closed.
 
 The `wl530-wl585` consolidated checkpoint independently verifies the key
 algebra, converses, exceptions, and genus counts and marks the elliptic-
-quotient subroute exhausted. Do not create `wl586` merely for another
-equivalent model or quotient. Only three future outcomes count as progress:
+quotient subroute exhausted. `wl586` then performs a truth audit across the
+pure-`v_5`, pure-`u_7`, and mixed `u_3+v_5+w_17` cover families. Its read-only
+quartic review collapses to existing Gaussian data, so no `wl588` is created.
 
-1. a direct proof of `wl535`;
-2. a strict counterexample satisfying every `wl535` condition;
+The current strategic gate is cross-family route selection. Do not re-enter
+`wl535`, create another equivalent model/quotient, or continue a character
+refinement confined to pure `v_ell`. Only four outcomes count as progress:
+
+1. a strict counterexample;
+2. one independent uniform invariant surviving on at least two cover families;
 3. a genuinely smaller arithmetic proposition, with a proof identifying the
-   removed parameter, degree of freedom, or square lift.
+   removed parameter, degree of freedom, or square lift;
+4. a route-freeze or route-death certificate.
 
-If none is available, stop at the consolidated checkpoint. M2 remains open
-and M3 remains closed.
+The common-source divisor-parity function is generically nonsquare on both the
+pure-`u_7` and mixed `u_3+v_5+w_17` representatives, but a nonsquare function
+may specialize to a square. This recreates a fixed double-cover problem and
+does not give a uniform exclusion. Stop at the route-death certificate unless
+a parameterized family-level input is supplied. M2 and M3 remain closed.
 
 `wl534` remains the prior exact reduction checkpoint. It takes the exact
 `wl533` proposition and removes the automatic lower-positivity / `Q=0` branch
@@ -797,9 +830,15 @@ or produce a strict certificate.
 
 New research steps should usually have all three pieces:
 
-- `docs/work-logs/<number>-<slug>.md`
-- `scripts/theory/audit_<slug>.py`
-- `tests/test_<slug>.py`
+- `docs/work-logs/<number>-<short-topic>.md`
+- `scripts/theory/aa_bb/wl<number>_<short_topic>.py`
+- `tests/theory/aa_bb/test_wl<number>_<short_topic>.py`
+
+Keep `<short-topic>` to the mathematical obligation, normally two to four
+words. Do not repeat route-wide prefixes such as `closure_quotient_rank_zero`,
+`aa_bb`, or `m2_pure_v_ell` in filenames; the directory and WL number already
+provide that context. Historical files keep their existing names unless a
+small coherent move is separately approved.
 
 Each worklog should answer:
 
