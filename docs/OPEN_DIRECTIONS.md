@@ -3,62 +3,72 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-wl593 Relative 2-Descent Route Death
+## P0: wl595 Universal Closure-Product G4 Route Death
 
 Completed handoff:
 
 ```text
-wl593_factor_twist_generalization_route_death_complete
+wl595_universal_closure_product_g4_route_death
 ```
 
-`wl587` and `wl589` supply independent complete D0 relative-descent schemas
-for pure `u_7` and mixed `u_3+v_5+w_17`. The selected p=5 gate is now closed
-exactly:
+`wl587`-`wl594` remain frozen. `wl593` closes only the fixed-representative
+factor-twist local-image generalization. `wl594` supplies the accepted
+parameterized G0 geometry.
+
+`wl594` supplies the accepted universal AA/BB product-cover geometry:
+
+```text
+W^2=Q_A(t)*Q_B(t)
+Q_L(t)=((T+t)^2+4*L^2)((T-t)^2+4*L^2)
+```
+
+The certificate handles both `T=A+B` and `T=|A-B|`, scale and ray
+parameterization, all discriminant/resultant degeneracies, genus `3` product
+geometry, the genus-one `x=t^2` quotient, the genus-five simultaneous lift,
+and the exact positive/signed GEN-CLOSURE boundary branches.
+
+The accepted outcome is:
+
+```text
+exact_parameterized_input_ready
+```
+
+This is a genuine lower-genus forward input analogous to `wl585`, not a
+Kummer, split-prime, or local-image obstruction. The whole product cover is
+locally soluble through its universal midpoint, and `[Q_A*Q_B]` is automatic
+on exact candidates. The next exact gate must control the restricted
+nonmidpoint image with square-`x`, positivity, individual AA/BB lifts, and the
+four original distance-square lifts.
+
+The frozen `wl593` p=5/p=7/p=17 evidence remains available only as fixed-instance
+route-death input:
 
 ```text
 I_{5,u} = empty set
 I_{5,m} = {[5]}
-```
-
-It handles all normalized source strata, poles, projective boundaries,
-factor-zero branches, and exact AA+BB lifts. Every pure named representative
-is deleted; the mixed survivors are `5, 3045, 66045, 91205`. No prime other
-than `5` was processed.
-
-`wl591` resolves the selected mixed `p=7` normalized factor-twist image:
-
-```text
 I_{7,m} = {[1]}
+I_{17,m} = {[u]}
 ```
 
-The complete local proof retains affine and infinity strata, `D/A` denominator
-branches, factor-zero and zero-value branches, the fixed-cover coordinate `R`,
-and the exact AA+BB lift. It deletes `5, 3045, 66045` and leaves `91205`.
+`wl595` completes G1-G4. The natural product class is exactly trivial on the
+individual square image. All four factor differences and pairwise resultants
+are retained, but every odd collision prime has an all-square
+negative-valuation branch; `p=5` removes only the integral branch. Primitive
+denominators are principal-unit squares at odd and dyadic places and add no
+support, parity, splitting, reciprocity, norm, or character restriction.
 
-`wl592` closes the selected mixed `p=17` normalized factor-twist image:
+The accepted outcome is:
 
 ```text
-I_{17,m} = {[u]},
-[91205] = [17u] not in I_{17,m}.
+route_death_certificate
 ```
 
-Its certificate covers all integral, negative-valuation/infinity, denominator,
-factor-zero, R=0, zero-value, fixed-cover, positivity, and AA+BB lift
-branches. Controller review found no blocking mathematical issue. The selected
-`p=5,7,17` chain now exhausts the factor-twist candidate ledgers for both
-frozen representatives. This does not promote the result to a family
-exclusion, Selmer/rank theorem, or D2 statement. At the `wl592` checkpoint no
-later local row or D2 step was selected; `wl593` is the subsequent read-only
-generalization audit, not a new arithmetic row.
-
-`wl593` completes the D4 generalization assessment. The two D0 bases are fixed
-`Spec(Q)` instances rather than a parameterized family; their source/factor
-coefficients and bad-prime supports differ, `p=5` gives incompatible local
-images, and `p=7,17` are mixed-instance rows. The present factor-twist
-local-image mechanism is therefore route-dead unless genuinely parameterized
-family-level coefficient/local-image input is supplied. More fixed families,
-primes, or local tables are not an open direction. This does not rule out a
-different family-level relative 2-descent input, but none is currently named.
+This route death is scoped to the universal closure-product
+Kummer/single-split-prime/denominator mechanism. Reopening requires a new
+parameter-uniform global relative 2-descent certificate on the full
+individual four-factor cover, retaining both T branches, p=2, denominators,
+all boundary charts, real intervals, and complete AA/BB lifts. It does not
+rule out all future relative 2-descent.
 
 The exact `wl535` obstruction remains a frozen input:
 

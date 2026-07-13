@@ -5,19 +5,19 @@
 - Project phase: exploration
 - Memory landing policy: ask-by-default
 - Module aliases: AA+BB route; complete d-coordinate route; C_d / M_tail route
-- Active version: post-wl593 factor-twist generalization route death
-- Active run: `post-wl592-d4-generalization-assessment` complete
+- Active version: wl595 universal closure-product G4 route death
+- Active run: `universal-closure-product-g4-final-route-decision` complete
 - Active module: AA+BB complete-`d` route; family-level relative 2-descent for square specializations
 - Baseline: Project guidance records wl527 as function-field proof-data scoping with 0 of 15 named cover families ready for a uniform squareclass proof attempt.
-- Active result: `wl590`-`wl592` exhaust both frozen representatives' factor-twist candidate ledgers. `wl593` proves the present fixed-instance local-image mechanism cannot be promoted from these fixed inputs alone; new parameterized family-level coefficient/local-image input is required because the bases, coefficients, bad-prime supports, and local images are not uniform.
+- Active result: `wl590`-`wl592` exhaust both frozen representatives' factor-twist candidate ledgers. `wl593` closes only that fixed-instance mechanism. `wl594` supplies the accepted universal parameterized lower-genus product-cover input, and `wl595` closes the universal closure-product Kummer/single-split-prime/denominator mechanism after the G1-G3 algebra audit.
 - Known failures: Finite taxonomy alone does not provide a uniform function-field squareclass certificate.
 - Stable behavior: Keep single-curve Selmer diagnostics, S~, complete d-coordinate C_d ledgers, M_tail diagnostics, AA+BB admissibility, and theorem-level Selmer claims separate.
 - 稳定模块保护判断: `wl529` is a stable completed checkpoint and must not be edited. `wl530` is a symbolic derivation checkpoint only; future work must still keep other support types, shell 11, broad Selmer/rank diagnostics, and old package-x / `S~` outside scope unless explicitly reopened.
 - Pressure signals: Avoid route drift and finite-diagnostic accumulation being described as theorem progress.
 - Rejected approaches: Do not revive the old package-x / S~ bridge as a theorem-level Selmer object; do not treat counts as proof.
 - Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof. A quotient point matters only after the exact wl531 `X`-square, positivity, source-side, opposite-side, and complete-`d` lift conditions are all imposed.
-- Evidence links: `AGENTS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/589-mixed-d0-relative-2-descent.md`; `docs/work-logs/590-p5-factor-twist-local-image-comparison.md`; `docs/work-logs/591-mixed-p7-factor-twist-local-image.md`; `docs/work-logs/592-mixed-p17-factor-twist-local-image.md`; `docs/work-logs/593-factor-twist-generalization-route-death.md`
+- Evidence links: `AGENTS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/589-mixed-d0-relative-2-descent.md`; `docs/work-logs/590-p5-factor-twist-local-image-comparison.md`; `docs/work-logs/591-mixed-p7-factor-twist-local-image.md`; `docs/work-logs/592-mixed-p17-factor-twist-local-image.md`; `docs/work-logs/593-factor-twist-generalization-route-death.md`; `docs/work-logs/594-universal-closure-product-g0-parameterized-input.md`; `docs/work-logs/595-universal-closure-product-g4-route-death.md`
 - Session log: none
-- Next step: none selected. Reopening requires new parameterized family-level coefficient/local-image input; another fixed family, prime, or local table is forbidden. D2 and D5 remain closed.
+- Next step: none for this scoped mechanism. Reopening requires the new parameter-uniform global relative 2-descent certificate on the full individual four-factor cover; D2/D5/M3 remain closed.
 - Do not assume: the rejected tangent-cubic birational rewrite is a smaller obstruction or proof progress.
 - Delegation preference: Keep tasks narrow and reviewable; all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`, while already-running tasks remain unchanged. `max` is a reasoning level, not part of the model name; `xhigh` is also verified as supported. Every prompt must tell the Worker not to invoke Codex, `ask_codex.sh`, subagents, or delegation skills; delegation is one level deep, and the Controller independently reviews formulas, converses, exceptional branches, files, tests, and Ruff.

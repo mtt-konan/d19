@@ -5,14 +5,65 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl593` is present, the completed handoff is:
+If `wl595` is present, the completed handoff is:
 
 ```text
-wl593_factor_twist_generalization_route_death_complete
+wl595_universal_closure_product_g4_route_death
 ```
 
-Do not re-enter `wl535`. `wl587`-`wl592` remain frozen inputs; `wl593` is the
-completed route-death checkpoint.
+`wl587`-`wl594` remain frozen inputs. `wl593` still closes only the
+fixed-representative factor-twist local-image generalization. `wl594` supplies
+the universal G0 geometry; it does not itself prove a Kummer or local-image
+obstruction.
+
+`wl594` certifies the accepted universal G0 input:
+
+```text
+W^2=Q_A(t)*Q_B(t)
+Q_L(t)=((T+t)^2+4*L^2)((T-t)^2+4*L^2)
+```
+
+for `T=A+B` and `T=|A-B|`, after common-scale and symmetry quotienting. It
+checks the exact formulas, scale law, discriminant/resultant factors, smooth
+positive domain, genus-three product cover, genus-one `x=t^2` quotient, genus-
+five simultaneous individual lift, forward map, and all sum/signed-difference
+boundaries.
+
+The accepted outcome is:
+
+```text
+exact_parameterized_input_ready
+```
+
+This is a genuine lower-genus forward obstruction input analogous to `wl585`,
+not a proved obstruction. Whole-cover local solubility is automatic from the
+midpoint, and `[Q_A*Q_B]` is automatic on exact candidates. No Kummer,
+split-prime, or uniform restricted local-image theorem is proved. The next
+narrow gate must act on the restricted nonmidpoint image, retaining the
+positive square-`x`, positivity, individual AA/BB, and full four-factor lifts.
+
+`wl595` completes G1-G4. The exact `f_A-f_B`, resultant, and
+`f_A(x0)=16*S*T^2` closure-branch identities make the natural class
+`delta=[f_A]=[f_B]` trivial after individual lifts. All four factor
+differences and pairwise resultants are retained; every odd collision prime
+has an all-square negative-valuation branch, and `p=5` removes only the
+integral branch. Primitive denominators give principal-unit squares at odd
+and dyadic places and no new support or reciprocity. Thus all available local
+bits admit zero, and real/boundary conditions do not create a p-adic bit.
+
+The scoped result is:
+
+```text
+accepted_outcome=route_death_certificate
+```
+
+This closes only the universal closure-product Kummer/single-split-prime/
+denominator mechanism. Reopening requires a new parameter-uniform global
+relative 2-descent certificate on the full individual four-factor cover,
+including both T branches, p=2, denominators, all boundary charts, real
+intervals, and complete AA/BB lifts. It is not a claim against all future
+relative 2-descent, family exclusion, Selmer/rank, Harborth, D2, D5, or M3.
+
 The exact `p=5` normalized factor-twist images remain
 
 ```text

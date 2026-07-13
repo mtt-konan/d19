@@ -62,16 +62,22 @@ global Selmer dimension bound
 rank-zero conclusion
 ```
 
-The current narrow handoff is the scoped route-death checkpoint recorded in
+The current narrow handoff is the accepted scoped G4 route-death certificate
+recorded in
 [NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md):
 
 ```text
-wl593_factor_twist_generalization_route_death_complete
+wl595_universal_closure_product_g4_route_death
 ```
 
-The fixed-instance factor-twist local-image route is exhausted. Reopening it
-requires genuinely parameterized family-level coefficient/local-image input;
-another fixed representative, prime, or residue table is not a live gate.
+`wl595` accepts `route_death_certificate` for the universal closure-product
+Kummer/single-split-prime/denominator mechanism. Its G1-G3 algebra shows that
+the natural class is automatic after individual lifts, every collision and
+denominator place admits the zero local character bit, and real/boundary
+conditions add no p-adic character. Reopening requires a new parameter-
+uniform global relative 2-descent certificate on the full individual
+four-factor cover. This does not close all future relative 2-descent or make
+a family, Selmer, rank, Harborth, D2, D5, or M3 claim.
 
 The earlier `wl535` chain remains frozen historical input. Within that earlier
 gate, `wl536` excludes the infinite prime class

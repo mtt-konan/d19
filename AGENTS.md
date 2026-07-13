@@ -54,7 +54,7 @@ Worker output is proposed work, not accepted proof or a completed checkpoint.
 The current handoff is:
 
 ```text
-wl593_factor_twist_generalization_route_death_complete
+wl595_universal_closure_product_g4_route_death
 ```
 
 `wl591` completes the selected normalized mixed-family `p=7` local-image
@@ -129,10 +129,46 @@ the current fixed-representative factor-twist local-image mechanism cannot be
 promoted from these fixed inputs alone; it requires new parameterized
 family-level coefficient/local-image input. This is route death only for that
 mechanism; it is not a claim that all relative 2-descent is impossible. Do not
-add another representative, prime,
-or local table, and do not enter D2 or D5. `wl587`-`wl592` remain frozen
-inputs, and `wl593` is the completed route-death checkpoint. No later gate is
-selected.
+add another representative, prime, or local table, and do not enter D2 or D5.
+`wl587`-`wl593` remain frozen inputs.
+
+`wl594` supplies the accepted parameterized G0 input:
+
+```text
+W^2=Q_A(t)*Q_B(t),
+Q_L(t)=((T+t)^2+4*L^2)((T-t)^2+4*L^2),
+```
+
+for both `T=A+B` and `T=|A-B|`, after common-scale and leg-swap quotienting.
+The smooth product cover has genus `3`, its `t -> -t` quotient is a genus-one
+quartic in `x=t^2`, and the simultaneous individual `AA`/`BB` lift has genus
+`5`. The certificate retains the positive sum intervals, signed difference
+representatives, midpoint, endpoint, factor-zero, infinity, and `x=0`
+chart boundaries. This is a genuine lower-genus forward input analogous to
+`wl585`, not an obstruction theorem. Whole-cover local solubility and the class
+`[Q_A*Q_B]` are automatic on exact candidates. No Kummer, split-prime, or
+uniform restricted local-image obstruction is proved. The next gate must act on
+the restricted nonmidpoint image and add uniform specialization control.
+
+`wl595` completes the accepted G4 audit with
+`accepted_outcome=route_death_certificate`. G1 proves the exact difference,
+resultant, and `f_A(x0)=16*S*T^2` closure-branch identities, and the natural
+class `delta=[f_A]=[f_B]` is trivial after individual lifts. G2 records all
+four factor differences and six pairwise resultants, both cross-collision
+centers with common value `4*S`, and the negative-valuation principal-unit
+square branch at every odd collision prime; `p=5` deletes only the integral
+branch. G3 proves the primitive denominator congruence, exact products and
+differences, resultant gcd bounds, and odd/dyadic principal-unit squares,
+with no support, parity, splitting, reciprocity, norm, or character
+restriction. All available local bits therefore admit zero and the natural
+global combination is tautological. This route death applies only to the
+universal closure-product Kummer/single-split-prime/denominator mechanism.
+Reopening requires a new parameter-uniform global relative 2-descent
+certificate on the full individual four-factor cover, with forced local
+parity across both T branches, p=2, denominators, all boundary charts, real
+intervals, and complete AA/BB lifts. It is not a claim that all future
+relative 2-descent is impossible and makes no family, Selmer, rank, Harborth,
+D2, D5, or M3 claim.
 
 ### Frozen wl535 Input
 

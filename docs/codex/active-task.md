@@ -2,19 +2,18 @@
 
 - Status: complete
 - Updated: 2026-07-13
-- Task id: post-wl592-d4-generalization-assessment
-- Goal: Decide whether the fixed-representative local exclusions in `wl590`-`wl592` contain a genuinely parameterized mechanism that can advance D4, or instead certify route death for this factor-twist local-image mechanism.
-- Scope: read-only comparison of the frozen `wl587` and `wl589` D0 schemas and the exact local-image proofs `wl590`-`wl592`; no third family and no new local row.
-- Object layer: parameter dependence of relative constant factor-twist local images across cover families; not another fixed cover, equivalent model, rank computation, D2 theorem, or theorem-level Selmer object.
-- Current proof obligation: Complete. `wl593` proves the fixed inputs contain no parameterized cross-family local-image mechanism and records the exact new input required for any reopening.
-- Result: Outcome 3, scoped route-death certificate. The conclusion applies only to promotion from `wl587`-`wl592`; it does not rule out all future relative 2-descent.
-- Accepted outcomes: a proved parameterized exclusion lemma; a proved strictly smaller arithmetic proposition naming the removed parameter/twist/square-lift freedom; or a precise route-death certificate showing why `wl590`-`wl592` cannot be promoted from two fixed representatives without new family-level input.
-- Allowed changes: completed `wl593` short-path worklog/script/test after Controller acceptance of Outcome 3; control-document synchronization.
-- Forbidden changes: no edits to `wl587`-`wl592`; no new family, prime, local-image table, equivalent model, quotient curve, fixed-cover rank/point computation, bounded search, shell 11, old package-`x` / `S~`, D2, M3, or theorem-level Selmer claim.
-- Stable boundaries: `wl590` proves the pure representative is empty at `p=5` while the mixed image is `[5]`; `wl591` and `wl592` then eliminate the mixed survivors at `p=7,17`. These are exact fixed-representative results, not a common local obstruction or family theorem.
-- Current step: Controller-reviewed `wl593` checkpoint complete.
-- Completed steps: `wl587` and `wl589` complete D0 for the two representatives; `wl590`-`wl592` exhaust both finite factor-twist candidate ledgers; `wl592` is committed at `8acdb13` and independently verified by focused tests, Ruff, strict certificate, and a Sage `Q_17` audit. A fresh Luna read-only comparison verified that both bases are `Spec(Q)`, the local images and bad-prime supports differ, and no family parameter remains in the proved statements. The Controller directly checked the cited formulas, local-image quantifiers, pole/infinity/factor-zero branches, twist ledgers, positivity conditions, fixed-cover maps, and AA+BB lifts. `wl593` encodes the accepted scoped route-death result and passes the full focused `wl587`-`wl593` regression set.
-- Next exact step: None; task complete. A future reopening requires genuinely parameterized family-level coefficient/local-image input, not another fixed family or local row.
-- Validation gates: every claimed common mechanism must retain explicit quantifiers and identify its parameter domain; every route-death claim must distinguish failure of this fixed local-image mechanism from impossibility of all future family-level arithmetic; no new numbered checkpoint before Controller acceptance.
-- Stop condition: stop after a defensible D4 decision for this mechanism; do not expand to the remaining 15 cover families or enter D5.
-- Delegation preference: `--model gpt-5.6-luna --reasoning max`; one-level delegation only. The Worker must not invoke Codex, `ask_codex.sh`, subagents, or delegation skills.
+- Task id: universal-closure-product-g4-final-route-decision
+- Goal: Make the final G4 decision whether the `wl594` universal closure-product family yields a parameterized Kummer/split-prime obstruction, or whether the audited mechanism is exhausted.
+- Scope: read-only synthesis of accepted G0 and the exact G1-G3 feasibility results; no new model, prime, local table, or implementation before Controller acceptance.
+- Object layer: the universal family `W^2=Q_AQ_B`, its elliptic quotient, natural factor Kummer class, four original factor classes, odd split-prime collision strata, and primitive denominator coupling.
+- Current proof obligation: Complete. G4 returns `precise_g4_universal_closure_product_route_death`; encode the accepted scoped route-death certificate as `wl595`.
+- Accepted outcomes: an exact uniform obstruction theorem; an exact strictly smaller arithmetic proposition with a removed freedom/lift; or a precise G4 route-death certificate for this universal closure-product Kummer/split-prime mechanism.
+- Allowed changes: one `wl595` short-path worklog/script/test encoding the accepted G0-G4 result, plus necessary research handoff/control-document synchronization.
+- Forbidden changes: no new equivalent model, fixed sample, rank table, bounded search, local table, D2, D5, M3, theorem-strength Selmer claim, or edits to the concurrent `wl500-series-consolidation` task artifacts.
+- Stable boundaries: G0 is genuine parameterized geometry. G1 proves the natural product-factor class is automatic. G2 proves the four-factor single split-prime mechanism has an always-soluble negative-valuation branch. G3 proves primitive denominators allow that branch at every place and add no support, reciprocity, norm, or character restriction.
+- Current step: `wl595` encoded and validated as the accepted scoped route-death checkpoint.
+- Completed steps: `wl594` plus G1 `natural_character_automatic_on_restricted_image`, G2 `precise_g2_route_death_certificate`, G3 `denominator_places_automatic_no_new_character`, and G4 `precise_g4_universal_closure_product_route_death`; Controller checked the exact resultants, common-root and factor-collision formulas, negative-valuation principal units, primitive denominator equations, and theorem-strength boundary.
+- Next exact step: None. Reopening requires the new parameter-uniform global relative 2-descent certificate named below.
+- Validation gates: retain both `T` branches, all GEN-CLOSURE quantifiers, midpoint/endpoints, factor-zero/infinity, `p=2`, primitive/gcd, real interval, individual AA/BB, and full four-factor lifts; distinguish route death for this mechanism from impossibility of all future relative descent.
+- Stop condition: reached. Reopening requires a new parameter-uniform global relative 2-descent certificate on the full four-factor cover.
+- Delegation preference: `--model gpt-5.6-luna --reasoning max --read-only`; one-level delegation only. The Worker must not invoke Codex, `ask_codex.sh`, subagents, or delegation skills.

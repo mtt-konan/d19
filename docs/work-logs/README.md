@@ -123,7 +123,9 @@ entries.
          -> 591-mixed-p7-factor-twist-local-image.md
          -> 592-mixed-p17-factor-twist-local-image.md
          -> 593-factor-twist-generalization-route-death.md
-         -> latest checkpoint: 593-factor-twist-generalization-route-death.md
+         -> 594-universal-closure-product-g0-parameterized-input.md
+         -> 595-universal-closure-product-g4-route-death.md
+         -> latest checkpoint: 595-universal-closure-product-g4-route-death.md
 ```
 
 ## Reading Rule
