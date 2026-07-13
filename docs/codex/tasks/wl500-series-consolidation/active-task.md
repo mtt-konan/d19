@@ -1,0 +1,25 @@
+# Active Task
+
+- Status: in progress
+- Updated: 2026-07-13
+- Task id: wl500-series-consolidation
+- User goal: Consolidate `wl500-wl593` worklogs, audit scripts, and tests together, retaining real mathematical evidence without one executable/test triplet per narrated microstep.
+- Long-term objective: Implement `docs/WL500_SERIES_CONSOLIDATION_PLAN.md` without weakening any proof obligation or theorem boundary, and measurably reduce full-suite runtime.
+- Scope: `wl500-wl593` artifacts and direct consumers. `wl594` is downstream context only and is outside deletion scope.
+- Policy scope: `wl500-series-consolidation`
+- ExecutionPolicy: external
+- ExecutionPolicy source: user instruction, project `AGENTS.md`, and triggered `codex` delegation skill
+- Execution protocol skills: `codex`, `context-memory-index`, `agent-memory-stack-lite-demo`
+- Lite Demo role: memory-only
+- Controller role: own sequencing, obligation review, parity acceptance, deletion gates, validation, and commits; delegate one narrow Luna Max task at a time.
+- Current step: the A1/A2 extraction design is accepted; implement the four bounded modules, two tracked certificate/spec files, and four focused test files without switching or deleting legacy consumers.
+- Completed steps: wrote the initial plan and static baseline; ran and accepted Luna Max C0/C1 audits; materialized and accepted the exact tracked A0/B0 projections after independent correction review; ran and accepted the read-only A1/A2 extraction design in `a1-a2-extraction-design.md`, mapping every `wl500-wl527` checkpoint to one retained kernel or boundary projection with no additional ignored input.
+- Next exact step: implement only the accepted A1/A2 shape and stop unless exact old/new projections, certificate arithmetic, actual compatibility predicates, focused tests, targeted Ruff, and `git diff --check` pass.
+- Allowed changes during the next C2 slice: new A1/A2 canonical modules/data/tests and this task branch only after the read-only design is accepted.
+- Forbidden changes during the next C2 slice: no moves, deletions, legacy consumer edits, formula edits, test weakening, full-suite run, `wl594+` edit, new WL, new research route, shell 11, rank/Selmer work, or theorem-strength change.
+- Stable-module protection judgment: protect `wl529`, `wl530-wl535`, `wl587`, `wl589`, `wl590-wl594`. Later structural extraction is allowed only after exact projection parity; formulas, quantifiers, exceptional branches, representatives, local images, and claim boundaries remain unchanged.
+- Pressure signal: the suite repeats low-information routing, subprocess startup, and recursive proof prefixes; remove redundancy rather than reduce coverage.
+- Rejected paths: documentation-only compression; `xdist` before deduplication; ignored results as permanent proof inputs; cached readiness as proof; one giant module; optimistic deletion.
+- Validation gates: explicit destination for every old obligation; old/new projection parity; focused tests and targeted Ruff per slice; path/reference scan; `git diff --check`; one baseline and one final `--durations=50` run; separate deletion approval.
+- Stop condition: do not start an A1/A2 writer until its read-only extraction design names every retained obligation and old/new parity projection. Stop before any cutover or deletion; the destructive gate remains closed.
+- Resume instruction: read this file, the plan, `c0-obligation-map.md`, current context, and index; continue only the next exact step.

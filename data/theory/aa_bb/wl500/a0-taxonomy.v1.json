@@ -1,0 +1,636 @@
+{
+  "kind": "a0-taxonomy",
+  "rows": [
+    {
+      "ambient_c_d_global_solubility_status": "not_applicable_processed_m_tail_support",
+      "blocking_reasons": [
+        "processed_support_family"
+      ],
+      "candidate_ids": [
+        "AA_A3_B8_u_3_m_tail_shell8_candidate",
+        "BB_A8_B3_u_3_m_tail_shell8_candidate"
+      ],
+      "classification": "already_closed",
+      "cover_family": "support=u_3|L=3|T=11|d=(?,?,?)",
+      "cover_summary": {
+        "L": 3,
+        "T": 11,
+        "d_vector": {}
+      },
+      "entry_count": 2,
+      "failure_mode": "processed_or_duplicate_m_tail_support",
+      "lemma_candidate_status": "data-only",
+      "support_family": "u_3",
+      "work_logs": [
+        "wl508"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A3_B1_u_3_complete_d_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3|L=3|T=4|d=(?,?,?)",
+      "cover_summary": {
+        "L": 3,
+        "T": 4,
+        "d_vector": {}
+      },
+      "entry_count": 1,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_3",
+      "work_logs": [
+        "wl493"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "not_applicable_processed_m_tail_support",
+      "blocking_reasons": [
+        "processed_support_family"
+      ],
+      "candidate_ids": [
+        "AA_A6_B7_u_3_m_tail_shell7_candidate",
+        "BB_A7_B6_u_3_m_tail_shell7_candidate"
+      ],
+      "classification": "already_closed",
+      "cover_family": "support=u_3|L=6|T=13|d=(?,?,?)",
+      "cover_summary": {
+        "L": 6,
+        "T": 13,
+        "d_vector": {}
+      },
+      "entry_count": 2,
+      "failure_mode": "processed_or_duplicate_m_tail_support",
+      "lemma_candidate_status": "data-only",
+      "support_family": "u_3",
+      "work_logs": [
+        "wl504"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square"
+      ],
+      "candidate_ids": [
+        "AA_A3_B10_u_3_plus_v_13_m_tail_shell10_candidate",
+        "BB_A10_B3_u_3_plus_v_13_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_13|L=3|T=13|d=(39,3,13)",
+      "cover_summary": {
+        "L": 3,
+        "T": 13,
+        "d_vector": {
+          "d_minus_p": 39,
+          "d_neg_2sqrt_q": 13,
+          "d_pos_2sqrt_q": 3
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_3+v_13",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+        "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)",
+      "cover_summary": {
+        "L": 3,
+        "T": 10,
+        "d_vector": {
+          "d_minus_p": 15,
+          "d_neg_2sqrt_q": 85,
+          "d_pos_2sqrt_q": 51
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_3+v_5+w_17",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A9_B1_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+        "BB_A1_B9_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_5+w_53|L=9|T=10|d=(15,159,265)",
+      "cover_summary": {
+        "L": 9,
+        "T": 10,
+        "d_vector": {
+          "d_minus_p": 15,
+          "d_neg_2sqrt_q": 265,
+          "d_pos_2sqrt_q": 159
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_3+v_5+w_53",
+      "work_logs": [
+        "wl511"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A10_B1_u_5_m_tail_shell10_candidate",
+        "BB_A1_B10_u_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_5|L=10|T=11|d=(5,5,1)",
+      "cover_summary": {
+        "L": 10,
+        "T": 11,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 1,
+          "d_pos_2sqrt_q": 5
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_5",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A10_B9_u_5_m_tail_shell10_candidate",
+        "BB_A9_B10_u_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_5|L=10|T=19|d=(5,5,1)",
+      "cover_summary": {
+        "L": 10,
+        "T": 19,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 1,
+          "d_pos_2sqrt_q": 5
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_5",
+      "work_logs": [
+        "wl519"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_not_soluble",
+      "blocking_reasons": [
+        "ambient_C_d_has_no_rational_point"
+      ],
+      "candidate_ids": [
+        "AA_A5_B3_u_5_m_tail_shell5_candidate",
+        "BB_A3_B5_u_5_m_tail_shell5_candidate"
+      ],
+      "classification": "refuted",
+      "cover_family": "support=u_5|L=5|T=8|d=(5,5,1)",
+      "cover_summary": {
+        "L": 5,
+        "T": 8,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 1,
+          "d_pos_2sqrt_q": 5
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "ambient_globally_not_soluble",
+      "lemma_candidate_status": "dead_end",
+      "support_family": "u_5",
+      "work_logs": [
+        "wl500"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_not_soluble",
+      "blocking_reasons": [
+        "ambient_C_d_has_no_rational_point"
+      ],
+      "candidate_ids": [
+        "AA_A7_B9_u_7_m_tail_shell9_candidate",
+        "BB_A9_B7_u_7_m_tail_shell9_candidate"
+      ],
+      "classification": "refuted",
+      "cover_family": "support=u_7|L=7|T=16|d=(7,7,1)",
+      "cover_summary": {
+        "L": 7,
+        "T": 16,
+        "d_vector": {
+          "d_minus_p": 7,
+          "d_neg_2sqrt_q": 1,
+          "d_pos_2sqrt_q": 7
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "ambient_globally_not_soluble",
+      "lemma_candidate_status": "dead_end",
+      "support_family": "u_7",
+      "work_logs": [
+        "wl514"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A7_B2_u_7_m_tail_shell7_candidate",
+        "BB_A2_B7_u_7_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7|L=7|T=9|d=(7,7,1)",
+      "cover_summary": {
+        "L": 7,
+        "T": 9,
+        "d_vector": {
+          "d_minus_p": 7,
+          "d_neg_2sqrt_q": 1,
+          "d_pos_2sqrt_q": 7
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_7",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+        "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+v_13+w_5|L=7|T=13|d=(91,35,65)",
+      "cover_summary": {
+        "L": 7,
+        "T": 13,
+        "d_vector": {
+          "d_minus_p": 91,
+          "d_neg_2sqrt_q": 65,
+          "d_pos_2sqrt_q": 35
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_7+v_13+w_5",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A7_B10_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+        "BB_A10_B7_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+v_17+w_5|L=7|T=17|d=(119,35,85)",
+      "cover_summary": {
+        "L": 7,
+        "T": 17,
+        "d_vector": {
+          "d_minus_p": 119,
+          "d_neg_2sqrt_q": 85,
+          "d_pos_2sqrt_q": 35
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_7+v_17+w_5",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+        "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+w_37|L=7|T=10|d=(7,259,37)",
+      "cover_summary": {
+        "L": 7,
+        "T": 10,
+        "d_vector": {
+          "d_minus_p": 7,
+          "d_neg_2sqrt_q": 37,
+          "d_pos_2sqrt_q": 259
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "u_7+w_37",
+      "work_logs": [
+        "wl506"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_not_soluble",
+      "blocking_reasons": [
+        "ambient_C_d_has_no_rational_point"
+      ],
+      "candidate_ids": [
+        "AA_A4_B9_v_13_m_tail_shell9_candidate",
+        "BB_A9_B4_v_13_m_tail_shell9_candidate"
+      ],
+      "classification": "refuted",
+      "cover_family": "support=v_13|L=4|T=13|d=(13,1,13)",
+      "cover_summary": {
+        "L": 4,
+        "T": 13,
+        "d_vector": {
+          "d_minus_p": 13,
+          "d_neg_2sqrt_q": 13,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "ambient_globally_not_soluble",
+      "lemma_candidate_status": "dead_end",
+      "support_family": "v_13",
+      "work_logs": [
+        "wl512"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A6_B7_v_13_m_tail_shell7_candidate",
+        "BB_A7_B6_v_13_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_13|L=6|T=13|d=(13,1,13)",
+      "cover_summary": {
+        "L": 6,
+        "T": 13,
+        "d_vector": {
+          "d_minus_p": 13,
+          "d_neg_2sqrt_q": 13,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "v_13",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A9_B4_v_13_m_tail_shell9_candidate",
+        "BB_A4_B9_v_13_m_tail_shell9_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_13|L=9|T=13|d=(13,1,13)",
+      "cover_summary": {
+        "L": 9,
+        "T": 13,
+        "d_vector": {
+          "d_minus_p": 13,
+          "d_neg_2sqrt_q": 13,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "v_13",
+      "work_logs": [
+        "wl511"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A10_B7_v_17_plus_w_13_m_tail_shell10_candidate",
+        "BB_A7_B10_v_17_plus_w_13_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_17+w_13|L=10|T=17|d=(17,13,221)",
+      "cover_summary": {
+        "L": 10,
+        "T": 17,
+        "d_vector": {
+          "d_minus_p": 17,
+          "d_neg_2sqrt_q": 221,
+          "d_pos_2sqrt_q": 13
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "v_17+w_13",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_ids": [
+        "AA_A1_B4_v_5_m_tail_refresh_candidate",
+        "BB_A4_B1_v_5_m_tail_refresh_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_5|L=1|T=5|d=(5,1,5)",
+      "cover_summary": {
+        "L": 1,
+        "T": 5,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 5,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "v_5",
+      "work_logs": [
+        "wl495"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square"
+      ],
+      "candidate_ids": [
+        "AA_A2_B3_v_5_m_tail_refresh_candidate",
+        "BB_A3_B2_v_5_m_tail_refresh_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_5|L=2|T=5|d=(5,1,5)",
+      "cover_summary": {
+        "L": 2,
+        "T": 5,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 5,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "support_family": "v_5",
+      "work_logs": [
+        "wl495"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_not_soluble",
+      "blocking_reasons": [
+        "ambient_C_d_has_no_rational_point"
+      ],
+      "candidate_ids": [
+        "AA_A4_B1_v_5_m_tail_refresh_candidate",
+        "BB_A1_B4_v_5_m_tail_refresh_candidate"
+      ],
+      "classification": "refuted",
+      "cover_family": "support=v_5|L=4|T=5|d=(5,1,5)",
+      "cover_summary": {
+        "L": 4,
+        "T": 5,
+        "d_vector": {
+          "d_minus_p": 5,
+          "d_neg_2sqrt_q": 5,
+          "d_pos_2sqrt_q": 1
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "ambient_globally_not_soluble",
+      "lemma_candidate_status": "dead_end",
+      "support_family": "v_5",
+      "work_logs": [
+        "wl496"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_not_soluble",
+      "blocking_reasons": [
+        "ambient_C_d_has_no_rational_point"
+      ],
+      "candidate_ids": [
+        "AA_A4_B7_w_5_m_tail_shell7_candidate",
+        "BB_A7_B4_w_5_m_tail_shell7_candidate"
+      ],
+      "classification": "refuted",
+      "cover_family": "support=w_5|L=4|T=11|d=(1,5,5)",
+      "cover_summary": {
+        "L": 4,
+        "T": 11,
+        "d_vector": {
+          "d_minus_p": 1,
+          "d_neg_2sqrt_q": 5,
+          "d_pos_2sqrt_q": 5
+        }
+      },
+      "entry_count": 2,
+      "failure_mode": "ambient_globally_not_soluble",
+      "lemma_candidate_status": "dead_end",
+      "support_family": "w_5",
+      "work_logs": [
+        "wl506"
+      ]
+    }
+  ],
+  "schema_version": 1
+}

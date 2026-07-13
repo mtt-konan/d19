@@ -1,0 +1,2207 @@
+{
+  "kind": "a2-boundary-spec",
+  "no_claims": {
+    "broad_rank_or_selmer_diagnostics_run": false,
+    "complete_selmer_upper_bound_proved": false,
+    "dim_sel2_eq_2_claimed": false,
+    "family_exclusion_proved": false,
+    "final_obstruction_candidate_selected": false,
+    "new_local_row_proved": false,
+    "rank_zero_claimed": false,
+    "sha2_trivial_claimed": false,
+    "uniform_m_tail_full_rank_claimed": false
+  },
+  "route_choices": [
+    "abandon_this_obstruction_line_and_select_different_candidate",
+    "gather_minimal_function_field_squareclass_proof_data_for_named_cover_families",
+    "name_theorem_level_complete_selmer_local_hilbert_row_obligation",
+    "return_to_finite_shell_m_tail_diagnostics"
+  ],
+  "schema_version": 1,
+  "source_payloads": {
+    "wl500": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl500_route_active_u5_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+      "sha256": "46bc5a48a4420b0a254c0a5744274196cafd8ecbcb4127eb191f0a1dbdfd8622",
+      "size": 14642
+    },
+    "wl501": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl501_post_wl500_route_choice_audit.json",
+      "sha256": "ce2d9501238a5c2f4acd82b838cd4f4cee5203fc46958e32e7a62896600bd230",
+      "size": 5231
+    },
+    "wl502": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl502_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+      "sha256": "a54129aca87abe9eae3aab21e409c2e0982bbab03bc2831d8adba89a04dc226f",
+      "size": 6478
+    },
+    "wl503": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl503_post_wl502_empty_shell_route_choice_audit.json",
+      "sha256": "80ad80f611dc47a97a37cbc6ab13526aad0ee3512ccf714ccc9119a95e89fd36",
+      "size": 5410
+    },
+    "wl504": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl504_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+      "sha256": "6186f94a349c4e1a516d27977414cae612247e6f7623a0cb438419eeaca31cbc",
+      "size": 46517
+    },
+    "wl505": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+      "sha256": "8934b63d6f2965c16eea50f0c2f0f72b0169ae21a9082a424720a5e12a2a8c37",
+      "size": 71433
+    },
+    "wl506": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl506_resolve_shell7_deferred_ambient_c_d_global_solubility_ledgers.json",
+      "sha256": "4d72cb155abc48f8085f1a3655dd310f8b2aea4cfb1428d81a3222f1fd6bc0a2",
+      "size": 262287
+    },
+    "wl507": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl507_post_wl506_route_choice_audit.json",
+      "sha256": "1ad8d1bf0b7566390aa7e2537a6ead0d966db935decca5ddb550dd1a72ed4a25",
+      "size": 6045
+    },
+    "wl508": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl508_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+      "sha256": "fd9dd2fa8a4a7a966f11877f7544b0c8b4983f92beba27d0782f3c8cef9e9147",
+      "size": 14636
+    },
+    "wl509": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl509_post_wl508_empty_shell_route_choice_audit.json",
+      "sha256": "34d7b55055cc47c6a9fd081102e65eef79a59c34e8b862791aa3ad07b9526757",
+      "size": 6735
+    },
+    "wl510": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl510_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+      "sha256": "eeebb50cfc2bc970484cc06bc56f738c69dd988f53ca52fd75b464d5e6823a9c",
+      "size": 33214
+    },
+    "wl511": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl511_route_active_shell9_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+      "sha256": "ea91a98b1435ddc9a07718a170fe81dc1883f0925a4cb4824ea1edc281f5352c",
+      "size": 45448
+    },
+    "wl512": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl512_resolve_shell9_deferred_ambient_c_d_global_solubility_ledgers.json",
+      "sha256": "66a067538261571e4413fb4323dd369a03b988210d7dd6e0fadc36ae5b636b36",
+      "size": 26839
+    },
+    "wl513": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl513_post_wl512_route_choice_audit.json",
+      "sha256": "695d82e2361072ddf5fd81f34ae799cf7505637b46b07ea4002c8887912cf29a",
+      "size": 6595
+    },
+    "wl514": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl514_resolve_remaining_shell9_u7_ambient_c_d_global_solubility_ledger.json",
+      "sha256": "245a6cc5a91b18edcfcf8c2b7453648718fe51fbc28a8f70d350a39c7040c29b",
+      "size": 14941
+    },
+    "wl515": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl515_post_wl514_route_choice_audit.json",
+      "sha256": "07cf7963993e9095abebd6f3db33f000d8c0717522a68c90492d887386927fff",
+      "size": 7083
+    },
+    "wl516": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl516_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+      "sha256": "7a0615079d36c988c34606839db23ab3dac5a8ae182c2ad9e44d9fd79f2cb770",
+      "size": 36705
+    },
+    "wl517": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl517_route_active_shell10_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+      "sha256": "5e0e82a968bba7f33bbf9e340ab29fd65301127cfcebf8230d5cca52be5db062",
+      "size": 63837
+    },
+    "wl518": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl518_support_family_synthesis_after_wl517.json",
+      "sha256": "b0ba5667d5b27c921c17cc3cab7b9cca1e9e5f831e2a887c0f71cd97fa2670d7",
+      "size": 58316
+    },
+    "wl519": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_ambient_c_d_global_solubility_cover.json",
+      "sha256": "05f4b8d1206f5965a33a61b5fd2239db2a253a21a270ad6ee76c0905c6cc24c9",
+      "size": 17463
+    },
+    "wl520": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl520_post_wl519_route_choice_audit.json",
+      "sha256": "94ab20fa59c12ad51bd5e0919bfd312cbb8b5cf422ffaddd75963aed7f9e0010",
+      "size": 6900
+    },
+    "wl521": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.json",
+      "sha256": "9eacf74f4d545a45ea2f2de4e96320d8e06512d598e6e6464a2a35ac7029e5a0",
+      "size": 59384
+    },
+    "wl522": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.json",
+      "sha256": "d51875d4bdbe0bcc06fe14bd78f3cd9699b6e92171604a983a6a3d9ef6438bf5",
+      "size": 25377
+    },
+    "wl523": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.json",
+      "sha256": "006bd3c74bf81ce0be0baeb6dcdbbc9c7259c48bd8e3616c79bc8b83d9f1b100",
+      "size": 6951
+    },
+    "wl524": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.json",
+      "sha256": "d0d9fa05f1efbcc45943e22c3f011482d7adf9704edab0b968d17ef84cca3174",
+      "size": 5945
+    },
+    "wl525": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_squareclass_obstruction_lemma.json",
+      "sha256": "38a434582f73f50fdc040ca6484e1e41169229bec365d62149e24c4ef7f29328",
+      "size": 6468
+    },
+    "wl526": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.json",
+      "sha256": "e1d7a7ccc7529bd9bc00ed94dde17f05fd2586dad8a2a94444294ffe22306128",
+      "size": 7214
+    },
+    "wl527": {
+      "path": "results/closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.json",
+      "sha256": "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
+      "size": 54631
+    }
+  },
+  "stages": {
+    "wl500": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "AA_A5_B3_u_5_m_tail_shell5_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 5,
+            "B": 3,
+            "L": 5,
+            "T": 8,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 164
+          }
+        },
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "BB_A3_B5_u_5_m_tail_shell5_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 3,
+            "B": 5,
+            "L": 5,
+            "T": 8,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 164
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_not_applied_count": 2,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 0,
+        "active_u5_support_entry_count": 2,
+        "ambient_global_solubility_refuted_count": 2,
+        "ambient_global_solubility_still_deferred_count": 0,
+        "ambient_globally_soluble_count": 0,
+        "wl491_filter_applied_count": 0
+      }
+    },
+    "wl501": {
+      "destination": "A1-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl500_route_state_summary": {
+          "aa_bb_admissible_count_after_wl500": 0,
+          "active_candidate_count_after_wl500": 0,
+          "completed_finite_shell_bound_after_wl500": 5,
+          "shell5_active_u5_support_entry_count_from_wl500": 2,
+          "shell5_ambient_global_solubility_refuted_count_from_wl500": 2,
+          "shell5_ambient_global_solubility_still_deferred_count_after_wl500": 0,
+          "shell5_wl491_filter_applied_count_from_wl500": 0
+        }
+      },
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "execute_next_finite_M_tail_shell_from_wl498_plan",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Execute the next finite primitive shell from wl498, with max(A,B)=6, while preserving the duplicate support guard and stopping before ambient C_d solubility.",
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "required_exclusions": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500"
+        ],
+        "required_route_for_future_new_support": [
+          "M_tail_support",
+          "ambient_C_d_global_solubility",
+          "wl491_AA_BB_admissibility_filter",
+          "admissible_or_not_admissible_or_refuted_ledger"
+        ],
+        "shell_bound_to_execute_later": 6,
+        "uses_existing_wl498_plan": true,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl502": {
+      "destination": "A1-SHELL",
+      "shell_bound": 6
+    },
+    "wl503": {
+      "destination": "A1-BOUNDARY",
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "execute_next_finite_M_tail_shell_from_wl498_plan",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Execute the next finite primitive shell from wl498, with max(A,B)=7, while preserving the duplicate support guard and stopping before ambient C_d solubility.",
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "preserve_wl498_duplicate_support_guard": true,
+        "required_exclusions": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500"
+        ],
+        "required_route_for_future_new_support": [
+          "M_tail_support",
+          "ambient_C_d_global_solubility",
+          "wl491_AA_BB_admissibility_filter",
+          "admissible_or_not_admissible_or_refuted_ledger"
+        ],
+        "shell_bound_to_execute_later": 7,
+        "uses_existing_wl498_plan": true,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl504": {
+      "destination": "A1-SHELL",
+      "shell_bound": 7
+    },
+    "wl505": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 51
+          },
+          "point_ref": "a0:AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "sample": {
+            "A": 3,
+            "B": 7,
+            "L": 3,
+            "T": 10,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 136
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A4_B7_w_5_m_tail_shell7_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 1,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 4,
+            "B": 7,
+            "L": 4,
+            "T": 11,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 185
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A6_B7_v_13_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "point_ref": "a0:AA_A6_B7_v_13_m_tail_shell7_candidate",
+          "sample": {
+            "A": 6,
+            "B": 7,
+            "L": 6,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 313
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A7_B2_u_7_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "point_ref": "a0:AA_A7_B2_u_7_m_tail_shell7_candidate",
+          "sample": {
+            "A": 7,
+            "B": 2,
+            "L": 7,
+            "T": 9,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 277
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 37,
+            "d_pos_2sqrt_q": 259
+          },
+          "sample": {
+            "A": 7,
+            "B": 3,
+            "L": 7,
+            "T": 10,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 296
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 91,
+            "d_neg_2sqrt_q": 65,
+            "d_pos_2sqrt_q": 35
+          },
+          "point_ref": "a0:AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "sample": {
+            "A": 7,
+            "B": 6,
+            "L": 7,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 365
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A2_B7_u_7_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "point_ref": "a0:BB_A2_B7_u_7_m_tail_shell7_candidate",
+          "sample": {
+            "A": 2,
+            "B": 7,
+            "L": 7,
+            "T": 9,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 277
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 37,
+            "d_pos_2sqrt_q": 259
+          },
+          "sample": {
+            "A": 3,
+            "B": 7,
+            "L": 7,
+            "T": 10,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 296
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 91,
+            "d_neg_2sqrt_q": 65,
+            "d_pos_2sqrt_q": 35
+          },
+          "point_ref": "a0:BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "sample": {
+            "A": 6,
+            "B": 7,
+            "L": 7,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 365
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 51
+          },
+          "point_ref": "a0:BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "sample": {
+            "A": 7,
+            "B": 3,
+            "L": 3,
+            "T": 10,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 136
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A7_B4_w_5_m_tail_shell7_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 1,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 7,
+            "B": 4,
+            "L": 4,
+            "T": 11,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 185
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A7_B6_v_13_m_tail_shell7_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "point_ref": "a0:BB_A7_B6_v_13_m_tail_shell7_candidate",
+          "sample": {
+            "A": 7,
+            "B": 6,
+            "L": 6,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 313
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_deferred_count": 4,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 8,
+        "active_shell7_support_entry_count": 12,
+        "ambient_global_solubility_deferred_count": 4,
+        "ambient_global_solubility_refuted_count": 0,
+        "ambient_globally_soluble_count": 8,
+        "processed_exclusions_reopened_count": 0,
+        "wl491_filter_applied_count": 8
+      }
+    },
+    "wl506": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "AA_A4_B7_w_5_m_tail_shell7_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 1,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 4,
+            "B": 7,
+            "L": 4,
+            "T": 11,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 185
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+          "certificate_type": "targeted_mordell_weil_cover_lift_certificate",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 37,
+            "d_pos_2sqrt_q": 259
+          },
+          "point_ref": "a1:wl506-L7-T10-d7-259-37",
+          "sample": {
+            "A": 7,
+            "B": 3,
+            "L": 7,
+            "T": 10,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 296
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate",
+          "certificate_type": "targeted_mordell_weil_cover_lift_certificate",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 37,
+            "d_pos_2sqrt_q": 259
+          },
+          "point_ref": "a1:wl506-L7-T10-d7-259-37",
+          "sample": {
+            "A": 3,
+            "B": 7,
+            "L": 7,
+            "T": 10,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 296
+          }
+        },
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "BB_A7_B4_w_5_m_tail_shell7_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 1,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 7,
+            "B": 4,
+            "L": 4,
+            "T": 11,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 185
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_not_applied_count": 2,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 2,
+        "ambient_global_solubility_refuted_count": 2,
+        "ambient_global_solubility_still_deferred_count": 0,
+        "ambient_globally_soluble_count": 2,
+        "explicitly_classified_entry_count": 4,
+        "wl491_filter_applied_count": 2,
+        "wl505_deferred_entry_count": 4
+      }
+    },
+    "wl507": {
+      "destination": "A1-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl506_route_state_summary": {
+          "aa_bb_admissible_count_after_wl506": 0,
+          "active_candidate_count_after_wl506": 0,
+          "completed_finite_shell_bound_after_wl506": 7,
+          "shell7_ambient_global_solubility_refuted_count_from_wl506": 2,
+          "shell7_ambient_global_solubility_still_deferred_count_after_wl506": 0,
+          "shell7_deferred_entries_resolved_by_wl506": 4,
+          "shell7_deferred_entry_count_from_wl506": 4,
+          "shell7_globally_soluble_not_admissible_count_from_wl506": 2,
+          "shell7_wl491_filter_applied_count_from_wl506": 2
+        }
+      },
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "execute_next_finite_M_tail_shell_from_wl498_plan",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Execute the next finite primitive shell from wl498, with max(A,B)=8, while preserving the duplicate support guard and stopping before ambient C_d solubility.",
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "preserve_wl498_duplicate_support_guard": true,
+        "required_exclusions": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500",
+          "shell6_empty_diagnostic_output_from_wl502",
+          "shell7_active_not_admissible_ledgers_from_wl505",
+          "shell7_processed_u3_exclusions_from_wl505",
+          "shell7_w5_deferred_ledgers_refuted_by_wl506",
+          "shell7_u7_w37_deferred_ledgers_not_admissible_by_wl506"
+        ],
+        "required_route_for_future_new_support": [
+          "M_tail_support",
+          "ambient_C_d_global_solubility",
+          "wl491_AA_BB_admissibility_filter",
+          "admissible_or_not_admissible_or_refuted_ledger"
+        ],
+        "shell_bound_to_execute_later": 8,
+        "uses_existing_wl498_plan": true,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl508": {
+      "destination": "A1-SHELL",
+      "shell_bound": 8
+    },
+    "wl509": {
+      "destination": "A1-BOUNDARY",
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "execute_next_finite_M_tail_shell_from_wl498_plan",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Execute the next finite primitive shell from wl498, with max(A,B)=9, while preserving the duplicate support guard and stopping before ambient C_d solubility.",
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "preserve_wl498_duplicate_support_guard": true,
+        "required_exclusions": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500",
+          "shell6_empty_diagnostic_output_from_wl502",
+          "shell7_active_not_admissible_ledgers_from_wl505",
+          "shell7_processed_u3_exclusions_from_wl505",
+          "shell7_w5_deferred_ledgers_refuted_by_wl506",
+          "shell7_u7_w37_deferred_ledgers_not_admissible_by_wl506",
+          "shell8_empty_active_diagnostic_output_from_wl508",
+          "shell8_processed_u3_exclusions_from_wl508"
+        ],
+        "required_route_for_future_new_support": [
+          "M_tail_support",
+          "ambient_C_d_global_solubility",
+          "wl491_AA_BB_admissibility_filter",
+          "admissible_or_not_admissible_or_refuted_ledger"
+        ],
+        "shell_bound_to_execute_later": 9,
+        "uses_existing_wl498_plan": true,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl510": {
+      "destination": "A1-SHELL",
+      "shell_bound": 9
+    },
+    "wl511": {
+      "candidate_rows": [
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A4_B9_v_13_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "sample": {
+            "A": 4,
+            "B": 9,
+            "L": 4,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 233
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "A": 7,
+            "B": 9,
+            "L": 7,
+            "T": 16,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 452
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A9_B1_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 265,
+            "d_pos_2sqrt_q": 159
+          },
+          "point_ref": "a1:wl511-L9-T10-d15-159-265",
+          "sample": {
+            "A": 9,
+            "B": 1,
+            "L": 9,
+            "T": 10,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 424
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A9_B4_v_13_m_tail_shell9_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "point_ref": "a1:wl511-L9-T13-d13-1-13",
+          "sample": {
+            "A": 9,
+            "B": 4,
+            "L": 9,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 493
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A1_B9_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 265,
+            "d_pos_2sqrt_q": 159
+          },
+          "point_ref": "a1:wl511-L9-T10-d15-159-265",
+          "sample": {
+            "A": 1,
+            "B": 9,
+            "L": 9,
+            "T": 10,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 424
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A4_B9_v_13_m_tail_shell9_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "point_ref": "a1:wl511-L9-T13-d13-1-13",
+          "sample": {
+            "A": 4,
+            "B": 9,
+            "L": 9,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 493
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A9_B4_v_13_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "sample": {
+            "A": 9,
+            "B": 4,
+            "L": 4,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 233
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A9_B7_u_7_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "A": 9,
+            "B": 7,
+            "L": 7,
+            "T": 16,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 452
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_deferred_count": 4,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 4,
+        "active_shell9_support_entry_count": 8,
+        "ambient_global_solubility_deferred_count": 4,
+        "ambient_global_solubility_refuted_count": 0,
+        "ambient_globally_soluble_count": 4,
+        "processed_exclusions_reopened_count": 0,
+        "wl491_filter_applied_count": 4
+      }
+    },
+    "wl512": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "AA_A4_B9_v_13_m_tail_shell9_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "sample": {
+            "A": 4,
+            "B": 9,
+            "L": 4,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 233
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "A": 7,
+            "B": 9,
+            "L": 7,
+            "T": 16,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 452
+          }
+        },
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "BB_A9_B4_v_13_m_tail_shell9_candidate",
+          "certificate_type": "targeted_mordell_weil_torsion_lift_refutation",
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          },
+          "sample": {
+            "A": 9,
+            "B": 4,
+            "L": 4,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 233
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A9_B7_u_7_m_tail_shell9_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "A": 9,
+            "B": 7,
+            "L": 7,
+            "T": 16,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 452
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_not_applied_count": 4,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 0,
+        "ambient_global_solubility_refuted_count": 2,
+        "ambient_global_solubility_still_deferred_count": 2,
+        "ambient_globally_soluble_count": 0,
+        "explicitly_classified_entry_count": 4,
+        "wl491_filter_applied_count": 0,
+        "wl511_deferred_entry_count": 4
+      }
+    },
+    "wl513": {
+      "destination": "A1-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl512_route_state_summary": {
+          "aa_bb_admissible_count_after_wl512": 0,
+          "active_candidate_count_after_wl512": 0,
+          "shell9_u7_still_deferred_count_after_wl512": 2,
+          "shell9_v13_refuted_count_from_wl512": 2,
+          "shell9_wl491_filter_applied_count_from_wl512": 0,
+          "wl512_deferred_entry_count": 4,
+          "wl512_explicitly_classified_entry_count": 4
+        }
+      },
+      "selected_next_gate": {
+        "allowed_future_certificates": [
+          "exact_ambient_C_d_global_point",
+          "exhaustive_no_lift_certificate"
+        ],
+        "broad_rank_or_selmer_diagnostics_run": false,
+        "candidate_ids": [
+          "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "BB_A9_B7_u_7_m_tail_shell9_candidate"
+        ],
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "resolve_remaining_shell9_u7_ambient_C_d_global_solubility_ledgers",
+        "minimum_later_question": "Resolve the shared shell-9 u_7 ambient C_d cover at L=7,T=16,d=(7,7,1) by either an exact ambient point or an exhaustive no-lift certificate; only after global solubility is established may wl491 be applied.",
+        "new_local_row_proved_here": false,
+        "shared_cover": "L=7,T=16,d=(7,7,1)",
+        "shared_cover_summary": {
+          "L": 7,
+          "T": 16,
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "elliptic_curve_model": "V^2 = (X + 120)*(X - 904)*(X + 904)"
+        },
+        "shell10_executed_here": false,
+        "wl491_filter_allowed_only_after_global_solubility": true
+      }
+    },
+    "wl514": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "certificate_type": "mordell_weil_sieve_no_lift_mod_17",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "L": 7,
+            "T": 16
+          }
+        },
+        {
+          "ambient_status": "globally_not_soluble",
+          "candidate_id": "BB_A9_B7_u_7_m_tail_shell9_candidate",
+          "certificate_type": "mordell_weil_sieve_no_lift_mod_17",
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          },
+          "sample": {
+            "L": 7,
+            "T": 16
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_not_applied_count": 2,
+        "ambient_global_solubility_refuted_count": 2,
+        "ambient_globally_soluble_count": 0,
+        "classified_candidate_entry_count": 2,
+        "exhaustive_no_lift_certificate_count": 1,
+        "shared_cover_count_resolved_here": 1,
+        "wl491_filter_applied_count": 0,
+        "wl513_remaining_deferred_candidate_count": 2
+      }
+    },
+    "wl515": {
+      "destination": "A1-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl514_route_state_summary": {
+          "active_candidate_count_after_wl514": 0,
+          "shell9_aa_bb_admissible_count_after_wl514": 0,
+          "shell9_remaining_deferred_count_after_wl514": 0,
+          "wl511_globally_soluble_not_admissible_count": 4,
+          "wl512_v13_refuted_count": 2,
+          "wl514_u7_refuted_count": 2
+        }
+      },
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "execute_next_finite_M_tail_shell_from_wl498_plan",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Execute the next finite primitive shell from wl498, with max(A,B)=10, while preserving every closed ledger through wl515 and stopping before ambient C_d solubility.",
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "preserve_wl498_duplicate_support_guard": true,
+        "required_exclusions": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500",
+          "shell6_empty_diagnostic_output_from_wl502",
+          "shell7_entries_disposed_by_wl505_wl506",
+          "shell8_pure_u_3_processed_exclusions_from_wl508",
+          "shell9_globally_soluble_not_admissible_ledgers_from_wl511",
+          "shell9_v_13_deferred_ledgers_refuted_by_wl512",
+          "shell9_u_7_deferred_ledgers_refuted_by_wl514"
+        ],
+        "required_route_for_future_new_support": [
+          "M_tail_support",
+          "ambient_C_d_global_solubility",
+          "wl491_AA_BB_admissibility_filter",
+          "admissible_or_not_admissible_or_refuted_ledger"
+        ],
+        "shell_bound_to_execute_later": 10,
+        "uses_existing_wl498_plan": true,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl516": {
+      "destination": "A1-SHELL",
+      "shell_bound": 10
+    },
+    "wl517": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A3_B10_u_3_plus_v_13_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 39,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 3
+          },
+          "point_ref": "a1:wl517-L3-T13-d39-3-13",
+          "sample": {
+            "A": 3,
+            "B": 10,
+            "L": 3,
+            "T": 13,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 205
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A7_B10_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 119,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 35
+          },
+          "point_ref": "a1:wl517-L7-T17-d119-35-85",
+          "sample": {
+            "A": 7,
+            "B": 10,
+            "L": 7,
+            "T": 17,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 485
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A10_B1_u_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "point_ref": "a1:wl517-L10-T11-d5-5-1",
+          "sample": {
+            "A": 10,
+            "B": 1,
+            "L": 10,
+            "T": 11,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 521
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A10_B7_v_17_plus_w_13_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 17,
+            "d_neg_2sqrt_q": 221,
+            "d_pos_2sqrt_q": 13
+          },
+          "point_ref": "a1:wl517-L10-T17-d17-13-221",
+          "sample": {
+            "A": 10,
+            "B": 7,
+            "L": 10,
+            "T": 17,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 689
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "AA_A10_B9_u_5_m_tail_shell10_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 10,
+            "B": 9,
+            "L": 10,
+            "T": 19,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 761
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A1_B10_u_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "point_ref": "a1:wl517-L10-T11-d5-5-1",
+          "sample": {
+            "A": 1,
+            "B": 10,
+            "L": 10,
+            "T": 11,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 521
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A7_B10_v_17_plus_w_13_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 17,
+            "d_neg_2sqrt_q": 221,
+            "d_pos_2sqrt_q": 13
+          },
+          "point_ref": "a1:wl517-L10-T17-d17-13-221",
+          "sample": {
+            "A": 7,
+            "B": 10,
+            "L": 10,
+            "T": 17,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 689
+          }
+        },
+        {
+          "ambient_status": "global_solubility_deferred",
+          "candidate_id": "BB_A9_B10_u_5_m_tail_shell10_candidate",
+          "certificate_type": "none_recorded_here",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "sample": {
+            "A": 9,
+            "B": 10,
+            "L": 10,
+            "T": 19,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 761
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A10_B3_u_3_plus_v_13_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 39,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 3
+          },
+          "point_ref": "a1:wl517-L3-T13-d39-3-13",
+          "sample": {
+            "A": 10,
+            "B": 3,
+            "L": 3,
+            "T": 13,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 205
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A10_B7_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_integral_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 119,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 35
+          },
+          "point_ref": "a1:wl517-L7-T17-d119-35-85",
+          "sample": {
+            "A": 10,
+            "B": 7,
+            "L": 7,
+            "T": 17,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 485
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_filter_deferred_count": 2,
+        "aa_bb_missing_pullback_data_count": 0,
+        "aa_bb_not_admissible_count": 8,
+        "active_shell10_support_entry_count": 10,
+        "ambient_global_solubility_deferred_count": 2,
+        "ambient_global_solubility_refuted_count": 0,
+        "ambient_globally_soluble_count": 8,
+        "processed_exclusions_reopened_count": 0,
+        "wl491_filter_applied_count": 8
+      }
+    },
+    "wl518": {
+      "destination": "A2-TAX",
+      "ledger_rows": [
+        {
+          "candidate_id": "AA_A3_B8_u_3_m_tail_shell8_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl508"
+        },
+        {
+          "candidate_id": "BB_A8_B3_u_3_m_tail_shell8_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl508"
+        },
+        {
+          "candidate_id": "AA_A3_B1_u_3_complete_d_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl493"
+        },
+        {
+          "candidate_id": "AA_A6_B7_u_3_m_tail_shell7_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl504"
+        },
+        {
+          "candidate_id": "BB_A7_B6_u_3_m_tail_shell7_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl504"
+        },
+        {
+          "candidate_id": "AA_A3_B10_u_3_plus_v_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A10_B3_u_3_plus_v_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A9_B1_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "BB_A1_B9_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "AA_A10_B1_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A1_B10_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A10_B9_u_5_m_tail_shell10_candidate",
+          "classification": "genuinely_deferred",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A9_B10_u_5_m_tail_shell10_candidate",
+          "classification": "genuinely_deferred",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A5_B3_u_5_m_tail_shell5_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl500"
+        },
+        {
+          "candidate_id": "BB_A3_B5_u_5_m_tail_shell5_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl500"
+        },
+        {
+          "candidate_id": "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl514"
+        },
+        {
+          "candidate_id": "BB_A9_B7_u_7_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl514"
+        },
+        {
+          "candidate_id": "AA_A7_B2_u_7_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A2_B7_u_7_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A7_B10_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A10_B7_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "AA_A4_B9_v_13_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl512"
+        },
+        {
+          "candidate_id": "BB_A9_B4_v_13_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl512"
+        },
+        {
+          "candidate_id": "AA_A6_B7_v_13_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A7_B6_v_13_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A9_B4_v_13_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "BB_A4_B9_v_13_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "AA_A10_B7_v_17_plus_w_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A7_B10_v_17_plus_w_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A1_B4_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "BB_A4_B1_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "AA_A2_B3_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "BB_A3_B2_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "AA_A4_B1_v_5_m_tail_refresh_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl496"
+        },
+        {
+          "candidate_id": "BB_A1_B4_v_5_m_tail_refresh_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl496"
+        },
+        {
+          "candidate_id": "AA_A4_B7_w_5_m_tail_shell7_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "BB_A7_B4_w_5_m_tail_shell7_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl506"
+        }
+      ],
+      "ledger_summary": {
+        "aa_bb_admissible_entry_count": 0,
+        "already_closed_entry_count": 4,
+        "cover_family_count": 22,
+        "final_candidate_ledger_entry_count": 43,
+        "genuinely_deferred_entry_count": 2,
+        "globally_soluble_but_not_aa_bb_admissible_entry_count": 27,
+        "refuted_entry_count": 10,
+        "support_family_count": 13
+      }
+    },
+    "wl519": {
+      "candidate_rows": [
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "AA_A10_B9_u_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_rational_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "point_ref": "a1:wl519-L10-T19-d5-5-1",
+          "sample": {
+            "A": 10,
+            "B": 9,
+            "L": 10,
+            "T": 19,
+            "primitive": true,
+            "side": "AA",
+            "sqrt_q": 761
+          }
+        },
+        {
+          "ambient_status": "globally_soluble",
+          "candidate_id": "BB_A9_B10_u_5_m_tail_shell10_candidate",
+          "certificate_type": "exact_rational_point_on_C_d",
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          },
+          "point_ref": "a1:wl519-L10-T19-d5-5-1",
+          "sample": {
+            "A": 9,
+            "B": 10,
+            "L": 10,
+            "T": 19,
+            "primitive": true,
+            "side": "BB",
+            "sqrt_q": 761
+          }
+        }
+      ],
+      "destination": "A1-COVER",
+      "stage_summary": {
+        "aa_bb_admissible_count": 0,
+        "aa_bb_not_admissible_count": 2,
+        "ambient_global_solubility_refuted_count": 0,
+        "ambient_globally_soluble_count": 2,
+        "classified_candidate_entry_count": 2,
+        "exact_ambient_point_certificate_count": 1,
+        "shared_cover_count_resolved_here": 1,
+        "wl491_filter_applied_count": 2,
+        "wl518_remaining_deferred_candidate_count": 2
+      }
+    },
+    "wl520": {
+      "destination": "A2-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl519_route_state_summary": {
+          "active_final_candidate_count_after_wl519": 0,
+          "shell10_aa_bb_admissible_count_after_wl519": 0,
+          "shell10_remaining_deferred_count_after_wl519": 0,
+          "wl518_deferred_cover_families_classified_after_wl519": 1,
+          "wl519_globally_soluble_not_admissible_count": 2
+        }
+      },
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "compare_axes": [
+          "support_family",
+          "cover_family",
+          "classification",
+          "wl491_admissibility_status"
+        ],
+        "entered_here": false,
+        "gate": "synthesize_support_and_cover_families_after_wl519",
+        "input_work_logs_to_use_later": [
+          "wl491",
+          "wl492",
+          "wl493",
+          "wl494",
+          "wl495",
+          "wl496",
+          "wl497",
+          "wl498",
+          "wl499",
+          "wl500",
+          "wl501",
+          "wl502",
+          "wl503",
+          "wl504",
+          "wl505",
+          "wl506",
+          "wl507",
+          "wl508",
+          "wl509",
+          "wl510",
+          "wl511",
+          "wl512",
+          "wl513",
+          "wl514",
+          "wl515",
+          "wl516",
+          "wl517",
+          "wl518",
+          "wl519"
+        ],
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Aggregate wl491-wl519 ledgers by support and cover family after the shared shell-10 u_5 cover has been classified, then decide whether the reusable pattern suggests a named proof gap or only a later finite shell extension.",
+        "must_preserve_closed_ledgers": [
+          "u_3_processed_or_deprioritized_after_wl493_wl491",
+          "bounded_v_5_entries_disposed_by_wl495_wl496",
+          "shell5_u_5_entries_refuted_by_wl500",
+          "shell6_empty_diagnostic_output_from_wl502",
+          "shell7_entries_disposed_by_wl505_wl506",
+          "shell8_pure_u_3_processed_exclusions_from_wl508",
+          "shell9_entries_disposed_by_wl511_wl512_wl514",
+          "shell10_globally_soluble_not_admissible_ledgers_from_wl517",
+          "shell10_u_5_mirror_ledgers_not_admissible_from_wl519"
+        ],
+        "new_c_d_solubility_tested_here": false,
+        "new_shell_or_grid_refreshed_here": false,
+        "new_supports_computed_here": false,
+        "not_a_theorem_claim": true,
+        "purpose": "derive_reusable_theorem_candidate_patterns",
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl521": {
+      "destination": "A2-TAX",
+      "ledger_rows": [
+        {
+          "candidate_id": "AA_A3_B8_u_3_m_tail_shell8_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl508"
+        },
+        {
+          "candidate_id": "BB_A8_B3_u_3_m_tail_shell8_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl508"
+        },
+        {
+          "candidate_id": "AA_A3_B1_u_3_complete_d_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl493"
+        },
+        {
+          "candidate_id": "AA_A6_B7_u_3_m_tail_shell7_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl504"
+        },
+        {
+          "candidate_id": "BB_A7_B6_u_3_m_tail_shell7_candidate",
+          "classification": "already_closed",
+          "source_work_log": "wl504"
+        },
+        {
+          "candidate_id": "AA_A3_B10_u_3_plus_v_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A10_B3_u_3_plus_v_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A9_B1_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "BB_A1_B9_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "AA_A10_B1_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A1_B10_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A10_B9_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl519"
+        },
+        {
+          "candidate_id": "BB_A9_B10_u_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl519"
+        },
+        {
+          "candidate_id": "AA_A5_B3_u_5_m_tail_shell5_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl500"
+        },
+        {
+          "candidate_id": "BB_A3_B5_u_5_m_tail_shell5_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl500"
+        },
+        {
+          "candidate_id": "AA_A7_B9_u_7_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl514"
+        },
+        {
+          "candidate_id": "BB_A9_B7_u_7_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl514"
+        },
+        {
+          "candidate_id": "AA_A7_B2_u_7_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A2_B7_u_7_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A7_B10_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A10_B7_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "AA_A4_B9_v_13_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl512"
+        },
+        {
+          "candidate_id": "BB_A9_B4_v_13_m_tail_shell9_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl512"
+        },
+        {
+          "candidate_id": "AA_A6_B7_v_13_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "BB_A7_B6_v_13_m_tail_shell7_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl505"
+        },
+        {
+          "candidate_id": "AA_A9_B4_v_13_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "BB_A4_B9_v_13_m_tail_shell9_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl511"
+        },
+        {
+          "candidate_id": "AA_A10_B7_v_17_plus_w_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "BB_A7_B10_v_17_plus_w_13_m_tail_shell10_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl517"
+        },
+        {
+          "candidate_id": "AA_A1_B4_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "BB_A4_B1_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "AA_A2_B3_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "BB_A3_B2_v_5_m_tail_refresh_candidate",
+          "classification": "globally_soluble_but_not_aa_bb_admissible",
+          "source_work_log": "wl495"
+        },
+        {
+          "candidate_id": "AA_A4_B1_v_5_m_tail_refresh_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl496"
+        },
+        {
+          "candidate_id": "BB_A1_B4_v_5_m_tail_refresh_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl496"
+        },
+        {
+          "candidate_id": "AA_A4_B7_w_5_m_tail_shell7_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl506"
+        },
+        {
+          "candidate_id": "BB_A7_B4_w_5_m_tail_shell7_candidate",
+          "classification": "refuted",
+          "source_work_log": "wl506"
+        }
+      ],
+      "ledger_summary": {
+        "aa_bb_admissible_entry_count": 0,
+        "already_closed_entry_count": 4,
+        "cover_family_count": 22,
+        "final_candidate_ledger_entry_count": 43,
+        "genuinely_deferred_entry_count": 0,
+        "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+        "refuted_entry_count": 10,
+        "support_family_count": 13
+      }
+    },
+    "wl522": {
+      "destination": "A2-TAX",
+      "lemma_pattern": {
+        "blocking_reason_counts": {
+          "AA_common_source_product_not_square": 14,
+          "BB_common_source_product_not_square": 15,
+          "M_not_positive": 13
+        },
+        "candidate_status": "theorem-candidate",
+        "cover_family_count": 15,
+        "entry_count": 29,
+        "failure_mode": "common_source_aa_bb_admissibility_failure",
+        "pattern_id": "common_source_square_obstruction_across_not_admissible_cover_families",
+        "support_family_count": 12,
+        "why_interesting": "The reusable non-admissibility signal is not ambient C_d failure: these covers already have global ambient points, then fail the opposite AA/BB common-source square check."
+      },
+      "selected_next_gate": {
+        "entered_here": false,
+        "from_existing_wl521_state": true,
+        "gate": "try_common_source_square_obstruction_lemma_candidate",
+        "lemma_candidate_id": "common_source_square_obstruction_for_globally_soluble_not_admissible_cover_families",
+        "minimum_next_question": "Can the recorded wl491 common-source product-not-square failures be stated as a reusable AA+BB admissibility obstruction lemma, without using finite support counts as Selmer progress?",
+        "shell11_executed_here": false
+      },
+      "taxonomy_summary": {
+        "aa_bb_admissible_cover_family_count": 0,
+        "aa_bb_admissible_entry_count": 0,
+        "already_closed_entry_count": 4,
+        "ambient_globally_not_soluble_cover_family_count": 5,
+        "ambient_globally_not_soluble_entry_count": 10,
+        "cover_family_count": 22,
+        "final_candidate_ledger_entry_count": 43,
+        "genuinely_deferred_cover_family_count": 0,
+        "genuinely_deferred_entry_count": 0,
+        "globally_soluble_but_not_aa_bb_admissible_cover_family_count": 15,
+        "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+        "processed_or_duplicate_cover_family_count": 2,
+        "support_family_count": 13,
+        "taxonomy_row_count": 22
+      }
+    },
+    "wl523": {
+      "destination": "A2-LEMMA",
+      "proof_decision": {
+        "cover_family_uniform_theorem_status": "needs_new_uniform_squareclass_lemma",
+        "false_as_stated_for_all_future_ambient_points": "not_decided_here",
+        "finite_taxonomy_count_is_proof": false,
+        "new_point_level_lemma_needed": false,
+        "point_level_lemma_status": "provable_from_existing_wl491_machinery",
+        "reason": "wl491 already proves the point-level obstruction after a certified centered-even pullback. The wl522 taxonomy only shows that the recorded globally soluble not-admissible ledger entries fail this check; it does not prove a uniform statement for every rational point on those cover families.",
+        "too_finite_if_read_as_family_theorem": true
+      },
+      "selected_next_gate": {
+        "entered_here": false,
+        "gate": "post_wl523_route_choice_not_entered_here",
+        "minimum_later_question": "Decide whether to attempt a new uniform cover-family squareclass obstruction lemma, or return later to the finite-shell route. Do not execute shell 11 or claim theorem-level Selmer progress as part of wl523.",
+        "shell11_executed_here": false
+      },
+      "wl522_taxonomy_application": {
+        "aa_bb_admissible_cover_family_count": 0,
+        "application_status": "all recorded globally soluble not-admissible entries are explained by the point-level opposite-side squareclass obstruction; the cover-family count remains finite taxonomy data.",
+        "genuinely_deferred_cover_family_count": 0,
+        "globally_soluble_but_not_aa_bb_admissible_cover_family_count": 15,
+        "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+        "opposite_side_squareclass_failure_entry_count": 29,
+        "positivity_failure_entry_count": 13,
+        "positivity_failure_reason_counts": {
+          "A_not_positive": 0,
+          "B_not_positive": 0,
+          "M_not_positive": 13,
+          "N_not_positive": 0
+        },
+        "squareclass_failure_reason_counts": {
+          "AA_common_source_product_not_square": 14,
+          "BB_common_source_product_not_square": 15
+        }
+      }
+    },
+    "wl524": {
+      "destination": "A2-BOUNDARY",
+      "route_state_summaries": {
+        "post_wl523_route_state_summary": {
+          "aa_bb_admissible_cover_family_count": 0,
+          "active_final_obstruction_candidate_count": 0,
+          "genuinely_deferred_cover_family_count": 0,
+          "globally_soluble_but_not_aa_bb_admissible_cover_family_count": 15,
+          "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+          "opposite_side_squareclass_failure_entry_count": 29,
+          "point_level_square_obstruction_status": "provable_from_existing_wl491_machinery",
+          "uniform_cover_family_squareclass_theorem_status": "needs_new_uniform_squareclass_lemma"
+        }
+      },
+      "selected_next_gate": {
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "attempt_uniform_cover_family_squareclass_obstruction_lemma",
+        "input_work_log_to_use_later": "wl523",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_question": "Can the opposite-side common-source product be proved non-square uniformly on the named globally soluble but not AA+BB-admissible cover families, without using finite counts as proof and without claiming a Selmer upper bound?",
+        "new_c_d_solubility_tested_here": false,
+        "new_supports_computed_here": false,
+        "not_a_finite_taxonomy_count_claim": true,
+        "not_a_selmer_upper_bound": true,
+        "object_layer": "cover_family_statement_layer",
+        "purpose": "test whether the wl522 globally soluble but not AA+BB-admissible cover families admit a uniform opposite-side squareclass obstruction theorem",
+        "shell11_executed_here": false,
+        "uniform_cover_family_lemma_proved_here": false,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl525": {
+      "attempt_decision": {
+        "failure_point": "missing_function_field_squareclass_certificate",
+        "finite_taxonomy_promotion_status": "refuted",
+        "mathematical_uniform_lemma_refuted": false,
+        "reason": "wl523 supplies a point-level wl491 obstruction and wl524 selects this proof attempt, but neither input supplies cover-family function-field squareclass data, divisor parity data, or a specialization argument. The 15 cover-family / 29 entry taxonomy therefore cannot be promoted to a uniform theorem.",
+        "uniform_cover_family_lemma_status": "not_proved_from_wl523_wl524_inputs"
+      },
+      "destination": "A2-BOUNDARY",
+      "finite_input_snapshot": {
+        "aa_bb_admissible_cover_family_count": 0,
+        "audit_snapshot_only": true,
+        "genuinely_deferred_cover_family_count": 0,
+        "globally_soluble_but_not_aa_bb_admissible_cover_family_count": 15,
+        "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+        "opposite_side_squareclass_failure_entry_count": 29,
+        "positivity_failure_entry_count": 13,
+        "squareclass_failure_reason_counts": {
+          "AA_common_source_product_not_square": 14,
+          "BB_common_source_product_not_square": 15
+        },
+        "used_as_uniform_proof": false
+      },
+      "precise_failure_point": "finite_taxonomy_has_no_uniform_squareclass_certificate",
+      "proof_obligation_audit": [
+        {
+          "effect": "cannot state the function-field object whose squareclass is to be proved",
+          "obligation": "cover_family_models_and_maps",
+          "status": "missing_from_wl523_wl524_inputs"
+        },
+        {
+          "effect": "point-level centered-even pullbacks do not provide a uniform family map",
+          "obligation": "N_M_as_function_field_elements",
+          "status": "missing_from_wl523_wl524_inputs"
+        },
+        {
+          "effect": "finite nonsquare evaluations do not prove nonsquareness in Q(C)^*/Q(C)^*2",
+          "obligation": "opposite_product_squareclass_certificate",
+          "status": "missing_from_wl523_wl524_inputs"
+        },
+        {
+          "effect": "positivity and degeneracy failures cannot be merged with squareclass failure",
+          "obligation": "exceptional_specialization_control",
+          "status": "missing_from_wl523_wl524_inputs"
+        }
+      ],
+      "uniform_lemma_target": {
+        "claim_to_prove": "For every rational ambient C_d point on each named wl522 globally soluble but not AA+BB-admissible cover family that has a certified wl491 centered-even pullback, the opposite-side common-source product is non-square in Q*/Q*2.",
+        "covered_cover_family_count": 15,
+        "covered_entry_count": 29,
+        "lemma_candidate_id": "uniform_cover_family_opposite_side_squareclass_obstruction_for_globally_soluble_not_admissible_cover_families",
+        "not_claiming": [
+          "ambient C_d global non-solubility",
+          "AA+BB admissibility for any point",
+          "complete Sel_2(E_L/Q) upper bound",
+          "rank zero",
+          "Sha[2]=0",
+          "family exclusion"
+        ],
+        "object_layer": "cover_family_statement_layer",
+        "scope": "cover_family_statement",
+        "would_imply_only": "a cover-family AA+BB non-admissibility obstruction, not a Selmer upper bound, rank-zero theorem, Sha[2] statement, or family exclusion"
+      }
+    },
+    "wl526": {
+      "destination": "A2-BOUNDARY",
+      "route_choices": [
+        "abandon_this_obstruction_line_and_select_different_candidate",
+        "gather_minimal_function_field_squareclass_proof_data_for_named_cover_families",
+        "name_theorem_level_complete_selmer_local_hilbert_row_obligation",
+        "return_to_finite_shell_m_tail_diagnostics"
+      ],
+      "route_state_summaries": {
+        "post_wl525_route_state_summary": {
+          "failure_point": "missing_function_field_squareclass_certificate",
+          "finite_taxonomy_is_theorem_proof": false,
+          "finite_taxonomy_promotion_status": "refuted",
+          "globally_soluble_but_not_aa_bb_admissible_cover_family_count": 15,
+          "globally_soluble_but_not_aa_bb_admissible_entry_count": 29,
+          "mathematical_uniform_lemma_refuted": false,
+          "precise_failure_point": "finite_taxonomy_has_no_uniform_squareclass_certificate",
+          "uniform_cover_family_lemma_proved_here": false,
+          "uniform_cover_family_lemma_status": "not_proved_from_wl523_wl524_inputs"
+        }
+      },
+      "selected_next_gate": {
+        "builds_function_field_models_here": false,
+        "candidate_selected_here": false,
+        "entered_here": false,
+        "gate": "gather_minimal_function_field_squareclass_proof_data_for_named_cover_families",
+        "input_work_log_to_use_later": "wl525",
+        "m_tail_diagnostics_extended_here": false,
+        "minimum_later_data_to_scope": [
+          "named cover-family model inventory",
+          "rational source-side map inventory",
+          "N and M as candidate function-field elements",
+          "opposite-side product squareclass or divisor-parity certificate target",
+          "exceptional specialization and positivity-separation checklist"
+        ],
+        "minimum_later_question": "For each named globally soluble but not AA+BB-admissible cover family, is there enough explicit function-field data to state the opposite-side product and seek a squareclass or divisor-parity certificate, while separating exceptional positivity and degeneracy failures?",
+        "new_c_d_solubility_tested_here": false,
+        "new_supports_computed_here": false,
+        "not_a_finite_taxonomy_count_claim": true,
+        "not_a_selmer_upper_bound": true,
+        "object_layer": "cover_family_function_field_proof_data_scoping",
+        "proves_uniform_lemma_here": false,
+        "purpose": "Scope the minimum function-field proof data needed before any later uniform cover-family squareclass proof attempt can be entered or refuted.",
+        "shell11_executed_here": false,
+        "wl491_filter_applied_here": false
+      }
+    },
+    "wl527": {
+      "destination": "A2-SCOPE",
+      "proof_data_readiness_decision": {
+        "exact_missing_data_class": "uniform_function_field_model_maps_and_squareclass_certificate",
+        "finite_taxonomy_promoted_here": false,
+        "mathematical_uniform_lemma_refuted_here": false,
+        "ready_for_later_uniform_squareclass_proof_attempt": false,
+        "uniform_lemma_proved_here": false
+      },
+      "scope_summary": {
+        "cover_families_missing_explicit_d_vector_count": 1,
+        "cover_families_with_label_and_l_t_d_data_count": 14,
+        "decision": "Current wl522/wl526 data is not ready for a later uniform squareclass proof attempt. The exact missing class is explicit cover-family function-field models with rational source-side maps, N,M as function-field elements, and an opposite-side product squareclass or divisor-parity certificate with exceptional specialization and positivity separated.",
+        "exact_missing_data_class": "uniform_function_field_model_maps_and_squareclass_certificate",
+        "named_cover_family_count": 15,
+        "named_entry_count": 29,
+        "not_ready_cover_family_count": 15,
+        "ready_cover_family_count": 0,
+        "ready_for_later_uniform_squareclass_proof_attempt": false
+      }
+    }
+  },
+  "work_logs": {
+    "wl500": "A1-COVER",
+    "wl501": "A1-BOUNDARY",
+    "wl502": "A1-SHELL",
+    "wl503": "A1-BOUNDARY",
+    "wl504": "A1-SHELL",
+    "wl505": "A1-COVER",
+    "wl506": "A1-COVER",
+    "wl507": "A1-BOUNDARY",
+    "wl508": "A1-SHELL",
+    "wl509": "A1-BOUNDARY",
+    "wl510": "A1-SHELL",
+    "wl511": "A1-COVER",
+    "wl512": "A1-COVER",
+    "wl513": "A1-BOUNDARY",
+    "wl514": "A1-COVER",
+    "wl515": "A1-BOUNDARY",
+    "wl516": "A1-SHELL",
+    "wl517": "A1-COVER",
+    "wl518": "A2-TAX",
+    "wl519": "A1-COVER",
+    "wl520": "A2-BOUNDARY",
+    "wl521": "A2-TAX",
+    "wl522": "A2-TAX",
+    "wl523": "A2-LEMMA",
+    "wl524": "A2-BOUNDARY",
+    "wl525": "A2-BOUNDARY",
+    "wl526": "A2-BOUNDARY",
+    "wl527": "A2-SCOPE"
+  }
+}

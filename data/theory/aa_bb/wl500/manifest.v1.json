@@ -1,0 +1,299 @@
+{
+  "auxiliary_bindings": [
+    {
+      "canonical_path": "a1-certificates.v1.json",
+      "canonical_projection_sha256": "a5a1dae611cf6b65ac62461c319d0df47f306515f8b4bfd38f4ef5e0c1cfeef2",
+      "canonical_projection_size": 32273,
+      "source_payloads": {
+        "wl500": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl500_route_active_u5_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "46bc5a48a4420b0a254c0a5744274196cafd8ecbcb4127eb191f0a1dbdfd8622",
+          "size": 14642
+        },
+        "wl506": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl506_resolve_shell7_deferred_ambient_c_d_global_solubility_ledgers.json",
+          "sha256": "4d72cb155abc48f8085f1a3655dd310f8b2aea4cfb1428d81a3222f1fd6bc0a2",
+          "size": 262287
+        },
+        "wl511": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl511_route_active_shell9_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "ea91a98b1435ddc9a07718a170fe81dc1883f0925a4cb4824ea1edc281f5352c",
+          "size": 45448
+        },
+        "wl512": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl512_resolve_shell9_deferred_ambient_c_d_global_solubility_ledgers.json",
+          "sha256": "66a067538261571e4413fb4323dd369a03b988210d7dd6e0fadc36ae5b636b36",
+          "size": 26839
+        },
+        "wl514": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl514_resolve_remaining_shell9_u7_ambient_c_d_global_solubility_ledger.json",
+          "sha256": "245a6cc5a91b18edcfcf8c2b7453648718fe51fbc28a8f70d350a39c7040c29b",
+          "size": 14941
+        },
+        "wl517": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl517_route_active_shell10_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "5e0e82a968bba7f33bbf9e340ab29fd65301127cfcebf8230d5cca52be5db062",
+          "size": 63837
+        },
+        "wl519": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_ambient_c_d_global_solubility_cover.json",
+          "sha256": "05f4b8d1206f5965a33a61b5fd2239db2a253a21a270ad6ee76c0905c6cc24c9",
+          "size": 17463
+        }
+      }
+    },
+    {
+      "canonical_path": "a2-boundary-spec.v1.json",
+      "canonical_projection_sha256": "82e51526b04aa9d47cc8676f36f5d834e039d0058adedeb5847a4212649ca691",
+      "canonical_projection_size": 82165,
+      "source_payloads": {
+        "wl500": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl500_route_active_u5_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "46bc5a48a4420b0a254c0a5744274196cafd8ecbcb4127eb191f0a1dbdfd8622",
+          "size": 14642
+        },
+        "wl501": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl501_post_wl500_route_choice_audit.json",
+          "sha256": "ce2d9501238a5c2f4acd82b838cd4f4cee5203fc46958e32e7a62896600bd230",
+          "size": 5231
+        },
+        "wl502": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl502_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+          "sha256": "a54129aca87abe9eae3aab21e409c2e0982bbab03bc2831d8adba89a04dc226f",
+          "size": 6478
+        },
+        "wl503": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl503_post_wl502_empty_shell_route_choice_audit.json",
+          "sha256": "80ad80f611dc47a97a37cbc6ab13526aad0ee3512ccf714ccc9119a95e89fd36",
+          "size": 5410
+        },
+        "wl504": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl504_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+          "sha256": "6186f94a349c4e1a516d27977414cae612247e6f7623a0cb438419eeaca31cbc",
+          "size": 46517
+        },
+        "wl505": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "8934b63d6f2965c16eea50f0c2f0f72b0169ae21a9082a424720a5e12a2a8c37",
+          "size": 71433
+        },
+        "wl506": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl506_resolve_shell7_deferred_ambient_c_d_global_solubility_ledgers.json",
+          "sha256": "4d72cb155abc48f8085f1a3655dd310f8b2aea4cfb1428d81a3222f1fd6bc0a2",
+          "size": 262287
+        },
+        "wl507": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl507_post_wl506_route_choice_audit.json",
+          "sha256": "1ad8d1bf0b7566390aa7e2537a6ead0d966db935decca5ddb550dd1a72ed4a25",
+          "size": 6045
+        },
+        "wl508": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl508_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+          "sha256": "fd9dd2fa8a4a7a966f11877f7544b0c8b4983f92beba27d0782f3c8cef9e9147",
+          "size": 14636
+        },
+        "wl509": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl509_post_wl508_empty_shell_route_choice_audit.json",
+          "sha256": "34d7b55055cc47c6a9fd081102e65eef79a59c34e8b862791aa3ad07b9526757",
+          "size": 6735
+        },
+        "wl510": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl510_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+          "sha256": "eeebb50cfc2bc970484cc06bc56f738c69dd988f53ca52fd75b464d5e6823a9c",
+          "size": 33214
+        },
+        "wl511": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl511_route_active_shell9_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "ea91a98b1435ddc9a07718a170fe81dc1883f0925a4cb4824ea1edc281f5352c",
+          "size": 45448
+        },
+        "wl512": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl512_resolve_shell9_deferred_ambient_c_d_global_solubility_ledgers.json",
+          "sha256": "66a067538261571e4413fb4323dd369a03b988210d7dd6e0fadc36ae5b636b36",
+          "size": 26839
+        },
+        "wl513": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl513_post_wl512_route_choice_audit.json",
+          "sha256": "695d82e2361072ddf5fd81f34ae799cf7505637b46b07ea4002c8887912cf29a",
+          "size": 6595
+        },
+        "wl514": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl514_resolve_remaining_shell9_u7_ambient_c_d_global_solubility_ledger.json",
+          "sha256": "245a6cc5a91b18edcfcf8c2b7453648718fe51fbc28a8f70d350a39c7040c29b",
+          "size": 14941
+        },
+        "wl515": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl515_post_wl514_route_choice_audit.json",
+          "sha256": "07cf7963993e9095abebd6f3db33f000d8c0717522a68c90492d887386927fff",
+          "size": 7083
+        },
+        "wl516": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl516_execute_next_finite_m_tail_shell_from_wl498_plan.json",
+          "sha256": "7a0615079d36c988c34606839db23ab3dac5a8ae182c2ad9e44d9fd79f2cb770",
+          "size": 36705
+        },
+        "wl517": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl517_route_active_shell10_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+          "sha256": "5e0e82a968bba7f33bbf9e340ab29fd65301127cfcebf8230d5cca52be5db062",
+          "size": 63837
+        },
+        "wl518": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl518_support_family_synthesis_after_wl517.json",
+          "sha256": "b0ba5667d5b27c921c17cc3cab7b9cca1e9e5f831e2a887c0f71cd97fa2670d7",
+          "size": 58316
+        },
+        "wl519": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_ambient_c_d_global_solubility_cover.json",
+          "sha256": "05f4b8d1206f5965a33a61b5fd2239db2a253a21a270ad6ee76c0905c6cc24c9",
+          "size": 17463
+        },
+        "wl520": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl520_post_wl519_route_choice_audit.json",
+          "sha256": "94ab20fa59c12ad51bd5e0919bfd312cbb8b5cf422ffaddd75963aed7f9e0010",
+          "size": 6900
+        },
+        "wl521": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.json",
+          "sha256": "9eacf74f4d545a45ea2f2de4e96320d8e06512d598e6e6464a2a35ac7029e5a0",
+          "size": 59384
+        },
+        "wl522": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.json",
+          "sha256": "d51875d4bdbe0bcc06fe14bd78f3cd9699b6e92171604a983a6a3d9ef6438bf5",
+          "size": 25377
+        },
+        "wl523": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.json",
+          "sha256": "006bd3c74bf81ce0be0baeb6dcdbbc9c7259c48bd8e3616c79bc8b83d9f1b100",
+          "size": 6951
+        },
+        "wl524": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.json",
+          "sha256": "d0d9fa05f1efbcc45943e22c3f011482d7adf9704edab0b968d17ef84cca3174",
+          "size": 5945
+        },
+        "wl525": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_squareclass_obstruction_lemma.json",
+          "sha256": "38a434582f73f50fdc040ca6484e1e41169229bec365d62149e24c4ef7f29328",
+          "size": 6468
+        },
+        "wl526": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.json",
+          "sha256": "e1d7a7ccc7529bd9bc00ed94dde17f05fd2586dad8a2a94444294ffe22306128",
+          "size": 7214
+        },
+        "wl527": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.json",
+          "sha256": "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
+          "size": 54631
+        }
+      }
+    }
+  ],
+  "baseline_commit": "9b73cd4",
+  "bindings": [
+    {
+      "canonical_path": "a0-ledger.v1.json",
+      "canonical_projection_sha256": "679467ba25ce0cbe53defe8771e3d12f06a4933da6aa8f70ee63d54570a92445",
+      "canonical_projection_size": 29802,
+      "consumer_paths": [
+        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py",
+        "scripts/theory/aa_bb/consolidation_inputs.py"
+      ],
+      "source_payload_sha256": "9eacf74f4d545a45ea2f2de4e96320d8e06512d598e6e6464a2a35ac7029e5a0",
+      "source_payload_size": 59384,
+      "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.json",
+      "source_script_path": "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.py",
+      "source_selector": "$.final_candidate_ledgers[*]",
+      "source_test_paths": [
+        "tests/test_closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis.py"
+      ],
+      "source_worklog": "wl521",
+      "source_worklog_path": "docs/work-logs/archive/521-support-family-synthesis-after-wl519.md"
+    },
+    {
+      "canonical_path": "a0-witnesses.v1.json",
+      "canonical_projection_sha256": "ee75fa991fc973972ddb98ed28534dfda9902f130a9dd9ec8ba0ccb5a2d477d3",
+      "canonical_projection_size": 5842,
+      "consumer_paths": [
+        "scripts/theory/aa_bb/wl586_route_selection.py",
+        "tests/theory/aa_bb/test_wl586_route_selection.py",
+        "scripts/theory/aa_bb/consolidation_inputs.py"
+      ],
+      "source_payload_sha256": "8934b63d6f2965c16eea50f0c2f0f72b0169ae21a9082a424720a5e12a2a8c37",
+      "source_payload_size": 71433,
+      "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.json",
+      "source_script_path": "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_through_ambient_c_d_solubility_then_wl491_filter.py",
+      "source_selector": "$.routed_active_shell7_supports[*] where ambient_c_d_global_solubility.status == globally_soluble",
+      "source_test_paths": [
+        "tests/test_closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports.py"
+      ],
+      "source_worklog": "wl505",
+      "source_worklog_path": "docs/work-logs/archive/505-route-active-shell7-m-tail-supports-through-ambient-c-d-solubility-then-wl491-filter.md"
+    },
+    {
+      "canonical_path": "a0-taxonomy.v1.json",
+      "canonical_projection_sha256": "1423e609ce093e9f9c172a0da8174ae245acb6cf5230034b2e6a6b37e08f2b2d",
+      "canonical_projection_size": 18856,
+      "consumer_paths": [
+        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py",
+        "scripts/theory/aa_bb/wl586_route_selection.py",
+        "tests/theory/aa_bb/test_wl586_route_selection.py",
+        "scripts/theory/aa_bb/consolidation_inputs.py"
+      ],
+      "source_payload_sha256": "d51875d4bdbe0bcc06fe14bd78f3cd9699b6e92171604a983a6a3d9ef6438bf5",
+      "source_payload_size": 25377,
+      "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.json",
+      "source_script_path": "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py",
+      "source_selector": "$.support_cover_taxonomy[*]",
+      "source_test_paths": [
+        "tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py"
+      ],
+      "source_worklog": "wl522",
+      "source_worklog_path": "docs/work-logs/archive/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md"
+    },
+    {
+      "canonical_path": "a0-inventory.v1.json",
+      "canonical_projection_sha256": "dee66e74fbc76cdc7ae3c1097725352df234b8858f0d9e95fd5038c14a628fe5",
+      "canonical_projection_size": 45103,
+      "consumer_paths": [
+        "scripts/theory/aa_bb/wl586_route_selection.py",
+        "tests/theory/aa_bb/test_wl586_route_selection.py",
+        "scripts/theory/aa_bb/consolidation_inputs.py"
+      ],
+      "source_payload_sha256": "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
+      "source_payload_size": 54631,
+      "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.json",
+      "source_script_path": "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py",
+      "source_selector": "$.cover_family_proof_data_inventory[*]",
+      "source_test_paths": [
+        "tests/test_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data.py"
+      ],
+      "source_worklog": "wl527",
+      "source_worklog_path": "docs/work-logs/527-function-field-squareclass-proof-data-scope.md"
+    },
+    {
+      "canonical_path": "b0-prototype-rows.v1.json",
+      "canonical_projection_sha256": "2ed40ab0225eec24f64f6c44bf12c52e7fb849a4c995ff07c74f2468899a5e9d",
+      "canonical_projection_size": 2509,
+      "consumer_paths": [
+        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_function_field_prototype.py",
+        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py",
+        "scripts/theory/aa_bb/consolidation_inputs.py"
+      ],
+      "source_payload_sha256": "72f54c9b1f59c5865a755dba4f4698f262c05c79f3022fdd4b4fdae9c6fcbfbd",
+      "source_payload_size": 33475,
+      "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.json",
+      "source_script_path": "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.py",
+      "source_selector": "$.routed_refreshed_supports[*] where candidate_id in [AA_A1_B4_v_5_m_tail_refresh_candidate, BB_A4_B1_v_5_m_tail_refresh_candidate]",
+      "source_test_paths": [
+        "tests/test_closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.py"
+      ],
+      "source_worklog": "wl495",
+      "source_worklog_path": "docs/work-logs/archive/495-aa-bb-route-refreshed-support-through-ambient-c-d-solubility-then-wl491-filter.md"
+    }
+  ],
+  "kind": "manifest",
+  "materialization_kind": "a0_b0_canonical_projection",
+  "schema_version": 1
+}

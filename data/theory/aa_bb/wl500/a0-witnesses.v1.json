@@ -1,0 +1,294 @@
+{
+  "kind": "a0-witnesses",
+  "rows": [
+    {
+      "candidate_id": "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_3",
+        "v_5",
+        "w_17"
+      ],
+      "d_vector": {
+        "d_minus_p": 15,
+        "d_neg_2sqrt_q": 85,
+        "d_pos_2sqrt_q": 51
+      },
+      "parameters": {
+        "p": -128,
+        "q": 18496,
+        "sqrt_q": 136
+      },
+      "point_on_E_L": {
+        "X": 1088,
+        "Y": 32640
+      },
+      "point_on_cover": {
+        "X": 1088,
+        "u_minus_p": 8,
+        "u_neg_2sqrt_q": 4,
+        "u_pos_2sqrt_q": 4
+      },
+      "sample": {
+        "A": 3,
+        "B": 7,
+        "L": 3,
+        "T": 10,
+        "primitive": true,
+        "side": "AA",
+        "sqrt_q": 136
+      }
+    },
+    {
+      "candidate_id": "AA_A6_B7_v_13_m_tail_shell7_candidate",
+      "candidate_support": [
+        "v_13"
+      ],
+      "d_vector": {
+        "d_minus_p": 13,
+        "d_neg_2sqrt_q": 13,
+        "d_pos_2sqrt_q": 1
+      },
+      "parameters": {
+        "p": -50,
+        "q": 97969,
+        "sqrt_q": 313
+      },
+      "point_on_E_L": {
+        "X": 1922,
+        "Y": 78624
+      },
+      "point_on_cover": {
+        "X": 1922,
+        "u_minus_p": 12,
+        "u_neg_2sqrt_q": 14,
+        "u_pos_2sqrt_q": 36
+      },
+      "sample": {
+        "A": 6,
+        "B": 7,
+        "L": 6,
+        "T": 13,
+        "primitive": true,
+        "side": "AA",
+        "sqrt_q": 313
+      }
+    },
+    {
+      "candidate_id": "AA_A7_B2_u_7_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_7"
+      ],
+      "d_vector": {
+        "d_minus_p": 7,
+        "d_neg_2sqrt_q": 1,
+        "d_pos_2sqrt_q": 7
+      },
+      "parameters": {
+        "p": 230,
+        "q": 76729,
+        "sqrt_q": 277
+      },
+      "point_on_E_L": {
+        "X": 1562,
+        "Y": 61824
+      },
+      "point_on_cover": {
+        "X": 1562,
+        "u_minus_p": 16,
+        "u_neg_2sqrt_q": 46,
+        "u_pos_2sqrt_q": 12
+      },
+      "sample": {
+        "A": 7,
+        "B": 2,
+        "L": 7,
+        "T": 9,
+        "primitive": true,
+        "side": "AA",
+        "sqrt_q": 277
+      }
+    },
+    {
+      "candidate_id": "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_7",
+        "v_13",
+        "w_5"
+      ],
+      "d_vector": {
+        "d_minus_p": 91,
+        "d_neg_2sqrt_q": 65,
+        "d_pos_2sqrt_q": 35
+      },
+      "parameters": {
+        "p": 54,
+        "q": 133225,
+        "sqrt_q": 365
+      },
+      "point_on_E_L": {
+        "X": 5770,
+        "Y": 436800
+      },
+      "point_on_cover": {
+        "X": 5770,
+        "u_minus_p": 8,
+        "u_neg_2sqrt_q": 10,
+        "u_pos_2sqrt_q": 12
+      },
+      "sample": {
+        "A": 7,
+        "B": 6,
+        "L": 7,
+        "T": 13,
+        "primitive": true,
+        "side": "AA",
+        "sqrt_q": 365
+      }
+    },
+    {
+      "candidate_id": "BB_A2_B7_u_7_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_7"
+      ],
+      "d_vector": {
+        "d_minus_p": 7,
+        "d_neg_2sqrt_q": 1,
+        "d_pos_2sqrt_q": 7
+      },
+      "parameters": {
+        "p": 230,
+        "q": 76729,
+        "sqrt_q": 277
+      },
+      "point_on_E_L": {
+        "X": 1562,
+        "Y": 61824
+      },
+      "point_on_cover": {
+        "X": 1562,
+        "u_minus_p": 16,
+        "u_neg_2sqrt_q": 46,
+        "u_pos_2sqrt_q": 12
+      },
+      "sample": {
+        "A": 2,
+        "B": 7,
+        "L": 7,
+        "T": 9,
+        "primitive": true,
+        "side": "BB",
+        "sqrt_q": 277
+      }
+    },
+    {
+      "candidate_id": "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_7",
+        "v_13",
+        "w_5"
+      ],
+      "d_vector": {
+        "d_minus_p": 91,
+        "d_neg_2sqrt_q": 65,
+        "d_pos_2sqrt_q": 35
+      },
+      "parameters": {
+        "p": 54,
+        "q": 133225,
+        "sqrt_q": 365
+      },
+      "point_on_E_L": {
+        "X": 5770,
+        "Y": 436800
+      },
+      "point_on_cover": {
+        "X": 5770,
+        "u_minus_p": 8,
+        "u_neg_2sqrt_q": 10,
+        "u_pos_2sqrt_q": 12
+      },
+      "sample": {
+        "A": 6,
+        "B": 7,
+        "L": 7,
+        "T": 13,
+        "primitive": true,
+        "side": "BB",
+        "sqrt_q": 365
+      }
+    },
+    {
+      "candidate_id": "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+      "candidate_support": [
+        "u_3",
+        "v_5",
+        "w_17"
+      ],
+      "d_vector": {
+        "d_minus_p": 15,
+        "d_neg_2sqrt_q": 85,
+        "d_pos_2sqrt_q": 51
+      },
+      "parameters": {
+        "p": -128,
+        "q": 18496,
+        "sqrt_q": 136
+      },
+      "point_on_E_L": {
+        "X": 1088,
+        "Y": 32640
+      },
+      "point_on_cover": {
+        "X": 1088,
+        "u_minus_p": 8,
+        "u_neg_2sqrt_q": 4,
+        "u_pos_2sqrt_q": 4
+      },
+      "sample": {
+        "A": 7,
+        "B": 3,
+        "L": 3,
+        "T": 10,
+        "primitive": true,
+        "side": "BB",
+        "sqrt_q": 136
+      }
+    },
+    {
+      "candidate_id": "BB_A7_B6_v_13_m_tail_shell7_candidate",
+      "candidate_support": [
+        "v_13"
+      ],
+      "d_vector": {
+        "d_minus_p": 13,
+        "d_neg_2sqrt_q": 13,
+        "d_pos_2sqrt_q": 1
+      },
+      "parameters": {
+        "p": -50,
+        "q": 97969,
+        "sqrt_q": 313
+      },
+      "point_on_E_L": {
+        "X": 1922,
+        "Y": 78624
+      },
+      "point_on_cover": {
+        "X": 1922,
+        "u_minus_p": 12,
+        "u_neg_2sqrt_q": 14,
+        "u_pos_2sqrt_q": 36
+      },
+      "sample": {
+        "A": 7,
+        "B": 6,
+        "L": 6,
+        "T": 13,
+        "primitive": true,
+        "side": "BB",
+        "sqrt_q": 313
+      }
+    }
+  ],
+  "schema_version": 1
+}

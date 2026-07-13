@@ -1,0 +1,188 @@
+# wl500-wl593 Evidence And Test Consolidation Plan
+
+## Status
+
+```text
+plan_status = controller_accepted
+execution_status = c2_a0_b0_first_slice_complete
+scope = wl500-wl593 worklogs, audit scripts, tests, and direct consumers
+active_research_route_changed = false
+```
+
+This is not documentation-only compression. Worklogs, executable evidence, and
+tests are consolidated together. Runtime improvement must come from removing
+redundant proof-chain execution and subprocess tests, never from dropping a
+mathematical obligation.
+
+## Baseline
+
+| Range | Worklogs / lines | Scripts / lines | Tests / lines | Test functions | Subprocess calls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `500-529` | 30 / 4,977 | 30 / 14,044 | 30 / 6,559 | 146 | 30 |
+| `530-585` | 57 / 8,452 | 57 / 9,559 | 57 / 6,245 | 290 | 57 |
+| `586-593` | 7 / 2,116 | 7 / 5,110 | 7 / 921 | 28 | 2 |
+| Total | 94 / 15,545 | 94 / 28,713 | 94 / 13,725 | 464 | 89 |
+
+The range contains 57,983 lines across 282 WL-indexed files. Counts are not
+proof-strength measures.
+
+## Long-Term Objective
+
+Replace the 94 artifacts of each kind with the smallest reviewable canonical
+evidence graph that preserves every unique formula, finite proof datum,
+converse, exceptional branch, local image, and route boundary; removes
+superseded tests and per-WL subprocess launches; records provenance from every
+old path; and makes future runtime grow with mathematical obligations rather
+than narrated microsteps.
+
+## C0 Verdict
+
+Controller-accepted outcome:
+
+```text
+additional_irreducible_checkpoint_required
+```
+
+The original four semantic groups were directionally correct but missed two
+mandatory tracked-input checkpoints. Current scripts consume proof inputs that
+exist only under ignored `results/`:
+
+- `wl522` loads all `wl491-wl521` result payloads;
+- `wl527` loads `wl522` and `wl526` payloads;
+- `wl529` loads selected pre-scope `wl495` data;
+- `wl586` consumes exact `wl505`, `wl522`, and `wl527` payloads, while its
+  tests use reduced synthetic fixtures.
+
+Deleting those chains before materialization would weaken reproducibility.
+
+## Canonical Graph
+
+```text
+A0 -> A1 -> A2
+B0 -> B1
+C1 -> C2 -> C3
+D0u ----\
+D0m -----+-> D5 -> D7 -> D17 -> D4
+A0/A2 ---/
+```
+
+- `A0`: tracked exact finite-ledger inputs, including `wl505` witnesses, all
+  43 entries, 22 taxonomy rows, and the 15-family `wl527` inventory.
+- `A1`: finite-shell, ambient-point, MW/no-lift, and routing certificates.
+- `A2`: taxonomy, point-level obstruction, failed uniform promotion, and
+  no-claim boundary.
+- `B0`: tracked selected `wl495` rows used by the prototype.
+- `B1`: exact `wl528-wl529` prototype and square-locus closure.
+- `C1`: `wl530-wl541`, exact target and local-method classification.
+- `C2`: `wl542-wl568`, global descent and allocation-route exhaustion.
+- `C3`: `wl569-wl585`, reconstruction, geometry, and quotient-route boundary.
+- `D0u`, `D0m`: separate pure and mixed D0 kernels.
+- `D5`, `D7`, `D17`: separate exact local-image kernels.
+- `D4`: `wl586` cross-family evidence merged with `wl593` scoped route death.
+
+The target is not one monolith. Extra modules are allowed only for an
+irreducible proof obligation recorded in the C0 map.
+
+## Retention Rules
+
+Keep executable evidence when it contributes an exact certificate, finite
+proof input, converse/exception proof, independent local/global obstruction,
+or live theorem boundary. A separate builder/test is not justified only by
+route selection, repeated no-claim flags, predecessor readiness, identical CLI
+serialization, or counts already frozen in a canonical taxonomy.
+
+Protected kernels are `wl528-wl529`, `wl535`, selected exhaustion
+subcertificates in `wl539-wl585`, `wl587`, `wl589`, `wl590-wl593`, and the
+completed `wl594` downstream boundary. Structural extraction must not change
+formulas, quantifiers, representatives, bad-prime sets, local images,
+positivity, exceptions, or theorem strength.
+
+## Execution Gates
+
+### C1: Schemas And Parity Oracles
+
+Define minimal tracked schemas for `A0/B0`. Classify every field as finite
+input, reproducible certificate, provenance, or disposable execution metadata.
+Do not copy whole ignored payloads or treat `ready=True` as proof. Define exact
+old/new projections before implementation.
+
+C1 is complete. The accepted design uses five versioned canonical data files
+plus one manifest, one standard-library loader/materializer, and focused parity
+tests. It does not add a JSON-schema dependency or separate schema-file layer.
+
+### C2: Semantic Implementation
+
+Implement in this dependency order:
+
+1. `A0`, then `B0`;
+2. `A1/A2`;
+3. `B1`;
+4. `C1`, `C2`, `C3`;
+5. `D4`, while keeping the six D kernels separate.
+
+Each slice adds canonical code and focused tests, runs old/new parity, preserves
+fail-closed behavior, uses a shared CLI runner, and is independently
+reviewable. No legacy file is deleted in the same step that first replaces it.
+
+The first C2 slice is Controller-accepted. It materializes the tracked A0/B0
+inputs, validates the exact `43/8/22/15/2` projections and witness equations,
+binds them to the `9b73cd4` source payloads, reconstructs consumable
+`wl522`/`wl527`/`wl586`/`wl528` compatibility views, and fails closed without a
+runtime `results/` fallback. The checked-in data and a fresh materialization
+are byte-identical. No legacy consumer has been switched and no old file has
+been removed. The next implementation slice is `A1/A2` only.
+
+### C3: Cutover And Pruning
+
+After every old obligation has a passing destination, update imports, paths,
+README/control references, and a provenance manifest. Remove superseded
+scripts/tests rather than moving them into another active test namespace.
+Retain only consolidated worklogs or justified mathematical appendices. A
+separate Controller approval is required before deletion.
+
+### C4: Verification And Performance
+
+Use one baseline and one final full run:
+
+```bash
+UV_CACHE_DIR=/private/tmp/d19-uv-cache uv run pytest --durations=50
+```
+
+Intermediate slices use focused parity tests, targeted Ruff, reference scans,
+and `git diff --check`. Success requires no lost obligation, unchanged claim
+boundaries, no per-WL strict subprocess pattern in scope, all tests passing,
+and at least 30% whole-suite wall-time reduction or evidence that the remaining
+bottleneck is outside this range. Evaluate `xdist` only afterward.
+
+## Forbidden Work
+
+No new WL or mathematics; no shell 11, support search, rank/Selmer work, fixed
+family sample, or theorem-strength change; no reliance on ignored results after
+cutover; no replacement of proof code by cached booleans; no unrelated
+pre-`wl500` refactor; no file-count optimization that harms reviewability.
+
+## Controller Contract
+
+The upper agent owns sequence, review, parity acceptance, deletion, validation,
+and commits. It delegates one narrow task at a time with:
+
+```bash
+~/.claude/skills/codex/scripts/ask_codex.sh \
+  --workspace /Users/konan/Desktop/d19 \
+  --model gpt-5.6-luna \
+  --reasoning max \
+  "<focused task>"
+```
+
+Use `--read-only` for audits. Fast service is inherited from Codex config;
+there is no `--fast` flag. Every Worker prompt starts by forbidding Codex,
+`ask_codex.sh`, subagents, and delegation skills. Worker success is not
+Controller acceptance.
+
+## Stop Policy
+
+Stop before implementation unless `A0/B0` have explicit schemas, provenance,
+and parity projections. Stop before deletion until every affected semantic
+group passes old/new parity. Keep uncertain evidence and open a narrower audit.
+Stop consolidation when the active route is compact, reviewable, and the
+runtime target is met.

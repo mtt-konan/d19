@@ -1,0 +1,1108 @@
+{
+  "kind": "a0-inventory",
+  "rows": [
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A3_B10_u_3_plus_v_13_m_tail_shell10_candidate",
+        "BB_A10_B3_u_3_plus_v_13_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_13|L=3|T=13|d=(39,3,13)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 3,
+          "T": 13,
+          "d_vector": {
+            "d_minus_p": 39,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 3
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_3+v_13",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A3_B7_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate",
+        "BB_A7_B3_u_3_plus_v_5_plus_w_17_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 3,
+          "T": 10,
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 51
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_3+v_5+w_17",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A9_B1_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate",
+        "BB_A1_B9_u_3_plus_v_5_plus_w_53_m_tail_shell9_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3+v_5+w_53|L=9|T=10|d=(15,159,265)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 9,
+          "T": 10,
+          "d_vector": {
+            "d_minus_p": 15,
+            "d_neg_2sqrt_q": 265,
+            "d_pos_2sqrt_q": 159
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_3+v_5+w_53",
+      "work_logs": [
+        "wl511"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A3_B1_u_3_complete_d_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_3|L=3|T=4|d=(?,?,?)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 3,
+          "T": 4,
+          "d_vector": {}
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": false,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 1,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation",
+        "explicit_d_vector_for_family_label"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA"
+      ],
+      "support_family": "u_3",
+      "work_logs": [
+        "wl493"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A10_B1_u_5_m_tail_shell10_candidate",
+        "BB_A1_B10_u_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_5|L=10|T=11|d=(5,5,1)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 10,
+          "T": 11,
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_5",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A10_B9_u_5_m_tail_shell10_candidate",
+        "BB_A9_B10_u_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_5|L=10|T=19|d=(5,5,1)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 10,
+          "T": 19,
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 5
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_5",
+      "work_logs": [
+        "wl519"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A7_B6_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate",
+        "BB_A6_B7_u_7_plus_v_13_plus_w_5_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+v_13+w_5|L=7|T=13|d=(91,35,65)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 7,
+          "T": 13,
+          "d_vector": {
+            "d_minus_p": 91,
+            "d_neg_2sqrt_q": 65,
+            "d_pos_2sqrt_q": 35
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_7+v_13+w_5",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A7_B10_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate",
+        "BB_A10_B7_u_7_plus_v_17_plus_w_5_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+v_17+w_5|L=7|T=17|d=(119,35,85)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 7,
+          "T": 17,
+          "d_vector": {
+            "d_minus_p": 119,
+            "d_neg_2sqrt_q": 85,
+            "d_pos_2sqrt_q": 35
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_7+v_17+w_5",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A7_B3_u_7_plus_w_37_m_tail_shell7_candidate",
+        "BB_A3_B7_u_7_plus_w_37_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7+w_37|L=7|T=10|d=(7,259,37)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 7,
+          "T": 10,
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 37,
+            "d_pos_2sqrt_q": 259
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_7+w_37",
+      "work_logs": [
+        "wl506"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A7_B2_u_7_m_tail_shell7_candidate",
+        "BB_A2_B7_u_7_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=u_7|L=7|T=9|d=(7,7,1)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 7,
+          "T": 9,
+          "d_vector": {
+            "d_minus_p": 7,
+            "d_neg_2sqrt_q": 1,
+            "d_pos_2sqrt_q": 7
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "u_7",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A6_B7_v_13_m_tail_shell7_candidate",
+        "BB_A7_B6_v_13_m_tail_shell7_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_13|L=6|T=13|d=(13,1,13)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 6,
+          "T": 13,
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "v_13",
+      "work_logs": [
+        "wl505"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A9_B4_v_13_m_tail_shell9_candidate",
+        "BB_A4_B9_v_13_m_tail_shell9_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_13|L=9|T=13|d=(13,1,13)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 9,
+          "T": 13,
+          "d_vector": {
+            "d_minus_p": 13,
+            "d_neg_2sqrt_q": 13,
+            "d_pos_2sqrt_q": 1
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "v_13",
+      "work_logs": [
+        "wl511"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A10_B7_v_17_plus_w_13_m_tail_shell10_candidate",
+        "BB_A7_B10_v_17_plus_w_13_m_tail_shell10_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_17+w_13|L=10|T=17|d=(17,13,221)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 10,
+          "T": 17,
+          "d_vector": {
+            "d_minus_p": 17,
+            "d_neg_2sqrt_q": 221,
+            "d_pos_2sqrt_q": 13
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "v_17+w_13",
+      "work_logs": [
+        "wl517"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square",
+        "M_not_positive"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A1_B4_v_5_m_tail_refresh_candidate",
+        "BB_A4_B1_v_5_m_tail_refresh_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_5|L=1|T=5|d=(5,1,5)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 1,
+          "T": 5,
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 1
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "v_5",
+      "work_logs": [
+        "wl495"
+      ]
+    },
+    {
+      "ambient_c_d_global_solubility_status": "globally_soluble",
+      "blocking_reasons_seen_at_point_level": [
+        "AA_common_source_product_not_square",
+        "BB_common_source_product_not_square"
+      ],
+      "candidate_function_field_elements": {
+        "M_in_function_field_available": false,
+        "N_in_function_field_available": false,
+        "point_level_formula_template_only": {
+          "M": "A+B-N",
+          "N": "(A+B+t)/2"
+        }
+      },
+      "candidate_ids": [
+        "AA_A2_B3_v_5_m_tail_refresh_candidate",
+        "BB_A3_B2_v_5_m_tail_refresh_candidate"
+      ],
+      "classification": "globally_soluble_but_not_aa_bb_admissible",
+      "cover_family": "support=v_5|L=2|T=5|d=(5,1,5)",
+      "cover_family_model_availability": {
+        "available_data": {
+          "L": 2,
+          "T": 5,
+          "d_vector": {
+            "d_minus_p": 5,
+            "d_neg_2sqrt_q": 5,
+            "d_pos_2sqrt_q": 1
+          }
+        },
+        "has_cover_family_label": true,
+        "has_explicit_d_vector": true,
+        "has_explicit_equation": false,
+        "has_function_field_coordinates": false,
+        "has_l_t_parameters": true
+      },
+      "entry_count": 2,
+      "exceptional_specialization_positivity_checklist": [
+        "separate poles and zeroes of N, M, and the opposite-side product",
+        "separate exceptional divisors where the source-side pullback is undefined",
+        "separate specializations where centered-even or rationality hypotheses fail",
+        "separate N_not_positive and M_not_positive from squareclass failure",
+        "separate degeneracy of A, B, N, M, or source-side products from squareclass failure",
+        "record positivity domain before any later uniform proof attempt"
+      ],
+      "failure_mode": "common_source_aa_bb_admissibility_failure",
+      "lemma_candidate_status": "theorem-candidate",
+      "missing_data_classes": [
+        "explicit_cover_family_function_field_model",
+        "rational_source_side_maps_on_family",
+        "N_M_as_function_field_elements",
+        "opposite_side_product_squareclass_or_divisor_parity_certificate",
+        "exceptional_specialization_and_positivity_separation"
+      ],
+      "opposite_side_target": {
+        "AA_source_target": "(N^2 + B^2)(M^2 + B^2)",
+        "BB_source_target": "(N^2 + A^2)(M^2 + A^2)",
+        "certificate_needed": "non-square in the cover-family function field, or equivalent divisor-parity squareclass obstruction surviving specialization"
+      },
+      "rational_source_side_maps": {
+        "needed": "rational maps from the cover-family function field to the AA/BB source-side variables before N and M can be functions",
+        "point_level_wl491_failures_available": true,
+        "uniform_family_maps_available": false
+      },
+      "source_sides_to_map": [
+        "AA",
+        "BB"
+      ],
+      "support_family": "v_5",
+      "work_logs": [
+        "wl495"
+      ]
+    }
+  ],
+  "schema_version": 1
+}
