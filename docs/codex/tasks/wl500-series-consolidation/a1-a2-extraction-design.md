@@ -5,7 +5,7 @@
 ```text
 worker_outcome = a1_a2_extraction_design_ready
 controller_accepted = true
-implementation_started = false
+implementation_status = complete
 ```
 
 A0 already preserves all 43 ledger IDs, eight exact `wl505` witnesses, 22
@@ -110,3 +110,13 @@ The implementation target is four modules under 2,500 lines total and four
 test files under 1,800 lines total. Reject any design that copies the existing
 payload-builder chain into a new 5,000-line monolith. No consumer cutover or
 deletion occurs in the implementation slice.
+
+## Controller Acceptance
+
+The accepted implementation has 751 module lines and 441 new test lines. It
+recomputes `wl506` group-law data, the `wl514` mod-17 image intersection, and
+all torsion lift predicates; preserves every stage projection; and binds the
+A1/A2 tracked bytes and all explicit legacy sources in the manifest. Final
+focused validation is `50 passed`; targeted Ruff, deterministic full
+rematerialization, manifest loading, and `git diff --check` all pass. Exactly
+one new subprocess smoke test remains.

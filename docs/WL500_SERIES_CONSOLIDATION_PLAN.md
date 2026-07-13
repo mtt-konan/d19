@@ -132,6 +132,15 @@ runtime `results/` fallback. The checked-in data and a fresh materialization
 are byte-identical. No legacy consumer has been switched and no old file has
 been removed. The next implementation slice is `A1/A2` only.
 
+The `A1/A2` slice is also Controller-accepted. It replaces the recursive
+`wl500-wl527` execution graph with genuine shell arithmetic, 12 deduplicated
+cover certificates, exact MW/no-lift recomputation, the `wl491` point filter,
+and 28 stage-specific semantic projections. The two new tracked projections
+are source-hash and projection-hash bound by the manifest. Exactly one shared
+CLI subprocess remains in the new tests. Legacy consumers and files are still
+present; cutover and deletion remain closed. The next slice is protected B1
+(`wl528-wl529`) design and parity extraction.
+
 ### C3: Cutover And Pruning
 
 After every old obligation has a passing destination, update imports, paths,
