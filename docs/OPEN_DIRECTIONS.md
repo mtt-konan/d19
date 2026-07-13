@@ -3,19 +3,19 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Cross-Family Common-Source Divisor Parity After wl586
+## P0: Family-Level Relative 2-Descent After wl587
 
 Current handoff:
 
 ```text
-wl586_cross_family_truth_audit_and_pure_v_ell_route_death
+wl587_pure_u7_D0_relative_2_descent_proof_data_complete
 ```
 
-The comparison of pure `u_7` against mixed `u_3+v_5+w_17` proves the same
-opposite-side product is a nontrivial function-field squareclass on both
-covers. It does not control square rational specializations, so the
-representative-only route is closed. Reopening requires a parameterized
-family-level input, not another fixed cover.
+`wl587` supplies the first complete D0 relative-descent schema for pure
+`u_7`: normalization, factor divisors, Picard classes, 256 `Q(S,2)` twists,
+16 real/`Q_2` survivors, and explicit odd bad-fiber inputs. The next open
+direction is to reconstruct the same schema independently for the mixed
+`u_3+v_5+w_17` representative. D1 local twist validation remains closed.
 
 The exact `wl535` obstruction remains a frozen input:
 

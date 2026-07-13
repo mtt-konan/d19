@@ -238,6 +238,10 @@ Rank-zero Selmer / AA+BB audit helpers:
   opposite-side squareclass is nontrivial on pure-`u_7` and mixed
   `u_3+v_5+w_17`. Because this does not control square specializations, the
   representative-only divisor-parity route is also closed.
+  `wl587` then uses `theory/aa_bb/wl587_pure_u7_d0_relative_2_descent.py`
+  to construct the complete pure-`u_7` D0 source/divisor/Picard/factor-twist
+  schema. It records 256 `Q(S,2)` candidates and 16 real/`Q_2` survivors while
+  leaving odd bad-prime filtering and D1 explicitly unevaluated.
 
 ### `modular/` — Path B / mod p² 实证
 

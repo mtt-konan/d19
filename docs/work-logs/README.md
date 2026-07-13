@@ -117,7 +117,8 @@ entries.
          -> 585-m2-pure-v-ell-genus-seventeen-cover-and-combined-source-norm-elliptic-quotient.md
          -> 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
          -> 586-route-selection.md
-         -> latest checkpoint: 586-route-selection.md
+         -> 587-pure-u7-d0-relative-2-descent.md
+         -> latest checkpoint: 587-pure-u7-d0-relative-2-descent.md
 ```
 
 ## Reading Rule

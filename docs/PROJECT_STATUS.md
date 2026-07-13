@@ -331,6 +331,13 @@ mixed `u_3+v_5+w_17`, but square specializations remain a new double-cover
 problem. The representative-only divisor-parity route is therefore also dead
 as a uniform exclusion mechanism.
 
+`wl587` reopens only the user-authorized family-level relative 2-descent route
+and completes D0 proof data for the pure-`u_7` representative. It separates
+the fixed genus-17 cover from its factor coverings, proves the bidirectional
+constant-twist schema, identifies the complete 256-class `Q(S,2)` candidate
+set and 16 real/`Q_2` survivors, and retains all odd bad-prime rows as
+unevaluated inputs. It does not enter D1 or prove a rational-point exclusion.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 
@@ -448,7 +455,6 @@ route. After `wl527`, do not treat proof-data scoping as a ready proof attempt.
 Do not treat the `wl522` finite taxonomy, the `wl524` route choice, the failed
 `wl525` promotion attempt, the `wl526` route choice, or the `wl527` scoping
 inventory as proof of a uniform cover-family lemma.
-No live proof route is entered after the `wl586` route-death certificate. A
-future reopening requires parameterized family-level arithmetic controlling
-square specializations across cover families. Supporting models, fixed double
-covers, and maps do not count by themselves, and M3 remains closed.
+The user-authorized relative 2-descent route is live only at D0. `wl587`
+completes the pure-`u_7` schema; the next fresh task is mixed-family D0.
+Odd bad-prime twist validation, D1, and M3 remain closed.

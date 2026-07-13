@@ -39,13 +39,21 @@ tasks that were already running when this contract was adopted.
 The current handoff is:
 
 ```text
-wl586_cross_family_truth_audit_and_pure_v_ell_route_death
+wl587_pure_u7_D0_relative_2_descent_proof_data_complete
 ```
 
 The cross-family audit proves the same opposite-side product is generically
 nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
-control its square specializations. No next route is entered without a
-parameterized family-level input. Do not re-enter `wl535`.
+control its square specializations. The user has now explicitly supplied the
+required family-level route: relative 2-descent on the square loci. Enter only
+D0 proof-data construction, starting with pure `u_7`; do not re-enter `wl535`.
+
+`wl587` completes the pure-`u_7` D0 schema: source normalization, factor and
+full branch divisors, Picard data, the complete 256-class `Q(S,2)` factor-twist
+set, the 16 real/`Q_2` survivors, bad-fiber inputs, exceptional branches, and
+the exact lift conditions. Odd bad-prime filtering remains unevaluated and D1
+is not entered. The next task may reuse this schema for the mixed family, but
+must use a fresh Worker session and may not silently generalize either result.
 
 ### Frozen wl535 Input
 

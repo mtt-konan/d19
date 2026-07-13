@@ -5,16 +5,18 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl586` is present, the current handoff is:
+If `wl587` is present, the current handoff is:
 
 ```text
-wl586_cross_family_truth_audit_and_pure_v_ell_route_death
+wl587_pure_u7_D0_relative_2_descent_proof_data_complete
 ```
 
-Do not re-enter `wl535`. The same opposite-side product is generically
-nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
-exclude square specializations. No next route is entered without a
-parameterized family-level input controlling those specializations.
+Do not re-enter `wl535`. `wl587` completes D0 proof data for
+`support=u_7|L=7|T=9|d=(7,7,1)`. Its 256 constant twists are the complete
+`Q(S,2)` candidates; 16 survive only the real and `Q_2` filters. Odd bad-prime
+local images remain unevaluated, so D1 is not entered. The next narrow task is
+mixed-family D0 using the same schema in a fresh Worker session; it is not
+entered in `wl587`.
 
 ## Historical wl535 Chain
 

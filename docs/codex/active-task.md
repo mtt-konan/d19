@@ -1,21 +1,21 @@
 # Active Task
 
-- Status: stopped_at_route_death
-- Updated: 2026-07-12
-- Task id: cross-family-aa-bb-route-selection-after-wl586
-- Goal: Decide whether complete-`d` AA+BB has a uniform exclusion mechanism across cover families, without indefinitely extending the single `wl535` proposition.
-- Scope: the `wl522` globally soluble but not AA+BB-admissible taxonomy, represented now by pure `v_5`, pure `u_7`, and mixed `u_3+v_5+w_17` cover families.
-- Object layer: cross-family common-source squareclass/divisor-parity invariants; not a new equivalent model, fixed-parameter quotient, or theorem-level Selmer object.
-- Current proof obligation: Satisfied by route-death: the same generic squareclass exists on two covers, but it does not control square specializations and therefore is not a uniform exclusion invariant.
-- Accepted outcomes: strict counterexample; independent invariant across at least two cover families; a strictly smaller proposition with one parameter/freedom/square lift removed; or route-freeze/route-death certificate.
-- Allowed changes: minimal model/map reconstruction only as supporting evidence for the two-family comparison; one checkpoint only after an accepted outcome; matching audit/test; route handoff synchronization.
-- Forbidden changes: no `wl588`, no re-entry into `wl535` without a cross-family invariant, no pure-`v_ell` character refinement, no model/map counted as progress, no shell 11, finite search, new support computation, broad rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit.
+- Status: checkpoint_complete
+- Updated: 2026-07-13
+- Task id: d0-pure-u7-relative-2-descent-proof-data
+- Goal: Determine whether square specializations admit a family-level relative 2-descent mechanism, beginning with one complete pure-`u_7` proof-data schema.
+- Scope: only `support=u_7|L=7|T=9|d=(7,7,1)` and its square locus `R^2=P_op`; the mixed representative remains queued, not entered.
+- Object layer: normalization, divisors, Picard/Pic^0 classes, twists, bad fibers, and exact AA+BB lift conditions for a relative 2-descent; not an equivalent-model checkpoint or theorem-level Selmer object.
+- Current proof obligation: Completed in `wl587`; the pure-`u_7` D0 schema is complete, while odd bad-prime filtering and rational-point classification remain outside D0.
+- Accepted outcomes: complete D0 proof-data certificate; rigorous counterexample; genuinely smaller exact lemma; or precise blocker with proof that later descent stages cannot yet be entered.
+- Allowed changes: short-path D0 script/test and one worklog only after an accepted outcome; control-document synchronization. All mathematical construction is delegated through Codex CLI.
+- Forbidden changes: no mixed-family D0 yet, no D1, no `wl535` re-entry, no pure-`v_ell` refinement, no model alone counted as progress, no shell 11, finite search as progress, new support computation, broad rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit before controller review.
 - Stable boundaries: `wl529`, `wl530`, `wl531`, `wl532`, `wl533`, `wl534`, and `wl535` are inputs. Preserve the validated q-root equivalence, chart-inverse branches, and all earlier exact lifts unless a concrete error is found.
-- Current step: `wl586` completes the three-family truth audit and route-death certificate. No `wl588` is created. The pure-`v_ell` routes and representative-only generic divisor-parity route are closed.
+- Current step: Controller-reviewed `wl587` pure-`u_7` D0 certificate complete.
 - Completed steps: `wl530` derives M1; `wl531`-`wl535` give the exact q-root proposition; `wl536`-`wl580` exhaust local, descent, valuation, allocation, and reconstruction routes; `wl581`-`wl585` exhaust lower-genus and elliptic-quotient reformulations; the consolidated checkpoint verifies the chain and its claim boundaries.
 - Strategic route-freeze certificate: `wl539` closes repeated good-reduction residue tables; `wl541` closes the parameter-prime standalone route; `wl542` closes negative-denominator places as automatic local squares; `wl568` and `wl580` prove allocation/descent self-consistency reconstructs the source system; `wl582`, `wl584`, and `wl585` prove the available elliptic quotients either forget a required lift or recover the original restricted problem. These finite, named tool classes cannot supply a new uniform invariant without an additional arithmetic input not present in them.
 - Certificate boundary: This freezes only the currently instantiated candidate tools. It is not a theorem that every future Hilbert-symbol, Brauer-Manin, reciprocity, family-Chabauty, or other global invariant is impossible.
-- Next exact step: none entered. Reopening requires a parameterized family-level input that controls square specializations across at least two cover families. Do not substitute more fixed double covers, re-enter `wl535`, create `wl588`, or enter M3.
+- Next exact step: use a fresh Worker session to construct the same D0 schema for `support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)`. D1 remains closed.
 - Validation gates: direct algebra review; explicit positivity, square-X, lift, and all exceptional-denominator handling; focused pytest; targeted ruff; strict certificate if any.
-- Stop condition: reached by the `wl586` route-death certificate; do not create another worklog without the required family-level input.
+- Stop condition: reached for this task; do not enter mixed-family D0 or D1 in the `wl587` checkpoint.
 - Delegation preference: all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`; `max` is the reasoning level, not part of the model name. `--reasoning xhigh` is also verified as supported. Do not alter tasks already running when this preference was set.
