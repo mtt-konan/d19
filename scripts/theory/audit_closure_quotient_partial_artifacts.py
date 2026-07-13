@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import write_json
+except ModuleNotFoundError:
+    from json_io import write_json
+
 import argparse
-import json
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -1158,14 +1162,6 @@ def audit_artifacts(*, root: Path, required: list[Artifact]) -> dict[str, Any]:
         "required_files": [_artifact_dict(artifact) for artifact in required],
         "boundary": BOUNDARY,
     }
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def parse_args() -> argparse.Namespace:

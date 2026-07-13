@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, write_json
+
 import argparse
-import json
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -18,18 +22,6 @@ RANK_ZERO_REQUIRED_EVIDENCE = [
     "strict elliptic rank proof closing rank_bounds to [0,0]",
     "or a cover-level no-rational-point certificate for every listed cover",
 ]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def _target_key(payload: dict[str, Any]) -> tuple[int, int, str]:

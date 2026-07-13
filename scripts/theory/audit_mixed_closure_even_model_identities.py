@@ -3,20 +3,16 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import write_json
+except ModuleNotFoundError:
+    from json_io import write_json
+
 import argparse
-import json
 from pathlib import Path
 from typing import Any
 
 import sympy as sp
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def _centered_even_quartic_verified() -> bool:

@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, load_jsonl
+except ModuleNotFoundError:
+    from json_io import load_json, load_jsonl
+
 import argparse
 import json
 import sys
@@ -13,20 +18,6 @@ ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(ROOT))
 
 from scripts.theory.sage_recheck_mixed_closure_residuals import parse_curve_target  # noqa: E402
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for raw in handle:
-            line = raw.strip()
-            if line:
-                rows.append(json.loads(line))
-    return rows
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _row_key(row: dict[str, Any]) -> tuple[int, int, str]:

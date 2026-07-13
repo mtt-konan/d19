@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, write_json
+
 import argparse
-import json
 import re
 import subprocess
 from collections.abc import Callable
@@ -21,18 +25,6 @@ Runner = Callable[..., dict[str, object]]
 
 def resolve_mwrank_args(values: list[str] | None) -> list[str]:
     return list(values) if values else ["-q", "-v", "1"]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def build_mwrank_stdin(handoff: dict[str, Any]) -> str:

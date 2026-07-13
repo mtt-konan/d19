@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, write_json
+
 import argparse
-import json
 from pathlib import Path
 from typing import Any
 
@@ -26,18 +30,6 @@ REQUIRED_TRANSCRIPT_FIELDS = [
 L_ROLE = "A for AA, B for BB; AA+BB requires both sides to close"
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-
-
 def _ready(payload: dict[str, Any]) -> bool:
     return payload.get("status") == "ok" and payload.get("ready") is True
 
@@ -54,7 +46,10 @@ def _segment_rows(segment_index: dict[str, Any] | None) -> dict[str, list[dict[s
     return rows
 
 
-def _reviewable_segments(package_id: str, segment_rows: dict[str, list[dict[str, Any]]]) -> list[dict[str, str]]:
+def _reviewable_segments(
+    package_id: str,
+    segment_rows: dict[str, list[dict[str, Any]]],
+) -> list[dict[str, str]]:
     rows = segment_rows.get(package_id, [])
     segments: list[dict[str, str]] = []
     for row in rows:

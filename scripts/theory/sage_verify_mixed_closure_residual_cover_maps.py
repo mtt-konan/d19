@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, load_jsonl, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, load_jsonl, write_json
+
 import argparse
-import json
 import subprocess
 import sys
 from collections import Counter
@@ -18,28 +22,6 @@ sys.path.insert(0, str(ROOT))
 from scripts.theory.sage_verify_mixed_closure_handoff_maps import verify_handoff_maps  # noqa: E402
 
 Run = Callable[..., subprocess.CompletedProcess[str]]
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    with path.open("r", encoding="utf-8") as handle:
-        for raw in handle:
-            line = raw.strip()
-            if line:
-                rows.append(json.loads(line))
-    return rows
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def _row_key(row: dict[str, Any]) -> tuple[int, int, str]:

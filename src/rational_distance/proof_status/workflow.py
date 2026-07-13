@@ -153,6 +153,99 @@ def _run_method_with_concordant_cache(
     return method_fn(A, B)
 
 
+@dataclass(frozen=True)
+class _PipelineResult:
+    """Pure result of one method pipeline run, before persistence."""
+
+    final_status: str
+    final_method: str
+    final_notes: str
+    rank_lower: int | None
+    rank_upper: int | None
+    concordant_n_count: int | None
+    chain_compatible_count: int | None
+    f2_rank: int | None
+    method_results: tuple[MethodResult, ...]
+
+
+def _run_pipeline(
+    A: int,
+    B: int,
+    methods: MethodPipeline,
+    *,
+    rank_lower: int | None = None,
+    rank_upper: int | None = None,
+    concordant_n_count: int | None = None,
+    chain_compatible_count: int | None = None,
+    f2_rank: int | None = None,
+    record_skipped: bool = True,
+) -> _PipelineResult:
+    """Run methods once, leaving persistence to the caller."""
+    concordant_n_cache: list[int] | None = None
+    method_results: list[MethodResult] = []
+    terminal_status: str | None = None
+    terminal_method: str | None = None
+    terminal_notes = ""
+
+    def _get_concordant_n() -> list[int]:
+        nonlocal concordant_n_cache
+        if concordant_n_cache is None:
+            concordant_n_cache = find_concordant_by_factorization(A, B)
+        return concordant_n_cache
+
+    for method_name, method_fn in methods:
+        result = _run_method_with_concordant_cache(
+            method_fn, A, B, _get_concordant_n, rank_lower=rank_lower
+        )
+        # Defensive: methods may forget to set the name; trust the registry.
+        if result.method != method_name:
+            result = MethodResult(
+                method=method_name,
+                outcome=result.outcome,
+                details=result.details,
+                elapsed_s=result.elapsed_s,
+                notes=result.notes,
+            )
+
+        if result.outcome == "skipped" and not record_skipped:
+            continue
+        method_results.append(result)
+
+        aggregate = _aggregate_details(
+            method_name,
+            result,
+            rank_lower=rank_lower,
+            rank_upper=rank_upper,
+            concordant_n_count=concordant_n_count,
+            chain_compatible_count=chain_compatible_count,
+            f2_rank=f2_rank,
+        )
+        rank_lower = aggregate["rank_lower"]
+        rank_upper = aggregate["rank_upper"]
+        concordant_n_count = aggregate["concordant_n_count"]
+        chain_compatible_count = aggregate["chain_compatible_count"]
+        f2_rank = aggregate["f2_rank"]
+
+        if result.outcome in {"no_solution", "solution_found"}:
+            terminal_status = result.outcome
+            terminal_method = method_name
+            terminal_notes = result.notes
+            break
+
+    return _PipelineResult(
+        final_status=terminal_status or "hard_case",
+        final_method=terminal_method or "exhausted",
+        final_notes=terminal_notes
+        or "All methods returned non-terminal outcomes; classified as hard_case.",
+        rank_lower=rank_lower,
+        rank_upper=rank_upper,
+        concordant_n_count=concordant_n_count,
+        chain_compatible_count=chain_compatible_count,
+        f2_rank=f2_rank,
+        method_results=tuple(method_results),
+    )
+
+
 def process_pair(
     conn: sqlite3.Connection,
     A: int,
@@ -174,87 +267,33 @@ def process_pair(
     if not config.rerun_terminal and existing is not None and _is_terminal(existing):
         return existing
 
-    # Aggregated columns evolve as methods run.
-    rank_lower = existing.rank_lower if existing else None
-    rank_upper = existing.rank_upper if existing else None
-    concordant_n_count = existing.concordant_n_count if existing else None
-    chain_compatible_count = existing.chain_compatible_count if existing else None
-    f2_rank = existing.f2_rank if existing else None
-    concordant_n_cache: list[int] | None = None
-
-    terminal_status: str | None = None
-    terminal_method: str | None = None
-    terminal_notes: str = ""
-
-    def _get_concordant_n() -> list[int]:
-        nonlocal concordant_n_cache
-        if concordant_n_cache is None:
-            concordant_n_cache = find_concordant_by_factorization(A, B)
-        return concordant_n_cache
-
-    for method_name, method_fn in config.methods:
-        result = _run_method_with_concordant_cache(
-            method_fn, A, B, _get_concordant_n, rank_lower=rank_lower
-        )
-        # Defensive: methods may forget to set the name; trust the registry.
-        if result.method != method_name:
-            result = MethodResult(
-                method=method_name,
-                outcome=result.outcome,
-                details=result.details,
-                elapsed_s=result.elapsed_s,
-                notes=result.notes,
-            )
-
-        if result.outcome == "skipped" and not config.record_skipped:
-            continue
-
-        schema.record_method_attempt(conn, A=A, B=B, result=result)
-
-        agg = _aggregate_details(
-            method_name,
-            result,
-            rank_lower=rank_lower,
-            rank_upper=rank_upper,
-            concordant_n_count=concordant_n_count,
-            chain_compatible_count=chain_compatible_count,
-            f2_rank=f2_rank,
-        )
-        rank_lower = agg["rank_lower"]
-        rank_upper = agg["rank_upper"]
-        concordant_n_count = agg["concordant_n_count"]
-        chain_compatible_count = agg["chain_compatible_count"]
-        f2_rank = agg["f2_rank"]
-
-        if result.outcome == "no_solution":
-            terminal_status = "no_solution"
-            terminal_method = method_name
-            terminal_notes = result.notes
-            break
-        if result.outcome == "solution_found":
-            terminal_status = "solution_found"
-            terminal_method = method_name
-            terminal_notes = result.notes
-            break
-
-    final_status = terminal_status or "hard_case"
-    final_method = terminal_method or "exhausted"
-    final_notes = terminal_notes or (
-        "All methods returned non-terminal outcomes; classified as hard_case."
+    pipeline = _run_pipeline(
+        A,
+        B,
+        config.methods,
+        rank_lower=existing.rank_lower if existing else None,
+        rank_upper=existing.rank_upper if existing else None,
+        concordant_n_count=existing.concordant_n_count if existing else None,
+        chain_compatible_count=existing.chain_compatible_count if existing else None,
+        f2_rank=existing.f2_rank if existing else None,
+        record_skipped=config.record_skipped,
     )
+
+    for result in pipeline.method_results:
+        schema.record_method_attempt(conn, A=A, B=B, result=result)
 
     schema.upsert_pair_status(
         conn,
         A=A,
         B=B,
-        status=final_status,
-        method=final_method,
-        rank_lower=rank_lower,
-        rank_upper=rank_upper,
-        concordant_n_count=concordant_n_count,
-        chain_compatible_count=chain_compatible_count,
-        f2_rank=f2_rank,
-        notes=final_notes,
+        status=pipeline.final_status,
+        method=pipeline.final_method,
+        rank_lower=pipeline.rank_lower,
+        rank_upper=pipeline.rank_upper,
+        concordant_n_count=pipeline.concordant_n_count,
+        chain_compatible_count=pipeline.chain_compatible_count,
+        f2_rank=pipeline.f2_rank,
+        notes=pipeline.final_notes,
     )
 
     updated = schema.get_pair_status(conn, A, B)
@@ -321,85 +360,20 @@ def compute_pair_status(
     Mirrors the logic of ``process_pair`` but isolates it from persistence
     so that workers in a multiprocessing pool can call it directly.
     """
-    rank_lower: int | None = None
-    rank_upper: int | None = None
-    concordant_n_count: int | None = None
-    chain_compatible_count: int | None = None
-    f2_rank: int | None = None
-    concordant_n_cache: list[int] | None = None
-
-    method_results: list[MethodResult] = []
-
-    terminal_status: str | None = None
-    terminal_method: str | None = None
-    terminal_notes: str = ""
-
-    def _get_concordant_n() -> list[int]:
-        nonlocal concordant_n_cache
-        if concordant_n_cache is None:
-            concordant_n_cache = find_concordant_by_factorization(A, B)
-        return concordant_n_cache
-
-    for method_name, method_fn in methods:
-        result = _run_method_with_concordant_cache(
-            method_fn, A, B, _get_concordant_n, rank_lower=rank_lower
-        )
-        # Defensive: methods may forget to set the name; trust the registry.
-        if result.method != method_name:
-            result = MethodResult(
-                method=method_name,
-                outcome=result.outcome,
-                details=result.details,
-                elapsed_s=result.elapsed_s,
-                notes=result.notes,
-            )
-
-        method_results.append(result)
-
-        agg = _aggregate_details(
-            method_name,
-            result,
-            rank_lower=rank_lower,
-            rank_upper=rank_upper,
-            concordant_n_count=concordant_n_count,
-            chain_compatible_count=chain_compatible_count,
-            f2_rank=f2_rank,
-        )
-        rank_lower = agg["rank_lower"]
-        rank_upper = agg["rank_upper"]
-        concordant_n_count = agg["concordant_n_count"]
-        chain_compatible_count = agg["chain_compatible_count"]
-        f2_rank = agg["f2_rank"]
-
-        if result.outcome == "no_solution":
-            terminal_status = "no_solution"
-            terminal_method = method_name
-            terminal_notes = result.notes
-            break
-        if result.outcome == "solution_found":
-            terminal_status = "solution_found"
-            terminal_method = method_name
-            terminal_notes = result.notes
-            break
-
-    final_status = terminal_status or "hard_case"
-    final_method = terminal_method or "exhausted"
-    final_notes = terminal_notes or (
-        "All methods returned non-terminal outcomes; classified as hard_case."
-    )
+    pipeline = _run_pipeline(A, B, methods)
 
     return PairComputeResult(
         A=A,
         B=B,
-        final_status=final_status,
-        final_method=final_method,
-        final_notes=final_notes,
-        rank_lower=rank_lower,
-        rank_upper=rank_upper,
-        concordant_n_count=concordant_n_count,
-        chain_compatible_count=chain_compatible_count,
-        f2_rank=f2_rank,
-        method_results=tuple(method_results),
+        final_status=pipeline.final_status,
+        final_method=pipeline.final_method,
+        final_notes=pipeline.final_notes,
+        rank_lower=pipeline.rank_lower,
+        rank_upper=pipeline.rank_upper,
+        concordant_n_count=pipeline.concordant_n_count,
+        chain_compatible_count=pipeline.chain_compatible_count,
+        f2_rank=pipeline.f2_rank,
+        method_results=pipeline.method_results,
     )
 
 

@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, write_json
+
 import argparse
-import json
 from pathlib import Path
 from typing import Any
 
@@ -19,18 +23,6 @@ NEXT_MAIN_ACTION = (
     "into full rank-zero Selmer transcripts, without treating partial segments "
     "or sample growth as theorem completion."
 )
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def _ready(payload: dict[str, Any]) -> bool:
@@ -84,7 +76,9 @@ def audit_rank_zero_family_transcript_coverage(
             1 for package in packages if bool(package.get("transcript_package_ready", False))
         )
         reviewable_packages = [
-            package for package in packages if int(package.get("reviewable_segment_count", 0) or 0) > 0
+            package
+            for package in packages
+            if int(package.get("reviewable_segment_count", 0) or 0) > 0
         ]
         reviewable_package_count = len(reviewable_packages)
         reviewable_segment_total = sum(

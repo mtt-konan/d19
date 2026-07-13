@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+try:
+    from scripts.theory.json_io import load_json, write_json
+except ModuleNotFoundError:
+    from json_io import load_json, write_json
+
 import argparse
-import json
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -18,18 +22,6 @@ NEXT_ACTION = (
     "Study this combined root-number/rank pattern as a lambda family routing "
     "problem; it is not a no-point proof."
 )
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, ensure_ascii=True, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
 
 
 def _combined_pattern(root_number_pattern: str, rank_key_pattern: str) -> str:
