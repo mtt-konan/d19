@@ -3,12 +3,12 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-p17 Relative 2-Descent Review After wl592
+## P0: Post-wl593 Relative 2-Descent Route Death
 
 Completed handoff:
 
 ```text
-wl592_mixed_p17_factor_twist_local_image_complete
+wl593_factor_twist_generalization_route_death_complete
 ```
 
 `wl587` and `wl589` supply independent complete D0 relative-descent schemas
@@ -48,6 +48,15 @@ branches. Controller review found no blocking mathematical issue. The selected
 `p=5,7,17` chain now exhausts the factor-twist candidate ledgers for both
 frozen representatives. This does not promote the result to a family
 exclusion, Selmer/rank theorem, or D2 statement. No later gate is selected.
+
+`wl593` completes the D4 generalization assessment. The two D0 bases are fixed
+`Spec(Q)` instances rather than a parameterized family; their source/factor
+coefficients and bad-prime supports differ, `p=5` gives incompatible local
+images, and `p=7,17` are mixed-instance rows. The present factor-twist
+local-image mechanism is therefore route-dead unless genuinely parameterized
+family-level coefficient/local-image input is supplied. More fixed families,
+primes, or local tables are not an open direction. This does not rule out a
+different family-level relative 2-descent input, but none is currently named.
 
 The exact `wl535` obstruction remains a frozen input:
 

@@ -5,10 +5,10 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl592` is present, the completed handoff is:
+If `wl593` is present, the completed handoff is:
 
 ```text
-wl592_mixed_p17_factor_twist_local_image_complete
+wl593_factor_twist_generalization_route_death_complete
 ```
 
 Do not re-enter `wl535`. `wl587`, `wl589`, `wl590`, and `wl591` remain frozen
@@ -52,6 +52,17 @@ leave no real/`Q_2`-filtered factor-twist candidate for either frozen
 representative. This is only a fixed-representative local-solubility
 conclusion; it is not a family exclusion, Selmer/rank theorem, or D2 result.
 No later gate is selected.
+
+`wl593` then audits whether this finite chain contains a parameterized D4
+mechanism. It does not: `wl587` and `wl589` are fixed `Spec(Q)` instances,
+their coefficient/source/factor data and bad-prime supports differ, the shared
+`p=5` images disagree, and the `p=7,17` deletions quantify only over the
+frozen mixed source. Hence the current fixed-representative factor-twist
+local-image mechanism is exhausted and cannot be promoted from these fixed
+inputs alone; it requires new parameterized family-level coefficient/
+local-image input. This scoped route death does not rule out all future
+relative 2-descent. Do not add another
+family sample, prime, or local-image table, and do not enter D2 or D5.
 
 ## Historical wl535 Chain
 

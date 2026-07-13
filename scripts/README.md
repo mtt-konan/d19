@@ -261,6 +261,11 @@ Rank-zero Selmer / AA+BB audit helpers:
   `I_{17,m}={[u]}`, excludes `91205=[17u]`, and retains the complete
   negative-valuation, denominator, factor-zero, fixed-cover, and AA+BB lift
   certificate without entering another prime or D2.
+  `wl593` then uses `theory/aa_bb/wl593_factor_twist_generalization_route_death.py`
+  to compare only the frozen `wl587`-`wl592` certificates. It records that the
+  fixed bases, coefficients, bad-prime supports, and local images do not form
+  a parameterized cross-family mechanism, and closes this generalization route
+  without adding another family, prime, local row, D2, or D5 claim.
 
 ### `modular/` — Path B / mod p² 实证
 

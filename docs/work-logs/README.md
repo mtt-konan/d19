@@ -122,7 +122,8 @@ entries.
          -> 590-p5-factor-twist-local-image-comparison.md
          -> 591-mixed-p7-factor-twist-local-image.md
          -> 592-mixed-p17-factor-twist-local-image.md
-         -> latest checkpoint: 592-mixed-p17-factor-twist-local-image.md
+         -> 593-factor-twist-generalization-route-death.md
+         -> latest checkpoint: 593-factor-twist-generalization-route-death.md
 ```
 
 ## Reading Rule

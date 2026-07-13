@@ -388,6 +388,16 @@ This is a fixed-representative local-solubility conclusion, not a family
 exclusion, Selmer/rank theorem, or D2 result. Controller review found no
 blocking mathematical issue, and no later gate is selected.
 
+`wl593` performs the required D4 comparison of those results. It verifies that
+the two D0 bases are fixed `Spec(Q)` instances, their coefficient/source/factor
+data and bad-prime supports differ, `I_{5,u}` and `I_{5,m}` disagree, and the
+later `p=7,17` chain is specific to the mixed representative. Thus the current
+fixed-representative factor-twist local-image mechanism cannot support a
+family theorem from these fixed inputs alone; it requires new parameterized
+family-level coefficient/local-image input. This is a scoped route-death
+certificate, not failure of every relative 2-descent method and not D2, D5,
+Selmer, rank, or family exclusion.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 
@@ -505,7 +515,9 @@ route. After `wl527`, do not treat proof-data scoping as a ready proof attempt.
 Do not treat the `wl522` finite taxonomy, the `wl524` route choice, the failed
 `wl525` promotion attempt, the `wl526` route choice, or the `wl527` scoping
 inventory as proof of a uniform cover-family lemma.
-The user-authorized relative 2-descent route now has complete frozen D0 schemas
+The user-authorized relative 2-descent route has complete frozen D0 schemas
 from `wl587` and `wl589`. The selected odd local-image chain `wl590`-`wl592`
-exhausts both real/`Q_2`-filtered factor-twist candidate ledgers. No later
-local row, D2 step, or M3 step is selected.
+exhausts both real/`Q_2`-filtered factor-twist candidate ledgers, and `wl593`
+certifies that these fixed-instance results contain no parameterized
+cross-family local-image mechanism. Do not add another fixed family, prime,
+or local row. No D2, D5, or M3 step is selected.

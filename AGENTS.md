@@ -54,7 +54,7 @@ Worker output is proposed work, not accepted proof or a completed checkpoint.
 The current handoff is:
 
 ```text
-wl592_mixed_p17_factor_twist_local_image_complete
+wl593_factor_twist_generalization_route_death_complete
 ```
 
 `wl591` completes the selected normalized mixed-family `p=7` local-image
@@ -119,7 +119,18 @@ mathematical issue. Together `wl590`-`wl592` exhaust the real/`Q_2`-filtered
 factor-twist candidates for both frozen representatives: the pure ledger is
 empty at `p=5`, and the mixed ledger is empty after `p=5,7,17`. This is a
 fixed-representative local-solubility conclusion, not a family exclusion,
-Selmer/rank theorem, or D2 result. No later gate is selected.
+Selmer/rank theorem, or D2 result.
+
+`wl593` performs the D4 comparison without adding a third family or local
+row. Both D0 bases are fixed `Spec(Q)` instances, their coefficient/source/
+factor data and bad-prime supports differ, `I_{5,u}` and `I_{5,m}` disagree,
+and the later `p=7,17` chain is specific to the frozen mixed cover. Therefore
+the current fixed-representative factor-twist local-image mechanism cannot be
+promoted from these fixed inputs alone; it requires new parameterized
+family-level coefficient/local-image input. This is route death only for that
+mechanism; it is not a claim that all
+relative 2-descent is impossible. Do not add another representative, prime,
+or local table, and do not enter D2 or D5. No later gate is selected.
 
 ### Frozen wl535 Input
 
