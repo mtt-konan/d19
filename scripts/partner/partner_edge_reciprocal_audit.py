@@ -31,7 +31,7 @@ _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(_ROOT / "src"))
 
-from rational_distance.concordant.rational_ratio import (  # noqa: E402
+from rational_distance.concordant.rational_ratio_core import (  # noqa: E402
     REL_DIFF_AB,
     REL_DIFF_DIFF,
     REL_SUM_AB,

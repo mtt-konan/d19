@@ -16,7 +16,7 @@ def _is_rational_square(value: Fraction) -> bool:
 
 
 def test_rational_ratio_membership_uses_both_square_conditions() -> None:
-    from rational_distance.concordant.rational_ratio import is_rational_ratio_member
+    from rational_distance.concordant.archive.rational_ratio import is_rational_ratio_member
 
     assert is_rational_ratio_member(Fraction(7), Fraction(12, 5))
     assert is_rational_ratio_member(Fraction(7), Fraction(35, 12))
@@ -25,7 +25,7 @@ def test_rational_ratio_membership_uses_both_square_conditions() -> None:
 
 
 def test_reciprocal_ratio_preserves_membership_for_rational_lambda() -> None:
-    from rational_distance.concordant.rational_ratio import reciprocal_ratio
+    from rational_distance.concordant.archive.rational_ratio import reciprocal_ratio
 
     lam = Fraction(7)
     r = Fraction(12, 5)
@@ -34,7 +34,7 @@ def test_reciprocal_ratio_preserves_membership_for_rational_lambda() -> None:
 
 
 def test_rational_ratio_hits_check_full_plane_targets() -> None:
-    from rational_distance.concordant.rational_ratio import find_rational_ratio_hits
+    from rational_distance.concordant.archive.rational_ratio import find_rational_ratio_hits
 
     ratios = (Fraction(2), Fraction(6), Fraction(10))
     hits = find_rational_ratio_hits(Fraction(7), ratios)
@@ -46,7 +46,7 @@ def test_rational_ratio_hits_check_full_plane_targets() -> None:
 
 
 def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         rational_ratio_hit_product_diagnostics,
     )
 
@@ -67,7 +67,7 @@ def test_rational_ratio_hit_product_diagnostics_identify_reciprocal_pair() -> No
 
 
 def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         full_plane_reciprocal_obstruction,
         reciprocal_sum_ab_roots,
         sum_ab_reciprocal_obstruction,
@@ -98,7 +98,7 @@ def test_reciprocal_orbit_sum_ab_roots_are_not_true_members_for_rational_lambda(
 
 
 def test_product_identity_holds_for_rational_lambda() -> None:
-    from rational_distance.concordant.rational_ratio import product_identity_terms
+    from rational_distance.concordant.archive.rational_ratio import product_identity_terms
 
     lam = Fraction(7, 3)
     target = lam + 1
@@ -110,7 +110,7 @@ def test_product_identity_holds_for_rational_lambda() -> None:
 
 
 def test_closure_product_identity_uses_difference_sign() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_DIFF_AB,
         REL_SUM_AB,
         closure_product_identity_terms,
@@ -154,7 +154,7 @@ def test_closure_product_identity_uses_difference_sign() -> None:
 
 
 def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_product_identity_terms,
         closure_product_square_conditions,
@@ -247,7 +247,7 @@ def test_sum_ab_product_square_conditions_do_not_imply_membership() -> None:
 
 
 def test_closure_member_product_square_ledger_separates_weak_and_true_squares() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_member_product_square_ledger,
     )
@@ -293,7 +293,7 @@ def test_closure_member_product_square_ledger_separates_weak_and_true_squares() 
 
 
 def test_closure_member_prime_valuation_ledger_tracks_squareclass_escape() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_member_prime_valuation_ledger,
     )
@@ -329,7 +329,7 @@ def test_closure_member_prime_valuation_ledger_tracks_squareclass_escape() -> No
 
 
 def test_one_mod_four_squareclass_absorption_turns_guard_roots_into_leg_slopes() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         squareclass_two_square_absorption,
     )
 
@@ -351,7 +351,7 @@ def test_one_mod_four_squareclass_absorption_turns_guard_roots_into_leg_slopes()
 
 
 def test_residual_gaussian_absorption_ledger_detects_centerline_shadow() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_product_square_conditions,
         residual_gaussian_absorption_ledger,
@@ -374,7 +374,7 @@ def test_residual_gaussian_absorption_ledger_detects_centerline_shadow() -> None
 
 
 def test_inverse_gaussian_absorption_pair_reconstructs_guard_residual() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         inverse_gaussian_absorption_pair,
     )
 
@@ -395,7 +395,7 @@ def test_inverse_gaussian_absorption_pair_reconstructs_guard_residual() -> None:
 
 
 def test_inverse_gaussian_absorption_pair_terms_factor_guard_identity() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         inverse_gaussian_absorption_pair_terms,
     )
 
@@ -438,7 +438,7 @@ def test_inverse_gaussian_absorption_pair_terms_factor_guard_identity() -> None:
 
 
 def test_inverse_gaussian_absorption_pair_terms_factor_member_squares() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         inverse_gaussian_absorption_pair_terms,
     )
 
@@ -473,7 +473,7 @@ def test_inverse_gaussian_absorption_pair_terms_factor_member_squares() -> None:
 
 
 def test_inverse_gaussian_centerline_shadow_obstruction_blocks_unit_terms() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         inverse_gaussian_centerline_shadow_obstruction,
     )
 
@@ -495,7 +495,7 @@ def test_inverse_gaussian_centerline_shadow_obstruction_blocks_unit_terms() -> N
 
 
 def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         is_pythagorean_leg_ratio,
         sum_ab_point_from_slopes,
         sum_ab_product_square_condition_from_slopes,
@@ -525,7 +525,7 @@ def test_sum_ab_slope_pair_translates_to_rational_ratio_membership() -> None:
 
 
 def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         sum_ab_centerline_squareclass_conditions,
     )
@@ -557,7 +557,7 @@ def test_sum_ab_centerline_squareclass_conditions_explain_midpoint_hits() -> Non
 
 
 def test_sum_ab_centerline_equations_expose_two_square_conditions() -> None:
-    from rational_distance.concordant.rational_ratio import sum_ab_centerline_equations
+    from rational_distance.concordant.archive.rational_ratio import sum_ab_centerline_equations
 
     equations = sum_ab_centerline_equations(Fraction(3))
 
@@ -586,7 +586,7 @@ def test_sum_ab_centerline_equations_expose_two_square_conditions() -> None:
 
 
 def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_centerline_from_unit_leg_param,
     )
 
@@ -605,7 +605,7 @@ def test_sum_ab_centerline_unit_leg_param_reduces_to_lambda_leg_check() -> None:
 
 
 def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_centerline_quartic_negative_reciprocal_quotient,
         sum_ab_centerline_quartic_pari_diagnostics,
         sum_ab_centerline_quartic_self_similarity,
@@ -733,7 +733,7 @@ def test_sum_ab_centerline_remaining_quartic_matches_lambda_leg_value() -> None:
 
 
 def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_centerline_quartic_crt_live_residue_summary,
         sum_ab_centerline_quartic_integer_equation,
         sum_ab_centerline_quartic_live_residue_classes,
@@ -827,7 +827,7 @@ def test_sum_ab_centerline_quartic_integer_equation_tracks_residues() -> None:
 
 
 def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_product_square_conditions,
         sum_ab_product_square_bucket_summary,
@@ -867,7 +867,7 @@ def test_sum_ab_product_square_bucket_summary_keeps_residual_guard() -> None:
 
 
 def test_sum_ab_product_square_residuals_from_root_grid_finds_known_residual() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_product_square_residuals_from_root_grid,
     )
 
@@ -891,7 +891,7 @@ def test_sum_ab_product_square_residuals_from_root_grid_finds_known_residual() -
 
 
 def test_sum_ab_root_grid_residual_summary_counts_squareclass_pairs() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_root_grid_residual_summary,
     )
 
@@ -911,7 +911,7 @@ def test_sum_ab_root_grid_residual_summary_counts_squareclass_pairs() -> None:
 
 
 def test_sum_ab_root_grid_residual_prime_class_summary_tracks_1_mod_4_escape() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_root_grid_residual_prime_class_summary,
     )
 
@@ -939,7 +939,7 @@ def test_sum_ab_root_grid_residual_prime_class_summary_tracks_1_mod_4_escape() -
 
 
 def test_sum_ab_root_grid_gaussian_shadow_summary_counts_centerline_shadows() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_root_grid_gaussian_shadow_summary,
     )
 
@@ -961,7 +961,7 @@ def test_sum_ab_root_grid_gaussian_shadow_summary_counts_centerline_shadows() ->
 
 
 def test_sum_ab_root_grid_gaussian_shadow_obstruction_summary_counts_blocked_shadows() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_root_grid_gaussian_shadow_obstruction_summary,
     )
 
@@ -988,7 +988,7 @@ def test_sum_ab_root_grid_gaussian_shadow_obstruction_summary_counts_blocked_sha
 
 
 def test_sum_ab_root_grid_residual_watchlist_flags_true_or_trivial_pairs() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_product_square_conditions,
         sum_ab_root_grid_residual_watchlist,
@@ -1017,7 +1017,7 @@ def test_sum_ab_root_grid_residual_watchlist_flags_true_or_trivial_pairs() -> No
 
 
 def test_sum_ab_residual_squareclass_equations_explain_product_square() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_residual_squareclass_equations,
     )
 
@@ -1058,7 +1058,7 @@ def test_sum_ab_residual_squareclass_equations_explain_product_square() -> None:
 
 
 def test_sum_ab_true_closure_relation_classifies_proof_branches() -> None:
-    from rational_distance.concordant.rational_ratio import sum_ab_true_closure_relation
+    from rational_distance.concordant.archive.rational_ratio import sum_ab_true_closure_relation
 
     reciprocal = sum_ab_true_closure_relation(
         lambda_ratio=Fraction(7),
@@ -1107,7 +1107,7 @@ def test_sum_ab_true_closure_relation_classifies_proof_branches() -> None:
 
 
 def test_scan_sum_ab_true_closure_relations_monitors_nonreciprocal_branch() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         scan_sum_ab_true_closure_relations,
     )
 
@@ -1136,7 +1136,7 @@ def test_scan_sum_ab_true_closure_relations_monitors_nonreciprocal_branch() -> N
 
 
 def test_full_plane_true_closure_relation_handles_difference_branch() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_DIFF_AB,
         full_plane_true_closure_relation,
     )
@@ -1157,7 +1157,7 @@ def test_full_plane_true_closure_relation_handles_difference_branch() -> None:
 
 
 def test_scan_full_plane_true_closure_relations_is_not_sum_only() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         scan_full_plane_true_closure_relations,
     )
 
@@ -1178,7 +1178,7 @@ def test_scan_full_plane_true_closure_relations_is_not_sum_only() -> None:
 
 
 def test_scan_full_plane_true_closure_relations_covers_abs_difference_targets() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         scan_full_plane_true_closure_relations,
     )
 
@@ -1198,7 +1198,7 @@ def test_scan_full_plane_true_closure_relations_covers_abs_difference_targets() 
 
 
 def test_scan_full_plane_true_closure_relations_can_focus_on_danger_branch() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         scan_full_plane_true_closure_relations,
     )
 
@@ -1213,7 +1213,7 @@ def test_scan_full_plane_true_closure_relations_can_focus_on_danger_branch() -> 
 
 
 def test_full_plane_closure_product_ledger_links_classification_to_product_terms() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_DIFF_AB,
         full_plane_closure_product_ledger,
     )
@@ -1236,7 +1236,7 @@ def test_full_plane_closure_product_ledger_links_classification_to_product_terms
 
 
 def test_full_plane_closure_product_ledger_rejects_nonclosure_pairs() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         full_plane_closure_product_ledger,
     )
@@ -1255,7 +1255,7 @@ def test_full_plane_closure_product_ledger_rejects_nonclosure_pairs() -> None:
 
 
 def test_full_plane_closure_product_summary_counts_relation_and_bucket() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         full_plane_closure_product_summary,
     )
 
@@ -1276,7 +1276,7 @@ def test_full_plane_closure_product_summary_counts_relation_and_bucket() -> None
 
 
 def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
-    from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_pairs
+    from rational_distance.concordant.archive.rational_ratio import scan_sum_ab_slope_pairs
 
     slopes = (Fraction(3, 4), Fraction(4, 3), Fraction(5, 12), Fraction(12, 5))
 
@@ -1284,7 +1284,7 @@ def test_scan_sum_ab_slope_pairs_finds_no_small_true_hits() -> None:
 
 
 def test_pythagorean_leg_ratios_generate_bounded_slope_pool() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         positive_rational_ratios,
         pythagorean_leg_ratios,
     )
@@ -1308,7 +1308,7 @@ def test_pythagorean_leg_ratios_generate_bounded_slope_pool() -> None:
 
 
 def test_leg_ratio_squareclass_explains_pythagorean_failure() -> None:
-    from rational_distance.concordant.rational_ratio import leg_ratio_squareclass
+    from rational_distance.concordant.archive.rational_ratio import leg_ratio_squareclass
 
     passing = leg_ratio_squareclass(Fraction(3, 4))
     failing = leg_ratio_squareclass(Fraction(9, 13))
@@ -1325,7 +1325,7 @@ def test_leg_ratio_squareclass_explains_pythagorean_failure() -> None:
 
 
 def test_sum_ab_slope_obstruction_identifies_scaled_leg_failures() -> None:
-    from rational_distance.concordant.rational_ratio import sum_ab_slope_obstruction
+    from rational_distance.concordant.archive.rational_ratio import sum_ab_slope_obstruction
 
     obstruction = sum_ab_slope_obstruction(Fraction(3, 4), Fraction(4, 3))
 
@@ -1341,7 +1341,7 @@ def test_sum_ab_slope_obstruction_identifies_scaled_leg_failures() -> None:
 
 
 def test_sum_ab_slope_obstruction_counts_three_pass_near_miss() -> None:
-    from rational_distance.concordant.rational_ratio import sum_ab_slope_obstruction
+    from rational_distance.concordant.archive.rational_ratio import sum_ab_slope_obstruction
 
     obstruction = sum_ab_slope_obstruction(Fraction(15, 8), Fraction(7, 24))
 
@@ -1357,7 +1357,7 @@ def test_sum_ab_slope_obstruction_counts_three_pass_near_miss() -> None:
 
 
 def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None:
-    from rational_distance.concordant.rational_ratio import scan_sum_ab_slope_obstructions
+    from rational_distance.concordant.archive.rational_ratio import scan_sum_ab_slope_obstructions
 
     slopes = (Fraction(3, 4), Fraction(4, 3), Fraction(15, 8), Fraction(7, 24))
 
@@ -1371,7 +1371,7 @@ def test_scan_sum_ab_slope_obstructions_filters_three_pass_near_misses() -> None
 
 
 def test_sum_ab_three_pass_mobius_model_reconstructs_missing_term() -> None:
-    from rational_distance.concordant.rational_ratio import sum_ab_three_pass_mobius_model
+    from rational_distance.concordant.archive.rational_ratio import sum_ab_three_pass_mobius_model
 
     model = sum_ab_three_pass_mobius_model(
         slope=Fraction(15, 8),
@@ -1390,7 +1390,7 @@ def test_sum_ab_three_pass_mobius_model_reconstructs_missing_term() -> None:
 
 
 def test_sum_ab_mobius_model_from_euclid_params_exposes_square_equations() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         PythagoreanLegParam,
         sum_ab_three_pass_mobius_model_from_params,
     )
@@ -1422,7 +1422,7 @@ def test_sum_ab_mobius_model_from_euclid_params_exposes_square_equations() -> No
 
 
 def test_sum_ab_euclid_orientation_equations_expand_four_cases() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_euclid_orientation_equations,
     )
 
@@ -1452,7 +1452,7 @@ def test_sum_ab_euclid_orientation_equations_expand_four_cases() -> None:
 
 
 def test_sum_ab_euclid_residue_summaries_count_square_residue_obstructions() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_euclid_residue_summaries,
     )
 
@@ -1481,7 +1481,7 @@ def test_sum_ab_euclid_residue_summaries_count_square_residue_obstructions() -> 
 
 
 def test_sum_ab_euclid_conditional_residue_summaries_apply_primitive_filters() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_euclid_conditional_residue_summaries,
     )
 
@@ -1509,7 +1509,7 @@ def test_sum_ab_euclid_conditional_residue_summaries_apply_primitive_filters() -
 
 
 def test_sum_ab_same_orientation_shared_leg_terms_expose_square_difference() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         PythagoreanLegParam,
         sum_ab_same_orientation_shared_leg_terms,
     )
@@ -1551,7 +1551,7 @@ def test_sum_ab_same_orientation_shared_leg_terms_expose_square_difference() -> 
 def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> None:
     import pytest
 
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         PythagoreanLegParam,
         sum_ab_same_orientation_shared_leg_terms,
     )
@@ -1564,7 +1564,7 @@ def test_sum_ab_same_orientation_shared_leg_terms_reject_mixed_orientation() -> 
 
 
 def test_sum_ab_same_orientation_denominator_factorization_exposes_nu_minus_mv() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_denominator_factorization,
     )
 
@@ -1601,7 +1601,7 @@ def test_sum_ab_same_orientation_denominator_factorization_exposes_nu_minus_mv()
 
 
 def test_sum_ab_same_orientation_denominator_factorization_exposes_shared_leg_offsets() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_denominator_factorization,
     )
 
@@ -1637,7 +1637,7 @@ def test_sum_ab_same_orientation_denominator_factorization_exposes_shared_leg_of
 def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> None:
     from fractions import Fraction
 
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         PythagoreanLegParam,
         sum_ab_same_orientation_cross_gcd_terms,
     )
@@ -1696,7 +1696,7 @@ def test_sum_ab_same_orientation_cross_gcd_terms_expose_denominator_source() -> 
 
 
 def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_normalized_near_miss_summary,
     )
 
@@ -1774,7 +1774,7 @@ def test_sum_ab_same_orientation_normalized_near_miss_summary_counts_patterns() 
 
 
 def test_sum_ab_four_slope_squareclass_summary_separates_centerline_artifacts() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_four_slope_squareclass_summary,
     )
 
@@ -1791,7 +1791,7 @@ def test_sum_ab_four_slope_squareclass_summary_separates_centerline_artifacts() 
 
 
 def test_sum_ab_four_slope_squareclass_witnesses_record_equal_squareclass_pairs() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_four_slope_squareclass_witnesses,
     )
 
@@ -1814,7 +1814,7 @@ def test_sum_ab_four_slope_squareclass_witnesses_record_equal_squareclass_pairs(
 
 
 def test_sum_ab_squareclass_ratio_z_reduction_matches_direct_terms() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_squareclass_ratio_z_reduction,
     )
 
@@ -1836,7 +1836,7 @@ def test_sum_ab_squareclass_ratio_z_reduction_matches_direct_terms() -> None:
 
 
 def test_sum_ab_squareclass_ratio_z_parameterization_is_self_similar() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_squareclass_ratio_z_parameterization,
         sum_ab_squareclass_ratio_z_reduction,
     )
@@ -1865,7 +1865,7 @@ def test_sum_ab_squareclass_ratio_z_parameterization_is_self_similar() -> None:
 
 
 def test_sum_ab_squareclass_ratio_tu_quotient_model_tracks_recovery_conditions() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_squareclass_ratio_tu_quotient_model,
         sum_ab_squareclass_ratio_z_reduction,
     )
@@ -1893,7 +1893,7 @@ def test_sum_ab_squareclass_ratio_tu_quotient_model_tracks_recovery_conditions()
 
 
 def test_sum_ab_squareclass_ratio_slope_quadratic_model_matches_quotient_model() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_squareclass_ratio_slope_quadratic_model,
         sum_ab_squareclass_ratio_tu_quotient_model,
     )
@@ -1927,7 +1927,7 @@ def test_sum_ab_squareclass_ratio_slope_quadratic_model_matches_quotient_model()
 
 
 def test_sum_ab_squareclass_ratio_slope_model_tracks_individual_squares() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_squareclass_ratio_slope_quadratic_model,
     )
 
@@ -1956,7 +1956,7 @@ def test_sum_ab_squareclass_ratio_slope_model_tracks_individual_squares() -> Non
 
 
 def test_sum_ab_four_square_dual_slope_model_records_both_pythagorean_halves() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_four_square_dual_slope_model,
     )
 
@@ -1995,7 +1995,7 @@ def test_sum_ab_four_square_dual_slope_model_records_both_pythagorean_halves() -
 
 
 def test_sum_ab_dual_slope_parameterization_exposes_centerline_factor() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_parameterization,
     )
 
@@ -2028,7 +2028,7 @@ def test_sum_ab_dual_slope_parameterization_exposes_centerline_factor() -> None:
 
 
 def test_sum_ab_dual_slope_valuation_ledger_tracks_3_mod_4_boundary() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_valuation_ledger,
     )
 
@@ -2047,7 +2047,7 @@ def test_sum_ab_dual_slope_valuation_ledger_tracks_3_mod_4_boundary() -> None:
 
 
 def test_sum_ab_dual_slope_qadic_norm_ledger_tracks_shadow_squareclasses() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_norm_ledger,
     )
 
@@ -2069,7 +2069,7 @@ def test_sum_ab_dual_slope_qadic_norm_ledger_tracks_shadow_squareclasses() -> No
 
 
 def test_sum_ab_dual_slope_qadic_norm_summary_counts_recovery_prime_patterns() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_norm_summary,
     )
 
@@ -2094,7 +2094,7 @@ def test_sum_ab_dual_slope_qadic_norm_summary_counts_recovery_prime_patterns() -
 
 
 def test_sum_ab_dual_slope_qadic_norm_generated_summary_expands_shadow_samples() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_norm_generated_summary,
     )
 
@@ -2128,7 +2128,7 @@ def test_sum_ab_dual_slope_qadic_norm_generated_summary_expands_shadow_samples()
 
 
 def test_sum_ab_dual_slope_qadic_norm_generated_summary_tries_multiple_representatives() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_norm_generated_summary,
     )
 
@@ -2150,7 +2150,7 @@ def test_sum_ab_dual_slope_qadic_norm_generated_summary_tries_multiple_represent
 
 
 def test_sum_ab_dual_slope_qadic_norm_bridge_summary_rewrites_recovery_as_bridges() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_norm_bridge_summary,
     )
 
@@ -2176,7 +2176,7 @@ def test_sum_ab_dual_slope_qadic_norm_bridge_summary_rewrites_recovery_as_bridge
 
 
 def test_sum_ab_dual_slope_qadic_bridge_valuation_summary_tracks_e_near_tube() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_bridge_valuation_summary,
     )
 
@@ -2203,7 +2203,7 @@ def test_sum_ab_dual_slope_qadic_bridge_valuation_summary_tracks_e_near_tube() -
 
 
 def test_sum_ab_dual_slope_qadic_bridge_2adic_summary_separates_parity_survivors() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_bridge_2adic_summary,
     )
 
@@ -2236,7 +2236,7 @@ def test_sum_ab_dual_slope_qadic_bridge_2adic_summary_separates_parity_survivors
 
 
 def test_sum_ab_dual_slope_qadic_bridge_local_square_summary_keeps_survivors() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_qadic_bridge_local_square_summary,
     )
 
@@ -2266,7 +2266,7 @@ def test_sum_ab_dual_slope_qadic_bridge_local_square_summary_keeps_survivors() -
 
 
 def test_sum_ab_dual_slope_gaussian_absorption_returns_failure_to_dual_slope() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_gaussian_absorption,
     )
 
@@ -2286,7 +2286,7 @@ def test_sum_ab_dual_slope_gaussian_absorption_returns_failure_to_dual_slope() -
 
 
 def test_sum_ab_dual_slope_gaussian_bridge_recovers_target_squareclass() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_gaussian_bridge,
     )
 
@@ -2309,7 +2309,7 @@ def test_sum_ab_dual_slope_gaussian_bridge_recovers_target_squareclass() -> None
 
 
 def test_sum_ab_dual_slope_gaussian_bridge_cycle_reduces_squares_to_bridges() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_gaussian_bridge_cycle,
     )
 
@@ -2330,7 +2330,7 @@ def test_sum_ab_dual_slope_gaussian_bridge_cycle_reduces_squares_to_bridges() ->
 
 
 def test_sum_ab_dual_slope_bridge_difference_factors_through_new_curve() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_difference_factorization,
     )
 
@@ -2357,7 +2357,7 @@ def test_sum_ab_dual_slope_bridge_difference_factors_through_new_curve() -> None
 
 
 def test_sum_ab_bridge_extra_factor_reduces_to_z_lemma_centerline() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_bridge_extra_factor_z_lemma_reduction,
     )
 
@@ -2378,7 +2378,7 @@ def test_sum_ab_bridge_extra_factor_reduces_to_z_lemma_centerline() -> None:
 
 
 def test_sum_ab_dual_slope_bridge_residue_summary_routes_mod5_11_to_extra_factor() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_projective_residue_summary,
     )
 
@@ -2407,7 +2407,7 @@ def test_sum_ab_dual_slope_bridge_residue_summary_routes_mod5_11_to_extra_factor
 
 
 def test_sum_ab_dual_slope_bridge_prime_power_lift_tracks_centerline_extra_factor() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_prime_power_lift_summary,
     )
 
@@ -2437,7 +2437,7 @@ def test_sum_ab_dual_slope_bridge_prime_power_lift_tracks_centerline_extra_facto
 
 
 def test_sum_ab_dual_slope_bridge_centerline_factor_lift_splits_centerline_tubes() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_centerline_factor_lift_summary,
     )
 
@@ -2480,7 +2480,7 @@ def test_sum_ab_dual_slope_bridge_centerline_factor_lift_splits_centerline_tubes
 
 
 def test_sum_ab_bridge_branch_restrictions_split_quartic_from_square() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_centerline_branch_restrictions,
     )
 
@@ -2516,7 +2516,7 @@ def test_sum_ab_bridge_branch_restrictions_split_quartic_from_square() -> None:
 
 
 def test_sum_ab_bridge_trivial_tube_expansions_have_square_base() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_bridge_trivial_tube_expansions,
     )
 
@@ -2590,7 +2590,7 @@ def test_sum_ab_bridge_trivial_tube_expansions_have_square_base() -> None:
 
 
 def test_sum_ab_centerline_factor_exact_branches_separate_positive_domain() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_centerline_factor_positive_domain,
     )
 
@@ -2631,7 +2631,7 @@ def test_sum_ab_centerline_factor_exact_branches_separate_positive_domain() -> N
 
 
 def test_sum_ab_positive_trivial_tube_local_witnesses_show_5adic_gap() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_positive_trivial_tube_local_witnesses,
     )
 
@@ -2673,7 +2673,7 @@ def test_sum_ab_positive_trivial_tube_local_witnesses_show_5adic_gap() -> None:
 
 
 def test_sum_ab_positive_trivial_tube_squareclass_ledgers_are_one_mod_four() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_positive_trivial_tube_squareclass_ledgers,
     )
 
@@ -2707,7 +2707,7 @@ def test_sum_ab_positive_trivial_tube_squareclass_ledgers_are_one_mod_four() -> 
 
 
 def test_sum_ab_positive_trivial_tube_member_ledgers_fail_only_lambda_terms() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_dual_slope_positive_trivial_tube_member_ledgers,
     )
 
@@ -2747,7 +2747,7 @@ def test_sum_ab_positive_trivial_tube_member_ledgers_fail_only_lambda_terms() ->
 
 
 def test_closure_identity_three_mod_four_balance_tracks_shared_compensation() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_identity_three_mod_four_balance_ledger,
     )
@@ -2784,7 +2784,7 @@ def test_closure_identity_three_mod_four_balance_tracks_shared_compensation() ->
 
 
 def test_closure_identity_shared_gcd_ledger_tracks_discriminant_boundary() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         REL_SUM_AB,
         closure_identity_shared_gcd_ledger,
     )
@@ -2815,7 +2815,7 @@ def test_closure_identity_shared_gcd_ledger_tracks_discriminant_boundary() -> No
 
 
 def test_sum_ab_shared_odd_prime_residue_summary_splits_sign_cases() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_shared_odd_prime_residue_summary,
     )
 
@@ -2841,7 +2841,7 @@ def test_sum_ab_shared_odd_prime_residue_summary_splits_sign_cases() -> None:
 
 
 def test_sum_ab_shared_odd_prime_power_lift_summary_tracks_p_shadow() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_shared_odd_prime_power_lift_summary,
     )
 
@@ -2868,7 +2868,7 @@ def test_sum_ab_shared_odd_prime_power_lift_summary_tracks_p_shadow() -> None:
 
 
 def test_sum_ab_slope_ratio_y_discriminant_ledger_records_new_curve_factor() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_slope_ratio_y_discriminant_ledger,
     )
 
@@ -2892,7 +2892,7 @@ def test_sum_ab_slope_ratio_y_discriminant_ledger_records_new_curve_factor() -> 
 
 
 def test_sum_ab_new_curve_mod3_residue_summary_only_leaves_boundary_classes() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_new_curve_residue_summary,
     )
 
@@ -2908,7 +2908,7 @@ def test_sum_ab_new_curve_mod3_residue_summary_only_leaves_boundary_classes() ->
 
 
 def test_sum_ab_new_curve_z_reduction_tracks_two_square_conditions() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_new_curve_z_reduction,
     )
 
@@ -2934,7 +2934,7 @@ def test_sum_ab_new_curve_z_reduction_tracks_two_square_conditions() -> None:
 
 
 def test_sum_ab_z_lemma_centerline_bridge_matches_quartic() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_z_lemma_centerline_bridge,
     )
 
@@ -2959,7 +2959,7 @@ def test_sum_ab_z_lemma_centerline_bridge_matches_quartic() -> None:
 
 
 def test_sum_ab_k_discriminant_quartic_completion_links_centerline() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_k_discriminant_quartic_completion,
     )
 
@@ -2980,7 +2980,7 @@ def test_sum_ab_k_discriminant_quartic_completion_links_centerline() -> None:
 
 
 def test_sum_ab_k_square_candidate_y_discriminant_separates_layers() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_k_square_candidate_y_discriminant,
     )
 
@@ -3000,7 +3000,7 @@ def test_sum_ab_k_square_candidate_y_discriminant_separates_layers() -> None:
 
 
 def test_sum_ab_k_square_y_discriminant_factorization_splits_layer3() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_k_square_y_discriminant_factorization,
     )
 
@@ -3032,7 +3032,7 @@ def test_sum_ab_k_square_y_discriminant_factorization_splits_layer3() -> None:
 
 
 def test_sum_ab_same_orientation_both_pass_residue_summary_tracks_mod3_boundary() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_both_pass_residue_summary,
     )
 
@@ -3056,7 +3056,7 @@ def test_sum_ab_same_orientation_both_pass_residue_summary_tracks_mod3_boundary(
 
 
 def test_sum_ab_same_orientation_both_pass_lift_summary_tracks_3adic_survivors() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_both_pass_lift_summary,
     )
 
@@ -3089,7 +3089,7 @@ def test_sum_ab_same_orientation_both_pass_lift_summary_tracks_3adic_survivors()
 
 
 def test_sum_ab_same_orientation_difference_factor_valuation_summary_splits_branches() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_difference_factor_valuation_summary,
     )
 
@@ -3139,7 +3139,7 @@ def test_sum_ab_same_orientation_difference_factor_valuation_summary_splits_bran
 
 
 def test_sum_ab_same_orientation_combined_valuation_summary_shows_many_local_patterns() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_same_orientation_combined_valuation_summary,
     )
 
@@ -3172,7 +3172,7 @@ def test_sum_ab_same_orientation_combined_valuation_summary_shows_many_local_pat
 
 
 def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypatch) -> None:
-    import rational_distance.concordant.rational_ratio as rr
+    import rational_distance.concordant.archive.rational_ratio as rr
 
     calls: dict[Fraction, int] = {}
     original = rr.leg_ratio_squareclass
@@ -3193,7 +3193,7 @@ def test_scan_sum_ab_slope_obstructions_reuses_squareclass_diagnostics(monkeypat
 
 
 def test_sum_ab_ratio_shadow_key_identifies_reciprocal_near_misses() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         sum_ab_ratio_shadow_key,
         sum_ab_slope_obstruction,
     )
@@ -3209,7 +3209,7 @@ def test_sum_ab_ratio_shadow_key_identifies_reciprocal_near_misses() -> None:
 
 
 def test_group_sum_ab_ratio_shadow_orbits_merges_reciprocal_pair() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         group_sum_ab_ratio_shadow_orbits,
         sum_ab_slope_obstruction,
     )
@@ -3229,7 +3229,7 @@ def test_group_sum_ab_ratio_shadow_orbits_merges_reciprocal_pair() -> None:
 
 
 def test_square_rectangle_terms_match_sum_branch_distances() -> None:
-    from rational_distance.concordant.rational_ratio import square_rectangle_terms
+    from rational_distance.concordant.archive.rational_ratio import square_rectangle_terms
 
     terms = square_rectangle_terms(lambda_ratio=Fraction(7), target=Fraction(8), mover=Fraction(1))
 
@@ -3247,7 +3247,7 @@ def test_square_rectangle_terms_match_sum_branch_distances() -> None:
 
 
 def test_reciprocal_orbit_dangerous_discriminant_roots_are_not_members() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         full_plane_reciprocal_obstruction,
         reciprocal_closure_roots,
     )
@@ -3274,7 +3274,7 @@ def test_reciprocal_orbit_dangerous_discriminant_roots_are_not_members() -> None
 
 
 def test_reciprocal_closure_squareclass_ledger_explains_failed_roots() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         reciprocal_closure_squareclass_ledger,
     )
 
@@ -3288,7 +3288,7 @@ def test_reciprocal_closure_squareclass_ledger_explains_failed_roots() -> None:
 
 
 def test_reciprocal_closure_discriminant_ledger_explains_failed_roots() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         reciprocal_closure_discriminant_ledger,
     )
 
@@ -3312,7 +3312,7 @@ def test_reciprocal_closure_discriminant_ledger_explains_failed_roots() -> None:
 
 
 def test_reciprocal_closure_discriminant_ledger_handles_single_positive_root() -> None:
-    from rational_distance.concordant.rational_ratio import (
+    from rational_distance.concordant.archive.rational_ratio import (
         reciprocal_closure_discriminant_ledger,
     )
 

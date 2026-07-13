@@ -46,7 +46,9 @@ GEN-CLOSURE充要条件（wl093-094）:
 
 ### 代码常量映射
 
-在 `src/rational_distance/concordant/rational_ratio.py`:
+研究实现位于 `src/rational_distance/concordant/archive/rational_ratio.py`；
+partner audit 使用精简的
+`src/rational_distance/concordant/rational_ratio_core.py`:
 ```python
 REL_SUM_AB = "sum=A+B"      # r + s = λ + 1
 REL_SUM_DIFF = "sum=|A-B|"  # r + s = |λ − 1|

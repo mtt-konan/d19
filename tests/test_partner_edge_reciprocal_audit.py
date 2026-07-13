@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from dataclasses import asdict
 from fractions import Fraction
 from pathlib import Path
 
@@ -10,7 +11,29 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))
 
-from rational_distance.concordant.rational_ratio import reciprocal_ratio
+from rational_distance.concordant.archive.rational_ratio import (
+    REL_DIFF_AB as ARCHIVE_REL_DIFF_AB,
+)
+from rational_distance.concordant.archive.rational_ratio import (
+    REL_DIFF_DIFF as ARCHIVE_REL_DIFF_DIFF,
+)
+from rational_distance.concordant.archive.rational_ratio import (
+    REL_SUM_AB as ARCHIVE_REL_SUM_AB,
+)
+from rational_distance.concordant.archive.rational_ratio import (
+    REL_SUM_DIFF as ARCHIVE_REL_SUM_DIFF,
+)
+from rational_distance.concordant.archive.rational_ratio import (
+    full_plane_true_closure_relation as archive_full_plane_true_closure_relation,
+)
+from rational_distance.concordant.rational_ratio_core import (
+    REL_DIFF_AB,
+    REL_DIFF_DIFF,
+    REL_SUM_AB,
+    REL_SUM_DIFF,
+    full_plane_true_closure_relation,
+    reciprocal_ratio,
+)
 from scripts.partner.partner_edge_reciprocal_audit import (
     audit_partner_edge_row,
     audit_partner_orientation,
@@ -81,3 +104,26 @@ def test_audit_orientation_reports_membership_flags() -> None:
     assert item.r_j_member
     assert item.both_members
     assert item.lambda_ratio == Fraction(25, 91)
+
+
+def test_runtime_core_matches_archived_relation_classifier() -> None:
+    cases = (
+        (REL_SUM_AB, ARCHIVE_REL_SUM_AB),
+        (REL_SUM_DIFF, ARCHIVE_REL_SUM_DIFF),
+        (REL_DIFF_AB, ARCHIVE_REL_DIFF_AB),
+        (REL_DIFF_DIFF, ARCHIVE_REL_DIFF_DIFF),
+    )
+    for core_relation, archive_relation in cases:
+        core = full_plane_true_closure_relation(
+            lambda_ratio=Fraction(25, 91),
+            r=Fraction(60, 91),
+            s=Fraction(312, 91),
+            relation=core_relation,
+        )
+        archived = archive_full_plane_true_closure_relation(
+            lambda_ratio=Fraction(25, 91),
+            r=Fraction(60, 91),
+            s=Fraction(312, 91),
+            relation=archive_relation,
+        )
+        assert asdict(core) == asdict(archived)
