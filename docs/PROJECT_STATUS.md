@@ -338,6 +338,15 @@ constant-twist schema, identifies the complete 256-class `Q(S,2)` candidate
 set and 16 real/`Q_2` survivors, and retains all odd bad-prime rows as
 unevaluated inputs. It does not enter D1 or prove a rational-point exclusion.
 
+`wl589` independently completes the same D0 obligation for the mixed
+`u_3+v_5+w_17` representative. It derives the mixed quartic and exact AA+BB
+lift from scratch, verifies the genus-17 fixed cover and genus-33 factor
+cover, records the complete 256-class `Q(S,2)` set and 16 real/`Q_2`
+survivors, and leaves all six odd bad-prime local images unevaluated. This is
+not D1, a rational-point classification, a cross-family descent lemma, or a
+family exclusion. The next gate is a controller comparison of the two frozen
+D0 schemas before any one D1 or cross-family obligation is selected.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 

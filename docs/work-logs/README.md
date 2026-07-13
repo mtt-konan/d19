@@ -118,7 +118,8 @@ entries.
          -> 530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md
          -> 586-route-selection.md
          -> 587-pure-u7-d0-relative-2-descent.md
-         -> latest checkpoint: 587-pure-u7-d0-relative-2-descent.md
+         -> 589-mixed-d0-relative-2-descent.md
+         -> latest checkpoint: 589-mixed-d0-relative-2-descent.md
 ```
 
 ## Reading Rule

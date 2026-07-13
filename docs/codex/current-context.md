@@ -5,19 +5,19 @@
 - Project phase: exploration
 - Memory landing policy: ask-by-default
 - Module aliases: AA+BB route; complete d-coordinate route; C_d / M_tail route
-- Active version: wl587 pure-u_7 D0 relative 2-descent proof-data certificate
-- Active run: `d0-pure-u7-relative-2-descent-proof-data` checkpoint complete
+- Active version: wl589 mixed-family D0 relative 2-descent proof-data certificate
+- Active run: `d0-mixed-relative-2-descent-proof-data` checkpoint complete
 - Active module: AA+BB complete-`d` route; family-level relative 2-descent for square specializations
 - Baseline: Project guidance records wl527 as function-field proof-data scoping with 0 of 15 named cover families ready for a uniform squareclass proof attempt.
-- Active hypothesis: the verified pure-`u_7` schema can be tested for structural reuse on the mixed representative without assuming the same local images or Picard arithmetic.
+- Active hypothesis: the two independently verified D0 schemas may expose either one narrow D1 target or a genuinely shared cross-family arithmetic obligation; no such target is selected yet.
 - Known failures: Finite taxonomy alone does not provide a uniform function-field squareclass certificate.
 - Stable behavior: Keep single-curve Selmer diagnostics, S~, complete d-coordinate C_d ledgers, M_tail diagnostics, AA+BB admissibility, and theorem-level Selmer claims separate.
 - 稳定模块保护判断: `wl529` is a stable completed checkpoint and must not be edited. `wl530` is a symbolic derivation checkpoint only; future work must still keep other support types, shell 11, broad Selmer/rank diagnostics, and old package-x / `S~` outside scope unless explicitly reopened.
 - Pressure signals: Avoid route drift and finite-diagnostic accumulation being described as theorem progress.
 - Rejected approaches: Do not revive the old package-x / S~ bridge as a theorem-level Selmer object; do not treat counts as proof.
 - Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof. A quotient point matters only after the exact wl531 `X`-square, positivity, source-side, opposite-side, and complete-`d` lift conditions are all imposed.
-- Evidence links: `AGENTS.md`; persistent controller objective attachment; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md`; `docs/work-logs/586-route-selection.md`; `docs/work-logs/archive/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`; `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`
+- Evidence links: `AGENTS.md`; persistent controller objective attachment; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/587-pure-u7-d0-relative-2-descent.md`; `docs/work-logs/589-mixed-d0-relative-2-descent.md`; `docs/work-logs/586-route-selection.md`
 - Session log: none
-- Next step: fresh-session mixed-family D0 construction only; D1 remains closed.
+- Next step: controller comparison of `wl587` and `wl589`; select only one narrow D1 or cross-family gate, and do not enter it in this checkpoint.
 - Do not assume: the rejected tangent-cubic birational rewrite is a smaller obstruction or proof progress.
 - Delegation preference: Keep tasks narrow and reviewable; all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`, while already-running tasks remain unchanged. `max` is a reasoning level, not part of the model name; `xhigh` is also verified as supported.

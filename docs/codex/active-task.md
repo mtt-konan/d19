@@ -2,20 +2,20 @@
 
 - Status: checkpoint_complete
 - Updated: 2026-07-13
-- Task id: d0-pure-u7-relative-2-descent-proof-data
-- Goal: Determine whether square specializations admit a family-level relative 2-descent mechanism, beginning with one complete pure-`u_7` proof-data schema.
-- Scope: only `support=u_7|L=7|T=9|d=(7,7,1)` and its square locus `R^2=P_op`; the mixed representative remains queued, not entered.
+- Task id: d0-mixed-relative-2-descent-proof-data
+- Goal: Test whether the verified D0 schema transfers structurally to the mixed representative without importing family-specific arithmetic.
+- Scope: only `support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)` and its square locus `R^2=P_op`; pure-`u_7` `wl587` is read-only.
 - Object layer: normalization, divisors, Picard/Pic^0 classes, twists, bad fibers, and exact AA+BB lift conditions for a relative 2-descent; not an equivalent-model checkpoint or theorem-level Selmer object.
-- Current proof obligation: Completed in `wl587`; the pure-`u_7` D0 schema is complete, while odd bad-prime filtering and rational-point classification remain outside D0.
+- Current proof obligation: Completed in `wl589`; the mixed D0 schema is complete, while all six odd bad-prime local images and rational-point classification remain outside D0.
 - Accepted outcomes: complete D0 proof-data certificate; rigorous counterexample; genuinely smaller exact lemma; or precise blocker with proof that later descent stages cannot yet be entered.
 - Allowed changes: short-path D0 script/test and one worklog only after an accepted outcome; control-document synchronization. All mathematical construction is delegated through Codex CLI.
-- Forbidden changes: no mixed-family D0 yet, no D1, no `wl535` re-entry, no pure-`v_ell` refinement, no model alone counted as progress, no shell 11, finite search as progress, new support computation, broad rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit before controller review.
+- Forbidden changes: no edits to `wl587`, no D1, no `wl535` re-entry, no pure-`v_ell` refinement, no model alone counted as progress, no shell 11, finite search as progress, new support computation, broad rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit before controller review.
 - Stable boundaries: `wl529`, `wl530`, `wl531`, `wl532`, `wl533`, `wl534`, and `wl535` are inputs. Preserve the validated q-root equivalence, chart-inverse branches, and all earlier exact lifts unless a concrete error is found.
-- Current step: Controller-reviewed `wl587` pure-`u_7` D0 certificate complete.
+- Current step: Controller-reviewed `wl589` mixed-family D0 certificate complete.
 - Completed steps: `wl530` derives M1; `wl531`-`wl535` give the exact q-root proposition; `wl536`-`wl580` exhaust local, descent, valuation, allocation, and reconstruction routes; `wl581`-`wl585` exhaust lower-genus and elliptic-quotient reformulations; the consolidated checkpoint verifies the chain and its claim boundaries.
 - Strategic route-freeze certificate: `wl539` closes repeated good-reduction residue tables; `wl541` closes the parameter-prime standalone route; `wl542` closes negative-denominator places as automatic local squares; `wl568` and `wl580` prove allocation/descent self-consistency reconstructs the source system; `wl582`, `wl584`, and `wl585` prove the available elliptic quotients either forget a required lift or recover the original restricted problem. These finite, named tool classes cannot supply a new uniform invariant without an additional arithmetic input not present in them.
 - Certificate boundary: This freezes only the currently instantiated candidate tools. It is not a theorem that every future Hilbert-symbol, Brauer-Manin, reciprocity, family-Chabauty, or other global invariant is impossible.
-- Next exact step: use a fresh Worker session to construct the same D0 schema for `support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)`. D1 remains closed.
+- Next exact step: compare the frozen `wl587` and `wl589` D0 schemas and select one narrow D1 or cross-family obligation; no later stage is entered here.
 - Validation gates: direct algebra review; explicit positivity, square-X, lift, and all exceptional-denominator handling; focused pytest; targeted ruff; strict certificate if any.
-- Stop condition: reached for this task; do not enter mixed-family D0 or D1 in the `wl587` checkpoint.
+- Stop condition: reached for this task; do not enter D1 or create a later worklog in the `wl589` checkpoint.
 - Delegation preference: all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`; `max` is the reasoning level, not part of the model name. `--reasoning xhigh` is also verified as supported. Do not alter tasks already running when this preference was set.

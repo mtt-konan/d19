@@ -3,19 +3,21 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Family-Level Relative 2-Descent After wl587
+## P0: Post-D0 Relative 2-Descent Selection After wl589
 
 Current handoff:
 
 ```text
-wl587_pure_u7_D0_relative_2_descent_proof_data_complete
+wl589_mixed_D0_relative_2_descent_proof_data_complete
 ```
 
-`wl587` supplies the first complete D0 relative-descent schema for pure
-`u_7`: normalization, factor divisors, Picard classes, 256 `Q(S,2)` twists,
-16 real/`Q_2` survivors, and explicit odd bad-fiber inputs. The next open
-direction is to reconstruct the same schema independently for the mixed
-`u_3+v_5+w_17` representative. D1 local twist validation remains closed.
+`wl587` and `wl589` supply independent complete D0 relative-descent schemas
+for pure `u_7` and mixed `u_3+v_5+w_17`. Each records normalization, factor
+divisors, Picard classes, the complete 256-class `Q(S,2)` candidate set, 16
+real/`Q_2` survivors, and explicit unevaluated odd bad-fiber inputs. The next
+open direction is to compare the two schemas and choose one narrow D1 local
+image or genuinely cross-family lemma. D1 remains closed until that choice is
+made explicitly.
 
 The exact `wl535` obstruction remains a frozen input:
 

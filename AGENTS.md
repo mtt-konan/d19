@@ -39,7 +39,7 @@ tasks that were already running when this contract was adopted.
 The current handoff is:
 
 ```text
-wl587_pure_u7_D0_relative_2_descent_proof_data_complete
+wl589_mixed_D0_relative_2_descent_proof_data_complete
 ```
 
 The cross-family audit proves the same opposite-side product is generically
@@ -48,12 +48,12 @@ control its square specializations. The user has now explicitly supplied the
 required family-level route: relative 2-descent on the square loci. Enter only
 D0 proof-data construction, starting with pure `u_7`; do not re-enter `wl535`.
 
-`wl587` completes the pure-`u_7` D0 schema: source normalization, factor and
-full branch divisors, Picard data, the complete 256-class `Q(S,2)` factor-twist
-set, the 16 real/`Q_2` survivors, bad-fiber inputs, exceptional branches, and
-the exact lift conditions. Odd bad-prime filtering remains unevaluated and D1
-is not entered. The next task may reuse this schema for the mixed family, but
-must use a fresh Worker session and may not silently generalize either result.
+`wl587` completes and freezes the pure-`u_7` D0 schema. `wl589` independently
+completes the mixed-family D0 schema for
+`support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)`. Both are now frozen inputs.
+The next controller gate is only to compare the two D0 schemas and select one
+narrow D1 or cross-family obligation. Do not enter D1 automatically, and do
+not modify `wl587` or `wl589` while making that decision.
 
 ### Frozen wl535 Input
 

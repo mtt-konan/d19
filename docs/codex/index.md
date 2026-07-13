@@ -4,9 +4,9 @@
 - Project: d19 rational-distance research
 - Current anchor: `docs/codex/current-context.md`
 - Memory landing policy: ask-by-default
-- Task branches: completed task `d0-pure-u7-relative-2-descent-proof-data` -> `docs/codex/active-task.md`; latest completed checkpoint `wl587-pure-u7-d0-relative-2-descent`
-- Active version: wl587 pure-u_7 D0 certificate complete
-- Active topic: next fresh-session task is mixed-family D0; D1 is not entered
+- Task branches: completed task `d0-mixed-relative-2-descent-proof-data` -> `docs/codex/active-task.md`; latest completed checkpoint `wl589-mixed-d0-relative-2-descent`
+- Active version: wl589 mixed-family D0 certificate complete
+- Active topic: compare the frozen pure-`u_7` and mixed D0 schemas before selecting one narrow next gate; D1 is not entered
 - Project phase: exploration
 - Module aliases:
   - aa-bb-complete-d-route: AA+BB route, complete d-coordinate route, C_d / M_tail route

@@ -5,18 +5,17 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl587` is present, the current handoff is:
+If `wl589` is present, the current handoff is:
 
 ```text
-wl587_pure_u7_D0_relative_2_descent_proof_data_complete
+wl589_mixed_D0_relative_2_descent_proof_data_complete
 ```
 
-Do not re-enter `wl535`. `wl587` completes D0 proof data for
-`support=u_7|L=7|T=9|d=(7,7,1)`. Its 256 constant twists are the complete
-`Q(S,2)` candidates; 16 survive only the real and `Q_2` filters. Odd bad-prime
-local images remain unevaluated, so D1 is not entered. The next narrow task is
-mixed-family D0 using the same schema in a fresh Worker session; it is not
-entered in `wl587`.
+Do not re-enter `wl535`. `wl587` and `wl589` are frozen inputs. They complete
+independent D0 schemas for the pure-`u_7` and mixed
+`u_3+v_5+w_17` representatives. The next controller decision must compare
+their source/divisor/Picard/twist/local schemas and select exactly one narrow
+D1 or cross-family proof obligation. No D1 computation is entered here.
 
 ## Historical wl535 Chain
 

@@ -242,6 +242,11 @@ Rank-zero Selmer / AA+BB audit helpers:
   to construct the complete pure-`u_7` D0 source/divisor/Picard/factor-twist
   schema. It records 256 `Q(S,2)` candidates and 16 real/`Q_2` survivors while
   leaving odd bad-prime filtering and D1 explicitly unevaluated.
+  `wl589` then uses `theory/aa_bb/wl589_mixed_d0_relative_2_descent.py`
+  to construct the independent mixed `u_3+v_5+w_17` D0 schema. It verifies
+  the exact mixed source and AA+BB lift, records the same candidate and
+  real/`Q_2` survivor counts from independently derived arithmetic, and leaves
+  all six odd bad-prime local images to a later explicitly selected D1 gate.
 
 ### `modular/` — Path B / mod p² 实证
 
