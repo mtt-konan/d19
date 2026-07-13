@@ -14,8 +14,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from rational_distance._legacy.ec_analysis import build_analysis_report
 from rational_distance._legacy.ec_db import ECSearchStore, connect_db
-from rational_distance._legacy.search_ec import QuarticEC, ec_search, find_seeds_for_triple
 from rational_distance._legacy.square import canonical_xy
+from rational_distance.ec_search import QuarticEC, ec_search, find_seeds_for_triple
 
 
 class TestQuarticEC:

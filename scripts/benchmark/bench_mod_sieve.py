@@ -2,13 +2,15 @@
 """Benchmark mod sieve per-modulus cost vs kills."""
 import sys
 import time
+
 sys.path.insert(0, "src")
 
 from rational_distance.concordant.chain_closure_sieve import (
-    killed_at_modulus, DEFAULT_PRIME_SQUARE_MODULI
+    DEFAULT_PRIME_SQUARE_MODULI,
+    killed_at_modulus,
 )
+from rational_distance.concordant.pairs import generate_ab_pairs
 from rational_distance.concordant.safe_pair_sieve import allow_reduced_pair
-from rational_distance._legacy.pair_generator import generate_ab_pairs
 
 MAX_HYP = 20000
 pairs = [(A,B) for A,B in generate_ab_pairs(MAX_HYP) if allow_reduced_pair(A,B)]

@@ -24,7 +24,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from rational_distance._legacy.search_chain import ChainResult
-from rational_distance._legacy.search_chain_fast import ChainFastProfile
+from rational_distance.chain_fast import ChainFastProfile
 
 CHAIN_DB_SCHEMA_VERSION = 4
 

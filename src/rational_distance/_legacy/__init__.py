@@ -2,14 +2,14 @@
 
 Code in this package is **not** the place to add new functionality. Each
 module here exists only to keep historical functionality alive. Canonical
-homes for new code:
+homes for the removed re-export modules are:
 
-- ``rational_distance._legacy.concordant_ec``      → ``rational_distance.concordant.*``
-- ``rational_distance._legacy.pair_generator``     → ``rational_distance.concordant.pairs``
-- ``rational_distance._legacy.search_chain_fast``  → ``rational_distance.chain_fast``
-- ``rational_distance._legacy.search_ec``          → ``rational_distance.ec_search``
+- concordant analysis: ``rational_distance.concordant``
+- pair generation: ``rational_distance.concordant.pairs``
+- chain-fast search: ``rational_distance.chain_fast``
+- elliptic-curve search: ``rational_distance.ec_search``
 
-History note: the top-level ``rational_distance/<name>.py`` stubs that used
-to forward into this package were removed in wl084-followup refactor; all
-call sites now import from ``rational_distance._legacy.<name>`` directly.
+The repository's internal callers now use those canonical paths directly.
+The remaining modules here are historical database, analysis, and persistence
+implementations that still have an explicit provenance or runtime use.
 """

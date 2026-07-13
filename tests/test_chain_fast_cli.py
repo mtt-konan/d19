@@ -257,7 +257,7 @@ class TestChainFastCLI:
 
     def test_chain_fast_cli_safe_pair_sieve_requires_python_backend(self):
         """CLI should fail clearly when safe-pair-sieve would hit numpy."""
-        from rational_distance._legacy.search_chain_fast import _HAS_NUMPY
+        from rational_distance.chain_fast import _HAS_NUMPY
 
         for backend in ("numpy", "auto"):
             if backend == "auto" and not _HAS_NUMPY:

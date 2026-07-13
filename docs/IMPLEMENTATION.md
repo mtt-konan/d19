@@ -10,19 +10,11 @@
 - `scripts/search.py` 仍是统一用户入口，5 个子命令名不变。
 - CLI 壳层继续放在 `src/rational_distance/cli/search/`。
 - 真正实现优先看包目录：`ec_search/`、`chain_fast/`、`concordant/`。
-- 旧导入路径先继续保留，不因为内部结构变清楚就立刻删兼容层。
+- 旧导入路径只有在仍有明确兼容需求时才保留；仓内实现统一指向 canonical 包。
 
-这里说的“兼容层”，当前主要是顶层这 4 个 stub 文件：
-
-- [src/rational_distance/search_ec.py](../src/rational_distance/search_ec.py)
-- [src/rational_distance/search_chain_fast.py](../src/rational_distance/search_chain_fast.py)
-- [src/rational_distance/concordant_ec.py](../src/rational_distance/concordant_ec.py)
-- [src/rational_distance/pair_generator.py](../src/rational_distance/pair_generator.py)
-
-每个都已经缩成 9 行的极简 stub，只做一件事：从 [_legacy/](../src/rational_distance/_legacy)
-转发 `*` 与 `__all__`。真实的 re-export 列表在 `_legacy/` 子目录里。
-
-它们现在不是“历史垃圾”，而是还在承担旧导入路径的兼容职责。
+四个历史 re-export stub 已经删除。当前实现优先看 `ec_search/`、
+`chain_fast/`、`concordant/` 和 `concordant/pairs/`；仍有 provenance 或运行
+时用途的数据库/分析文件继续留在 `_legacy/`。
 
 ## 二、代码分成 5 个维护区
 
@@ -40,7 +32,6 @@
 - [src/rational_distance/parametric_core.py](../src/rational_distance/parametric_core.py)
 - [src/rational_distance/search_gpu.py](../src/rational_distance/search_gpu.py)
 - [src/rational_distance/ec_search/](../src/rational_distance/ec_search)
-- [src/rational_distance/search_ec.py](../src/rational_distance/search_ec.py)
 - [src/rational_distance/ec_db.py](../src/rational_distance/ec_db.py)
 - [src/rational_distance/ec_analysis.py](../src/rational_distance/ec_analysis.py)
 
@@ -48,7 +39,7 @@
 
 - `parametric_core.py` 是三顶点参数化判定的共享核心。
 - `search.py` 和 `search_gpu.py` 更偏编排与后端执行。
-- `ec_search/` 是三顶点 EC 路径的主实现；`search_ec.py` 是兼容入口。
+- `ec_search/` 是三顶点 EC 路径的唯一实现入口。
 
 ### 2. `four_cycle_baseline`
 
@@ -62,7 +53,6 @@
 
 - [src/rational_distance/search_chain.py](../src/rational_distance/search_chain.py)
 - [src/rational_distance/chain_fast/](../src/rational_distance/chain_fast)
-- [src/rational_distance/search_chain_fast.py](../src/rational_distance/search_chain_fast.py)
 - [src/rational_distance/chain_db.py](../src/rational_distance/chain_db.py)
 - [src/rational_distance/chain_analysis.py](../src/rational_distance/chain_analysis.py)
 
@@ -70,7 +60,6 @@
 
 - `search_chain.py` 偏原始 chain / 长方形路线。
 - `chain_fast/` 是当前 `chain-fast` 的主实现区。
-- `search_chain_fast.py` 是兼容入口。
 - `chain_db.py` 和 `chain_analysis.py` 负责 `chain-fast` 的 SQLite 与分析辅助。
 
 ### 3. `concordant`
@@ -83,13 +72,11 @@
 主要代码：
 
 - [src/rational_distance/concordant/](../src/rational_distance/concordant)
-- [src/rational_distance/concordant_ec.py](../src/rational_distance/concordant_ec.py)
-- [src/rational_distance/pair_generator.py](../src/rational_distance/pair_generator.py)
 
 实现备注：
 
-- `concordant/` 是当前主实现包。
-- `concordant_ec.py` 和 `pair_generator.py` 保留为兼容入口，不是主实现所在处。
+- `concordant/` 是当前唯一实现包；pair generation 位于
+  `concordant/pairs.py`。
 
 ### 4. `proof_status`
 
@@ -197,31 +184,17 @@
 
 整理代码时，尽量保持这个分层，不要把大量数学逻辑重新堆回 CLI 壳层。
 
-## 四、兼容层现在怎么理解
+## 四、Legacy 包现在怎么理解
 
-兼容层物理上分两段：
-
-**顶层 stub（4 个）**：
-
-- `search_ec.py`、`search_chain_fast.py`、`concordant_ec.py`、`pair_generator.py`
-- 每个文件 9 行，纯 `from rational_distance._legacy.* import *` 转发
-- 目的：让 `from rational_distance.search_ec import ec_search` 这种历史导入路径继续可用
+原先的四个 re-export 包装文件已经删除。仓内调用统一使用 canonical
+模块路径：`rational_distance.ec_search`、`rational_distance.chain_fast`、
+`rational_distance.concordant` 和 `rational_distance.concordant.pairs`。
 
 **真实 legacy 包**：
 
 - 集中在 [src/rational_distance/_legacy/](../src/rational_distance/_legacy)
-- 这里仍承载旧 CLI、数据库层和测试会 import 的实现
-- 这个子目录里**不应该有任何新代码**，但也不能仅凭名字直接删除
-
-它们当前仍有真实调用方，包括测试、数据库层（`chain_db.py`、`ec_db.py`）和部分 CLI runners。
-所以“包目录已经更清楚了”不等于“这些文件已经可以直接删”。
-
-如果以后想彻底移除兼容层，路径是：
-
-1. 把所有 `from rational_distance.search_chain_fast import X`
-   改为 `from rational_distance.chain_fast import X`（其它三条类推）
-2. 跑 `uv run pytest` 确认 191 测试仍过
-3. 删除 4 个顶层 stub + `_legacy/` 子目录
+- 这里仍承载旧数据库、分析和持久化实现
+- 这个子目录里不添加新功能，也不因名字直接删除仍有用途的文件
 
 ## 五、当前测试结构映射
 

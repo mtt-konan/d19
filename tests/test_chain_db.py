@@ -59,7 +59,7 @@ class TestChainDB:
     def test_start_and_finish_run(self, tmp_path):
         """start_run and finish_run should store profile fields."""
         from rational_distance._legacy.chain_db import finish_run, get_run, start_run
-        from rational_distance._legacy.search_chain_fast import ChainFastProfile
+        from rational_distance.chain_fast import ChainFastProfile
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(
@@ -155,7 +155,12 @@ class TestChainDB:
 
     def test_record_near_miss(self, tmp_path):
         """record_near_miss should dedup within one run and count only real inserts."""
-        from rational_distance._legacy.chain_db import get_near_misses, get_run, record_near_miss, start_run
+        from rational_distance._legacy.chain_db import (
+            get_near_misses,
+            get_run,
+            record_near_miss,
+            start_run,
+        )
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(near_miss=True), n_triples=160)
@@ -333,7 +338,11 @@ class TestChainDB:
 
     def test_record_bucket_stats(self, tmp_path):
         """Aggregated bucket stats should persist and be queryable per run."""
-        from rational_distance._legacy.chain_db import get_bucket_stats, record_bucket_stats, start_run
+        from rational_distance._legacy.chain_db import (
+            get_bucket_stats,
+            record_bucket_stats,
+            start_run,
+        )
 
         conn = self._make_conn(tmp_path)
         run_id = start_run(conn, self._params(bucket_stats=True), n_triples=2)

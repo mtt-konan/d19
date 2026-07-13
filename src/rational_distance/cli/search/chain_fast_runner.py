@@ -77,7 +77,7 @@ def _print_chain_fast_banner(
 
 def _run_chain_fast(args: argparse.Namespace) -> None:
     from rational_distance._legacy.search_chain import results_to_json
-    from rational_distance._legacy.search_chain_fast import (
+    from rational_distance.chain_fast import (
         build_chain_fast_triples,
         resolve_backend_choice,
         run_chain_fast,
