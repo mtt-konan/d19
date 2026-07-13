@@ -11,8 +11,8 @@ If `wl593` is present, the completed handoff is:
 wl593_factor_twist_generalization_route_death_complete
 ```
 
-Do not re-enter `wl535`. `wl587`, `wl589`, `wl590`, and `wl591` remain frozen
-inputs.
+Do not re-enter `wl535`. `wl587`-`wl592` remain frozen inputs; `wl593` is the
+completed route-death checkpoint.
 The exact `p=5` normalized factor-twist images remain
 
 ```text
@@ -51,7 +51,7 @@ review found no blocking mathematical issue. Cumulatively, `wl590`-`wl592`
 leave no real/`Q_2`-filtered factor-twist candidate for either frozen
 representative. This is only a fixed-representative local-solubility
 conclusion; it is not a family exclusion, Selmer/rank theorem, or D2 result.
-No later gate is selected.
+At the `wl592` checkpoint no later local row or D2 step was selected.
 
 `wl593` then audits whether this finite chain contains a parameterized D4
 mechanism. It does not: `wl587` and `wl589` are fixed `Spec(Q)` instances,

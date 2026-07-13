@@ -62,14 +62,19 @@ global Selmer dimension bound
 rank-zero conclusion
 ```
 
-The current narrow handoff is more specific and is recorded in
+The current narrow handoff is the scoped route-death checkpoint recorded in
 [NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md):
 
 ```text
-wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop
+wl593_factor_twist_generalization_route_death_complete
 ```
 
-Within that exact gate, `wl536` excludes the infinite prime class
+The fixed-instance factor-twist local-image route is exhausted. Reopening it
+requires genuinely parameterized family-level coefficient/local-image input;
+another fixed representative, prime, or residue table is not a live gate.
+
+The earlier `wl535` chain remains frozen historical input. Within that earlier
+gate, `wl536` excludes the infinite prime class
 `ell ≡ 5 (mod 28)`, `wl537` excludes `ell ≡ 21 (mod 44)`, and `wl538`
 excludes `ell ≡ 53 (mod 76)`. These are partial M2 local obstructions; the
 complementary classes remain open.

@@ -128,9 +128,11 @@ and the later `p=7,17` chain is specific to the frozen mixed cover. Therefore
 the current fixed-representative factor-twist local-image mechanism cannot be
 promoted from these fixed inputs alone; it requires new parameterized
 family-level coefficient/local-image input. This is route death only for that
-mechanism; it is not a claim that all
-relative 2-descent is impossible. Do not add another representative, prime,
-or local table, and do not enter D2 or D5. No later gate is selected.
+mechanism; it is not a claim that all relative 2-descent is impossible. Do not
+add another representative, prime,
+or local table, and do not enter D2 or D5. `wl587`-`wl592` remain frozen
+inputs, and `wl593` is the completed route-death checkpoint. No later gate is
+selected.
 
 ### Frozen wl535 Input
 

@@ -47,7 +47,9 @@ factor-zero, R=0, zero-value, fixed-cover, positivity, and AA+BB lift
 branches. Controller review found no blocking mathematical issue. The selected
 `p=5,7,17` chain now exhausts the factor-twist candidate ledgers for both
 frozen representatives. This does not promote the result to a family
-exclusion, Selmer/rank theorem, or D2 statement. No later gate is selected.
+exclusion, Selmer/rank theorem, or D2 statement. At the `wl592` checkpoint no
+later local row or D2 step was selected; `wl593` is the subsequent read-only
+generalization audit, not a new arithmetic row.
 
 `wl593` completes the D4 generalization assessment. The two D0 bases are fixed
 `Spec(Q)` instances rather than a parameterized family; their source/factor
