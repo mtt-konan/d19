@@ -361,6 +361,18 @@ shared-`p=5` mechanism is therefore family-specific and cannot itself be the
 desired common invariant. No other prime is processed, D1 is not completed,
 and D2 is not entered.
 
+`wl591` resolves the selected mixed `p=7` normalized factor-twist image:
+
+```text
+I_{7,m} = {[1]}.
+```
+
+The complete `Q_7` proof covers the affine source strata, both infinity disks,
+the `D/A` denominator branches, normalized factor-zero and zero-value branches,
+the fixed-cover coordinate `R`, and the exact AA+BB lift. It deletes the mixed
+representatives `5, 3045, 66045` and retains `91205`. No other prime, rank or
+Selmer diagnostic, pure-family computation, or D2 step is entered.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 

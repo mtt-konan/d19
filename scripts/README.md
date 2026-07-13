@@ -252,6 +252,10 @@ Rank-zero Selmer / AA+BB audit helpers:
   D0 schemas. It proves the pure image empty and the mixed image equal to
   `[5]`, deleting all 16 pure representatives and 12 of the 16 mixed
   representatives without processing another prime or entering D2.
+  `wl591` then uses `theory/aa_bb/wl591_mixed_p7_factor_twist_local_image.py`
+  to compute the exact normalized mixed `Q_7` image. It proves
+  `I_{7,m}={[1]}`, deletes `5, 3045, 66045`, and retains `91205` with all
+  source, pole, boundary, factor-zero, fixed-cover, and AA+BB lift checks.
 
 ### `modular/` — Path B / mod p² 实证
 

@@ -3,12 +3,12 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-p5 Relative 2-Descent Selection After wl590
+## P0: Post-p7 Relative 2-Descent Selection After wl591
 
 Completed handoff:
 
 ```text
-wl590_p5_factor_twist_local_image_comparison_complete
+wl591_mixed_p7_factor_twist_local_image_complete
 ```
 
 `wl587` and `wl589` supply independent complete D0 relative-descent schemas
@@ -23,8 +23,18 @@ I_{5,m} = {[5]}
 It handles all normalized source strata, poles, projective boundaries,
 factor-zero branches, and exact AA+BB lifts. Every pure named representative
 is deleted; the mixed survivors are `5, 3045, 66045, 91205`. No prime other
-than `5` was processed. Further work requires an explicit controller decision;
-no broader D1 or D2 computation is implied by this checkpoint.
+than `5` was processed.
+
+`wl591` resolves the selected mixed `p=7` normalized factor-twist image:
+
+```text
+I_{7,m} = {[1]}
+```
+
+The complete local proof retains affine and infinity strata, `D/A` denominator
+branches, factor-zero and zero-value branches, the fixed-cover coordinate `R`,
+and the exact AA+BB lift. It deletes `5, 3045, 66045` and leaves `91205`.
+No later local row or D2 step is selected pending controller review.
 
 The exact `wl535` obstruction remains a frozen input:
 

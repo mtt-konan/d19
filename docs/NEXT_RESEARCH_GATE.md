@@ -5,14 +5,14 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl590` is present, the completed handoff is:
+If `wl591` is present, the completed handoff is:
 
 ```text
-wl590_p5_factor_twist_local_image_comparison_complete
+wl591_mixed_p7_factor_twist_local_image_complete
 ```
 
-Do not re-enter `wl535`. `wl587` and `wl589` remain frozen inputs. The exact
-`p=5` normalized factor-twist images are
+Do not re-enter `wl535`. `wl587`, `wl589`, and `wl590` remain frozen inputs.
+The exact `p=5` normalized factor-twist images remain
 
 ```text
 I_{5,u} = empty set
@@ -21,9 +21,21 @@ I_{5,m} = {[5]}
 
 The place is family-specific: all pure named representatives are deleted and
 the mixed survivors are `5, 3045, 66045, 91205`. This closes the selected gate;
-no next prime or broader D1/D2 computation is entered automatically. Preserve
-the exact pole, boundary, factor-zero, and AA+BB lift evidence in
+preserve the exact pole, boundary, factor-zero, and AA+BB lift evidence in
 `docs/work-logs/590-p5-factor-twist-local-image-comparison.md`.
+
+`wl591` then resolves the selected mixed `p=7` obligation exactly:
+
+```text
+I_{7,m} = {[1]}
+```
+
+The four mixed representatives map as `5 -> [u]`, `3045 -> [7]`,
+`66045 -> [7u]`, and `91205 -> [1]`; hence the first three are deleted and
+`91205` survives. The proof includes all affine/infinity strata, poles,
+factor-zero and zero-value branches, the fixed-cover coordinate `R`, and the
+exact AA+BB lift. No later local row is selected; do not process another prime,
+revisit pure-`u_7`, or enter D2 without controller review.
 
 ## Historical wl535 Chain
 

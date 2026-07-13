@@ -39,8 +39,22 @@ tasks that were already running when this contract was adopted.
 The current handoff is:
 
 ```text
-wl590_p5_factor_twist_local_image_comparison_complete
+wl591_mixed_p7_factor_twist_local_image_complete
 ```
+
+`wl591` completes the selected normalized mixed-family `p=7` local-image
+gate.  It proves
+
+```text
+I_{7,m} = {[1]}
+```
+
+on the frozen `wl589` cover, deleting `5,3045,66045` and retaining `91205`.
+The proof includes the complete affine and infinity residue strata, the
+`D/A` denominator branches, normalized factor-zero and zero-value branches,
+the fixed-cover coordinate `R`, and the exact AA+BB lift.  No later local row,
+other prime, pure-family computation, rank/Selmer diagnostic, or D2 step is
+selected until controller review.
 
 The cross-family audit proves the same opposite-side product is generically
 nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
@@ -62,9 +76,20 @@ Thus `p=5` is not a shared surviving restriction. It locally excludes every
 pure-`u_7` D0 representative, while the mixed representatives
 `5,3045,66045,91205` survive. This is route death for the shared-`p=5`
 mechanism and a fixed-cover local exclusion for the selected pure
-representative, not a cross-family theorem. Do not process another prime,
-modify `wl587`/`wl589`, or enter a broader D1/D2 computation without a new
-controller selection.
+representative, not a cross-family theorem.
+
+`wl591` resolves the selected normalized mixed-family `p=7` factor-twist local
+image for those four survivors. Their `Q_7` squareclasses are pairwise
+distinct:
+
+```text
+5 -> [u], 3045 -> [7], 66045 -> [7u], 91205 -> [1].
+```
+
+The exact image is `I_{7,m}={[1]}`.  It deletes `5,3045,66045` and retains
+`91205`, with every pole, boundary, factor-zero, fixed-cover, and AA+BB lift
+branch checked.  Do not process another prime, revisit the locally empty pure
+cover, modify `wl587`/`wl589`/`wl590`, or enter D2 without controller review.
 
 ### Frozen wl535 Input
 

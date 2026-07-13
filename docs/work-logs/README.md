@@ -120,7 +120,8 @@ entries.
          -> 587-pure-u7-d0-relative-2-descent.md
          -> 589-mixed-d0-relative-2-descent.md
          -> 590-p5-factor-twist-local-image-comparison.md
-         -> latest checkpoint: 590-p5-factor-twist-local-image-comparison.md
+         -> 591-mixed-p7-factor-twist-local-image.md
+         -> latest checkpoint: 591-mixed-p7-factor-twist-local-image.md
 ```
 
 ## Reading Rule
