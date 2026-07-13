@@ -302,7 +302,7 @@ J_minus = 5*s_minus^2.
 
 The denominator is a `5`-adic unit at `r=4`, so the exact normalized map
 `a_plus=s_plus/(2*T_denominator)`, `a_minus=s_minus/(2*T_denominator)`,
-`rho=5*a_plus*a_minus` gives the frozen fixed-cover point. Hence
+`R=5*a_plus*a_minus` gives the frozen fixed-cover point. Hence
 
 ```text
 I_{5,m} = {[5]}.
