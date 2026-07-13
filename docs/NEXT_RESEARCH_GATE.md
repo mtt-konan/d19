@@ -5,17 +5,25 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl589` is present, the current handoff is:
+If `wl590` is present, the completed handoff is:
 
 ```text
-wl589_mixed_D0_relative_2_descent_proof_data_complete
+wl590_p5_factor_twist_local_image_comparison_complete
 ```
 
-Do not re-enter `wl535`. `wl587` and `wl589` are frozen inputs. They complete
-independent D0 schemas for the pure-`u_7` and mixed
-`u_3+v_5+w_17` representatives. The next controller decision must compare
-their source/divisor/Picard/twist/local schemas and select exactly one narrow
-D1 or cross-family proof obligation. No D1 computation is entered here.
+Do not re-enter `wl535`. `wl587` and `wl589` remain frozen inputs. The exact
+`p=5` normalized factor-twist images are
+
+```text
+I_{5,u} = empty set
+I_{5,m} = {[5]}
+```
+
+The place is family-specific: all pure named representatives are deleted and
+the mixed survivors are `5, 3045, 66045, 91205`. This closes the selected gate;
+no next prime or broader D1/D2 computation is entered automatically. Preserve
+the exact pole, boundary, factor-zero, and AA+BB lift evidence in
+`docs/work-logs/590-p5-factor-twist-local-image-comparison.md`.
 
 ## Historical wl535 Chain
 

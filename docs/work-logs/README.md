@@ -119,7 +119,8 @@ entries.
          -> 586-route-selection.md
          -> 587-pure-u7-d0-relative-2-descent.md
          -> 589-mixed-d0-relative-2-descent.md
-         -> latest checkpoint: 589-mixed-d0-relative-2-descent.md
+         -> 590-p5-factor-twist-local-image-comparison.md
+         -> latest checkpoint: 590-p5-factor-twist-local-image-comparison.md
 ```
 
 ## Reading Rule

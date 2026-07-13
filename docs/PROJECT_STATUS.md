@@ -347,6 +347,20 @@ not D1, a rational-point classification, a cross-family descent lemma, or a
 family exclusion. The next gate is a controller comparison of the two frozen
 D0 schemas before any one D1 or cross-family obligation is selected.
 
+`wl590` resolves the selected common `p=5` local-image gate exactly. Complete
+normalized residue and valuation strata, including poles, projective
+boundaries, and factor-zero branches, give
+
+```text
+I_{5,u}=empty set,  I_{5,m}={[5]}.
+```
+
+Consequently every pure-`u_7` D0 representative is locally excluded at `5`.
+For the mixed representative, only `5, 3045, 66045, 91205` survive. The
+shared-`p=5` mechanism is therefore family-specific and cannot itself be the
+desired common invariant. No other prime is processed, D1 is not completed,
+and D2 is not entered.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 

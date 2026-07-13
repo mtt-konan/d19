@@ -3,21 +3,28 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-D0 Relative 2-Descent Selection After wl589
+## P0: Post-p5 Relative 2-Descent Selection After wl590
 
-Current handoff:
+Completed handoff:
 
 ```text
-wl589_mixed_D0_relative_2_descent_proof_data_complete
+wl590_p5_factor_twist_local_image_comparison_complete
 ```
 
 `wl587` and `wl589` supply independent complete D0 relative-descent schemas
-for pure `u_7` and mixed `u_3+v_5+w_17`. Each records normalization, factor
-divisors, Picard classes, the complete 256-class `Q(S,2)` candidate set, 16
-real/`Q_2` survivors, and explicit unevaluated odd bad-fiber inputs. The next
-open direction is to compare the two schemas and choose one narrow D1 local
-image or genuinely cross-family lemma. D1 remains closed until that choice is
-made explicitly.
+for pure `u_7` and mixed `u_3+v_5+w_17`. The selected p=5 gate is now closed
+exactly:
+
+```text
+I_{5,u} = empty set
+I_{5,m} = {[5]}
+```
+
+It handles all normalized source strata, poles, projective boundaries,
+factor-zero branches, and exact AA+BB lifts. Every pure named representative
+is deleted; the mixed survivors are `5, 3045, 66045, 91205`. No prime other
+than `5` was processed. Further work requires an explicit controller decision;
+no broader D1 or D2 computation is implied by this checkpoint.
 
 The exact `wl535` obstruction remains a frozen input:
 

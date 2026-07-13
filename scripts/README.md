@@ -247,6 +247,11 @@ Rank-zero Selmer / AA+BB audit helpers:
   the exact mixed source and AA+BB lift, records the same candidate and
   real/`Q_2` survivor counts from independently derived arithmetic, and leaves
   all six odd bad-prime local images to a later explicitly selected D1 gate.
+  `wl590` then uses `theory/aa_bb/wl590_p5_factor_twist_local_image_comparison.py`
+  to compute the exact normalized `Q_5` factor-twist images for both frozen
+  D0 schemas. It proves the pure image empty and the mixed image equal to
+  `[5]`, deleting all 16 pure representatives and 12 of the 16 mixed
+  representatives without processing another prime or entering D2.
 
 ### `modular/` — Path B / mod p² 实证
 

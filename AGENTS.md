@@ -39,21 +39,32 @@ tasks that were already running when this contract was adopted.
 The current handoff is:
 
 ```text
-wl589_mixed_D0_relative_2_descent_proof_data_complete
+wl590_p5_factor_twist_local_image_comparison_complete
 ```
 
 The cross-family audit proves the same opposite-side product is generically
 nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
-control its square specializations. The user has now explicitly supplied the
-required family-level route: relative 2-descent on the square loci. Enter only
-D0 proof-data construction, starting with pure `u_7`; do not re-enter `wl535`.
+control its square specializations. The user has explicitly supplied the
+family-level relative 2-descent route, and D0 is complete for both selected
+representatives. Do not re-enter `wl535` or construct another D0 model.
 
 `wl587` completes and freezes the pure-`u_7` D0 schema. `wl589` independently
 completes the mixed-family D0 schema for
 `support=u_3+v_5+w_17|L=3|T=10|d=(15,51,85)`. Both are now frozen inputs.
-The next controller gate is only to compare the two D0 schemas and select one
-narrow D1 or cross-family obligation. Do not enter D1 automatically, and do
-not modify `wl587` or `wl589` while making that decision.
+`wl590` completes the selected shared `p=5` factor-twist local-image gate:
+
+```text
+I_{5,u} = empty set,
+I_{5,m} = {[5]}.
+```
+
+Thus `p=5` is not a shared surviving restriction. It locally excludes every
+pure-`u_7` D0 representative, while the mixed representatives
+`5,3045,66045,91205` survive. This is route death for the shared-`p=5`
+mechanism and a fixed-cover local exclusion for the selected pure
+representative, not a cross-family theorem. Do not process another prime,
+modify `wl587`/`wl589`, or enter a broader D1/D2 computation without a new
+controller selection.
 
 ### Frozen wl535 Input
 
