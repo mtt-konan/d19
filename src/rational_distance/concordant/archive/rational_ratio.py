@@ -11,6 +11,7 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass
 from fractions import Fraction
+from functools import lru_cache
 from math import comb, isqrt
 from math import gcd as _gcd
 
@@ -6530,6 +6531,7 @@ def sum_ab_product_square_residuals_from_grid(
     return tuple(sorted(residuals, key=lambda item: (item.lambda_ratio, item.roots)))
 
 
+@lru_cache(maxsize=32)
 def sum_ab_product_square_residuals_from_root_grid(
     *,
     max_numerator: int,

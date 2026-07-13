@@ -5,6 +5,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
@@ -29,8 +31,13 @@ def _wl529() -> dict[str, object]:
     return build_wl529_v5_l1_t5_square_locus(wl495=_wl495())
 
 
-def test_wl529_builds_only_the_selected_v5_l1_t5_square_locus() -> None:
-    audit = _wl529()
+@pytest.fixture(scope="module")
+def wl529_audit() -> dict[str, object]:
+    return _wl529()
+
+
+def test_wl529_builds_only_the_selected_v5_l1_t5_square_locus(wl529_audit) -> None:
+    audit = wl529_audit
 
     assert audit["status"] == "ok"
     assert audit["ready"] is True
@@ -50,8 +57,8 @@ def test_wl529_builds_only_the_selected_v5_l1_t5_square_locus() -> None:
     }
 
 
-def test_wl529_records_exact_square_locus_models_and_identities() -> None:
-    audit = _wl529()
+def test_wl529_records_exact_square_locus_models_and_identities(wl529_audit) -> None:
+    audit = wl529_audit
 
     models = audit["square_locus_models"]
     assert models["square_locus_affine_curve"]["definition"] == "U^2 = t^4 + 78*t^2 + 7921"
@@ -65,8 +72,8 @@ def test_wl529_records_exact_square_locus_models_and_identities() -> None:
     assert all(check["verified"] is True for check in audit["identity_checks"])
 
 
-def test_wl529_preimage_exclusion_is_an_executable_certificate() -> None:
-    audit = _wl529()
+def test_wl529_preimage_exclusion_is_an_executable_certificate(wl529_audit) -> None:
+    audit = wl529_audit
 
     preimage = audit["rational_point_analysis"]["t_zero_preimage_analysis"]
     assert preimage["certificate_verified"] is True
@@ -78,8 +85,10 @@ def test_wl529_preimage_exclusion_is_an_executable_certificate() -> None:
     assert preimage["rational_preimage_exists_on_wl528_quartic"] is False
 
 
-def test_wl529_closes_the_positive_square_specialization_gap_for_this_one_family() -> None:
-    audit = _wl529()
+def test_wl529_closes_the_positive_square_specialization_gap_for_this_one_family(
+    wl529_audit,
+) -> None:
+    audit = wl529_audit
 
     certificate = audit["genus_one_certificate"]
     assert certificate["status"] == "ok"
@@ -169,8 +178,8 @@ def test_wl529_status_fails_when_t_zero_preimage_certificate_fails(monkeypatch) 
     assert audit["proof_status"] == {}
 
 
-def test_wl529_keeps_route_boundaries_and_forbidden_claims_false() -> None:
-    audit = _wl529()
+def test_wl529_keeps_route_boundaries_and_forbidden_claims_false(wl529_audit) -> None:
+    audit = wl529_audit
 
     assert audit["shell11_executed_here"] is False
     assert audit["m_tail_diagnostics_extended_here"] is False
