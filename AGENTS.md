@@ -34,12 +34,27 @@ combine them into a model name such as `gpt-5.6-luna-max`. `xhigh` is also a
 verified reasoning level, but the project default is `max`. Do not modify
 tasks that were already running when this contract was adopted.
 
+Every delegated prompt must begin by fixing the role boundary:
+
+```text
+You are the Worker. Do not invoke codex, ask_codex.sh, subagents, or delegation skills.
+```
+
+Delegation is one level deep. The Controller alone invokes `ask_codex.sh`; a
+Worker must solve the assigned task directly and must not recursively delegate
+it. Treat exit 130, empty output, or evidence that the Worker invoked Codex as
+a failed run and retry with a fresh Worker after restoring this boundary.
+
+The Controller must independently inspect the returned formulas, converses,
+exceptional branches, changed files, focused tests, and targeted Ruff checks.
+Worker output is proposed work, not accepted proof or a completed checkpoint.
+
 ## Current Research Gate
 
 The current handoff is:
 
 ```text
-wl591_mixed_p7_factor_twist_local_image_complete
+wl592_mixed_p17_factor_twist_local_image_complete
 ```
 
 `wl591` completes the selected normalized mixed-family `p=7` local-image
@@ -52,9 +67,8 @@ I_{7,m} = {[1]}
 on the frozen `wl589` cover, deleting `5,3045,66045` and retaining `91205`.
 The proof includes the complete affine and infinity residue strata, the
 `D/A` denominator branches, normalized factor-zero and zero-value branches,
-the fixed-cover coordinate `R`, and the exact AA+BB lift.  No later local row,
-other prime, pure-family computation, rank/Selmer diagnostic, or D2 step is
-selected until controller review.
+the fixed-cover coordinate `R`, and the exact AA+BB lift. At that checkpoint,
+controller review was required before the later `p=17` row was selected.
 
 The cross-family audit proves the same opposite-side product is generically
 nonsquare on the pure `u_7` and mixed `u_3+v_5+w_17` covers, but this does not
@@ -88,8 +102,24 @@ distinct:
 
 The exact image is `I_{7,m}={[1]}`.  It deletes `5,3045,66045` and retains
 `91205`, with every pole, boundary, factor-zero, fixed-cover, and AA+BB lift
-branch checked.  Do not process another prime, revisit the locally empty pure
-cover, modify `wl587`/`wl589`/`wl590`, or enter D2 without controller review.
+branch checked.
+
+`wl592` resolves the selected normalized mixed-family `p=17` factor-twist
+image for `d=91205` exactly:
+
+```text
+I_{17,m} = {[u]},
+[91205] = [17u] not in I_{17,m}.
+```
+
+The proof covers integral and negative-valuation/infinity strata, D/A
+denominator poles, factor-zero and R=0 branches, zero values, the fixed-cover
+coordinate `R`, and the exact AA+BB lift. Controller review found no blocking
+mathematical issue. Together `wl590`-`wl592` exhaust the real/`Q_2`-filtered
+factor-twist candidates for both frozen representatives: the pure ledger is
+empty at `p=5`, and the mixed ledger is empty after `p=5,7,17`. This is a
+fixed-representative local-solubility conclusion, not a family exclusion,
+Selmer/rank theorem, or D2 result. No later gate is selected.
 
 ### Frozen wl535 Input
 

@@ -256,6 +256,11 @@ Rank-zero Selmer / AA+BB audit helpers:
   to compute the exact normalized mixed `Q_7` image. It proves
   `I_{7,m}={[1]}`, deletes `5, 3045, 66045`, and retains `91205` with all
   source, pole, boundary, factor-zero, fixed-cover, and AA+BB lift checks.
+  `wl592` then uses `theory/aa_bb/wl592_mixed_p17_factor_twist_local_image.py`
+  to compute the exact normalized mixed `Q_17` image. It proves
+  `I_{17,m}={[u]}`, excludes `91205=[17u]`, and retains the complete
+  negative-valuation, denominator, factor-zero, fixed-cover, and AA+BB lift
+  certificate without entering another prime or D2.
 
 ### `modular/` — Path B / mod p² 实证
 

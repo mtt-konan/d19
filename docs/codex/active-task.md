@@ -1,22 +1,22 @@
 # Active Task
 
-- Status: checkpoint_complete
+- Status: complete
 - Updated: 2026-07-13
-- Task id: mixed-p7-factor-twist-local-image
-- Goal: Determine the exact normalized `Q_7` factor-twist local image of the four mixed representatives surviving `wl590`.
-- Scope: only `5,3045,66045,91205` on the frozen `wl589` mixed source/factor cover at `p=7`; every pole, boundary, factor-zero, positivity, and exact-lift condition must remain explicit.
+- Task id: mixed-d91205-p17-factor-twist-local-image
+- Goal: Determine whether the sole mixed twist `d=91205` surviving `wl591` is locally soluble on the normalized factor cover over `Q_17`.
+- Scope: only `d=91205` on the frozen `wl589` mixed source/factor cover at `p=17`; every affine, infinity, denominator, factor-zero, zero-value, positivity, and exact-lift condition must remain explicit.
 - Object layer: local images of the relative constant factor-twist covers; not a Picard-square-root identification, equivalent model, fixed-cover rank computation, D2 theorem, or theorem-level Selmer object.
-- Current proof obligation: Compute the exact set `I_{7,m}` of locally represented classes among `[u],[7],[7u],[1]`, prove both inclusion and exclusion on the normalized cover, and map the image back to the four named representatives.
-- Result: `I_{7,m}={[1]}`; delete `5,3045,66045` and retain `91205`.
-- Accepted outcomes: exact deletion of at least one named mixed representative; exact survival set with complete local proof; or a precise `p=7` route-death certificate if all four classes occur.
-- Allowed changes: one short-path `wl591` script/test and worklog only after an accepted exact local-image or route-death outcome; control-document synchronization. The mathematical task was delegated to a fresh `gpt-5.6-luna --reasoning max` Worker and then reviewed directly by the Controller.
-- Forbidden changes: no edits to `wl587`, `wl589`, or `wl590`; no prime other than `7`; no pure-family computation or D2; no `wl535` re-entry, pure-`v_ell` refinement, equivalent model/quotient, shell 11, finite search as progress, new support computation, rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit before controller review.
+- Current proof obligation: Complete. `wl592` proves the exact normalized `Q_17` factor-twist image `I_{17,m}={[u]}` and excludes `[91205]=[17u]`, while preserving the fixed-cover and AA+BB lift maps across all exceptional branches.
+- Result: `wl590`-`wl592` leave no real/`Q_2`-filtered factor-twist candidate for either frozen representative. This is a fixed-representative local-solubility conclusion only, not a family exclusion, Selmer/rank theorem, or D2 result.
+- Accepted outcomes: exact local exclusion of `91205`; exact local inclusion with a complete image certificate; or a precise blocker proving that `p=17` cannot decide the remaining twist.
+- Allowed changes: one short-path `wl592` script/test and worklog only after an accepted exact local result; control-document synchronization. The mathematical construction was delegated through Codex CLI and then reviewed directly by the Controller.
+- Forbidden changes: no edits to `wl587`, `wl589`, `wl590`, or `wl591`; no prime other than `17`; no pure-family computation or D2; no `wl535` re-entry, pure-`v_ell` refinement, equivalent model/quotient, shell 11, finite search as progress, new support computation, rank/Selmer diagnostics, old package-`x` / `S~`, M3, or commit before controller review.
 - Stable boundaries: `wl529`, `wl530`, `wl531`, `wl532`, `wl533`, `wl534`, and `wl535` are inputs. Preserve the validated q-root equivalence, chart-inverse branches, and all earlier exact lifts unless a concrete error is found.
-- Current step: Controller-reviewed `wl591` checkpoint complete.
-- Completed steps: `wl530` derives M1; `wl531`-`wl535` give the exact q-root proposition; `wl536`-`wl580` exhaust local, descent, valuation, allocation, and reconstruction routes; `wl581`-`wl585` exhaust lower-genus and elliptic-quotient reformulations; the consolidated checkpoint verifies the chain and its claim boundaries; `wl591` proves the exact mixed `p=7` local image and named deletions.
+- Current step: controller-reviewed checkpoint complete.
+- Completed steps: `wl530` derives M1; `wl531`-`wl535` give the exact q-root proposition; `wl536`-`wl580` exhaust local, descent, valuation, allocation, and reconstruction routes; `wl581`-`wl585` exhaust lower-genus and elliptic-quotient reformulations; the consolidated checkpoint verifies the chain and its claim boundaries; `wl591` proves the exact mixed `p=7` local image and named deletions; `wl592` proves `I_{17,m}={[u]}` and excludes `d=91205` with complete `Q_17` strata and exact lifts.
 - Strategic route-freeze certificate: `wl539` closes repeated good-reduction residue tables; `wl541` closes the parameter-prime standalone route; `wl542` closes negative-denominator places as automatic local squares; `wl568` and `wl580` prove allocation/descent self-consistency reconstructs the source system; `wl582`, `wl584`, and `wl585` prove the available elliptic quotients either forget a required lift or recover the original restricted problem. These finite, named tool classes cannot supply a new uniform invariant without an additional arithmetic input not present in them.
 - Certificate boundary: This freezes only the currently instantiated candidate tools. It is not a theorem that every future Hilbert-symbol, Brauer-Manin, reciprocity, family-Chabauty, or other global invariant is impossible.
-- Next exact step: none selected; no later local row or D2 stage is entered here.
-- Validation gates: exact `Q_7` local-solubility proof rather than bounded search; both directions between normalized local points and reported squareclasses; all exceptional branches; mapping to all four named representatives; focused pytest; targeted ruff; strict certificate.
-- Stop condition: stop after exact `I_{7,m}` and named deletions or a proved full-image route-death result; do not process another prime or enter D2.
+- Next exact step: None; task complete. Controller review passed and no later local row or D2 stage is selected.
+- Validation gates: exact `Q_17` local-solubility proof rather than bounded search; complete affine/infinity/pole/factor-zero coverage; exact class of `91205`; fixed-cover and AA+BB maps; focused pytest; targeted ruff; strict certificate.
+- Stop condition: stop after exact exclusion or inclusion of `d=91205` over `Q_17`; do not process another prime or enter D2.
 - Delegation preference: all future Codex CLI subagent tasks use `--model gpt-5.6-luna --reasoning max`; `max` is the reasoning level, not part of the model name. `--reasoning xhigh` is also verified as supported. Do not alter tasks already running when this preference was set.

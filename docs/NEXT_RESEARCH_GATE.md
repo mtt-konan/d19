@@ -5,13 +5,14 @@ the closed route state, and the moves that must not be reopened accidentally.
 
 ## Current Gate
 
-If `wl591` is present, the completed handoff is:
+If `wl592` is present, the completed handoff is:
 
 ```text
-wl591_mixed_p7_factor_twist_local_image_complete
+wl592_mixed_p17_factor_twist_local_image_complete
 ```
 
-Do not re-enter `wl535`. `wl587`, `wl589`, and `wl590` remain frozen inputs.
+Do not re-enter `wl535`. `wl587`, `wl589`, `wl590`, and `wl591` remain frozen
+inputs.
 The exact `p=5` normalized factor-twist images remain
 
 ```text
@@ -34,8 +35,23 @@ The four mixed representatives map as `5 -> [u]`, `3045 -> [7]`,
 `66045 -> [7u]`, and `91205 -> [1]`; hence the first three are deleted and
 `91205` survives. The proof includes all affine/infinity strata, poles,
 factor-zero and zero-value branches, the fixed-cover coordinate `R`, and the
-exact AA+BB lift. No later local row is selected; do not process another prime,
-revisit pure-`u_7`, or enter D2 without controller review.
+exact AA+BB lift.
+
+`wl592` then resolves the selected mixed `p=17` obligation exactly:
+
+```text
+I_{17,m} = {[u]}
+[91205] = [17u] not in I_{17,m}
+```
+
+The complete proof covers integral affine disks, every negative-valuation and
+infinity disk, D/A denominator poles, factor-zero and R=0 branches, zero-value
+branches, the fixed-cover coordinate `R`, and the exact AA+BB lift. Controller
+review found no blocking mathematical issue. Cumulatively, `wl590`-`wl592`
+leave no real/`Q_2`-filtered factor-twist candidate for either frozen
+representative. This is only a fixed-representative local-solubility
+conclusion; it is not a family exclusion, Selmer/rank theorem, or D2 result.
+No later gate is selected.
 
 ## Historical wl535 Chain
 

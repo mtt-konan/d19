@@ -3,12 +3,12 @@
 This document keeps only directions that are still worth considering. Detailed
 history belongs in the worklogs, not here.
 
-## P0: Post-p7 Relative 2-Descent Selection After wl591
+## P0: Post-p17 Relative 2-Descent Review After wl592
 
 Completed handoff:
 
 ```text
-wl591_mixed_p7_factor_twist_local_image_complete
+wl592_mixed_p17_factor_twist_local_image_complete
 ```
 
 `wl587` and `wl589` supply independent complete D0 relative-descent schemas
@@ -34,7 +34,20 @@ I_{7,m} = {[1]}
 The complete local proof retains affine and infinity strata, `D/A` denominator
 branches, factor-zero and zero-value branches, the fixed-cover coordinate `R`,
 and the exact AA+BB lift. It deletes `5, 3045, 66045` and leaves `91205`.
-No later local row or D2 step is selected pending controller review.
+
+`wl592` closes the selected mixed `p=17` normalized factor-twist image:
+
+```text
+I_{17,m} = {[u]},
+[91205] = [17u] not in I_{17,m}.
+```
+
+Its certificate covers all integral, negative-valuation/infinity, denominator,
+factor-zero, R=0, zero-value, fixed-cover, positivity, and AA+BB lift
+branches. Controller review found no blocking mathematical issue. The selected
+`p=5,7,17` chain now exhausts the factor-twist candidate ledgers for both
+frozen representatives. This does not promote the result to a family
+exclusion, Selmer/rank theorem, or D2 statement. No later gate is selected.
 
 The exact `wl535` obstruction remains a frozen input:
 

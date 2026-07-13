@@ -373,6 +373,21 @@ the fixed-cover coordinate `R`, and the exact AA+BB lift. It deletes the mixed
 representatives `5, 3045, 66045` and retains `91205`. No other prime, rank or
 Selmer diagnostic, pure-family computation, or D2 step is entered.
 
+`wl592` resolves the last selected mixed twist at `p=17`:
+
+```text
+I_{17,m} = {[u]},
+[91205] = [17u] not in I_{17,m}.
+```
+
+Its complete integral and negative-valuation/infinity analysis also closes
+the denominator, factor-zero, `R=0`, and zero-value branches while retaining
+the fixed-cover and exact AA+BB maps. Thus `wl590`-`wl592` exhaust the
+real/`Q_2`-filtered factor-twist candidates for both frozen representatives.
+This is a fixed-representative local-solubility conclusion, not a family
+exclusion, Selmer/rank theorem, or D2 result. Controller review found no
+blocking mathematical issue, and no later gate is selected.
+
 `wl522` compressed the `wl491`-`wl521` AA+BB admissibility ledgers into a
 support/cover taxonomy. `wl523` then tried the isolated lemma candidate:
 
@@ -490,6 +505,7 @@ route. After `wl527`, do not treat proof-data scoping as a ready proof attempt.
 Do not treat the `wl522` finite taxonomy, the `wl524` route choice, the failed
 `wl525` promotion attempt, the `wl526` route choice, or the `wl527` scoping
 inventory as proof of a uniform cover-family lemma.
-The user-authorized relative 2-descent route is live only at D0. `wl587`
-completes the pure-`u_7` schema; the next fresh task is mixed-family D0.
-Odd bad-prime twist validation, D1, and M3 remain closed.
+The user-authorized relative 2-descent route now has complete frozen D0 schemas
+from `wl587` and `wl589`. The selected odd local-image chain `wl590`-`wl592`
+exhausts both real/`Q_2`-filtered factor-twist candidate ledgers. No later
+local row, D2 step, or M3 step is selected.
