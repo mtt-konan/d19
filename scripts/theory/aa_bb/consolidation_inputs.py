@@ -35,6 +35,7 @@ CANONICAL_FILES = {
 }
 
 A1_CERTIFICATES_FILE = "a1-certificates.v1.json"
+B1_SAGE_CERTIFICATE_FILE = "b1-sage-certificate.v1.json"
 
 A1_SOURCE_FILENAMES = {
     "wl500": (
@@ -99,15 +100,33 @@ A2_SOURCE_SUFFIXES = {
 }
 
 A2_DESTINATIONS = {
-    500: "A1-COVER", 501: "A1-BOUNDARY", 502: "A1-SHELL",
-    503: "A1-BOUNDARY", 504: "A1-SHELL", 505: "A1-COVER",
-    506: "A1-COVER", 507: "A1-BOUNDARY", 508: "A1-SHELL",
-    509: "A1-BOUNDARY", 510: "A1-SHELL", 511: "A1-COVER",
-    512: "A1-COVER", 513: "A1-BOUNDARY", 514: "A1-COVER",
-    515: "A1-BOUNDARY", 516: "A1-SHELL", 517: "A1-COVER",
-    518: "A2-TAX", 519: "A1-COVER", 520: "A2-BOUNDARY",
-    521: "A2-TAX", 522: "A2-TAX", 523: "A2-LEMMA",
-    524: "A2-BOUNDARY", 525: "A2-BOUNDARY", 526: "A2-BOUNDARY",
+    500: "A1-COVER",
+    501: "A1-BOUNDARY",
+    502: "A1-SHELL",
+    503: "A1-BOUNDARY",
+    504: "A1-SHELL",
+    505: "A1-COVER",
+    506: "A1-COVER",
+    507: "A1-BOUNDARY",
+    508: "A1-SHELL",
+    509: "A1-BOUNDARY",
+    510: "A1-SHELL",
+    511: "A1-COVER",
+    512: "A1-COVER",
+    513: "A1-BOUNDARY",
+    514: "A1-COVER",
+    515: "A1-BOUNDARY",
+    516: "A1-SHELL",
+    517: "A1-COVER",
+    518: "A2-TAX",
+    519: "A1-COVER",
+    520: "A2-BOUNDARY",
+    521: "A2-TAX",
+    522: "A2-TAX",
+    523: "A2-LEMMA",
+    524: "A2-BOUNDARY",
+    525: "A2-BOUNDARY",
+    526: "A2-BOUNDARY",
     527: "A2-SCOPE",
 }
 
@@ -124,6 +143,215 @@ SOURCE_FILENAMES = {
     "wl527": (
         "closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.json"
     ),
+    "wl529": "closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json",
+}
+
+FROZEN_SOURCE_FILENAMES = (
+    ("wl495", "closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.json"),
+    (
+        "wl505",
+        "closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_supports_"
+        "through_ambient_c_d_solubility_then_wl491_filter.json",
+    ),
+    ("wl521", "closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.json"),
+    (
+        "wl522",
+        "closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.json",
+    ),
+    (
+        "wl527",
+        "closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.json",
+    ),
+    ("wl529", "closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json"),
+)
+
+FROZEN_A1_SOURCE_FILENAMES = (
+    ("wl500", A1_SOURCE_FILENAMES["wl500"]),
+    ("wl506", A1_SOURCE_FILENAMES["wl506"]),
+    ("wl511", A1_SOURCE_FILENAMES["wl511"]),
+    ("wl512", A1_SOURCE_FILENAMES["wl512"]),
+    ("wl514", A1_SOURCE_FILENAMES["wl514"]),
+    ("wl517", A1_SOURCE_FILENAMES["wl517"]),
+    ("wl519", A1_SOURCE_FILENAMES["wl519"]),
+)
+
+FROZEN_A2_SOURCE_SUFFIXES = tuple(A2_SOURCE_SUFFIXES.items())
+
+FROZEN_SOURCE_PAYLOADS = {
+    filename: {
+        "path": f"results/{filename}",
+        "sha256": sha256,
+        "size": size,
+    }
+    for filename, sha256, size in (
+        (
+            "closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.json",
+            "72f54c9b1f59c5865a755dba4f4698f262c05c79f3022fdd4b4fdae9c6fcbfbd",
+            33475,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl500_route_active_u5_m_tail_suppor"
+            "ts_through_ambient_c_d_solubility_then_wl491_filter.json",
+            "46bc5a48a4420b0a254c0a5744274196cafd8ecbcb4127eb191f0a1dbdfd8622",
+            14642,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl501_post_wl500_route_choice_audit.json",
+            "ce2d9501238a5c2f4acd82b838cd4f4cee5203fc46958e32e7a62896600bd230",
+            5231,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl502_execute_next_finite_m_tail_sh"
+            "ell_from_wl498_plan.json",
+            "a54129aca87abe9eae3aab21e409c2e0982bbab03bc2831d8adba89a04dc226f",
+            6478,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl503_post_wl502_empty_shell_route_choice_audit.json",
+            "80ad80f611dc47a97a37cbc6ab13526aad0ee3512ccf714ccc9119a95e89fd36",
+            5410,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl504_execute_next_finite_m_tail_sh"
+            "ell_from_wl498_plan.json",
+            "6186f94a349c4e1a516d27977414cae612247e6f7623a0cb438419eeaca31cbc",
+            46517,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl505_route_active_shell7_m_tail_su"
+            "pports_through_ambient_c_d_solubility_then_wl491_filter.json",
+            "8934b63d6f2965c16eea50f0c2f0f72b0169ae21a9082a424720a5e12a2a8c37",
+            71433,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl506_resolve_shell7_deferred_ambie"
+            "nt_c_d_global_solubility_ledgers.json",
+            "4d72cb155abc48f8085f1a3655dd310f8b2aea4cfb1428d81a3222f1fd6bc0a2",
+            262287,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl507_post_wl506_route_choice_audit.json",
+            "1ad8d1bf0b7566390aa7e2537a6ead0d966db935decca5ddb550dd1a72ed4a25",
+            6045,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl508_execute_next_finite_m_tail_sh"
+            "ell_from_wl498_plan.json",
+            "fd9dd2fa8a4a7a966f11877f7544b0c8b4983f92beba27d0782f3c8cef9e9147",
+            14636,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl509_post_wl508_empty_shell_route_choice_audit.json",
+            "34d7b55055cc47c6a9fd081102e65eef79a59c34e8b862791aa3ad07b9526757",
+            6735,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl510_execute_next_finite_m_tail_sh"
+            "ell_from_wl498_plan.json",
+            "eeebb50cfc2bc970484cc06bc56f738c69dd988f53ca52fd75b464d5e6823a9c",
+            33214,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl511_route_active_shell9_m_tail_su"
+            "pports_through_ambient_c_d_solubility_then_wl491_filter.json",
+            "ea91a98b1435ddc9a07718a170fe81dc1883f0925a4cb4824ea1edc281f5352c",
+            45448,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl512_resolve_shell9_deferred_ambie"
+            "nt_c_d_global_solubility_ledgers.json",
+            "66a067538261571e4413fb4323dd369a03b988210d7dd6e0fadc36ae5b636b36",
+            26839,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl513_post_wl512_route_choice_audit.json",
+            "695d82e2361072ddf5fd81f34ae799cf7505637b46b07ea4002c8887912cf29a",
+            6595,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl514_resolve_remaining_shell9_u7_a"
+            "mbient_c_d_global_solubility_ledger.json",
+            "245a6cc5a91b18edcfcf8c2b7453648718fe51fbc28a8f70d350a39c7040c29b",
+            14941,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl515_post_wl514_route_choice_audit.json",
+            "07cf7963993e9095abebd6f3db33f000d8c0717522a68c90492d887386927fff",
+            7083,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl516_execute_next_finite_m_tail_sh"
+            "ell_from_wl498_plan.json",
+            "7a0615079d36c988c34606839db23ab3dac5a8ae182c2ad9e44d9fd79f2cb770",
+            36705,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl517_route_active_shell10_m_tail_s"
+            "upports_through_ambient_c_d_solubility_then_wl491_filter.json",
+            "5e0e82a968bba7f33bbf9e340ab29fd65301127cfcebf8230d5cca52be5db062",
+            63837,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl518_support_family_synthesis_after_wl517.json",
+            "b0ba5667d5b27c921c17cc3cab7b9cca1e9e5f831e2a887c0f71cd97fa2670d7",
+            58316,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl519_resolve_shared_shell10_u5_amb"
+            "ient_c_d_global_solubility_cover.json",
+            "05f4b8d1206f5965a33a61b5fd2239db2a253a21a270ad6ee76c0905c6cc24c9",
+            17463,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl520_post_wl519_route_choice_audit.json",
+            "94ab20fa59c12ad51bd5e0919bfd312cbb8b5cf422ffaddd75963aed7f9e0010",
+            6900,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl521_support_family_synthesis_after_wl519.json",
+            "9eacf74f4d545a45ea2f2de4e96320d8e06512d598e6e6464a2a35ac7029e5a0",
+            59384,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lem"
+            "ma_candidate_checkpoint.json",
+            "d51875d4bdbe0bcc06fe14bd78f3cd9699b6e92171604a983a6a3d9ef6438bf5",
+            25377,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obst"
+            "ruction_lemma_candidate.json",
+            "006bd3c74bf81ce0be0baeb6dcdbbc9c7259c48bd8e3616c79bc8b83d9f1b100",
+            6951,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.json",
+            "d0d9fa05f1efbcc45943e22c3f011482d7adf9704edab0b968d17ef84cca3174",
+            5945,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_"
+            "squareclass_obstruction_lemma.json",
+            "38a434582f73f50fdc040ca6484e1e41169229bec365d62149e24c4ef7f29328",
+            6468,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.json",
+            "e1d7a7ccc7529bd9bc00ed94dde17f05fd2586dad8a2a94444294ffe22306128",
+            7214,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_pr"
+            "oof_data_scope.json",
+            "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
+            54631,
+        ),
+        (
+            "closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json",
+            "889aec034ecd479b1b2a12d6e83a605febe6ef6364a8e87d24e3847525041fca",
+            19629,
+        ),
+    )
 }
 
 SOURCE_PROVENANCE = {
@@ -144,10 +372,9 @@ SOURCE_PROVENANCE = {
             "BB_A4_B1_v_5_m_tail_refresh_candidate]"
         ),
         "consumer_paths": [
-            "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl528_"
-            "v5_l1_t5_function_field_prototype.py",
-            "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py",
             "scripts/theory/aa_bb/consolidation_inputs.py",
+            "scripts/theory/aa_bb/b1_prototype.py",
+            "tests/theory/aa_bb/test_b1_prototype.py",
         ],
         "source_result_path": (
             "results/closure_quotient_rank_zero_aa_bb_wl495_route_refreshed_support.json"
@@ -174,9 +401,12 @@ SOURCE_PROVENANCE = {
             "ambient_c_d_global_solubility.status == globally_soluble"
         ),
         "consumer_paths": [
-            "scripts/theory/aa_bb/wl586_route_selection.py",
-            "tests/theory/aa_bb/test_wl586_route_selection.py",
             "scripts/theory/aa_bb/consolidation_inputs.py",
+            "scripts/theory/aa_bb/a1_certificates.py",
+            "scripts/theory/aa_bb/a2_evidence.py",
+            "scripts/theory/aa_bb/d4_factor_twist.py",
+            "tests/theory/aa_bb/test_a1_a2_parity.py",
+            "tests/theory/aa_bb/test_d4_factor_twist.py",
         ],
         "source_result_path": (
             "results/closure_quotient_rank_zero_aa_bb_wl505_"
@@ -199,9 +429,12 @@ SOURCE_PROVENANCE = {
         ],
         "source_selector": "$.final_candidate_ledgers[*]",
         "consumer_paths": [
-            "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_"
-            "support_cover_taxonomy_to_lemma_candidate_checkpoint.py",
             "scripts/theory/aa_bb/consolidation_inputs.py",
+            "scripts/theory/aa_bb/a1_certificates.py",
+            "scripts/theory/aa_bb/a2_evidence.py",
+            "scripts/theory/aa_bb/d4_factor_twist.py",
+            "tests/theory/aa_bb/test_a1_a2_parity.py",
+            "tests/theory/aa_bb/test_d4_factor_twist.py",
         ],
         "source_result_path": (
             "results/closure_quotient_rank_zero_aa_bb_wl521_"
@@ -223,11 +456,11 @@ SOURCE_PROVENANCE = {
         ],
         "source_selector": "$.support_cover_taxonomy[*]",
         "consumer_paths": [
-            "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_"
-            "function_field_squareclass_proof_data_scope.py",
-            "scripts/theory/aa_bb/wl586_route_selection.py",
-            "tests/theory/aa_bb/test_wl586_route_selection.py",
             "scripts/theory/aa_bb/consolidation_inputs.py",
+            "scripts/theory/aa_bb/a2_evidence.py",
+            "scripts/theory/aa_bb/d4_factor_twist.py",
+            "tests/theory/aa_bb/test_a1_a2_parity.py",
+            "tests/theory/aa_bb/test_d4_factor_twist.py",
         ],
         "source_result_path": (
             "results/closure_quotient_rank_zero_aa_bb_wl522_"
@@ -248,9 +481,11 @@ SOURCE_PROVENANCE = {
         ],
         "source_selector": "$.cover_family_proof_data_inventory[*]",
         "consumer_paths": [
-            "scripts/theory/aa_bb/wl586_route_selection.py",
-            "tests/theory/aa_bb/test_wl586_route_selection.py",
             "scripts/theory/aa_bb/consolidation_inputs.py",
+            "scripts/theory/aa_bb/a2_evidence.py",
+            "scripts/theory/aa_bb/d4_factor_twist.py",
+            "tests/theory/aa_bb/test_a1_a2_parity.py",
+            "tests/theory/aa_bb/test_d4_factor_twist.py",
         ],
         "source_result_path": (
             "results/closure_quotient_rank_zero_aa_bb_wl527_"
@@ -258,6 +493,28 @@ SOURCE_PROVENANCE = {
         ),
         "source_payload_sha256": "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
         "source_payload_size": 54631,
+    },
+    "wl529": {
+        "source_worklog_path": "docs/work-logs/529-v5-l1-t5-square-locus.md",
+        "source_script_path": (
+            "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py"
+        ),
+        "source_test_paths": [
+            "tests/test_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py"
+        ],
+        "source_selector": "$.genus_one_certificate",
+        "consumer_paths": [
+            "scripts/theory/aa_bb/b1_prototype.py",
+            "scripts/theory/aa_bb/consolidation_inputs.py",
+            "tests/theory/aa_bb/test_b1_prototype.py",
+        ],
+        "source_result_path": (
+            "results/closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json"
+        ),
+        "source_payload_sha256": (
+            "889aec034ecd479b1b2a12d6e83a605febe6ef6364a8e87d24e3847525041fca"
+        ),
+        "source_payload_size": 19629,
     },
 }
 
@@ -810,29 +1067,75 @@ def _sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def _validate_materializer_source_selection() -> None:
+    """Reject selector drift before any ignored source is parsed."""
+
+    if dict(SOURCE_FILENAMES) != dict(FROZEN_SOURCE_FILENAMES):
+        _fail("materializer source selection mismatch: SOURCE_FILENAMES")
+    if dict(A1_SOURCE_FILENAMES) != dict(FROZEN_A1_SOURCE_FILENAMES):
+        _fail("materializer source selection mismatch: A1_SOURCE_FILENAMES")
+    if dict(A2_SOURCE_SUFFIXES) != dict(FROZEN_A2_SOURCE_SUFFIXES):
+        _fail("materializer source selection mismatch: A2_SOURCE_SUFFIXES")
+
+    selected = set(SOURCE_FILENAMES.values())
+    selected.update(A1_SOURCE_FILENAMES.values())
+    selected.update(
+        f"closure_quotient_rank_zero_aa_bb_wl{number}_{suffix}.json"
+        for number, suffix in A2_SOURCE_SUFFIXES.items()
+    )
+    if selected != set(FROZEN_SOURCE_PAYLOADS) or len(selected) != 30:
+        _fail("materializer source selection mismatch: expected 30 unique payloads")
+
+    for filename, metadata in FROZEN_SOURCE_PAYLOADS.items():
+        if set(metadata) != {"path", "sha256", "size"}:
+            _fail(f"{filename}: frozen source metadata keys mismatch")
+        if metadata["path"] != f"results/{filename}":
+            _fail(f"{filename}: frozen source path mismatch")
+        if not _SHA256_RE.fullmatch(metadata["sha256"]):
+            _fail(f"{filename}: frozen source hash mismatch")
+        if type(metadata["size"]) is not int or metadata["size"] <= 0:
+            _fail(f"{filename}: frozen source size mismatch")
+
+
+def _read_frozen_source_bytes(source_results_dir: Path, filename: str, context: str) -> bytes:
+    _validate_materializer_source_selection()
+    metadata = FROZEN_SOURCE_PAYLOADS.get(filename)
+    if metadata is None:
+        _fail(f"{context}: source payload is not selected: {filename}")
+    expected_path = metadata["path"]
+    if expected_path != f"results/{filename}":
+        _fail(f"{context}: frozen source path mismatch")
+    path = Path(source_results_dir) / filename
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ConsolidationInputError(f"{context}: source payload unavailable: {path}") from exc
+    if len(raw) != metadata["size"]:
+        _fail(f"{context}: source payload size mismatch for {path}")
+    if _sha256(raw) != metadata["sha256"]:
+        _fail(f"{context}: source payload hash mismatch for {path}")
+    return raw
+
+
+def _load_frozen_source_json(
+    source_results_dir: Path, filename: str, context: str
+) -> tuple[dict[str, Any], bytes]:
+    raw = _read_frozen_source_bytes(source_results_dir, filename, context)
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ConsolidationInputError(f"{context}: invalid JSON") from exc
+    if type(payload) is not dict:
+        _fail(f"{context}: expected object")
+    return payload, raw
+
+
 def _read_source_payload(source_results_dir: Path, work_log: str) -> tuple[dict[str, Any], bytes]:
     """Read one explicitly named ignored result payload for materialization."""
 
     if work_log not in SOURCE_FILENAMES:
         _fail(f"unsupported source work log: {work_log}")
-    path = Path(source_results_dir) / SOURCE_FILENAMES[work_log]
-    try:
-        raw = path.read_bytes()
-    except OSError as exc:
-        raise ConsolidationInputError(f"{work_log}: source payload unavailable: {path}") from exc
-    metadata = SOURCE_PROVENANCE[work_log]
-    if (
-        len(raw) != metadata["source_payload_size"]
-        or _sha256(raw) != metadata["source_payload_sha256"]
-    ):
-        _fail(f"{work_log}: source payload provenance mismatch for {path}")
-    try:
-        payload = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        raise ConsolidationInputError(f"{work_log} source payload: invalid JSON") from exc
-    if type(payload) is not dict:
-        _fail(f"{work_log} source payload: expected object")
-    return payload, raw
+    return _load_frozen_source_json(Path(source_results_dir), SOURCE_FILENAMES[work_log], work_log)
 
 
 def _source_rows(
@@ -1095,6 +1398,37 @@ def _project_b0(payload: dict[str, Any]) -> dict[str, Any]:
     )
     _validate_b0_invariants(document)
     return document
+
+
+def _project_b1_sage_certificate(payload: dict[str, Any], source_raw: bytes) -> dict[str, Any]:
+    certificate = payload.get("genus_one_certificate")
+    if (
+        payload.get("status") != "ok"
+        or payload.get("work_log") != "wl529"
+        or type(certificate) is not dict
+    ):
+        _fail("wl529: cannot materialize B1 Sage certificate from an unready payload")
+    provenance = SOURCE_PROVENANCE["wl529"]
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "kind": "b1-sage-certificate",
+        "curve": {
+            "a_invariants": [0, 78, 0, 7921, 0],
+            "equation": "Y^2 = X^3 + 78*X^2 + 7921*X",
+        },
+        "sage": copy.deepcopy(certificate),
+        "provenance": {
+            "marker": "WL529_SAGE_JSON ",
+            "program": "scripts/theory/aa_bb/b1_prototype.py::_sage_program",
+            "command": ["sage", "-python", "-c"],
+            "source_mode": "legacy_result_projection",
+            "source_work_log": "wl529",
+            "source_selector": "$.genus_one_certificate",
+            "source_result_path": provenance["source_result_path"],
+            "source_payload_sha256": _sha256(source_raw),
+            "source_payload_size": len(source_raw),
+        },
+    }
 
 
 def _work_log_key(value: str) -> tuple[int, str]:
@@ -1647,8 +1981,12 @@ def _validate_manifest(payload: Any) -> dict[str, Any]:
     manifest = _exact_keys(
         payload,
         {
-            "schema_version", "kind", "materialization_kind", "baseline_commit",
-            "bindings", "auxiliary_bindings",
+            "schema_version",
+            "kind",
+            "materialization_kind",
+            "baseline_commit",
+            "bindings",
+            "auxiliary_bindings",
         },
         "manifest",
     )
@@ -1741,17 +2079,28 @@ def _validate_manifest(payload: Any) -> dict[str, Any]:
     if seen_paths != set(expected_by_path):
         _fail("manifest.bindings: incomplete path set")
     auxiliary = _list(manifest["auxiliary_bindings"], "manifest.auxiliary_bindings")
-    expected_auxiliary = {A1_CERTIFICATES_FILE, "a2-boundary-spec.v1.json"}
-    if len(auxiliary) != 2:
-        _fail("manifest.auxiliary_bindings: expected two bindings")
+    expected_auxiliary = {
+        A1_CERTIFICATES_FILE,
+        "a2-boundary-spec.v1.json",
+        B1_SAGE_CERTIFICATE_FILE,
+    }
+    expected_sources = {
+        A1_CERTIFICATES_FILE: set(A1_SOURCE_FILENAMES),
+        "a2-boundary-spec.v1.json": {f"wl{number}" for number in range(500, 528)},
+        B1_SAGE_CERTIFICATE_FILE: {"wl529"},
+    }
+    if len(auxiliary) != len(expected_auxiliary):
+        _fail("manifest.auxiliary_bindings: expected three bindings")
     auxiliary_paths = set()
     for index, value in enumerate(auxiliary):
         context = f"manifest.auxiliary_bindings[{index}]"
         binding = _exact_keys(
             value,
             {
-                "canonical_path", "canonical_projection_sha256",
-                "canonical_projection_size", "source_payloads",
+                "canonical_path",
+                "canonical_projection_sha256",
+                "canonical_projection_size",
+                "source_payloads",
             },
             context,
         )
@@ -1774,8 +2123,10 @@ def _validate_manifest(payload: Any) -> dict[str, Any]:
         source_payloads = binding["source_payloads"]
         if type(source_payloads) is not dict or not source_payloads:
             _fail(f"{context}.source_payloads: expected nonempty object")
+        if set(source_payloads) != expected_sources[canonical_path]:
+            _fail(f"{context}.source_payloads: source set mismatch")
         for work_log, source in source_payloads.items():
-            if work_log not in {f"wl{number}" for number in range(500, 528)}:
+            if work_log not in expected_sources[canonical_path]:
                 _fail(f"{context}.source_payloads: invalid work log")
             source = _exact_keys(source, {"path", "sha256", "size"}, f"{context}.{work_log}")
             _string(source["path"], f"{context}.{work_log}.path")
@@ -1878,6 +2229,26 @@ def materialize_b0(source_results_dir: Path, baseline_commit: str, output_dir: P
     return path
 
 
+def materialize_b1_sage_certificate(
+    source_results_dir: Path, baseline_commit: str, output_dir: Path
+) -> Path:
+    """Project the explicit wl529 Sage marker payload for B1 materialization only."""
+
+    if _string(baseline_commit, "baseline_commit") != BASELINE_COMMIT:
+        _fail(f"baseline_commit: expected {BASELINE_COMMIT}")
+    source, raw = _read_source_payload(Path(source_results_dir), "wl529")
+    document = _project_b1_sage_certificate(source, raw)
+    path = Path(output_dir) / B1_SAGE_CERTIFICATE_FILE
+    _write_canonical(path, document)
+    try:
+        from scripts.theory.aa_bb.b1_prototype import load_sage_certificate
+    except ModuleNotFoundError:
+        from b1_prototype import load_sage_certificate
+
+    load_sage_certificate(path)
+    return path
+
+
 def materialize_manifest(source_results_dir: Path, baseline_commit: str, output_dir: Path) -> Path:
     """Bind canonical bytes to the five explicit source payloads and selectors."""
 
@@ -1920,17 +2291,29 @@ def materialize_manifest(source_results_dir: Path, baseline_commit: str, output_
     for filename, work_logs in (
         (A1_CERTIFICATES_FILE, tuple(A1_SOURCE_FILENAMES)),
         ("a2-boundary-spec.v1.json", tuple(a2_payload["source_payloads"])),
+        (B1_SAGE_CERTIFICATE_FILE, ("wl529",)),
     ):
         raw = (output / filename).read_bytes()
+        if filename == B1_SAGE_CERTIFICATE_FILE:
+            _, source_raw = _read_source_payload(Path(source_results_dir), "wl529")
+            source_payloads = {
+                "wl529": {
+                    "path": SOURCE_PROVENANCE["wl529"]["source_result_path"],
+                    "sha256": _sha256(source_raw),
+                    "size": len(source_raw),
+                }
+            }
+        else:
+            source_payloads = {
+                work_log: copy.deepcopy(a2_payload["source_payloads"][work_log])
+                for work_log in work_logs
+            }
         auxiliary_bindings.append(
             {
                 "canonical_path": filename,
                 "canonical_projection_sha256": _sha256(raw),
                 "canonical_projection_size": len(raw),
-                "source_payloads": {
-                    work_log: copy.deepcopy(a2_payload["source_payloads"][work_log])
-                    for work_log in work_logs
-                },
+                "source_payloads": source_payloads,
             }
         )
     manifest = {
@@ -1958,6 +2341,9 @@ def materialize_all(
     paths["b0-prototype-rows"] = materialize_b0(source_results_dir, baseline_commit, output_dir)
     paths["a1-certificates"] = materialize_a1_certificates(source_results_dir, output_dir)
     paths["a2-boundary-spec"] = materialize_a2_boundary_spec(source_results_dir, output_dir)
+    paths["b1-sage-certificate"] = materialize_b1_sage_certificate(
+        source_results_dir, baseline_commit, output_dir
+    )
     paths["manifest"] = materialize_manifest(source_results_dir, baseline_commit, output_dir)
     return paths
 
@@ -1971,7 +2357,7 @@ def materialize_a1_certificates(source_results_dir: Path, output_dir: Path) -> P
 
     source_results_dir = Path(source_results_dir)
     payloads = {
-        work_log: _load_json_object(source_results_dir / filename, work_log)
+        work_log: _load_frozen_source_json(source_results_dir, filename, work_log)[0]
         for work_log, filename in A1_SOURCE_FILENAMES.items()
     }
     a0 = load_a0(Path(output_dir))
@@ -2114,8 +2500,7 @@ def _a2_cover_rows(number: int, payload: dict[str, Any]) -> list[dict[str, Any]]
                 sample = row["sample"]
                 values = tuple(cover["d_vector"][key] for key in D_VECTOR_KEYS)
                 item["point_ref"] = (
-                    f"a1:wl{number}-L{sample['L']}-T{sample['T']}-"
-                    f"d{'-'.join(map(str, values))}"
+                    f"a1:wl{number}-L{sample['L']}-T{sample['T']}-d{'-'.join(map(str, values))}"
                 )
         projected.append(item)
     return projected
@@ -2197,9 +2582,7 @@ def materialize_a2_boundary_spec(source_results_dir: Path, output_dir: Path) -> 
     sources = {}
     for number, suffix in A2_SOURCE_SUFFIXES.items():
         filename = f"closure_quotient_rank_zero_aa_bb_wl{number}_{suffix}.json"
-        path = Path(source_results_dir) / filename
-        raw = path.read_bytes()
-        payload = json.loads(raw)
+        payload, raw = _load_frozen_source_json(Path(source_results_dir), filename, f"wl{number}")
         stages[f"wl{number}"] = _a2_stage_projection(number, payload)
         sources[f"wl{number}"] = {
             "path": f"results/{filename}",

@@ -1,0 +1,61 @@
+{
+  "curve": {
+    "a_invariants": [
+      0,
+      78,
+      0,
+      7921,
+      0
+    ],
+    "equation": "Y^2 = X^3 + 78*X^2 + 7921*X"
+  },
+  "kind": "b1-sage-certificate",
+  "provenance": {
+    "command": [
+      "sage",
+      "-python",
+      "-c"
+    ],
+    "marker": "WL529_SAGE_JSON ",
+    "program": "scripts/theory/aa_bb/b1_prototype.py::_sage_program",
+    "source_mode": "legacy_result_projection",
+    "source_payload_sha256": "889aec034ecd479b1b2a12d6e83a605febe6ef6364a8e87d24e3847525041fca",
+    "source_payload_size": 19629,
+    "source_result_path": "results/closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json",
+    "source_selector": "$.genus_one_certificate",
+    "source_work_log": "wl529"
+  },
+  "sage": {
+    "rank": 0,
+    "rank_is_proved": true,
+    "rank_method": "E.rank(proof=True)",
+    "square_x_values": [
+      "0"
+    ],
+    "status": "ok",
+    "torsion_invariants": [
+      4
+    ],
+    "torsion_points": [
+      {
+        "kind": "infinity"
+      },
+      {
+        "x": "0",
+        "x_is_rational_square": true,
+        "y": "0"
+      },
+      {
+        "x": "89",
+        "x_is_rational_square": false,
+        "y": "-1424"
+      },
+      {
+        "x": "89",
+        "x_is_rational_square": false,
+        "y": "1424"
+      }
+    ]
+  },
+  "schema_version": 1
+}

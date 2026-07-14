@@ -8,7 +8,10 @@ It does not search for rational points and it does not alter either D0 input.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
+from collections.abc import Mapping
 from itertools import product
 from pathlib import Path
 from typing import Any
@@ -68,6 +71,27 @@ MIXED_SURVIVORS = [
     91205,
     383061,
 ]
+
+_PURE_D0_SHA256 = "e4406cc5bb66fc48f7fa5d002dee36791c1e222ea1a6a006a25eb8ef97a4aa7a"
+_MIXED_D0_SHA256 = "7bc1d1f2e63dff4886b1f26ac3f6191b31c5410e42bfbd3636a0269ad238fcaa"
+
+
+def _require_d0_payload(
+    payload: Any,
+    *,
+    work_log: str,
+    expected_sha256: str,
+) -> None:
+    if not isinstance(payload, Mapping):
+        raise ValueError(f"invalid {work_log} predecessor payload")
+    try:
+        encoded = json.dumps(
+            dict(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode()
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"invalid {work_log} predecessor payload") from exc
+    if hashlib.sha256(encoded).hexdigest() != expected_sha256:
+        raise ValueError(f"{work_log} predecessor does not match the frozen D0 certificate")
 
 
 def _unit_square_mod5(value: int) -> bool:
@@ -638,7 +662,19 @@ def _named_mapping(values: list[int], allowed: set[tuple[int, str]]) -> dict[str
     }
 
 
-def build_wl590_p5_factor_twist_local_image_comparison() -> dict[str, Any]:
+def build_wl590_from_d0(
+    pure_payload: Mapping[str, Any], mixed_payload: Mapping[str, Any]
+) -> dict[str, Any]:
+    _require_d0_payload(
+        pure_payload,
+        work_log="wl587",
+        expected_sha256=_PURE_D0_SHA256,
+    )
+    _require_d0_payload(
+        mixed_payload,
+        work_log="wl589",
+        expected_sha256=_MIXED_D0_SHA256,
+    )
     pure_residues = _pure_residue_certificate()
     mixed_regular = _mixed_regular_certificate()
     mixed_zero = _mixed_zero_chart_certificate()
@@ -743,6 +779,13 @@ def build_wl590_p5_factor_twist_local_image_comparison() -> dict[str, Any]:
             ),
         },
     }
+
+
+def build_wl590_p5_factor_twist_local_image_comparison() -> dict[str, Any]:
+    return build_wl590_from_d0(
+        pure.build_wl587_pure_u7_d0_relative_2_descent(),
+        mixed.build_wl589_mixed_d0_relative_2_descent(),
+    )
 
 
 def main() -> int:

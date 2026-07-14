@@ -10,7 +10,10 @@ rational points, compute ranks, or replace the frozen normalized cover.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
+from collections.abc import Mapping
 from itertools import product
 from pathlib import Path
 from typing import Any
@@ -32,6 +35,20 @@ P = 7
 MOD49 = P**2
 SQUARE_RESIDUES = {1, 2, 4}
 MIXED_REPRESENTATIVES = (5, 3045, 66045, 91205)
+_MIXED_D0_SHA256 = "7bc1d1f2e63dff4886b1f26ac3f6191b31c5410e42bfbd3636a0269ad238fcaa"
+
+
+def _require_mixed_d0_payload(payload: Any) -> None:
+    if not isinstance(payload, Mapping):
+        raise ValueError("invalid wl589 predecessor payload")
+    try:
+        encoded = json.dumps(
+            dict(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode()
+    except (TypeError, ValueError) as exc:
+        raise ValueError("invalid wl589 predecessor payload") from exc
+    if hashlib.sha256(encoded).hexdigest() != _MIXED_D0_SHA256:
+        raise ValueError("wl589 predecessor does not match the frozen D0 certificate")
 
 
 def _f(r: int) -> int:
@@ -388,7 +405,8 @@ def _named_mapping(image: set[str]) -> dict[str, Any]:
     }
 
 
-def build_wl591_mixed_p7_factor_twist_local_image() -> dict[str, Any]:
+def build_wl591_from_mixed_d0(mixed_payload: Mapping[str, Any]) -> dict[str, Any]:
+    _require_mixed_d0_payload(mixed_payload)
     source = _source_residue_certificate()
     infinity = _infinity_certificate()
     factors = _factor_residue_certificate()
@@ -485,6 +503,10 @@ def build_wl591_mixed_p7_factor_twist_local_image() -> dict[str, Any]:
             "maps are checked.  No bounded rational search is used."
         ),
     }
+
+
+def build_wl591_mixed_p7_factor_twist_local_image() -> dict[str, Any]:
+    return build_wl591_from_mixed_d0(mixed.build_wl589_mixed_d0_relative_2_descent())
 
 
 def main() -> int:

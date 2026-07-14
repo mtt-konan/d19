@@ -10,7 +10,10 @@ not from a bounded rational-point search.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import sys
+from collections.abc import Mapping
 from itertools import product
 from pathlib import Path
 from typing import Any
@@ -32,6 +35,20 @@ P = 17
 TARGET_TWIST = 91205
 SQUARE_RESIDUES = {1, 2, 4, 8, 9, 13, 15, 16}
 MIXED_UNIT_REPRESENTATIVE = 5
+_MIXED_D0_SHA256 = "7bc1d1f2e63dff4886b1f26ac3f6191b31c5410e42bfbd3636a0269ad238fcaa"
+
+
+def _require_mixed_d0_payload(payload: Any) -> None:
+    if not isinstance(payload, Mapping):
+        raise ValueError("invalid wl589 predecessor payload")
+    try:
+        encoded = json.dumps(
+            dict(payload), sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode()
+    except (TypeError, ValueError) as exc:
+        raise ValueError("invalid wl589 predecessor payload") from exc
+    if hashlib.sha256(encoded).hexdigest() != _MIXED_D0_SHA256:
+        raise ValueError("wl589 predecessor does not match the frozen D0 certificate")
 
 
 def _f(r: int) -> int:
@@ -419,7 +436,8 @@ def _frozen_maps_certificate() -> dict[str, Any]:
     }
 
 
-def build_wl592_mixed_p17_factor_twist_local_image() -> dict[str, Any]:
+def build_wl592_from_mixed_d0(mixed_payload: Mapping[str, Any]) -> dict[str, Any]:
+    _require_mixed_d0_payload(mixed_payload)
     charts = _chart_identity_certificate()
     integral = _integral_source_certificate()
     infinity = _infinity_source_certificate()
@@ -518,6 +536,10 @@ def build_wl592_mixed_p17_factor_twist_local_image() -> dict[str, Any]:
             "rank computation, other prime, frozen-input edit, or D2 step is used."
         ),
     }
+
+
+def build_wl592_mixed_p17_factor_twist_local_image() -> dict[str, Any]:
+    return build_wl592_from_mixed_d0(mixed.build_wl589_mixed_d0_relative_2_descent())
 
 
 def main() -> int:

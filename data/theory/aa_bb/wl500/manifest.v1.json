@@ -188,6 +188,18 @@
           "size": 54631
         }
       }
+    },
+    {
+      "canonical_path": "b1-sage-certificate.v1.json",
+      "canonical_projection_sha256": "b4c878c8e22b1a721eec8f989bc829881d266da859d418a54b24d1b21b076870",
+      "canonical_projection_size": 1315,
+      "source_payloads": {
+        "wl529": {
+          "path": "results/closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.json",
+          "sha256": "889aec034ecd479b1b2a12d6e83a605febe6ef6364a8e87d24e3847525041fca",
+          "size": 19629
+        }
+      }
     }
   ],
   "baseline_commit": "9b73cd4",
@@ -197,8 +209,12 @@
       "canonical_projection_sha256": "679467ba25ce0cbe53defe8771e3d12f06a4933da6aa8f70ee63d54570a92445",
       "canonical_projection_size": 29802,
       "consumer_paths": [
-        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py",
-        "scripts/theory/aa_bb/consolidation_inputs.py"
+        "scripts/theory/aa_bb/consolidation_inputs.py",
+        "scripts/theory/aa_bb/a1_certificates.py",
+        "scripts/theory/aa_bb/a2_evidence.py",
+        "scripts/theory/aa_bb/d4_factor_twist.py",
+        "tests/theory/aa_bb/test_a1_a2_parity.py",
+        "tests/theory/aa_bb/test_d4_factor_twist.py"
       ],
       "source_payload_sha256": "9eacf74f4d545a45ea2f2de4e96320d8e06512d598e6e6464a2a35ac7029e5a0",
       "source_payload_size": 59384,
@@ -216,9 +232,12 @@
       "canonical_projection_sha256": "ee75fa991fc973972ddb98ed28534dfda9902f130a9dd9ec8ba0ccb5a2d477d3",
       "canonical_projection_size": 5842,
       "consumer_paths": [
-        "scripts/theory/aa_bb/wl586_route_selection.py",
-        "tests/theory/aa_bb/test_wl586_route_selection.py",
-        "scripts/theory/aa_bb/consolidation_inputs.py"
+        "scripts/theory/aa_bb/consolidation_inputs.py",
+        "scripts/theory/aa_bb/a1_certificates.py",
+        "scripts/theory/aa_bb/a2_evidence.py",
+        "scripts/theory/aa_bb/d4_factor_twist.py",
+        "tests/theory/aa_bb/test_a1_a2_parity.py",
+        "tests/theory/aa_bb/test_d4_factor_twist.py"
       ],
       "source_payload_sha256": "8934b63d6f2965c16eea50f0c2f0f72b0169ae21a9082a424720a5e12a2a8c37",
       "source_payload_size": 71433,
@@ -236,10 +255,11 @@
       "canonical_projection_sha256": "1423e609ce093e9f9c172a0da8174ae245acb6cf5230034b2e6a6b37e08f2b2d",
       "canonical_projection_size": 18856,
       "consumer_paths": [
-        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py",
-        "scripts/theory/aa_bb/wl586_route_selection.py",
-        "tests/theory/aa_bb/test_wl586_route_selection.py",
-        "scripts/theory/aa_bb/consolidation_inputs.py"
+        "scripts/theory/aa_bb/consolidation_inputs.py",
+        "scripts/theory/aa_bb/a2_evidence.py",
+        "scripts/theory/aa_bb/d4_factor_twist.py",
+        "tests/theory/aa_bb/test_a1_a2_parity.py",
+        "tests/theory/aa_bb/test_d4_factor_twist.py"
       ],
       "source_payload_sha256": "d51875d4bdbe0bcc06fe14bd78f3cd9699b6e92171604a983a6a3d9ef6438bf5",
       "source_payload_size": 25377,
@@ -257,9 +277,11 @@
       "canonical_projection_sha256": "dee66e74fbc76cdc7ae3c1097725352df234b8858f0d9e95fd5038c14a628fe5",
       "canonical_projection_size": 45103,
       "consumer_paths": [
-        "scripts/theory/aa_bb/wl586_route_selection.py",
-        "tests/theory/aa_bb/test_wl586_route_selection.py",
-        "scripts/theory/aa_bb/consolidation_inputs.py"
+        "scripts/theory/aa_bb/consolidation_inputs.py",
+        "scripts/theory/aa_bb/a2_evidence.py",
+        "scripts/theory/aa_bb/d4_factor_twist.py",
+        "tests/theory/aa_bb/test_a1_a2_parity.py",
+        "tests/theory/aa_bb/test_d4_factor_twist.py"
       ],
       "source_payload_sha256": "e673361dba3e379accf6e785e301bff65bcbcbbaa2f6903cad7492279a90638e",
       "source_payload_size": 54631,
@@ -277,9 +299,9 @@
       "canonical_projection_sha256": "2ed40ab0225eec24f64f6c44bf12c52e7fb849a4c995ff07c74f2468899a5e9d",
       "canonical_projection_size": 2509,
       "consumer_paths": [
-        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_function_field_prototype.py",
-        "scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py",
-        "scripts/theory/aa_bb/consolidation_inputs.py"
+        "scripts/theory/aa_bb/consolidation_inputs.py",
+        "scripts/theory/aa_bb/b1_prototype.py",
+        "tests/theory/aa_bb/test_b1_prototype.py"
       ],
       "source_payload_sha256": "72f54c9b1f59c5865a755dba4f4698f262c05c79f3022fdd4b4fdae9c6fcbfbd",
       "source_payload_size": 33475,

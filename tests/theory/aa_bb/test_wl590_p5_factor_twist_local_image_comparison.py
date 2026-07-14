@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 import sys
+from copy import deepcopy
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).parents[3]
 sys.path.insert(0, str(ROOT))
 
+import scripts.theory.aa_bb.wl590_p5_factor_twist_local_image_comparison as wl590
 from scripts.theory.aa_bb.wl590_p5_factor_twist_local_image_comparison import (
+    build_wl590_from_d0,
     build_wl590_p5_factor_twist_local_image_comparison,
 )
 
@@ -96,3 +101,42 @@ def test_wl590_covers_all_p5_exceptional_strata_and_exact_lifts() -> None:
     assert audit["fixed_cover_and_lift"]["pure_u7"]["opposite_leg"] == 2
     assert audit["fixed_cover_and_lift"]["mixed_u3_v5_w17"]["source_leg"] == 3
     assert audit["fixed_cover_and_lift"]["mixed_u3_v5_w17"]["opposite_leg"] == 7
+
+
+def test_wl590_adapter_matches_default_rejects_invalid_d0_and_does_not_rebuild(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pure_payload = wl590.pure.build_wl587_pure_u7_d0_relative_2_descent()
+    mixed_payload = wl590.mixed.build_wl589_mixed_d0_relative_2_descent()
+    assert build_wl590_from_d0(pure_payload, mixed_payload) == (
+        build_wl590_p5_factor_twist_local_image_comparison()
+    )
+
+    invalid = deepcopy(mixed_payload)
+    invalid["verification"] = dict(invalid["verification"])
+    invalid["verification"]["checks"] = dict(invalid["verification"]["checks"])
+    first_check = next(iter(invalid["verification"]["checks"]))
+    invalid["verification"]["checks"][first_check] = False
+    with pytest.raises(ValueError):
+        build_wl590_from_d0(pure_payload, invalid)
+    invalid = deepcopy(mixed_payload)
+    invalid["source_cover"] = {"bogus": True}
+    with pytest.raises(ValueError):
+        build_wl590_from_d0(pure_payload, invalid)
+    with pytest.raises(ValueError):
+        build_wl590_from_d0({"ready": True}, mixed_payload)
+
+    calls = {"pure": 0, "mixed": 0}
+
+    def counted_pure() -> dict[str, object]:
+        calls["pure"] += 1
+        return pure_payload
+
+    def counted_mixed() -> dict[str, object]:
+        calls["mixed"] += 1
+        return mixed_payload
+
+    monkeypatch.setattr(wl590.pure, "build_wl587_pure_u7_d0_relative_2_descent", counted_pure)
+    monkeypatch.setattr(wl590.mixed, "build_wl589_mixed_d0_relative_2_descent", counted_mixed)
+    build_wl590_from_d0(pure_payload, mixed_payload)
+    assert calls == {"pure": 0, "mixed": 0}
