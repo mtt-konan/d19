@@ -14,6 +14,7 @@ literature/
 │   ├── knaf-selder-spindler.md   ⭐ 同曲线族算法
 │   ├── ono-1996-concordant.md    ⭐ 协调形式奠基
 │   ├── bremner-guy-1989.md       ⭐ 可能是 4-chain 真正奠基
+│   ├── berry-1990-unit-square.md ⭐ 四距离问题的 Kummer/一般型曲面分析
 │   ├── bremner-ulas-2016.md      （5 点 rational distance）
 │   ├── chang-2024-4regular.md    （明确说 Harborth 4-regular open）
 │   └── greenfeld-2024.md         （整数距离集密度）
@@ -27,12 +28,15 @@ literature/
 | 论文 | 优先级 | 状态 | 笔记 |
 |---|---|---|---|
 | Peschmann 2026 (arXiv 2604.09328) | ⭐⭐⭐ | abstract+章节读完 | `notes/peschmann-2604-09328.md` |
+| **Berry 1990 Ann. SNS Pisa 17(4)** | ⭐⭐⭐ | **PDF/text 已获取（Numdam 免费），全文精读完成** | **`notes/berry-1990-unit-square.md`** |
 | Bremner-Guy 1989 J. Number Theory 32 | ⭐⭐⭐ | **待获取全文** | `notes/bremner-guy-1989.md` |
 | Ono 1996 Acta Arithmetica 78 | ⭐⭐⭐ | PDF/text 已获取，§1-3 关键结论已整理 | `notes/ono-1996-concordant.md` |
 | **Halbeisen-Hungerbühler 2021 arXiv:2101.08163** | ⭐⭐⭐ | **PDF/text 已获取，§1-3 精读完成** | **`notes/halbeisen-hungerbuhler-2021.md`** |
 | **Halbeisen-Hungerbühler-Zargar 2024 arXiv:2405.12989** | ⭐⭐ | **PDF/text 已获取，§1-2 精读完成** | **`notes/halbeisen-hungerbuhler-voznyy-2024.md`** |
 | KSS 2019/2020 系列 | ⭐⭐ | 核心算法论文 PDF/text 已获取，§2-4 已整理 | `notes/knaf-selder-spindler.md` |
-| Bremner-Ulas 2016 J. Number Theory 158 | ⭐⭐ | abstract 读完 | `notes/bremner-ulas-2016.md` |
+| Bremner-Ulas 2016 J. Number Theory 158 | ⭐⭐ | PDF/text 已获取（arXiv 1502.07312）；平面 square 情形只引 Berry 并声明 open | `notes/bremner-ulas-2016.md` |
+| Ieno 2021 arXiv:2111.02888 | ⭐ | PDF/text 已获取；Yang Ji 特例的续作，待建笔记 | （未创建笔记）|
+| arXiv:2403.02030 (2024) 三点有理距离 iff 判据 | ⭐ | PDF/text 已获取；补全 Berry 三距离方向，待建笔记 | （未创建笔记）|
 | Chang 2024 LIPIcs GD | ⭐⭐ | abstract 读完 | `notes/chang-2024-4regular.md` |
 | Greenfeld-Iliopoulou-Peluse 2024 | ⭐ | abstract 读完 | `notes/greenfeld-2024.md` |
 | Bremner-Silverman-Tzanakis 2000 | ⭐ | 待读 | （未创建笔记）|
