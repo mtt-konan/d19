@@ -4,7 +4,7 @@
 - Project: d19 rational-distance research
 - Current anchor: `docs/codex/current-context.md`
 - Memory landing policy: ask-by-default
-- Task branches: completed research task `universal-closure-product-g4-final-route-decision` -> `docs/codex/active-task.md`; active maintenance task `wl500-series-consolidation` -> `docs/codex/tasks/wl500-series-consolidation/active-task.md`; latest completed checkpoint `wl595-universal-closure-product-g4-route-death`
+- Task branches: completed research task `universal-closure-product-g4-final-route-decision` -> `docs/codex/active-task.md`; completed maintenance task `wl500-series-consolidation` -> `docs/codex/tasks/wl500-series-consolidation/active-task.md`; latest completed checkpoint `wl595-universal-closure-product-g4-route-death`
 - Active version: wl595 universal closure-product G4 route death
 - Active topic: scoped route death for the universal closure-product Kummer/split-prime mechanism
 - Latest gate evidence: `docs/work-logs/595-universal-closure-product-g4-route-death.md`, `scripts/theory/aa_bb/wl595_universal_closure_product_g4_route_death.py`, and its focused test

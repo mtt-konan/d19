@@ -161,12 +161,24 @@ HEAD.
 ```python
 materialize_a0(source_results_dir, baseline_commit, output_dir)
 materialize_b0(source_results_dir, baseline_commit, output_dir)
+materialize_a1_certificates(source_results_dir, output_dir)
+materialize_a2_boundary_spec(source_results_dir, output_dir)
+materialize_b1_sage_certificate(source_results_dir, baseline_commit, output_dir)
+materialize_manifest(source_results_dir, baseline_commit, output_dir)
+materialize_all(source_results_dir, baseline_commit, output_dir)
 load_a0(path)
 load_b0(path)
 ```
 
-Only explicit `materialize_*` commands may read ignored `results/`. Loaders
-never glob or fall back to `results/`.
+Only explicit `materialize_*` commands may read ignored `results/`. The
+materializer has one frozen selection of 30 unique source payloads; each source
+is checked for its relative path, byte size, and SHA256 before JSON parsing.
+Missing or extra-selected sources and any path, size, or hash mismatch fail
+closed. Loaders never glob or fall back to `results/`.
+
+Result-dependent regeneration and byte-parity tests are explicit under
+`manual_tests/`; default pytest keeps only tracked canonical loader, schema,
+manifest, and fail-closed tests.
 
 Compatibility views are generated only at consumer boundaries:
 

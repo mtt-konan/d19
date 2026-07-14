@@ -1,6 +1,6 @@
 # Current Context
 
-- Updated: 2026-07-13
+- Updated: 2026-07-14
 - Project: d19 rational-distance research
 - Project phase: exploration
 - Memory landing policy: ask-by-default
@@ -10,13 +10,14 @@
 - Active module: AA+BB complete-`d` route; family-level relative 2-descent for square specializations
 - Baseline: Project guidance records wl527 as function-field proof-data scoping with 0 of 15 named cover families ready for a uniform squareclass proof attempt.
 - Active result: `wl590`-`wl592` exhaust both frozen representatives' factor-twist candidate ledgers. `wl593` closes only that fixed-instance mechanism. `wl594` supplies the accepted universal parameterized lower-genus product-cover input, and `wl595` closes the universal closure-product Kummer/single-split-prime/denominator mechanism after the G1-G3 algebra audit.
+- Maintenance checkpoint: `wl500-wl593` consolidation is complete. The canonical graph preserves 91 full semantic projections, 266 superseded files are removed, default tests no longer read ignored results, and the final suite is `1363 passed in 29.35s` versus the `203.20s` baseline (`85.56%` faster). Ignored results remain only for explicit regeneration/provenance and unrelated research artifacts.
 - Known failures: Finite taxonomy alone does not provide a uniform function-field squareclass certificate.
 - Stable behavior: Keep single-curve Selmer diagnostics, S~, complete d-coordinate C_d ledgers, M_tail diagnostics, AA+BB admissibility, and theorem-level Selmer claims separate.
 - 稳定模块保护判断: `wl529` is a stable completed checkpoint and must not be edited. `wl530` is a symbolic derivation checkpoint only; future work must still keep other support types, shell 11, broad Selmer/rank diagnostics, and old package-x / `S~` outside scope unless explicitly reopened.
 - Pressure signals: Avoid route drift and finite-diagnostic accumulation being described as theorem progress.
 - Rejected approaches: Do not revive the old package-x / S~ bridge as a theorem-level Selmer object; do not treat counts as proof.
 - Regression guards: No rank-zero, Sha[2], family-exclusion, uniform M_tail full-rank, or complete Selmer claim without an actual proof. A quotient point matters only after the exact wl531 `X`-square, positivity, source-side, opposite-side, and complete-`d` lift conditions are all imposed.
-- Evidence links: `AGENTS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/589-mixed-d0-relative-2-descent.md`; `docs/work-logs/590-p5-factor-twist-local-image-comparison.md`; `docs/work-logs/591-mixed-p7-factor-twist-local-image.md`; `docs/work-logs/592-mixed-p17-factor-twist-local-image.md`; `docs/work-logs/593-factor-twist-generalization-route-death.md`; `docs/work-logs/594-universal-closure-product-g0-parameterized-input.md`; `docs/work-logs/595-universal-closure-product-g4-route-death.md`
+- Evidence links: `AGENTS.md`; `docs/NEXT_RESEARCH_GATE.md`; `docs/work-logs/589-mixed-d0-relative-2-descent.md`; `docs/work-logs/590-p5-factor-twist-local-image-comparison.md`; `docs/work-logs/591-mixed-p7-factor-twist-local-image.md`; `docs/work-logs/592-mixed-p17-factor-twist-local-image.md`; `scripts/theory/aa_bb/d4_factor_twist.py` (canonical D4 `wl593` semantic projection); `docs/work-logs/594-universal-closure-product-g0-parameterized-input.md`; `docs/work-logs/595-universal-closure-product-g4-route-death.md`
 - Session log: none
 - Next step: none for this scoped mechanism. Reopening requires the new parameter-uniform global relative 2-descent certificate on the full individual four-factor cover; D2/D5/M3 remain closed.
 - Do not assume: the rejected tangent-cubic birational rewrite is a smaller obstruction or proof progress.

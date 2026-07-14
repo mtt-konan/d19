@@ -4,7 +4,7 @@
 
 ```text
 plan_status = controller_accepted
-execution_status = c2_a0_b0_first_slice_complete
+execution_status = complete
 scope = wl500-wl593 worklogs, audit scripts, tests, and direct consumers
 active_research_route_changed = false
 ```
@@ -141,6 +141,51 @@ CLI subprocess remains in the new tests. Legacy consumers and files are still
 present; cutover and deletion remain closed. The next slice is protected B1
 (`wl528-wl529`) design and parity extraction.
 
+B1 is now Controller-accepted as one protected module, one focused test, and
+one tracked Sage certificate. It preserves exact `wl528`/`wl529` semantics,
+uses tracked B0 at runtime, and reduces the two per-WL CLI tests to one shared
+smoke test. No cutover or deletion has occurred. The next semantic slice is
+the `C1` group `wl530-wl541`; `C2/C3` remain later slices.
+
+C1 is now Controller-accepted as six mathematical kernels and two focused test
+files. It computes all twelve `wl530-wl541` stages once, preserves the protected
+`wl535`, `wl539`, and `wl541` obligations, and replaces twelve CLI subprocesses
+with one strict entrypoint. Legacy files remain in place. The next slice is C2
+(`wl542-wl568`).
+
+### Ignored-Result Cutover
+
+The non-destructive cutover freezes the complete accepted semantic surface as
+91 test-only projection digests: `5 A1 + 28 A2 + 2 B1 + 12 C1 + 27 C2 + 17 C3`.
+Digests use canonical JSON with sorted keys, compact separators, and ASCII
+encoding. Affected default tests now build canonical projections directly and
+retain their formula, exception, no-claim, fail-closed, and strict CLI checks;
+the C1 consolidated-result check uses computed evidence.
+
+Materializer and regeneration tests live under `manual_tests/` and remain an
+explicit migration tool. Its 30 selected ignored source payloads are frozen by
+relative path, byte size, and SHA256 and are validated before JSON parsing;
+missing, selection, path, size, and hash drift fail closed. Default pytest
+continues to discover only `tests/`. No result, canonical payload, schema, or
+digest was deleted or rewritten in this cutover.
+
+### Non-Destructive Worklog Cutover
+
+The bounded documentation cutover creates
+`docs/work-logs/523-529-common-source-function-field-squareclass-consolidated.md`
+and updates only the six named human-facing index/control documents:
+`docs/work-logs/README.md`, `docs/work-logs/archive/README.md`,
+`docs/NEXT_RESEARCH_GATE.md`, `docs/GLOSSARY.md`, `scripts/README.md`, and this
+plan. Current readers are routed through the three consolidated histories
+`491-522`, `523-529`, and `530-585`; wl586 and wl593 are read as D4 semantic
+projections; wl587, wl589, wl590, wl591, and wl592 remain five protected
+appendices; wl594+ remains downstream context.
+
+The new history is human-only and runtime-independent. It preserves the
+wl523-wl529 source result/script/test path strings and does not rewrite
+manifest/loader provenance. This cutover does not delete worklogs or edit code,
+tests, data, results, task anchors, protected kernels, D4, or wl594+.
+
 ### C3: Cutover And Pruning
 
 After every old obligation has a passing destination, update imports, paths,
@@ -162,6 +207,14 @@ and `git diff --check`. Success requires no lost obligation, unchanged claim
 boundaries, no per-WL strict subprocess pattern in scope, all tests passing,
 and at least 30% whole-suite wall-time reduction or evidence that the remaining
 bottleneck is outside this range. Evaluate `xdist` only afterward.
+
+Controller verification is complete. The pre-cutover baseline was `1748 passed,
+2 warnings in 203.20s`; the final run is `1363 passed in 29.35s`, with no
+warnings. This is an `85.56%` wall-time reduction and beats the `142.24s`
+target by `112.89s`. Focused canonical/protected validation is `176 passed`,
+and the explicit materializer suite is `36 passed`. The final gate also passes
+targeted Ruff, format, static ignored-result-read scanning, and
+`git diff --check`.
 
 ## Forbidden Work
 
