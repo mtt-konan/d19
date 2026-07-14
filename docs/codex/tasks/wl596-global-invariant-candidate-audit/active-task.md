@@ -1,0 +1,22 @@
+# Active Task
+
+- Status: complete
+- Updated: 2026-07-14
+- Task id: wl596-global-invariant-candidate-audit
+- Base commit: `9d817e1`
+- Role: sole mathematical Worker; no Codex, ask_codex, subagents, delegation skills, or other agents.
+- Goal: Audit only the three declared global invariant classes on the strict positive divisor-pair system from `wl596`.
+- Scope: Test the six closure directions against `q_i -> Delta_bar/q_i`; audit the integer and justified Gaussian/ideal factorization of the source norm; audit reciprocity/product-formula coupling of unbalanced parity bits across all primes dividing `Delta_bar`.
+- Frozen inputs: `wl587`-`wl596`, both HRL reports, and the clean base commit. Do not create `wl597` or modify frozen proof artifacts.
+- Required retention: both `T=A+B` and `T=|A-B|`, positivity, p=2, shared gcds, primitive denominators, all four lifts, midpoint/endpoints/factor-zero/infinity/collision boundaries, and all six closure directions.
+- Literature gate: use only actually relevant downloaded-paper results and state exact applicability boundaries.
+- Forbidden: more prime tables, broad searches, local-image tables, rank/Selmer, D2, D5, M3, reversible rewrites presented as invariants.
+- Allowed changes: this task anchor, one concise report, one task pointer in `docs/codex/index.md`, the requested stale-sentence correction in `docs/PROJECT_STATUS.md`, and executable proof data/focused tests only for nontrivial identities or counterexamples.
+- Required outcomes: `concrete_global_invariant_ready`, `candidate_invariant_counterexample`, or `global_invariant_candidate_space_exhausted`.
+- Current step: Complete; all three declared candidate classes were audited.
+- Outcome: `global_invariant_candidate_space_exhausted`; HRL should pause.
+- Report: `docs/codex/tasks/wl596-global-invariant-candidate-audit/global-invariant-candidate-audit.md`
+- Certificate: `scripts/theory/aa_bb/global_invariant_candidate_audit.py`
+- Focused tests: `tests/theory/aa_bb/test_global_invariant_candidate_audit.py`
+- Literature boundary: Peschmann Theorems 5.4/6.2 and KSS homogeneous-space algorithm are cited with exact non-applicability boundaries; Ono and Halbeisen-Hungerbuhler are retained only as excluded related elliptic special-point analogies.
+- Validation: focused tests; targeted Ruff/format for touched Python; `git diff --check`; no full pytest.

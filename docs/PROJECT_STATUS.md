@@ -96,5 +96,6 @@ current Q4 decision is [wl596](work-logs/596-universal-four-factor-hrl-q0-diviso
 - [Worklog index](work-logs/README.md)
 - [Canonical script graph](../scripts/README.md)
 
-Do not create `wl596` merely to narrate the stopped route. A new numbered
-checkpoint requires a new accepted mathematical obligation.
+Do not create a new numbered checkpoint merely to narrate a stopped route;
+`wl596` is already the accepted checkpoint. A new numbered checkpoint requires
+a new accepted mathematical obligation.
