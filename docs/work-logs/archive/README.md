@@ -69,11 +69,36 @@
 
 ## AA+BB admissibility taxonomy（wl491-522）
 
-`wl491-wl522` 的 32 份明细记录保留在本目录。默认入口是：
+`wl491-wl499` 的 9 份前置明细仍保留在本目录；`wl500-wl522` 已由
+consolidated history 取代，不再作为保留明细集。默认入口是：
 
 ```text
 ../491-522-aa-bb-admissibility-taxonomy-consolidated.md
 ```
 
-这些明细用于追溯 admissibility filter、finite `M_tail` shell routing、ambient
-`C_d` classification 和 support/cover taxonomy，不再作为当前研究入口。
+保留的前置明细用于追溯 admissibility filter 的起点；finite `M_tail` shell
+routing、ambient `C_d` classification 和 support/cover taxonomy 统一从
+consolidated history 阅读。
+
+## Current Continuation
+
+当前读者从根目录的三份 consolidated history 继续：
+
+- [wl491-wl522 AA+BB taxonomy](../491-522-aa-bb-admissibility-taxonomy-consolidated.md)
+- [wl523-wl529 common-source/function-field squareclass](../523-529-common-source-function-field-squareclass-consolidated.md)
+- [wl530-wl585 pure-v_ell M1/M2](../530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md)
+
+wl586 和 wl593 现在由
+[D4 semantic projection](../../../scripts/theory/aa_bb/d4_factor_twist.py) 提供。
+以下五份 worklog 是独立 protected appendices，不折叠进 D4：
+
+- [wl587](../587-pure-u7-d0-relative-2-descent.md)
+- [wl589](../589-mixed-d0-relative-2-descent.md)
+- [wl590](../590-p5-factor-twist-local-image-comparison.md)
+- [wl591](../591-mixed-p7-factor-twist-local-image.md)
+- [wl592](../592-mixed-p17-factor-twist-local-image.md)
+
+wl594+ 仍是下游上下文，入口为
+[wl594](../594-universal-closure-product-g0-parameterized-input.md) 和
+[wl595](../595-universal-closure-product-g4-route-death.md)。本索引不会删除
+任何 worklog，也不改变 manifest/loader 的 provenance 字符串。

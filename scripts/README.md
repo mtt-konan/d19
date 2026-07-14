@@ -85,13 +85,101 @@ F₂-rank 工具:
 
 Rank-zero Selmer / AA+BB audit helpers:
 - `wl481-wl490` complete d-coordinate setup and first ambient `u_3` route.
-- `wl491-wl522` AA+BB admissibility filter, finite `M_tail` shell routing,
-  and support/cover taxonomy. Read
-  `docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md` first.
-- Latest compact executable checkpoint:
-  `audit_closure_quotient_rank_zero_aa_bb_wl530_wl585_consolidated_checkpoint.py`.
-- Current handoff:
-  `wl535_m2_pure_v_ell_q_root_coordinate_square_quartic_obstruction_stop`.
+- wl491-wl522 AA+BB admissibility filter, finite M_tail shell routing, and
+  support/cover taxonomy. Read
+  [the 491-522 consolidated history](../docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md)
+  first.
+- wl523-wl529 common-source/function-field squareclass statement and prototype.
+  Read
+  [the 523-529 consolidated history](../docs/work-logs/523-529-common-source-function-field-squareclass-consolidated.md).
+
+### Current canonical wl500-wl593 graph and entrypoints
+
+The current operational graph is:
+
+```text
+A0 -> A1 -> A2
+B0 -> B1
+C1 -> C2 -> C3
+D0u ----\
+D0m -----+-> D5 -> D7 -> D17 -> D4 -> wl586, wl593 semantic projections
+A0/A2/C3 /
+```
+
+The stage map is `wl500-wl527 -> A0/A1/A2`, `wl528-wl529 -> B0/B1`,
+`wl530-wl541 -> C1`, `wl542-wl568 -> C2`, and `wl569-wl585 -> C3`.
+`scripts/theory/aa_bb/d4_factor_twist.py` is the current route-level
+executable for D4. Its `wl586` and `wl593` outputs are semantic projections
+of that module, not separate current executables. The former, now-deleted
+`scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl530_wl585_consolidated_checkpoint.py`,
+`scripts/theory/aa_bb/wl586_route_selection.py`, and
+`scripts/theory/aa_bb/wl593_factor_twist_generalization_route_death.py` paths
+are retained only as provenance strings in consolidation history; they are not
+current parity or executable paths, and D4 does not call them.
+
+Human worklog routing is:
+
+- [491-522 consolidated history](../docs/work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md)
+- [523-529 consolidated history](../docs/work-logs/523-529-common-source-function-field-squareclass-consolidated.md)
+- [530-585 consolidated history](../docs/work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md)
+- [D4 wl586/wl593 projections](theory/aa_bb/d4_factor_twist.py)
+- protected appendices: [wl587](../docs/work-logs/587-pure-u7-d0-relative-2-descent.md),
+  [wl589](../docs/work-logs/589-mixed-d0-relative-2-descent.md),
+  [wl590](../docs/work-logs/590-p5-factor-twist-local-image-comparison.md),
+  [wl591](../docs/work-logs/591-mixed-p7-factor-twist-local-image.md), and
+  [wl592](../docs/work-logs/592-mixed-p17-factor-twist-local-image.md)
+
+wl594+ remains downstream context and is not merged into the current executable
+graph.
+
+Tracked inputs and callable builders:
+
+| Layer | Tracked inputs and callable API | Current CLI |
+|------|------|------|
+| A0 | `data/theory/aa_bb/wl500/a0-ledger.v1.json`, `data/theory/aa_bb/wl500/a0-witnesses.v1.json`, `data/theory/aa_bb/wl500/a0-taxonomy.v1.json`, `data/theory/aa_bb/wl500/a0-inventory.v1.json`; `A0Bundle`, `load_a0`, `load_all` in `scripts/theory/aa_bb/consolidation_inputs.py` | Loader/API only; there is no standalone A0 builder CLI. |
+| A1 | `data/theory/aa_bb/wl500/a1-certificates.v1.json`; `load_certificates`, `build_a1`, `project_a1` in `scripts/theory/aa_bb/a1_certificates.py` | `uv run python -m scripts.theory.aa_bb.a1_certificates --data-dir data/theory/aa_bb/wl500` (non-strict; this CLI has no `--strict` flag) |
+| A2 | `data/theory/aa_bb/wl500/a2-boundary-spec.v1.json`; `load_boundary_spec`, `build_a2`, `project_a2` in `scripts/theory/aa_bb/a2_evidence.py` | Callable API only; `a2_evidence.py` has no standalone CLI. D4 builds A2 from the tracked spec. |
+| B1 | `data/theory/aa_bb/wl500/b0-prototype-rows.v1.json` and `data/theory/aa_bb/wl500/b1-sage-certificate.v1.json`; `load_sage_certificate`, `build_b1`, `project_b1` in `scripts/theory/aa_bb/b1_prototype.py` | `uv run python -m scripts.theory.aa_bb.b1_prototype --data-dir data/theory/aa_bb/wl500 --sage-artifact data/theory/aa_bb/wl500/b1-sage-certificate.v1.json --out /private/tmp/d19-b1.json --strict` |
+| C1 | `build_c1`, `project_stage`, `semantic_projection` in `scripts/theory/aa_bb/c1_pure_v_ell.py` (`wl530-wl541`) | `uv run python -m scripts.theory.aa_bb.c1_pure_v_ell --out /private/tmp/d19-c1.json --strict` |
+| C2 | `build_c2`, `project_stage`, `semantic_projection` in `scripts/theory/aa_bb/c2_pure_v_ell.py` (`wl542-wl568`) | `uv run python -m scripts.theory.aa_bb.c2_pure_v_ell --out /private/tmp/d19-c2.json --strict` |
+| C3 | `build_c3`, `project_stage`, `semantic_projection` in `scripts/theory/aa_bb/c3_pure_v_ell.py` (`wl569-wl585`) | `uv run python -m scripts.theory.aa_bb.c3_pure_v_ell --out /private/tmp/d19-c3.json --strict` |
+| D4 | `build_d4`, `project_stage`, `semantic_projection` in `scripts/theory/aa_bb/d4_factor_twist.py`; D4 composes tracked A0/A1/A2 and C3 with the five protected kernels | `uv run python -m scripts.theory.aa_bb.d4_factor_twist --data-dir data/theory/aa_bb/wl500 --out /private/tmp/d19-d4.json --strict` |
+
+`build_d4` is a callable API that accepts validated `a0`, `a2`, and `c3`
+objects. The D4 command above is the strict CLI that loads A0/A1/A2 and C3,
+then validates the protected-kernel composition. The canonical loaders read
+tracked JSON under `data/theory/aa_bb/wl500/`; they do not use legacy
+`results/` payloads.
+
+`scripts/theory/aa_bb/consolidation_inputs.py` also exposes an explicit
+materializer CLI for migration and regeneration. It is the only canonical
+consumer allowed to read the 30 frozen ignored source payloads, and validates
+path, size, and SHA256 before parsing. Result-dependent regeneration tests are
+kept in `manual_tests/` and are not part of the default `testpaths=["tests"]`.
+
+### Protected D kernels
+
+These five paths are retained as separate protected kernels and are not merged
+into D4. D4 composes their validated payloads in order while preserving their
+independent builders, CLIs, tests, formulas, local images, survivor ledgers,
+and no-claim boundaries.
+
+| WL | Retained kernel path | Preserved boundary |
+|------|------|------|
+| wl587 / D0u | `scripts/theory/aa_bb/wl587_pure_u7_d0_relative_2_descent.py` | Fixed pure-`u_7` D0 schema; 256 `Q(S,2)` candidates and 16 real/`Q_2` survivors; odd bad-prime filtering and D1 remain unevaluated. |
+| wl589 / D0m | `scripts/theory/aa_bb/wl589_mixed_d0_relative_2_descent.py` | Independent mixed `u_3+v_5+w_17` D0 schema with the same candidate and real/`Q_2` survivor counts; all six odd bad-prime local images remain for the selected D1 gate. |
+| wl590 / D5 | `scripts/theory/aa_bb/wl590_p5_factor_twist_local_image_comparison.py` | `I_{5,u}=empty set`, `I_{5,m}={[5]}`; all 16 pure representatives and 12 of 16 mixed representatives are deleted, with no later prime or D2 claim. |
+| wl591 / D7 | `scripts/theory/aa_bb/wl591_mixed_p7_factor_twist_local_image.py` | `I_{7,m}={[1]}`; `5,3045,66045` are deleted and `91205` survives, with the complete checked branch and AA+BB lift boundary. |
+| wl592 / D17 | `scripts/theory/aa_bb/wl592_mixed_p17_factor_twist_local_image.py` | `I_{17,m}={[u]}` and `[91205]=[17u]` is excluded; the complete negative-valuation, denominator, factor-zero, fixed-cover, and AA+BB lift certificate is retained without another-prime or D2 entry. |
+
+The D4 `wl593` projection keeps the fixed-representative comparison and its
+route-death boundary: no parameterized cross-family mechanism, new family,
+prime, local row, D2, or D5 claim. This is not a claim that all relative
+2-descent is impossible, a family exclusion, a Selmer claim, a rank
+computation, or a rational-point search; no equivalent model or quotient is
+added. This operational cutover stops at wl593; wl594+ remains downstream
+context and is not entered here.
+
   `wl527` found the named cover families were not ready for a later uniform
   squareclass proof attempt. `wl528` then builds only the first selected
   `support=v_5|L=1|T=5|d=(5,1,5)` prototype, derives the model/maps/`N,M`,
@@ -230,8 +318,9 @@ Rank-zero Selmer / AA+BB audit helpers:
   The `wl530-wl585` consolidated checkpoint independently rechecks the key
   algebra, records the full exception audit, and marks the elliptic-quotient
   subroute exhausted without closing M2.
-  `wl586` then uses `theory/aa_bb/wl586_route_selection.py`
-  to verify three representative `wl522` cover families against the `wl527`
+  `wl586` then is the D4 semantic projection from
+  `theory/aa_bb/d4_factor_twist.py`; it verifies three representative `wl522`
+  cover families against the `wl527`
   proof-data inventory and the `wl585` restricted-image result. It records the
   quartic review only as a collapsed read-only candidate, creates no `wl588`,
   certifies the current pure-`v_ell` route dead, and proves the same generic
@@ -261,8 +350,9 @@ Rank-zero Selmer / AA+BB audit helpers:
   `I_{17,m}={[u]}`, excludes `91205=[17u]`, and retains the complete
   negative-valuation, denominator, factor-zero, fixed-cover, and AA+BB lift
   certificate without entering another prime or D2.
-  `wl593` then uses `theory/aa_bb/wl593_factor_twist_generalization_route_death.py`
-  to compare only the frozen `wl587`-`wl592` certificates. It records that the
+  `wl593` then is the D4 semantic projection from
+  `theory/aa_bb/d4_factor_twist.py` and compares only the frozen
+  `wl587`-`wl592` certificates. It records that the
   fixed bases, coefficients, bad-prime supports, and local images do not form
   a parameterized cross-family mechanism, and closes this generalization route
   without adding another family, prime, local row, D2, or D5 claim.

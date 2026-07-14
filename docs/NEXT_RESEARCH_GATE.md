@@ -115,6 +115,26 @@ local-image input. This scoped route death does not rule out all future
 relative 2-descent. Do not add another
 family sample, prime, or local-image table, and do not enter D2 or D5.
 
+## Consolidated History Route
+
+For the wl491+ history, current readers should use:
+
+- [491-522 AA+BB admissibility taxonomy](work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md)
+- [523-529 common-source/function-field squareclass history](work-logs/523-529-common-source-function-field-squareclass-consolidated.md)
+- [530-585 pure-v_ell M1/M2 history](work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md)
+- [D4 semantic projection](../scripts/theory/aa_bb/d4_factor_twist.py) for wl586 and wl593
+
+The five protected appendices remain separate:
+
+- [wl587](work-logs/587-pure-u7-d0-relative-2-descent.md)
+- [wl589](work-logs/589-mixed-d0-relative-2-descent.md)
+- [wl590](work-logs/590-p5-factor-twist-local-image-comparison.md)
+- [wl591](work-logs/591-mixed-p7-factor-twist-local-image.md)
+- [wl592](work-logs/592-mixed-p17-factor-twist-local-image.md)
+
+wl594 and wl595 remain downstream context. This routing is documentation-only:
+it does not delete source worklogs or rewrite manifest/loader provenance.
+
 ## Historical wl535 Chain
 
 `wl535` takes the exact `wl534` one-parameter square-predicate obstruction and
@@ -1796,31 +1816,18 @@ candidate nor an AA+BB-admissible point.
 
 For the full route history, read:
 
-- `docs/work-logs/archive/522-support-cover-taxonomy-to-lemma-candidate-checkpoint.md`
-- `docs/work-logs/523-try-common-source-square-obstruction-lemma-candidate.md`
-- `docs/work-logs/524-post-wl523-route-choice-audit.md`
-- `docs/work-logs/525-attempt-uniform-cover-family-squareclass-obstruction-lemma.md`
-- `docs/work-logs/526-post-wl525-route-choice-audit.md`
-- `docs/work-logs/527-function-field-squareclass-proof-data-scope.md`
-- `docs/work-logs/528-v5-l1-t5-function-field-prototype.md`
-- `docs/work-logs/529-v5-l1-t5-square-locus.md`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy_to_lemma_candidate_checkpoint.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl523_try_common_source_square_obstruction_lemma_candidate.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice_audit.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl525_attempt_uniform_cover_family_squareclass_obstruction_lemma.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice_audit.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data_scope.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_function_field_prototype.py`
-- `scripts/theory/audit_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl522_support_cover_taxonomy.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl523_common_source_obstruction.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl524_post_wl523_route_choice.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl525_uniform_cover_family_squareclass_obstruction.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl526_post_wl525_route_choice.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl527_function_field_squareclass_proof_data.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl528_v5_l1_t5_prototype.py`
-- `tests/test_closure_quotient_rank_zero_aa_bb_wl529_v5_l1_t5_square_locus.py`
-- `docs/work-logs/README.md`
+- [worklog index](work-logs/README.md)
+- [491-522 consolidated history](work-logs/491-522-aa-bb-admissibility-taxonomy-consolidated.md)
+- [523-529 consolidated history](work-logs/523-529-common-source-function-field-squareclass-consolidated.md)
+- [530-585 consolidated history](work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md)
+- [D4 wl586/wl593 projections](../scripts/theory/aa_bb/d4_factor_twist.py)
+- [wl587 protected appendix](work-logs/587-pure-u7-d0-relative-2-descent.md)
+- [wl589 protected appendix](work-logs/589-mixed-d0-relative-2-descent.md)
+- [wl590 protected appendix](work-logs/590-p5-factor-twist-local-image-comparison.md)
+- [wl591 protected appendix](work-logs/591-mixed-p7-factor-twist-local-image.md)
+- [wl592 protected appendix](work-logs/592-mixed-p17-factor-twist-local-image.md)
+- [wl594 downstream context](work-logs/594-universal-closure-product-g0-parameterized-input.md)
+- [wl595 downstream context](work-logs/595-universal-closure-product-g4-route-death.md)
 
 ## Do Not Reopen
 
