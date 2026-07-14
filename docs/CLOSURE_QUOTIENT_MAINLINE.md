@@ -10,17 +10,18 @@ the [worklog index](./work-logs/README.md).
 The latest accepted checkpoint is:
 
 ```text
-wl595_universal_closure_product_g4_route_death
+wl596_universal_four_factor_hrl_q0_divisor_allocation_blocker
 ```
 
-It closes only the universal closure-product
-Kummer/single-split-prime/denominator mechanism. It is not a Harborth theorem,
-family exclusion, Selmer/rank theorem, D2, D5, or M3 result.
+It gives the final Q4 decision `precise_smaller_arithmetic_blocker` for the
+exact realized `H_RL` route. It is not a finite uniform-support theorem,
+realized infinite-support family, Harborth theorem, family exclusion,
+Selmer/rank theorem, D2, D5, or M3 result.
 
-The next admissible mathematical input would be a parameter-uniform global
-relative 2-descent certificate on the full individual four-factor cover. It
-must preserve both `T=A+B` and `T=|A-B|` branches, p=2, denominators, real and
-boundary charts, and the complete AA/BB lifts.
+The next admissible input is a global invariant on the strict positive
+divisor-pair system `q_1,q_2|Abar^2-Bbar^2`, preserving both source-square
+predicates, all six closure directions, p=2, denominators, real and boundary
+charts, and the complete AA/BB lifts.
 
 ## Core Object
 
@@ -170,4 +171,4 @@ certificates and theorem-level claims.
 
 For the recent AA+BB chain, read the consolidated `491-522`, `523-529`, and
 `530-585` histories, then the D4 projection and the protected `wl587`/`wl589`
-through `wl592` appendices. `wl594` and `wl595` remain downstream context.
+through `wl592` appendices. `wl594`-`wl596` remain downstream context.

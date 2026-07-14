@@ -9,19 +9,19 @@ derivations belong in the consolidated worklogs, not in this file.
 The current handoff is:
 
 ```text
-wl595_universal_closure_product_g4_route_death
+wl596_universal_four_factor_hrl_q0_divisor_allocation_blocker
 ```
 
 The accepted result is:
 
 ```text
-accepted_outcome=route_death_certificate
+accepted_outcome=precise_smaller_arithmetic_blocker
 ```
 
-This closes only the universal closure-product
-Kummer/single-split-prime/denominator mechanism. It does not prove a family
-exclusion, Selmer or rank theorem, Harborth, D2, D5, or M3 result, and it does
-not rule out all future relative 2-descent.
+This resolves Q0 to the exact positive divisor-pair proposition for
+`q_1*q_2`. It does not prove a finite parameter-uniform support group, a
+realized infinite-support family, family exclusion, Selmer or rank theorem,
+Harborth, D2, D5, or M3 result.
 
 ## Frozen Evidence
 
@@ -57,8 +57,15 @@ only a fixed-representative local-solubility conclusion, not a family theorem.
 
 ## Reopening Condition
 
-Reopening requires a new parameter-uniform global relative 2-descent
-certificate on the full individual four-factor cover. It must retain:
+`wl596` proves the complete allocation system for
+`q_i*d_i=Delta_bar`, including shared gcds. Balanced parameter-factor
+valuations force an even `q_1*q_2` bit. Unbalanced odd valuations do not fix
+the bit, and the dyadic middle interval is impossible while exact cancellation
+branches remain.
+
+Reopening requires a new global invariant that classifies the exact positive
+divisor pairs `q_1,q_2|Delta_bar` satisfying both source-square predicates and
+one of the six sum/ordered-difference closure equations. It must retain:
 
 - both `T` branches;
 - positive square `x`, positivity, and all real intervals;
@@ -81,7 +88,7 @@ Read the current route in this order:
 6. [530-585 consolidated history](work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md)
 7. [D4 canonical projection](../scripts/theory/aa_bb/d4_factor_twist.py)
 8. Protected appendices: [wl587](work-logs/587-pure-u7-d0-relative-2-descent.md), [wl589](work-logs/589-mixed-d0-relative-2-descent.md), [wl590](work-logs/590-p5-factor-twist-local-image-comparison.md), [wl591](work-logs/591-mixed-p7-factor-twist-local-image.md), and [wl592](work-logs/592-mixed-p17-factor-twist-local-image.md)
-9. Downstream context: [wl594](work-logs/594-universal-closure-product-g0-parameterized-input.md) and [wl595](work-logs/595-universal-closure-product-g4-route-death.md)
+9. Downstream context: [wl594](work-logs/594-universal-closure-product-g0-parameterized-input.md), [wl595](work-logs/595-universal-closure-product-g4-route-death.md), and [wl596](work-logs/596-universal-four-factor-hrl-q0-divisor-allocation-blocker.md)
 
 For the executable graph and current command map, use
 [scripts/README.md](../scripts/README.md). `wl594+` remains downstream context

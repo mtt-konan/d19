@@ -148,9 +148,9 @@ builders, tests, formulas, local images, survivor ledgers, or no-claim bounds.
 | `wl591` / D7 | `wl591_mixed_p7_factor_twist_local_image.py` | `I_{7,m}={[1]}`; only `91205` survives the selected p=7 row. |
 | `wl592` / D17 | `wl592_mixed_p17_factor_twist_local_image.py` | `I_{17,m}={[u]}` excludes `[91205]=[17u]`; no D2 entry. |
 
-The downstream `wl594` G0 input and `wl595` G4 route-death certificate have
-their own scripts and worklogs, but remain downstream context rather than a
-new D4 executable stage.
+The downstream `wl594` G0 input, `wl595` G4 route-death certificate, and
+`wl596` exact `H_RL` Q0 divisor-allocation blocker have their own scripts and
+worklogs, but remain downstream context rather than a new D4 executable stage.
 
 ## Other Directories
 

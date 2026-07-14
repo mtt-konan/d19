@@ -4,15 +4,14 @@ This document lists only directions that remain eligible. Detailed history
 belongs in the consolidated worklogs; counts and repeated local tables are not
 directions by themselves.
 
-## P0: Reopen Relative 2-Descent With New Uniform Input
+## P0: Solve The Exact HRL Divisor-Pair Blocker
 
-The current `wl595` route-death certificate closes only the universal
-closure-product Kummer/single-split-prime/denominator mechanism. It does not
-close all relative 2-descent.
+`wl596` reduces the exact realized `H_RL` class to the squareclass of
+`q_1*q_2` on a finite positive divisor-pair system. The primewise allocation,
+shared gcd, balanced-parity, and dyadic middle-branch questions are complete.
 
-Reopen this direction only when there is a new parameter-uniform global
-certificate on the full individual four-factor cover. The certificate must
-retain:
+Reopen this direction only with a new global invariant controlling the exact
+closure-compatible divisor pairs `q_1,q_2|Delta_bar`. The argument must retain:
 
 - both `T=A+B` and `T=|A-B|` branches;
 - positive square `x`, positivity, and all real intervals;
@@ -21,10 +20,8 @@ retain:
   charts;
 - individual AA/BB lifts and the complete four-factor lift.
 
-The frozen `wl535` proposition and its `wl530`-`wl585` derivation are available
-in the [consolidated history](work-logs/530-585-pure-v-ell-m1-m2-consolidated-checkpoint.md).
-Do not add a fixed family sample, prime, local-image table, or equivalent
-quotient and do not enter D2, D5, or M3 from `wl595`.
+Do not add a fixed family sample, prime, local-image table, formal twist, or
+equivalent quotient, and do not enter D2, D5, or M3 from `wl596`.
 
 ## P1: Selmer Family Proof With A Named Gap
 

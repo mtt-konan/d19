@@ -38,8 +38,9 @@ The five protected appendices remain independent:
 - [wl591 p=7 local image](591-mixed-p7-factor-twist-local-image.md)
 - [wl592 p=17 local image](592-mixed-p17-factor-twist-local-image.md)
 
-Downstream context remains [wl594](594-universal-closure-product-g0-parameterized-input.md)
-and [wl595](595-universal-closure-product-g4-route-death.md).
+Downstream context remains [wl594](594-universal-closure-product-g0-parameterized-input.md),
+[wl595](595-universal-closure-product-g4-route-death.md), and
+[wl596](596-universal-four-factor-hrl-q0-divisor-allocation-blocker.md).
 
 The wl491-wl522 detail logs are archived under
 [archive/README.md](archive/README.md). The seven wl523-wl529 detail logs remain

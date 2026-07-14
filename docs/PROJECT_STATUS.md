@@ -16,13 +16,14 @@ closure quotient
 The current research checkpoint is:
 
 ```text
-wl595_universal_closure_product_g4_route_death
+wl596_universal_four_factor_hrl_q0_divisor_allocation_blocker
 ```
 
-The scoped result is a route-death certificate for the universal
-closure-product Kummer/single-split-prime/denominator mechanism. Reopening
-requires a new parameter-uniform global relative 2-descent certificate on the
-full individual four-factor cover.
+The scoped result is `precise_smaller_arithmetic_blocker` for the exact
+`H_RL` realized-class route. Q0 reduces the unresolved squareclass to a
+closure-compatible positive divisor-pair problem for
+`q_1,q_2|Abar^2-Bbar^2`. Reopening requires a new global invariant on that
+strict system.
 
 ## What Is Proved
 
@@ -34,6 +35,9 @@ full individual four-factor cover.
   genus-five individual AA/BB lift.
 - `wl595` proves that the natural product class and the audited collision and
   denominator mechanism add no uniform obstruction.
+- `wl596` proves the complete primewise `q_i*d_i=Delta_bar` allocation system,
+  the balanced-prime even-parity lemma, the dyadic middle-branch exclusion,
+  and the exact divisor-pair converse.
 - `wl590`-`wl592` exhaust the selected fixed-representative factor-twist
   ledgers. Their conclusion is local and representative-specific.
 
@@ -53,20 +57,19 @@ strict certificate.
 
 ## Current Bottleneck
 
-The remaining theorem-level route would need:
+The current exact blocker is:
 
 ```text
-odd-prime local image
-dyadic local condition
-formal lift compatibility
-global Selmer dimension bound
-rank-zero conclusion
+classify positive q_1,q_2 | Delta_bar
+retain the two source-square predicates
+retain one exact sum/ordered-difference closure equation
+determine sqf(q_1*q_2) uniformly
 ```
 
-The next input is not another fixed sample, prime, local table, or quotient
-rewrite. It must be a parameter-uniform global relative 2-descent certificate
-that retains both `T` branches, p=2, denominators, all boundary charts, real
-intervals, and complete AA/BB lifts.
+Primewise valuation data does not determine the unbalanced odd-prime bit, and
+the dyadic unit restriction does not close every cancellation branch. The next
+input must be a global invariant on the exact divisor-pair system, not another
+fixed sample, prime, local table, formal twist, or quotient rewrite.
 
 ## Frozen Historical Inputs
 
@@ -81,7 +84,8 @@ branches, and method-exhaustion boundaries are preserved in:
 The protected fixed-instance evidence is kept in the five appendices:
 `wl587`, `wl589`, `wl590`, `wl591`, and `wl592`. The downstream parameterized
 inputs are [wl594](work-logs/594-universal-closure-product-g0-parameterized-input.md)
-and [wl595](work-logs/595-universal-closure-product-g4-route-death.md).
+and [wl595](work-logs/595-universal-closure-product-g4-route-death.md). The
+current Q4 decision is [wl596](work-logs/596-universal-four-factor-hrl-q0-divisor-allocation-blocker.md).
 
 ## Reading Route
 

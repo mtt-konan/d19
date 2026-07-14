@@ -54,7 +54,7 @@ Worker output is proposed work, not accepted proof or a completed checkpoint.
 The current handoff is:
 
 ```text
-wl595_universal_closure_product_g4_route_death
+wl596_universal_four_factor_hrl_q0_divisor_allocation_blocker
 ```
 
 `wl591` completes the selected normalized mixed-family `p=7` local-image
@@ -169,6 +169,23 @@ parity across both T branches, p=2, denominators, all boundary charts, real
 intervals, and complete AA/BB lifts. It is not a claim that all future
 relative 2-descent is impossible and makes no family, Selmer, rank, Harborth,
 D2, D5, or M3 claim.
+
+`wl596` supplies the accepted Q0 audit for the non-base-pullback class
+`H_RL=(r_1-r_3)(r_2-r_4)`. For each exact four-lift point it keeps
+`q_i*d_i=Delta_bar`, all shared gcds, both closure branches, and the complete
+odd/dyadic valuation system. When `v_p(Abar+Bbar)=v_p(Abar-Bbar)`, the
+`q_1*q_2` parity bit is forced even. At unbalanced odd primes it remains
+undetermined by valuation reduction; at `p=2` the middle allocation
+interval has nonsquare unit `3` or `7 mod 8`, but the remaining exact
+cancellation branch is not uniformly fixed. The exact unresolved object is
+now the finite positive divisor-pair system in `q_1,q_2|Delta_bar`, with the
+source-square predicate and one of the six sum/ordered-difference closure
+equations. The accepted Q4 outcome is
+`precise_smaller_arithmetic_blocker`. Reopening requires a new global
+invariant on that exact divisor-pair system. Do not replace it by formal
+twists, detached local tables, fixed samples, or another quotient rewrite.
+This makes no finite uniform-support, infinite-support-family, Selmer, rank,
+Harborth, family-exclusion, D2, D5, or M3 claim.
 
 ### Frozen wl535 Input
 
