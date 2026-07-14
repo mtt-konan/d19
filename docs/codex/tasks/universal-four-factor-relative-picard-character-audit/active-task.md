@@ -1,0 +1,26 @@
+# Active Task
+
+- Status: complete
+- Updated: 2026-07-14
+- Task id: universal-four-factor-relative-picard-character-audit
+- Role: Controller; one mathematical Luna Max Worker at a time.
+- Goal: Determine whether the universal degree-16 individual four-factor AA/BB cover has a concrete parameter-uniform non-base-pullback unramified 2-cover class arising from character quotients, radical-linear collision divisors, or relative Picard/Prym 2-torsion.
+- Scope: Start strictly after `low_support_candidate_space_zero`; define and census an explicit non-base-pullback radical-linear/sign-split universe and the positive-genus character quotients, then accept exactly outcome A, B, or C from the user-provided task.
+- Policy scope: universal-four-factor-relative-picard-character-audit
+- ExecutionPolicy: external
+- ExecutionPolicy source: user instruction and project `AGENTS.md`
+- Execution protocol skills: `agent-memory-stack-lite-demo`, `context-memory-index`
+- Lite Demo role: memory-only
+- Activation packet: Work separately over `K_plus=Q(A,B), T=A+B` and `K_minus=Q(A,B), T=A-B` with `A>B>0`; retain the physical `T=|A-B|` interpretation, positive square `x=t^2`, exact real intervals, all four radical lifts, p=2, primitive/gcd and denominator data, all collision/boundary charts, and parameter uniformity.
+- Stable-module protection judgment: 已保护 `wl587`-`wl595` 代码、测试、worklog、canonical consolidation 模块、projection digests、D0/local-image kernels 与 theorem-strength 项目文档。本任务没有必须修改这些稳定载荷的证据链，因此不触碰；只新增本任务锚点/报告并在 `docs/codex/index.md` 加任务指针。回归检查为 forbidden-reference scan 与 `git diff --check`，若后续脚本获准则仅跑用户指定的 focused gates。
+- Frozen prior result: `kappa` is ramified at 32 collision preimages and the explicitly defined low-support base-pullback unramified candidate space is zero. This task must not reopen that space or promote it to a full Picard claim.
+- Current step: Complete; Controller accepted outcome A.
+- Completed steps: Read the task specification, project guidance, current project memory, `wl594`, `wl595`, the prior low-support census, and the available literature index/notes. The worktree already contained unrelated documentation/navigation changes and the untracked precursor census before this task landing; they are not owned or absorbed by this task. A fresh narrow Worker produced the complete 15-quotient inventory via its runtime output artifact. The Controller independently checked all subset permutations, branch counts, Riemann-Hurwitz genera, the genus sum 17, both T-branch symmetry conventions, and the 2-primary isogeny warning. A Phase 2 Worker supplied the exact branch-subset invariants and pullback kernel; the Controller checked the Galois-fixed dimensions, unramified-character kernel argument, and the explicit `H_A` identity. A Phase 3 Worker supplied the 21-column radical-linear census; the Controller independently reconstructed its 160 point rows, rank 14, seven kernel generators, one-dimensional quotient, exact infinity divisor, and nonsquare proof for `H_RL`. All phases are recorded in `character-quotient-audit.md`.
+- Next exact step: None; task complete. A later descent-design audit requires separate authorization.
+- Allowed changes: this anchor; `character-quotient-audit.md`; `docs/codex/index.md` task pointer. A script and focused test require Controller acceptance of the exact finite generator universe first.
+- Forbidden changes: `wl587`-`wl595`; numbered worklogs or `wl596`; canonical consolidation/projection files; protected D0/local-image kernels; theorem-strength project documents; local-image tables, reciprocity, Selmer/rank, D2, D5, M3; unrelated worktree changes.
+- Validation gates: independently check quotient genera by Riemann-Hurwitz; branch/Galois orbits; all radical-linear divisors and F2 rows; kernel/quotient dimensions; pullback/norm and 2-primary claims; both T branches and all boundaries; no-claim fields; `git diff --check`. Do not run full pytest.
+- Rejected paths: base-pullback functions including `kappa`; dimension summation across a 2-primary isogeny; fixed representatives/primes; unrestricted rank/torsion; generic nonsquare evidence without an even divisor; point searches; local tables before a valid class; speculative Prym/Brauer language. Failed Worker path: the first broad Phase 0-1 prompt ran for several minutes but returned no mathematical payload and ended with `ask_codex.sh: line 325: codex_rc: unbound variable`; do not reuse that broad prompt.
+- Acceptance outcomes: `non_base_pullback_candidate_ready`, `radical_linear_candidate_space_zero`, or `precise_relative_picard_blocker`.
+- Accepted outcome: `non_base_pullback_candidate_ready`.
+- Stop condition: reached. Do not proceed to a descent-design audit or create `wl596`.
