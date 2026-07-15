@@ -1,6 +1,6 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
-- Status: complete
+- Status: active
 - Updated: 2026-07-15
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
@@ -23,7 +23,10 @@
 
 ## Current Step
 
-Complete. B5 outcome: `precise_genus2_arithmetic_blocker`.
+Post-B0 feasibility audit complete. The stable-model gap is not a B1/B2
+prerequisite; the `i`-twist is dyadically obstructed, both Jacobian torsion
+groups are rigorously trivial, and the live toolchain has no exact genus-2
+Jacobian 2-Selmer/local-Kummer route.
 
 ## Completed Steps
 
@@ -33,11 +36,15 @@ Complete. B5 outcome: `precise_genus2_arithmetic_blocker`.
 - B0 reduction audit: actual good reduction is proved outside `{(1+i),(94*i-169)}` and actual bad reduction at `(94*i-169)` is proved for both twists; `(1+i)` is the exact remaining blocker.
 - Rejected B0 overclaim: `PGL2(O)\PGL2(K)/PGL2(O)` has one radial parameter, but the right integral factor acts on the branch sextic. Without a stabilizer/invariance proof or a complete lattice-direction audit, the fixed-center `r` strata do not classify every possible generalized model.
 - Final Controller decision: the complete covering data and odd-prime reduction result are accepted; actual reduction at `(1+i)` remains unresolved for both twists, so B1-B4 are not entered.
+- User correction: keep commit `dccbd9a` as a B0 checkpoint, but withdraw the route claim that full dyadic stable reduction must precede B1/B2. An arithmetic blocker is allowed only if exact 2-Selmer progress specifically fails at the dyadic local Kummer image.
+- Post-B0 feasibility audit: `C_i(K_(1+i))` is empty by an exact valuation/unit-square obstruction; exact good-prime Jacobian orders give `J_1(K)_tors=J_i(K)_tors=0`; the model-supported finite set is `{(1+i),(94*i-169)}` and the conservative Berry-closed support adds `(-94*i-169)`; no exact genus-2 Jacobian 2-Selmer route is installed. Minimality of the support is not claimed.
 
 ## Next Exact Step
 
-None; task complete at the accepted B5 blocker. Reopening requires the exact
-dyadic quotient-lattice/stable-model theorem stated in `final-outcome.md`.
+Set up the exact `C_1` Jacobian 2-descent over `K` with finite support
+`{(1+i),(94*i-169)}`, beginning with explicit local Kummer images. Do not
+promote a blocker until a concrete 2-Selmer computation has been set up and
+the unresolved step is specifically the dyadic local image.
 
 ## Allowed Changes
 
