@@ -45,7 +45,8 @@ result or local Kummer image is claimed.
 - Segmented C_1 gate: local Sage independently verifies the degree-12 field, maximal-order discriminant `5019340374016`, trivial class group, unit group `C4 x Z^5`, complete support decomposition, and strict local quotient targets `5` at `(1+i)` and `2` at `(94*i-169)`. The model support has six primes above `Q(i)` and squareclass dimension `12`; the conservative Magma support has ten primes and dimension `16`. Magma independently computes the class, unit and S-unit data in `0.78` seconds and emits generators in the fixed absolute-field power basis. The public global timeout remains a service limit, not an arithmetic blocker.
 - Q1 correction: the conservative `16` dimensions are explicitly only the ambient `V_S` S-unit coordinate space. The exact constant quotient `F_L=L^*/(L^{*2}K^*)`, the separate norm-square kernel, the local fake quotient at `pi`, and the ambient-to-local localization map are now defined without claiming their dimensions or matrices. `D_inf` is retained only as a fake-map kernel inclusion with trivial fake class.
 - Q2a: `q2a-local-kummer-generators.md` constructs the tangent-normalized local classes of `D_12` and `D_r`, gives the full four-dimensional `H_pi` basis, and proves the two classes are independent and complete for `I_pi` using the accepted local dimension 2. Global ambient localization remains open.
-- Q2b audit: `q2b-coordinate-audit.md` first identified the missing fixed payload. `q2b-fixed-basis-report.md` now records the successful Magma transcript, all sixteen absolute power-basis S-unit elements, multiplication table, and `K` embedding. No global lift or 16-coordinate localization vector is claimed yet.
+- Q2b audit: `q2b-coordinate-audit.md` first identified the missing fixed payload. `q2b-fixed-basis-report.md` now records the successful Magma transcript, all sixteen absolute power-basis S-unit elements, multiplication table, and `K` embedding.
+- Q2c: `q2c-constant-norm-localization.md` computes and verifies `M_const`, `M_norm`, the odd-`pi` localization map, and global norm-square ambient lifts for both Q2a classes. The canonical lifts are `epsilon_1` for `beta_12` and `epsilon_1+epsilon_4` for `beta_r`.
 
 ## Next Exact Step
 
@@ -54,10 +55,10 @@ Q1 has been corrected in `q1-fake-descent-certificate.md`: the conservative
 quotient, norm-square kernel, local fake quotient, and localization map are
 separate objects with dimensions/matrices not yet computed.
 
-Continue Q2 by using `q2b-fixed-basis-payload.json` to compute the constant,
-norm, and localization matrices for the two accepted local classes from
-`q2a-local-kummer-generators.md`. Do not enter Q3 or form any Selmer/rank
-conclusion until Q2 is complete.
+Q2 is complete at the odd bad prime: its local image has explicit generators,
+and the corrected global ambient/norm/localization comparison is verified.
+The next queued stage is Q3, but it is not being dispatched in this checkpoint.
+No Selmer or rank conclusion is formed from Q2 alone.
 
 
 ## Allowed Changes
