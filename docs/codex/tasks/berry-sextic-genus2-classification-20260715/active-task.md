@@ -1,6 +1,6 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
-- Status: active
+- Status: complete
 - Updated: 2026-07-15
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
@@ -46,17 +46,13 @@ result or local Kummer image is claimed.
 
 ## Next Exact Step
 
-Q1 is complete in `q1-fake-descent-certificate.md`: the conservative fixed
-16-dimensional fake target, even-degree infinity kernel, and trivial fake
-Kummer image of `D_inf` are recorded with a round-trip certificate. This does
-not identify `D_inf` with zero in `J(K)/2J(K)` and does not claim Selmer or
-rank information.
+The accepted final outcome is now recorded in
+`final-outcome-q2-blocker.md` as `precise_C1_etale_descent_blocker`. Q2 was
+audited to the point where the exact missing arithmetic obligation is the
+complete local Kummer image at `pi=(94*i-169)`, including tangent-normalized
+factor-zero evaluations and localization into the fixed 16-dimensional
+global basis. Q3-Q7 are intentionally not claimed after this precise blocker.
 
-Begin Q2, the odd-prime local Kummer-image stage, using the
-fixed absolute-field power-basis S-unit coordinates and strict target
-dimensions `5` and `2`. Do not rerun the monolithic `TwoSelmerGroup` on the
-public service and do not infer a Selmer bound until both local images are
-proved complete and intersected with the global space.
 
 ## Allowed Changes
 
