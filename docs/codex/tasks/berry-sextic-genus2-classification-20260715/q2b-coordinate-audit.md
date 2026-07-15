@@ -112,3 +112,21 @@ done, no global lift claim is permitted.
 
 This audit does not modify `wl587`-`wl596`, create `wl597`, process another
 Berry sextic, or claim a Selmer, rank, or final classification result.
+
+## Q2b Resolution
+
+The missing payload identified above is now supplied by
+`q2b-fixed-basis-payload.json`, with the successful public transcript in
+`q2b-fixed-basis-magma-result.json`. The payload stores the sixteen actual
+`BERRY_C1_SUNIT_BASIS` vectors in the common absolute power basis
+`[1,a,...,a^11]`, the defining-polynomial reduction rule, the complete basis
+product table, multiplication by `a`, and the selected embedding
+`i=-zeta4`, `theta=a`. Exact parser and reuse checks are in
+`scripts/theory/berry_sextic_q2b_fixed_basis.py` and
+`tests/test_berry_sextic_q2b_fixed_basis.py`.
+
+This resolves the coordinate-data boundary only. It does not compute
+`M_const`, `M_norm`, `M_loc_pi`, either global Q2a lift, Selmer data, rank data,
+or Q3. A fresh calculator submission was transport-failed in the current
+environment; the exact result and rerun command are recorded in
+`q2b-fixed-basis-report.md`.
