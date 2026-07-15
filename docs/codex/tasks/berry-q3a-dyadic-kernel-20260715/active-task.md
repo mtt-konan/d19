@@ -102,3 +102,17 @@ The embedding-bit Worker session id is `unknown`; its controller PTY was
 `88286`. It repeated unavailable/long-running Sage maximal-order
 commands and produced no certificate or file before termination. This does
 not decide the embedding bit and is recorded only as an incomplete tool path.
+
+A pure-SymPy exact-number-field embedding attempt was dispatched in this
+continuation. Its Worker session id is `unknown`; controller PTY was `79403`.
+The Worker reached exact `round_two`/`prime_decomp` and trace-module probing,
+but the subsequent prime-ideal valuation/subfield calculation did not emit a
+certificate before termination. No embedding conclusion is drawn from this
+tool failure.
+
+A fresh exact embedding-bit Worker was dispatched in this continuation. Its
+Worker session id is `unknown`; controller PTY was `27489`. It read the exact
+payload and attempted number-field prime/subfield calculations, but the Sage
+maximal-order path repeated without producing a certificate or changed file.
+It was terminated as a tool-path failure; the embedding bit remains
+undetermined and no mathematical blocker is claimed.
