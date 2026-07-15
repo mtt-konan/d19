@@ -4,10 +4,11 @@
 
 `precise_q2_missing_coordinate_certificate`
 
-This retry does not certify the local Kummer image. The certified inputs prove
-the local factor-orbit pattern and the strict dimension target 2, but they do
-not emit the local evaluation classes or a local-to-global comparison map.
-No 16-coordinate vectors are therefore stated.
+The original Q2 boundary did not certify the local Kummer image. Q2a has now
+resolved its local half by constructing two tangent-normalized local classes
+and proving that they span the local fake image. The remaining Q2 boundary is
+the global ambient-to-local comparison: no 16-coordinate localization data is
+yet stated.
 
 The missing data is Q2-specific, not a Magma timeout and not a global
 Selmer/rank conclusion.
@@ -125,12 +126,10 @@ the all-branch relation removes one more dimension. Thus
 This recovers the accepted `J(K_pi)[2]` dimension. It is a branch-orbit
 calculation, not a calculation of the fake evaluation coordinates.
 
-## Exact Coordinate Parametrization Available
+## Historical Coordinate Boundary
 
-The local branch-orbit divisor classes can be named without guessing
-coefficients. Let `D_12` be the invariant branch divisor for the two linear
-orbits, and let `D_r` and `D_u` be the divisor classes for the two quadratic
-orbits. The only coordinate-free candidates are
+Before Q2a, the local branch-orbit divisor classes could only be named without
+guessing coefficients. Q2a now supplies the missing construction:
 
 ```text
 beta_12 = delta_pi(D_12),
@@ -138,10 +137,9 @@ beta_r  = delta_pi(D_r),
 beta_u  = delta_pi(D_u),
 ```
 
-with the single all-branch relation. Any two independent classes among these
-are the only possible two-generator parametrization of the local branch
-quotient. This names the candidates, but it is not an explicit squareclass
-calculation and it is not a 16-coordinate vector certificate.
+with the single all-branch relation. In its explicit local basis,
+`[beta_12]=(0,1,1,0)` and `[beta_r]=(0,0,1,0)`. This is a local certificate,
+not a 16-coordinate vector certificate.
 
 The tempting replacement `beta_r=[F_r(theta)]` is not valid: after local
 factorization, `F_r(theta)` has a zero component in the `E_r` factor of
@@ -150,7 +148,7 @@ limiting/tangent normalization, or an equivalent divisor representative whose
 support avoids the branch fibers. That normalization is not in the certified
 inputs.
 
-A fixed global vector would require a global lift `beta_tilde in L^*` together with
+A fixed global vector still requires a global lift `beta_tilde in L^*` together with
 
 ```text
 loc_pi(beta_tilde) = beta in H_pi,

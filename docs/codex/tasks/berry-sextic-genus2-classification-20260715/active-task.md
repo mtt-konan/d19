@@ -44,6 +44,7 @@ result or local Kummer image is claimed.
 - Free Magma audit: the public Calculator accepts automated XML submissions and exactly constructs the selected `JacHyp` over `Q(i)`; the fast probe confirms `TwoSelmerGroup` and `TwoCoverDescent` are present, while `LocalKummerImage` is absent. The full `TwoSelmerGroup(J)` call is terminated by the public 60-second limit, and the `Al := "TwoSelmerGroupData"` intermediate-data path rejects non-rational base fields. This is a service-limit/capability result, not an arithmetic blocker.
 - Segmented C_1 gate: local Sage independently verifies the degree-12 field, maximal-order discriminant `5019340374016`, trivial class group, unit group `C4 x Z^5`, complete support decomposition, and strict local quotient targets `5` at `(1+i)` and `2` at `(94*i-169)`. The model support has six primes above `Q(i)` and squareclass dimension `12`; the conservative Magma support has ten primes and dimension `16`. Magma independently computes the class, unit and S-unit data in `0.78` seconds and emits generators in the fixed absolute-field power basis. The public global timeout remains a service limit, not an arithmetic blocker.
 - Q1 correction: the conservative `16` dimensions are explicitly only the ambient `V_S` S-unit coordinate space. The exact constant quotient `F_L=L^*/(L^{*2}K^*)`, the separate norm-square kernel, the local fake quotient at `pi`, and the ambient-to-local localization map are now defined without claiming their dimensions or matrices. `D_inf` is retained only as a fake-map kernel inclusion with trivial fake class.
+- Q2a: `q2a-local-kummer-generators.md` constructs the tangent-normalized local classes of `D_12` and `D_r`, gives the full four-dimensional `H_pi` basis, and proves the two classes are independent and complete for `I_pi` using the accepted local dimension 2. Global ambient localization remains open.
 
 ## Next Exact Step
 
@@ -52,10 +53,10 @@ Q1 has been corrected in `q1-fake-descent-certificate.md`: the conservative
 quotient, norm-square kernel, local fake quotient, and localization map are
 separate objects with dimensions/matrices not yet computed.
 
-Resume Q2 by constructing two explicit local Kummer generator classes at
-`pi=(94*i-169)` and expressing them through those corrected quotient and
-localization objects. Do not enter Q3 or form any Selmer/rank conclusion until
-Q2 is complete.
+Continue Q2 by expressing the two accepted local classes from
+`q2a-local-kummer-generators.md` through the corrected global ambient,
+constant-quotient, norm, and localization objects. Do not enter Q3 or form any
+Selmer/rank conclusion until Q2 is complete.
 
 
 ## Allowed Changes
