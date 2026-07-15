@@ -60,3 +60,20 @@ unresolved. The focused Q1/Q2a/Q2c regression run passed (`10 passed`).
 Current next step: Q3a2, compute the exact localization matrix from the
 16-dimensional ambient space into the now-defined dyadic target. Q3a3 remains
 independent and is not inferred from the source dimension `5`.
+
+## Q3a2 Attempt Record
+
+A fresh Q3a2 Worker was dispatched under the exact Controller contract. Its
+Worker session id is `unknown`; the controller PTY was `11368`. The last
+observable work consisted of reading the exact Q3a1/Q2c/segmented-factor
+artifacts and repeated Sage commands against the absolute degree-12 field.
+No exact dyadic coordinate basis, localization column, changed file, or test
+result was produced before the Worker was terminated after the same Sage path
+repeated without output. This is a failed computational attempt, not a
+mathematical blocker and not evidence for any Selmer or image dimension.
+
+The exact remaining Q3a2 input is a certified coordinate presentation of
+`W_varpi=A_varpi^*/A_varpi^{*2}` (including the two degree-2/4 local factors),
+its diagonal base-field quotient, and its norm kernel. Formal transport of
+the Q2c norm rows alone does not determine the 16 localization columns in
+`H_varpi`.
