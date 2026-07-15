@@ -66,6 +66,28 @@ Other useful families include:
   `k4_rank.py`, `k4_two_descent_rank.py`,
   `rank_mixed_closure_curves.py`
 
+### `utility/`
+
+- `magma_calculator.py`: submit a `.m` file to the free University of Sydney
+  Magma Calculator, parse its XML transcript, and distinguish success from a
+  Magma error or the public 60-second timeout.
+
+```bash
+uv run python scripts/utility/magma_calculator.py \
+  scripts/theory/berry_sextic_magma_capabilities.m
+
+uv run python scripts/utility/magma_calculator.py \
+  scripts/theory/berry_sextic_magma_two_selmer.m \
+  --json-out /private/tmp/berry-magma-two-selmer.json
+
+uv run python scripts/utility/magma_calculator.py \
+  scripts/theory/berry_sextic_magma_capabilities.m --print-url
+```
+
+The fast probe should exit `0`. The full selected `TwoSelmerGroup` probe
+currently exits `2` because the public service terminates it at 60 seconds;
+that exit code is a service result, not an arithmetic obstruction.
+
 ## Current AA+BB Graph
 
 The canonical `wl500-wl593` executable graph is:

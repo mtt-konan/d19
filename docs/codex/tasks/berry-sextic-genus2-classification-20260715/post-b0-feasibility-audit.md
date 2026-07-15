@@ -176,7 +176,7 @@ This is only the exact `K^*/K^2` S-squareclass container, not a Jacobian
 
 ## 4. Live Toolchain
 
-The live environment has `/usr/local/bin/sage`, Sage `10.9` (2026-05-04).
+The local environment has `/usr/local/bin/sage`, Sage `10.9` (2026-05-04).
 With `proof.all(True)`:
 
 - finite-field `HyperellipticCurve(f).jacobian().cardinality()` works exactly;
@@ -189,13 +189,39 @@ With `proof.all(True)`:
 - no `magma`, `Magma`, `magma-cli`, or `magma64` executable is installed.
 
 The Sage Magma interface source is present, but that is not an installed Magma
-route. No exact genus-2 Jacobian 2-Selmer or local Kummer image computation was
-set up. Therefore the prior stable-model gap is not converted into an
-arithmetic blocker.
+route.
+
+The free University of Sydney Magma Calculator was then tested through its
+public XML endpoint. On Magma V2.29-8, the fast exact probe constructs `C_1`
+and its `JacHyp` over `Q(i)` and returns
+
+```text
+HAS_TWO_SELMER_GROUP true
+HAS_TWO_COVER_DESCENT true
+HAS_RANK_BOUNDS true
+HAS_LOCAL_KUMMER_IMAGE false
+```
+
+The `TwoSelmerGroup(J::JacHyp)` signature advertises number-field support.
+However, the exact call on the selected `J_1` was terminated by the public
+60-second limit before returning any Selmer data. The optional
+`Al := "TwoSelmerGroupData"` path fails immediately with
+
+```text
+TwoSelmerGroupData: J must have the rationals as its base field.
+```
+
+Thus the public service is a usable capability and short-check oracle, but it
+does not currently provide the required exact Selmer result or a local Kummer
+image. The observed failure is a service timeout, not an arithmetic blocker.
+Reproducible submissions are
+`scripts/theory/berry_sextic_magma_capabilities.m` and
+`scripts/theory/berry_sextic_magma_two_selmer.m`, submitted by
+`scripts/utility/magma_calculator.py`.
 
 ## Next Smallest Step
 
-Use the sufficient support `S_model` to set up the `C_1` Jacobian 2-descent over `K`.
-The first concrete substep is an explicit local Kummer-image implementation
-at `(1+i)` and `(94*i-169)`, followed by the global `S`-squareclass linear
-algebra. This is a next step, not a claimed Selmer bound or blocker.
+Run the same exact `TwoSelmerGroup(J_1)` input in a Magma environment without
+the public 60-second limit, or use the sufficient support `S_model` to
+implement the local Kummer images at `(1+i)` and `(94*i-169)` directly. This is
+a next step, not a claimed Selmer bound or blocker.

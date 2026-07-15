@@ -278,10 +278,30 @@ def _toolchain_certificate() -> dict[str, Any]:
                 "alone is not a capability."
             ),
         },
+        "public_magma_calculator": {
+            "version": "2.29-8",
+            "endpoint": "http://magma.maths.usyd.edu.au/xml/calculator.xml",
+            "input_limit_bytes": 50_000,
+            "time_limit_seconds": 60,
+            "selected_curve_constructed": True,
+            "intrinsics": {
+                "TwoSelmerGroup": True,
+                "TwoCoverDescent": True,
+                "RankBounds": True,
+                "LocalKummerImage": False,
+            },
+            "full_two_selmer_attempt": "service_timeout",
+            "two_selmer_data_mode": (
+                "rejects the Q(i) Jacobian because TwoSelmerGroupData requires "
+                "the rationals as base field"
+            ),
+            "arithmetic_conclusion": None,
+        },
         "arithmetic_blocker_promoted": False,
         "reason": (
-            "No exact Jacobian 2-Selmer computation was set up, so there is no "
-            "concrete unresolved dyadic local Kummer image to promote as a blocker."
+            "The public exact TwoSelmerGroup attempt hit its service time limit "
+            "before producing Selmer or local-image data, so there is no concrete "
+            "unresolved dyadic local Kummer image to promote as a blocker."
         ),
     }
 
@@ -297,8 +317,8 @@ def build_post_b0_audit() -> dict[str, Any]:
         "support": _support_certificate(),
         "toolchain": _toolchain_certificate(),
         "next_smallest_step": (
-            "Set up the exact C_1 Jacobian 2-descent over K with finite support "
-            "{(1+i),(94*i-169)}; implement and certify its local Kummer images "
+            "Run the exact C_1 Jacobian TwoSelmerGroup input without the public "
+            "60-second limit, or implement and certify its two local Kummer images "
             "before making any Selmer or point-classification claim."
         ),
     }

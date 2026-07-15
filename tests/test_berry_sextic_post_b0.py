@@ -50,6 +50,8 @@ def test_toolchain_result_does_not_promote_a_dyadic_selmer_blocker() -> None:
     toolchain = _audit()["toolchain"]
     assert toolchain["sage"]["version"].startswith("10.9")
     assert toolchain["magma"]["executable_found"] is False
+    assert toolchain["public_magma_calculator"]["version"] == "2.29-8"
+    assert toolchain["public_magma_calculator"]["full_two_selmer_attempt"] == "service_timeout"
     assert toolchain["arithmetic_blocker_promoted"] is False
 
 

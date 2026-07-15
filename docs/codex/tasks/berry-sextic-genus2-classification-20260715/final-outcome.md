@@ -50,10 +50,12 @@ J_i(K)_tors = 0.
 ```
 
 It also gives the conservative finite support
-`{(1+i),(94*i-169),(-94*i-169)}` and records that the installed Sage/Magma
-toolchain has no exact genus-2 Jacobian 2-Selmer/local-Kummer route. No Selmer
-or rank conclusion is claimed, and no arithmetic blocker is promoted because
-no concrete 2-Selmer computation has been set up.
+`{(1+i),(94*i-169),(-94*i-169)}`. The installed Sage toolchain has no exact
+genus-2 Jacobian 2-Selmer/local-Kummer route. The public Magma V2.29-8
+Calculator exposes `TwoSelmerGroup` for a number-field `JacHyp`, but the exact
+selected call exceeds its 60-second limit. No Selmer or rank conclusion is
+claimed, and no arithmetic blocker is promoted because the observed failure
+is a service timeout, not a dyadic local-image obstruction.
 
 ## Certified Boundary
 
@@ -68,5 +70,9 @@ Evidence is in `b0-covering-certificate.md`, `post-b0-feasibility-audit.md`,
 `scripts/theory/berry_sextic_b0_reduction.sage`, and
 `scripts/theory/berry_sextic_post_b0.py`,
 `scripts/theory/berry_sextic_post_b0.sage`,
-`tests/test_berry_sextic_b0.py`, and
-`tests/test_berry_sextic_post_b0.py`.
+`scripts/theory/berry_sextic_magma_capabilities.m`,
+`scripts/theory/berry_sextic_magma_two_selmer.m`,
+`scripts/utility/magma_calculator.py`,
+`tests/test_berry_sextic_b0.py`,
+`tests/test_berry_sextic_post_b0.py`, and
+`tests/test_magma_calculator.py`.

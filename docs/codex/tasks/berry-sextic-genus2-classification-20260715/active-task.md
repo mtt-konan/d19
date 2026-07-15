@@ -23,10 +23,10 @@
 
 ## Current Step
 
-Post-B0 feasibility audit complete. The stable-model gap is not a B1/B2
-prerequisite; the `i`-twist is dyadically obstructed, both Jacobian torsion
-groups are rigorously trivial, and the live toolchain has no exact genus-2
-Jacobian 2-Selmer/local-Kummer route.
+Free Magma Calculator capability probe complete. The public V2.29-8 service
+constructs the selected genus-2 Jacobian over `Q(i)` and exposes
+`TwoSelmerGroup(J::JacHyp)`, but the exact call exceeds the public 60-second
+limit. No Selmer result or dyadic local-image failure was obtained.
 
 ## Completed Steps
 
@@ -38,13 +38,14 @@ Jacobian 2-Selmer/local-Kummer route.
 - Final Controller decision: the complete covering data and odd-prime reduction result are accepted; actual reduction at `(1+i)` remains unresolved for both twists, so B1-B4 are not entered.
 - User correction: keep commit `dccbd9a` as a B0 checkpoint, but withdraw the route claim that full dyadic stable reduction must precede B1/B2. An arithmetic blocker is allowed only if exact 2-Selmer progress specifically fails at the dyadic local Kummer image.
 - Post-B0 feasibility audit: `C_i(K_(1+i))` is empty by an exact valuation/unit-square obstruction; exact good-prime Jacobian orders give `J_1(K)_tors=J_i(K)_tors=0`; the model-supported finite set is `{(1+i),(94*i-169)}` and the conservative Berry-closed support adds `(-94*i-169)`; no exact genus-2 Jacobian 2-Selmer route is installed. Minimality of the support is not claimed.
+- Free Magma audit: the public Calculator accepts automated XML submissions and exactly constructs the selected `JacHyp` over `Q(i)`; the fast probe confirms `TwoSelmerGroup` and `TwoCoverDescent` are present, while `LocalKummerImage` is absent. The full `TwoSelmerGroup(J)` call is terminated by the public 60-second limit, and the `Al := "TwoSelmerGroupData"` intermediate-data path rejects non-rational base fields. This is a service-limit/capability result, not an arithmetic blocker.
 
 ## Next Exact Step
 
-Set up the exact `C_1` Jacobian 2-descent over `K` with finite support
-`{(1+i),(94*i-169)}`, beginning with explicit local Kummer images. Do not
-promote a blocker until a concrete 2-Selmer computation has been set up and
-the unresolved step is specifically the dyadic local image.
+Run the exact `C_1` Jacobian 2-descent in a Magma environment without the
+public 60-second limit, or implement the two required local Kummer images over
+`K` directly. Do not promote a blocker until the unresolved step is
+specifically the dyadic local image rather than a service timeout.
 
 ## Allowed Changes
 
