@@ -116,3 +116,22 @@ payload and attempted number-field prime/subfield calculations, but the Sage
 maximal-order path repeated without producing a certificate or changed file.
 It was terminated as a tool-path failure; the embedding bit remains
 undetermined and no mathematical blocker is claimed.
+
+## Final Q3a2 Embedding-Bit Check
+
+A single final free-Magma Calculator wrapper submission was prepared from
+`q3a2-embedding-bit.m`. The 1,712-byte source uses exact `Completion`,
+`Factorization`, `ext`, `Roots`, and `IsIrreducible` operations to construct
+`K=Q(i)`, complete at `P=<1+i>`, define the degree-2 and degree-4 factor
+fields, and test whether the quadratic factor becomes reducible over the
+quartic field. The request used the public 60-second limit.
+
+The wrapper failed before receiving calculator XML with
+`status=transport_error` and
+`<urlopen error [Errno 1] Operation not permitted>`. No Magma intrinsic was
+executed remotely, no exact embedding bit was obtained, and no raw JSON was
+preserved. The detailed boundary is recorded in
+`q3a2-embedding-bit-service-gap.md`. This is a service/sandbox gap, not an
+arithmetic conclusion. Worker session id:
+`019f6677-001b-7f92-8c64-455f1559f895`. The focused regression run passed
+(`9 passed`).

@@ -67,6 +67,11 @@ the dyadic target. Q3a2 now has an exact degree-only audit in
 `dim W_varpi=16`, but the norm-kernel target is `8` or `10` until the local
 quadratic-subfield embedding bit is determined. No Selmer or rank conclusion
 is formed from Q2/Q3a1/Q3a2.
+The final exact embedding test is prepared in
+`docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/q3a2-embedding-bit.m`,
+but the existing free-Magma wrapper failed locally before receiving a
+response. The embedding bit is therefore still uncomputed; this is not a
+Selmer or arithmetic-blocker conclusion.
 
 
 ## Allowed Changes
