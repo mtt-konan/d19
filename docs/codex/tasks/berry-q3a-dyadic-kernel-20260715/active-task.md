@@ -77,3 +77,10 @@ The exact remaining Q3a2 input is a certified coordinate presentation of
 its diagonal base-field quotient, and its norm kernel. Formal transport of
 the Q2c norm rows alone does not determine the 16 localization columns in
 `H_varpi`.
+
+A second Q3a2 attempt using the independent free-Magma route was also
+started. Its Worker session id is `unknown`; controller PTY was `26155`. The
+Worker completed artifact/API inspection and proxy/service probes before
+termination; no Magma source, raw certificate, local basis, or localization
+matrix was produced. This is an incomplete tool attempt, not an arithmetic
+blocker or a service-based mathematical conclusion.
