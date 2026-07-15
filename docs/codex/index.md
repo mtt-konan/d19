@@ -1,6 +1,7 @@
 # Context Index
 
 - Updated: 2026-07-14
+- Active Berry Q3a dyadic kernel subtask: `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` (independent anchor retained for the exact `D_inf` divisibility gate; see its recovery record).
 - Project: d19 rational-distance research
 - Current anchor: `docs/codex/current-context.md`
 - Memory landing policy: ask-by-default

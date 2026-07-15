@@ -57,8 +57,12 @@ separate objects with dimensions/matrices not yet computed.
 
 Q2 is complete at the odd bad prime: its local image has explicit generators,
 and the corrected global ambient/norm/localization comparison is verified.
-The next queued stage is Q3, but it is not being dispatched in this checkpoint.
-No Selmer or rank conclusion is formed from Q2 alone.
+Q3a1 is now recorded in the independent anchor
+`docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` and report
+`q3a1-dyadic-fake-kernel-boundary.md`. It fixes the dyadic algebra and formal
+maps but deliberately does not claim a dyadic basis, local image, or kernel.
+The next queued stage is Q3a2: compute the 16-column localization matrix into
+the dyadic target. No Selmer or rank conclusion is formed from Q2/Q3a1.
 
 
 ## Allowed Changes
