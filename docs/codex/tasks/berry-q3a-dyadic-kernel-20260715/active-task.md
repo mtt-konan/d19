@@ -97,3 +97,8 @@ passed (`5 passed`).
 Current exact substep: determine the quadratic-subfield/embedding bit from
 coefficient-level local data, then obtain coordinates for the 16 global
 classes. This dimension audit is not a Selmer, image, or D_inf result.
+
+The embedding-bit Worker session id is `unknown`; its controller PTY was
+`88286`. It repeated unavailable/long-running Sage maximal-order
+commands and produced no certificate or file before termination. This does
+not decide the embedding bit and is recorded only as an incomplete tool path.
