@@ -1,8 +1,8 @@
-# Berry C_1 Final Outcome
+# Berry C_1 Q2 Boundary
 
 ## Accepted Outcome
 
-`precise_C1_etale_descent_blocker`
+`Q2_missing_evaluation_boundary`
 
 The exact remaining obligation is the odd-prime local Kummer-image stage at
 `pi=(94*i-169)`. Existing certified input proves the local factor-orbit
@@ -12,7 +12,7 @@ pattern `(1,1,2,2)` and the target dimension
 dim_F2 J(K_pi)/2J(K_pi) = 2,
 ```
 
-but does not provide the tangent-normalized divisor evaluations, their
+but the current certificate does not provide the tangent-normalized divisor evaluations, their
 coordinates in the fixed 16-dimensional global S-unit basis, or a localization
 map. Therefore the complete local image is not proved. The missing obligation
 is concrete and arithmetic; it is not a service timeout, API absence, search
@@ -26,6 +26,11 @@ failure, or global Selmer/rank conclusion.
   `tests/test_berry_sextic_q2_boundary.py`.
 - Source audit: `berry_sextic_magma_local.m` explicitly labels its target
   dimensions as theorem inputs and emits no local Kummer coordinates.
+
+This is not the final Goal outcome and does not authorize stopping the
+classification. Q1 has since been corrected to separate the ambient S-unit
+space from the fake quotient, norm kernel, and localization map. Q2 must
+continue using those corrected objects.
 
 ## Boundary
 

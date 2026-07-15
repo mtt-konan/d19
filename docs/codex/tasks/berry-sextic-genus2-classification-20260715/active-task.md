@@ -1,6 +1,6 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
-- Status: complete
+- Status: active
 - Updated: 2026-07-15
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
@@ -43,15 +43,19 @@ result or local Kummer image is claimed.
 - Post-B0 feasibility audit: `C_i(K_(1+i))` is empty by an exact valuation/unit-square obstruction; exact good-prime Jacobian orders give `J_1(K)_tors=J_i(K)_tors=0`; the model-supported finite set is `{(1+i),(94*i-169)}` and the conservative Berry-closed support adds `(-94*i-169)`; no exact genus-2 Jacobian 2-Selmer route is installed. Minimality of the support is not claimed.
 - Free Magma audit: the public Calculator accepts automated XML submissions and exactly constructs the selected `JacHyp` over `Q(i)`; the fast probe confirms `TwoSelmerGroup` and `TwoCoverDescent` are present, while `LocalKummerImage` is absent. The full `TwoSelmerGroup(J)` call is terminated by the public 60-second limit, and the `Al := "TwoSelmerGroupData"` intermediate-data path rejects non-rational base fields. This is a service-limit/capability result, not an arithmetic blocker.
 - Segmented C_1 gate: local Sage independently verifies the degree-12 field, maximal-order discriminant `5019340374016`, trivial class group, unit group `C4 x Z^5`, complete support decomposition, and strict local quotient targets `5` at `(1+i)` and `2` at `(94*i-169)`. The model support has six primes above `Q(i)` and squareclass dimension `12`; the conservative Magma support has ten primes and dimension `16`. Magma independently computes the class, unit and S-unit data in `0.78` seconds and emits generators in the fixed absolute-field power basis. The public global timeout remains a service limit, not an arithmetic blocker.
+- Q1 correction: the conservative `16` dimensions are explicitly only the ambient `V_S` S-unit coordinate space. The exact constant quotient `F_L=L^*/(L^{*2}K^*)`, the separate norm-square kernel, the local fake quotient at `pi`, and the ambient-to-local localization map are now defined without claiming their dimensions or matrices. `D_inf` is retained only as a fake-map kernel inclusion with trivial fake class.
 
 ## Next Exact Step
 
-The accepted final outcome is now recorded in
-`final-outcome-q2-blocker.md` as `precise_C1_etale_descent_blocker`. Q2 was
-audited to the point where the exact missing arithmetic obligation is the
-complete local Kummer image at `pi=(94*i-169)`, including tangent-normalized
-factor-zero evaluations and localization into the fixed 16-dimensional
-global basis. Q3-Q7 are intentionally not claimed after this precise blocker.
+Q1 has been corrected in `q1-fake-descent-certificate.md`: the conservative
+16 dimensions are only the ambient `V_S` coordinates. The exact constant
+quotient, norm-square kernel, local fake quotient, and localization map are
+separate objects with dimensions/matrices not yet computed.
+
+Resume Q2 by constructing two explicit local Kummer generator classes at
+`pi=(94*i-169)` and expressing them through those corrected quotient and
+localization objects. Do not enter Q3 or form any Selmer/rank conclusion until
+Q2 is complete.
 
 
 ## Allowed Changes
