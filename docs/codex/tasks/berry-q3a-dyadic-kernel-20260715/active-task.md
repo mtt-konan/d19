@@ -1,6 +1,6 @@
 # Active Task: Berry Q3a Dyadic Fake Kernel
 
-- Status: active
+- Status: blocked
 - Updated: 2026-07-15
 - Task id: `berry-q3a-dyadic-kernel-20260715`
 - Scope: only the dyadic local divisibility of `D_inf=[P_+-P_-]` for the
@@ -135,6 +135,14 @@ preserved. The detailed boundary is recorded in
 arithmetic conclusion. Worker session id:
 `019f6677-001b-7f92-8c64-455f1559f895`. The focused regression run passed
 (`9 passed`).
+
+## Terminal Boundary
+
+The Q3a objective now has accepted outcome
+`precise_C1_etale_descent_blocker`, documented in
+`docs/codex/tasks/berry-sextic-genus2-classification-20260715/final-outcome-q3a-blocker.md`.
+This is a precise missing dyadic embedding certificate after independent
+exact/local/theorem routes, not a claim caused by Worker timeout alone.
 
 On 2026-07-16 the existing 1,712-byte submission was retried once by Worker
 `019f6683-5f7d-7e13-99ce-118ae414970d` with the mandated proxy and 60-second

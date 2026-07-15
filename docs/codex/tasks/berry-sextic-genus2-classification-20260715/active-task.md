@@ -1,6 +1,6 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
-- Status: active
+- Status: blocked
 - Updated: 2026-07-15
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
@@ -72,6 +72,14 @@ The final exact embedding test is prepared in
 but the existing free-Magma wrapper failed locally before receiving a
 response. The embedding bit is therefore still uncomputed; this is not a
 Selmer or arithmetic-blocker conclusion.
+
+## Terminal Outcome
+
+The accepted scoped outcome is
+`precise_C1_etale_descent_blocker`, documented in
+`final-outcome-q3a-blocker.md`. The blocker is the missing exact dyadic
+embedding certificate `E_2 subset E_4`; it is not a claim of exclusion, a
+strict point, a Selmer result, or a rank result.
 
 
 ## Allowed Changes
