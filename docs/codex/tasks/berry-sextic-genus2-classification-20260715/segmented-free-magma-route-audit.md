@@ -2,28 +2,29 @@
 
 ## Outcome
 
-free_magma_global_stage_timeout
+segmented_free_magma_route_ready
 
 This is a tool-feasibility outcome, not an arithmetic blocker. The public
 University of Sydney Calculator returned Magma 2.29-8, constructed the
 selected JacHyp over K=Q(i), and exposed TwoSelmerGroup and TwoCoverDescent.
 The earlier exact global descent request reached
 BERRY_TWO_SELMER_V1_START and was terminated by the hard 60-second limit.
-That request is not rerun here. The four new staged requests were submitted
-once in this run but DNS was unavailable before the service was reached. That
-transport result is recorded separately and is not promoted to an arithmetic
-claim.
+That request was not rerun. The four bounded stages were then submitted
+through the required local proxy `127.0.0.1:7897`; every stage completed in
+less than one second of Magma time.
 
-The segmented route is designed and independently audited, but not accepted
-as segmented_free_magma_route_ready from this run. In particular, neither an
-individual global stage nor cross-request Magma serialization was observed.
-No full Selmer, rank, or local Kummer image is reported.
+The free segmented route is accepted as an arithmetic-computation transport,
+not as a completed descent. No full Selmer, rank, or local Kummer image is
+reported.
 
 | request | observed result | boundary |
 |---|---|---|
 | capability probe | Magma 2.29-8, 0.03 seconds | exact capability only |
 | earlier full global call | warning after START at 60 seconds | service timeout |
-| four new staged requests | DNS transport error before service | no arithmetic result |
+| field/order stage | success in 0.06 seconds | field, order, support decomposition |
+| class/unit/S-unit stage | success in 0.78 seconds | conservative 16-dimensional squareclass basis |
+| local factor stage | success in 0.07 seconds | local probe; exact targets remain theorem inputs |
+| scalar rebuild stage | success in 0.03 seconds | field/order and scalar metadata |
 
 ## Exact Global Data
 
@@ -91,7 +92,8 @@ the serialized relation row is [4,0,...,0].
 
 ## Local Targets
 
-The new local probe asks Magma only for Factorization(ChangeRing(g6,K_v)).
+The local probe asks Magma only for the factorization after mapping the
+coefficients of `g6` into `K_v`.
 The strict target is supplied independently by the local compact-group
 formula
 
@@ -122,9 +124,14 @@ The two quadratic twists have the same branch algebra and the same rational
 images. The prior exact proof C_i(K_varpi)=emptyset is a separate cover
 statement and is not used as a Jacobian Kummer computation.
 
+The dyadic Calculator display contains an approximate repeated quadratic at
+its default finite precision. It is not used to certify the `[2,4]` orbit
+degrees; those follow from the exact maximal-order prime decomposition. The
+odd display gives degrees `[1,1,2,2]` directly.
+
 ## Serialization Audit
 
-The proposed cross-request payload is
+The cross-request scalar payload is
 
 ~~~
 schema=berry-c1-magma-segmented-v1
@@ -138,15 +145,15 @@ unit generator coordinates, unit and S-unit invariants
 relation matrix with the single torsion row [4,0,...,0].
 ~~~
 
-No Magma map, ideal object, or abstract-group handle may be persisted. The
-task Python certificate round-trips a proposed six-slot model payload and a
-ten-slot conservative payload, checks degree sums and Sage-coordinate lengths,
-and preserves task-local slot numbers. This is a schema check, not a Magma
-rebuild certificate. Sage and Magma need not choose the same maximal-order
-basis. The Stage 4 .m probe currently reconstructs only the field, maximal
-order, discriminant, and scalar metadata; it does not yet reconstruct the
-support ideals or generators from Stage 1/2 output. That cross-request step
-remains part of the feasibility gate.
+No Magma map, ideal object, or abstract-group handle is persisted. Each
+request cheaply reconstructs the absolute field and maximal order from the
+fixed polynomial. Stage 2 emits every unit and conservative S-unit generator
+in that fixed absolute-field power basis, so the field elements themselves
+are portable across requests. The Python certificate additionally round-trips
+the six-slot model and ten-slot conservative metadata. Sage and Magma may
+choose different maximal-order bases; future local maps must consume the
+fixed power-basis coordinates rather than assume identical order bases or
+transient prime-ideal numbering.
 
 ## Probe Inventory
 
@@ -166,14 +173,12 @@ remains part of the feasibility gate.
 
 ## Boundary And Next Obligation
 
-The observed 60-second failure is a public-service limit. The current DNS
-failure is transport only. Neither is evidence that the class group, units,
-S-unit basis, or local Kummer images are arithmetically impossible. Restore
-Calculator transport and run the four probes separately. Stage 1/2 must emit
-an explicit Magma maximal-order basis, support ideals, generators, and
-relations; a fresh request must reconstruct and verify those objects. Only
-after those bounded requests succeed should the two local Kummer images and
-the global C_1 descent be attempted.
+The monolithic 60-second failure is only a public-service limit. The bounded
+stages show that field/order, class group, units, S-units, local-field setup,
+and scalar reconstruction fit comfortably inside the free service. The next
+arithmetic obligation is to build complete local Kummer images of target
+dimensions `5` and `2`, then intersect them with the global squareclass space.
+Tool success here is not a Selmer bound.
 
 ## Files And Validation
 
@@ -197,5 +202,5 @@ git diff --check
 ~~~
 
 The focused Berry/Magma suite passes with `14 passed`. The full repository
-suite passes with `1403 passed in 51.99s`. The existing wl587-wl596 artifacts
+suite passes with `1403 passed in 54.61s`. The existing wl587-wl596 artifacts
 and earlier Berry reports are untouched.

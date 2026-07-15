@@ -23,16 +23,13 @@
 
 ## Current Step
 
-The bounded C_1 segmented Magma feasibility gate is recorded in
+The bounded C_1 Magma gate is recorded in
 `segmented-free-magma-route-audit.md` with outcome
-`free_magma_global_stage_timeout`. The public V2.29-8 capability probe and
-the earlier exact global call are real Calculator observations; the global
-call reached `BERRY_TWO_SELMER_V1_START` and was terminated at 60 seconds.
-The four new segmented sources were prepared and independently checked, but
-fresh submissions were blocked by DNS transport in this run. Cross-request
-Magma basis/ideal reconstruction therefore remains unverified. That transport
-failure is not arithmetic evidence, and no Selmer result or local Kummer
-image is claimed.
+`segmented_free_magma_route_ready`. Through proxy `127.0.0.1:7897`, the four
+field/order, S-unit, local, and scalar-rebuild stages complete in respectively
+`0.06`, `0.78`, `0.07`, and `0.03` Magma seconds. The earlier monolithic
+`TwoSelmerGroup` timeout remains only a service-limit observation. No Selmer
+result or local Kummer image is claimed.
 
 ## Completed Steps
 
@@ -45,16 +42,15 @@ image is claimed.
 - User correction: keep commit `dccbd9a` as a B0 checkpoint, but withdraw the route claim that full dyadic stable reduction must precede B1/B2. An arithmetic blocker is allowed only if exact 2-Selmer progress specifically fails at the dyadic local Kummer image.
 - Post-B0 feasibility audit: `C_i(K_(1+i))` is empty by an exact valuation/unit-square obstruction; exact good-prime Jacobian orders give `J_1(K)_tors=J_i(K)_tors=0`; the model-supported finite set is `{(1+i),(94*i-169)}` and the conservative Berry-closed support adds `(-94*i-169)`; no exact genus-2 Jacobian 2-Selmer route is installed. Minimality of the support is not claimed.
 - Free Magma audit: the public Calculator accepts automated XML submissions and exactly constructs the selected `JacHyp` over `Q(i)`; the fast probe confirms `TwoSelmerGroup` and `TwoCoverDescent` are present, while `LocalKummerImage` is absent. The full `TwoSelmerGroup(J)` call is terminated by the public 60-second limit, and the `Al := "TwoSelmerGroupData"` intermediate-data path rejects non-rational base fields. This is a service-limit/capability result, not an arithmetic blocker.
-- Segmented C_1 gate: local Sage independently verifies the degree-12 field, maximal-order discriminant `5019340374016`, trivial class group, unit group `C4 x Z^5`, complete support decomposition, and strict local quotient targets `5` at `(1+i)` and `2` at `(94*i-169)`. The model support has six primes above `Q(i)` and an `F_2` S-unit squareclass basis of dimension `12`; adding the conjugate support gives dimension `16`. A task-local schema round-trips Sage coordinates and scalar metadata, but no fresh Magma request has yet reconstructed Stage 1/2 ideals or generators. The public global timeout remains a service limit, not an arithmetic blocker.
+- Segmented C_1 gate: local Sage independently verifies the degree-12 field, maximal-order discriminant `5019340374016`, trivial class group, unit group `C4 x Z^5`, complete support decomposition, and strict local quotient targets `5` at `(1+i)` and `2` at `(94*i-169)`. The model support has six primes above `Q(i)` and squareclass dimension `12`; the conservative Magma support has ten primes and dimension `16`. Magma independently computes the class, unit and S-unit data in `0.78` seconds and emits generators in the fixed absolute-field power basis. The public global timeout remains a service limit, not an arithmetic blocker.
 
 ## Next Exact Step
 
-Restore Calculator transport and submit the four segmented sources separately.
-First make Stage 1/2 emit an explicit Magma order basis, support ideals,
-generators, and relations; then prove a fresh request reconstructs them. Do
-not rerun the full `TwoSelmerGroup` on the public service. Only after that
-feasibility gate passes should the two local Kummer images and global descent
-begin, with no conclusion drawn from the service timeout.
+Begin the long C_1 descent with separate local Kummer-image stages, using the
+fixed absolute-field power-basis S-unit coordinates and strict target
+dimensions `5` and `2`. Do not rerun the monolithic `TwoSelmerGroup` on the
+public service and do not infer a Selmer bound until both local images are
+proved complete and intersected with the global space.
 
 ## Allowed Changes
 

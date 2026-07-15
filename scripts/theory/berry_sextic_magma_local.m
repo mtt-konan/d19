@@ -16,7 +16,7 @@ for data in [
     label := data[1]; P := data[2]; residue_characteristic := data[3];
     Kv, completion_map := Completion(K, P);
     Rp<x> := PolynomialRing(Kv);
-    local_g6 := ChangeRing(g6, Kv);
+    local_g6 := Rp![completion_map(c) : c in Eltseq(g6)];
     print "BERRY_C1_LOCAL_PLACE", label, residue_characteristic;
     print "BERRY_C1_LOCAL_FACTORIZATION", label, Factorization(local_g6);
 end for;

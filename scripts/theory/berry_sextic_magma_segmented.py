@@ -323,7 +323,7 @@ def build_certificate() -> dict[str, Any]:
         "status": "ok" if not violations else "invalid",
         "ready": not violations,
         "task": TASK_ID,
-        "accepted_outcome": "free_magma_global_stage_timeout",
+        "accepted_outcome": "segmented_free_magma_route_ready",
         "checks": checks,
         "violations": violations,
         "field_and_order": model["field"],
@@ -384,20 +384,28 @@ def build_certificate() -> dict[str, Any]:
                 ),
                 "not_rerun_here": True,
             },
-            "current_submission": {
-                "status": "transport_error",
-                "classification": "not arithmetic evidence",
-                "detail": "DNS was unavailable when the segmented sources were submitted.",
+            "segmented_submissions": {
+                "status": "ok",
+                "proxy": "127.0.0.1:7897",
+                "version": "2.29-8",
+                "elapsed_seconds": {
+                    "field_order": 0.06,
+                    "class_units_sunits": 0.78,
+                    "local_factorization": 0.07,
+                    "scalar_rebuild": 0.03,
+                },
+                "all_below_public_limit": True,
             },
         },
         "boundary": {
             "not_a_selmer_computation": True,
             "not_a_rank_computation": True,
             "not_an_arithmetic_blocker": True,
+            "segmented_route_ready": True,
             "next_obligation": (
-                "Restore Calculator transport, run each segmented source once, and "
-                "verify that Magma-emitted basis and ideal data rebuild in a fresh "
-                "Calculator request."
+                "Use the fixed absolute-field power-basis S-unit coordinates to "
+                "construct the two complete local Kummer images; do not infer a "
+                "Selmer bound from this feasibility certificate."
             ),
         },
     }

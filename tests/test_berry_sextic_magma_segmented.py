@@ -21,7 +21,7 @@ def test_exact_order_support_and_local_targets() -> None:
 
     assert payload["status"] == "ok"
     assert payload["ready"] is True
-    assert payload["accepted_outcome"] == "free_magma_global_stage_timeout"
+    assert payload["accepted_outcome"] == "segmented_free_magma_route_ready"
     assert payload["field_and_order"]["relative_degree"] == 6
     assert payload["field_and_order"]["absolute_degree"] == 12
     assert payload["global_data"]["model_squareclass_dimension"] == 12
@@ -76,6 +76,7 @@ def test_segmented_certificate_cli(tmp_path: Path) -> None:
         cwd=ROOT,
     )
 
-    assert "accepted_outcome=free_magma_global_stage_timeout" in result.stdout
+    assert "accepted_outcome=segmented_free_magma_route_ready" in result.stdout
     saved = json.loads(out.read_text(encoding="utf-8"))
     assert saved["calculator_observations"]["prior_full_global_probe"]["max_time"] == 60
+    assert saved["calculator_observations"]["segmented_submissions"]["all_below_public_limit"]

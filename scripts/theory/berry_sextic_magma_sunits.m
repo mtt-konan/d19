@@ -16,7 +16,7 @@ print "BERRY_C1_CLASS_INVARIANTS", Invariants(Cl);
 
 U, unit_map := UnitGroup(La);
 print "BERRY_C1_UNIT_INVARIANTS", Invariants(U);
-unit_generators := Generators(U);
+unit_generators := OrderedGenerators(U);
 unit_basis := [unit_map(unit_generators[j]) : j in [1..Ngens(U)]];
 for j in [1..#unit_basis] do
     // Use the fixed absolute-field power basis. S-units need not be integral,
@@ -35,9 +35,10 @@ end for;
 SU, sunit_map := SUnitGroup(support);
 print "BERRY_C1_SUNIT_INVARIANTS", Invariants(SU);
 print "BERRY_C1_SUNIT_GENERATOR_COUNT", Ngens(SU);
-for j in [1..Ngens(SU)] do
+sunit_generators := OrderedGenerators(SU);
+for j in [1..#sunit_generators] do
     print "BERRY_C1_SUNIT_BASIS", j,
-        Eltseq(La!sunit_map(Generators(SU)[j]));
+        Eltseq(La!sunit_map(sunit_generators[j]));
 end for;
 print "BERRY_C1_SUNIT_RELATION_SEQUENCE", [4];
 print "BERRY_C1_SUNITS_V1_DONE";
