@@ -135,3 +135,8 @@ preserved. The detailed boundary is recorded in
 arithmetic conclusion. Worker session id:
 `019f6677-001b-7f92-8c64-455f1559f895`. The focused regression run passed
 (`9 passed`).
+
+On 2026-07-16 the existing 1,712-byte submission was retried once by Worker
+`019f6683-5f7d-7e13-99ce-118ae414970d` with the mandated proxy and 60-second
+timeout. It failed again before a calculator response; no raw JSON or exact
+embedding bit was produced. The source and task files remained unchanged.
