@@ -62,7 +62,11 @@ Q3a1 is now recorded in the independent anchor
 `q3a1-dyadic-fake-kernel-boundary.md`. It fixes the dyadic algebra and formal
 maps but deliberately does not claim a dyadic basis, local image, or kernel.
 The next queued stage is Q3a2: compute the 16-column localization matrix into
-the dyadic target. No Selmer or rank conclusion is formed from Q2/Q3a1.
+the dyadic target. Q3a2 now has an exact degree-only audit in
+`docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/q3a2-factor-degree-dimension-audit.md`:
+`dim W_varpi=16`, but the norm-kernel target is `8` or `10` until the local
+quadratic-subfield embedding bit is determined. No Selmer or rank conclusion
+is formed from Q2/Q3a1/Q3a2.
 
 
 ## Allowed Changes

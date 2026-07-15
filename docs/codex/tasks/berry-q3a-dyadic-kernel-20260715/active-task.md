@@ -84,3 +84,16 @@ Worker completed artifact/API inspection and proxy/service probes before
 termination; no Magma source, raw certificate, local basis, or localization
 matrix was produced. This is an incomplete tool attempt, not an arithmetic
 blocker or a service-based mathematical conclusion.
+
+The theorem-only Q3a2 Worker `019f6658-c364-7022-b468-a48abcf9bd31` produced
+`q3a2-factor-degree-dimension-audit.md`. Controller review accepts the exact
+degree-only result: `dim W_varpi=16`, while `dim F_varpi` and `dim H_varpi`
+are `12,8` or `13,10` according as the degree-2 factor field embeds in the
+degree-4 factor field. The report proves this using local squareclass and
+Hilbert norm-restriction duality, and correctly does not choose between the
+two alternatives or claim localization columns. Its focused regression run
+passed (`5 passed`).
+
+Current exact substep: determine the quadratic-subfield/embedding bit from
+coefficient-level local data, then obtain coordinates for the 16 global
+classes. This dimension audit is not a Selmer, image, or D_inf result.
