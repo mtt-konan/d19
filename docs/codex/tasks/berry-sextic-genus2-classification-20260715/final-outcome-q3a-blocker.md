@@ -1,4 +1,9 @@
-# Berry C_1 Q3a Final Boundary
+# Berry C_1 Q3a Historical Boundary
+
+> Withdrawn on 2026-07-16. Commit `692f49d` is retained as a failed-boundary
+> record only. The former conclusion incorrectly treated the factor fields as
+> requiring an `E_2 subset E_4` bit. The reopened route constructs both local
+> fields directly from the exact global prime completions.
 
 ## Accepted Outcome
 

@@ -1,7 +1,7 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
-- Status: blocked
-- Updated: 2026-07-15
+- Status: active
+- Updated: 2026-07-16
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
 - Scope: only `v^2=g6(t)` and `i*v^2=g6(t)` with `t in P^1(Q)`, including projective charts, maps, converse, local/global arithmetic, rational-`t` enforcement, and reconstruction.
@@ -67,19 +67,24 @@ the dyadic target. Q3a2 now has an exact degree-only audit in
 `dim W_varpi=16`, but the norm-kernel target is `8` or `10` until the local
 quadratic-subfield embedding bit is determined. No Selmer or rank conclusion
 is formed from Q2/Q3a1/Q3a2.
-The final exact embedding test is prepared in
-`docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/q3a2-embedding-bit.m`,
-but the existing free-Magma wrapper failed locally before receiving a
-response. The embedding bit is therefore still uncomputed; this is not a
-Selmer or arithmetic-blocker conclusion.
+The former `precise_C1_etale_descent_blocker` judgment in `692f49d` is
+withdrawn as a modeling error and retained only as a historical failure
+record. The reopened exact next step is
+`construct_dyadic_diagonal_and_norm_matrices_from_global_prime_completions`:
+construct the degree-4/degree-8 absolute completions from the two certified
+global prime ideals above `2`, then compute restrictions, diagonal image, norm
+map, and `H_varpi` by exact matrix rank. The finite-precision local
+`Factorization(g6v)` display and the `E_2 subset E_4` branch are no longer
+treated as required inputs.
 
-## Terminal Outcome
+## Reopened Q3a2
 
-The accepted scoped outcome is
-`precise_C1_etale_descent_blocker`, documented in
-`final-outcome-q3a-blocker.md`. The blocker is the missing exact dyadic
-embedding certificate `E_2 subset E_4`; it is not a claim of exclusion, a
-strict point, a Selmer result, or a rank result.
+The prior `precise_C1_etale_descent_blocker` judgment from commit `692f49d` is
+withdrawn as a modeling error and retained only as a failed-boundary record.
+The degree-2/degree-4 local factors must be constructed from the two exact
+global prime ideals above `2`, using their absolute degree-4 and degree-8
+completions. The next task is
+`construct_dyadic_diagonal_and_norm_matrices_from_global_prime_completions`.
 
 
 ## Allowed Changes

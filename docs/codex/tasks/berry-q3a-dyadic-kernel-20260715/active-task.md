@@ -1,7 +1,7 @@
 # Active Task: Berry Q3a Dyadic Fake Kernel
 
-- Status: blocked
-- Updated: 2026-07-15
+- Status: active
+- Updated: 2026-07-16
 - Task id: `berry-q3a-dyadic-kernel-20260715`
 - Scope: only the dyadic local divisibility of `D_inf=[P_+-P_-]` for the
   selected `C_1: v^2=g6(t)` at `K_varpi=Q_2(i)`, and the resulting exact
@@ -136,13 +136,16 @@ arithmetic conclusion. Worker session id:
 `019f6677-001b-7f92-8c64-455f1559f895`. The focused regression run passed
 (`9 passed`).
 
-## Terminal Boundary
+## Reopened Boundary
 
-The Q3a objective now has accepted outcome
-`precise_C1_etale_descent_blocker`, documented in
-`docs/codex/tasks/berry-sextic-genus2-classification-20260715/final-outcome-q3a-blocker.md`.
-This is a precise missing dyadic embedding certificate after independent
-exact/local/theorem routes, not a claim caused by Worker timeout alone.
+The prior `precise_C1_etale_descent_blocker` judgment from `692f49d` is
+withdrawn as a modeling error and retained as a historical failed-boundary
+record. Do not use the finite-precision `Factorization(g6v)` display or the
+derived `E_2 subset E_4` branch as a required theorem. The next exact task is
+`construct_dyadic_diagonal_and_norm_matrices_from_global_prime_completions`:
+construct the absolute degree-4/degree-8 completions from the two certified
+global prime ideals above `2`, restrict the four base-field squareclasses,
+and compute the diagonal image, norm map, and `H_varpi` by exact matrix rank.
 
 On 2026-07-16 the existing 1,712-byte submission was retried once by Worker
 `019f6683-5f7d-7e13-99ce-118ae414970d` with the mandated proxy and 60-second
