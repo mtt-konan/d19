@@ -1,0 +1,133 @@
+{
+  "evaluation_element": "i-theta",
+  "factorization": "g6(i)=(i-1)^6*(11+12*i)=(i-1)^6*(-1)*(1-12*(1+i))",
+  "fake_quotient_squareclass": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0
+  ],
+  "g6_i": [
+    11,
+    12
+  ],
+  "h_varpi_squareclass": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0
+  ],
+  "local_records": [
+    {
+      "index": 1,
+      "local_squareclass": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "unit_residue": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        3,
+        0,
+        2
+      ],
+      "valuation": 2
+    },
+    {
+      "index": 2,
+      "local_squareclass": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "unit_residue": [
+        2,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "valuation": 4
+    }
+  ],
+  "norm_squareclass": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "point_parameter": "i",
+  "principal_unit": [
+    -11,
+    -12
+  ],
+  "principal_unit_mod_lambda5": [
+    1,
+    0
+  ],
+  "principal_unit_square_witness_mod_lambda5": [
+    1,
+    0
+  ],
+  "product_squareclass": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0
+  ],
+  "q3a2_schema": "berry-c1-q3a2-dyadic-matrices-v1",
+  "ranks": {
+    "certified_image_lower_bound": 1,
+    "source_dimension": 5
+  },
+  "schema_version": "berry-c1-q3a3-exact-class-v1"
+}

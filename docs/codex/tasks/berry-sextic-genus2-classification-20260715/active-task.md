@@ -83,6 +83,11 @@ payload, standalone verifier, and focused test.  The next task is Q3a3:
 compute the local fake Kummer image in the explicit eight-dimensional
 `H_varpi` and decide the exact `D_inf` divisibility/kernel question.
 
+Q3a3 now has one Controller-verified nonzero class,
+`H_varpi=(0,1,1,1,0,1,1,0)`, coming from the exact local point above `t=i`.
+This proves only `dim(I_varpi)>=1`; the complete image and `D_inf` divisibility
+remain the active exact obligations.
+
 
 ## Allowed Changes
 

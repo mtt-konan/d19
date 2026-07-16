@@ -180,3 +180,21 @@ fake Kummer image `I_varpi` inside the explicit eight-dimensional
 `H_varpi`, and decide `D_inf in 2J(K_varpi)` by an exact divisor/function,
 formal-group, or local Kummer calculation.  The source dimension `5` and the
 Q3a2 matrix ranks alone do not determine either result.
+
+## Q3a3 Worker Boundary
+
+The current worker pass added `q3a3-exact-kummer-boundary.md`. It certifies
+the reciprocal-chart divisor normalization and the local class of
+`D_i=[(i,v_i)-P_+]` in the frozen Q3a2 coordinates, giving the lower bound
+`dim(I_varpi)>=1`. It did not produce the remaining divisor/formal-group
+certificates and did not decide `D_inf in 2J(K_varpi)`. This is an incomplete
+worker result, not an arithmetic blocker or a Q3b/Q4 transition.
+
+Controller review independently reproduced this class from the exact primary
+quotients and accepted it with
+`scripts/theory/berry_sextic_q3a3_exact_class.sage`, its serialized payload,
+standalone verifier, and focused test.  The accepted vector is
+`H_varpi=(0,1,1,1,0,1,1,0)`, so the current rigorous bounds are still only
+`dim(I_varpi)>=1` and `dim(kappa_varpi)<=4`.  Q3a3 remains active; the next
+exact step is the complete formal-group/divisor basis and the independent
+`D_inf` half-divisor decision.
