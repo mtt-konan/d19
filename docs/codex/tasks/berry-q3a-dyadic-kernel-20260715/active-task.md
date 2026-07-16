@@ -72,11 +72,13 @@ result was produced before the Worker was terminated after the same Sage path
 repeated without output. This is a failed computational attempt, not a
 mathematical blocker and not evidence for any Selmer or image dimension.
 
-The exact remaining Q3a2 input is a certified coordinate presentation of
-`W_varpi=A_varpi^*/A_varpi^{*2}` (including the two degree-2/4 local factors),
-its diagonal base-field quotient, and its norm kernel. Formal transport of
-the Q2c norm rows alone does not determine the 16 localization columns in
-`H_varpi`.
+The exact Q3a2 coordinate presentation is now complete.  The two primary
+quotients `O/P_1^9` and `O/P_2^17` give the 16-dimensional product
+squareclass space, the diagonal matrix has rank `4`, the product norm and its
+induced fake-quotient map have rank `4`, and therefore
+`dim F_varpi=12`, `dim H_varpi=8`.  All sixteen global ambient localization
+columns are computed in the same basis and have rank `16`; after the diagonal
+quotient their rank is `12`.
 
 A second Q3a2 attempt using the independent free-Magma route was also
 started. Its Worker session id is `unknown`; controller PTY was `26155`. The
@@ -151,3 +153,30 @@ On 2026-07-16 the existing 1,712-byte submission was retried once by Worker
 `019f6683-5f7d-7e13-99ce-118ae414970d` with the mandated proxy and 60-second
 timeout. It failed again before a calculator response; no raw JSON or exact
 embedding bit was produced. The source and task files remained unchanged.
+
+## Accepted Q3a2 Exact Matrix Checkpoint
+
+The withdrawn embedding-bit model is replaced by the exact global-prime
+completion computation in `q3a2-dyadic-diagonal-norm-matrices.md`.
+`scripts/theory/berry_sextic_q3a_dyadic_matrices.sage` generates the exact
+primary-quotient, diagonal, norm, quotient, kernel, and sixteen-column
+localization payload.  The standalone Python verifier reconstructs the
+finite quotient squareclass cosets and checks all matrices and ranks.
+
+Accepted exact values:
+
+```text
+dim W_varpi = 16
+rank B_varpi = 4
+dim F_varpi = 12
+rank Nbar_varpi = 4
+dim H_varpi = 8
+rank(global ambient localization) = 16
+rank(fake localization) = 12
+```
+
+This completes Q3a2 only.  The next exact step is Q3a3: construct the local
+fake Kummer image `I_varpi` inside the explicit eight-dimensional
+`H_varpi`, and decide `D_inf in 2J(K_varpi)` by an exact divisor/function,
+formal-group, or local Kummer calculation.  The source dimension `5` and the
+Q3a2 matrix ranks alone do not determine either result.

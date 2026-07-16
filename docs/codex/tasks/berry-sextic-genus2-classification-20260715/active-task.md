@@ -61,30 +61,27 @@ Q3a1 is now recorded in the independent anchor
 `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` and report
 `q3a1-dyadic-fake-kernel-boundary.md`. It fixes the dyadic algebra and formal
 maps but deliberately does not claim a dyadic basis, local image, or kernel.
-The next queued stage is Q3a2: compute the 16-column localization matrix into
-the dyadic target. Q3a2 now has an exact degree-only audit in
-`docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/q3a2-factor-degree-dimension-audit.md`:
-`dim W_varpi=16`, but the norm-kernel target is `8` or `10` until the local
-quadratic-subfield embedding bit is determined. No Selmer or rank conclusion
-is formed from Q2/Q3a1/Q3a2.
+Q3a2 is now exact.  The primary quotients of the two certified global primes
+above `2` give `dim W_varpi=16`, `rank B_varpi=4`, `dim F_varpi=12`, and
+`dim H_varpi=8`.  The exact sixteen-column global ambient localization matrix
+has rank `16`, and its fake quotient has rank `12`.  The report and payload
+are in the independent Q3a anchor directory.  No Selmer or rank conclusion is
+formed from Q2/Q3a1/Q3a2.
 The former `precise_C1_etale_descent_blocker` judgment in `692f49d` is
 withdrawn as a modeling error and retained only as a historical failure
-record. The reopened exact next step is
-`construct_dyadic_diagonal_and_norm_matrices_from_global_prime_completions`:
-construct the degree-4/degree-8 absolute completions from the two certified
-global prime ideals above `2`, then compute restrictions, diagonal image, norm
-map, and `H_varpi` by exact matrix rank. The finite-precision local
-`Factorization(g6v)` display and the `E_2 subset E_4` branch are no longer
-treated as required inputs.
+record.  The exact global-prime completion matrices now replace that route.
+The finite-precision local `Factorization(g6v)` display and the
+`E_2 subset E_4` branch remain excluded as required inputs.  The next exact
+step is Q3a3, not another embedding-bit computation.
 
-## Reopened Q3a2
+## Completed Q3a2
 
-The prior `precise_C1_etale_descent_blocker` judgment from commit `692f49d` is
-withdrawn as a modeling error and retained only as a failed-boundary record.
-The degree-2/degree-4 local factors must be constructed from the two exact
-global prime ideals above `2`, using their absolute degree-4 and degree-8
-completions. The next task is
-`construct_dyadic_diagonal_and_norm_matrices_from_global_prime_completions`.
+The prior `precise_C1_etale_descent_blocker` judgment from commit `692f49d`
+remains withdrawn as a modeling error.  Q3a2 is completed by
+`q3a2-dyadic-diagonal-norm-matrices.md`, its exact Sage producer, serialized
+payload, standalone verifier, and focused test.  The next task is Q3a3:
+compute the local fake Kummer image in the explicit eight-dimensional
+`H_varpi` and decide the exact `D_inf` divisibility/kernel question.
 
 
 ## Allowed Changes
