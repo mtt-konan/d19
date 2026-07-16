@@ -80,13 +80,15 @@ The prior `precise_C1_etale_descent_blocker` judgment from commit `692f49d`
 remains withdrawn as a modeling error.  Q3a2 is completed by
 `q3a2-dyadic-diagonal-norm-matrices.md`, its exact Sage producer, serialized
 payload, standalone verifier, and focused test.  The next task is Q3a3:
-compute the local fake Kummer image in the explicit eight-dimensional
-`H_varpi` and decide the exact `D_inf` divisibility/kernel question.
+complete the local fake Kummer image in the explicit eight-dimensional
+`H_varpi` and determine whether the kernel has any class beyond `D_inf`.
 
 Q3a3 now has one Controller-verified nonzero class,
 `H_varpi=(0,1,1,1,0,1,1,0)`, coming from the exact local point above `t=i`.
-This proves only `dim(I_varpi)>=1`; the complete image and `D_inf` divisibility
-remain the active exact obligations.
+The independent exact halving audit now proves
+`D_inf not in 2J(Q_2(i))`, so the fake kernel has a certified nonzero line and
+`dim(I_varpi)<=4`.  The complete image and the possibility of further kernel
+classes remain the active exact obligations.
 
 
 ## Allowed Changes

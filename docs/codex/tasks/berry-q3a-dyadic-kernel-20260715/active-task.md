@@ -198,3 +198,31 @@ standalone verifier, and focused test.  The accepted vector is
 `dim(I_varpi)>=1` and `dim(kappa_varpi)<=4`.  Q3a3 remains active; the next
 exact step is the complete formal-group/divisor basis and the independent
 `D_inf` half-divisor decision.
+
+## Q3a3 D_inf Worker Certificate
+
+The exact worker certificate in
+`q3a3-dinf-local-divisibility.md` decides the independent binary theorem:
+
+```text
+D_inf=[P_+-P_-] is not in 2J(K_varpi).
+```
+
+The proof reduces every even-degree Mumford representation branch to the
+identity `w^2-f=c*u^2`, rules out the degree-zero and degree-one branches by
+exact coefficient identities, and rules out the degree-two branch by the
+monic degree-10 elimination polynomial and its exact lambda-adic residue
+tree.  The reciprocal chart, both infinity points, tangent/factor-zero, and
+the local Weierstrass branch are retained.  The pure-Python verifier and
+exact Sage elimination script pass their focused checks.
+
+Controller review accepts the binary theorem after correcting the first
+residue-tree terminal base from `1+lambda^2+lambda^3` to
+`1+lambda^2+lambda^3+lambda^4`, strengthening the Sage degree-zero/one
+coefficient checks, and rerunning both exact certificates.  Consequently
+`D_inf` is a nonzero one-dimensional subspace of the fake-map kernel, so
+`dim(kappa_varpi)>=1` and `dim(I_varpi)<=4`.  This does not complete the
+remaining local fake image or the full kernel.  The next exact step is to
+construct three further independent image classes (or an equivalent complete
+formal-group image computation) and decide whether the kernel has any class
+beyond the certified `D_inf` line.
