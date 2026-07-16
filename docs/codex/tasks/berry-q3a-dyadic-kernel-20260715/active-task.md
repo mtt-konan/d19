@@ -1,6 +1,6 @@
 # Active Task: Berry Q3a Dyadic Fake Kernel
 
-- Status: active
+- Status: complete
 - Updated: 2026-07-16
 - Task id: `berry-q3a-dyadic-kernel-20260715`
 - Scope: only the dyadic local divisibility of `D_inf=[P_+-P_-]` for the
@@ -226,3 +226,72 @@ remaining local fake image or the full kernel.  The next exact step is to
 construct three further independent image classes (or an equivalent complete
 formal-group image computation) and decide whether the kernel has any class
 beyond the certified `D_inf` line.
+
+## Q3a3c Incomplete Worker Pass
+
+Worker `019f69e7-2eff-79e2-85c1-42727046def9` searched for three further
+exact image classes.  Its rational-point experiments did not certify the
+initial apparent rank-four vectors: after correcting the local square test,
+they supplied at most the existing `D_i` line and the unreviewed factor-zero
+class below.  This invalidates the exploratory rank-four claim.
+
+The pass did produce one unreviewed exact candidate: the degree-two
+factor-zero Mumford class attached to the Hensel factor `h_2` of `g6`, with
+proposed vector
+
+```text
+H_varpi = 01111010.
+```
+
+Its current producer uses a strict generalized-Hensel factorization margin
+and tangent normalization, and the standalone verifier reconstructs the
+Q3a2 quotient coordinates.  Controller acceptance still requires checking
+that the Hensel correction precision preserves both primary-quotient
+squareclasses and that the factor-zero evaluation formula covers both
+infinity points.  Even if accepted, this raises the certified image rank only
+to `2`; two more independent exact degree-two or formal-group classes remain.
+
+The Worker was stopped after a subsequent Sage calculation consumed roughly
+fourteen CPU minutes without output.  This is an incomplete tool path, not an
+arithmetic blocker.  The next narrow task is to construct exactly the two
+missing independent degree-two Mumford/formal-group classes, using exact
+multivariate Hensel or local Cantor certificates rather than another
+rational-point search.
+
+## Q3a3 Exact-Sequence Closure
+
+The explicit-class search is superseded by the exact cohomological kernel
+calculation in `q3a3-fake-kernel-exact-sequence.md`.  For
+`R=Res_(A_varpi/K_varpi)(mu_2)` and `Q=R/mu_2`, even degree gives
+
+```text
+1 -> J[2] -> Q -> mu_2 -> 1.
+```
+
+Q3a2 proves that the four-dimensional base squareclass space restricts
+injectively to `A_varpi`, so `Q(K_varpi)=R(K_varpi)/mu_2(K_varpi)`.  The two
+field factors have relative degrees `2,4`; their sole sign class modulo the
+diagonal has trivial norm because both degrees are even.  Hence the
+cohomological fake kernel has dimension exactly one.  The accepted nonzero
+class `D_inf` realizes it.  Therefore
+
+```text
+ker(delta_varpi)=<D_inf>,
+dim ker(delta_varpi)=1,
+dim I_varpi=5-1=4.
+```
+
+Controller verification is in
+`scripts/theory/berry_sextic_q3a3_fake_kernel.py` and its focused test.  The
+unreviewed Q3a3c payload and its apparent vectors are discarded.  Q3a3 is
+complete; Q3b-Q4 and every global Selmer/rank conclusion remain closed.
+
+The first independent audit, Worker
+`019f6a76-899a-7ab3-932f-349fd93d45cf`, correctly rejected an implicit
+identification of all `H^1(K_varpi,Q)` with the fake quotient because an
+even-degree Brauer cokernel remains.  The proof was revised to retain that
+cokernel and use the injective fake-quotient map plus the divisor-evaluation/
+Kummer commutative square.  Fresh Worker
+`019f6a82-ba58-7021-845c-575b4fe6419a` accepted the revised implication after
+an adversarial read-only audit.  The Brauer class affects the cokernel and
+does not enlarge the kernel computed above.

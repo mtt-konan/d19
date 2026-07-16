@@ -1,7 +1,7 @@
 # Context Index
 
 - Updated: 2026-07-16
-- Active Berry Q3a dyadic kernel subtask: `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` (Q3a2 exact matrices complete with `dim H_varpi=8`; Q3a3 has one exact nonzero image class and proves `D_inf not in 2J(Q_2(i))`; the full fake image and any further kernel remain open).
+- Berry Q3a dyadic kernel checkpoint: `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` (Q3a2 has `dim H_varpi=8`; Q3a3 proves `ker(delta_varpi)=<D_inf>` and `dim I_varpi=4` by the exact sign/norm cohomology sequence).
 - Project: d19 rational-distance research
 - Current anchor: `docs/codex/current-context.md`
 - Memory landing policy: ask-by-default

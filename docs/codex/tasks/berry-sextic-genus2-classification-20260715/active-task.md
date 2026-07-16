@@ -71,24 +71,33 @@ The former `precise_C1_etale_descent_blocker` judgment in `692f49d` is
 withdrawn as a modeling error and retained only as a historical failure
 record.  The exact global-prime completion matrices now replace that route.
 The finite-precision local `Factorization(g6v)` display and the
-`E_2 subset E_4` branch remain excluded as required inputs.  The next exact
-step is Q3a3, not another embedding-bit computation.
+`E_2 subset E_4` branch remain excluded as required inputs.
 
 ## Completed Q3a2
 
 The prior `precise_C1_etale_descent_blocker` judgment from commit `692f49d`
 remains withdrawn as a modeling error.  Q3a2 is completed by
 `q3a2-dyadic-diagonal-norm-matrices.md`, its exact Sage producer, serialized
-payload, standalone verifier, and focused test.  The next task is Q3a3:
-complete the local fake Kummer image in the explicit eight-dimensional
-`H_varpi` and determine whether the kernel has any class beyond `D_inf`.
+payload, standalone verifier, and focused test.
 
 Q3a3 now has one Controller-verified nonzero class,
 `H_varpi=(0,1,1,1,0,1,1,0)`, coming from the exact local point above `t=i`.
 The independent exact halving audit now proves
 `D_inf not in 2J(Q_2(i))`, so the fake kernel has a certified nonzero line and
-`dim(I_varpi)<=4`.  The complete image and the possibility of further kernel
-classes remain the active exact obligations.
+`dim(I_varpi)<=4`.  The exact group-scheme sequence now completes the kernel:
+Q3a2's injective constant restriction identifies the local sign quotient,
+and the relative factor degrees `2,4` make its norm trivial.  Thus the
+cohomological fake kernel is one-dimensional and is realized by `D_inf`.
+Consequently
+
+```text
+ker(delta_varpi)=<D_inf>,
+dim I_varpi=4.
+```
+
+This completes Q3a only.  The bounded checkpoint now requires Controller
+review before any Q3b-Q4 task is selected; no global Selmer or rank conclusion
+has been formed.
 
 
 ## Allowed Changes
