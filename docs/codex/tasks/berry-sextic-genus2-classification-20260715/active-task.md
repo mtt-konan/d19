@@ -23,8 +23,34 @@
 
 ## Current Step
 
-Q3b is complete at the exact local-image boundary.  In the frozen
-eight-coordinate `H_varpi` basis,
+Q3c is complete at the supported fake-to-true boundary.  Q4 is not entered.
+
+The accepted Q3c result pulls the exact two-dimensional intersection
+back to the global classes
+`epsilon_1*epsilon_2*epsilon_4` and `epsilon_2*epsilon_4`.  The outside-support
+normalization is valid with `{1+i,94*i-169}` treated as an allowed support,
+not as a claim that reduction at `1+i` is bad.
+
+The repaired Q3c report proves the proposed sequence
+
+```text
+0 -> F_2<kappa(D_inf)> -> Sel_2(J/K) -> Sel_fake^S -> 0.
+```
+
+by a universal all-place divisor-evaluation/Kummer lemma.  The proof fixes the
+group-scheme signs, ordinary finite divisors, factor-zero tangent values, both
+infinity charts, and the cocycle identity
+`partial_F(-1)=kappa_F(D_inf)` for every characteristic-not-2 field and every
+completion.  The separate Brauer cokernel is retained, norm-zero fake classes
+get global H^1 lifts, and local fake membership makes every such lift locally
+Kummer.  The global kernel is exactly the nonzero `D_inf` line: global points
+map to the dyadic `Q(K_varpi)` norm image, which is trivial for relative
+degrees `2,4`, and local nondivisibility proves `kappa_K(D_inf) != 0`.
+Thus `dim_F2 Sel_2(J/K)=3` is accepted as a Selmer statement only.  Rank,
+saturation, rational-`t`, Q4, the `i`-twist, other Berry rows, and numbered
+`wl` tasks remain closed.
+
+The frozen Q3b input is, in the eight-coordinate `H_varpi` basis,
 
 ```text
 I_varpi = span{01110110,01111000,00001100,00011000},
@@ -33,8 +59,8 @@ W_supported intersect I_varpi = span{01111000,01100010}.
 
 The local-image span is certified by the accepted `D_i` class and three exact
 quadratic local divisor classes, with exact maximal-order localization and
-independence checks.  Q3c-Q4, true Selmer, rank, saturation, the `i`-twist,
-other Berry rows, and numbered `wl` tasks remain closed.
+independence checks.  Q4, rank, saturation, the `i`-twist, other Berry rows,
+and numbered `wl` tasks remain closed.
 
 ## Completed Steps
 
@@ -91,6 +117,43 @@ The full report and verifier are
 `scripts/theory/berry_sextic_q3b_local_image.py`; the exact Sage producer and
 payload are task-local alongside them.
 
+## Q3c Result
+
+The first Q3c draft proposed
+
+```text
+q3c_exact_supported_fake_selmer_true_lift
+```
+
+The injective Q3b dyadic map gives quotient coordinates `110100` and `010100`
+for `01111000` and `01100010`.  Their exact ambient representatives modulo
+`C_S` are respectively
+
+```text
+epsilon_1*epsilon_2*epsilon_4,
+epsilon_2*epsilon_4.
+```
+
+The valid support reduction uses the allowed base places
+`{1+i,94*i-169}`, the conservative conjugate support is handled as a good
+place, and the exact class-group/PID normalization reduces every true Selmer
+fake image to the six-prime model support.  The two unit representatives
+satisfy all outside, `pi`, and `varpi` fake local conditions, so the supported
+fake group has dimension `2`.
+
+The adversarially identified gap is now closed by the universal lemma in the
+repaired report.  The verifier checks the finite polynomial, divisor, tangent,
+reciprocal-chart, resultant, and sign-cocycle identities and labels the
+universal result `proved_lemma`; it does not pretend that strings are a proof
+of Galois cohomology.  The separate `1 -> mu_2 -> R -> Q -> 1` Brauer term is
+kept explicit.  The allowed support remains `{1+i,94*i-169}`: reduction at
+`1+i` is unresolved, `94*i-169` is proved bad, and every place outside the
+allowed support is proved good.  The prior draft is superseded by the
+accepted artifacts
+`q3c-supported-fake-selmer-true-lift.md`,
+`scripts/theory/berry_sextic_q3c_fake_selmer.py`, and
+`tests/test_berry_sextic_q3c_fake_selmer.py`.
+
 ## Earlier Q3a Inputs
 
 Q3a1 is now recorded in the independent anchor
@@ -131,9 +194,10 @@ ker(delta_varpi)=<D_inf>,
 dim I_varpi=4.
 ```
 
-This completes Q3a only.  The exact Q3b local-image span and supported
-intersection are now recorded separately; no global Selmer or rank conclusion
-has been formed.  Q3c-Q4 remain closed.
+This was the Q3a-only boundary before the downstream reports were completed.
+The exact Q3b local-image span, supported intersection, and repaired Q3c true
+lift are recorded separately; no rank conclusion has been formed.  Q4 remains
+closed.
 
 
 ## Allowed Changes

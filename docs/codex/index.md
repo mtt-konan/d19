@@ -2,7 +2,8 @@
 
 - Updated: 2026-07-18
 - Berry Q3a dyadic kernel checkpoint: `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` (Q3a2 has `dim H_varpi=8`; Q3a3 proves `ker(delta_varpi)=<D_inf>` and `dim I_varpi=4` by the exact sign/norm cohomology sequence).
-- Berry Q3b exact local image: `docs/codex/tasks/berry-sextic-genus2-classification-20260715/q3b-exact-local-image.md` (exact `I_varpi` span in frozen `H_varpi` coordinates and exact supported intersection dimension `2`; Q3c-Q4 remain closed).
+- Berry Q3b exact local image: `docs/codex/tasks/berry-sextic-genus2-classification-20260715/q3b-exact-local-image.md` (exact `I_varpi` span in frozen `H_varpi` coordinates and exact supported intersection dimension `2`; its output is the frozen Q3c input).
+- Berry Q3c repaired true lift: `docs/codex/tasks/berry-sextic-genus2-classification-20260715/q3c-supported-fake-selmer-true-lift.md` (the exact quotient pullback, universal all-place divisor-evaluation/Kummer lemma, separate Brauer cokernel, local-lift surjectivity, and global `D_inf` kernel are accepted; `dim_F2 Sel_2(J/K)=3` is Selmer-only, with allowed support `{1+i,94*i-169}` and unresolved reduction at `1+i`).
 - Project: d19 rational-distance research
 - Current anchor: `docs/codex/current-context.md`
 - Memory landing policy: ask-by-default
