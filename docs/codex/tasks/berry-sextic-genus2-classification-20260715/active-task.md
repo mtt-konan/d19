@@ -1,7 +1,7 @@
 # Active Task: Berry Sextic Genus-2 Classification
 
 - Status: active
-- Updated: 2026-07-16
+- Updated: 2026-07-18
 - Task id: `berry-sextic-genus2-classification-20260715`
 - User goal: classify all rational fourth-distance points on the single selected Berry degree-6 pilot by solving the two exact genus-2 obligations over `K=Q(i)`.
 - Scope: only `v^2=g6(t)` and `i*v^2=g6(t)` with `t in P^1(Q)`, including projective charts, maps, converse, local/global arithmetic, rational-`t` enforcement, and reconstruction.
@@ -23,13 +23,13 @@
 
 ## Current Step
 
-The bounded C_1 Magma gate is recorded in
-`segmented-free-magma-route-audit.md` with outcome
-`segmented_free_magma_route_ready`. Through proxy `127.0.0.1:7897`, the four
-field/order, S-unit, local, and scalar-rebuild stages complete in respectively
-`0.06`, `0.78`, `0.07`, and `0.03` Magma seconds. The earlier monolithic
-`TwoSelmerGroup` timeout remains only a service-limit observation. No Selmer
-result or local Kummer image is claimed.
+Q3b is complete as a supported linear-algebra assembly.  The exact result is
+recorded in `q3b-supported-fake-selmer-assembly.md`: the norm-plus-odd-image
+candidate has dimension `10`, its constant quotient has dimension `6`, and its
+dyadic image is an explicit injective six-dimensional subspace of the frozen
+eight-dimensional `H_varpi`.  The exact four-dimensional `I_varpi` still has no
+coordinate basis, so the supported intersection remains a local coordinate
+blocker.  Q3c-Q4 remain closed.
 
 ## Completed Steps
 
@@ -48,15 +48,30 @@ result or local Kummer image is claimed.
 - Q2b audit: `q2b-coordinate-audit.md` first identified the missing fixed payload. `q2b-fixed-basis-report.md` now records the successful Magma transcript, all sixteen absolute power-basis S-unit elements, multiplication table, and `K` embedding.
 - Q2c: `q2c-constant-norm-localization.md` computes and verifies `M_const`, `M_norm`, the odd-`pi` localization map, and global norm-square ambient lifts for both Q2a classes. The canonical lifts are `epsilon_1` for `beta_12` and `epsilon_1+epsilon_4` for `beta_r`.
 
-## Next Exact Step
+## Q3b Result
 
-Q1 has been corrected in `q1-fake-descent-certificate.md`: the conservative
-16 dimensions are only the ambient `V_S` coordinates. The exact constant
-quotient, norm-square kernel, local fake quotient, and localization map are
-separate objects with dimensions/matrices not yet computed.
+Q1 and Q2 are complete at the object and matrix levels.  Q3b uses the exact
+`M_const`, `M_norm`, `M_loc_H`, Q3a2 dyadic localization, and Q3a3 local-image
+dimension.  The six-row ambient condition has rank `6`, so the supported
+norm-plus-odd-image space has dimension `10`; quotienting the rank-`4`
+constant subspace leaves dimension `6`.
 
-Q2 is complete at the odd bad prime: its local image has explicit generators,
-and the corrected global ambient/norm/localization comparison is verified.
+The induced dyadic map is injective on this quotient.  Its image basis is
+
+```text
+00011010, 11000001, 01101001, 10100011, 11000000, 00101000.
+```
+
+The accepted Q3a3 class `01110110` lies in `I_varpi` but outside this image.
+Because Q3a3 proves only `dim I_varpi=4`, not its coordinate subspace, the
+supported intersection is known only to have dimension `2` or `3`.  This is a
+coordinate blocker, not permission to infer the intersection from dimensions.
+The exact boundary and verifier are in
+`q3b-supported-fake-selmer-assembly.md` and
+`scripts/theory/berry_sextic_q3b_assembly.py`.
+
+## Earlier Q3a Inputs
+
 Q3a1 is now recorded in the independent anchor
 `docs/codex/tasks/berry-q3a-dyadic-kernel-20260715/active-task.md` and report
 `q3a1-dyadic-fake-kernel-boundary.md`. It fixes the dyadic algebra and formal
@@ -95,9 +110,10 @@ ker(delta_varpi)=<D_inf>,
 dim I_varpi=4.
 ```
 
-This completes Q3a only.  The bounded checkpoint now requires Controller
-review before any Q3b-Q4 task is selected; no global Selmer or rank conclusion
-has been formed.
+This completes Q3a only.  At that checkpoint, Controller review selected the
+bounded Q3b assembly; no global Selmer or rank conclusion has been formed.
+Q3b now records the exact supported candidate and the remaining dyadic
+coordinate blocker; Q3c-Q4 remain closed.
 
 
 ## Allowed Changes
