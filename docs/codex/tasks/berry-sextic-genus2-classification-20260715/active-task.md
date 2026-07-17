@@ -23,13 +23,18 @@
 
 ## Current Step
 
-Q3b is complete as a supported linear-algebra assembly.  The exact result is
-recorded in `q3b-supported-fake-selmer-assembly.md`: the norm-plus-odd-image
-candidate has dimension `10`, its constant quotient has dimension `6`, and its
-dyadic image is an explicit injective six-dimensional subspace of the frozen
-eight-dimensional `H_varpi`.  The exact four-dimensional `I_varpi` still has no
-coordinate basis, so the supported intersection remains a local coordinate
-blocker.  Q3c-Q4 remain closed.
+Q3b is complete at the exact local-image boundary.  In the frozen
+eight-coordinate `H_varpi` basis,
+
+```text
+I_varpi = span{01110110,01111000,00001100,00011000},
+W_supported intersect I_varpi = span{01111000,01100010}.
+```
+
+The local-image span is certified by the accepted `D_i` class and three exact
+quadratic local divisor classes, with exact maximal-order localization and
+independence checks.  Q3c-Q4, true Selmer, rank, saturation, the `i`-twist,
+other Berry rows, and numbered `wl` tasks remain closed.
 
 ## Completed Steps
 
@@ -62,13 +67,29 @@ The induced dyadic map is injective on this quotient.  Its image basis is
 00011010, 11000001, 01101001, 10100011, 11000000, 00101000.
 ```
 
-The accepted Q3a3 class `01110110` lies in `I_varpi` but outside this image.
-Because Q3a3 proves only `dim I_varpi=4`, not its coordinate subspace, the
-supported intersection is known only to have dimension `2` or `3`.  This is a
-coordinate blocker, not permission to infer the intersection from dimensions.
-The exact boundary and verifier are in
-`q3b-supported-fake-selmer-assembly.md` and
-`scripts/theory/berry_sextic_q3b_assembly.py`.
+The exact local image is
+
+```text
+I_varpi = span{01110110,01111000,00001100,00011000},
+dim_F2(I_varpi)=4.
+```
+
+The first vector is the frozen Q3a3 class.  The other three come from exact
+quadratic local points over `K_varpi(sqrt(1+i))`, `K_varpi(sqrt(3+i))`, and
+`K_varpi(sqrt(5+i))`.  Their exact product squareclasses in the Q3a2 primary
+quotients are independently localized and converted to the frozen
+`H_varpi` coordinates.  The supported-image annihilator rows are
+`00000100` and `00101010`, so exact row reduction gives
+
+```text
+W_supported intersect I_varpi = span{01111000,01100010},
+dim_F2(W_supported intersect I_varpi)=2.
+```
+
+The full report and verifier are
+`q3b-exact-local-image.md` and
+`scripts/theory/berry_sextic_q3b_local_image.py`; the exact Sage producer and
+payload are task-local alongside them.
 
 ## Earlier Q3a Inputs
 
@@ -110,10 +131,9 @@ ker(delta_varpi)=<D_inf>,
 dim I_varpi=4.
 ```
 
-This completes Q3a only.  At that checkpoint, Controller review selected the
-bounded Q3b assembly; no global Selmer or rank conclusion has been formed.
-Q3b now records the exact supported candidate and the remaining dyadic
-coordinate blocker; Q3c-Q4 remain closed.
+This completes Q3a only.  The exact Q3b local-image span and supported
+intersection are now recorded separately; no global Selmer or rank conclusion
+has been formed.  Q3c-Q4 remain closed.
 
 
 ## Allowed Changes
