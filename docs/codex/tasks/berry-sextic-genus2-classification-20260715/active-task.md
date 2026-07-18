@@ -23,7 +23,9 @@
 
 ## Current Step
 
-Q3c is complete at the supported fake-to-true boundary.  Q4 is not entered.
+Q3c is complete at the supported fake-to-true boundary.  The smallest B2
+consequence is now certified in the task-local B2 report.  B3/rational-t
+classification is not entered.
 
 The accepted Q3c result pulls the exact two-dimensional intersection
 back to the global classes
@@ -47,7 +49,7 @@ Kummer.  The global kernel is exactly the nonzero `D_inf` line: global points
 map to the dyadic `Q(K_varpi)` norm image, which is trivial for relative
 degrees `2,4`, and local nondivisibility proves `kappa_K(D_inf) != 0`.
 Thus `dim_F2 Sel_2(J/K)=3` is accepted as a Selmer statement only.  Rank,
-saturation, rational-`t`, Q4, the `i`-twist, other Berry rows, and numbered
+saturation, rational-`t`/B3, the `i`-twist, other Berry rows, and numbered
 `wl` tasks remain closed.
 
 The frozen Q3b input is, in the eight-coordinate `H_varpi` basis,
@@ -59,7 +61,7 @@ W_supported intersect I_varpi = span{01111000,01100010}.
 
 The local-image span is certified by the accepted `D_i` class and three exact
 quadratic local divisor classes, with exact maximal-order localization and
-independence checks.  Q4, rank, saturation, the `i`-twist, other Berry rows,
+independence checks.  B3/rational-`t`, rank, saturation, the `i`-twist, other Berry rows,
 and numbered `wl` tasks remain closed.
 
 ## Completed Steps
@@ -154,6 +156,52 @@ accepted artifacts
 `scripts/theory/berry_sextic_q3c_fake_selmer.py`, and
 `tests/test_berry_sextic_q3c_fake_selmer.py`.
 
+## B2 Partial Result
+
+The exact global branch-algebra reduction at (13,i-5) is irreducible of
+degree 6, so
+
+~~~
+J[2](K)=0.
+~~~
+
+The already-certified points are
+A_+=[0:i:1], A_-=[0:-i:1], P_+=[1:1:0], and P_-=[1:-1:0].
+With E_+=[A_+-P_+], E_-=[A_--P_+], and D_inf=[P_+-P_-],
+
+~~~
+div(t)=A_+ + A_- - P_+ - P_-,
+E_+ + E_- + D_inf=0.
+~~~
+
+The exact good-reduction certificate at (269,i-82) gives independent
+classes E_+ and D_inf in J(F_269)/3J(F_269), hence their global classes
+are Z-independent using J(K)_tors=0.  All relations among the three
+classes are therefore the multiples of div(t), and their subgroup has rank
+2.
+
+Combining this with the accepted dim_F2 Sel_2(J/K)=3 and the exact Kummer
+sequence gives
+
+~~~
+3 = rank J(K) + dim_F2 Sha(J/K)[2],
+2 <= rank J(K) <= 3.
+~~~
+
+The Q3c fake evaluation of both E_+ and E_- is [1], while the exact
+true-kernel line is F_2<kappa(D_inf)> with kappa(D_inf) != 0.  Hence one
+of E_+ and E_- is globally twice divisible, and the structural rank-two
+subgroup is not 2-saturated.  The exact half branch and rank 2 versus 3
+remain open.  The smallest next obligation is to construct and verify
+the K-rational half of E_+ or E_++D_inf, then 2-saturate that rank-two
+subgroup and separately resolve the rank dichotomy.
+
+The report and verifiers are
+b2-rank-saturation-boundary.md,
+scripts/theory/berry_sextic_b2_rank_boundary.py,
+scripts/theory/berry_sextic_b2_rank_boundary.sage, and
+tests/test_berry_sextic_b2_rank_boundary.py.
+
 ## Earlier Q3a Inputs
 
 Q3a1 is now recorded in the independent anchor
@@ -196,8 +244,8 @@ dim I_varpi=4.
 
 This was the Q3a-only boundary before the downstream reports were completed.
 The exact Q3b local-image span, supported intersection, and repaired Q3c true
-lift are recorded separately; no rank conclusion has been formed.  Q4 remains
-closed.
+lift are recorded separately; the rank interval is now recorded in the B2
+report, while B3/rational-`t` classification remains closed.
 
 
 ## Allowed Changes
