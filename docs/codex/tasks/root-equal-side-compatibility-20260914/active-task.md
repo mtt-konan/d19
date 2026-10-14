@@ -1,0 +1,24 @@
+# Active task: equal-side rational compatibility
+
+- Status: complete
+- Updated: 2026-09-14
+- Task id: root-equal-side-compatibility-20260914
+- Goal: Extract the exact arithmetic condition imposed by a rational square side after the four rational distances and their equal-norm relation are fixed.
+- Authorization: The user said continue after the completed rectangle comparison. This is a scoped symbolic investigation, not a broad search or an automatic continuation of older routes.
+- Policy scope: fixed-distance discriminant, simultaneous Gaussian/Pythagorean norm interpretation, and a focused small witness audit only if needed.
+- ExecutionPolicy: external
+- ExecutionPolicy source: user-selected continuation and project AGENTS proof/scope/verification rules
+- Execution protocol skills: none
+- Lite Demo role: memory-only
+- Original object: full-plane point with all four individual rational distances; exact square side and rational scale must be retained.
+- Inputs: [Hadamard/rotation audit](../root-structural-exploration-20260912/hadamard-rotation-audit.md) and [rectangle shape audit](../root-rectangle-shape-audit-20260913/rectangle-shape-audit.md).
+- Core question: For rational `a,b,c,d` with `R=a^2+b^2=c^2+d^2`, characterize when the square-side quadratic has a rational-square root, and determine whether this condition is genuinely stronger than the two Pythagorean norm identities it implies.
+- Current step: Selected equal-side compatibility audit complete; no research computation running in this task.
+- Completed steps: Derived `h^2=R^2-q^2-r^2`, the two shared-leg Pythagorean identities, and the equivalent system `R=w^2+e^2+f^2` with four Gaussian norms equal to twice rational squares. The `(35,149,101,115)` tuple shows the discriminant lift can pass while the side-square lift fails. Proved every primitive integer lift has 4|w, e,f odd, and a,b,c,d odd; the quadratic roots are exactly `w^2` and `e^2+f^2`, with the latter 2-adically nonsquare.
+- Next exact step: None; this task is complete. Any follow-on must state a precise Gaussian common-factor or descent proposition and cannot assume the conditional factorization is global.
+- Result record: [Equal-side three-norm system](equal-side-three-norms.md). It locates the equal-side requirement in a third square lift; no uniform exclusion is claimed.
+- Verification: 8 exact tests passed with -n 0; targeted Ruff passed. No stable files, prior task artifacts, or databases were changed or queried.
+- Allowed changes: This task anchor, task-local derivation/tests, and concise context/index pointers. No edits to completed task artifacts or stable mathematical scripts.
+- Forbidden changes: No database sweep, broad prime/local scan, rank/Selmer/Berry/HRL continuation, or automatic reuse of archived next steps.
+- Proof guards: Preserve both signs of the square-side quadratic, positivity, all four square lifts, full-plane branches, and rational-versus-rational-square distinctions.
+- Memory landing policy: ask-by-default; this task does not grant general future write permission.

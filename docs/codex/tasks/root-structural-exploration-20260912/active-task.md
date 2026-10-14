@@ -1,0 +1,33 @@
+# Active task: structural exploration entry
+
+- Status: complete
+- Updated: 2026-09-13
+- Task id: root-structural-exploration-20260912
+- Goal: Audit the selected rotation (3/5,4/5) and prove the resulting uniform 5-adic criterion for the complete second square lift, retaining reconstruction to the four original distances.
+- Authorization: The user explicitly asked to continue the Hadamard/Gaussian-rotation structural direction. This is a scoped symbolic exploration, not a global proof attempt.
+- Policy scope: fixed-rotation local audit and its proved 5-adic parameter criterion, not a parameter search or a global rational-point theorem.
+- ExecutionPolicy: external
+- ExecutionPolicy source: project AGENTS proof/scope/verification rules and user-selected second-cover local audit
+- Execution protocol skills: none
+- Lite Demo role: memory-only
+- Project phase: exploration
+- User preference: Seek a structural reason that controls a quantified class of cases; use bounded computation only for a named falsification or proof-audit purpose.
+- Original object: A point anywhere in the plane with rational distances to all four unit-square vertices; the interior-only problem is not substituted for it.
+- Baseline: [PROJECT_STATUS.md](../../../PROJECT_STATUS.md) records the accepted mathematics. No earlier route is selected by default.
+- Core question: For rational C,S with C^2+S^2=1, prove that the full homogeneous quartic has a Q_5 point with nonzero side if and only if C,S are 5-adic integers.
+- New invariant or descent map: none constructed; the earlier discussion gave possible proof shapes, not established tools.
+- Stable-module protection: Existing scripts, tests, certificates, derivations, and other task anchors remain read-only unless a later scoped request requires a justified change.
+- Pressure signal: Historical progress narratives and old next-step commands must not predetermine this investigation.
+- Current step: Selected local audit complete; no further research computation running in this task.
+- Completed steps: Correct full-model coefficient verified. A Q_2 Hensel seed exists for (3/5,4/5), but an invertible Q_5 coordinate change reduces its model to an anisotropic Fermat quartic modulo 5. The norm argument extends exclusion to every rational rotation whose primitive denominator contains 5; simple-root Hensel proves the converse local-solubility statement.
+- Next exact step: None; the selected local audit is complete. Any subsequent investigation must select a precise question about the surviving rotations, not restart the exhausted 5-adic test.
+- Allowed changes: This anchor, task-local proof/certificate/tests, and concise current-context/index pointers only; no edits to stable mathematical scripts or other task anchors.
+- Invalidated probe: Earlier scratch modular tests used -250*(a^2+b^2)*w^2 instead of -2500*(a^2+b^2)*w^2 after multiplication by 625. Their survival counts are discarded. A central finite difference was also not an exact quartic derivative and supplied no Hensel certificate.
+- Forbidden changes: No automatic HRL/Selmer/Berry continuation, broad searches, new WL, D2/D5/M2/M3 entry, or edits to another task anchor.
+- Proof guards: Preserve all four square predicates, full-plane branches, real conditions, denominators, and exceptional charts when using a reduction. An equivalence or product-square condition is not by itself an obstruction.
+- Task-local result: [Hadamard/rotation audit](hadamard-rotation-audit.md) gives an exact quadratic reduction and a non-D4 projection witness; its scale lift fails, so the first squareclass is not the global obstruction.
+- Completed local theorem: [5-adic criterion](rotation-local-audit.md) proves full-lift Q_5 solubility iff C,S are in Z_5, and excludes every primitive rotation denominator divisible by 5. This is a scoped infinite-family exclusion, not a global theorem or an asserted new result in the literature.
+- Verification: 14 task-local exact pytest checks passed with -n 0; targeted Ruff passed. The proof retains all four square lifts and all projective charts. No database query, new search run, broad suite, commit, or staging was performed in this continuation.
+- Recovery: Read this anchor, [current-context.md](../../current-context.md), and [index.md](../../index.md); consult only the relevant [historical route](../../../archive/RESEARCH_ROUTES.md). Completed or unselected anchors do not supply live instructions.
+- Completion criterion: A later selected task must distinguish an exact proof, a strict example, a genuinely smaller proposition, a scoped failure certificate, and an unresolved attempt. A research preference is not a theorem.
+- Memory landing policy: ask-by-default; this entry does not grant general future write permission.

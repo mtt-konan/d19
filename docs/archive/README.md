@@ -2,10 +2,13 @@
 
 本目录包含已经完成或暂停的工程实验记录，保留作为参考和背景理解，但不是当前主线。
 
+[研究路线归档](RESEARCH_ROUTES.md) 另外索引数学路线的已证成果、未解缺口、停止原因和恢复条件。这里只归档默认入口，不搬动证明文件，也不把暂停改写成路线已被否定。历史记录中的“下一步”不自动生效。
+
 ## 文档列表
 
 | 文档 | 内容 | 状态 |
 |------|------|------|
+| [RESEARCH_ROUTES.md](RESEARCH_ROUTES.md) | 数学路线与旧交接入口的状态索引 | 按需查阅 |
 | `CHAIN_PERFORMANCE.md` | `chain` 命令的实测耗时记录 | 参考用 |
 | `CHAIN_FAST_PERFORMANCE.md` | `chain-fast` 加 `--profile` 后的首轮性能记录 | 参考用 |
 | `CHAIN_FAST_OPTIMIZATION.md` | `chain-fast` 性能分析与优化方向 | 参考用 |
@@ -30,10 +33,11 @@
 - **需要理解 4 个 chain 数学想法的最初提法**：看 `CHAIN_STRUCTURE_IDEAS.md`（实证结论看 wl 033–037）
 - **需要理解已尝试过但未成功的方向**：看 `CHAIN_FAST_MOD_SIEVE.md` 或 `CONCORDANT_SAFE_FILTERS.md`
 
-## 当前主线文档
+## 当前入口
 
-当前应该优先看的文档在 `docs/` 根目录：
+数学成果和本次活动分别从以下入口读取：
 
-- `../OPEN_DIRECTIONS.md` ← **当前重点**
-- `../PROJECT_STATUS.md`
-- `../MATH.md`
+- [项目状态](../PROJECT_STATUS.md)：已证明什么、尚未证明什么。
+- [当前上下文](../codex/current-context.md)：本次活动与独立任务锚点。
+- [任务选择](../NEXT_RESEARCH_GATE.md)：新研究任务的选择边界。
+- [数学参考](../MATH.md)：按需查阅原始方程与已有推导。

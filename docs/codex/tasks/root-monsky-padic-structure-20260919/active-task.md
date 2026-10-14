@@ -1,0 +1,22 @@
+# Monsky-style p-adic shared-edge structure
+
+- Status: complete
+- Updated: 2026-09-19
+- Task id: root-monsky-padic-structure-20260919
+- Goal: Test whether the shared-edge Gaussian norm structure admits a global p-adic parity obstruction or a genuine infinite descent for the four-rational-distance square problem.
+- Authorization: User explicitly requested continuing the new Monsky-inspired structure.
+- Policy scope: exact symbolic/local audit of the shared-edge model; no broad search and no automatic restart of archived AA/BB, Selmer, HRL, or Berry routes.
+- ExecutionPolicy: external
+- ExecutionPolicy source: project AGENTS proof/scope/verification rules
+- Execution protocol skills: none
+- Lite Demo role: memory-only
+- Protected stable behavior: preserve the completed equal-side three-norm derivation, its primitive 2-adic lemma, all full-plane branches, and the distinction between rational squares and product-square projections.
+- Current step: scoped shared-edge character audit complete; no global exclusion or descent constructed.
+- Completed steps: proved every corner content has only primes 1 or 7 modulo 8; proved the signed Pythagorean content-character identity; deduced 8|N and the associated numerator residue restriction for the primitive unit-square denominator; identified the exact surviving character branch and the similarity-only descent limitation.
+- Result: [Shared-edge character proof](shared-edge-character.md). Uniform necessary restriction, not a claim of literature novelty, full local-global obstruction, or solution of the original problem.
+- Verification: 7 new focused tests and 8 protected equal-side regression tests passed with -n 0; targeted Ruff passed. The proof is symbolic and uniform, not inferred from these finite tests.
+- Next exact step: none automatically selected. A follow-on would need a stronger global compatibility invariant on the 8|N branch or a non-similarity map with a proved decreasing integral height.
+- Allowed changes: this task anchor, concise index/context pointers, and task-local notes/tests if a precise proposition is obtained.
+- Forbidden changes: do not edit prior certificates or stable scripts; do not promote local solubility or finite experiments to a global exclusion.
+- Validation gates: check every proposed descent for preservation of all four individual square lifts, denominator/gcd conditions, p=2, endpoints, and full-plane sign branches.
+- Rejected path: direct Q_2-solubility obstruction is insufficient because the primitive local branch is already Q_2-soluble.

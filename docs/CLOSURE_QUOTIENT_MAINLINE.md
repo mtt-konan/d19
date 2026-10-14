@@ -1,27 +1,20 @@
-# Closure Quotient Mainline
+# Closure Quotient Reference
 
-This document keeps the mathematical architecture of the project. Current
-status and eligible directions live in [PROJECT_STATUS.md](./PROJECT_STATUS.md)
-and [OPEN_DIRECTIONS.md](./OPEN_DIRECTIONS.md); detailed derivations live in
-the [worklog index](./work-logs/README.md).
+This document preserves the mathematical architecture of the closure-quotient
+route. It is reference material, not the default research assignment.
+[PROJECT_STATUS.md](./PROJECT_STATUS.md) owns the latest mathematical status;
+[NEXT_RESEARCH_GATE.md](./NEXT_RESEARCH_GATE.md) owns task selection.
 
-## Current Boundary
+## Historical Boundary
 
-The latest accepted checkpoint is:
+The former wl596 handoff and subsequent wl597 reduction are indexed in the
+[route archive](./archive/RESEARCH_ROUTES.md#hrl-and-divisor-pair-system).
+Their exact divisor-pair gap and scoped reopening conditions remain evidence,
+not instructions to continue HRL automatically.
 
-```text
-wl596_universal_four_factor_hrl_q0_divisor_allocation_blocker
-```
-
-It gives the final Q4 decision `precise_smaller_arithmetic_blocker` for the
-exact realized `H_RL` route. It is not a finite uniform-support theorem,
-realized infinite-support family, Harborth theorem, family exclusion,
-Selmer/rank theorem, D2, D5, or M3 result.
-
-The next admissible input is a global invariant on the strict positive
-divisor-pair system `q_1,q_2|Abar^2-Bbar^2`, preserving both source-square
-predicates, all six closure directions, p=2, denominators, real and boundary
-charts, and the complete AA/BB lifts.
+The Selmer proof obligations below belong to this particular route. They do
+not require an independent proof of the original problem to use Selmer theory.
+The architecture and formulas are retained unchanged.
 
 ## Core Object
 
@@ -169,6 +162,7 @@ certificates and theorem-level claims.
 - [Worklog index](./work-logs/README.md)
 - [Canonical script graph](../scripts/README.md)
 
-For the recent AA+BB chain, read the consolidated `491-522`, `523-529`, and
-`530-585` histories, then the D4 projection and the protected `wl587`/`wl589`
-through `wl592` appendices. `wl594`-`wl596` remain downstream context.
+For this route's evidence, consult the consolidated `491-522`, `523-529`, and
+`530-585` histories, the D4 projection, and the protected `wl587`/`wl589`
+through `wl592` appendices as needed. Later results and the unresolved HRL
+question are linked from the project status and route archive.

@@ -1,59 +1,44 @@
 # Open Directions
 
-This document lists only directions that remain eligible. Detailed history
-belongs in the consolidated worklogs; counts and repeated local tables are not
-directions by themselves.
+This page states criteria for evaluating research candidates, not a selected
+route or a priority queue. Use [NEXT_RESEARCH_GATE.md](NEXT_RESEARCH_GATE.md)
+when selecting a task. The [current context](codex/current-context.md) points
+to the latest recorded research entry; its anchor owns the task's detailed
+status and next step. The current user request determines whether to resume
+that research.
 
-## P0: Solve The Exact HRL Divisor-Pair Blocker
+## Research Preference
 
-`wl596` reduces the exact realized `H_RL` class to the squareclass of
-`q_1*q_2` on a finite positive divisor-pair system. The primewise allocation,
-shared gcd, balanced-parity, and dyadic middle-branch questions are complete.
+Start from the original four distances and full-plane geometry. Look for a
+constraint, coupling, or proof principle that controls a quantified class of
+cases. Use computation to falsify a proposed lemma or check a precise algebraic
+obligation, rather than treating increased search coverage as a global proof.
 
-Reopen this direction only with a new global invariant controlling the exact
-closure-compatible divisor pairs `q_1,q_2|Delta_bar`. The argument must retain:
+No descent map, invariant, short proof, or new conceptual framework is known
+merely because this preference has been recorded.
 
-- both `T=A+B` and `T=|A-B|` branches;
-- positive square `x`, positivity, and all real intervals;
-- p=2, primitive denominators, and gcd conditions;
-- midpoint, endpoints, factor-zero, infinity, collision, and denominator
-  charts;
-- individual AA/BB lifts and the complete four-factor lift.
+## What Can Count As Progress
 
-Do not add a fixed family sample, prime, local-image table, formal twist, or
-equivalent quotient, and do not enter D2, D5, or M3 from `wl596`.
+- One exact counterexample with all four rational-distance certificates and
+  reconstruction to the original geometry.
+- A proved uniform invariant on its explicitly stated domain, with its relation
+  to the original problem demonstrated rather than inferred from examples.
+- A genuinely smaller arithmetic proposition, with a proof identifying the
+  removed freedom, branch, parameter, or square lift.
+- A scoped route-freeze or route-death certificate that explains why the tested
+  mechanism cannot supply its proposed conclusion.
 
-## P1: Selmer Family Proof With A Named Gap
+An equivalent rewrite can help a proof, but it is not itself a new obstruction.
+Any candidate that uses an existing quotient must retain its full lift.
 
-The rank-zero/Selmer route remains eligible only after a precise proof
-obligation is named:
+## Earlier Routes Are Available On Demand
 
-```text
-odd-prime local image
-dyadic local condition
-formal lift compatibility
-global Selmer dimension bound
-rank-zero conclusion
-```
+The [route archive](archive/RESEARCH_ROUTES.md) distinguishes completed local
+certificates, unresolved global questions, exhausted mechanisms, and finite
+diagnostics. It preserves the HRL divisor-pair gap, the complete-d / Selmer
+gap, the pure-v_ell history, and the independent Berry branch without choosing
+one by default.
 
-Finite samples, package counts, and `M_tail` diagnostics do not establish a
-theorem-level Selmer upper bound.
-
-## P2: Finite Shell Extension
-
-The historical finite-shell machinery identified `max(A,B)=11` as a possible
-diagnostic extension. It is lower priority and must remain classified as finite
-`M_tail` work, not Selmer theorem progress. Enter it only as an explicitly
-selected scoped task.
-
-## Closed Or Paused Directions
-
-- The old package-`x` / `S~` bridge is not a theorem-level Selmer object.
-- `M_tail` diagnostics are parameter-dependent; finite full-rank samples do not
-  prove uniform full rank.
-- Ambient `C_d` points must pass the `wl491` AA+BB common-source admissibility
-  filter before entering an admissible-point ledger.
-- Globally soluble but not AA+BB-admissible ledgers are diagnostic failures,
-  not obstruction candidates.
-- More isolated good-reduction residue tables and standalone dyadic tables are
-  exhausted routes unless a new uniform invariant couples them.
+Untried methods are not rejected solely for being absent from that list.
+Reusing an audited failure requires genuinely new input; changing its name is
+not new input. Existing mathematical artifacts remain protected.

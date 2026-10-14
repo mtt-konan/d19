@@ -1,0 +1,22 @@
+# Gaussian support and reciprocity audit
+
+- Status: active
+- Updated: 2026-09-19
+- Task id: root-gaussian-support-reciprocity-20260919
+- Goal: Continue the common-lift idea by analyzing Gaussian prime support of the four factors z, z-1, z-i, z-1-i and determine whether the square-norm conditions produce a genuine global reciprocity obstruction.
+- Authorization: User explicitly said continue after the common-lift/CM observation.
+- Policy scope: exact factor-support and residue-symbol derivation; no broad rank/Selmer/HRL restart and no finite search as proof.
+- ExecutionPolicy: external
+- ExecutionPolicy source: project AGENTS proof/scope/verification rules
+- Execution protocol skills: none
+- Lite Demo role: memory-only
+- Protected stable behavior: preserve the equal-side result, the scoped Monsky-style character audit, all individual square lifts, and full-plane exceptional branches.
+- Current step: derive the odd Gaussian-prime support lemma and test whether quartic reciprocity closes the remaining squareclass system.
+- Completed steps: common-lift observation recorded in conversation; the exact genus-five fixed-squareclass cover, the product relation `(a,b)_K=0`, and the dyadic gluing identity `(A,B)_K=(D,1+i)_K` are recorded in `common-phase-gluing.md`. These are necessary compatibility relations, not a global obstruction.
+- Next exact step: determine whether the residual common phase in `P=K^*/(Q^*K^{*2})` can be killed by a simultaneous Kummer/2-cover argument; do not treat the five elliptic quotient points as sufficient lifts.
+- Allowed changes: this task anchor and a task-local exact note/tests if a real proposition is obtained.
+- Forbidden changes: do not edit prior task artifacts or stable scripts; do not claim a Brauer/reciprocity obstruction without checking converse and dyadic cases.
+- Validation gates: distinguish necessary support/residue conditions from sufficiency; check p=2, signs, zero coordinates, and all four individual norm-square lifts.
+- Completion criterion: produce one exact uniform support/reciprocity obstruction with its converse and all dyadic/exceptional branches; or produce a strictly smaller arithmetic proposition with the removed freedom proved; or record a scoped counterexample/route-death certificate; otherwise record the precise unresolved obligation and stop without promoting necessary conditions to a global conclusion.
+- Stop condition: stop when one completion outcome is established or when the authorized support/residue mechanism has been audited through its converse, dyadic, sign, zero-coordinate, and individual-lift branches. An unresolved result is a scoped audit outcome, not a global theorem.
+- Rejected path: similarity by a common Gaussian factor is not a descent because it leaves z/N unchanged.

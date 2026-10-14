@@ -1,0 +1,26 @@
+# Active task: research entry archive
+
+- Status: complete
+- Updated: 2026-09-12
+- Task id: root-research-entry-archive-20260912
+- Goal: Archive obsolete default-route instructions while preserving mathematical evidence and preparing an independent structural-exploration entry.
+- Authorization: The user approved the five-step documentation-only archive proposal. This does not authorize a new proof attempt, computation, commit, or changes to other task anchors.
+- Scope: Project guide, research-status/navigation documents, current-context/index, one route-history index, this maintenance record, and one new exploration anchor.
+- Policy scope: root-research-entry-archive-20260912
+- ExecutionPolicy: external
+- ExecutionPolicy source: user-approved documentation archive workflow and project AGENTS
+- Execution protocol skills: docs-generator
+- Lite Demo role: memory-only
+- Activation packet: Exploration project; latest recorded AA+BB mathematical checkpoint is wl597; the new research preference is structural reasoning, not an accepted proof route. Old imperative handoffs must no longer select work automatically.
+- Stable-module protection: Preserve all existing mathematical scripts, tests, certificates, worklog derivations, and other task anchors byte-for-byte. Only their navigation entries may change. Separate the existing wl597 worktree changes from this documentation task.
+- Pressure signal: The user is concerned that long historical instructions will bias or automatically resume an old route.
+- Allowed changes: Capture a local pre-edit archive and hashes; shorten entry documents; index historical outcomes and scoped reopening conditions; prepare an independent exploration anchor without starting research.
+- Forbidden changes: No mathematical edits, old-task status rewrites, moves/deletions of proof artifacts, search runs, delegation, services, wl598, Git reset/stash, or commits.
+- Current step: Documentation archive complete; the prepared research entry awaits task selection and no research was started.
+- Completed steps: Captured 19 pre-edit files and an inventory of 892 pre-existing files; simplified 11 entry documents; created the route archive and independent exploration anchor. Verified all archive members, 881 unchanged protected files, 176 local link destinations, unchanged HEAD/index, retained closure mathematics and command examples, memory-root validation with zero errors/warnings, and git diff --check.
+- Baseline: HEAD 486fd607fa658b10ed0fb06e69895daf46c02d6d; local bundle at outputs/research-entry-archive-20260912/pre-edit.tar.gz; SHA-256 ce0dde454f0f4fde3563225401e74c48ccdcd9e39433b4ad31711f76f23aec65; manifest and patches are in the same directory.
+- Next exact step: None; task complete. Do not repeat the archive or begin research on recovery. See closeout.md for the preserved baseline and verification record.
+- Validation gates: Archive integrity and hash checks; unchanged protected files and Git index; relative-link checks for edited/new documents; entry-state consistency; git diff --check.
+- Rollback: Restore only this task's edited entry files from the pre-edit snapshot after checking for later user edits. Never reset the working tree or overwrite the pre-existing wl597 changes.
+- Rejected paths: Do not erase scoped route-death evidence, turn a paused route into a disproved theorem, impose the old Selmer method on every possible proof, or promote a research preference to a mathematical checkpoint.
+- Memory landing policy: ask-by-default; authorization is limited to this archive task and the proposed exploration anchor.

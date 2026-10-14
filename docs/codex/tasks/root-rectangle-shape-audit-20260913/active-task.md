@@ -1,0 +1,27 @@
+# Active task: rectangle shape comparison
+
+- Status: complete
+- Updated: 2026-09-13
+- Task id: root-rectangle-shape-audit-20260913
+- Goal: Determine exactly how the equal-side condition enters the full Hadamard/rotation equations, and whether the proved 5-adic restriction distinguishes squares from rational rectangles.
+- Authorization: The user said continue after the proposed structural square-versus-rectangle comparison. This does not resume the completed local rotation audit or authorize new parameter searches.
+- Policy scope: symbolic full-model comparison, a uniform congruence-class proof, and an exact rational rectangle witness.
+- ExecutionPolicy: external
+- ExecutionPolicy source: user-selected comparison and project AGENTS proof/scope/verification rules
+- Execution protocol skills: none
+- Lite Demo role: memory-only
+- Project phase: exploration
+- Domain: rational nonzero rectangle side lengths, a point anywhere in the plane, all four individual rational-distance predicates. Real geometric examples use positive side lengths.
+- Inputs: [Completed rotation audit](../root-structural-exploration-20260912/rotation-local-audit.md), not its obsolete next-step instructions.
+- Core questions: Derive a reversible full rectangle model. Test whether the same Q_5 criterion holds throughout the side-ratio residues plus/minus 1 modulo 5. Construct a full rational rectangle witness outside the obstructed class, without dropping square lifts.
+- Current step: The selected structural comparison is complete; no research computation running in this task.
+- Completed steps: Derived all four reverse lifts and the mixed-term coefficient 2*(M^2-L^2). Proved the same local criterion throughout t=plus/minus 1 mod 5. Verified the rectangles 24x7 and 24x25 at (12,16), both with rotation (24/25,7/25). Their fixed distance tuple cannot have a rational square side.
+- Next exact step: None; selected comparison complete. Any follow-on needs a precise rational-compatibility question that uses exact equality, not another instance of the same residue criterion.
+- Result record: [Rectangle shape audit](rectangle-shape-audit.md). The local obstruction detects a residue class, not exact equality; shape and rational scale remain coupled through individual side lifts.
+- Verification: 21 new exact tests and all 14 previous local-audit checks passed; targeted Ruff passed. No prior task artifacts, stable scripts/tests, or mathematical checkpoint files were edited. No database sweep, new-prime search, commit, or staging.
+- Allowed changes: This task's anchor, proof and exact tests; concise current-context/index pointers. No edits to completed task artifacts, stable mathematical scripts/tests, historical derivations, or other task anchors.
+- Forbidden changes: No database sweep, broad parameter/local-prime scan, numbered worklog, rank/Selmer/Berry/HRL continuation, or delegation.
+- Stable behavior: Preserve all existing mathematical evidence and dirty worktree changes.
+- Proof guards: Keep both side lengths, all four lifts, full-plane points, local denominators, and valid exceptional charts. Do not identify finite residue information with exact equality or claim a new theory from an equivalent equation.
+- Completion criterion: An exact explanation of the local criterion's shape scope, supported by proof and a fully reconstructed example; explicitly distinguish this from a global obstruction.
+- Memory landing policy: ask-by-default; this task does not grant general future write permission.

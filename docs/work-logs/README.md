@@ -1,8 +1,11 @@
 # Worklog Index
 
 The human worklog set is intentionally compressed. Consolidated histories are
-the current reading entries; source logs remain historical provenance until a
-separate deletion approval.
+evidence entries; source logs remain historical provenance until a separate
+deletion approval. This index is not a research queue. Use
+[PROJECT_STATUS.md](../PROJECT_STATUS.md) for mathematical status and the
+[route archive](../archive/RESEARCH_ROUTES.md) for scoped outcomes and gaps.
+Old next-step commands are historical, not automatic continuation instructions.
 
 ## Consolidated History
 
@@ -20,9 +23,9 @@ separate deletion approval.
 
 The older 386-490 package, row-obligation, and complete d-coordinate records
 remain available as their existing consolidated or reviewable worklogs. The
-current AA+BB route below is the authoritative reading path for wl491 onward.
+AA+BB section below is the evidence reading path for wl491 onward.
 
-## AA+BB Current Route
+## AA+BB Evidence
 
 - wl491-wl522: [491-522 AA+BB admissibility taxonomy](491-522-aa-bb-admissibility-taxonomy-consolidated.md)
 - wl523-wl529: [523-529 common-source/function-field squareclass history](523-529-common-source-function-field-squareclass-consolidated.md)
@@ -41,6 +44,8 @@ The five protected appendices remain independent:
 Downstream context remains [wl594](594-universal-closure-product-g0-parameterized-input.md),
 [wl595](595-universal-closure-product-g4-route-death.md), and
 [wl596](596-universal-four-factor-hrl-q0-divisor-allocation-blocker.md).
+The later scoped reduction is [wl597](597-hrl-closure-discriminant-dyadic-reduction.md).
+It is preserved evidence, not an automatically selected next research task.
 
 The wl491-wl522 detail logs are archived under
 [archive/README.md](archive/README.md). The seven wl523-wl529 detail logs remain
@@ -49,7 +54,8 @@ this documentation cutover.
 
 ## Reading Rule
 
-Use the three consolidated histories for current state, the D4 projections for
+Use the three consolidated histories for historical evidence, the D4 projections for
 wl586/wl593, and the five protected appendices for their independent kernels.
 Use original per-run logs only for provenance or detailed historical evidence.
-wl594+ remains downstream context.
+wl594-wl597 remain downstream evidence. No worklog derivation was moved or
+rewritten by the research-entry archive.

@@ -4,6 +4,10 @@ This file indexes usable entry points. Historical WL-by-WL narration belongs
 in `docs/work-logs/`; this page keeps the current executable graph and the
 small set of general-purpose tools.
 
+Executable availability is not a task selection. Research activity is routed
+through [NEXT_RESEARCH_GATE.md](../docs/NEXT_RESEARCH_GATE.md); preserved AA+BB
+tools do not imply that the old route should resume automatically.
+
 ## Start Here
 
 | Area | Entry point |
@@ -12,7 +16,7 @@ small set of general-purpose tools.
 | Hard-case proof pipeline | `prove_no_solution.py` |
 | Multi-N proof variant | `prove_no_solution_multi_first.py` |
 | Concordant lookup | `lookup_multi_n.py` |
-| Current AA+BB graph | `theory/aa_bb/` below |
+| Preserved AA+BB graph | `theory/aa_bb/` below |
 
 ## General Tools
 
@@ -55,7 +59,7 @@ Partner graph and `K_n` analysis:
 ### `theory/`
 
 Earlier closure and rank experiments remain available as historical or
-diagnostic tools. The current AA+BB route is the `theory/aa_bb/` graph below.
+diagnostic tools. The preserved AA+BB graph is under `theory/aa_bb/` below.
 Other useful families include:
 
 - Path A: `analyze_k2_closure_fiber.py`, `analyze_k2_f2_rank.py`,
@@ -88,7 +92,7 @@ The fast probe should exit `0`. The full selected `TwoSelmerGroup` probe
 currently exits `2` because the public service terminates it at 60 seconds;
 that exit code is a service result, not an arithmetic obstruction.
 
-## Current AA+BB Graph
+## Preserved AA+BB Graph
 
 The canonical `wl500-wl593` executable graph is:
 
@@ -172,7 +176,9 @@ builders, tests, formulas, local images, survivor ledgers, or no-claim bounds.
 
 The downstream `wl594` G0 input, `wl595` G4 route-death certificate, and
 `wl596` exact `H_RL` Q0 divisor-allocation blocker have their own scripts and
-worklogs, but remain downstream context rather than a new D4 executable stage.
+worklogs. The existing `wl597_hrl_closure_discriminant.py` certifies the scoped
+symmetric closure discriminant and dyadic branch reduction without claiming a
+family theorem. It is not an automatically selected research assignment.
 
 ## Other Directories
 
@@ -188,8 +194,8 @@ Scripts under a nested directory should derive the repository root explicitly:
 ROOT = Path(__file__).parent.parent.parent
 ```
 
-Top-level entry points use `Path(__file__).parent.parent`. New research work
-must use the short triplet pattern:
+Top-level entry points use `Path(__file__).parent.parent`. New accepted AA+BB
+mathematical checkpoints use the short triplet pattern:
 
 ```text
 docs/work-logs/<wl>-<short-topic>.md
@@ -197,5 +203,7 @@ scripts/theory/aa_bb/wl<wl>_<short_topic>.py
 tests/theory/aa_bb/test_wl<wl>_<short_topic>.py
 ```
 
-Do not create a new WL only to narrate a stopped route. The current reopening
-condition is recorded in [NEXT_RESEARCH_GATE.md](../docs/NEXT_RESEARCH_GATE.md).
+Other research modules keep their own ownership boundaries; a new method is
+not required to live under `aa_bb/`. Documentation maintenance and exploratory
+task preparation do not create a WL. Task selection is recorded in
+[NEXT_RESEARCH_GATE.md](../docs/NEXT_RESEARCH_GATE.md).
